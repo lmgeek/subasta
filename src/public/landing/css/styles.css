@@ -1,0 +1,570 @@
+@charset "UTF-8";
+/*!
+ * Navigation
+ * @platform "subastas.com.ar"
+ * @version 1.0.0
+ * @author Luis Marin - Netlabs
+ */
+
+ .navbar {
+	background-color: #2680ff!important;
+	margin-bottom: 0!important;
+}
+
+.navbar-nav > li {
+  margin-left: 20px;
+}
+
+.dropdown-toggle {
+	color: #FFFFFF!important;
+}
+
+.nav .open > a,
+.nav .open > a:hover,
+.nav .open > a:focus {
+  /*background-color: transparent!important;*/
+  border-color: transparent!important;
+}
+
+.nav > li > a {
+  padding: 5px!important;
+  /*margin-bottom: 10px;*/
+}
+
+.navbar-default .nav li a {
+  background-color: #2680ff!important;
+  color: #fff;
+  font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 1!important;
+  letter-spacing: 1px;
+  text-transform: none;
+}
+
+.li-left {
+  border-left: 2px solid #FFFFFF;
+  float: left;
+  list-style: none outside none;
+  padding-left: 5px;
+  padding-right: 5px;
+  width: auto; height: 40px
+}
+
+.li-right {
+  border-right: 2px solid #FFFFFF;
+  float: left;
+  list-style: none outside none;
+  padding-left: 5px;
+  padding-right: 5px;
+  width: auto; height: 40px
+}
+
+.dropdown-menu {
+  background-color: #2680ff!important;
+  border-radius: 0px!important;
+
+}
+
+.dropdown-menu > li > a:hover {
+  color: #003a86;
+  font-weight: 700!important;
+}
+
+.bg-header > img {
+  width:100%;
+  background-color: url(../img/logo_subastas_header.png);
+} 
+
+.text-muted {
+	color: #FFFFFF!important;
+
+}
+
+.logo-header {
+  width: 50%;
+  padding: 0 auto;
+}
+
+.logo-header-scroll .logo-header {
+  margin-top: 15px;
+  border-radius: 5px;
+  font-size: 12px;
+  padding: 10px;
+  height: auto;
+}
+
+.input {
+    height: 45px;
+    padding: 10px 16px;
+    font-size: 15px;
+    line-height: 1.33;
+    margin-top: 20px;
+}
+
+.header {
+  margin-left: -50px!important;
+  width: 700px!important;
+}
+
+
+#custom-search-input input {
+    border: 0;
+    box-shadow: none;
+}
+
+#custom-search-input button {
+    margin-top: 20px;
+    background-color: #fff;
+    box-shadow: none;
+    border: 0;
+    color: #666666;
+    padding: 10px 10px;
+    border-left: solid 1.5px #666666;
+}
+
+#custom-search-input button:hover {
+    border: 0;
+    box-shadow: none;
+    border-left: solid 1px #ccc;
+}
+
+#custom-search-input .glyphicon-search {
+    font-size: 20px;
+}
+
+.categories {
+  background-color: #1f70e3;
+  text-align: center;
+}
+
+.categories-left {
+  background-color: #2680ff;
+  display: inline-block;
+  /*width: 20%;*/
+  margin: 0 auto;
+}
+
+.categories-center {
+  background-color: #00e4a1;
+  display: inline-block;
+  /*width: 20%;*/
+  margin-left: px;
+}
+
+.categories-right {
+  background-color: #003a8b;
+  display: inline-block;
+  /*width: 20%;*/
+  margin: 0 auto;
+}
+
+
+
+.categories-left > img,
+.categories-center > img,
+.categories-right > img {
+  /*border-left: 2px solid #FFFFFF;*/
+  /*border-right: 2px solid #FFFFFF;*/
+  list-style: none outside none;
+  margin: 20px;
+  width: 20%
+}
+
+
+.user-img {
+      margin: -10px 6px 0px 0px;
+}
+
+.terminated {
+  margin: 20px 0px;
+  background-color: #00e4a1;
+  padding: 20px;
+}
+
+.terminated img {
+  width: 200px;
+}
+
+.terminated-items {
+  background-color: #FFF;
+  border: 1px solid #d6cfcf;
+  padding: 20px;
+  margin: 15px 0px;
+}
+
+.offers {
+  margin: 20px 0px;
+  background-color: #2680ff;
+  padding: 20px;
+}
+
+.offers img {
+  width: 200px;
+}
+
+.offers-items {
+  background-color: #FFF;
+  border: 1px solid #000;
+  padding: 20px;
+  margin: 15px 0px;
+}
+
+.user-data {
+    padding: 0px 10px 0px 0px;
+    margin: 10px 0px 0px 10px;
+    width: 37px;
+    border-right: 1px solid;
+}
+
+.vbar {
+    width:2px;
+    height:50px;
+    background-color:#FFFFFF; 
+    position: absolute;
+    margin: 22px 46px;
+}
+.vbar2 {
+    width:2px;
+    height:50px;
+    background-color:#FFFFFF; 
+    position: absolute;
+    margin: -73px 313px;
+}
+
+
+@media (min-width: 992px) {
+  .user-data {
+    margin: 0px 0px 0px 10px;
+    padding: 0px 5px 0px 0px;
+    width: 30px;
+  }
+}
+
+@media (max-width: 1080px) {
+  .vbar {
+    margin: 19px 30px;
+  }
+  .vbar2 {
+    margin: -64px 261px;
+  }
+}
+
+@media (max-width: 450px) {
+  .vbar {
+    margin: 12px 30px;
+  }
+  .vbar2 {
+    margin:-62px 195px;
+  }
+}
+
+
+
+
+ canvas {
+            width: 170px!important;
+            height: 170px!important;
+            padding: 13px 19px 19px 19px;
+        }
+
+        a { text-decoration: none!important; }
+        table {
+            
+            position: absolute;
+            width: 100%;
+            /*top: 0;
+            bottom: 0;
+            right: 0;*/
+            /*margin: 0px 12px;*/
+        }
+
+         .detalle {
+            margin-top: 8px;
+        }
+        .dial {
+            width: 66px;
+            font-size: 20px;
+            color: #00e4a1;
+            height: 23px;
+            position: absolute;
+            vertical-align: middle;
+            border: 0px;
+            background: none;
+            font-style: normal;
+            font-variant: normal;
+            font-weight: bold;
+            font-stretch: normal;
+            line-height: normal;
+            font-family: Open Sans;
+            text-align: center;
+            padding: 0px;
+            -webkit-appearance: none;
+        }
+
+        .auction{
+            width: 100%;
+            /*height: 135px;*/
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+        }
+
+        .auction .status{
+            top: 10px;
+            left: 10px;
+            width: 150px;
+            height: 25px;
+            border-radius: 0 0 .5em 0;
+            text-align: center;
+            font-family: 'Open Sans';
+            font-size: 10px;
+            font-weight: 600;
+            padding-top: 5px;
+        }
+
+        .product-p {  }
+        
+        .divInterval{
+            display: inline-block;
+        }
+        .timerDiv .more{
+            margin-top:20px;
+        }
+
+        .col-md-2, .col-md-6{
+            /*border: 2px solid #000;*/
+            height: 150px!important;
+            padding: 0 0!important;
+        }
+
+        .img-pez {
+            /*width: 85%;*/
+            
+        }
+
+                      
+
+        .priceText{
+            font-weight: 600;
+            font-family: 'Open Sans';
+            font-size: 10px;
+            margin: 74px 0px 0px -110px;
+            position: absolute;
+        }
+
+        .user-faro {
+            /*margin: 12px -20px 5px;*/
+            /*border: 1px solid;*/
+            padding: 0px!important;
+            width: 30px;
+        }
+
+        .user-data {
+            padding: 0px 10px 0px 0px;
+            margin: 0px 0px 0px 10px;
+            width: 37px;
+            border-right: 1px solid;
+        }
+
+        .usertext{
+            font-weight: 800;
+            font-family: 'Open Sans';
+            font-size: 14px;
+            float: left;
+            margin-left: 7px;
+            color: #7D7D7D;
+        }
+
+        .user-title {
+            font-size: 11px;
+            float: left!important;
+            margin-left: 7px;
+            margin-bottom: -5px;
+        }
+
+        .barco {
+            font-weight: 800;
+            color: #7D7D7D;
+        }
+
+        .tipo-barco {
+            font-size: 11px;
+        }
+
+        .text-stars {
+            color: #00e4a1;
+            font-size: 8px;
+            display: inline-block;
+        }
+
+        .font {
+            font-size: 3em;
+            font-weight: 600;
+        }
+
+        .symbol {
+            font-size: 20px;
+            position: absolute;
+            margin: 17px 0px 0px -14px;
+        }
+
+        .peso {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .showdetail a {
+            font-size: 11px;
+            text-decoration: none;
+        }
+
+        .subastar {
+            padding: 31px 9px!important;
+            border-left: 2px solid #d6cfcf;
+        }
+
+        .product-details,
+        .desc-product,
+        .tiempo {
+            border-left: 2px solid #d6cfcf;
+        }
+
+        .barco-details {
+            border-left: 2px solid #d6cfcf;
+            padding-top: 14px!important;
+        }
+
+        .product-image {
+            width: 19%!important;
+        }
+
+        .progress {
+            margin: 0px 15px 5px 15px!important;
+            border-radius: 0!important;
+        }
+
+        .progress-bar{
+            background-color: #00e4a1!important;
+
+        }
+
+        .prod-name {
+            font-size: 29px;
+            font-weight: 700;
+            float: left;
+            margin: 35px 0px 0px 25px;
+        }
+
+        .prod-desc {
+            font-size: 20px;
+            color: #2680ff;
+            float: left;
+            margin: 0px 25px;
+        }
+
+        @media (max-width:2000px){
+            .dial {
+                width: 66px;
+                margin-top: 57px;
+                margin-left: -118px;
+            }
+
+            .priceText {
+                margin: 84px 0px 0px -109px;
+            }
+
+        }
+         @media (min-width: 1024px)  and (max-width: 1080px){
+          table {
+            margin-left: -15px;
+          }
+          .img-pez {
+            /*margin: 30px 0px 14px -25px!important;*/
+            margin-bottom: 3px;
+          }
+
+          .td {
+            /*padding-left: 9px;*/
+            padding-top: 15px;
+          }
+          .user-faro {
+            /*margin: 12px -20px 5px -29px;*/
+            /*height: 110px;*/
+          }
+          /*.subastar {
+                padding-left: 10px!important;
+          }
+          canvas {
+                padding: 13px 28px 19px 10px;
+          }
+          .dial {
+            margin-left: -34px;
+          }
+          .priceText {
+            margin: -90px 0px 0px -25px;
+          }*/
+          
+        }
+        @media (min-width: 801px) and (max-width: 1199px) {
+          .img-pez {
+            margin: 0px 0px 5px -22px!important;
+          }
+          .dial {
+            /*all: initial;*/
+            margin-top: -113px;
+            margin-left: -25px;
+          }
+          .priceText {
+                margin: -90px 0px 0px -16px;
+            }
+
+        }
+
+        @media (max-width: 800px) {
+            .barco-details,
+            .tiempo,
+            .product-details,
+            .subastar,
+            .desc-product {
+            border-top: 0px;
+            border-left: 0px;
+          }
+
+          table {
+            width: 57%;
+            right: 50px;
+          }
+        }
+
+        @media (max-width: 767px) {
+          .img-pez {
+            margin: 0px!important;
+          }
+          table {
+            /*top: 0;*/
+            /*bottom: 0;*/
+            right: 44px;
+            width: 70%
+          }
+          .barco-details,
+          .tiempo,
+          .product-details,
+          .subastar,
+          .desc-product {
+            border-top: 1px solid #7D7D7D;
+            border-left: 0px;
+          }
+        } 
+
+        @media (min-width: 568px) and (max-width: 991px) {
+          .vbar {
+                margin: 12px 16px;
+          }
+          .vbar2 {
+                margin: -61px 212px;
+          }
+        }
+
+
+
+
+
+

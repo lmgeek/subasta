@@ -45,7 +45,7 @@ h1 {
 /* CUSTOMIZE THE NAVBAR
 -------------------------------------------------- */
 .navbar-wrapper {
-  position: absolute;
+  /*position: absolute;*/
   top: 0;
   right: 0;
   left: 0;
@@ -63,7 +63,7 @@ h1 {
 .navbar-default.navbar-scroll {
   background-color: #fff;
   border-color: #fff;
-  padding: 15px 0;
+  /*padding: 15px 0;*/
 }
 .navbar-default {
   background-color: transparent;
@@ -108,8 +108,7 @@ h1 {
   height: auto;
   display: block;
   font-size: 14px;
-  background: #1ab394;
-  padding: 15px 20px 15px 20px;
+  /*padding: 15px 20px 15px 20px;*/
   border-radius: 0 0px 5px 5px;
   font-weight: 700;
   transition: all 0.3s ease-in-out 0s;
@@ -117,8 +116,9 @@ h1 {
 .navbar-scroll.navbar-default .nav li a {
   color: #676a6c;
 }
-.navbar-scroll.navbar-default .nav li a:hover {
+.navbar-scroll .navbar-default .nav li a:hover {
   color: #1ab394;
+  font-weight: 700!important;
 }
 .navbar-wrapper .navbar.navbar-scroll {
   padding-top: 0;
@@ -425,7 +425,7 @@ fieldset[disabled] .btn-primary.active {
 @media (min-width: 768px) {
   /* Navbar positioning foo */
   .navbar-wrapper {
-    margin-top: 20px;
+    /*margin-top: 20px;*/
   }
   .navbar-wrapper .container {
     padding-right: 15px;
@@ -480,6 +480,7 @@ fieldset[disabled] .btn-primary.active {
   }
   .navbar-default .nav li a:hover {
     color: #1ab394;
+    font-weight: 700!important;
   }
   .navbar-wrapper .navbar {
     padding-top: 0;
@@ -770,3 +771,5 @@ fieldset[disabled] .btn-primary.active {
 .pace-inactive {
   display: none;
 }
+
+

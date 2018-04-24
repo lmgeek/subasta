@@ -2,9 +2,7 @@
 
 
 @section('content')
-	<div class="wrapper wrapper-content">
-		@include("home.partials.dashboard_".Auth::user()->type)
-	</div>
+	@include("home.partials.dashboard_".Auth::user()->type)
 @endsection
 
 @section('scripts')
