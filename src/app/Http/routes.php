@@ -15,7 +15,8 @@ Route::get('/', function () {
     if(is_null(Auth::user())){
         return view('landing');
     }else{
-        return redirect('/home');
+        // return redirect('/home');
+        return view('landing');
     }
 });
 // Authentication routes...

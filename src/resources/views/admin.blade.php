@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="{{ asset('favicon.png') }}" type="image/icon">
-    <link rel="shortcut icon" type="image/png" href="{{ asset('favicon.png') }}" />
+    <link rel="icon" href="{{ asset('/img/favicon.ico') }}" type="image/icon">
+    <link rel="shortcut icon" type="image/png" href="{{ asset('/img/favicon.ico') }}" />
     <title>{{ trans("general.app_name") }} :: {{ trans("general.control_panel") }}</title>
 
     <link href="{{ asset('/css/bootstrap.css') }}" rel="stylesheet">

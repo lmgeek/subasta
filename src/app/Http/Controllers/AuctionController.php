@@ -615,4 +615,82 @@ class AuctionController extends Controller
 		return redirect('auction?status='.Auction::FUTURE);
 	}
 
+
+
+
+
+
+
+
+
+/** NEEW **/
+
+
+
+	public function subastaHome(Request $request)
+    {
+        // $this->authorize('seeAuctions', Auction::class);
+
+        $status = $request->get('status',Auction::IN_CURSE);
+		$product = $request->get('product',null);
+		$seller = $request->get('seller',null);
+		$boat = $request->get('boat',null);
+		
+		$auction_id = $request->get('auction_id',null);
+		$invited = $request->get('invited',null);
+		$type = $request->get('type',null);
+		
+		if ($type == Auction::AUCTION_PRIVATE)
+		{	$user = Auth::user();
+			$auctions = Auction::auctionPrivate($user->id , $status);
+		}else{
+			$auctions = Auction::filterAndPaginate($status,$product,$seller,$boat);
+		}
+		
+		$products = array();
+		$sellers =  array();
+		$boats = array();
+		$products = Product::select()->get();
+		$sellers = User::filter(null, array(User::VENDEDOR), array(User::APROBADO));
+		$boats = Boat::Select()->get();
+		
+		$userRating =  array(); 
+		foreach($auctions as $a)
+		{
+			$porc = 0;
+			$user = $a->batch->arrive->boat->user;
+			$ratings = $user->rating;
+			if (null != $ratings )
+			{
+				$total = $ratings->positive + $ratings->negative + $ratings->neutral;
+				if ($total > 0)
+				{
+					$porc = round(($ratings->positive*100)/$total , 2);
+				}
+				
+			}
+			$userRating[$user->id]= $porc;
+		}
+		
+        return view('landing',compact('auctions','status','products','sellers','request','boats','userRating','type'));
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
