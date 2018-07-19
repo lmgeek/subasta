@@ -1093,7 +1093,8 @@ button.nav-search-btn, button.nav-search-btn:focus {
     }
 
     #nav-header-menu a:hover, #nav-header-menu a:hover i:before {
-        color: #000
+        color: #000;
+        background-color: none;
     }
 
     #nav-header-menu a.bookmarks-widget {
@@ -1149,7 +1150,7 @@ button.nav-search-btn, button.nav-search-btn:focus {
         display: inline
     }
 
-    #nav-header-menu [for=nav-header-user-switch]:hover i:before, [for=nav-header-user-switch]:hover {
+    #nav-header-menu [for=nav-header-user-switch]:hover , [for=nav-header-user-switch]:hover {
         color: #000
     }
 
@@ -1166,11 +1167,11 @@ button.nav-search-btn, button.nav-search-btn:focus {
     }
 
     #nav-header-user-switch:checked + .nav-header-user-layer {
-        display: block
+        display: hidden;
     }
 
     .nav-header-user-layer {
-        background-color: #fff;
+        background-color: #2680ff;
         border: 1px solid #dedede;
         -webkit-border-radius: 5px;
         border-radius: 5px;
@@ -1209,7 +1210,7 @@ button.nav-search-btn, button.nav-search-btn:focus {
     }
 
     #nav-header-menu .nav-header-user-layer a {
-        color: #000;
+        color: #fff;
         display: block;
         line-height: 25px;
         margin: 3px 0;
@@ -2322,7 +2323,7 @@ input[type=search].nav-search-input::-webkit-search-cancel-button, input[type=se
     #nav-header-menu .nav-header-user-myml {
         padding: 0;
         line-height: inherit;
-        font-size: 0;
+        font-size: 12px;
         border-left: none
     }
 

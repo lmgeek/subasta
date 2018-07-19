@@ -9,24 +9,24 @@
     </div>
     <div class="wrapper wrapper-content">
         <div class="row">
-			
+
 				@if(isset($sellerAuction) and $sellerAuction==true)
 					@include('auction.partials.auctionSellerMenu')
 				@else
 					@include('auction.partials.auctionBuyerMenu')
 				@endif
-			
+
             <div class="col-lg-12" style="margin-top: 10px">
                 <div class="ibox float-e-margins">
 				@if(Auth::user()->isBuyer())
 					 @can('canBid', \App\Auction::class)
-					 
+
 					 @else
 							<div class="alert alert-warning">
                                 <strong> {{ trans('auction.bid_limit')  }}  </strong>
                             </div>
 					 @endcan
-				@endif 
+				@endif
                     <div class="ibox-title">
                         <h5>{{ trans('auction.auctions') }}</h5>
                     </div>
@@ -59,7 +59,7 @@
 											@else
 											  <br>
                                             @endif
-											
+
 											@if( $status != \App\Auction::MY_FINISHED )
 												<div class="col-md-2">
 													@if($a->active == \App\Auction::ACTIVE)
@@ -92,6 +92,7 @@
 @endsection
 
 @section('scripts')
+    <script src="https://unpkg.com/currency.js@1.1.4/dist/currency.min.js"></script>
     <script src="{{ asset('/js/plugins/moment/moment.js') }}"></script>
     <script src="{{ asset('/js/plugins/datetimepicker/bootstrap-datetimepicker.js') }}"></script>
     <script src="{{ asset('/js/plugins/ionRangeSlider/ion.rangeSlider.min.js') }}"></script>
@@ -110,20 +111,21 @@
 				$(".modal-price").html('');
 				$(".content-danger").html('');
 		});
-	
+
 		$(".amount-bid-modal").keyup(function(){
-		
+
 			var auctionId = $(this).attr('auctionId');
 			var value = $(this).val();
 			var price = $(".hid-currentPrice-"+auctionId).val();
-			var total = (value*price)
-			$(".modal-total-"+auctionId).html('Total $' + total.toFixed(2) )
-			
-		
+            // var total =   price..replace(/[aiou]/gi,'e')
+            var total =   currency(price).multiply(value)
+            $(".modal-total-"+auctionId).html('Total $' + currency(total).format() )
+
+
 		});
-	
+
 	});
-	
+
 	function calculatePrice(auctionId)
 	{
 		$.ajax({
@@ -133,13 +135,13 @@
 		  {
 			$(".currentPrice-"+auctionId).html('$' + data);
 			$(".hid-currentPrice-"+auctionId).val(data);
-			
+
 				if($('#bid-Modal-'+auctionId).is(':visible'))
 				{
 					var total = ( $("#amount-bid-" + auctionId ).val()  * data);
-					$(".modal-total-"+auctionId).html('Total $' + total.toFixed(2) )		
+					$(".modal-total-"+auctionId).html('Total $' + total.toFixed(2) )
 				}
-			
+
 		  }
 		});
 	}
@@ -187,9 +189,9 @@
 
 	$(document).ready(function(){
 
-	
+
 		$('.chosen-select').chosen({width:"100%"});
-		
+
 
 
 		$(".cancelAuction").click(function(){
@@ -295,10 +297,19 @@
 
     });
 
+    $(document).on("keypress",".amount-bid-modal",function(e){
+        var x = e.keyCode || e.which;
+        console.log(x);
+        if (x == 45 || x == 46 || x == 44 || x == 101){
+            return false;
+        }
+
+    });
+
 	function makeBid(auctionId,amount)
 	{
 		var cDispo =  parseInt($(".s-disponible-" +auctionId).html());
-		
+
 		if ( amount <= cDispo  ){
 			$.ajax({
 						  method: "GET",
@@ -350,49 +361,53 @@
 										showBill(note);
 								}else{
 									var note = '';
-									
+
 										note+= '<div class="alert alert-danger alert-dismissible" role="alert">';
 													note+= '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
-													note+= 'Solo quedan disponibles ' + data.availability + ' ' + data.unit + ' de ' + data.product ;
+													note+= 'Sólo quedan disponibles ' + data.availability + ' ' + data.unit + ' de ' + data.product ;
 										note+= '</div>';
-										
+
 										$(".content-danger-" +auctionId ).html(note);
 										$("#amount-bid-" +auctionId).val(data.availability);
 										$("#amount-bid-" +auctionId).attr('max',data.availability);
 										$(".s-disponible-" +auctionId).html(data.availability);
-										
+
 										var price = $(".hid-currentPrice-"+auctionId).val();
 										var total = price * data.availability;
 										$(".modal-total-"+auctionId).html('Total $' + total.toFixed(2) )
-										
-										if (data.availability == 0)
+
+										if (data.availability < 0)
 										{
 											$("#amount-bid-" +auctionId).attr('disabled',true);
 											$(".mak-bid-"+auctionId).hide();
 										}
-										
+
 								}
 							}
 						  }
 				});
 		}else{
-			
+
 			var note = '';
 			note+= '<div class="alert alert-danger alert-dismissible" role="alert">';
 			note+= '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
-			note+= 'Solo quedan disponibles ' + cDispo + ' ' + $(".modal-unit-"+auctionId).html() ;
+			note+= 'Sólo quedan disponibles ' + cDispo + ' ' + $(".modal-unit-"+auctionId).html() ;
 			note+= '</div>';
 			$(".content-danger-" +auctionId ).html(note);
 			$("#amount-bid-" +auctionId).val(cDispo);
 			$("#amount-bid-" +auctionId).attr('max',cDispo);
-			
-			if (cDispo == 0)
+
+            var price1 = $(".hid-currentPrice-"+auctionId).val();
+            var total1 = price1 * cDispo;
+            $(".modal-total-"+auctionId).html('Total $' + total1.toFixed(2) )
+
+			if (cDispo < 0)
 			{
 				$("#amount-bid-" +auctionId).attr('disabled',true);
 				$(".mak-bid-"+auctionId).hide();
 			}
-			
-		
+
+
 		}
 	}
 
@@ -435,9 +450,9 @@
 			margin-left: -21px;
 
         }
-		
+
 		.product-p {  }
-		
+
         .divInterval{
             display: inline-block;
         }

@@ -30,11 +30,13 @@ class Auction extends Model
 
 	public function makeBid($amount , $price)
 	{
+//	    $total = $amount * $price;
+        $prices = str_replace(",","",$price);
 		$this->bid = new Bid();
 		$this->bid->user_id = Auth::user()->id;
 		$this->bid->auction_id = $this->id;
 		$this->bid->amount = $amount;
-		$this->bid->price = $price;
+		$this->bid->price = $prices;
 		$this->bid->status = Bid::PENDIENTE;
 		$this->bid->bid_date = date('Y-m-d H:i:s');
 		$this->bid->save();
@@ -290,19 +292,49 @@ class Auction extends Model
 
         if ($cStart < $cToday and $cEnd > $cToday) {
             $interval = $this->interval;
+            $intervalSegundo = $interval * 60;
 
-            $diffminutesSE = ceil((strtotime($timeEnd) - strtotime($timeStart)) / 60);
+            $diffminutesSE = ceil((strtotime($timeEnd) - strtotime($timeStart)) / $intervalSegundo);
             $numberIntervals = $diffminutesSE / $interval;
 
             $diffPriceSE = $priceStart - $priceEnd;
 
             $intvPrice = round(($diffPriceSE / $numberIntervals), 2);
 
-            $diffBuyDatStarDat = ceil((strtotime($bidDate) - strtotime($timeStart)) / 60);
+            $diffBuyDatStarDat = ceil((strtotime($bidDate) - strtotime($timeStart)) / $intervalSegundo);
 
             $intervalBuy = ($diffBuyDatStarDat / $interval);
 
             $finalPrice = $priceStart - ($intervalBuy * $intvPrice);
+            $hoy = $cToday - strtotime($timeStart);
+
+            $arraydump = array(
+                "start_seg" => strtotime($timeStart),
+                "start" => $timeStart,
+                "end_seg" => strtotime($timeEnd),
+                "end" => $timeEnd,
+                "priceStart" => $priceStart,
+                "priceEnd" => $priceEnd,
+                "interval" => $interval,
+                "numberIntervals" => $numberIntervals,
+                "cStart" => $cStart,
+                "cEnd" => $cEnd,
+                "cToday" => $cToday,
+                "intervalSegundo" => $intervalSegundo,
+                "diffminutesSE" => $diffminutesSE,
+                "restante" => $hoy,
+                "diffPriceSE" => $diffPriceSE,
+                "diffBuyDatStartDat" => $diffBuyDatStarDat,
+                "intervalBuy" => $intervalBuy,
+                "bidDate_seg" => strtotime($bidDate),
+                "bidDate" => $bidDate,
+                "intevPrice" => $intvPrice,
+                "finalPrice" => $finalPrice,
+                );
+
+
+//            dd($arraydump);
+
 
             return number_format($finalPrice, env('AUCTION_PRICE_DECIMALS', 2));
         }else if($cEnd < $cToday) {

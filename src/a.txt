@@ -1,4 +1,4 @@
-Project: Subastas del Mar
+﻿Project: Subastas del Mar 
 Ver: Sprint 1
-Dev: Luis Marín
+Dev: Luis Marín 
 Email: luismarin@netlabs.com.ar

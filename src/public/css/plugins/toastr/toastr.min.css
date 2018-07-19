@@ -108,7 +108,8 @@ button.toast-close-button {
     overflow: hidden;
     margin: 0 0 6px;
     padding: 15px 15px 15px 50px;
-    width: 300px;
+    width: 340px;
+    height: 130px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     border-radius: 3px;

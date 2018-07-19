@@ -1,3 +1,25 @@
+<section id="contact" class=" gray-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center m-t-lg m-b-lg">
+                <p style="color: #FFFFFF">
+                    <img alt="image" height="20" src="{{ asset('/landing/img/logo_subastas_header.png') }}" />
+                    <br>
+                    <strong>
+                    Copyright &copy; <? echo date('Y'); ?> </strong>
+                     Todos los derechos reservados.<br>
+                    Terminos y condiciones, Privacidad y Notificación sobre Cockies.
+                </p>
+                <font color="#ffffff">poweder by </font><img class="text-center" alt="image" width="80px" src="{{ asset('/img/netlabs-footer.png') }}" />
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+<!--
 <section id="contact" class="gray-section contact">
     <div class="container">
         <div class="row m-b-lg">
@@ -46,13 +68,14 @@
     </div>
 </section>
 
-
+-->
 
 
 
 
 <!-- Scripts -->
 <!-- Landing -->
+<script src="https://unpkg.com/currency.js@1.1.4/dist/currency.min.js"></script>
 <script src="{{ asset('/landing/js/jquery-2.1.1.js') }}"></script>
 <script src="{{ asset('/landing/js/pace.min.js') }}"></script>
 <script src="{{ asset('/landing/js/bootstrap.min.js') }}"></script>
@@ -64,7 +87,8 @@
     <script src="{{ asset('/js/plugins/metisMenu/jquery.metisMenu.js') }}"></script>
     <script src="{{ asset('/js/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
 
-    <script src="{{ asset('/js/plugins/toastr/toastr.min.js') }}"></script>
+    {{--<script src="{{ asset('/js/plugins/toastr/toastr.min.js') }}"></script>--}}
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script src="{{ asset('/js/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
 
 
@@ -73,7 +97,6 @@
     <script src="{{ asset('/js/plugins/ionRangeSlider/ion.rangeSlider.min.js') }}"></script>
     <script src="{{ asset('/js/plugins/star_rating/jquery.raty.js') }}"></script>
     <script src="{{ asset('/js/plugins/jasny/jasny-bootstrap.min.js') }}"></script>
-     <script src="{{ asset('/js/plugins/toastr/toastr.min.js') }}"></script>
     <script src="{{ asset('/js/plugins/jsKnob/jquery.knob2.js') }}"></script>
     <script src="{{ asset('/js/plugins/chosen/chosen.jquery.js') }}"></script>
 
@@ -92,14 +115,15 @@
             var auctionId = $(this).attr('auctionId');
             var value = $(this).val();
             var price = $(".hid-currentPrice-"+auctionId).val();
-            var total = (value*price)
-            $(".modal-total-"+auctionId).html('Total $' + total.toFixed(2) )
-            
-        
+            // var total =   price..replace(/[aiou]/gi,'e')
+            var total =   currency(price).multiply(value)
+            $(".modal-total-"+auctionId).html('Total $' + currency(total).format() )
+
+
         });
-    
+
     });
-    
+
     function calculatePrice(auctionId)
     {
         $.ajax({
@@ -107,15 +131,15 @@
           url: "/calculateprice?auction_id="+auctionId,
           success: function(data)
           {
-            $(".currentPrice-"+auctionId).html('$' + data);
+            $(".currentPrice-"+auctionId).html('<font size="4px">$</font>' + data + ' xKg');
             $(".hid-currentPrice-"+auctionId).val(data);
-            
+
                 if($('#bid-Modal-'+auctionId).is(':visible'))
                 {
                     var total = ( $("#amount-bid-" + auctionId ).val()  * data);
-                    $(".modal-total-"+auctionId).html('Total $' + total.toFixed(2) )        
+                    $(".modal-total-"+auctionId).html('Total $' + total.toFixed(2) )
                 }
-            
+
           }
         });
     }
@@ -163,9 +187,9 @@
 
     $(document).ready(function(){
 
-    
+
         $('.chosen-select').chosen({width:"100%"});
-        
+
 
 
         $(".cancelAuction").click(function(){
@@ -218,27 +242,26 @@
         setInterval(function(){
             $('.dialLeft').each(function(k,v){
                 valores = $(v).val().split(':');
-                if (valores.length == 2){
-                    nuevoValor = (valores[0]*60)+(valores[1]-1);
+                if (valores.length == 3){
+                    nuevoValor = (valores[0]*3600)+(valores[1]*60)+(valores[2]-1);
                 }else{
                     nuevoValor = valores[0]-1;
                 }
                 $(v).val(nuevoValor).trigger("change");
             });
-        }, 60000);
+        }, 1000);
 
         $(".dialLeft").knob({
             'format' : function (value) {
-                var h = Math.floor(value/60);
-                var m = value%60;
-
-                if (h<10)
+                 var h = Math.floor(value/3600);
+                 if (h<10)
                     h = "0"+h;
-
-                if (m<10)
+                 var m = Math.floor((value-(h*3600))/60);
+                 if (m<10)
                     m = "0"+m;
+                 var s = value%60;
+                return h+":"+m+":"+s;
 
-                return h+":"+m;
             }
         });
 
@@ -246,8 +269,6 @@
             var auctionId = $(this).attr('auctionId');
             var amount = $("#amount-bid-"+auctionId).val();
             makeBid(auctionId,amount);
-
-
         });
 
         $(".amount-bid").keypress(function(e) {
@@ -271,10 +292,19 @@
 
     });
 
+    $(document).on("keypress",".amount-bid-modal",function(e){
+        var x = e.keyCode || e.which;
+        console.log(x);
+        if (x == 44 || x == 45 || x == 46 || x == 101){
+            return false;
+        }
+
+    });
+
     function makeBid(auctionId,amount)
     {
         var cDispo =  parseInt($(".s-disponible-" +auctionId).html());
-        
+
         if ( amount <= cDispo  ){
             $.ajax({
                           method: "GET",
@@ -298,7 +328,7 @@
                                     $(".modal").modal('hide');
                                         var note = '<table>';
                                             note+= '<tr>';
-                                                note+= '<td colspan="2"><strong>Su compra se ha realizado con exito</strong></td>';
+                                                note+= '<td colspan="2"><strong>Su compra se ha realizado con éxito</strong></td>';
                                                 note+= '</tr>';
                                                 note+= '<tr><td colspan="2" style="border-bottom:1px solid"></td>';
                                                 note+= '</tr>';
@@ -318,7 +348,7 @@
                                                 note+= '</tr>';
                                                 note+= '<tr>';
                                                 note+= '<td><strong>Total</strong></td>';
-                                                note+= '<td><strong>$ '+(data.price * data.amount)+'</strong></td>';
+                                                note+= '<td><strong>$ '+ currency( currency(data.price).multiply(data.amount) ).format() +'</strong></td>';
                                                 note+= '</tr>';
                                             note+= '</tr>';
                                         note+='<table>';
@@ -326,112 +356,59 @@
                                         showBill(note);
                                 }else{
                                     var note = '';
-                                    
+
                                         note+= '<div class="alert alert-danger alert-dismissible" role="alert">';
                                                     note+= '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
-                                                    note+= 'Solo quedan disponibles ' + data.availability + ' ' + data.unit + ' de ' + data.product ;
+                                                    note+= 'Sólo quedan disponibles ' + data.availability + ' ' + data.unit + ' de ' + data.product ;
                                         note+= '</div>';
-                                        
+
                                         $(".content-danger-" +auctionId ).html(note);
                                         $("#amount-bid-" +auctionId).val(data.availability);
                                         $("#amount-bid-" +auctionId).attr('max',data.availability);
                                         $(".s-disponible-" +auctionId).html(data.availability);
-                                        
+
                                         var price = $(".hid-currentPrice-"+auctionId).val();
                                         var total = price * data.availability;
-                                        $(".modal-total-"+auctionId).html('Total $' + total.toFixed(2) )
-                                        
-                                        if (data.availability == 0)
+                                        $(".modal-total-"+auctionId).html('Total $' + currency(total).format() );
+
+                                        if (data.availability < 0)
                                         {
                                             $("#amount-bid-" +auctionId).attr('disabled',true);
                                             $(".mak-bid-"+auctionId).hide();
                                         }
-                                        
+
                                 }
                             }
                           }
                 });
         }else{
-            
+
             var note = '';
             note+= '<div class="alert alert-danger alert-dismissible" role="alert">';
             note+= '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
-            note+= 'Solo quedan disponibles ' + cDispo + ' ' + $(".modal-unit-"+auctionId).html() ;
+            note+= 'Sólo quedan disponibles ' + cDispo + ' ' + $(".modal-unit-"+auctionId).html() ;
             note+= '</div>';
             $(".content-danger-" +auctionId ).html(note);
             $("#amount-bid-" +auctionId).val(cDispo);
             $("#amount-bid-" +auctionId).attr('max',cDispo);
-            
+
+
+            var price1 = $(".hid-currentPrice-"+auctionId).val();
+            var total1 = currency(price1).multiply(cDispo);
+            $(".modal-total-"+auctionId).html('Total $' + currency(total1).format() );
+
+
             if (cDispo == 0)
             {
                 $("#amount-bid-" +auctionId).attr('disabled',true);
                 $(".mak-bid-"+auctionId).hide();
             }
-            
-        
+
+
         }
     }
 
     </script>
-
-    <!-- Bootstrap Tour -->
-    <script src="js/plugins/bootstrapTour/bootstrap-tour.min.js"></script>
-
-
-<script>
-
-    $(document).ready(function (){
-
-        // Instance the tour
-        var tour = new Tour({
-            steps: [{
-
-                    element: "#step1",
-                    title: "Title of my step",
-                    content: "Introduce new users to your product by walking them through it step by step.",
-                    placement: "top"
-                },
-                {
-                    element: "#step2",
-                    title: "Title of my step",
-                    content: "Content of my step",
-                    placement: "top",
-                    backdrop: true,
-                    backdropContainer: '#wrapper',
-                    onShown: function (tour){
-                        $('body').addClass('tour-open')
-                    },
-                    onHidden: function (tour){
-                        $('body').removeClass('tour-close')
-                    }
-                },
-                {
-                    element: "#step3",
-                    title: "Title of my step",
-                    content: "Introduce new users to your product by walking them through it step by step.",
-                    placement: "bottom"
-                },
-                {
-                    element: "#step4",
-                    title: "Title of my step",
-                    content: "Introduce new users to your product by walking them through it step by step.",
-                    placement: "top"
-                }
-            ]});
-
-        // Initialize the tour
-        tour.init();
-
-        $('.startTour').click(function(){
-            tour.restart();
-
-            // Start the tour
-            // tour.start();
-        })
-
-    });
-
-</script>
 
 </body>
 </html>

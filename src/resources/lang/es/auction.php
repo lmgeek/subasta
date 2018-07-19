@@ -40,6 +40,7 @@ return [
     'start' => 'Comienzo',
     'more_than' => 'mas de :hour horas',
     'no_auction' => 'No hay subastas para los filtros elegidos',
+    'no_auction_home' => 'No hay subastas disponibles para la fecha',
 	'summary_operations' => 'Últimas Operaciones',	
     'view_operations' => 'Ver operaciones',
     'auction_operations' => 'Operaciones de la subasta de :productName',
@@ -56,7 +57,8 @@ return [
     'name' => 'Nombre',
     'phone' => 'Telefono',
     'email' => 'Email',
-	'bid_limit' => 'Superó el limite de comprar, no podrá seguir comprando hasta que se concreten las compras realizadas.',
+    'bid_limit' => 'Superó el limite de comprar, no podrá seguir comprando hasta que se concreten las compras realizadas.',
+	'unauthorized' => 'El usuario actual no está autorizado para realizar compras.',
     'process' => 'Procesar',
     'operation_status' => 'Estado Operacion',
     'qualify_operation' => 'Calificar Operacion',
@@ -68,7 +70,8 @@ return [
     'qualify' => 'Calificar',
     'qualification' => 'Calificacion',
 	'qualification_negative' => 'Puntaje negativo para usuario',
-    'no_bids' => 'No hay compras registradas'
+    'no_bids' => 'No hay compras registradas',
+    'drawers' => 'CAJONES',
 
 
 

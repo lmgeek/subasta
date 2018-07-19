@@ -74,7 +74,7 @@ class AuctionController extends Controller
 			}
 			$userRating[$user->id]= $porc;
 		}
-		
+
         return view('auction.index',compact('auctions','status','products','sellers','request','boats','userRating','type'));
     }
 
@@ -164,20 +164,56 @@ class AuctionController extends Controller
 		$auction_id = $request->input('auction_id');
 		$bidDate = date('Y-m-d H:i:s');
 		$auction = Auction::findOrFail($auction_id);
-		$price = $auction->calculatePrice($bidDate);
+		$prices = $auction->calculatePrice($bidDate);
+         $price = str_replace(",","",$prices);
 		
 		return $price;
+	 }
+
+	 public function calculatePeso(Request $request)
+	 {
+		$product_id = $request->input('product_id');
+		// dd($product_id);
+		return $product_id;
+		// $weigth = $request->input('weigth');
+
+		// $auction = Auction::findOrFail($weigth);
+		
+		// $finalWeigth = 0;
+
+		// dd('hola');
+        
+  //       $timeStart = $this->start;
+  //       $timeEnd = $this->end;
+  //       $priceStart = $this->start_price;
+  //       $priceEnd = $this->end_price;
+
+
+  //       if ($weigth != 0) {
+
+  //           $finalWeigth = ($intervalBuy * $weigth);
+
+  //       }else{
+  //           return number_format($finalWeigth, env('AUCTION_PRICE_DECIMALS', 2));
+  //       }
+
+
+
+
+
+
 	 }
 	 
 	 public function makeBid(Request $request)
 	 {
-		
+
 		$auction_id = $request->input('auction_id');
 		$amount = $request->input('amount');
+//		dd($auction_id."-".$amount);
 		$auction = Auction::findOrFail($auction_id);
 		$this->authorize('makeBid', $auction);
 		$this->authorize('canBid',Auction::class);
-		
+
 		if ($auction->type == \App\Auction::AUCTION_PRIVATE )
 		{
 			$this->authorize('isInvited', $auction);
@@ -191,10 +227,11 @@ class AuctionController extends Controller
 			
 		}else{
 			$bidDate = date('Y-m-d H:i:s');
-			$price = $auction->calculatePrice($bidDate);
+			$prices = $auction->calculatePrice($bidDate);
+            $price = str_replace(",","",$prices);
 			DB::beginTransaction();
 				$availability = $auction->getAvailabilityLock();
-				
+
 				if ($amount > 0 && $amount <= $availability  )
 				{
 					$auction->makeBid($amount,$price);
@@ -310,11 +347,17 @@ class AuctionController extends Controller
 
 	 public function buyerBid(Request $request)
 	 {
-			$user = Auth::user();
+		$user = Auth::user();
+		if (Auth::user()->type == \App\User::COMPRADOR){
+//		if (Auth::user()->type == "buyer"){
             $this->authorize('seeMyBids', Bid::class);
 			$bids = Bid::where('user_id' , $user->id )->orderBy('bid_date', 'desc')->paginate();
-	
+//	dd(Auth::user()->type == \App\User::COMPRADOR);
 			return view('bid.index',compact('bids'));
+		} else {
+//            echo "<script>alert('No tiene acceso');</script>";
+			return redirect('home');
+		}
 			
 	 }
 	 
@@ -640,13 +683,10 @@ class AuctionController extends Controller
 		$invited = $request->get('invited',null);
 		$type = $request->get('type',null);
 		
-		if ($type == Auction::AUCTION_PRIVATE)
-		{	$user = Auth::user();
-			$auctions = Auction::auctionPrivate($user->id , $status);
-		}else{
-			$auctions = Auction::filterAndPaginate($status,$product,$seller,$boat);
-		}
 		
+		$auctions = Auction::filterAndPaginate($status,$product,$seller,$boat);
+		
+		// dd($auctions);
 		$products = array();
 		$sellers =  array();
 		$boats = array();

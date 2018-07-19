@@ -7,13 +7,13 @@
 
 
 	<div class="ibox float-e-margins">
-		
+
 	<div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-9">
             <h2>{{ trans('sellerBoats.listbatch') }}</h2>
         </div>
     </div>
-	
+
 	 @if (Session::has('confirm_msg_editbach'))
 		 <br><br>
 		<div class="alert alert-info alert-dismissible" role="alert">
@@ -21,7 +21,7 @@
 			{{ trans('sellerBoats.edit_batch') }}
 		</div>
 	 @endif
-	
+
    <div class="wrapper wrapper-content">
 		<div class="row">
 		 <div class="ibox float-e-margins">
@@ -47,7 +47,7 @@
 								<!-- <img alt="image" class="img-circle" src="img/a4.jpg"> -->
 							</a>
 							<div class="media-body ">
-								
+
 								<div style="float:left;margin-right:10px;"><strong>{{ $boat->name }}</strong></div>
 								<div><p class="text-navy text-muted "> {{ trans("boats.boats_date_arrive") }}
 									@if (is_null($lastArrive))
@@ -56,7 +56,7 @@
 										<i class="fa fa-clock-o"></i><a href="{{ route('sellerboat.editarrive',$lastArrive) }}" title="{{ trans('boats.edit_arrive') }}"> {{ Carbon::parse($lastArrive->date)->format('H:i:s d/m/Y') }} </a>
 									@endif
 								</p></div>
-								
+
 								@if ($lastArrive != null)
 									@include("boat.partials.arrive_batch_status")
 								@endif
@@ -72,7 +72,7 @@
 						</div>
 					 @endforeach
 				 @endforeach
-				 
+
 				 {!!  $boats->render() !!}
 				</div>
 				<!-- <button class="btn btn-primary btn-block m-t"><i class="fa fa-arrow-down"></i> Show More</button>-->
@@ -81,7 +81,7 @@
 		</div>
 		</div>
 	</div>
-		
+
 		<style>
 			 .amountBatch{
 				font-weight: 600;

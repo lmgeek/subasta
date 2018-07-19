@@ -51,13 +51,13 @@
                                         <td>{{ $boat->name }}</td>
                                         <td>{{ $boat->matricula }}</td>
                                         <td>
-												
+
 												<span class="label label-{{ $boat->status }}">{{ trans("general.status.$boat->status") }}</span>
-												
+
 												@if ($boat->status == \App\Boat::RECHAZADO)
 													<i data-toggle="tooltip" data-placement="top" title="{{ $boat->rebound }}"  class="fa fa-info-circle"></i>
 												@endif
-											
+
                                         </td>
                                         <td>
                                             @can('seeBoatDetail',$boat)
@@ -103,13 +103,13 @@
                     null
                 ]
             });
-			
+
 			$(function () {
 			  $('[data-toggle="tooltip"]').tooltip()
 			})
 
             $('.chosen-select').chosen({width:"100%"});
-			
+
         });
 
     </script>

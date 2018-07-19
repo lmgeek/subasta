@@ -49,9 +49,9 @@
 									<div class="row"><br>
 										<div class="col-md-12">
 											<div class="col-md-6" >
-												<input type="number" style="width:110px" min="<?= ($disponible>0)?'1':'0' ?>" max="{{$disponible}}" placeholder="Cantidad"  auctionId="{{ $a->id }}" class="form-control bfh-number amount-bid amount-bid-modal" id="amount-bid-{{ $a->id }}" />
+												<input type="number" style="width:110px" min="<?= ($disponible>0)?'1':'0' ?>" max="{{$disponible}}" placeholder="Cantidad"  auctionId="{{ $a->id }}" class="form-control bfh-number amount-bid amount-bid-modal" id="amount-bid-{{ $a->id }}" min="1" pattern="^[0-9]+"/>
 											</div> 
-											<div class="col-md-4" >
+											<div class="col-md-4" style="margin-top: 7px;">
 												<strong><span class="modal-unit-{{ $a->id }}">{{ trans('general.product_units.'.$a->batch->product->unit) }}</span> </strong>
 											</div> 
 											<input type="hidden" value="" class="hid-currentPrice-{{ $a->id }}" />
@@ -90,4 +90,3 @@
 		
 </div>
 
-   
