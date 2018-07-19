@@ -3,7 +3,7 @@
             <img alt="image"  src="{{ asset('/landing/img/ofertas_tituloseccion.png') }}" />
         </div>
     </div>
-
+<!--
     <div class="row">
         <div class="row text-center wow fadeInDown offers-items">
            <div class="col-md-2 col-lg-2 col-sm-6 ">
@@ -251,4 +251,4 @@
             
             </div>
         </div>
-    </div>
+    </div>-->

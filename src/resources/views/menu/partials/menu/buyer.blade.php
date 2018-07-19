@@ -1,5 +1,8 @@
+    <li>
+        <a href="{{ url('/') }}"><i class="fa fa-dashboard"></i> <span class="nav-label">{{ trans('general.dashboard') }}</span></a>
+    </li>
     <li @if (Request::is('home*')) class="active" @endif>
-        <a href="{{ url('/home') }}"><i class="fa fa-dashboard"></i> <span class="nav-label">{{ trans('general.dashboard') }}</span></a>
+        <a href="{{ url('/home') }}"><i class="fa fa-dashboard"></i> <span class="nav-label">{{ Lang::get('Dashboard') }}</span></a>
     </li>
     <li @if (Request::is('auction*') && Request::input('type') != \App\Auction::AUCTION_PRIVATE ) class="active" @endif>
         <a href="{{ url('/auction') }}"><i class="fa fa-usd"></i> <span class="nav-label">{{ trans('auction.auction_list') }}</span></a>

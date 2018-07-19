@@ -11,14 +11,22 @@
 |
 */
 
-Route::get('/', function () {
-    if(is_null(Auth::user())){
-        return view('landing');
-    }else{
-        // return redirect('/home');
-        return view('landing');
-    }
-});
+// Route::get('/', function () {
+//     if(is_null(Auth::user())){
+//         return view('landing');
+//     }else{
+//         // return redirect('/home');
+//         return view('landing');
+//     }
+// });
+
+/*HOME*/
+// Route::get('/', function () {
+//         return view('landing');
+// });
+
+Route::get('/', 'AuctionController@subastaHome');
+
 // Authentication routes...
 Route::get('auth/login', 'Auth\AuthController@getLogin');
 Route::post('auth/login', 'Auth\AuthController@postLogin');
@@ -146,10 +154,14 @@ Route::get('sales', [
 Route::get('privatesales', 'SellerAuctionController@privatesales');
 
 Route::get('calculateprice', 'AuctionController@calculatePrice');
+Route::get('calculatepeso', 'AuctionController@calculatePeso');
 Route::get('makeBid', 'AuctionController@makeBid');
 
+Route::group(['middleware' => ['auth']],function(){
+    Route:resource('sellerbatch', 'BoatController@sellerbatch');
+});
 
-Route::get('sellerbatch', 'BoatController@sellerbatch');
+// Route::get('sellerbatch', 'BoatController@sellerbatch');
 Route::post('editbatch', 'SellerBoatsController@editbatch');
 
 Route::get('registro/comprador', 'RegisterController@getRegisterBuyer');
@@ -161,7 +173,11 @@ Route::post('registro/vendedor', 'RegisterController@postRegisterSeller');
 
 Route::get('priavatesale/{batch}', 'SellerBoatsController@priavateSale');
 Route::post('savePrivateSale', 'SellerBoatsController@savePrivateSale');
-Route::get('bids', 'AuctionController@buyerBid');
+Route::group(['middleware' => ['auth']],function(){
+    Route:resource('bids', 'AuctionController@buyerBid');
+});
+
+
 Route::get('bids/qualify/{bid}', [
     'as' => 'bid.qualify', 'uses' => 'AuctionController@qualifyBid'
 ]);

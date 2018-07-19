@@ -22,8 +22,9 @@
     <div>
         <div>
             {{--<h1 class="logo-name">IN+</h1>--}}
+            <img alt="image"  src="{{ asset('/landing/img/logo_subastas.png') }}" width="100%" style="padding: 50px 0px;" />
         </div>
-        <h3>Bienvenido a Subastas del mar</h3>
+        <h3>Bienvenido a Subastas del Mar</h3>
         <p>
             {{--Perfectly designed and precisely prepared admin theme with over 50 pages with extra new web app views.--}}
         </p>
@@ -43,7 +44,7 @@
         <form class="m-t" role="form" action="{{ url('auth/login') }}" method="POST">
             {{ csrf_field() }}
             <div class="form-group">
-                <input type="email" class="form-control" placeholder="Username" name="email" required="" value="{{ old('email') }}">
+                <input type="email" class="form-control" placeholder="Email" name="email" required="" value="{{ old('email') }}">
             </div>
             <div class="form-group">
                 <input type="password" class="form-control" placeholder="Password"  name="password" required="">
@@ -55,7 +56,7 @@
             <a class="btn btn-sm btn-white" href="{{ url('registro/comprador') }}">Registrar Comprador</a>
             <a class="btn btn-sm btn-white" href="{{ url('registro/vendedor') }}">Registrar Vendedor</a>
         </form>
-        <p class="m-t"> <small>Subastas del mar &copy; 2015</small> </p>
+        <p class="m-t"> <small>Subastas del Mar &copy; <? echo date('Y'); ?></small> </p>
     </div>
 </div>
 

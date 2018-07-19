@@ -40,7 +40,7 @@ class Authenticate
         if(Gate::denies('canLogin',$this->auth->user())) {
             $this->auth->logout();
             // abort(401);
-            return redirect()->guest('/');
+             return redirect()->guest('auth/login');
         }
         if ($this->auth->guest()) {
             if ($request->ajax()) {

@@ -24,8 +24,9 @@
     <link rel="stylesheet" href="{{ asset('/landing/font-awesome/css/font-awesome.css') }}">
 
     <!-- Animation CSS -->
+    {{--<link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />--}}
     <link rel="stylesheet" href="{{ asset('/css/plugins/toastr/toastr.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('/landing/css/animate.css') }}">
+    {{--<link rel="stylesheet" href="{{ asset('/landing/css/animate.min.css') }}">--}}
 
     <!-- Custom styles for this template -->
     <link rel="stylesheet" href="{{ asset('/landing/css/style.css') }}">
@@ -46,24 +47,24 @@
     
 
             <!-- Google Analytics -->
-    <script>
-        $(document).ready(function(){
-            var btn = $('.noDblClick').click(function (e) {
-                var isValid = $(this).parents('form')[0].checkValidity();
-                if(isValid) {
-                    $(this).button('loading');
-                }
-            })
-        });
+    {{--<script>--}}
+        {{--$(document).ready(function(){--}}
+            {{--var btn = $('.noDblClick').click(function (e) {--}}
+                {{--var isValid = $(this).parents('form')[0].checkValidity();--}}
+                {{--if(isValid) {--}}
+                    {{--$(this).button('loading');--}}
+                {{--}--}}
+            {{--})--}}
+        {{--});--}}
 
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        {{--(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){--}}
+                    {{--(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),--}}
+                {{--m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)--}}
+        {{--})(window,document,'script','//www.google-analytics.com/analytics.js','ga');--}}
 
-        ga('create', '', { 'userId': '2' });
-        ga('send', 'pageview');
-    </script>
+        {{--ga('create', '', { 'userId': '2' });--}}
+        {{--ga('send', 'pageview');--}}
+    {{--</script>--}}
     <!-- End Google Analytics -->
 </head>
 
@@ -84,18 +85,57 @@
                 @if (Auth::check())                   
                         <div class="nav-header-user">
                             <label for="nav-header-user-switch" tabindex="4">
-                                <a href="#" class="nav-header-user-myml">
+
+                                <a data-toggle="dropdown" class="dropdown-toggle nav-header-user-myml" href="#">
+                                    <span class="clear">
+                                        <span class="block m-t-xs">
+                                            <img class="user-img" alt="image" width="20" height="20" src="{{ asset('/landing/img/header_usuario.png') }}" />
+                                            <strong class="font-bold">{{ Auth::user()->name }}</strong>
+                                        </span>
+                                        <span class="text-muted text-xs block">
+                                            <b class="caret"></b>
+                                        </span>
+                                    </span>
+                                </a>
+                                <ul class="dropdown-menu animated fadeInDown m-t-xs">
+                                    <li>
+
+                                        <a href="{{ url('/home') }}" style="border-left: none;padding-left: 10px; background-color: #2680ff!important;">
+                                            <i class="fa fa-tachometer" aria-hidden="true"></i>
+                                            Mi cuenta
+                                        </a>
+                                    </li>
+                                    {{--<li>--}}
+                                        {{--<a href="{{ url('/profile/changepassword') }}">{{ Lang::get('profile.change_password.title') }}</a>--}}
+                                    {{--</li>--}}
+                                    {{--<li class="divider"></li>--}}
+                                    <li>
+
+                                        <a href="{{ url('/auth/logout') }}" style="border-left: none;padding-left: 10px;">
+                                            <i class="fa fa-sign-out" aria-hidden="true"></i>
+                                            {{ Lang::get('general.logout') }}
+                                        </a>
+
+
+                                    </li>
+                                </ul>
+
+                                <{{-- a href="/home" class="nav-header-user-myml">
                                     
                                         <img class="user-img" alt="image" width="20" height="20" src="{{ asset('/landing/img/header_usuario.png') }}" />
                                         <span class="nav-header-username">{{ Auth::user()->name }}</span>
                                         <span class="nav-header-username-chevron"></span>
                                     
-                                </a>
+                                </a> --}}
                             </label>
                             <input type="checkbox" id="nav-header-user-switch">
-                            <nav class="nav-header-user-layer user-menu--hidden user-menu">
-                                <div class="user-menu__main">    
+                            <nav class="nav-header-user-layer user-menu">
+                                <div class="user-menu__main">
                                     <div class="user-menu__shortcuts ">
+                                        <a href="{{ url('/home') }}" data-id="home" rel="nofollow">
+                                            <i class="fa fa-tachometer" style="font-size: 22px;"></i>&nbsp;&nbsp;
+                                          Mi cuenta
+                                        </a>
                                         <a href="{{ url('/auth/logout') }}" data-id="logout" rel="nofollow">
                                             <i class="fa fa-sign-out" style="font-size: 22px;"></i>&nbsp;&nbsp;
                                           {{ Lang::get('general.logout') }}
@@ -141,7 +181,7 @@
                   <li class="dropdown nav-menu-categories">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">Categorías
                     <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu animated fadeInDown ">
                       <li class="nav-menu-item"><a href="#">Especies</a></li>
                       <li class="nav-menu-item"><a href="#">Puertos</a></li>
                       <li class="nav-menu-item"><a href="#">Barcos</a></li>
@@ -152,13 +192,13 @@
                   </li>
                   
                   <li class="nav-menu-item">
-                    <a href="#" class="nav-menu-item-link" rel="nofollow" data-js="nav-menu-item-trigger">Subastas del día</a></li>
+                    <a href="{{ url('/auction') }}" class="nav-menu-item-link" rel="nofollow" data-js="nav-menu-item-trigger">Subastas del día</a></li>
                   <li class="nav-menu-item">
                     <a href="#" class="nav-menu-item-link" rel="nofollow" data-js="nav-menu-item-trigger">Tu historial</a></li>
                   <li class="nav-menu-item">
-                    <a href="#" class="nav-menu-item-link" rel="nofollow" data-js="nav-menu-item-trigger">Tus compras</a></li>
+                    <a href="{{ url('/bids') }}" class="nav-menu-item-link" rel="nofollow" data-js="nav-menu-item-trigger">Tus compras</a></li>
                   <li class="nav-menu-item">
-                    <a href="/sellerbatch" class="nav-menu-item-link" rel="nofollow" data-js="nav-menu-item-trigger">Subastar</a></li>
+                    <a href="{{ url('/sellerbatch') }}" class="nav-menu-item-link" rel="nofollow" data-js="nav-menu-item-trigger">Subastar</a></li>
                 </ul>
             </div>
         </div>

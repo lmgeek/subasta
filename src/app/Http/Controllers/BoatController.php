@@ -170,16 +170,22 @@ class BoatController extends Controller
 	
 	public function sellerbatch(Request $request)
 	{
-        $this->authorize('seeBatch', new Batch());
+        if (Auth::user()->type == \App\User::VENDEDOR){
+            $this->authorize('seeBatch', new Batch());
 
-		$boats = array();
-		if (Auth::user()->type == \App\User::VENDEDOR){
+            $boats = array();
+		
 			$boats = Boat::where('user_id',Auth::user()->id)->where('status',Boat::APROBADO)->paginate();
+
+            return view('boat.sellerbatch',compact('boats','request'));
+        } else {
+            return redirect('/home');
+            // return view('landing');
         }
 		
 			
 		
-		 return view('boat.sellerbatch',compact('boats','request'));
+		 
 	}
 	
 }

@@ -1,229 +1,260 @@
-<?php $batches =  $lastArrive->batch  ?>
+<?php $batches = $lastArrive->batch  ?>
 @if(count($batches) > 0)
-	<script src="{{ asset('/js/plugins/star_rating/jquery.raty.js') }}"></script>
-	<link rel="stylesheet" href="{{ asset('/css/plugins/star_rating/jquery.raty.css') }}">
-	<table class="table table-hover table-bordered">
-	  <tbody>	
-			<thead>
-			<tr>
-				<td><strong>{{ trans("sellerBoats.product") }}</strong></td>
-				<td><strong>{{ trans("sellerBoats.total") }}</strong></td>
-				<td><strong>{{ trans("sellerBoats.sales") }}</strong></td>
-				<td><strong>{{ trans("sellerBoats.assigned_auction") }}</strong></td>
-				<td><strong>{{ trans("sellerBoats.type_sales") }}</strong></td>
-				<td></td>
-			</tr>
-			</thead>
-	@foreach($batches as $batch)
-	
-		
-	
-		<?php
-			$assigned_auction = $batch->status->assigned_auction;
-			$auction_sold = $batch->status->auction_sold;
-			$private_sold = $batch->privateSale->sum('amount');
-			$remainder = $batch->status->remainder;
-			
-			$total_sold = $auction_sold  + $private_sold;
-			$total_unsold = $assigned_auction + $remainder;
-			
-			$total_sold_unsold = $total_sold + $total_unsold ;
-	
-			$minEditBatch = $assigned_auction + $total_sold;
+    <script src="{{ asset('/js/plugins/star_rating/jquery.raty.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('/css/plugins/star_rating/jquery.raty.css') }}">
+    <table class="table table-hover table-bordered">
+        <tbody>
+        <thead>
+        <tr>
+            <td><strong>{{ trans("sellerBoats.product") }}</strong></td>
+            <td><strong>{{ trans("sellerBoats.total") }}</strong></td>
+            <td><strong>{{ trans("sellerBoats.sales") }}</strong></td>
+            <td><strong>{{ trans("sellerBoats.assigned_auction") }}</strong></td>
+            <td><strong>{{ trans("sellerBoats.type_sales") }}</strong></td>
+            <td></td>
+        </tr>
+        </thead>
+        @foreach($batches as $batch)
 
-		?>
-			 <tr>
-				<td>
-					<div id="estrellas_{{ $batch->id }}" style="display:none"><div><strong>{{ trans('sellerBoats.caliber') }}: </strong><span>{{ trans('general.product_caliber.'.$batch->caliber) }}</span><br><strong>{{ trans('sellerBoats.quality') }}: </strong><div id='quality_{{ $batch->id }}' class='text-warning' style='font-size: 8px; display: inline-block;'></div></div></div>
 
-					{{ $batch->product->name  }}
-					<i class="fa fa-info-circle text-info" data-id="{{ $batch->id }}" data-quality="{{ $batch->quality }}" id="indo_{{ $batch->id }}" data-toggle="tooltip" data-placement="top" title="ddddd"></i>
-					
-				</td>
-				<td> {{ $total_sold_unsold  }} &nbsp <a  data-target="#batch-edit-Modal-{{ $batch->id }}" data-toggle="modal" href="#"><i data-toggle="tooltip" title="Editar lote"  class="fa fa-edit"></i></a> 
-					
-				</td>
-				<td>
-					<div>
-						<strong>{{ trans("sellerBoats.solds") }} :</strong> {{$total_sold}}
-						<div class="" style="width:94px;">
-							<div data-toggle="tooltip" data-placement="right" class="progress progress-mini" title="<?php echo ($total_sold/$total_sold_unsold)*100 ?>%" style="background-color:#ddd;height:8px">
-								<div  style="height:8px;width: <?php echo ($total_sold/$total_sold_unsold)*100 ?>%;" title="Vendidos: {{$total_sold}}" class="progress-bar"></div>
-							</div>
-							
-						</div>
-					</div>
-				</td>
-				<td>
-					<table>
-						<tr>
-							<td>
-								<strong style="color:#2980b9">{{ trans("sellerBoats.assigned")  }} &nbsp:</strong> {{$assigned_auction}}
-							</td>
-							<td rowspan=2>
-								<div class="" style="width:30px; margin-left:5px">
-									<span class="total-assigned-auction-and-unassigned-{{$batch->id}}"></span>
-								</div>
-							</td>
-						</tr>
-						<tr >
-							<td>
-								<strong style="color:#a7b1c2">{{ trans("sellerBoats.unassigned")  }} : </strong> {{$remainder}}	
-							</td>
-						</tr>
-					</table>
-					<script>
-						$(".total-assigned-auction-and-unassigned-{{$batch->id}}").sparkline([<?php echo $assigned_auction ?>, <?php echo $remainder ?>], {
-							type: 'pie',
-							//tooltipFormat: '@{{offset:offset}} @{{value}}',
-							tooltipValueLookups: {
-								'offset': {
-									0: '{{trans("sellerBoats.assigned_auction")}}',
-									1: '{{trans("sellerBoats.unassigned_auction")}}'
-								}
-							},
-							height: '25px',
-							sliceColors: ['#2980b9', '#a7b1c2']});
-					</script>
-				</td>
-				
-				<td>
-					<table>
-						<tr>
-							<td>
-								<strong style="color:#8e44ad">{{ trans("sellerBoats.auctions")  }} :</strong> {{$auction_sold}}
-							</td>
-							<td rowspan=2>
-								<div class="" style="width:30px; margin-left:5px">
-									<span class="total-sold-auction-and-private-sale-{{$batch->id}}"></span>
-								</div>
-							</td>
-							
-						</tr>
-						<tr >
-							<td>
-								<strong style="color:#16a085">{{ trans("sellerBoats.private")  }} &nbsp: </strong> {{$private_sold}}	
-							</td>
-						</tr>
-					</table>
-					<script>
-						$(".total-sold-auction-and-private-sale-{{$batch->id}}").sparkline([<?php echo $auction_sold ?>, <?php echo $private_sold ?>], {
-							type: 'pie',
-							//tooltipFormat: '@{{offset:offset}} @{{value}}',
-							tooltipValueLookups: {
-								'offset': {
-									0: '{{trans("sellerBoats.sold_at_auction")}}',
-									1: '{{trans("sellerBoats.sold_at_private_sale")}}'
-								}
-							},
-							height: '25px',
-							sliceColors: ['#8e44ad', '#16a085']});
-					</script>
-				</td>
-				 <td>
-					 @can('createAuction',$batch)
-						 @if($remainder>0)
-							<a href="{{ route('auction.create_from_batch',$batch) }}" class="btn btn-action">Crear subasta</a>
-						 @endif
-					 @endif
-					 
-					 @can('deleteBatch',$batch)
-					 	<a href="{{ route('sellerboat.batch.delete',$batch) }}" class="btn btn-action deleteBatch">Borrar Lote</a>
-					 @endcan
 
-					 @can('makeDirectBid',$batch)
-					 	<a href="{{ url('/priavatesale/'.$batch->id) }}" class="btn btn-action">Venta Privada</a>
-					 @endcan
+            <?php
+            $assigned_auction = $batch->status->assigned_auction;
+            $auction_sold = $batch->status->auction_sold;
+            $private_sold = $batch->privateSale->sum('amount');
+            $remainder = $batch->status->remainder;
 
-					<div class="modal inmodal fade" id="batch-edit-Modal-{{ $batch->id }}" tabindex="-1" role="dialog"  aria-hidden="true">
-					   <div class="modal-dialog modal-sm">
-								<form action="{{ url('editbatch') }}" method="post" style="display: inline-block;">
-								<div class="modal-content">
-									<div class="modal-header">
-									   <h3>Editar Lote de {{ $batch->product->name  }} </h3>
-									</div>
-									<div class="modal-body text-center">
-									   
-									   <div class="row" >
-											<div class="col-lg-12">
-												<div class="col-lg-5">	
-													<div><h3>Vendidos</h3></div>
-													<div class="amountBatch">{{ $total_sold  }}</div>
-													<div><h3>Asignados</h3></div>
-													<div class="amountBatch">{{ $assigned_auction }}</div>
-					
-												</div>
-												<div class="col-lg-1">
-												</div>
-												<div class="col-lg-6">
-													<div><h3>Total</h3></div><br>
-													 <div class="text-center">
-														<input type="hidden" name="hBatchId" value="{{ $batch->id  }}">
-														<input type="number" min="{{ $minEditBatch }}" value="{{ $total_sold_unsold  }}"  name="amount" class="form-control bfh-number" />
-														<small>{{ trans('general.product_units.'.$batch->product->unit) }}</small>
-													</div>
-													
-													
-												</div>
-											</div>
-									   </div>
-									   
-									   
-									</div>
-									<div class="modal-footer">
+            $total_sold = $auction_sold + $private_sold;
+            $total_unsold = $assigned_auction + $remainder;
 
-											{{ csrf_field() }}
-											<button type="submit" class="btn btn-primary">{{ trans('general.accept') }}</button>
+            $total_sold_unsold = $total_sold + $total_unsold;
 
-										<button type="button" class="btn btn-danger" data-dismiss="modal">{{ trans('general.cancel') }}</button>
-									</div>
-								</div>
-								</form>
-							</div>
-					</div>
-					 
-				 </td>
-			 </tr>
-			
-	@endforeach
-		
-	  </tbody>
-	 </table>
-	 <script>
-				$(function () {
-					$('[data-toggle="tooltip"]').each(function(k,v){
-						var id = $(v).data('id');
-						var quality = $(v).data('quality');
-						
-						$('#quality_'+id).raty({
-							readOnly: true,
-							score: quality,
-							starType: 'i',
-							hints: ['1 Estrella', '2 Estrellas', '3 Estrellas', '4 Estrellas', '5 Estrellas']
-						});
-					
-						$(v).attr('title',$('#estrellas_'+id).html());
-					
-						$(v).tooltip({
-								html:true
-							});
-					})
-					
-				});
+            $minEditBatch = $assigned_auction + $total_sold;
 
-		 $(document).ready(function(){
-			$(".deleteBatch").unbind().click(function(){
-				if(!confirm('Esta seguro que desea borrar este lote?')){
-					return false;
-				}
-			});
-		 });
-		
-	</script>
+            ?>
+            <tr>
+                <td>
+                    <div id="estrellas_{{ $batch->id }}" style="display:none">
+                        <div><strong>{{ trans('sellerBoats.caliber') }}
+                                : </strong><span>{{ trans('general.product_caliber.'.$batch->caliber) }}</span><br><strong>{{ trans('sellerBoats.quality') }}
+                                : </strong>
+                            <div id='quality_{{ $batch->id }}' class='text-warning'
+                                 style='font-size: 8px; display: inline-block;'></div>
+                        </div>
+                    </div>
+
+                    {{ $batch->product->name  }}
+                    <i class="fa fa-info-circle text-info" data-id="{{ $batch->id }}"
+                       data-quality="{{ $batch->quality }}" id="indo_{{ $batch->id }}" data-toggle="tooltip"
+                       data-placement="top" title="ddddd"></i>
+
+                </td>
+                <td> {{ $total_sold_unsold  }} &nbsp <a data-target="#batch-edit-Modal-{{ $batch->id }}"
+                                                        data-toggle="modal" href="#"><i data-toggle="tooltip"
+                                                                                        title="Editar lote"
+                                                                                        class="fa fa-edit"></i></a>
+
+                </td>
+                <td>
+                    <div>
+                        <strong>{{ trans("sellerBoats.solds") }} :</strong> {{$total_sold}}
+                        <div class="" style="width:94px;">
+                            <div data-toggle="tooltip" data-placement="right" class="progress progress-mini"
+                                 title="<?php echo ($total_sold / $total_sold_unsold) * 100 ?>%"
+                                 style="background-color:#ddd;height:8px">
+                                <div style="height:8px;width: <?php echo ($total_sold / $total_sold_unsold) * 100 ?>%;"
+                                     title="Vendidos: {{$total_sold}}" class="progress-bar"></div>
+                            </div>
+
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <table>
+                        <tr>
+                            <td>
+                                <strong style="color:#2980b9">{{ trans("sellerBoats.assigned")  }}
+                                    &nbsp:</strong> {{$assigned_auction}}
+                            </td>
+                            <td rowspan=2>
+                                <div class="" style="width:30px; margin-left:5px">
+                                    <span class="total-assigned-auction-and-unassigned-{{$batch->id}}"></span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong style="color:#a7b1c2">{{ trans("sellerBoats.unassigned")  }}
+                                    : </strong> {{$remainder}}
+                            </td>
+                        </tr>
+                    </table>
+                    <script>
+                        $(".total-assigned-auction-and-unassigned-{{$batch->id}}").sparkline([<?php echo $assigned_auction ?>, <?php echo $remainder ?>], {
+                            type: 'pie',
+                            //tooltipFormat: '@{{offset:offset}} @{{value}}',
+                            tooltipValueLookups: {
+                                'offset': {
+                                    0: '{{trans("sellerBoats.assigned_auction")}}',
+                                    1: '{{trans("sellerBoats.unassigned_auction")}}'
+                                }
+                            },
+                            height: '25px',
+                            sliceColors: ['#2980b9', '#a7b1c2']
+                        });
+                    </script>
+                </td>
+
+                <td>
+                    <table>
+                        <tr>
+                            <td>
+                                <strong style="color:#8e44ad">{{ trans("sellerBoats.auctions")  }}
+                                    :</strong> {{$auction_sold}}
+                            </td>
+                            <td rowspan=2>
+                                <div class="" style="width:30px; margin-left:5px">
+                                    <span class="total-sold-auction-and-private-sale-{{$batch->id}}"></span>
+                                </div>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong style="color:#16a085">{{ trans("sellerBoats.private")  }}
+                                    &nbsp: </strong> {{$private_sold}}
+                            </td>
+                        </tr>
+                    </table>
+                    <script>
+                        $(".total-sold-auction-and-private-sale-{{$batch->id}}").sparkline([<?php echo $auction_sold ?>, <?php echo $private_sold ?>], {
+                            type: 'pie',
+                            //tooltipFormat: '@{{offset:offset}} @{{value}}',
+                            tooltipValueLookups: {
+                                'offset': {
+                                    0: '{{trans("sellerBoats.sold_at_auction")}}',
+                                    1: '{{trans("sellerBoats.sold_at_private_sale")}}'
+                                }
+                            },
+                            height: '25px',
+                            sliceColors: ['#8e44ad', '#16a085']
+                        });
+                    </script>
+                </td>
+                <td>
+                    @can('createAuction',$batch)
+                        @if($remainder>0)
+                            <a href="{{ route('auction.create_from_batch',$batch) }}" class="btn btn-action">Crear
+                                subasta</a>
+                        @endif
+                    @endif
+
+                    @can('deleteBatch',$batch)
+                        <a href="{{ route('sellerboat.batch.delete',$batch) }}" class="btn btn-action deleteBatch">Borrar
+                            Lote</a>
+                    @endcan
+
+                    @can('makeDirectBid',$batch)
+                        @if($remainder>0)
+                            <a href="{{ url('/priavatesale/'.$batch->id) }}" class="btn btn-action">Venta Privada</a>
+                        @endif
+                    @endcan
+
+                    <div class="modal inmodal fade" id="batch-edit-Modal-{{ $batch->id }}" tabindex="-1" role="dialog"
+                         aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                            <form action="{{ url('editbatch') }}" method="post" style="display: inline-block;">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h3>Editar Lote de {{ $batch->product->name  }} </h3>
+                                    </div>
+                                    <div class="modal-body text-center">
+
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="col-lg-5">
+                                                    <div><h3>Vendidos</h3></div>
+                                                    <div class="amountBatch">{{ $total_sold  }}</div>
+                                                    <div><h3>Asignados</h3></div>
+                                                    <div class="amountBatch">{{ $assigned_auction }}</div>
+
+                                                </div>
+                                                <div class="col-lg-1">
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div><h3>Total</h3></div>
+                                                    <br>
+                                                    <div class="text-center">
+                                                        <input type="hidden" name="hBatchId" value="{{ $batch->id  }}">
+                                                        <input type="number" min="{{ $minEditBatch }}"
+                                                               value="{{ $total_sold_unsold  }}" name="amount"
+                                                               class="form-control bfh-number"/>
+                                                        <small>{{ trans('general.product_units.'.$batch->product->unit) }}</small>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="modal-footer">
+
+                                        {{ csrf_field() }}
+                                        <button type="submit"
+                                                class="btn btn-primary">{{ trans('general.accept') }}</button>
+
+                                        <button type="button" class="btn btn-danger"
+                                                data-dismiss="modal">{{ trans('general.cancel') }}</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </td>
+            </tr>
+
+            @endforeach
+
+            </tbody>
+    </table>
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').each(function (k, v) {
+                var id = $(v).data('id');
+                var quality = $(v).data('quality');
+
+                $('#quality_' + id).raty({
+                    readOnly: true,
+                    score: quality,
+                    starType: 'i',
+                    hints: ['1 Estrella', '2 Estrellas', '3 Estrellas', '4 Estrellas', '5 Estrellas']
+                });
+
+                $(v).attr('title', $('#estrellas_' + id).html());
+
+                $(v).tooltip({
+                    html: true
+                });
+            })
+
+        });
+
+        $(document).ready(function () {
+            $(".deleteBatch").unbind().click(function () {
+                if (!confirm('Esta seguro que desea borrar este lote?')) {
+                    return false;
+                }
+            });
+        });
+
+    </script>
 @endif
 
 <style>
-	.tooltip-inner {
-		white-space:pre-wrap;
-	}
+    .tooltip-inner {
+        white-space: pre-wrap;
+    }
 </style>

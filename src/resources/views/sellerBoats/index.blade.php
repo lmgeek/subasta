@@ -98,11 +98,11 @@
                     { "width": "15%" }
                 ]
             });
-			
+
 			$(function () {
 			  $('[data-toggle="tooltip"]').tooltip()
 			})
-			
+
         });
 
     </script>

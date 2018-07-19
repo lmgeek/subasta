@@ -12,17 +12,17 @@
 <div class="categories" >
     <div class="container">
         <div class="row">
-            <div class="col-md-4 categories-left">
+            <div class="col-md-4 col-xs-12 categories-left">
                 <div class="vbar"></div>
                 <img alt="image" width="30%" height="30%" src="{{ asset('/landing/img/icono_ofertas_pescdo.png') }}" />
                 <div class="vbar2"></div>
             </div>
-            <div class="col-md-4 categories-center">
+            <div class="col-md-4 col-xs-12 categories-center">
                 <div class="vbar"></div>
                 <img alt="image" width="30%" height="30%" src="{{ asset('/landing/img/icono_subastas_barco.png') }}" />
                 <div class="vbar2"></div>
             </div>
-            <div class="col-md-4 categories-right">
+            <div class="col-md-4 col-xs-12 categories-right">
                 <div class="vbar"></div>
                 <img alt="image" width="30%" height="30%" src="{{ asset('/landing/img/icono_exportacion_mundo.png') }}" />
                 <div class="vbar2"></div>

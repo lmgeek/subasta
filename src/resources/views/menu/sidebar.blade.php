@@ -6,7 +6,7 @@
                 @include('menu.partials.profile')
 
                 <div class="logo-element">
-                    <img src="{{ asset('/images/logo.png') }}" alt="" style="max-width: 49px"/>
+                    <img src="{{ asset('/img/logo__large_plus.png') }}" alt="" style="max-width: 49px"/>
                 </div>
             </li>
             @include('menu.partials.menu.'.Auth::user()->type)

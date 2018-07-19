@@ -1,5 +1,8 @@
+    <li>
+        <a href="{{ url('/') }}"><i class="fa fa-dashboard"></i> <span class="nav-label">{{ trans('general.dashboard') }}</span></a>
+    </li>
     <li @if (Request::is('home*')) class="active" @endif>
-        <a href="{{ url('/home') }}"><i class="fa fa-dashboard"></i> <span class="nav-label">{{ trans('general.dashboard') }}</span></a>
+        <a href="{{ url('/home') }}"><i class="fa fa-dashboard"></i> <span class="nav-label">{{ Lang::get('Dashboard') }}</span></a>
     </li>
     @can('seeUsersList',Auth::user())
         <li @if (Request::is('users*')) class="active" @endif>
