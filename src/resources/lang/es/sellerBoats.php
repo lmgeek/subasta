@@ -5,7 +5,7 @@ return [
     'boat' => 'Barco',
     'datetime' => 'Fecha y hora',
     'name' => 'Nombre',
-    'matricula' => 'Matricula',
+    'matricula' => 'Matrícula',
     'status' => [
         'title' => 'Estado',
         'pending' => 'Pendiente',
@@ -17,19 +17,19 @@ return [
     ],
     'new_boat' => 'Agregar Barco',
 
-    'boat_info' => 'Informacion del barco',
+    'boat_info' => 'Información del barco',
     'boat_added_msg' => 'El barco fue agregado correctamente',
 
     'boat_arrive_title' => 'Arribo de barco',
-    'boat_arrive_info' => 'Informacion de arribo de barco',
+    'boat_arrive_info' => 'Información de arribo de barco',
     'save_arrive' => 'Guardar arribo',
     'cancel' => 'Cancelar',
 
     'batch_register' => 'Registro de lote del barco :boatName',
-    'batch_info' => 'Informacion de los Lotes',
+    'batch_info' => 'Información de los Lotes',
     'add_batch' => 'Agregar lote',
     'new_batch' => 'Nuevo lote',
-	'edit_batch' => 'El total se actualizo correctamente',
+	'edit_batch' => 'El total se actualizó correctamente',
     'caliber' => 'Calibre',
     'amount' => 'Cantidad',
     'quality' => 'Calidad',
@@ -50,8 +50,8 @@ return [
 	'type_sales' => 'Tipo de venta',
     'save_batch'  =>'Guardar Lote',
 
-    'batch_no_result' => 'Para agregar un lote precione el boton "Agregar Lote"',
-    'delete_batch_confirm' => 'Esta seguro que desea borrar el lote?',
+    'batch_no_result' => 'Para agregar un lote presione el botón "Agregar Lote"',
+    'delete_batch_confirm' => '¿Está seguro que desea borrar el lote?',
     'batch_delete' => 'Borrar Lote',
 	'listbatch' => 'Mis lotes',
 	'addbatch' => 'Agregar arribo',
