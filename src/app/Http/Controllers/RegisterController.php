@@ -2,18 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\SendEmail;
-use Illuminate\Http\Request;
-use App\Http\Requests;
-use App\Http\Requests\RegisterNewUserRequest;
-use App\User;
-use Auth;
-use Session;
 use App\Comprador;
+use App\Http\Requests\RegisterNewUserRequest;
+use App\Jobs\SendEmail;
+use App\User;
 use App\Vendedor;
-use App\Http\Controllers\Controller;
+use Auth;
 use Hash;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Session;
 
 class RegisterController extends Controller
 {
@@ -26,115 +24,173 @@ class RegisterController extends Controller
     {
         //  
     }
-	
-	public function getRegisterBuyer(Request $request)
-	{
-		return view('buyer');
-	}
-	
-	public function getRegisterSeller(Request $request)
-	{	
-		 return view('seller');
-	}
-	
-	public function postRegisterBuyer(RegisterNewUserRequest $request)
-	{	
-		$name = $request->input('name');
-		$dni = $request->input('dni');
-		$email = $request->input('email');
-		$password = $request->input('password');
-		$phone = $request->input('phone');
-		
-		$user = new User();
+
+    public function getRegisterBuyer(Request $request)
+    {
+        return view('buyer');
+    }
+
+    public function getRegisterSeller(Request $request)
+    {
+        return view('seller');
+    }
+
+    public function postRegisterBuyer(RegisterNewUserRequest $request)
+    {
+        $name = $request->input('name');
+        $lastname = $request->input('lastname');
+        $dni = $request->input('dni');
+        $email = $request->input('email');
+        $password = $request->input('password');
+        $phone = $request->input('phone');
+
+        $user = new User();
         $user->name = $name;
+        $user->lastname = $lastname;
         $user->email = $email;
         $user->password = Hash::make($password);
-		$user->phone = $phone;
+        $user->phone = $phone;
         $user->type = User::COMPRADOR;
         $user->status = User::PENDIENTE;
+        $user->hash = $this->generateRandomString(45);
 
-        if ($user->save())
-		{
-			$comprador = new Comprador();
-			$comprador->user_id = $user->id;
-			$comprador->dni = $dni;
-			$comprador->save();
-		}
+        if ($user->save()) {
+            $comprador = new Comprador();
+            $comprador->user_id = $user->id;
+            $comprador->dni = $dni;
+            $comprador->save();
+        }
 
-		$this->notifyNewUserToAdmins($user);
-	
-		$template = 'emails.'.User::COMPRADOR.'.'.'welcome';
-		Mail::queue($template, ['user' => $user ] , function ($message) use ($user) {
-			$message->from(
-				env('MAIL_ADDRESS_SYSTEM','sistema@subastas.com.ar'),
-				env('MAIL_ADDRESS_SYSTEM_NAME','Subastas')
-			);
-			$message->subject(trans('users.email_welcome_title'));
-			$message->to($user->email);
-		});
-		
-		 
-		 Auth::login($user);
-		 Session::flash('register_message', true);
-		 return redirect('home');
+        $this->notifyNewUserToAdmins($user);
 
-	}
-	
-	public function postRegisterSeller(RegisterNewUserRequest $request)
-	{	
-		$name = $request->input('name');
-		$cuit = $request->input('cuit');
-		$email = $request->input('email');
-		$password = $request->input('password');
-		$phone = $request->input('phone');
-		
-		$user = new User();
+        $template = 'emails.' . User::COMPRADOR . '.' . 'verify';
+        Mail::send($template, ['user' => $user], function ($message) use ($user) {
+            $message->from(
+                env('MAIL_ADDRESS_SYSTEM', 'sistema@subastas.com.ar'),
+                env('MAIL_ADDRESS_SYSTEM_NAME', 'Subastas')
+            );
+            $message->subject(trans('users.email_welcome_title'));
+            $message->to($user->email);
+        });
+        Session::flash('register_message', true);
+        return redirect('auth/login');
+
+    }
+
+    public function postRegisterSeller(RegisterNewUserRequest $request)
+    {
+        $name = $request->input('name');
+        $lastname = $request->input('lastname');
+        $cuit = $request->input('cuit');
+        $email = $request->input('email');
+        $password = $request->input('password');
+        $phone = $request->input('phone');
+
+        $user = new User();
         $user->name = $name;
+        $user->lastname = $lastname;
         $user->email = $email;
         $user->password = Hash::make($password);
-		$user->phone = $phone;
+        $user->phone = $phone;
         $user->type = User::VENDEDOR;
         $user->status = User::PENDIENTE;
+        $user->hash = $this->generateRandomString(45);
 
-        if ($user->save())
-		{
-			$vendedor = new Vendedor();
-			$vendedor->user_id = $user->id;
-			$vendedor->cuit = $cuit;
-			$vendedor->save();
-		}
+        if ($user->save()) {
+            $vendedor = new Vendedor();
+            $vendedor->user_id = $user->id;
+            $vendedor->cuit = $cuit;
+            $vendedor->save();
+        }
 
-		$this->notifyNewUserToAdmins($user);
+        $this->notifyNewUserToAdmins($user);
 
-		$template = 'emails.'.User::VENDEDOR.'.'.'welcome';
-		Mail::queue($template, ['user' => $user] , function ($message) use ($user) {
-			$message->from(
-				env('MAIL_ADDRESS_SYSTEM','sistema@subastas.com.ar'),
-				env('MAIL_ADDRESS_SYSTEM_NAME','Subastas')
-			);
-			$message->subject(trans('users.email_welcome_title'));
-			$message->to($user->email);
-		});
-		 
-		 Auth::login($user);
-		 Session::flash('register_message', true);
-		 return redirect('home');
+        $template = 'emails.' . User::VENDEDOR . '.' . 'verify';
+        Mail::send($template, ['user' => $user], function ($message) use ($user) {
+            $message->from(
+                env('MAIL_ADDRESS_SYSTEM', 'sistema@subastas.com.ar'),
+                env('MAIL_ADDRESS_SYSTEM_NAME', 'Subastas')
+            );
+            $message->subject(trans('users.email_welcome_title'));
+            $message->to($user->email);
+        });
 
-	}
-	
-	public function notifyNewUserToAdmins($user){
-		$adminUsers = User::where('type',User::INTERNAL)->get();
-		foreach ($adminUsers as $AdminUser) {
-			Mail::queue('emails.internal.newUser', [ 'user' => $user ] , function ($message) use ($AdminUser) {
-				$message->from(
-					env('MAIL_ADDRESS_SYSTEM','sistema@subastas.com.ar'),
-					env('MAIL_ADDRESS_SYSTEM_NAME','Subastas')
-				);
-				$message->subject( trans('emails.internal.newUser.title'));
-				$message->to($AdminUser->email,$AdminUser->name);
-			});
-		}
-	}
+        Session::flash('register_message', true);
+        return redirect('auth/login');
+
+    }
+
+    public function notifyNewUserToAdmins($user)
+    {
+        $adminUsers = User::where('type', User::INTERNAL)->get();
+        foreach ($adminUsers as $AdminUser) {
+            Mail::queue('emails.internal.newUser', ['user' => $user], function ($message) use ($AdminUser) {
+                $message->from(
+                    env('MAIL_ADDRESS_SYSTEM', 'sistema@subastas.com.ar'),
+                    env('MAIL_ADDRESS_SYSTEM_NAME', 'Subastas')
+                );
+                $message->subject(trans('emails.internal.newUser.title'));
+                $message->to($AdminUser->email, $AdminUser->name);
+            });
+        }
+    }
+
+    public function verifyUsersEmail($hash){
+        $user = User::where('hash', $hash)->first();
+        $dbdate = strtotime($user->updated_at);
+        if (time() - $dbdate > 15 * 60) {
+            $this->updateHashUser($hash);
+            Session::flash('register_message_fail', true);
+            return redirect('auth/login');
+        }
+
+        if($user && $user->active_mail == 0){
+            $user->active_mail =  1;
+            $user->update();
+        }
+
+        $template = 'emails.' . User::COMPRADOR . '.' . 'welcome';
+        Mail::send($template, ['user' => $user], function ($message) use ($user) {
+            $message->from(
+                env('MAIL_ADDRESS_SYSTEM', 'sistema@subastas.com.ar'),
+                env('MAIL_ADDRESS_SYSTEM_NAME', 'Subastas')
+            );
+            $message->subject(trans('users.email_welcome_title'));
+            $message->to($user->email);
+        });
+
+        Auth::login($user);
+        Session::flash('register_message', true);
+        return redirect('home');
+    }
+
+    function generateRandomString($length = 10) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+
+    public function updateHashUser($hash){
+        $user = User::where('hash', $hash)->first();
+        $user->hash =  $this->generateRandomString(45);
+        $user->update();
+
+        $template = 'emails.' . User::COMPRADOR . '.' . 'verify';
+        Mail::send($template, ['user' => $user], function ($message) use ($user) {
+            $message->from(
+                env('MAIL_ADDRESS_SYSTEM', 'sistema@subastas.com.ar'),
+                env('MAIL_ADDRESS_SYSTEM_NAME', 'Subastas')
+            );
+            $message->subject(trans('users.email_welcome_title'));
+            $message->to($user->email);
+        });
+
+
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -149,7 +205,7 @@ class RegisterController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -160,7 +216,7 @@ class RegisterController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -171,7 +227,7 @@ class RegisterController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -182,8 +238,8 @@ class RegisterController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -194,7 +250,7 @@ class RegisterController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

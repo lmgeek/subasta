@@ -59,6 +59,7 @@ return [
     'email' => 'Email',
     'bid_limit' => 'Superó el limite de comprar, no podrá seguir comprando hasta que se concreten las compras realizadas.',
 	'unauthorized' => 'El usuario actual no está autorizado para realizar compras.',
+	'pending' => 'El usuario actual no se encuentra aprobado.',
     'process' => 'Procesar',
     'operation_status' => 'Estado Operacion',
     'qualify_operation' => 'Calificar Operacion',
