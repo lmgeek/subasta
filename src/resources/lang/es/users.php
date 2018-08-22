@@ -45,7 +45,8 @@ return [
     'accept_user_confirm_msg' => 'Esta seguro que desea aprobar al usuario?',
     'reject_user_msg' => 'El usuario fue rechazdo',
     'reject_user_confirm_msg' => 'Esta seguro que desea rechazar al usuario?',
-    'user_pending' => 'Usuario pendiente de aprobación'
+    'user_pending' => 'Usuario pendiente de aprobación',
+    'user_pending_mail' => 'Correo pendiente por verificación.',
 
 
 ];
