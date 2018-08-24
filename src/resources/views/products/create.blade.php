@@ -45,12 +45,21 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-12">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="weigth">{{ trans('products.weigth') }}</label>
+                                        <input type="number" name="weigth" class="form-control" id="weigth" value="{{ old('weigth') }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputFile">{{ trans('products.image') }}</label>
-                                        <input type="file" id="imagen" name="imagen">
+                                        <input type="file" id="imagen" name="imagen" onchange="readImage()">
                                         <p class="help-block">{{ trans('products.image_upload_help') }}</p>
                                     </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div id="preview"></div>
                                 </div>
                                 <div class="ibox-footer text-right">
                                     <button type="submit" class="btn btn-primary">Guardar</button>
@@ -64,6 +73,50 @@
             </div>
         </div>
     </div>
+    <script>
+        //Limpiar input type=file
+        function resetFile() {
+            const file = document.getElementById('imagen');
+            file.value = '';
+        }
+
+        function readImage(){
+            var uploadFile = document.getElementById('imagen').files[0];
+            var Preview = document.getElementById("preview");
+
+            if (!window.FileReader) {
+                alert('El navegador no soporta la lectura de archivos');
+                return;
+            }
+
+            if (!(/\.(jpg|jpeg|png|gif)$/i).test(uploadFile.name)) {
+                alert('El archivo a adjuntar no es una imagen');
+                resetFile();
+                return false;
+            }
+            else {
+                var img = new Image();
+                img.onload = function () {
+                    if (this.width.toFixed(0) != 172 && this.height.toFixed(0) != 102) {
+                        alert('Las medidas deben ser: 172 x 102 pixeles');
+                        resetFile();
+                        return false;
+                    }
+                    else if (uploadFile.size > 2097152)
+                    {
+                        alert('El peso de la imagen no puede exceder los 2MB')
+                        resetFile();
+                        return false;
+                    }
+                    else {
+                        Preview.appendChild(this);
+                    }
+                };
+                img.src = URL.createObjectURL(uploadFile);
+            }
+        }
+
+    </script>
 @endsection
 
 @section('scripts')

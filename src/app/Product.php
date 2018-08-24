@@ -9,8 +9,10 @@ class Product extends Model
 {
     use SoftDeletes;
 
-    const CAJONES = "boxes";
-    const UNIDADES = "unity";
+    const CAJONES = "cajones";
+    const CAJAS = "cajas";
+    const PASTILLAS = "pastillas";
+    const UNIDADES = "unidad";
 
     const CHICO = "small";
     const MEDIANO = "medium";
@@ -19,12 +21,14 @@ class Product extends Model
     protected $table = 'products';
 
     protected $dates = ['deleted_at'];
-    protected $fillable = ['name', 'unit','image_name'];
+    protected $fillable = ['name', 'unit','weigth','image_name'];
 
     public static function units()
     {
         return [
             self::CAJONES,
+            self::CAJAS,
+            self::PASTILLAS,
             self::UNIDADES
         ];
     }

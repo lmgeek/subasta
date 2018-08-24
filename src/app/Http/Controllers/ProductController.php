@@ -48,6 +48,7 @@ class ProductController extends Controller
         $prod = new Product();
         $prod->name = $request->input('nombre');
         $prod->unit = $request->input('unidad');
+        $prod->weigth = $request->input('weigth');
         $prod->image_name = $fileName;
         $prod->save();
 
@@ -101,6 +102,7 @@ class ProductController extends Controller
 
         $prod->name = $request->input('nombre');
         $prod->unit = $request->input('unidad');
+        $prod->weigth = $request->input('weigth');
         $prod->save();
 
         return redirect('/products');

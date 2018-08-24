@@ -2,11 +2,12 @@
 return [
     'title' => 'Productos',
     'new' => 'Nuevo Producto',
-    'productInfo' => 'Informacion del Producto',
+    'productInfo' => 'Información del Producto',
     'name' => 'Nombre',
     'unit' => 'Unidad',
     'image' => 'Imagen',
-    'image_upload_help' => 'La imagen debe tener un maximo de 2 Mb',
+    'weigth' => 'Peso aproximado por Unidad (Kg.)',
+    'image_upload_help' => 'La imagen debe tener un máximo de 2 Mb y una dimensión de 152x64 pixeles',
     'actual_image' => 'Imagen actual',
 
 
