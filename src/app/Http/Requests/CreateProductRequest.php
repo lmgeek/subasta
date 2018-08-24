@@ -26,12 +26,6 @@ class CreateProductRequest extends Request
      */
     public function rules()
     {
-        if (file_exists("mifichero.txt")){
-            echo "El fichero existe";
-        }else{
-            echo "El fichero no existe";
-        }
-
         $prod = Product::withTrashed()
             ->where('name', $this->nombre)
             ->Where('unit', $this->unidad)
