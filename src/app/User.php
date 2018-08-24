@@ -162,4 +162,7 @@ class User extends Model implements AuthenticatableContract,
 
         return $rtrn;
     }
+    public function privateAuctions(){
+        return $this->belongsToMany('App\Auction','auctions_invites');
+    }
 }

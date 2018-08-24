@@ -4,7 +4,7 @@ return [
     'newUser' => [
         'title' => 'Nuevo usuario registrado',
         'msg1' => 'Un nuevo usuario se ha re registrado en la plataforma.',
-        'msg2' => 'Haga click en el siguiente enlace para ver su informacion.',
+        'msg2' => 'Haga click en el siguiente enlace para ver su información.',
         'view_user' => 'Ver usuario',
     ]
   ]
