@@ -45,13 +45,15 @@ class ProductController extends Controller
         $fileName = $request->file('imagen')->getClientOriginalName();
 
         if ( file_exists('img/products/'.$fileName) ){
+
             $fileExt = $request->file('imagen')->getClientOriginalExtension();
-            $fileNameNew =  $request->input('nombre') . "-" . $request->input('unidad') . "." . $fileExt;
-//            dd($fileNameNew);
-            $request->file('imagen')->move( 'img/products',$fileNameNew );
-        } else {
+            $fileName =  $request->input('nombre') . "-" . $request->input('unidad') . "." . $fileExt;
             $request->file('imagen')->move( 'img/products',$fileName );
-//            dd($fileName);
+
+        } else {
+
+            $request->file('imagen')->move( 'img/products',$fileName );
+            
         }
 
 
