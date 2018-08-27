@@ -43,7 +43,17 @@ class ProductController extends Controller
     public function store(CreateProductRequest $request)
     {
         $fileName = $request->file('imagen')->getClientOriginalName();
-        $request->file('imagen')->move( 'img/products',$fileName );
+
+        if ( file_exists('img/products/'.$fileName) ){
+            $fileExt = $request->file('imagen')->getClientOriginalExtension();
+            $fileNameNew =  $request->input('nombre') . "-" . $request->input('unidad') . "." . $fileExt;
+//            dd($fileNameNew);
+            $request->file('imagen')->move( 'img/products',$fileNameNew );
+        } else {
+            $request->file('imagen')->move( 'img/products',$fileName );
+//            dd($fileName);
+        }
+
 
         $prod = new Product();
         $prod->name = $request->input('nombre');
