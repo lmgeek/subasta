@@ -53,7 +53,7 @@ class ProductController extends Controller
         } else {
 
             $request->file('imagen')->move( 'img/products',$fileName );
-            
+
         }
 
 
