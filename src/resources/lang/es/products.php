@@ -2,7 +2,7 @@
 return [
     'title' => 'Productos',
     'new' => 'Nuevo Producto',
-    'productInfo' => 'Informacion del Producto',
+    'productInfo' => 'Informaci&oacute;n del Producto',
     'name' => 'Nombre',
     'unit' => 'Unidad',
     'image' => 'Imagen',

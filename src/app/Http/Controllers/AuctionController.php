@@ -3,24 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Auction;
-use App\Batch;
-use App\Boat;
-use App\Bid;
-use App\Product;
-use App\User;
 use App\AuctionInvited;
-use App\UserRating;
+use App\Batch;
+use App\Bid;
+use App\Boat;
 use App\Http\Requests\CreateAuctionRequest;
 use App\Http\Requests\ProcessBidRequest;
 use App\Http\Requests\SellerQualifyRequest;
 use App\Http\Requests\UpdateAuctionRequest;
-use Illuminate\Http\Request;
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
+use App\Product;
+use App\User;
+use App\UserRating;
 use Auth;
-use Excel;
 use Carbon\Carbon;
+use Excel;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
 class AuctionController extends Controller
@@ -33,6 +31,7 @@ class AuctionController extends Controller
     public function index(Request $request)
     {
         $this->authorize('seeAuctions', Auction::class);
+//        dd(Auth::user()->privateAuctions[0]->userInvited);
 
         $status = $request->get('status',Auction::IN_CURSE);
 		$product = $request->get('product',null);
@@ -85,11 +84,14 @@ class AuctionController extends Controller
      */
     public function create($id)
     {
-
         $batch = Batch::findOrFail($id);
         $this->authorize('createAuction', $batch);
-	
 		$buyers = User::filter(null, array(User::COMPRADOR), array(User::APROBADO));
+		$array_buyers = [];
+		foreach ($buyers as $buyer){
+		    $array_buyers[$buyer->id] = $buyer->name;
+        }
+        $buyers = $array_buyers;
 
         return view('auction.create',compact('buyers'))->with('batch',$batch);
     }
@@ -102,7 +104,6 @@ class AuctionController extends Controller
      */
     public function store(CreateAuctionRequest $request)
     {
-
         $batch = Batch::findOrFail($request->input('batch'));
         $this->authorize('createAuction', $batch);
 
@@ -143,10 +144,7 @@ class AuctionController extends Controller
 					$message->subject(trans('users.private_auction'));
 					$message->to($user->email);
 				});
-				
-				
-				
-				
+
 			}
 			
 			
@@ -559,7 +557,7 @@ class AuctionController extends Controller
 
 		$data = [
 			[""],
-			["Informacion ventas"],
+			["Información ventas"],
 			[""],
 			[
 				'Comprador',
@@ -598,7 +596,7 @@ class AuctionController extends Controller
 
 		$data = [
 			[
-				"Informacion de la subasta"
+				"Información de la subasta"
 			],
 			[
 				"Barco"
@@ -673,7 +671,6 @@ class AuctionController extends Controller
 	public function subastaHome(Request $request)
     {
         // $this->authorize('seeAuctions', Auction::class);
-
         $status = $request->get('status',Auction::IN_CURSE);
 		$product = $request->get('product',null);
 		$seller = $request->get('seller',null);
@@ -681,12 +678,14 @@ class AuctionController extends Controller
 		
 		$auction_id = $request->get('auction_id',null);
 		$invited = $request->get('invited',null);
-		$type = $request->get('type',null);
+		$type = $request->get('type',Auction::AUCTION_PUBLIC);
 		
 		
-		$auctions = Auction::filterAndPaginate($status,$product,$seller,$boat);
-		
-		// dd($auctions);
+		$auctions = Auction::filterAndPaginate($status,$product,$seller,$boat,$type,true);
+//        dump($auctions);
+//        $auctions = Auction::getClosingAuction();
+        $array_auctions = [];
+
 		$products = array();
 		$sellers =  array();
 		$boats = array();
@@ -714,7 +713,11 @@ class AuctionController extends Controller
 		
         return view('landing',compact('auctions','status','products','sellers','request','boats','userRating','type'));
     }
+    public function getParticipantes(Request $request){
 
+	    $auction = Auction::find($request->get("auction"));
+	    return $auction->userInvited;
+    }
 
 
 

@@ -2,10 +2,17 @@
     <div class="col-md-12" style="margin-top: 5px">
         <div class="row" >
 			<input type="hidden" class="auctionIds" value="{{ $a->id }}" />
-            <div class="col-md-12 text-center"><label>{{ $a->batch->product->name }} {{ trans('general.product_caliber.'.$a->batch->caliber) }}</label></div>
+            <div class="col-md-12 text-center">
+				<label>
+					{{ $a->batch->product->name }} {{ trans('general.product_caliber.'.$a->batch->caliber) }}
+				</label>
+			</div>
         </div>
         <div class="row" >
-            <div class="col-md-12 text-center"><div data-score="{{ $a->batch->quality }}" class="quality text-warning" style="font-size: 8px; display: inline-block;"></div></div>
+            <div class="col-md-12 text-center">
+				<div data-score="{{ $a->batch->quality }}" class="quality text-warning" style="font-size: 8px; display: inline-block;">
+				</div>
+			</div>
         </div>
         <div class="row" >
             @if(isset($sellerAuction) and $sellerAuction==true)
@@ -20,7 +27,15 @@
             @endif
 			
 			@if (!is_null($a->batch->product->image_name) and file_exists('img/products/'.$a->batch->product->image_name) )
-				<center><a href="#" data-target="#product-Modal-{{ $a->id }}"  data-toggle="modal" class="product-img" auction="{{ $a->id }}" ><i data-toggle="tooltip" title="Imagen del producto" class="fa fa-image"></i></a></center>
+				<center>
+					<a href="#" data-target="#product-Modal-{{ $a->id }}"  data-toggle="modal" class="product-img" auction="{{ $a->id }}" >
+						<i data-toggle="tooltip" title="Imagen del producto" class="fa fa-image">
+						</i>
+					</a>
+				</center>
+				<div class="col-md-12 text-center">
+					{{ trans("auction.".$a->type) }}
+				</div>
 				<div class="modal  fade modal-product" id="product-Modal-{{ $a->id }}" tabindex="-1" role="dialog"  aria-hidden="true">
 					<div class="modal-dialog ">
 						<div class="modal-content">
@@ -42,7 +57,6 @@
 					</div>
 				</div>
 			@endif
-			
         </div>
 		
     </div>
