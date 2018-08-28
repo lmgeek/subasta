@@ -50,7 +50,7 @@ return [
 	'type_sales' => 'Tipo de venta',
     'save_batch'  =>'Guardar Lote',
 
-    'batch_no_result' => 'Para agregar un lote presione el botón "Agregar Lote"',
+    'batch_no_result' => 'Para agregar un lote presione el botón "Agregar lote"',
     'delete_batch_confirm' => '¿Está seguro que desea borrar el lote?',
     'batch_delete' => 'Borrar Lote',
 	'listbatch' => 'Mis lotes',

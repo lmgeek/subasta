@@ -25,7 +25,7 @@
                                     </tr>
                                     <tr>
                                         <td class="content-block">
-                                            <p>Usted. se ha registrado correctamente como comprador, y para finalizar su registrar necesita verificar su correo electrónico, haga clic en el siguiente enlace para terminar el proceso o cópielo y pegeló en su barra de navegación.</p>
+                                            <p>Hemos ingresado sus datos como comprador. Para completar el proceso de verificación de email, haga clic en el siguiente enlace o cópielo y pégelo en su barra de navegación. Este enlace expirará en 15 minutos.</p>
 
                                             Enlance: <a href="{{url('/')}}/verifica/correo/{{ $user['hash'] }}">{{url('/')}}/verifica/correo/{{ $user['hash'] }}</a>
                                         </td>
