@@ -17,16 +17,16 @@ return [
     ],
     'new_boat' => 'Agregar Barco',
 
-    'boat_info' => 'Información del barco',
+    'boat_info' => 'Informaci&oacute;n del barco',
     'boat_added_msg' => 'El barco fue agregado correctamente',
 
     'boat_arrive_title' => 'Arribo de barco',
-    'boat_arrive_info' => 'Información de arribo de barco',
+    'boat_arrive_info' => 'Informaci&oacute;n de arribo de barco',
     'save_arrive' => 'Guardar arribo',
     'cancel' => 'Cancelar',
 
     'batch_register' => 'Registro de lote del barco :boatName',
-    'batch_info' => 'Información de los Lotes',
+    'batch_info' => 'Informaci&oacute;n de los Lotes',
     'add_batch' => 'Agregar lote',
     'new_batch' => 'Nuevo lote',
 	'edit_batch' => 'El total se actualizó correctamente',

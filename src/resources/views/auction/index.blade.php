@@ -38,7 +38,7 @@
                         @else
                             @foreach ($auctions as $a)
                                 <div class="auction row">
-                                    <div class="col-md-2">
+                                    <div class="col-md-2" style="margin-bottom: 5px;">
                                         @include('auction.partials.auctionInfo')
                                     </div>
                                     <div class="col-md-3 text-center">
@@ -86,7 +86,31 @@
                     </div>
                 </div>
             </div>
+			<div class="modal  fade modal-product" id="ver_participantes" tabindex="-1" role="dialog"  aria-hidden="true">
+				<div class="modal-dialog ">
+					<div class="modal-content">
+						<div class="modal-header">
 
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button><h3><center>Lista de participantes</center></h3>
+						</div>
+						<div class="modal-body text-center">
+							<div class="row">
+								<div class="col-md-12 text-center">
+									<center>
+										<ul class="list-group" id="participantes">
+											<li class="list-group-item">Felix</li>
+											<li class="list-group-item">Ale</li>
+											<li class="list-group-item">Luis</li>
+										</ul>
+									</center>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
         </div>
     </div>
 @endsection
@@ -188,6 +212,26 @@
 
 
 	$(document).ready(function(){
+	    $(".ver_participantes").click(function (e) {
+            var lista_participantes = $("ul#participantes");
+            lista_participantes.html("");
+            var id = $(this).attr("data-target");
+			var auction = $(this).attr("auction");
+			$.ajax({
+				type: "POST",
+				url: "{{ url('/get/participantes') }}",
+				data:{auction:auction, _token: "{{ csrf_token() }}"},
+				success: function (data) {
+				    console.log(data);
+					$.each(data,function(i,val){
+						lista_participantes.append(
+						  `<li class="list-group-item">${val.name}</li>`
+						);
+					});
+                    $(id).modal('show');
+                }
+			});
+        });
 
 
 		$('.chosen-select').chosen({width:"100%"});
@@ -249,6 +293,12 @@
                 }else{
                     nuevoValor = valores[0]-1;
                 }
+                if (nuevoValor == 0){
+                    $(this).parent().parent().parent().parent().parent().fadeOut(400,function(){
+                        // on Animation Complete remove object from DOM
+                        $(this).remove();
+					});
+				}
                 $(v).val(nuevoValor).trigger("change");
             });
         }, {{ env('AUCTION_GRAPH_UPDATE_INTERVAL',60000) }});
@@ -312,80 +362,80 @@
 
 		if ( amount <= cDispo  ){
 			$.ajax({
-						  method: "GET",
-						  dataType:"json",
-						  url: "/makeBid?auction_id="+auctionId + "&amount="+amount,
-						  success: function(data)
-						  {
-							if (data.active == 0)
+				method: "GET",
+				dataType:"json",
+				url: "/makeBid?auction_id="+auctionId + "&amount="+amount,
+				success: function(data)
+				{
+					if (data.active == 0)
+					{
+						$(".modal").modal('hide');
+								var note = '';
+									note+= '<table>';
+										note+= '<tr>';
+											note+= '<td colspan="2"><strong>{{ trans("auction.error_auction_cancel") }}</strong></td>';
+										note+= '</tr>';
+									note+= '</table>';
+							showBillError(note);
+					}else {
+						if (data.isnotavailability == 0)
+						{
+							$(".modal").modal('hide');
+								var note = '<table>';
+									note+= '<tr>';
+										note+= '<td colspan="2"><strong>{{ trans("auction.success_bid") }}</strong></td>';
+										note+= '</tr>';
+										note+= '<tr><td colspan="2" style="border-bottom:1px solid"></td>';
+										note+= '</tr>';
+										note+= '<tr>';
+										note+= '<td>{{ trans("auction.success_bid_product") }}</td>';
+										note+= '<td>'+data.product+'</td>';
+										note+= '</tr>';
+										note+= '<tr>';
+										note+= '<td>{{ trans("auction.success_bid_price") }}</td>';
+										note+= '<td>$ '+data.price+'</td>';
+										note+= '</tr>';
+										note+= '<tr>';
+										note+= '<td>{{ trans("auction.success_bid_amount") }}</td>';
+										note+= '<td>'+data.amount+ ' ' + data.unit  + '</td>';
+										note+= '</tr>';
+										note+= '<tr><td colspan="2" style="border-bottom:1px solid"></td>';
+										note+= '</tr>';
+										note+= '<tr>';
+										note+= '<td><strong>{{ trans("auction.success_bid_total") }}</strong></td>';
+										note+= '<td><strong>$ '+(data.price * data.amount)+'</strong></td>';
+										note+= '</tr>';
+									note+= '</tr>';
+								note+='<table>';
+								$(".bid-button-act").attr("disabled",true);
+								showBill(note);
+						}else{
+							var note = '';
+
+							note+= '<div class="alert alert-danger alert-dismissible" role="alert">';
+										note+= '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+										note+= 'Sólo quedan disponibles ' + data.availability + ' ' + data.unit + ' de ' + data.product ;
+							note+= '</div>';
+
+							$(".content-danger-" +auctionId ).html(note);
+							$("#amount-bid-" +auctionId).val(data.availability);
+							$("#amount-bid-" +auctionId).attr('max',data.availability);
+							$(".s-disponible-" +auctionId).html(data.availability);
+
+							var price = $(".hid-currentPrice-"+auctionId).val();
+							var total = price * data.availability;
+							$(".modal-total-"+auctionId).html('Total $' + total.toFixed(2) )
+
+							if (data.availability < 0)
 							{
-								$(".modal").modal('hide');
-										var note = '';
-											note+= '<table>';
-												note+= '<tr>';
-													note+= '<td colspan="2"><strong>{{ trans("auction.error_auction_cancel") }}</strong></td>';
-												note+= '</tr>';
-											note+= '</table>';
-									showBillError(note);
-							}else {
-								if (data.isnotavailability == 0)
-								{
-									$(".modal").modal('hide');
-										var note = '<table>';
-											note+= '<tr>';
-												note+= '<td colspan="2"><strong>{{ trans("auction.success_bid") }}</strong></td>';
-												note+= '</tr>';
-												note+= '<tr><td colspan="2" style="border-bottom:1px solid"></td>';
-												note+= '</tr>';
-												note+= '<tr>';
-												note+= '<td>{{ trans("auction.success_bid_product") }}</td>';
-												note+= '<td>'+data.product+'</td>';
-												note+= '</tr>';
-												note+= '<tr>';
-												note+= '<td>{{ trans("auction.success_bid_price") }}</td>';
-												note+= '<td>$ '+data.price+'</td>';
-												note+= '</tr>';
-												note+= '<tr>';
-												note+= '<td>{{ trans("auction.success_bid_amount") }}</td>';
-												note+= '<td>'+data.amount+ ' ' + data.unit  + '</td>';
-												note+= '</tr>';
-												note+= '<tr><td colspan="2" style="border-bottom:1px solid"></td>';
-												note+= '</tr>';
-												note+= '<tr>';
-												note+= '<td><strong>{{ trans("auction.success_bid_total") }}</strong></td>';
-												note+= '<td><strong>$ '+(data.price * data.amount)+'</strong></td>';
-												note+= '</tr>';
-											note+= '</tr>';
-										note+='<table>';
-										$(".bid-button-act").attr("disabled",true);
-										showBill(note);
-								}else{
-									var note = '';
-
-										note+= '<div class="alert alert-danger alert-dismissible" role="alert">';
-													note+= '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
-													note+= 'Sólo quedan disponibles ' + data.availability + ' ' + data.unit + ' de ' + data.product ;
-										note+= '</div>';
-
-										$(".content-danger-" +auctionId ).html(note);
-										$("#amount-bid-" +auctionId).val(data.availability);
-										$("#amount-bid-" +auctionId).attr('max',data.availability);
-										$(".s-disponible-" +auctionId).html(data.availability);
-
-										var price = $(".hid-currentPrice-"+auctionId).val();
-										var total = price * data.availability;
-										$(".modal-total-"+auctionId).html('Total $' + total.toFixed(2) )
-
-										if (data.availability < 0)
-										{
-											$("#amount-bid-" +auctionId).attr('disabled',true);
-											$(".mak-bid-"+auctionId).hide();
-										}
-
-								}
+								$("#amount-bid-" +auctionId).attr('disabled',true);
+								$(".mak-bid-"+auctionId).hide();
 							}
-						  }
-				});
+
+						}
+					}
+				}
+			});
 		}else{
 
 			var note = '';

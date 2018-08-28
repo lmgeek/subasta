@@ -121,7 +121,8 @@ Route::get('sellerboat/batch/delete/{batch}', [
 
 
 Route::group(['middleware' => ['auth']],function(){
-    Route:resource('sellerboat','SellerBoatsController');
+    Route::resource('sellerboat','SellerBoatsController');
+    Route::post("/get/participantes","AuctionController@getParticipantes");
 });
 Route::group(['middleware' => ['auth']],function(){
     Route:resource('sellerAuction','SellerAuctionController');

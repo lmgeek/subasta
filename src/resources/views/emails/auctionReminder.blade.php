@@ -13,7 +13,7 @@
                         <tbody>
                         <tr>
                             <td colspan="2" class="text-center">
-                                <h3>Informacion de la subasta</h3>
+                                <h3>Informaci&oacute;n de la subasta</h3>
                             </td>
                         </tr>
                         <tr>

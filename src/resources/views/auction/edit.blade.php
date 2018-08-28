@@ -20,7 +20,7 @@
                             <div class="col-md-8"><span>{{ $auction->batch->arrive->boat->name }}</span> </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4"><label>Arrivo:</label></div>
+                            <div class="col-md-4"><label>Arribo:</label></div>
                             <div class="col-md-8"><span>{{ Carbon::parse($auction->batch->arrive->date)->format('H:i:s d/m/Y')  }}</span> </div>
                         </div>
                         <div class="row">
