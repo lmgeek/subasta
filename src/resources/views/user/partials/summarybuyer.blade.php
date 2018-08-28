@@ -15,8 +15,8 @@
                                 <th>Fecha</th>
                                 <th>Barco</th>
                                 <th>Estado</th>
-                                <th>Puntaje Vendedor</th>
-								<th>Puntaje Comprador</th>
+                                <th>Calificación Vendedor</th>
+								<th>Calificación Comprador</th>
                             </tr>
                             </thead>
                             <tbody>

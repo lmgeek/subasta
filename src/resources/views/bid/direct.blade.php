@@ -34,18 +34,18 @@
                                     <h2>{{ trans('general.product_units.'.$batch->product->unit) }}</h2>
                                 </div>
                                 <div class="col-md-8">
-                                    <div class="form-group">
-                                        <label for="peso">Peso promedio por Unidad ( {{ trans('general.product_units.'.$batch->product->unit) }} )</label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" id="peso" name="peso" placeholder="" aria-describedby="basic-addon2" value="{{ old('peso') }}">
-                                            <span class="input-group-addon" id="basic-addon2">Kg</span>
-                                        </div>
-                                    </div>
+                                    {{--<div class="form-group">--}}
+                                        {{--<label for="peso">Peso promedio por Unidad ( {{ trans('general.product_units.'.$batch->product->unit) }} )</label>--}}
+                                        {{--<div class="input-group">--}}
+                                            {{--<input type="text" class="form-control" id="peso" name="peso" placeholder="" aria-describedby="basic-addon2" value="{{ old('peso') }}">--}}
+                                            {{--<span class="input-group-addon" id="basic-addon2">Kg</span>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
                                     <div class="form-group">
                                         <label for="importe">Importe</label>
                                         <div class="input-group">
                                             <span class="input-group-addon" id="basic-addon2">$</span>
-                                            <input type="number" class="form-control" name="importe" id="importe" value="{{ old('importe') }}" placeholder="" aria-describedby="basic-addon2">
+                                            <input type="number" min="0" class="form-control" name="importe" id="importe" value="{{ old('importe') }}" placeholder="" aria-describedby="basic-addon2">
                                         </div>
                                     </div>
                                     <div class="form-group">

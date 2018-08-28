@@ -78,6 +78,7 @@
                         <div class="form-group">
                             <label for="product">Producto</label>
                             <select  class="form-control" name="product" id="product">
+                                <option>Seleccione...</option>
                                 @foreach($products as $p)
                                     <option value="{{ $p->id }}" data-unity="{{ trans('general.product_units.'.$p->unit) }}">{{ $p->name }}</option>
                                 @endforeach
@@ -86,6 +87,7 @@
                         <div class="form-group">
                             <label for="caliber">{{ trans('sellerBoats.caliber') }}</label>
                             <select  class="form-control" name="caliber" id="caliber">
+                                <option>Seleccione...</option>
                                 @foreach($calibers as $c)
                                     <option value="{{ $c }}">{{ trans('general.product_caliber.'.$c) }}</option>
                                 @endforeach
@@ -99,7 +101,7 @@
                         <div class="form-group">
                             <label for="amount">{{ trans('sellerBoats.amount') }}</label>
                             <div class="input-group">
-                                <input type="number" class="form-control" id="amount">
+                                <input type="number" class="form-control" id="amount" min="1">
                                 <span class="input-group-addon" id="unity"></span>
                             </div>
                         </div>
@@ -117,11 +119,11 @@
 @endsection
 
 @section('scripts')
+    <script src="{{ asset('/js/jquery.mask.js') }}"></script>
     <script src="{{ asset('/js/plugins/star_rating/jquery.raty.js') }}"></script>
     <script>
         var c=0;
         $(document).ready(function(){
-		
 			$(".btn-save-batch").attr('disabled',true);
 
             $("#product").change(function(){
@@ -224,6 +226,9 @@
 
             return isOK;
         }
+
+
+        $("#amount").mask('000.000.000.000', {reverse:true});
     </script>
 @endsection
 

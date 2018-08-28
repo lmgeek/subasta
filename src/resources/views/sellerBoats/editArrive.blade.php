@@ -31,7 +31,7 @@
                             <div class="form-group">
                                 <label for="boat_id">{{ trans('sellerBoats.boat') }}</label>
                                 <select class="form-control" id="boat_id" name="boat_id" disabled>
-                                    <option></option>
+                                    <option>Seleccione...</option>
                                     @foreach($boats as $boat)
                                         <option @if($arrive->boat->id == $boat->id) selected @endif value="{{ $boat->id }}">{{ $boat->name }}</option>
                                     @endforeach
