@@ -28,11 +28,11 @@
                         <div class="ibox-content">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">{{ trans('sellerBoats.name') }}</label>
-                                <input type="text" name="name" class="form-control" id="exampleInputEmail1" placeholder="{{ trans('sellerBoats.name') }}" value="{{ old('name') }}">
+                                <input type="text" name="name" class="form-control" id="exampleInputEmail1" placeholder="{{ trans('sellerBoats.name') }}" value="{{ old('name') }}" required minlength="6"  onkeypress="return validaName(event);"  onKeyUp="this.value = this.value.toUpperCase();">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">{{ trans('sellerBoats.matricula') }}</label>
-                                <input type="text" name="matricula" class="form-control" id="exampleInputPassword1" placeholder="{{ trans('sellerBoats.matricula') }}"  value="{{ old('matricula') }}">
+                                <input type="text" name="matricula" class="form-control" id="exampleInputPassword1" placeholder="{{ trans('sellerBoats.matricula') }}"  value="{{ old('matricula') }}" required minlength="4"  onkeypress="return validaMatricula(event);"  onKeyUp="this.value = this.value.toUpperCase();">
                             </div>
                         </div>
                         <div class="ibox-footer text-right">
@@ -44,4 +44,46 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function validaName(e) {
+            key = e.keyCode || e.which;
+            tecla = String.fromCharCode(key).toString();
+            //Se define todo lo que se quiere que se muestre
+            caracter = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ0123456789";
+            especiales = [6, 8, 32, 35, 37, 39, 45, 46, 176];
+
+            tecla_especial = false;
+            for (var i in especiales) {
+                if (key == especiales[i]) {
+                    tecla_especial = true;
+                    break;
+                }
+            }
+            if (caracter.indexOf(tecla) == -1 && !tecla_especial) {
+                // alert('Tecla no aceptada');
+                return false;
+            }
+        }
+
+        function validaMatricula(e) {
+            key = e.keyCode || e.which;
+            tecla = String.fromCharCode(key).toString();
+            //Se define todo lo que se quiere que se muestre
+            caracter = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ0123456789";
+            especiales = [6, 8, 37, 39, 45, 127, 176];
+
+            tecla_especial = false;
+            for (var i in especiales) {
+                if (key == especiales[i]) {
+                    tecla_especial = true;
+                    break;
+                }
+            }
+            if (caracter.indexOf(tecla) == -1 && !tecla_especial) {
+                // alert('Tecla no aceptada');
+                return false;
+            }
+        }
+    </script>
 @endsection

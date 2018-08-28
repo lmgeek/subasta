@@ -19,6 +19,14 @@
 <body class="gray-bg">
 
 <div class="middle-box text-center loginscreen animated fadeInDown">
+    @if (Session::has('register_message'))
+        <br>
+        <div class="alert alert-info">{{trans('register.confirm_register_mail')}}</div>
+    @endif
+        @if (Session::has('register_message_fail'))
+            <br>
+            <div class="alert alert-info">{{trans('register.confirm_register_mail_fail')}}</div>
+        @endif
     <div>
         <div>
             {{--<h1 class="logo-name">IN+</h1>--}}
