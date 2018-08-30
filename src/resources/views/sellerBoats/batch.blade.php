@@ -122,6 +122,14 @@
     <script src="{{ asset('/js/jquery.mask.js') }}"></script>
     <script src="{{ asset('/js/plugins/star_rating/jquery.raty.js') }}"></script>
     <script>
+
+        function decodeEntities(encodedString) {
+            var textArea = document.createElement('textarea');
+            textArea.innerHTML = encodedString;
+            return textArea.value;
+        }
+
+        console.log(decodeEntities('1 &amp; 2'));
         var c=0;
         $(document).ready(function(){
 			$(".btn-save-batch").attr('disabled',true);
@@ -153,7 +161,8 @@
                     );
 
                     $divDelete.click(function () {
-                        if (confirm('{{ trans('sellerBoats.delete_batch_confirm') }}')) {
+                        var msg = decodeEntities('{{ trans('sellerBoats.delete_batch_confirm') }}');
+                        if (confirm(msg)) {
                             $divRow.remove();
 							if ($productsDiv.children().length == 2)
 							{
@@ -226,9 +235,6 @@
 
             return isOK;
         }
-
-
-        $("#amount").mask('000.000.000.000', {reverse:true});
     </script>
 @endsection
 

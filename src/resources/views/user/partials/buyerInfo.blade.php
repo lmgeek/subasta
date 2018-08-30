@@ -44,7 +44,7 @@
 
         });
 
-        $("[type='text']").blur(function(){
+        $("[type='text']").on("blur click change",function(){
             var insert = $(this).val().replace(',', '.');
             var num = parseFloat(insert);
             var cleanNum = num.toFixed(2).replace(".", ",");
