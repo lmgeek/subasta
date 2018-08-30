@@ -23,14 +23,10 @@
             $auction_sold = $batch->status->auction_sold;
             $private_sold = $batch->privateSale->sum('amount');
             $remainder = $batch->status->remainder;
-
             $total_sold = $auction_sold + $private_sold;
             $total_unsold = $assigned_auction + $remainder;
-
             $total_sold_unsold = $total_sold + $total_unsold;
-
             $minEditBatch = $assigned_auction + $total_sold;
-
             ?>
             <tr>
                 <td>

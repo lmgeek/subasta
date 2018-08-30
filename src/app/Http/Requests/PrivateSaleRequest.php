@@ -26,9 +26,9 @@ class PrivateSaleRequest extends Request
         return [
             'id' => 'required',
             'amount'=>'required|numeric',
-            'peso' => 'required|numeric',
-            'importe' => 'required|numeric',
-            'comprador' => 'required'
+//            'peso' => 'required|numeric',
+            'importe' => 'required|min:0',
+            'comprador' => 'required|regex:(^[a-zA-Zá-úÁ-Ú0-9\s]+$)'
         ];
     }
 }
