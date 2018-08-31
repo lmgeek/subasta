@@ -9,8 +9,8 @@
             <td><strong>{{ trans("sellerBoats.product") }}</strong></td>
             <td><strong>{{ trans("sellerBoats.total") }}</strong></td>
             <td><strong>{{ trans("sellerBoats.sales") }}</strong></td>
-            <td><strong>{{ trans("sellerBoats.assigned_auction") }}</strong></td>
             <td><strong>{{ trans("sellerBoats.type_sales") }}</strong></td>
+            <td><strong>{{ trans("sellerBoats.assigned_auction") }}</strong></td>
             <td></td>
         </tr>
         </thead>
@@ -21,14 +21,10 @@
             $auction_sold = $batch->status->auction_sold;
             $private_sold = $batch->privateSale->sum('amount');
             $remainder = $batch->status->remainder;
-
             $total_sold = $auction_sold + $private_sold;
             $total_unsold = $assigned_auction + $remainder;
-
             $total_sold_unsold = $total_sold + $total_unsold;
-
             $minEditBatch = $assigned_auction + $total_sold;
-
             ?>
             <tr>
                 <td>
@@ -67,41 +63,6 @@
                         </div>
                     </div>
                 </td>
-                <td>
-                    <table>
-                        <tr>
-                            <td>
-                                <strong style="color:#2980b9">{{ trans("sellerBoats.assigned")  }}
-                                    &nbsp:</strong> {{$assigned_auction}}
-                            </td>
-                            <td rowspan=2>
-                                <div class="" style="width:30px; margin-left:5px">
-                                    <span class="total-assigned-auction-and-unassigned-{{$batch->id}}"></span>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <strong style="color:#a7b1c2">{{ trans("sellerBoats.unassigned")  }}
-                                    : </strong> {{$remainder}}
-                            </td>
-                        </tr>
-                    </table>
-                    <script>
-                        $(".total-assigned-auction-and-unassigned-{{$batch->id}}").sparkline([<?php echo $assigned_auction ?>, <?php echo $remainder ?>], {
-                            type: 'pie',
-                            //tooltipFormat: '@{{offset:offset}} @{{value}}',
-                            tooltipValueLookups: {
-                                'offset': {
-                                    0: '{{trans("sellerBoats.assigned_auction")}}',
-                                    1: '{{trans("sellerBoats.unassigned_auction")}}'
-                                }
-                            },
-                            height: '25px',
-                            sliceColors: ['#2980b9', '#a7b1c2']
-                        });
-                    </script>
-                </td>
 
                 <td>
                     <table>
@@ -139,6 +100,47 @@
                         });
                     </script>
                 </td>
+                <td>
+                    <table>
+                        <tr>
+                            <td>
+                                <strong>{{ trans("sellerBoats.unsolds") }} :</strong> {{$total_sold_unsold - $total_sold}}</td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong style="color:#2980b9">{{ trans("sellerBoats.assigned")  }}
+                                    &nbsp:</strong> {{$assigned_auction}}
+                            </td>
+                            <td rowspan=2>
+                                <div class="" style="width:30px; margin-left:5px">
+                                    <span class="total-assigned-auction-and-unassigned-{{$batch->id}}"></span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong style="color:#a7b1c2">{{ trans("sellerBoats.unassigned")  }}
+                                    : </strong> {{$remainder}}
+                            </td>
+                        </tr>
+                    </table>
+                    <script>
+                        $(".total-assigned-auction-and-unassigned-{{$batch->id}}").sparkline([<?php echo $assigned_auction ?>, <?php echo $remainder ?>], {
+                            type: 'pie',
+                            //tooltipFormat: '@{{offset:offset}} @{{value}}',
+                            tooltipValueLookups: {
+                                'offset': {
+                                    0: '{{trans("sellerBoats.assigned_auction")}}',
+                                    1: '{{trans("sellerBoats.unassigned_auction")}}'
+                                }
+                            },
+                            height: '25px',
+                            sliceColors: ['#2980b9', '#a7b1c2']
+                        });
+                    </script>
+                </td>
+
                 <td>
                     @can('createAuction',$batch)
                         @if($remainder>0)

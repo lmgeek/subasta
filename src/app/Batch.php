@@ -39,7 +39,7 @@ class Batch extends Model
         $this->status->save();
     }
 
-    public function makePrivateSale($amount , $price, $weight, $buyer)
+    public function makePrivateSale($amount , $price, $buyer,$weight = "")
     {
         $this->privateSale = new PrivateSale();
         $this->privateSale->user_id = Auth::user()->id;
