@@ -88,7 +88,7 @@ class AuctionController extends Controller
 		$buyers = User::filter(null, array(User::COMPRADOR), array(User::APROBADO));
 		$array_buyers = [];
 		foreach ($buyers as $buyer){
-		    $array_buyers[$buyer->id] = $buyer->name;
+		    $array_buyers[$buyer->id] = $buyer->full_name;
         }
         $buyers = $array_buyers;
         return view('auction.create',compact('buyers'))->with('batch',$batch);

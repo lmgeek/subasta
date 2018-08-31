@@ -56,7 +56,10 @@ class User extends Model implements AuthenticatableContract,
     {
         return $this->belongsTo('App\Client');
     }
-
+    public function getFullNameAttribute() //metodo para Auth::user()->full_name
+    {
+        return $this->name.' '.$this->lastname;
+    }
     public function seller()
     {
         return $this->hasOne('App\Vendedor');
