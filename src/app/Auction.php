@@ -56,7 +56,7 @@ class Auction extends Model
 	
 	public function getAvailabilityLock()
 	{
-		$data = \DB::table('batch_statuses')->where('batch_id', '=', $this->batch->id)->lockForUpdate()->get();	
+		$data = \DB::table('batch_statuses')->where('batch_id', '=', $this->batch->id)->lockForUpdate()->get();
 		return $data[0]->assigned_auction;
 	}
 

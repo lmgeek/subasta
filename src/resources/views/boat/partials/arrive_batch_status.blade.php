@@ -16,8 +16,6 @@
         </thead>
         @foreach($batches as $batch)
 
-
-
             <?php
             $assigned_auction = $batch->status->assigned_auction;
             $auction_sold = $batch->status->auction_sold;

@@ -81,7 +81,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Tipo de subasta</label>
-                                    {!! Form::select('tipoSubasta',[\App\Auction::AUCTION_PUBLIC => 'P&uacute;blica', \App\Auction::AUCTION_PRIVATE => 'Privada'], old('tipoSubasta'), ['class' => 'form-control m-b','id' => 'tipoSubasta']) !!}
+                                    {!! Form::select('tipoSubasta',["" => "Seleccione",\App\Auction::AUCTION_PUBLIC => ucfirst(trans("auction.".\App\Auction::AUCTION_PUBLIC)), \App\Auction::AUCTION_PRIVATE => ucfirst(trans("auction.".\App\Auction::AUCTION_PRIVATE))], old('tipoSubasta'), ['class' => 'form-control m-b','id' => 'tipoSubasta']) !!}
                                 </div>
                             </div>
                             <div class="row">
@@ -151,7 +151,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="font-noraml"><strong>Compradores Invitados</strong></label>
-                                        {!! Form::select('invitados[]',$buyers, old('invitados'), ['class' => 'required form-control chosen-select','multiple' => 'multiple', 'data-placeholder' => 'Invitados']) !!}
+                                        {!! Form::select('invitados[]',$buyers, old('invitados'), ['class' => 'required form-control chosen-select','multiple' => 'multiple', 'data-placeholder' => 'Seleccione']) !!}
                                     </div>
                                 </div>
                             </div>

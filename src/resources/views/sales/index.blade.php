@@ -9,7 +9,7 @@
         <div class="col-lg-8">
             <h3>
                 <div class="text-center">
-                    <h2>Total ventas: $ {{ number_format($total,2) }}</h2>
+                    <h2>Total ventas concretadas: $ {{ number_format($total,2) }}</h2>
                 </div>
             </h3>
 
