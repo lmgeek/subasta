@@ -73,7 +73,6 @@ class AuctionController extends Controller
 			}
 			$userRating[$user->id]= $porc;
 		}
-
         return view('auction.index',compact('auctions','status','products','sellers','request','boats','userRating','type'));
     }
 
@@ -92,7 +91,6 @@ class AuctionController extends Controller
 		    $array_buyers[$buyer->id] = $buyer->name;
         }
         $buyers = $array_buyers;
-
         return view('auction.create',compact('buyers'))->with('batch',$batch);
     }
 
@@ -207,7 +205,6 @@ class AuctionController extends Controller
 
 		$auction_id = $request->input('auction_id');
 		$amount = $request->input('amount');
-//		dd($auction_id."-".$amount);
 		$auction = Auction::findOrFail($auction_id);
 		$this->authorize('makeBid', $auction);
 		$this->authorize('canBid',Auction::class);
@@ -229,7 +226,6 @@ class AuctionController extends Controller
             $price = str_replace(",","",$prices);
 			DB::beginTransaction();
 				$availability = $auction->getAvailabilityLock();
-
 				if ($amount > 0 && $amount <= $availability  )
 				{
 					$auction->makeBid($amount,$price);

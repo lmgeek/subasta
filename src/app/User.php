@@ -102,7 +102,7 @@ class User extends Model implements AuthenticatableContract,
         if(!is_null($type) and count($type) > 0) $rtrn->whereIn('type',$type);
         if(!is_null($status) and count($status) > 0) $rtrn->whereIn('status',$status);
 
-        return $rtrn->orderBy('created_at','desc')->get();
+        return $rtrn->orderBy('name','ASC')->get();
     }
 	
 	public static function getInternals($status = null)

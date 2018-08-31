@@ -32,6 +32,7 @@ class CreateAuctionRequest extends Request
     public function rules()
     {
         return [
+            'tipoSubasta' => 'required',
             'batch'      => 'required|batch_is_mine',
             'fechaInicio'  => 'required|date_format:d/m/Y H:i|after:'.date('d/m/Y H:i'),
             'fechaFin'    => 'required|date_format:d/m/Y H:i|after:fechaInicio',
@@ -46,7 +47,7 @@ class CreateAuctionRequest extends Request
     {
         if ($this->locale == "es"){
             return [
-                "invitados.required_if" => "El campo :attribute es obligatorio cuando :other es privado."
+                "invitados.required_if" => "El campo :attribute es obligatorio cuando :other es privada"
             ];
         }
         return [];

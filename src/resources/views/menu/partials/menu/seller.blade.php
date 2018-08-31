@@ -14,7 +14,7 @@
         <a @if(isset($approved) && $approved) href="{{ url('/sellerAuction') }}" @endif><i class="fa fa-usd"></i> <span class="nav-label">Mis Subastas</span></a>
     </li>
     <li @if (Request::is('sales*')) class="active" @endif @if(isset($approved) && !$approved) class="disabled" @endif >
-        <a @if(isset($approved) && $approved) href="{{ url('/sales') }}" @endif><i class="fa fa-money"></i> <span class="nav-label">Ventas</span></a>
+        <a @if(isset($approved) && $approved) href="{{ url('/sales') }}" @endif><i class="fa fa-money"></i><span class="nav-label">Ventas vía Subastas</span></a>
     </li>
 	<li @if (Request::is('privatesales*')) class="active" @endif @if(isset($approved) && !$approved) class="disabled" @endif >
         <a @if(isset($approved) && $approved) href="{{ url('/privatesales') }}" @endif><i class="fa fa-money"></i> <span class="nav-label">Ventas Privadas</span></a>

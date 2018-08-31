@@ -110,11 +110,17 @@
                 $(".content-danger").html('');
         });
     
-        $(".amount-bid-modal").keyup(function(){
+        $(".amount-bid-modal").on("keyup",function(){
         
             var auctionId = $(this).attr('auctionId');
-            var value = $(this).val();
             var price = $(".hid-currentPrice-"+auctionId).val();
+            var value = $(this).val();
+            var disponible = parseInt($(".target-total").attr("target"));
+            if (disponible < parseInt(value)){
+                $(this).val(disponible);
+                value = disponible;
+            }
+
             // var total =   price..replace(/[aiou]/gi,'e')
             var total =   currency(price).multiply(value)
             $(".modal-total-"+auctionId).html('Total $' + currency(total).format() )
@@ -186,7 +192,9 @@
 
 
     $(document).ready(function(){
-
+        $(".amount-bid-modal").on("focusout",function (e) {
+            console.log(this.value);
+        });
 
         $('.chosen-select').chosen({width:"100%"});
 

@@ -43,7 +43,7 @@ $disponible = $total - $vendido;
     @endcan
     <div class="modal inmodal fade modal-bid" id="bid-Modal-{{ $a->id }}" tabindex="-1" role="dialog"
          aria-hidden="true">
-        <div class="modal-dialog modal-sm">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span
@@ -56,7 +56,7 @@ $disponible = $total - $vendido;
 
 
                         <strong>Disponible: <span
-                                    class="s-disponible-{{ $a->id }}">{{ $disponible }}  {{ trans('general.product_units.'.$a->batch->product->unit) }}</span>
+                                    class="s-disponible-{{ $a->id }} target-total" target="{{ $disponible }}">{{ $disponible }}  {{ trans('general.product_units.'.$a->batch->product->unit) }}</span>
                             <br> Precio Unitario: <span class="currentPrice-{{ $a->id }}"></span></strong>
                         <div class="row">
                             <div class="col-md-12">
@@ -177,5 +177,3 @@ $disponible = $total - $vendido;
 
 
 </div>
-
-   
