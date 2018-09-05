@@ -9,7 +9,7 @@
         <div class="col-lg-8">
             <h3>
                 <div class="text-center">
-                    <h2>Total ventas: $ {{ number_format($total,2) }}</h2>
+                    <h2>Total ventas: $ {{ number_format($total,2,',','.') }}</h2>
                 </div>
             </h3>
 
@@ -43,7 +43,7 @@
                                     <td>{{ $sale->buyer_name }}</td>
                                     <td>{{ $sale->amount }} {{ trans('general.product_units.'.$sale->batch->product->unit ) }}</td>
                                     <td>{{ $sale->batch->product->name }}</td>
-                                    <td class="text-right">$ {{ number_format($sale->price * $sale->amount , 2) }}</td>
+                                    <td class="text-right">$ {{ number_format($sale->price * $sale->amount , 2,',','.') }}</td>
                                     <td class="text-right">{{ date('d/m/Y H:i:s',strtotime($sale->date)) }}</td>
                                     <td>{{ $sale->batch->arrive->boat->name }}</td>
                                 </tr>

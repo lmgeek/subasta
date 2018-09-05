@@ -31,4 +31,16 @@ class ProcessBidRequest extends Request
             'comentariosCalificacion' => 'required_if:calificacion,'.Bid::CALIFICACION_NEGATIVA.'|required_if:calificacion,'.Bid::CALIFICACION_NEUTRAL
         ];
     }
+    public function messages()
+    {
+            return [
+                "motivo_no_concretada.required_if" => "El campo :attribute es obligatorio cuando la operaci&oacute;n no fue no concretada"
+            ];
+    }
+    public function attributes()
+    {
+            return [
+                "calificacion" => "calificaci&oacute;n"
+            ];
+    }
 }

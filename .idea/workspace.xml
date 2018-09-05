@@ -1,127 +1,199 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f736966c-4204-463a-98b4-2ea249b497da" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/subastas.iml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/Batch.php" afterPath="$PROJECT_DIR$/src/app/Batch.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/Http/Controllers/SellerBoatsController.php" afterPath="$PROJECT_DIR$/src/app/Http/Controllers/SellerBoatsController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/Http/Controllers/UserController.php" afterPath="$PROJECT_DIR$/src/app/Http/Controllers/UserController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/Http/Requests/CreateArriveRequest.php" afterPath="$PROJECT_DIR$/src/app/Http/Requests/CreateArriveRequest.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/Http/Requests/PrivateSaleRequest.php" afterPath="$PROJECT_DIR$/src/app/Http/Requests/PrivateSaleRequest.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/Http/Requests/UpdateArriveRequest.php" afterPath="$PROJECT_DIR$/src/app/Http/Requests/UpdateArriveRequest.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/resources/views/bid/direct.blade.php" afterPath="$PROJECT_DIR$/src/resources/views/bid/direct.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/resources/views/boat/partials/arrive_batch_status.blade.php" afterPath="$PROJECT_DIR$/src/resources/views/boat/partials/arrive_batch_status.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/resources/views/sellerBoats/batch.blade.php" afterPath="$PROJECT_DIR$/src/resources/views/sellerBoats/batch.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/resources/views/user/partials/buyerInfo.blade.php" afterPath="$PROJECT_DIR$/src/resources/views/user/partials/buyerInfo.blade.php" />
+    <list default="true" id="488e7b69-7c4c-4249-ab06-78335060395c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/Http/Controllers/AuctionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/Http/Controllers/AuctionController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/Http/Requests/ProcessBidRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/Http/Requests/ProcessBidRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resources/views/auction/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/views/auction/create.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resources/views/auction/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/views/auction/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resources/views/auction/operations.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/views/auction/operations.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resources/views/bid/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/views/bid/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resources/views/footer_home.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/views/footer_home.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resources/views/menu/partials/menu/seller.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/views/menu/partials/menu/seller.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resources/views/sales/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/views/sales/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resources/views/sales/private.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/views/sales/private.blade.php" afterDir="false" />
     </list>
+    <ignored path="$PROJECT_DIR$/src/vendor/classpreloader/classpreloader/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/composer/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/danielstjules/stringy/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/dnoegel/php-xdg-base-dir/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/doctrine/inflector/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/doctrine/instantiator/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/fzaninotto/faker/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/hamcrest/hamcrest-php/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/jakub-onderka/php-console-color/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/jakub-onderka/php-console-highlighter/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/jeremeamia/SuperClosure/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/laravel/framework/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/league/flysystem/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/maatwebsite/excel/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/mockery/mockery/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/monolog/monolog/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/mtdowling/cron-expression/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/nesbot/carbon/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/nikic/php-parser/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/paragonie/random_compat/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/phpdocumentor/reflection-common/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/phpdocumentor/reflection-docblock/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/phpdocumentor/type-resolver/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/phpoffice/phpexcel/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/phpspec/php-diff/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/phpspec/phpspec/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/phpspec/prophecy/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/phpunit/php-code-coverage/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/phpunit/php-file-iterator/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/phpunit/php-text-template/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/phpunit/php-timer/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/phpunit/php-token-stream/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/phpunit/phpunit/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/phpunit/phpunit-mock-objects/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/psr/log/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/psy/psysh/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/sebastian/comparator/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/sebastian/diff/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/sebastian/environment/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/sebastian/exporter/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/sebastian/global-state/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/sebastian/recursion-context/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/sebastian/version/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/swiftmailer/swiftmailer/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/symfony/console/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/symfony/css-selector/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/symfony/debug/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/symfony/dom-crawler/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/symfony/event-dispatcher/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/symfony/finder/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/symfony/http-foundation/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/symfony/http-kernel/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/symfony/polyfill-mbstring/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/symfony/polyfill-php56/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/symfony/polyfill-util/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/symfony/process/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/symfony/routing/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/symfony/translation/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/symfony/var-dumper/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/symfony/yaml/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/tijsverkoyen/css-to-inline-styles/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/vlucas/phpdotenv/" />
+    <ignored path="$PROJECT_DIR$/src/vendor/webmozart/assert/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
-    <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ComposerSettings" doNotAsk="true">
+    <pharConfigPath>$PROJECT_DIR$/src/composer.json</pharConfigPath>
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="FUSProjectUsageTrigger">
+    <session id="-879977579">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="8" />
+          <entry key="project.open.time.0" value="1" />
+          <entry key="project.open.time.1" value="3" />
+          <entry key="project.open.time.10" value="1" />
+          <entry key="project.open.time.11" value="1" />
+          <entry key="project.open.time.13" value="1" />
+          <entry key="project.open.time.14" value="1" />
+          <entry key="project.open.time.19" value="1" />
+          <entry key="project.open.time.2" value="3" />
+          <entry key="project.open.time.4" value="1" />
+          <entry key="project.open.time.8" value="1" />
+          <entry key="project.opened" value="14" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="7f6710dbacb3345d16217e2d6fd6ad0e" value="1" />
+          <entry key="css" value="1" />
+          <entry key="de95cf2c3d54105be0e45711b4d89880" value="3" />
+          <entry key="env" value="4" />
+          <entry key="gitignore" value="2" />
+          <entry key="js" value="3" />
+          <entry key="json" value="2" />
+          <entry key="lock" value="1" />
+          <entry key="md" value="1" />
+          <entry key="php" value="154" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key=".env file" value="4" />
+          <entry key="Blade" value="73" />
+          <entry key="CSS" value="1" />
+          <entry key="Git file" value="2" />
+          <entry key="JSON" value="3" />
+          <entry key="JavaScript" value="3" />
+          <entry key="Markdown" value="1" />
+          <entry key="PHP" value="81" />
+          <entry key="PLAIN_TEXT" value="4" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="css" value="1" />
+          <entry key="env" value="31" />
+          <entry key="php" value="8304" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key=".env file" value="31" />
+          <entry key="Blade" value="5617" />
+          <entry key="CSS" value="1" />
+          <entry key="HTML" value="2" />
+          <entry key="PHP" value="2685" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.php.new.test" />
+      <usages-collector id="statistics.php.composer.command.options" />
+      <usages-collector id="statistics.php.new.class" />
+      <usages-collector id="statistics.php.composer.actions" />
+      <usages-collector id="statistics.js.language.service.starts" />
+      <usages-collector id="statistics.php.rename.constructor" />
+    </session>
+  </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="PrivateSaleRequest.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/Http/Requests/PrivateSaleRequest.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="544">
-              <caret line="32" column="5" lean-forward="true" selection-start-line="32" selection-start-column="5" selection-end-line="32" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="batch.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/resources/views/sellerBoats/batch.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="765">
-              <caret line="167" column="29" lean-forward="true" selection-start-line="167" selection-start-column="29" selection-end-line="167" selection-end-column="29" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Batch.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/Batch.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="600">
-              <caret line="46" column="37" lean-forward="false" selection-start-line="46" selection-start-column="37" selection-end-line="46" selection-end-column="37" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UpdateArriveRequest.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/Http/Requests/UpdateArriveRequest.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="561">
-              <caret line="33" column="31" lean-forward="false" selection-start-line="33" selection-start-column="26" selection-end-line="33" selection-end-column="31" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CreateArriveRequest.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/Http/Requests/CreateArriveRequest.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="527">
-              <caret line="33" column="4" lean-forward="false" selection-start-line="33" selection-start-column="4" selection-end-line="39" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="buyerInfo.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/resources/views/user/partials/buyerInfo.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="38" lean-forward="false" selection-start-line="3" selection-start-column="27" selection-end-line="3" selection-end-column="38" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="direct.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/resources/views/bid/direct.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-290">
-              <caret line="26" column="57" lean-forward="false" selection-start-line="26" selection-start-column="42" selection-end-line="26" selection-end-column="57" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="routes.php" pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/Http/routes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="284">
-              <caret line="82" column="60" lean-forward="false" selection-start-line="82" selection-start-column="48" selection-end-line="82" selection-end-column="60" />
-              <folding />
+            <state relative-caret-position="176">
+              <caret line="178" column="45" selection-start-line="178" selection-start-column="28" selection-end-line="178" selection-end-column="45" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UserController.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/app/Http/Controllers/UserController.php">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/Http/Controllers/AuctionController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="284">
-              <caret line="195" column="32" lean-forward="false" selection-start-line="195" selection-start-column="20" selection-end-line="195" selection-end-column="32" />
-              <folding />
+            <state relative-caret-position="304">
+              <caret line="350" column="34" selection-start-line="350" selection-start-column="34" selection-end-line="350" selection-end-column="34" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SellerBoatsController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/Http/Controllers/SellerBoatsController.php">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/resources/views/bid/index.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1151">
-              <caret line="279" column="35" lean-forward="false" selection-start-line="279" selection-start-column="20" selection-end-line="279" selection-end-column="35" />
-              <folding />
+            <state relative-caret-position="224">
+              <caret line="40" column="82" selection-start-line="40" selection-start-column="82" selection-end-line="40" selection-end-column="82" />
             </state>
           </provider>
         </entry>
@@ -130,37 +202,44 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Sus datos han sido ingresados, verifique su dirección de correo.</find>
-      <find>sellerboat/arrive/edit/</find>
-      <find>editArrive</find>
-      <find>updatearrive</find>
-      <find>updateArrive</find>
-      <find>información</find>
-      <find>Agregar lote</find>
-      <find>esta</find>
-      <find>actu</find>
-      <find>sellerboat/batch/</find>
-      <find>amount</find>
-      <find>Ventas</find>
+      <find>de invit</find>
+      <find>.&quot;</find>
+      <find>tiene</find>
+      <find>private&quot;</find>
+      <find>capitali</find>
+      <find>subastas</find>
+      <find>ventas vía</find>
+      <find>sal</find>
+      <find>invitados</find>
+      <find>full</find>
+      <find>lista de par</find>
+      <find>amount-bid-modal</find>
+      <find>modal-price</find>
+      <find>ventas v</find>
+      <find>Ventas v</find>
+      <find>auction/operations/process</find>
+      <find>process</find>
+      <find>$buyers</find>
+      <find>fadeout</find>
+      <find>currency</find>
+      <find>calculate</find>
+      <find>sellerAuction</find>
+      <find>operation</find>
+      <find>auction/operations</find>
       <find>sales</find>
-      <find>sellerBoats.product</find>
-      <find>batch</find>
-      <find>priavatesale</find>
-      <find>priavateSale</find>
-      <find>Importe</find>
-      <find>SellerBoatsController</find>
-      <find>create</find>
-      <find>auction/create</find>
-      <find>makePrivateSale</find>
-      <find>on makePrivateSale</find>
-      <find>sellerbatch</find>
-      <find>users</find>
-      <find>edit</find>
-      <find>setbidlimit</find>
-      <find>presione</find>
-      <find>savePrivateSale</find>
-      <find>UserController</find>
+      <find>private</find>
+      <find>auction</find>
+      <find>bids</find>
+      <find>buyer</find>
+      <find>pricetext</find>
     </findStrings>
+    <replaceStrings>
+      <replace>arrivo</replace>
+      <replace>Arrivo</replace>
+      <replace>Informaci&amp;oacute;n</replace>
+      <replace>Calificaci&amp;oacute;n</replace>
+      <replace>operaci&amp;oacute;n</replace>
+    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -168,37 +247,47 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
+        <option value="$PROJECT_DIR$/src/public/js/plugins/datetimepicker/bootstrap-datetimepicker.js" />
         <option value="$PROJECT_DIR$/src/app/Http/routes.php" />
-        <option value="$PROJECT_DIR$/src/resources/views/user/index.blade.php" />
-        <option value="$PROJECT_DIR$/src/resources/views/user/partials/summarybuyer.blade.php" />
-        <option value="$PROJECT_DIR$/src/resources/lang/es/login.php" />
-        <option value="$PROJECT_DIR$/src/resources/lang/es/emails.php" />
-        <option value="$PROJECT_DIR$/src/resources/views/auth/login.blade.php" />
-        <option value="$PROJECT_DIR$/src/resources/views/buyer.blade.php" />
-        <option value="$PROJECT_DIR$/src/resources/lang/es/users.php" />
-        <option value="$PROJECT_DIR$/src/resources/lang/es/register.php" />
-        <option value="$PROJECT_DIR$/src/resources/views/emails/buyer/verify.blade.php" />
-        <option value="$PROJECT_DIR$/src/resources/views/emails/seller/verify.blade.php" />
-        <option value="$PROJECT_DIR$/src/app/Http/Requests/RegisterNewUserRequest.php" />
-        <option value="$PROJECT_DIR$/src/resources/views/menu/partials/menu/seller.blade.php" />
-        <option value="$PROJECT_DIR$/src/resources/views/sellerBoats/editArrive.blade.php" />
-        <option value="$PROJECT_DIR$/src/resources/views/sellerBoats/arrive.blade.php" />
-        <option value="$PROJECT_DIR$/src/resources/lang/es/products.php" />
-        <option value="$PROJECT_DIR$/src/resources/views/sellerBoats/index.blade.php" />
-        <option value="$PROJECT_DIR$/src/app/Http/Controllers/BoatController.php" />
-        <option value="$PROJECT_DIR$/src/resources/views/home/partials/arrive_batch_status.blade.php" />
-        <option value="$PROJECT_DIR$/src/app/Batch.php" />
-        <option value="$PROJECT_DIR$/src/resources/views/auction/index.blade.php" />
-        <option value="$PROJECT_DIR$/src/resources/views/boat/partials/arrive_batch_status.blade.php" />
-        <option value="$PROJECT_DIR$/src/app/Http/Controllers/UserController.php" />
-        <option value="$PROJECT_DIR$/src/app/Http/Requests/CreateArriveRequest.php" />
-        <option value="$PROJECT_DIR$/src/app/Http/Requests/UpdateArriveRequest.php" />
+        <option value="$PROJECT_DIR$/src/app/Http/Middleware/VerifyCsrfToken.php" />
+        <option value="$PROJECT_DIR$/src/resources/lang/en/validation.php" />
+        <option value="$PROJECT_DIR$/src/resources/lang/es/boats.php" />
+        <option value="$PROJECT_DIR$/src/resources/views/auction/edit.blade.php" />
         <option value="$PROJECT_DIR$/src/resources/lang/es/sellerBoats.php" />
-        <option value="$PROJECT_DIR$/src/resources/views/user/partials/buyerInfo.blade.php" />
-        <option value="$PROJECT_DIR$/src/resources/views/bid/direct.blade.php" />
-        <option value="$PROJECT_DIR$/src/app/Http/Requests/PrivateSaleRequest.php" />
-        <option value="$PROJECT_DIR$/src/app/Http/Controllers/SellerBoatsController.php" />
-        <option value="$PROJECT_DIR$/src/resources/views/sellerBoats/batch.blade.php" />
+        <option value="$PROJECT_DIR$/src/resources/lang/es/emails.php" />
+        <option value="$PROJECT_DIR$/src/resources/lang/es/products.php" />
+        <option value="$PROJECT_DIR$/src/resources/views/emails/auctionResume.blade.php" />
+        <option value="$PROJECT_DIR$/src/resources/views/emails/auctionReminder.blade.php" />
+        <option value="$PROJECT_DIR$/src/resources/views/landing.blade.php" />
+        <option value="$PROJECT_DIR$/src/resources/views/terminate.blade.php" />
+        <option value="$PROJECT_DIR$/src/resources/views/auction/partials/auctionInfo.blade.php" />
+        <option value="$PROJECT_DIR$/src/config/app.php" />
+        <option value="$PROJECT_DIR$/src/.env" />
+        <option value="$PROJECT_DIR$/src/app/Auction.php" />
+        <option value="$PROJECT_DIR$/src/resources/views/boat/partials/arrive_batch_status.blade.php" />
+        <option value="$PROJECT_DIR$/src/app/Http/Controllers/SellerAuctionController.php" />
+        <option value="$PROJECT_DIR$/src/resources/views/auction/partials/auctionBidHome.blade.php" />
+        <option value="$PROJECT_DIR$/src/app/Http/Controllers/HomeController.php" />
+        <option value="$PROJECT_DIR$/src/resources/views/auction/process.blade.php" />
+        <option value="$PROJECT_DIR$/src/resources/views/auction/partials/auctionDetail.blade.php" />
+        <option value="$PROJECT_DIR$/src/resources/lang/es/auction.php" />
+        <option value="$PROJECT_DIR$/src/resources/lang/es/validation.php" />
+        <option value="$PROJECT_DIR$/src/app/Http/Requests/CreateAuctionRequest.php" />
+        <option value="$PROJECT_DIR$/src/resources/views/emails/userinvited.blade.php" />
+        <option value="$PROJECT_DIR$/src/public/css/email/styles.css" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/src/app/User.php" />
+        <option value="$PROJECT_DIR$/src/resources/views/auction/create.blade.php" />
+        <option value="$PROJECT_DIR$/src/resources/views/footer_home.blade.php" />
+        <option value="$PROJECT_DIR$/src/resources/views/menu/partials/menu/seller.blade.php" />
+        <option value="$PROJECT_DIR$/src/app/Http/Requests/ProcessBidRequest.php" />
+        <option value="$PROJECT_DIR$/src/resources/views/auction/partials/auctionPrice.blade.php" />
+        <option value="$PROJECT_DIR$/src/resources/views/auction/index.blade.php" />
+        <option value="$PROJECT_DIR$/src/resources/views/auction/operations.blade.php" />
+        <option value="$PROJECT_DIR$/src/resources/views/sales/index.blade.php" />
+        <option value="$PROJECT_DIR$/src/resources/views/sales/private.blade.php" />
+        <option value="$PROJECT_DIR$/src/app/Http/Controllers/AuctionController.php" />
+        <option value="$PROJECT_DIR$/src/resources/views/bid/index.blade.php" />
       </list>
     </option>
   </component>
@@ -208,24 +297,90 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
+  <component name="NodePackageJsonFileManager">
+    <packageJsonPaths>
+      <path value="$PROJECT_DIR$/src/package.json" />
+    </packageJsonPaths>
+  </component>
+  <component name="PhpServers">
+    <servers />
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration">
+    <include_path>
+      <path value="$PROJECT_DIR$/src/vendor/hamcrest/hamcrest-php" />
+      <path value="$PROJECT_DIR$/src/vendor/webmozart/assert" />
+      <path value="$PROJECT_DIR$/src/vendor/fzaninotto/faker" />
+      <path value="$PROJECT_DIR$/src/vendor/league/flysystem" />
+      <path value="$PROJECT_DIR$/src/vendor/vlucas/phpdotenv" />
+      <path value="$PROJECT_DIR$/src/vendor/symfony/console" />
+      <path value="$PROJECT_DIR$/src/vendor/symfony/process" />
+      <path value="$PROJECT_DIR$/src/vendor/symfony/debug" />
+      <path value="$PROJECT_DIR$/src/vendor/symfony/polyfill-php56" />
+      <path value="$PROJECT_DIR$/src/vendor/symfony/polyfill-util" />
+      <path value="$PROJECT_DIR$/src/vendor/symfony/var-dumper" />
+      <path value="$PROJECT_DIR$/src/vendor/dnoegel/php-xdg-base-dir" />
+      <path value="$PROJECT_DIR$/src/vendor/symfony/http-kernel" />
+      <path value="$PROJECT_DIR$/src/vendor/symfony/finder" />
+      <path value="$PROJECT_DIR$/src/vendor/tijsverkoyen/css-to-inline-styles" />
+      <path value="$PROJECT_DIR$/src/vendor/monolog/monolog" />
+      <path value="$PROJECT_DIR$/src/vendor/symfony/dom-crawler" />
+      <path value="$PROJECT_DIR$/src/vendor/symfony/routing" />
+      <path value="$PROJECT_DIR$/src/vendor/symfony/event-dispatcher" />
+      <path value="$PROJECT_DIR$/src/vendor/symfony/css-selector" />
+      <path value="$PROJECT_DIR$/src/vendor/symfony/translation" />
+      <path value="$PROJECT_DIR$/src/vendor/symfony/polyfill-mbstring" />
+      <path value="$PROJECT_DIR$/src/vendor/symfony/http-foundation" />
+      <path value="$PROJECT_DIR$/src/vendor/symfony/yaml" />
+      <path value="$PROJECT_DIR$/src/vendor/laravel/framework" />
+      <path value="$PROJECT_DIR$/src/vendor/mtdowling/cron-expression" />
+      <path value="$PROJECT_DIR$/src/vendor/phpunit/php-file-iterator" />
+      <path value="$PROJECT_DIR$/src/vendor/phpunit/php-timer" />
+      <path value="$PROJECT_DIR$/src/vendor/phpunit/php-text-template" />
+      <path value="$PROJECT_DIR$/src/vendor/phpunit/php-token-stream" />
+      <path value="$PROJECT_DIR$/src/vendor/danielstjules/stringy" />
+      <path value="$PROJECT_DIR$/src/vendor/phpunit/phpunit-mock-objects" />
+      <path value="$PROJECT_DIR$/src/vendor/phpunit/php-code-coverage" />
+      <path value="$PROJECT_DIR$/src/vendor/phpunit/phpunit" />
+      <path value="$PROJECT_DIR$/src/vendor/jeremeamia/SuperClosure" />
+      <path value="$PROJECT_DIR$/src/vendor/doctrine/instantiator" />
+      <path value="$PROJECT_DIR$/src/vendor/doctrine/inflector" />
+      <path value="$PROJECT_DIR$/src/vendor/jakub-onderka/php-console-highlighter" />
+      <path value="$PROJECT_DIR$/src/vendor/classpreloader/classpreloader" />
+      <path value="$PROJECT_DIR$/src/vendor/jakub-onderka/php-console-color" />
+      <path value="$PROJECT_DIR$/src/vendor/paragonie/random_compat" />
+      <path value="$PROJECT_DIR$/src/vendor/maatwebsite/excel" />
+      <path value="$PROJECT_DIR$/src/vendor/nikic/php-parser" />
+      <path value="$PROJECT_DIR$/src/vendor/composer" />
+      <path value="$PROJECT_DIR$/src/vendor/nesbot/carbon" />
+      <path value="$PROJECT_DIR$/src/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/src/vendor/sebastian/global-state" />
+      <path value="$PROJECT_DIR$/src/vendor/mockery/mockery" />
+      <path value="$PROJECT_DIR$/src/vendor/sebastian/comparator" />
+      <path value="$PROJECT_DIR$/src/vendor/phpdocumentor/reflection-docblock" />
+      <path value="$PROJECT_DIR$/src/vendor/phpspec/phpspec" />
+      <path value="$PROJECT_DIR$/src/vendor/phpoffice/phpexcel" />
+      <path value="$PROJECT_DIR$/src/vendor/sebastian/exporter" />
+      <path value="$PROJECT_DIR$/src/vendor/phpdocumentor/type-resolver" />
+      <path value="$PROJECT_DIR$/src/vendor/phpspec/php-diff" />
+      <path value="$PROJECT_DIR$/src/vendor/sebastian/environment" />
+      <path value="$PROJECT_DIR$/src/vendor/phpdocumentor/reflection-common" />
+      <path value="$PROJECT_DIR$/src/vendor/phpspec/prophecy" />
+      <path value="$PROJECT_DIR$/src/vendor/sebastian/recursion-context" />
+      <path value="$PROJECT_DIR$/src/vendor/sebastian/diff" />
+      <path value="$PROJECT_DIR$/src/vendor/sebastian/version" />
+      <path value="$PROJECT_DIR$/src/vendor/psy/psysh" />
+      <path value="$PROJECT_DIR$/src/vendor/swiftmailer/swiftmailer" />
+      <path value="$PROJECT_DIR$/src/vendor/laravelcollective/html" />
+    </include_path>
+  </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-8" />
-    <option name="width" value="1615" />
-    <option name="height" value="1092" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1066" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
-      <flattenPackages />
-      <showMembers />
-      <showModules />
-      <showLibraryContents />
-      <hideEmptyPackages />
-      <abbreviatePackageNames />
-      <autoscrollToSource />
-      <autoscrollFromSource />
-      <sortByType />
-      <manualOrder />
+    <navigator currentView="Scope" currentSubView="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope" proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
@@ -234,143 +389,84 @@
           <expand>
             <path>
               <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="subastas" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="subastas" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="subastas" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="subastas" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="subastas" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="subastas" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="subastas" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Http" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="subastas" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="subastas" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Http" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Requests" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="subastas" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="public" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="subastas" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="public" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="subastas" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="subastas" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="lang" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="subastas" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="lang" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="es" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="subastas" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="subastas" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="auction" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="subastas" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="bid" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="subastas" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="boat" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="subastas" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="boat" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="partials" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="subastas" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="sellerBoats" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="subastas" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="user" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="subastas" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="user" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="partials" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="subastas" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
+              <item name="email" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="Scope" />
+      <pane id="Scope">
+        <subPane subId="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope">
+          <expand>
+            <path>
+              <item name="subastas" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+            </path>
+            <path>
+              <item name="subastas" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="subastas" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="resources" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="subastas" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="resources" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="lang" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="subastas" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="resources" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="lang" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="es" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="SearchEverywhereHistoryKey" value="bid/inde&#9;FILE&#9;file://L:/src/subastas/src/resources/views/bid/index.blade.php&#10;bidindex&#9;ACTION&#9;null&#10;AuctionController&#9;FILE&#9;file://L:/src/subastas/src/app/Http/Controllers/AuctionController.php&#10;private.b&#9;FILE&#9;file://L:/src/subastas/src/resources/views/sales/private.blade.php&#10;index&#9;FILE&#9;file://L:/src/subastas/src/resources/views/sales/index.blade.php&#10;SellerAuctionController&#9;FILE&#9;file://L:/src/subastas/src/app/Http/Controllers/SellerAuctionController.php&#10;operations&#9;FILE&#9;file://L:/src/subastas/src/resources/views/auction/operations.blade.php&#10;routes.&#9;FILE&#9;file://L:/src/subastas/src/app/Http/routes.php&#10;create&#9;FILE&#9;file://L:/src/subastas/src/resources/views/auction/create.blade.php&#10;sellermen&#9;FILE&#9;file://L:/src/subastas/src/resources/views/auction/partials/auctionSellerMenu.blade.php&#10;views/footer_home.blade.php&#9;FILE&#9;file://L:/src/subastas/src/resources/views/footer_home.blade.php&#10;user&#9;FILE&#9;file://L:/src/subastas/src/app/User.php&#10;auction/crea&#9;FILE&#9;file://L:/src/subastas/src/resources/views/auction/create.blade.php&#10;auctionDetail&#9;FILE&#9;file://L:/src/subastas/src/resources/views/auction/partials/auctionDetail.blade.php&#10;proce&#9;FILE&#9;file://L:/src/subastas/src/resources/views/auction/process.blade.php&#10;auction/operatio&#9;FILE&#9;file://L:/src/subastas/src/resources/views/auction/operations.blade.php&#10;sales/inde&#9;FILE&#9;file://L:/src/subastas/src/resources/views/sales/index.blade.php&#10;emails/user&#9;FILE&#9;file://L:/src/subastas/src/resources/views/emails/userinvited.blade.php&#10;auction/create&#9;FILE&#9;file://L:/src/subastas/src/resources/views/auction/create.blade.php&#10;request/&#9;FILE&#9;file://L:/src/subastas/src/app/Http/Requests&#10;auctioni&#9;FILE&#9;file://L:/src/subastas/src/resources/views/auction/partials/auctionInfo.blade.php&#10;auctionin&#9;FILE&#9;file://L:/src/subastas/src/resources/views/auction/partials/auctionInfo.blade.php&#10;sellerA&#9;FILE&#9;file://L:/src/subastas/src/app/Http/Controllers/SellerAuctionController.php&#10;auction/process&#9;FILE&#9;file://L:/src/subastas/src/resources/views/auction/process.blade.php&#10;route&#9;FILE&#9;file://L:/src/subastas/src/app/Http/routes.php&#10;menu&#9;FILE&#9;file://L:/src/subastas/src/resources/views/auction/partials/auctionSellerMenu.blade.php&#10;auctio&#9;FILE&#9;file://L:/src/subastas/src/app/Http/Controllers/AuctionController.php&#10;7f6710dbacb3345d16217e2d6fd6ad0e&#9;FILE&#9;file://L:/src/subastas/src/storage/framework/views/7f6710dbacb3345d16217e2d6fd6ad0e&#10;boat/sellerbatch&#9;FILE&#9;file://L:/src/subastas/src/resources/views/boat/sellerbatch.blade.php&#10;boatCon&#9;null&#9;null&#10;sellerM&#9;FILE&#9;file://L:/src/subastas/src/resources/views/auction/partials/auctionSellerMenu.blade.php&#10;Auction.php&#9;FILE&#9;file://L:/src/subastas/src/app/Auction.php&#10;landing&#9;FILE&#9;file://L:/src/subastas/src/resources/views/landing.blade.php&#10;AuctionControl&#9;FILE&#9;file://L:/src/subastas/src/app/Http/Controllers/AuctionController.php&#10;HomeController&#9;null&#9;null&#10;.env&#9;FILE&#9;file://L:/src/subastas/src/.env&#10;config/ap&#9;FILE&#9;file://L:/src/subastas/src/config/app.php&#10;Auction&#9;FILE&#9;file://L:/src/subastas/src/app/Auction.php&#10;auction/index&#9;FILE&#9;file://L:/src/subastas/src/resources/views/auction/index.blade.php&#10;terminate&#9;FILE&#9;file://L:/src/subastas/src/resources/views/terminate.blade.php&#10;landi&#9;FILE&#9;file://L:/src/subastas/src/resources/views/landing.blade.php&#10;auction&#9;null&#9;null&#10;auction/creat&#9;FILE&#9;file://L:/src/subastas/src/resources/views/auction/create.blade.php&#10;auction/cre&#9;FILE&#9;file://L:/src/subastas/src/resources/views/auction/create.blade.php&#10;AuctionC&#9;FILE&#9;file://L:/src/subastas/src/app/Http/Controllers/AuctionController.php&#10;/create&#9;FILE&#9;file://L:/src/subastas/src/resources/views/auction/create.blade.php&#10;de95cf2c3d54105be0e45711b4d8988&#9;FILE&#9;file://L:/src/subastas/src/storage/framework/views/de95cf2c3d54105be0e45711b4d89880&#10;compo&#9;FILE&#9;file://L:/src/subastas/src/composer.json&#10;bootstra&#9;FILE&#9;file://L:/src/subastas/src/public/js/plugins/datetimepicker/bootstrap-datetimepicker.js&#10;bootstrap-datetimepicker.js&#9;FILE&#9;file://L:/src/subastas/src/public/js/plugins/datetimepicker/bootstrap-datetimepicker.js" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -384,50 +480,59 @@
       </list>
     </option>
   </component>
-  <component name="ShelveChangesManager" show_recycled="false">
-    <option name="remove_strategy" value="false" />
+  <component name="SvnConfiguration">
+    <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="f736966c-4204-463a-98b4-2ea249b497da" name="Default" comment="" />
-      <created>1534957436994</created>
+      <changelist id="488e7b69-7c4c-4249-ab06-78335060395c" name="Default Changelist" comment="" />
+      <created>1534855427450</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1534957436994</updated>
-      <workItem from="1534957438590" duration="10010000" />
-      <workItem from="1535028728148" duration="154000" />
-      <workItem from="1535030344055" duration="13827000" />
-      <workItem from="1535118185738" duration="13848000" />
-      <workItem from="1535373366406" duration="633000" />
-      <workItem from="1535459389887" duration="21713000" />
+      <updated>1534855427450</updated>
+      <workItem from="1534855429023" duration="21788000" />
+      <workItem from="1534953149702" duration="10363000" />
+      <workItem from="1535026734063" duration="23742000" />
+      <workItem from="1535114429756" duration="10093000" />
+      <workItem from="1535139168484" duration="1221000" />
+      <workItem from="1535460812866" duration="870000" />
+      <workItem from="1535470897847" duration="7671000" />
+      <workItem from="1535545367666" duration="8627000" />
+      <workItem from="1535632157061" duration="799000" />
+      <workItem from="1535724452717" duration="5539000" />
+      <workItem from="1535742736236" duration="4320000" />
+      <workItem from="1535979019137" duration="1000" />
+      <workItem from="1535987016133" duration="660000" />
+      <workItem from="1536162027842" duration="3987000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="60185000" />
+    <option name="totallyTimeSpent" value="99681000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26332623" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32975295" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.29317698" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3290461" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="9" />
+      <window_info anchor="bottom" id="Terminal" order="10" weight="0.3290461" />
+      <window_info active="true" anchor="bottom" id="Event Log" order="11" side_tool="true" visible="true" weight="0.32976446" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Database" order="3" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -436,406 +541,359 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager />
-    <watches-manager />
-  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/resources/views/user/partials/buyerInfo.blade.php">
+    <entry file="file://$PROJECT_DIR$/src/resources/lang/es/products.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="30" column="9" lean-forward="false" selection-start-line="30" selection-start-column="9" selection-end-line="30" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/Http/Controllers/RegisterController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="284">
-          <caret line="27" column="36" lean-forward="false" selection-start-line="27" selection-start-column="20" selection-end-line="27" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/Http/Requests/Request.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/resources/lang/es/auth.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/resources/views/user/index.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="81" column="48" lean-forward="false" selection-start-line="81" selection-start-column="48" selection-end-line="81" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/resources/lang/es/login.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="29" lean-forward="false" selection-start-line="8" selection-start-column="29" selection-end-line="8" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/resources/lang/es/passwords.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="26" column="20" lean-forward="true" selection-start-line="26" selection-start-column="20" selection-end-line="26" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/Http/Controllers/Auth/PasswordController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/resources/views/auth/login.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="57" column="74" lean-forward="false" selection-start-line="57" selection-start-column="74" selection-end-line="57" selection-end-column="74" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/resources/views/auth/password.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="39" column="14" lean-forward="true" selection-start-line="39" selection-start-column="14" selection-end-line="39" selection-end-column="14" />
+        <state relative-caret-position="192">
+          <caret line="12" column="2" lean-forward="true" selection-start-line="12" selection-start-column="2" selection-end-line="12" selection-end-column="2" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/resources/lang/es/emails.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="33" lean-forward="true" selection-start-line="7" selection-start-column="33" selection-end-line="7" selection-end-column="33" />
+        <state relative-caret-position="96">
+          <caret line="6" column="75" selection-start-line="6" selection-start-column="75" selection-end-line="6" selection-end-column="75" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/resources/views/auth/reset.blade.php">
+    <entry file="file://$PROJECT_DIR$/src/resources/views/auction/partials/auctionAvailabilityHome.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1071">
-          <caret line="61" column="94" lean-forward="false" selection-start-line="61" selection-start-column="86" selection-end-line="61" selection-end-column="94" />
+        <state relative-caret-position="416">
+          <caret line="26" lean-forward="true" selection-start-line="26" selection-end-line="26" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/resources/views/emails/buyer/verify.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="27" column="255" lean-forward="false" selection-start-line="27" selection-start-column="220" selection-end-line="27" selection-end-column="255" />
+    <entry file="file://$USER_HOME$/Desktop/docker/src/univox-importer-2018/migracion.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor />
+          <second_editor />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/resources/views/emails/seller/verify.blade.php">
+    <entry file="file://$PROJECT_DIR$/src/resources/views/auction/partials/auctionTime.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="27" column="258" lean-forward="false" selection-start-line="27" selection-start-column="258" selection-end-line="27" selection-end-column="258" />
+        <state relative-caret-position="176">
+          <caret line="11" column="48" selection-start-line="11" selection-start-column="40" selection-end-line="11" selection-end-column="48" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/Http/Requests/EditProductRequest.php">
+    <entry file="file://$PROJECT_DIR$/src/app/Policies/BoatPolicy.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="736">
+          <caret line="46" column="20" selection-start-line="46" selection-start-column="20" selection-end-line="46" selection-end-column="20" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/Http/Requests/BatchRequest.php">
+    <entry file="file://$PROJECT_DIR$/src/database/migrations/2015_11_04_174347_add_notification_status_col_auction_table.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/database/migrations/2014_10_12_000000_create_users_table.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="480">
+          <caret line="32" column="19" lean-forward="true" selection-start-line="32" selection-start-column="19" selection-end-line="32" selection-end-column="19" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/resources/views/menu/partials/menu/seller.blade.php">
+    <entry file="file://$PROJECT_DIR$/src/.env">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="21" column="0" lean-forward="true" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+        <state relative-caret-position="272">
+          <caret line="17" column="28" lean-forward="true" selection-start-line="17" selection-start-column="28" selection-end-line="17" selection-end-column="28" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/resources/views/sellerBoats/editArrive.blade.php">
+    <entry file="file://$PROJECT_DIR$/src/resources/views/offers.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="33" column="54" lean-forward="false" selection-start-line="33" selection-start-column="54" selection-end-line="33" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/resources/lang/es/products.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="32" lean-forward="false" selection-start-line="4" selection-start-column="32" selection-end-line="4" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/resources/lang/es/auction.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="629">
-          <caret line="55" column="46" lean-forward="false" selection-start-line="55" selection-start-column="46" selection-end-line="55" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/resources/lang/es/boats.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="31" column="38" lean-forward="false" selection-start-line="31" selection-start-column="38" selection-end-line="31" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/resources/views/boat/index.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="38" column="37" lean-forward="false" selection-start-line="38" selection-start-column="37" selection-end-line="38" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/resources/views/home/partials/arrive_batch_status.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="38" lean-forward="false" selection-start-line="8" selection-start-column="38" selection-end-line="8" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/resources/lang/es/register.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="91" lean-forward="false" selection-start-line="17" selection-start-column="91" selection-end-line="17" selection-end-column="91" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/resources/views/sellerBoats/index.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="697">
-          <caret line="41" column="75" lean-forward="false" selection-start-line="41" selection-start-column="75" selection-end-line="41" selection-end-column="75" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/resources/views/sellerBoats/arrive.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="714">
-          <caret line="42" column="60" lean-forward="false" selection-start-line="42" selection-start-column="60" selection-end-line="42" selection-end-column="60" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/Http/Requests/RegisterNewUserRequest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="27" column="61" lean-forward="true" selection-start-line="27" selection-start-column="40" selection-end-line="27" selection-end-column="61" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/Http/Controllers/AuctionController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="658">
-          <caret line="94" column="0" lean-forward="true" selection-start-line="94" selection-start-column="0" selection-end-line="94" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/resources/views/auction/create.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="121" />
-          <folding>
-            <marker date="1535461245077" expanded="true" signature="3984:4183" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/resources/views/boat/sellerbatch.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="583">
-          <caret line="64" column="66" lean-forward="true" selection-start-line="64" selection-start-column="66" selection-end-line="64" selection-end-column="66" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/Http/Controllers/BoatController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="560">
-          <caret line="177" column="52" lean-forward="true" selection-start-line="177" selection-start-column="52" selection-end-line="177" selection-end-column="52" />
-          <folding />
+        <state relative-caret-position="416">
+          <caret line="59" column="84" lean-forward="true" selection-start-line="59" selection-start-column="84" selection-end-line="59" selection-end-column="84" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/storage/framework/views/7f6710dbacb3345d16217e2d6fd6ad0e">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="47" column="50" lean-forward="true" selection-start-line="47" selection-start-column="50" selection-end-line="47" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/resources/lang/es/users.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="24" column="23" lean-forward="true" selection-start-line="24" selection-start-column="23" selection-end-line="24" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/resources/views/user/partials/summarybuyer.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="24" column="64" lean-forward="true" selection-start-line="24" selection-start-column="64" selection-end-line="24" selection-end-column="64" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/resources/views/user/show.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="34" column="36" lean-forward="true" selection-start-line="34" selection-start-column="36" selection-end-line="34" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/resources/views/buyer.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1173">
-          <caret line="67" column="69" lean-forward="false" selection-start-line="67" selection-start-column="69" selection-end-line="67" selection-end-column="69" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/resources/views/user/partials/aprove.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="23" column="46" lean-forward="true" selection-start-line="23" selection-start-column="46" selection-end-line="23" selection-end-column="46" />
-          <folding />
+        <state relative-caret-position="464">
+          <caret line="29" column="60" lean-forward="true" selection-start-line="19" selection-start-column="12" selection-end-line="29" selection-end-column="60" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/resources/views/boat/partials/arrive_batch_status.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="19" column="0" lean-forward="true" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-          <folding>
-            <element signature="n#style#0;n#strong#0;n#td#0;n#tr#2;n#table#0;n#td#4;n#tr#0;n#table#0;n#!!top" expanded="false" />
-          </folding>
+        <state relative-caret-position="241">
+          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/resources/views/auction/index.blade.php">
+    <entry file="file://$PROJECT_DIR$/src/resources/views/boat/sellerbatch.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="36" column="34" lean-forward="true" selection-start-line="36" selection-start-column="34" selection-end-line="36" selection-end-column="34" />
-          <folding>
-            <marker date="1535482228222" expanded="true" signature="12299:12322" ph="..." />
-            <marker date="1535482228222" expanded="true" signature="12926:12949" ph="..." />
-            <marker date="1535482228222" expanded="true" signature="13564:13571" ph="×" />
-            <marker date="1535482228222" expanded="true" signature="14545:14552" ph="×" />
-          </folding>
+        <state relative-caret-position="288">
+          <caret line="18" column="69" lean-forward="true" selection-start-line="18" selection-start-column="69" selection-end-line="18" selection-end-column="69" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/Http/Requests/CreateBoatRequest.php">
+    <entry file="file://$PROJECT_DIR$/src/app/Http/Controllers/BoatController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="580">
+          <caret line="179" column="41" selection-start-line="179" selection-start-column="30" selection-end-line="179" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/config/app.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="224">
+          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/resources/views/header.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="256">
+          <caret line="16" column="74" selection-start-line="16" selection-start-column="68" selection-end-line="16" selection-end-column="74" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/resources/views/auction/partials/auctionBidHome.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1216">
+          <caret line="76" column="45" selection-start-line="76" selection-start-column="45" selection-end-line="76" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/resources/views/terminate.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4560">
+          <caret line="285" column="51" selection-start-line="285" selection-start-column="51" selection-end-line="285" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/resources/views/home/partials/arrive_batch_status.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="10" column="38" selection-start-line="10" selection-start-column="38" selection-end-line="10" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/resources/views/menu/partials/profile.blade.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/resources/views/menu/sidebar.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="5" column="42" selection-start-line="5" selection-start-column="42" selection-end-line="5" selection-end-column="42" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/resources/lang/es/sellerBoats.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="634">
-          <caret line="53" column="36" lean-forward="false" selection-start-line="53" selection-start-column="36" selection-end-line="53" selection-end-column="36" />
-          <folding />
+        <state relative-caret-position="491">
+          <caret line="44" column="10" selection-start-line="44" selection-start-column="5" selection-end-line="44" selection-end-column="10" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/Http/Requests/UpdateArriveRequest.php">
+    <entry file="file://$PROJECT_DIR$/src/app/Http/Controllers/HomeController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="33" column="31" lean-forward="false" selection-start-line="33" selection-start-column="26" selection-end-line="33" selection-end-column="31" />
-          <folding />
+        <state relative-caret-position="219">
+          <caret line="40" column="41" lean-forward="true" selection-start-line="40" selection-start-column="41" selection-end-line="40" selection-end-column="41" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/Batch.php">
+    <entry file="file://$PROJECT_DIR$/src/resources/views/landing.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="600">
-          <caret line="46" column="37" lean-forward="false" selection-start-line="46" selection-start-column="37" selection-end-line="46" selection-end-column="37" />
-          <folding />
+        <state relative-caret-position="580">
+          <caret line="45" column="17" selection-start-line="45" selection-start-column="17" selection-end-line="45" selection-end-column="17" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/resources/views/sellerBoats/batch.blade.php">
+    <entry file="file://$PROJECT_DIR$/src/resources/lang/es/auction.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="765">
-          <caret line="167" column="29" lean-forward="true" selection-start-line="167" selection-start-column="29" selection-end-line="167" selection-end-column="29" />
-          <folding />
+        <state relative-caret-position="692">
+          <caret line="75" column="25" selection-start-line="75" selection-start-column="25" selection-end-line="75" selection-end-column="25" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/resources/views/bid/direct.blade.php">
+    <entry file="file://$PROJECT_DIR$/src/app/Auction.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-290">
-          <caret line="26" column="57" lean-forward="false" selection-start-line="26" selection-start-column="42" selection-end-line="26" selection-end-column="57" />
-          <folding />
+        <state relative-caret-position="304">
+          <caret line="22" column="10" selection-start-line="22" selection-start-column="10" selection-end-line="22" selection-end-column="10" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/Http/Requests/CreateArriveRequest.php">
+    <entry file="file://$PROJECT_DIR$/src/resources/views/auction/partials/auctionInfo.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="33" column="4" lean-forward="false" selection-start-line="33" selection-start-column="4" selection-end-line="39" selection-end-column="5" />
-          <folding />
+        <state relative-caret-position="576">
+          <caret line="36" column="49" lean-forward="true" selection-start-line="36" selection-start-column="23" selection-end-line="36" selection-end-column="49" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/Http/Requests/PrivateSaleRequest.php">
+    <entry file="file://$PROJECT_DIR$/src/public/css/email/styles.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="32" column="5" lean-forward="true" selection-start-line="32" selection-start-column="5" selection-end-line="32" selection-end-column="5" />
-          <folding />
+        <state relative-caret-position="310">
+          <caret line="149" selection-start-line="149" selection-end-line="149" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/Http/Controllers/SellerBoatsController.php">
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1151">
-          <caret line="279" column="35" lean-forward="false" selection-start-line="279" selection-start-column="20" selection-end-line="279" selection-end-column="35" />
-          <folding />
+        <state relative-caret-position="144">
+          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/resources/views/user/partials/buyerInfo.blade.php">
+    <entry file="file://$PROJECT_DIR$/src/resources/views/mail.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="38" lean-forward="false" selection-start-line="3" selection-start-column="27" selection-end-line="3" selection-end-column="38" />
-          <folding />
+        <state relative-caret-position="256">
+          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/resources/views/auction/process.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="6" column="51" selection-start-line="6" selection-start-column="34" selection-end-line="6" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/resources/views/emails/userinvited.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="448">
+          <caret line="28" column="38" selection-start-line="28" selection-start-column="38" selection-end-line="28" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/resources/lang/es/validation.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1248">
+          <caret line="78" column="5" selection-start-line="78" selection-start-column="5" selection-end-line="78" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/resources/views/auction/partials/auctionDetail.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/resources/views/footer_home.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="356">
+          <caret line="116" column="33" selection-start-line="116" selection-start-column="13" selection-end-line="116" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/resources/views/auction/partials/auctionSellerMenu.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="112">
+          <caret line="4" column="6" lean-forward="true" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/Http/Requests/CreateAuctionRequest.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="576">
+          <caret line="53" column="5" selection-start-line="45" selection-start-column="4" selection-end-line="53" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/Http/Requests/ProcessBidRequest.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="576">
+          <caret line="37" column="14" selection-start-line="37" selection-start-column="14" selection-end-line="37" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/resources/views/auction/create.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="836">
+          <caret line="293" column="35" selection-start-line="293" selection-start-column="35" selection-end-line="293" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/User.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="836">
+          <caret line="60" column="28" selection-start-line="60" selection-start-column="28" selection-end-line="60" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/resources/views/auction/partials/auctionPrice.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="384">
+          <caret line="24" selection-start-line="24" selection-end-line="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/resources/views/auction/index.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="567">
+          <caret line="143" column="59" lean-forward="true" selection-start-line="143" selection-start-column="59" selection-end-line="143" selection-end-column="59" />
+          <folding>
+            <element signature="n#style#0;n#td#0;n#tr#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#0;n#!!top" expanded="true" />
+            <element signature="e#101#108#1" expanded="true" />
+            <element signature="e#101#108#1" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/resources/views/menu/partials/menu/seller.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="336">
+          <caret line="21" selection-start-line="21" selection-end-line="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/resources/views/auction/operations.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="640">
+          <caret line="51" column="12" selection-start-line="51" selection-start-column="11" selection-end-line="51" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/resources/views/sales/index.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="336">
+          <caret line="30" column="49" lean-forward="true" selection-start-line="30" selection-start-column="49" selection-end-line="30" selection-end-column="49" />
+          <folding>
+            <element signature="e#161#169#0#HTML" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/resources/views/sales/partials/filtersprivate.blade.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/resources/views/sales/private.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="11" column="72" selection-start-line="11" selection-start-column="72" selection-end-line="11" selection-end-column="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/Http/Controllers/SellerAuctionController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="612">
+          <caret line="112" column="28" selection-start-line="112" selection-start-column="21" selection-end-line="112" selection-end-column="28" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/Http/routes.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="284">
-          <caret line="82" column="60" lean-forward="false" selection-start-line="82" selection-start-column="48" selection-end-line="82" selection-end-column="60" />
-          <folding />
+        <state relative-caret-position="176">
+          <caret line="178" column="45" selection-start-line="178" selection-start-column="28" selection-end-line="178" selection-end-column="45" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/Http/Controllers/UserController.php">
+    <entry file="file://$PROJECT_DIR$/src/app/Http/Controllers/AuctionController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="284">
-          <caret line="195" column="32" lean-forward="false" selection-start-line="195" selection-start-column="20" selection-end-line="195" selection-end-column="32" />
-          <folding />
+        <state relative-caret-position="304">
+          <caret line="350" column="34" selection-start-line="350" selection-start-column="34" selection-end-line="350" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/resources/views/bid/index.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="224">
+          <caret line="40" column="82" selection-start-line="40" selection-start-column="82" selection-end-line="40" selection-end-column="82" />
         </state>
       </provider>
     </entry>

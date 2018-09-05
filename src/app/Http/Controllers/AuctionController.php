@@ -113,9 +113,9 @@ class AuctionController extends Controller
         $auction  = new Auction();
         $auction->batch_id = $request->input('batch');
         $auction->start = $startDate->format('Y-m-d H:i:s');
-        $auction->start_price = $request->input('startPrice');
+        $auction->start_price = str_replace(',','.',$request->input("startPrice"));
         $auction->end = $endDate->format('Y-m-d H:i:s');
-        $auction->end_price = $request->input('endPrice');
+        $auction->end_price = str_replace(',','.',$request->input('endPrice'));
         $auction->interval = $request->input('intervalo');
         $auction->amount = $request->input('amount');
 		$auction->type = $request->input('tipoSubasta');
@@ -331,9 +331,10 @@ class AuctionController extends Controller
 
     public function operations(Request $request, $auction_id)
     {
+        setlocale(LC_MONETARY, 'en_US');
+
         $auction = Auction::findOrFail($auction_id);
         $this->authorize('viewOperations', $auction);
-
         $request->session()->put('url.intended', '/auction/operations/'.$auction_id);
         return view('auction.operations',compact('auction'));
     }

@@ -38,7 +38,7 @@
                                         <div style="margin-top:20px;">  
 										   <label> {{ trans('auction.success_bid_price') }}</label><br>
 										   <label>
-											 $ {{ $a->price  }}
+											 $ {{ number_format($a->price,2,',','.') }}
 										  </label>
 										</div>
                                     </div>
@@ -47,7 +47,7 @@
 											
 										<div style=""> 
 										   <label>
-											 $ {{ $a->price * $a->amount  }}
+											 $ {{ number_format($a->price * $a->amount,2,',','.')  }}
 										  </label>
 										</div>
 											
@@ -185,7 +185,6 @@
             font-weight: 600;
             font-family: 'Open Sans';
             font-size: 28px;
-            width: 159px;
             margin-right: 0px;
             margin-top: 12px;
             display: inline-block;

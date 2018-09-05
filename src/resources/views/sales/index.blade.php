@@ -4,12 +4,12 @@
 
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-4">
-            <h2>Ventas</h2>
+            <h2>Ventas v&iacute;a Subastas</h2>
         </div>
         <div class="col-lg-8">
             <h3>
                 <div class="text-center">
-                    <h2>Total ventas concretadas: $ {{ number_format($total,2) }}</h2>
+                    <h2>Total ventas concretadas: $ {{ number_format($total,2,',','.') }}</h2>
                 </div>
             </h3>
 
@@ -44,7 +44,7 @@
                                             <td>{{ $sale->user->name }}</td>
                                             <td>{{ $sale->amount }} {{ trans('general.product_units.'.$sale->auction->batch->product->unit ) }}</td>
                                             <td>{{ $sale->auction->batch->product->name }}</td>
-                                            <td class="text-right">$ {{ $sale->price * $sale->amount }}</td>
+                                            <td class="text-right">$ {{ number_format($sale->price * $sale->amount,2,',','.') }}</td>
                                             <td class="text-right">{{ date('d/m/Y H:i:s',strtotime($sale->bid_date)) }}</td>
                                             <td>{{ $sale->auction->batch->arrive->boat->name }}</td>
                                             <?php
