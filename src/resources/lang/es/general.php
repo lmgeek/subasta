@@ -18,8 +18,10 @@ return [
         'broker' => 'Broker'
     ],
     'product_units' => [
-        'boxes' => 'Cajones',
-        'unity' => 'Unidades'
+        'cajas' => 'Cajas',
+        'cajones' => 'Cajones',
+        'pastillas' => 'Pastillas',
+        'unidad' => 'Unidades'
     ],
     'product_caliber' => [
         'small' => 'Chico',
