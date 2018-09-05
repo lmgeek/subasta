@@ -31,12 +31,18 @@
                             <div class="row">
                                 <div class="col-md-12 text-center">
                                     <div class="btn-group" data-toggle="buttons">
-                                        <label class="btn btn-white btn_concretada"><input type="radio" value="{{ \App\Bid::CONCRETADA }}" name="concretada" id="ventaConcretada">Compra Concretada</label>
-                                        <label class="btn btn-white btn_noConcretada"><input type="radio"  value="{{ \App\Bid::NO_CONCRETADA }}" name="concretada" id="ventaNoConcretada">Compra no concretada</label>
+                                        <label class="btn btn-white btn_concretada {{ (old('concretada',null) == \App\Bid::CONCRETADA ? 'active': '') }}">
+                                            <input type="radio" value="{{ \App\Bid::CONCRETADA }}" {{ (old('concretada',null) == \App\Bid::CONCRETADA ? 'checked': '') }} name="concretada" id="ventaConcretada">
+                                            Compra Concretada
+                                        </label>
+                                        <label class="btn btn-white btn_noConcretada {{ (old('concretada',null) == \App\Bid::NO_CONCRETADA ? 'active': '') }}">
+                                            <input type="radio"  value="{{ \App\Bid::NO_CONCRETADA }}" {{ (old('concretada',null) == \App\Bid::NO_CONCRETADA ? 'checked': '') }} name="concretada" id="ventaNoConcretada">
+                                            Compra no concretada
+                                        </label>
                                     </div>
                                 </div>
-                                <div class="col-md-12 text-center motivoNoConcretada" style="display: none;">
-                                    <textarea name="motivo_no_concretada" placeholder="Motivo" id="" cols="30" rows="10"></textarea>
+                                <div class="col-md-12 text-center motivoNoConcretada" style="{{ (old('concretada',null) == \App\Bid::NO_CONCRETADA ? 'display: block;': 'display: none;') }}">
+                                    <textarea name="motivo_no_concretada" placeholder="Motivo" id="" cols="30" rows="10">{{ old('motivo_no_concretada','') }}</textarea>
                                 </div>
                             </div>
                             <br>
@@ -46,13 +52,22 @@
                                 </div>
                                 <div class="col-md-12 text-center">
                                     <div class="btn-group" data-toggle="buttons">
-                                        <label class="btn btn-white btn_positivo"><input type="radio" value="{{ \App\Bid::CALIFICACION_POSITIVA }}" name="calificacion" id="calificacionPositiva">Calificacion Positiva</label>
-                                        <label class="btn btn-white btn_neutro"><input type="radio"  value="{{ \App\Bid::CALIFICACION_NEUTRAL }}" name="calificacion" id="calificacionNeutra">Calificacion Neutra</label>
-                                        <label class="btn btn-white btn_negativa"><input type="radio"  value="{{ \App\Bid::CALIFICACION_NEGATIVA}}" name="calificacion" id="calificacionNegativa">Calificacion Negativa</label>
+                                        <label class="btn btn-white btn_positivo {{ (old('calificacion',null) == \App\Bid::CALIFICACION_POSITIVA ? 'active': '') }}">
+                                            <input type="radio" value="{{ \App\Bid::CALIFICACION_POSITIVA }}" {{ (old('calificacion',null) == \App\Bid::CALIFICACION_POSITIVA ? 'checked': '') }} name="calificacion" id="calificacionPositiva">
+                                            Calificaci&oacute;n Positiva
+                                        </label>
+                                        <label class="btn btn-white btn_neutro {{ (old('calificacion',null) == \App\Bid::CALIFICACION_NEUTRAL ? 'active': '') }}">
+                                            <input type="radio"  value="{{ \App\Bid::CALIFICACION_NEUTRAL }}" {{ (old('calificacion',null) == \App\Bid::CALIFICACION_NEUTRAL ? 'checked': '') }} name="calificacion" id="calificacionNeutra">
+                                            Calificaci&oacute;n Neutra
+                                        </label>
+                                        <label class="btn btn-white btn_negativa {{ (old('calificacion',null) == \App\Bid::CALIFICACION_NEGATIVA ? 'active': '') }}">
+                                            <input type="radio"  value="{{ \App\Bid::CALIFICACION_NEGATIVA}}" {{ (old('calificacion',null) == \App\Bid::CALIFICACION_NEGATIVA ? 'checked': '') }} name="calificacion" id="calificacionNegativa">
+                                            Calificaci&oacute;n Negativa
+                                        </label>
                                     </div>
                                 </div>
                                 <div class="col-md-12 text-center">
-                                    <textarea name="comentariosCalificacion" placeholder="Comentarios" id="" cols="30" rows="10"></textarea>
+                                    <textarea name="comentariosCalificacion" placeholder="Comentarios" id="" cols="30" rows="10" required>{{ old('comentariosCalificacion','') }}</textarea>
                                 </div>
                             </div>
                         </div>

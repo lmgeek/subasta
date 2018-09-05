@@ -27,4 +27,11 @@ class UpdateArriveRequest extends Request
             'date'  => 'required|date_format:Y-m-d H:i:s|after:'.date('Y-m-d H:i:s'),
         ];
     }
+
+    public function attributes()
+    {
+        return [
+            'date' => 'La fecha de arribo'
+        ];
+    }
 }

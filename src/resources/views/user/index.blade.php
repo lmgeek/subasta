@@ -89,12 +89,12 @@
                             <tbody>
                                 @foreach($users as $user)
                                     <tr>
-                                        <td class="color-{{ $user->type }}">
-											@if ($userRating[$user->id] > 0)
-												<i data-toggle="tooltip" data-placement="right" title="{{ $userRating[$user->id]  }}% {{trans('users.reputability.'.$user->type)}}" class="fa fa-info-circle" ></i>
-											@endif
+                                        <td> <!--class="color-{{ $user->type }}" -->
                                             {{ trans("general.users_type.$user->type") }}
-											
+                                        @if ($userRating[$user->id] > 0)
+                                                <i data-toggle="tooltip" data-placement="right" title="{{ $userRating[$user->id]  }}% {{trans('users.reputability.'.$user->type)}}" class="fa fa-info-circle" ></i>
+                                            @endif
+
                                         </td>
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->email }}</td>

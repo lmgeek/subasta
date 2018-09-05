@@ -20,8 +20,8 @@ class SellerAuctionController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('seeSellerAuction', Auction::class);
 
+        $this->authorize('seeSellerAuction', Auction::class);
         $status = $request->get('status',Auction::MY_IN_CURSE);
         $auctions = Auction::filterAndPaginate($status);
         $sellerAuction = true;
@@ -96,10 +96,15 @@ class SellerAuctionController extends Controller
 
     public function sales(Request $request)
     {
-        $bids = Auth::user()->seller->mySales($request->get('status'),$request->get('buyer'))->orderBy('bid_date','desc');
-        $buyers = clone $bids;
-        $total = Auth::user()->seller->getTotalSales();
-        $buyers = $buyers->select('bids.user_id')->distinct()->get();
+        $bids = [];
+        $buyers = [];
+        $total = 0;
+        if (Auth::user()->seller != null){
+            $bids = Auth::user()->seller->mySales($request->get('status'),$request->get('buyer'))->orderBy('bid_date','desc');
+            $buyers = clone $bids;
+            $total = Auth::user()->seller->getTotalSales();
+            $buyers = $buyers->select('bids.user_id')->distinct()->get();
+        }
 
         $request->session()->put('url.intended', '/sales');
         return view('sales.index',compact('bids','buyers','total','request'));

@@ -56,7 +56,10 @@ class User extends Model implements AuthenticatableContract,
     {
         return $this->belongsTo('App\Client');
     }
-
+    public function getFullNameAttribute() //metodo para Auth::user()->full_name
+    {
+        return $this->name.' '.$this->lastname;
+    }
     public function seller()
     {
         return $this->hasOne('App\Vendedor');
@@ -102,7 +105,7 @@ class User extends Model implements AuthenticatableContract,
         if(!is_null($type) and count($type) > 0) $rtrn->whereIn('type',$type);
         if(!is_null($status) and count($status) > 0) $rtrn->whereIn('status',$status);
 
-        return $rtrn->orderBy('created_at','desc')->get();
+        return $rtrn->orderBy('name','ASC')->get();
     }
 	
 	public static function getInternals($status = null)
@@ -161,5 +164,8 @@ class User extends Model implements AuthenticatableContract,
         }
 
         return $rtrn;
+    }
+    public function privateAuctions(){
+        return $this->belongsToMany('App\Auction','auctions_invites');
     }
 }

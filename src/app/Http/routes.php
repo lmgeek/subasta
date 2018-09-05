@@ -121,7 +121,8 @@ Route::get('sellerboat/batch/delete/{batch}', [
 
 
 Route::group(['middleware' => ['auth']],function(){
-    Route:resource('sellerboat','SellerBoatsController');
+    Route::resource('sellerboat','SellerBoatsController');
+    Route::post("/get/participantes","AuctionController@getParticipantes");
 });
 Route::group(['middleware' => ['auth']],function(){
     Route:resource('sellerAuction','SellerAuctionController');
@@ -166,6 +167,7 @@ Route::post('editbatch', 'SellerBoatsController@editbatch');
 
 Route::get('registro/comprador', 'RegisterController@getRegisterBuyer');
 Route::post('registro/comprador', 'RegisterController@postRegisterBuyer');
+Route::get('verifica/correo/{hash}', 'RegisterController@verifyUsersEmail');
 
 Route::get('registro/vendedor', 'RegisterController@getRegisterSeller');
 Route::post('registro/vendedor', 'RegisterController@postRegisterSeller');

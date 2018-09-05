@@ -56,7 +56,7 @@ class Auction extends Model
 	
 	public function getAvailabilityLock()
 	{
-		$data = \DB::table('batch_statuses')->where('batch_id', '=', $this->batch->id)->lockForUpdate()->get();	
+		$data = \DB::table('batch_statuses')->where('batch_id', '=', $this->batch->id)->lockForUpdate()->get();
 		return $data[0]->assigned_auction;
 	}
 
@@ -132,15 +132,14 @@ class Auction extends Model
         return $rtrn;
     }
 
-    public static function filterAndPaginate($status , $product = null , $seller = null , $boat = null , $type = self::AUCTION_PUBLIC )
+    public static function filterAndPaginate($status , $product = null , $seller = null , $boat = null , $type = self::AUCTION_PUBLIC , $withStock = false)
     {
         $now =date("Y-m-d H:i:s");
         switch ($status){
             case self::FINISHED:
                 $rtrn = Auction::where('end','<=',$now)
 					->where('auctions.type','=',$type)
-                    ->orderBy('start','DESC')
-                    ->paginate();
+                    ->orderBy('start','DESC');
                 break;
             case self::FUTURE:
                 $rtrn = Auction::select('auctions.*')
@@ -168,8 +167,7 @@ class Auction extends Model
 					}
 				$rtrn = $rtrn->where('start','>',$now)
 						->where('auctions.type','=',$type)
-						->orderBy('start','DESC')
-                    ->paginate();
+						->orderBy('start','DESC');
                 break;
             case self::MY_IN_CURSE:
                 $rtrn = Auction::select('auctions.*')
@@ -180,8 +178,7 @@ class Auction extends Model
                     ->where('users.id',Auth::user()->id)
                     ->where('auctions.start','<',$now)
                     ->where('auctions.end','>',$now)
-                    ->orderBy('auctions.end','desc')
-                    ->paginate();
+                    ->orderBy('auctions.end','desc');
                 break;
             case self::MY_FUTURE:
                 $rtrn = Auction::select('auctions.*')
@@ -191,8 +188,7 @@ class Auction extends Model
                     ->join('users','boats.user_id','=','users.id')
                     ->where('users.id',Auth::user()->id)
                     ->where('auctions.start','>',$now)
-                    ->orderBy('auctions.created_at','desc')
-                    ->paginate();
+                    ->orderBy('auctions.created_at','desc');
                 break;
             case self::MY_FINISHED:
                 $rtrn = Auction::select('auctions.*')
@@ -202,11 +198,9 @@ class Auction extends Model
                     ->join('users','boats.user_id','=','users.id')
                     ->where('users.id',Auth::user()->id)
                     ->where('auctions.end','<=',$now)
-                    ->orderBy('auctions.created_at','desc')
-                    ->paginate();
+                    ->orderBy('auctions.created_at','desc');
                 break;
             default:
-			
 					$rtrn = Auction::select('auctions.*')
 						   ->join('batches','auctions.batch_id','=','batches.id');
 					if ( null != $product  )
@@ -218,29 +212,52 @@ class Auction extends Model
 						$rtrn = $rtrn->join('arrives','batches.arrive_id','=','arrives.id')
 									 ->join('boats','arrives.boat_id','=','boats.id')
 									 ->join('users','boats.user_id','=','users.id');
-									 
+
 							if (null != $seller)
 							{
 								$rtrn = $rtrn->whereIn('users.id',$seller);
 							}
-							
+
 							if (null != $boat)
 							{
 								$rtrn = $rtrn->whereIn('boats.id',$boat);
 							}
-							
+
 					}
 					
 					$rtrn = $rtrn->where('start','<',$now)
                     ->where('end','>',$now)
 					->where('auctions.type','=',$type)
 					->where('active','=',self::ACTIVE)
-                    ->orderBy('end','DESC')
-                    ->paginate();
+                    ->orderBy('end','asc');
 					
                 break;
         }
+//        dd($rtrn->get());
+        if ($withStock){
+            $array_auctions = [];
+            $rtrn = $rtrn->get();
+            foreach ($rtrn as $value){
+                $bids = $value->bids;
+                if (!empty($bids)){
+                    $amount = 0;
+                    foreach ($bids as $bid){
+                        $amount += intval($bid->amount);
+                    }
+                    if ($amount < $value->amount){
+                        $array_auctions[] = $value;
+                    }
+                }
+                else {
+                    $array_auctions[] = $value;
+                }
+            }
+            $rtrn = collect($array_auctions);
 
+        }
+        else {
+            $rtrn = $rtrn->paginate();
+        }
         return $rtrn;
     }
 	
@@ -386,5 +403,10 @@ class Auction extends Model
         $this->subscription->status = Subscription::NO_NOTIFICADO;
         $this->subscription->save();
     }
-	
+    public function userInvited(){
+        return $this->belongsToMany('App\User','auctions_invites')->orderBy("name");
+    }
+    static function getClosingAuction(){
+	    dd(Auction::find(66)->bids);
+    }
 }

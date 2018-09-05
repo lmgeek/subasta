@@ -176,7 +176,6 @@ class BoatController extends Controller
             $boats = array();
 		
 			$boats = Boat::where('user_id',Auth::user()->id)->where('status',Boat::APROBADO)->paginate();
-
             return view('boat.sellerbatch',compact('boats','request'));
         } else {
             return redirect('/home');

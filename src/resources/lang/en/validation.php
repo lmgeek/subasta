@@ -77,6 +77,7 @@ return [
     'url'                  => 'The :attribute format is invalid.',
     'batch_is_mine'        => 'the batch does not belong to the user.',
     'auction_price_greater_than' => 'The :attribute must be greater than end price.',
+    "private" => "private",
 
     /*
     |--------------------------------------------------------------------------

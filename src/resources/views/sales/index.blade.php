@@ -9,7 +9,7 @@
         <div class="col-lg-8">
             <h3>
                 <div class="text-center">
-                    <h2>Total ventas: $ {{ number_format($total,2) }}</h2>
+                    <h2>Total ventas concretadas: $ {{ number_format($total,2) }}</h2>
                 </div>
             </h3>
 
@@ -38,34 +38,36 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($bids->get() as $sale)
-                                <tr>
-                                    <td>{{ $sale->user->name }}</td>
-                                    <td>{{ $sale->amount }} {{ trans('general.product_units.'.$sale->auction->batch->product->unit ) }}</td>
-                                    <td>{{ $sale->auction->batch->product->name }}</td>
-                                    <td class="text-right">$ {{ $sale->price * $sale->amount }}</td>
-                                    <td class="text-right">{{ date('d/m/Y H:i:s',strtotime($sale->bid_date)) }}</td>
-                                    <td>{{ $sale->auction->batch->arrive->boat->name }}</td>
-                                    <?php
-                                        switch ($sale->status){
-                                            case \App\Bid::PENDIENTE:
-                                                $class = "warning";
-                                                break;
-                                            case \App\Bid::NO_CONCRETADA:
-                                                $class = "danger";
-                                                break;
-                                            default:
-                                                $class = "success";
-                                        }
-                                    ?>
-                                    <td class="{{ $class }}">{{ trans('general.bid_status.'.$sale->status) }}</td>
-                                    <td>
-                                        @if ($sale->status == \App\Bid::PENDIENTE)
-                                            <a href="{{ route('auction.operations.process',$sale) }}" class="btn-action">{{ trans('auction.process') }}</a>
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endforeach
+                                @if(!empty($bids))
+                                    @foreach($bids->get() as $sale)
+                                        <tr>
+                                            <td>{{ $sale->user->name }}</td>
+                                            <td>{{ $sale->amount }} {{ trans('general.product_units.'.$sale->auction->batch->product->unit ) }}</td>
+                                            <td>{{ $sale->auction->batch->product->name }}</td>
+                                            <td class="text-right">$ {{ $sale->price * $sale->amount }}</td>
+                                            <td class="text-right">{{ date('d/m/Y H:i:s',strtotime($sale->bid_date)) }}</td>
+                                            <td>{{ $sale->auction->batch->arrive->boat->name }}</td>
+                                            <?php
+                                                switch ($sale->status){
+                                                    case \App\Bid::PENDIENTE:
+                                                        $class = "warning";
+                                                        break;
+                                                    case \App\Bid::NO_CONCRETADA:
+                                                        $class = "danger";
+                                                        break;
+                                                    default:
+                                                        $class = "success";
+                                                }
+                                            ?>
+                                            <td class="{{ $class }}">{{ trans('general.bid_status.'.$sale->status) }}</td>
+                                            <td>
+                                                @if ($sale->status == \App\Bid::PENDIENTE)
+                                                    <a href="{{ route('auction.operations.process',$sale) }}" class="btn-action">{{ trans('auction.process') }}</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
                             </tbody>
                         </table>
                     </div>

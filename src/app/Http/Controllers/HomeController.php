@@ -68,8 +68,8 @@ class HomeController extends Controller
             $widgets[(new \ReflectionClass($oWidget))->getShortName()] = $oWidget::run();
         }
 
-
-		return view('home.index',compact('widgets'));
+        $approved = Auth::user()->isApproved();
+		return view('home.index', compact('widgets', 'approved'));
     }
 
 }

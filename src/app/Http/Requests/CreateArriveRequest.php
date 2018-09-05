@@ -27,7 +27,15 @@ class CreateArriveRequest extends Request
     {
         return [
             'barco' => 'required|exists:boats,id,user_id,'.Auth::user()->id,
-            'date' => 'required|date|date_format:Y-m-d H:i:s'
+            'date' => 'required|date|date_format:Y-m-d H:i:s|after:'.date('Y-m-d H:i:s')
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+          'barco' => 'El barco',
+          'date' => 'La fecha de arribo'
         ];
     }
 }

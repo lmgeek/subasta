@@ -25,7 +25,7 @@
                                 </tr>
                                 <tr>
                                     <td class="content-block">
-                                      El vendedor,  {{ $seller['name']  }} Lo ha invitado a una subasta privada
+                                      El vendedor,  {{ $seller['name']  }} lo ha invitado a una subasta privada
 									  
                                     </td>
                                 </tr>

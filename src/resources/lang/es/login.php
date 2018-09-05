@@ -6,6 +6,6 @@ return [
     "sub_title_2" => "Ingresa y pruebalo.",
     "login" => "Ingresar",
     "forgot_pass" => "¿Olvidó su contraseña?",
-    "no_account" => "¿No tienes una cuenta?",
+    "no_account" => "¿No tenés una cuenta?",
     "create_account" => "Crear cuenta",
 ];

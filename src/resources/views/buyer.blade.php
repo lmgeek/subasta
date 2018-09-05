@@ -40,29 +40,32 @@
             <form class="m-t" role="form" method="POST" action="/registro/comprador">
                  {{ csrf_field() }}
 				<div class="form-group">
-                    <input name="name" id="name" type="text" class="form-control" placeholder="{{trans('register.name')}}" required="" value="{{ old('name') }}">
-                </div>
-				<div class="form-group">
-                    <input name="dni" id="dni" type="text" class="form-control" placeholder="{{trans('register.dni')}}" value="{{ old('dni') }}" required="">
+                    <input name="name" id="name" type="text" class="form-control" placeholder="{{trans('register.name')}}"  value="{{ old('name') }}">
                 </div>
                 <div class="form-group">
-                    <input name="email" id="email" type="email" class="form-control" placeholder="{{trans('register.email')}}" value="{{ old('email') }}" required="">
+                    <input name="lastname" id="lastname" type="text" class="form-control" placeholder="{{trans('register.lastname')}}"  value="{{ old('lastname') }}">
+                </div>
+				<div class="form-group">
+                    <input name="dni" id="dni" type="text" class="form-control" placeholder="{{trans('register.dni')}}" value="{{ old('dni') }}" >
                 </div>
                 <div class="form-group">
-                    <input name="password" id="password" type="password" class="form-control" placeholder="{{trans('register.password')}}" required="">
+                    <input name="email" id="email" type="text" class="form-control" placeholder="{{trans('register.email')}}" value="{{ old('email') }}" >
+                </div>
+                <div class="form-group">
+                    <input name="password" id="password" type="password" class="form-control" placeholder="{{trans('register.password')}}" >
                 </div>
 				<div class="form-group">
-                    <input name="password_confirmation" id="password_confirmation" type="password" class="form-control"  placeholder="{{trans('register.confirm_password')}}" required="">
+                    <input name="password_confirmation" id="password_confirmation" type="password" class="form-control"  placeholder="{{trans('register.confirm_password')}}" >
                 </div>
 				<div class="form-group">
-                    <input name="phone" id="phone" type="text" class="form-control" placeholder="{{trans('register.phone')}}" value="{{ old('phone') }}"  required="">
+                    <input name="phone" id="phone" type="text" min="8" class="form-control" placeholder="{{trans('register.phone')}}" value="{{ old('phone') }}"  >
                 </div>
                 <div class="form-group">
                        <!-- <div class="checkbox i-checks"><label> <input type="checkbox"><i></i> Agree the terms and policy </label></div>-->
                 </div>
                 <button type="submit" class="btn btn-primary block full-width m-b">{{trans('register.register')}} {{ trans('register.buyer') }}</button>
-
-                <p class="text-muted text-center"><small>{{trans('register.ifexist')}}</small></p>
+                <input type="hidden" name="cuit" value="12345678901123">
+                <p class="text-muted text-center">{{trans('register.ifexist')}}</p>
                 <a class="btn btn-sm btn-white btn-block" href="/auth/login">{{trans('register.login')}}</a>
             </form>
            
@@ -71,6 +74,7 @@
 
     <!-- Mainly scripts -->
     <script src="{{ asset('/js/jquery-2.1.1.js') }}"></script>
+    <script src="{{ asset('/js/jquery.mask.js') }}"></script>
     <script src="{{ asset('/js/bootstrap.min.js') }}"></script>
     <!-- iCheck -->
     <script src="{{ asset('/js/plugins/iCheck/icheck.min.js') }}"></script>
@@ -80,6 +84,8 @@
                 checkboxClass: 'icheckbox_square-green',
                 radioClass: 'iradio_square-green',
             });
+
+            $("#phone").mask('0000-0000-0000', {reverse:true});
         });
     </script>
 </body>
