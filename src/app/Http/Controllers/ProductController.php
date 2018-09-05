@@ -46,9 +46,10 @@ class ProductController extends Controller
 
         if ( file_exists('img/products/'.$fileName) ){
 
-            $fileExt = $request->file('imagen')->getClientOriginalExtension();
-            $fileName =  $request->input('nombre') . "-" . $request->input('unidad') . "." . $fileExt;
-            $request->file('imagen')->move( 'img/products',$fileName );
+//            $fileExt = $request->file('imagen')->getClientOriginalExtension();
+//            $fileName =  $request->input('nombre') . "-" . $request->input('unidad') . "." . $fileExt;
+//            $request->file('imagen')->move( 'img/products',$fileName );
+//            $fileName = $request->file('imagen')->getClientOriginalName();
 
         } else {
 
@@ -103,9 +104,9 @@ class ProductController extends Controller
         $prod = Product::withTrashed()->findOrFail($id);
 
         if(!is_null($request->file('imagen'))){
-            if (!is_null($prod->image_name) and file_exists('img/products/'.$prod->image_name)){
-                unlink('img/products/'.$prod->image_name);
-            }
+//            if (!is_null($prod->image_name) and file_exists('img/products/'.$prod->image_name)){
+//                unlink('img/products/'.$prod->image_name);
+//            }
 
             $fileName = $request->file('imagen')->getClientOriginalName();
             $request->file('imagen')->move( 'img/products',$fileName );

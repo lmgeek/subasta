@@ -299,10 +299,6 @@ h1 {
 .gray-section {
   background: #2680ff;
   margin-top: 60px;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
 }
 .team-member {
   text-align: center;

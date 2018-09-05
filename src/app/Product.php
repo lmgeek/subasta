@@ -9,8 +9,8 @@ class Product extends Model
 {
     use SoftDeletes;
 
-    const CAJONES = "cajones";
     const CAJAS = "cajas";
+    const CAJONES = "cajones";
     const PASTILLAS = "pastillas";
     const UNIDADES = "unidad";
 
@@ -26,8 +26,8 @@ class Product extends Model
     public static function units()
     {
         return [
-            self::CAJONES,
             self::CAJAS,
+            self::CAJONES,
             self::PASTILLAS,
             self::UNIDADES
         ];
