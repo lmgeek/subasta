@@ -80,7 +80,9 @@
                             <select  class="form-control" name="product" id="product">
                                 <option>Seleccione...</option>
                                 @foreach($products as $p)
-                                    <option value="{{ $p->id }}" data-unity="{{ trans('general.product_units.'.$p->unit) }}">{{ $p->name }}</option>
+                                    @if( !$p->trashed() )
+                                        <option value="{{ $p->id }}" data-unity="{{ trans('general.product_units.'.$p->unit) }}">{{ $p->name }} ( {{ $p->unit }} )</option>
+                                    @endif
                                 @endforeach
                             </select>
                         </div>
