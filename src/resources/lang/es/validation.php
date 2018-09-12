@@ -93,6 +93,20 @@ return [
         "attribute-name" => [
             "rule-name" => "custom-message",
         ],
+        "matricula"     => [
+            'require'      => 'La Matrícula no puede estar vacío.',
+            'unique'       => 'La Matrícula ya se encuentra registrada.',
+        ],
+        "unidad"     => [
+            'require'      => 'La Unidad no puede estar vacío.',
+            'unique'       => 'La Unidad ya se encuentra registrada.',
+        ],
+        "nombre"          => [
+            'require'           => 'El Nombre no puede estar vacío.',
+            'unique'            => 'El Nombre ya se encuentra registrado.',
+        ],
+        "weigth.require"          =>  'El Peso no puede estar vacío.',
+
     ],
 
     /*

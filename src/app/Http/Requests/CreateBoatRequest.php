@@ -26,8 +26,21 @@ class CreateBoatRequest extends Request
     public function rules()
     {
         return [
-            'name' => 'required|unique:boats,name,NULL,id,user_id,'.Auth::user()->id,
+            'name'      => 'required|unique:boats,name,NULL,id,user_id,'.Auth::user()->id,
             'matricula' => 'required|unique:boats,matricula,NULL,id,user_id,'.Auth::user()->id
         ];
+//        $rules = [
+//            'name'      => 'required|unique:boats,name,NULL,id,user_id,'.Auth::user()->id,
+//            'matricula' => 'required|unique:boats,matricula,NULL,id,user_id,'.Auth::user()->id
+//        ];
+//
+//        $messages = [
+//            'name.require'           => 'El Nombre del barco no puede estar vacío.',
+//            'name.unique'            => 'El nombre del barco ya se encuentra registrado.',
+//            'matricula.require'      => 'La Matrícula no puede estar vacío.',
+//            'matricula.unique'       => 'La Matrícula ya se encuentra registrada.',
+//        ];
+//
+//        return ($rules,$messages);
     }
 }

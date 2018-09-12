@@ -79,7 +79,7 @@
                                     @endif
                                     <div id="preview"></div>
                                     <a href="#" onclick="resetFile()" id="trash">
-                                        <span><i class="fa fa-trash"></i> Eliminar imagen</span>
+                                        <span><i class="fa fa-trash"></i> Limpiar imagen</span>
                                     </a>
                                 </div>
                                 {{--<div class="col-md-12" style="margin-bottom: 20px">--}}
