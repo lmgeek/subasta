@@ -176,7 +176,7 @@ class SellerBoatsController extends Controller
         $boat = Arrive::findOrFail($arrive_id)->boat;
         $this->authorize('createBatch', $boat);
 
-        $products = Product::all();
+        $products = Product::withTrashed()->orderBy('name')->get();
         $calibers = Product::caliber();
         return view('sellerBoats.batch',compact('boat','products','calibers','arrive_id'));
     }

@@ -20,7 +20,7 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $products = Product::withTrashed()->get();
+        $products = Product::withTrashed()->orderBy('name')->get();
         return view('products.index',compact('request','products'));
     }
 
