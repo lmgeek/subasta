@@ -38,8 +38,8 @@ class Product extends Model
     {
         return [
             self::CHICO,
-            self::MEDIANO,
-            self::GRANDE
+            self::GRANDE,
+            self::MEDIANO
         ];
     }
 

@@ -27,21 +27,8 @@
                         <strong>Error</strong><br><br>
                         <ul>
                             @foreach ($errors->all() as $error)
-                                <li>{{ str_replace('weigth', 'peso', $error)  }}</li>
+                                <li>{{ $error }}</li>
                             @endforeach
-                            {{--@if ($errors->has('nombre'))--}}
-                                {{--<li>{{ str_replace('El campo nombre', 'El Nombre', $errors->first('nombre')) }}</li>--}}
-                                {{--<li>{{ str_replace('nombre', 'El Nombre', $errors->first('nombre')) }}</li>--}}
-                            {{--@endif--}}
-                            {{--@if ($errors->has('unidad'))--}}
-                                {{--<li>{{ str_replace('El campo unidad', 'La Unidad', $errors->first('unidad')) }}</li>--}}
-                            {{--@endif--}}
-                            {{--@if ($errors->has('weigth'))--}}
-                                {{--<li>{{ str_replace('campo weigth', 'Peso', $errors->first('weigth')) }}</li>--}}
-                            {{--@endif--}}
-                            {{--@if ($errors->has('imagen'))--}}
-                                {{--<li>{{ str_replace('El campo imagen', 'La imagen', $errors->first('imagen')) }}</li>--}}
-                            {{--@endif--}}
                         </ul>
                     </div>
                 </div>

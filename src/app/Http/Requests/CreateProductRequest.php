@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Support\Facades\App;
 use App\Http\Requests\Request;
 use App\Product;
 use App\User;
@@ -9,6 +10,12 @@ use Auth;
 
 class CreateProductRequest extends Request
 {
+    public $locale;
+
+    public function __construct()
+    {
+        $this->locale = App::getLocale();
+    }
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -46,5 +53,15 @@ class CreateProductRequest extends Request
                 'imagen' => 'required|image',
             ];
         }
+    }
+
+    public function attributes()
+    {
+        if ($this->locale == "es"){
+            return [
+                "weigth" => "peso"
+            ];
+        }
+        return [];
     }
 }
