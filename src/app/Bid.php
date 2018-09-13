@@ -3,9 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Traits\priceTrait;
 
 class Bid extends Model
 {
+    use priceTrait;
 	protected $table = 'bids';
 	
 	protected $fillable = ['user_id', 'auction_id','amount','price','bid_date','status','reason','user_calification','user_calification_comments','weight','buyer_name'];

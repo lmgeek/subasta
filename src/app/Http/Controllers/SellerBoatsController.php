@@ -281,7 +281,8 @@ class SellerBoatsController extends Controller
     {
         $batch = Batch::findOrFail($request->input('id'));
         $this->authorize('makeDirectBid', $batch);
-        $importe = str_replace(',','.',$request->input('importe'));
+//        $importe = str_replace(',','.',$request->input('importe'));
+        $importe = $request->input('importe');
         $batch->makePrivateSale(  $request->input('amount'),
             $importe ,
             $request->input('comprador')

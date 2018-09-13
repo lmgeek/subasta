@@ -93,14 +93,7 @@ class UserController extends Controller
         $user = $this->user;
         $info = ViewHelper::UserAdditionalInfo($user);
         $info->bid_limit = str_replace('.',',', $info->bid_limit);
-        $decimal = explode(',' ,$info->bid_limit );
-        if(isset($decimal[1]) && strlen($decimal[1]) > 1 ){
-            $info->bid_limit = $info->bid_limit;
-        }else if(isset($decimal[1]) && strlen($decimal[1]) == 1){
-            $info->bid_limit = $info->bid_limit."0";
-        }else{
-            $info->bid_limit = $info->bid_limit.",00";
-        }
+
 		$bids = array();
 		$total = 0;
 		$total2 = 0; 
@@ -132,8 +125,7 @@ class UserController extends Controller
 			}
 			
 		}
-		
-		
+
         return view('user.show',compact('user','info','bids','total','total2','score'));
     }
 
@@ -196,7 +188,7 @@ class UserController extends Controller
 	public function editBidLimit(Request $request)
 	{
 		$user  = User::findOrFail($request->input('user_buyer_id'));
-		$bid_limit = str_replace(',', '.', $request->input('bid_limit'));
+		$bid_limit = $request->input('bid_limit');
 		$user->buyer->bid_limit = $bid_limit;
 		$user->buyer->save();
 		return redirect()->route('users.show', $user->id);
