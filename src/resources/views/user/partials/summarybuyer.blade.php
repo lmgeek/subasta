@@ -25,7 +25,7 @@
                                     <td>{{ $sale->auction->batch->arrive->boat->user->name }}</td>
                                     <td>{{ $sale->amount }} {{ trans('general.product_units.'.$sale->auction->batch->product->unit ) }}</td>
                                     <td>{{ $sale->auction->batch->product->name }}</td>
-                                    <td class="text-right">$ {{ number_format($sale->price * $sale->amount , 2) }}</td>
+                                    <td class="text-right">$ {{ number_format($sale->price * $sale->amount , 2,',','.') }}</td>
                                     <td class="text-right">{{ date('d/m/Y H:i:s',strtotime($sale->bid_date)) }}</td>
                                     <td>{{ $sale->auction->batch->arrive->boat->name }}</td>
                                     <?php
@@ -66,8 +66,6 @@
 											@endif
 										</center>
 									</td>
-									 
-									
                                 </tr>
                             @endforeach
                             </tbody>

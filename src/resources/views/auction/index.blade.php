@@ -122,18 +122,17 @@
     <script src="{{ asset('/js/plugins/ionRangeSlider/ion.rangeSlider.min.js') }}"></script>
     <script src="{{ asset('/js/plugins/star_rating/jquery.raty.js') }}"></script>
     <script src="{{ asset('/js/plugins/jasny/jasny-bootstrap.min.js') }}"></script>
-     <script src="{{ asset('/js/plugins/toastr/toastr.min.js') }}"></script>
+ 	<script src="{{ asset('/js/plugins/toastr/toastr.min.js') }}"></script>
 	<script src="{{ asset('/js/plugins/jsKnob/jquery.knob.js') }}"></script>
 	<script src="{{ asset('/js/plugins/chosen/chosen.jquery.js') }}"></script>
-
 	<script>
 
 	$(function(){
 		$('[data-toggle="tooltip"]').tooltip();
 		$(document.body).on('hidden.bs.modal', function () {
-				$(".amount-bid-modal").val('');
-				$(".modal-price").html('');
-				$(".content-danger").html('');
+			$(".amount-bid-modal").val('');
+			$(".modal-price").html('');
+			$(".content-danger").html('');
 		});
 
 		$(".amount-bid-modal").keyup(function(){
@@ -143,8 +142,7 @@
 			var price = $(".hid-currentPrice-"+auctionId).val();
             // var total =   price..replace(/[aiou]/gi,'e')
             var total =   currency(price).multiply(value)
-            $(".modal-total-"+auctionId).html('Total $' + currency(total).format() )
-
+            $(".modal-total-"+auctionId).html('Total $' + currency(total,{ separator: ".",decimal: ","}).format() )
 
 		});
 

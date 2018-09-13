@@ -5,7 +5,7 @@
                         {{ csrf_field() }}
 <label>Límite de compra</label>
 <div class="input-group">
-	<input placeholder="Límite de compra " name="bid_limit" value="{{ $info->bid_limit}}" type="text" class="form-control number" id="bid_limit">
+	<input placeholder="Límite de compra " name="bid_limit" value="{{ number_format($info->bid_limit,2,",","") }}" type="text" class="form-control number" id="bid_limit">
 	<span class="input-group-btn">
 	<input type="hidden" name="user_buyer_id" value="{{ $user->id }}" />
 	<button type="submit" class="btn btn-primary">Guardar</button> 

@@ -39,7 +39,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                
+
                             </div>
 							<div class="row">
 								<div class="col-md-6">
@@ -128,7 +128,7 @@
     <script>
         $(document).ready(function () {
 			$('[data-toggle="tooltip"]').tooltip();
-			
+
             $('.dataTables-example').DataTable({
                 "aaSorting": [],
                 language:

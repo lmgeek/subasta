@@ -37,26 +37,26 @@ class AuctionController extends Controller
 		$product = $request->get('product',null);
 		$seller = $request->get('seller',null);
 		$boat = $request->get('boat',null);
-		
+
 		$auction_id = $request->get('auction_id',null);
 		$invited = $request->get('invited',null);
 		$type = $request->get('type',null);
-		
+
 		if ($type == Auction::AUCTION_PRIVATE)
 		{	$user = Auth::user();
 			$auctions = Auction::auctionPrivate($user->id , $status);
 		}else{
 			$auctions = Auction::filterAndPaginate($status,$product,$seller,$boat);
 		}
-		
+
 		$products = array();
 		$sellers =  array();
 		$boats = array();
 		$products = Product::select()->get();
 		$sellers = User::filter(null, array(User::VENDEDOR), array(User::APROBADO));
 		$boats = Boat::Select()->get();
-		
-		$userRating =  array(); 
+
+		$userRating =  array();
 		foreach($auctions as $a)
 		{
 			$porc = 0;
@@ -69,7 +69,7 @@ class AuctionController extends Controller
 				{
 					$porc = round(($ratings->positive*100)/$total , 2);
 				}
-				
+
 			}
 			$userRating[$user->id]= $porc;
 		}
@@ -113,9 +113,9 @@ class AuctionController extends Controller
         $auction  = new Auction();
         $auction->batch_id = $request->input('batch');
         $auction->start = $startDate->format('Y-m-d H:i:s');
-        $auction->start_price = str_replace(',','.',$request->input("startPrice"));
+        $auction->start_price = $request->input("startPrice");
         $auction->end = $endDate->format('Y-m-d H:i:s');
-        $auction->end_price = str_replace(',','.',$request->input('endPrice'));
+        $auction->end_price = $request->input('endPrice');
         $auction->interval = $request->input('intervalo');
         $auction->amount = $request->input('amount');
 		$auction->type = $request->input('tipoSubasta');

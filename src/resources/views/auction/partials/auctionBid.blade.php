@@ -38,9 +38,9 @@
                 </div>
                 <div class="modal-body text-center">
 					<div>
-						@include('auction.partials.auctionInfoModal')	
-						
-					
+						@include('auction.partials.auctionInfoModal')
+
+
 						<strong>Disponible: <span class="s-disponible-{{ $a->id }}">{{ $disponible }}  {{ trans('general.product_units.'.$a->batch->product->unit) }}</span> <br> Precio Unitario: <span class="currentPrice-{{ $a->id }}"></span></strong>
 						<div class="row">
 							<div class="col-md-12">
@@ -50,34 +50,34 @@
 										<div class="col-md-12">
 											<div class="col-md-6" >
 												<input type="number" style="width:110px" min="<?= ($disponible>0)?'1':'0' ?>" max="{{$disponible}}" placeholder="Cantidad"  auctionId="{{ $a->id }}" class="form-control bfh-number amount-bid amount-bid-modal" id="amount-bid-{{ $a->id }}" min="1" pattern="^[0-9]+"/>
-											</div> 
+											</div>
 											<div class="col-md-4" style="margin-top: 7px;">
 												<strong><span class="modal-unit-{{ $a->id }}">{{ trans('general.product_units.'.$a->batch->product->unit) }}</span> </strong>
-											</div> 
+											</div>
 											<input type="hidden" value="" class="hid-currentPrice-{{ $a->id }}" />
 										</div>
-										
+
 										<div class="col-md-12">
 											<div class="priceText modal-total-{{ $a->id }} modal-price "> </div>
 										</div>
-										
-										
+
+
 									</div>
 									<div class="row">
 										<div class="col-md-12">
 											<div class="content-danger content-danger-{{ $a->id }}">
-											
+
 											</div>
-											
+
 										</div>
 									</div>
 								</form>
 							</div>
 						</div>
 					</div>
-					
-					
-								
+
+
+
                 </div>
                 <div class="modal-footer">
 					<button type="button"  data-loading-text="Comprando..." auctionId="{{ $a->id }}" class=" noDblClick mak-bid-{{ $a->id }} make-bid btn btn-primary">{{ trans('auction.action_bid') }}</button>

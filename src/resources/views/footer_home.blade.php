@@ -136,7 +136,8 @@
           url: "/calculateprice?auction_id="+auctionId,
           success: function(data)
           {
-            $(".currentPrice-"+auctionId).html('<font size="4px">$</font>' + data + ' xKg');
+              var price = currency(parseFloat(data),{ separator: ".",decimal: ","}).format();
+            $(".currentPrice-"+auctionId).html('<font size="4px">$</font>' + price + ' xKg');
             $(".hid-currentPrice-"+auctionId).val(data);
 
                 if($('#bid-Modal-'+auctionId).is(':visible'))
