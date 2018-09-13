@@ -93,7 +93,7 @@
 
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
-							</button><h3><center>Lista de participantes</center></h3>
+							</button><h3><center>Lista de invitados</center></h3>
 						</div>
 						<div class="modal-body text-center">
 							<div class="row">
@@ -153,20 +153,23 @@
 	function calculatePrice(auctionId)
 	{
 		$.ajax({
-		  method: "GET",
-		  url: "/calculateprice?auction_id="+auctionId,
-		  success: function(data)
-		  {
-			$(".currentPrice-"+auctionId).html('$' + data);
-			$(".hid-currentPrice-"+auctionId).val(data);
+		  	method: "GET",
+		  	url: "/calculateprice?auction_id="+auctionId,
+		  	success: function(data)
+		  	{
+                console.log(data);
+                var price = currency(parseFloat(data),{separator: '.',decimal: ","}).format();
+				$(".currentPrice-"+auctionId).html('$' + price);
+				$(".hid-currentPrice-"+auctionId).val(data);
 
 				if($('#bid-Modal-'+auctionId).is(':visible'))
 				{
 					var total = ( $("#amount-bid-" + auctionId ).val()  * data);
-					$(".modal-total-"+auctionId).html('Total $' + total.toFixed(2) )
+
+                    $(".modal-total-"+auctionId).html('Total $' + total.toFixed(2) );
 				}
 
-		  }
+		  	}
 		});
 	}
 
