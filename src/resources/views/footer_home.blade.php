@@ -110,19 +110,24 @@
                 $(".content-danger").html('');
         });
     
-        $(".amount-bid-modal").keyup(function(){
-        
-            var auctionId = $(this).attr('auctionId');
-            var value = $(this).val();
-            var price = $(".hid-currentPrice-"+auctionId).val();
-            // var total =   price..replace(/[aiou]/gi,'e')
-            var total =   currency(price).multiply(value)
-            $(".modal-total-"+auctionId).html('Total $' + currency(total).format() )
-
-
-        });
+        $(".amount-bid-modal").on("keyup",validateAvailability);
 
     });
+
+    function validateAvailability(){
+        var auctionId = $(this).attr('auctionId');
+        var price = $(".hid-currentPrice-"+auctionId).val();
+        var value = $(this).val();
+        var disponible = parseInt($(".target-total").attr("target"));
+        if (disponible < parseInt(value)){
+            $(this).val(disponible);
+            value = disponible;
+        }
+
+        // var total =   price..replace(/[aiou]/gi,'e')
+        var total =   currency(price).multiply(value)
+        $(".modal-total-"+auctionId).html('Total $' + currency(total).format() )
+    }
 
     function calculatePrice(auctionId)
     {
@@ -131,7 +136,8 @@
           url: "/calculateprice?auction_id="+auctionId,
           success: function(data)
           {
-            $(".currentPrice-"+auctionId).html('<font size="4px">$</font>' + data + ' xKg');
+              var price = currency(parseFloat(data),{ separator: ".",decimal: ","}).format();
+            $(".currentPrice-"+auctionId).html('<font size="4px">$</font>' + price + ' xKg');
             $(".hid-currentPrice-"+auctionId).val(data);
 
                 if($('#bid-Modal-'+auctionId).is(':visible'))
@@ -186,7 +192,9 @@
 
 
     $(document).ready(function(){
-
+        $(".amount-bid-modal").on("focusout",function (e) {
+            console.log(this.value);
+        });
 
         $('.chosen-select').chosen({width:"100%"});
 

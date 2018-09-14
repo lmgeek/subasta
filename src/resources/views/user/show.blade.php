@@ -33,6 +33,7 @@
 								<dt>{{ trans('users.phone') }}</dt>
 								<dd>{{ $user->phone }}</dd>
 								<br>
+
 								@include(\App\ViewHelper::includeUserInfo($user->type))
 								@if ($user->status == \App\User::RECHAZADO)
 									<dt>{{ trans('users.rebound') }}</dt>
@@ -55,10 +56,10 @@
                             <div class="col-xs-9 text-right">
 								<h2 class="font-bold">
 								@if ($user->type == \App\User::VENDEDOR )
-									Total ventas: {{ number_format($total,2) }}
+									Total ventas: {{ number_format($total,2,',','.') }}
 								@endif
 								@if ($user->type == \App\User::COMPRADOR )
-									Total Compras: {{ number_format($total,2) }}
+									Total Compras: {{ number_format($total,2,',','.') }}
 								@endif
                                 
 								</h2>
@@ -74,7 +75,7 @@
 								<div class="col-xs-9 text-right">
 									<h3 class="font-bold" style="font-size:28px;">
 									@if ($user->type == \App\User::VENDEDOR )
-										Ventas privadas: {{ number_format($total2,2) }}
+										Ventas privadas: {{ number_format($total2,2,',','.') }}
 									@endif
 									</h3>
 								</div>

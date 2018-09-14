@@ -16,6 +16,8 @@ class CreateProductsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('unit');
+            $table->float('weigth');
+            $table->string('image_name');
             $table->timestamps();
         });
     }

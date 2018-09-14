@@ -14,7 +14,7 @@
                         <strong>Error</strong><br><br>
                         <ul>
                             @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
+                                <li>{{ str_replace('name', 'Nombre', $error)  }}</li>
                             @endforeach
                         </ul>
                     </div>
@@ -51,7 +51,7 @@
             tecla = String.fromCharCode(key).toString();
             //Se define todo lo que se quiere que se muestre
             caracter = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ0123456789";
-            especiales = [6, 8, 32, 35, 37, 39, 45, 46, 176];
+            especiales = [6, 8, 32, 35, 39, 45, 46, 176];
 
             tecla_especial = false;
             for (var i in especiales) {
@@ -71,7 +71,7 @@
             tecla = String.fromCharCode(key).toString();
             //Se define todo lo que se quiere que se muestre
             caracter = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ0123456789";
-            especiales = [6, 8, 37, 39, 45, 127, 176];
+            especiales = [6, 8, 39, 45, 127, 176];
 
             tecla_especial = false;
             for (var i in especiales) {
@@ -85,5 +85,38 @@
                 return false;
             }
         }
+
+        //neww
+        // $(document).ready(function () {
+        //
+        //     $(document).on('keydown keyup',"#exampleInputEmail1",function(e){
+        //         var evt = e || window.event;
+        //         var x = evt.key;
+        //         var str = this.value;
+        //         var index = str.indexOf(' ');
+        //         var check = x == 0 ? 0: (parseInt(x) || -1);
+        //         console.log(x);
+        //         if (index == 0){
+        //             str = "";
+        //         }
+        //         if ( index > -1) {
+        //             str = str.substr( 0, index + 1 ) +
+        //                 str.slice( index ).replace( /\s/g, '' );
+        //         }
+        //
+        //         // str = str.replace(/[^\,]/g,"");
+        //         str = str.replace(/([\ \t]+(?=[\ \t])|^\s+|\s+$)/g, '');
+        //
+        //         $(this).val(str);
+        //
+        //         if (check === -1 && x != "Backspace" && x != ','){
+        //             return false;
+        //         }
+        //
+        //     });
+        // });
+        //neww
     </script>
 @endsection
+
+{{--strVal.replace(/([\ \t]+(?=[\ \t])|^\s+|\s+$)/g, '');--}}

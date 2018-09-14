@@ -48,8 +48,8 @@
                                             </a>
                                         </td>
                                         <td>{{ $b->amount }} {{ trans('general.product_units.'.$auction->batch->product->unit) }}</td>
-                                        <td style="text-align: right">$ {{ number_format($b->price,2) }}</td>
-                                        <td style="text-align: right">$ {{ number_format($b->price * $b->amount,2) }}</td>
+                                        <td style="text-align: right">$ {{ number_format($b->price,2,',','.') }}</td>
+                                        <td style="text-align: right">$ {{ number_format($b->price * $b->amount,2,',','.') }}</td>
                                         <td style="text-align: right">{{ Carbon::parse($b->bid_date)->format('H:i:s d/m/Y') }}</td>
                                         <td>
                                             @if ($b->status == \App\Bid::PENDIENTE)

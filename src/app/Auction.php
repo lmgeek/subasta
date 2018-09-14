@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Http\Traits\priceTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Auth;
@@ -10,6 +11,7 @@ use App\Bid;
 
 class Auction extends Model
 {
+    use priceTrait;
     protected $table = 'auctions';
     const IN_CURSE = 'incourse';
     const FINISHED = 'finished';
@@ -56,7 +58,7 @@ class Auction extends Model
 	
 	public function getAvailabilityLock()
 	{
-		$data = \DB::table('batch_statuses')->where('batch_id', '=', $this->batch->id)->lockForUpdate()->get();	
+		$data = \DB::table('batch_statuses')->where('batch_id', '=', $this->batch->id)->lockForUpdate()->get();
 		return $data[0]->assigned_auction;
 	}
 

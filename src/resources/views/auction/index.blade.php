@@ -93,7 +93,7 @@
 
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
-							</button><h3><center>Lista de participantes</center></h3>
+							</button><h3><center>Lista de invitados</center></h3>
 						</div>
 						<div class="modal-body text-center">
 							<div class="row">
@@ -122,18 +122,17 @@
     <script src="{{ asset('/js/plugins/ionRangeSlider/ion.rangeSlider.min.js') }}"></script>
     <script src="{{ asset('/js/plugins/star_rating/jquery.raty.js') }}"></script>
     <script src="{{ asset('/js/plugins/jasny/jasny-bootstrap.min.js') }}"></script>
-     <script src="{{ asset('/js/plugins/toastr/toastr.min.js') }}"></script>
+ 	<script src="{{ asset('/js/plugins/toastr/toastr.min.js') }}"></script>
 	<script src="{{ asset('/js/plugins/jsKnob/jquery.knob.js') }}"></script>
 	<script src="{{ asset('/js/plugins/chosen/chosen.jquery.js') }}"></script>
-
 	<script>
 
 	$(function(){
 		$('[data-toggle="tooltip"]').tooltip();
 		$(document.body).on('hidden.bs.modal', function () {
-				$(".amount-bid-modal").val('');
-				$(".modal-price").html('');
-				$(".content-danger").html('');
+			$(".amount-bid-modal").val('');
+			$(".modal-price").html('');
+			$(".content-danger").html('');
 		});
 
 		$(".amount-bid-modal").keyup(function(){
@@ -143,8 +142,7 @@
 			var price = $(".hid-currentPrice-"+auctionId).val();
             // var total =   price..replace(/[aiou]/gi,'e')
             var total =   currency(price).multiply(value)
-            $(".modal-total-"+auctionId).html('Total $' + currency(total).format() )
-
+            $(".modal-total-"+auctionId).html('Total $' + currency(total,{ separator: ".",decimal: ","}).format() )
 
 		});
 
@@ -153,20 +151,23 @@
 	function calculatePrice(auctionId)
 	{
 		$.ajax({
-		  method: "GET",
-		  url: "/calculateprice?auction_id="+auctionId,
-		  success: function(data)
-		  {
-			$(".currentPrice-"+auctionId).html('$' + data);
-			$(".hid-currentPrice-"+auctionId).val(data);
+		  	method: "GET",
+		  	url: "/calculateprice?auction_id="+auctionId,
+		  	success: function(data)
+		  	{
+                console.log(data);
+                var price = currency(parseFloat(data),{separator: '.',decimal: ","}).format();
+				$(".currentPrice-"+auctionId).html('$' + price);
+				$(".hid-currentPrice-"+auctionId).val(data);
 
 				if($('#bid-Modal-'+auctionId).is(':visible'))
 				{
 					var total = ( $("#amount-bid-" + auctionId ).val()  * data);
-					$(".modal-total-"+auctionId).html('Total $' + total.toFixed(2) )
+
+                    $(".modal-total-"+auctionId).html('Total $' + total.toFixed(2) );
 				}
 
-		  }
+		  	}
 		});
 	}
 

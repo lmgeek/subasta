@@ -37,26 +37,26 @@ class AuctionController extends Controller
 		$product = $request->get('product',null);
 		$seller = $request->get('seller',null);
 		$boat = $request->get('boat',null);
-		
+
 		$auction_id = $request->get('auction_id',null);
 		$invited = $request->get('invited',null);
 		$type = $request->get('type',null);
-		
+
 		if ($type == Auction::AUCTION_PRIVATE)
 		{	$user = Auth::user();
 			$auctions = Auction::auctionPrivate($user->id , $status);
 		}else{
 			$auctions = Auction::filterAndPaginate($status,$product,$seller,$boat);
 		}
-		
+
 		$products = array();
 		$sellers =  array();
 		$boats = array();
 		$products = Product::select()->get();
 		$sellers = User::filter(null, array(User::VENDEDOR), array(User::APROBADO));
 		$boats = Boat::Select()->get();
-		
-		$userRating =  array(); 
+
+		$userRating =  array();
 		foreach($auctions as $a)
 		{
 			$porc = 0;
@@ -69,11 +69,10 @@ class AuctionController extends Controller
 				{
 					$porc = round(($ratings->positive*100)/$total , 2);
 				}
-				
+
 			}
 			$userRating[$user->id]= $porc;
 		}
-
         return view('auction.index',compact('auctions','status','products','sellers','request','boats','userRating','type'));
     }
 
@@ -89,10 +88,9 @@ class AuctionController extends Controller
 		$buyers = User::filter(null, array(User::COMPRADOR), array(User::APROBADO));
 		$array_buyers = [];
 		foreach ($buyers as $buyer){
-		    $array_buyers[$buyer->id] = $buyer->name;
+		    $array_buyers[$buyer->id] = $buyer->full_name;
         }
         $buyers = $array_buyers;
-
         return view('auction.create',compact('buyers'))->with('batch',$batch);
     }
 
@@ -115,7 +113,7 @@ class AuctionController extends Controller
         $auction  = new Auction();
         $auction->batch_id = $request->input('batch');
         $auction->start = $startDate->format('Y-m-d H:i:s');
-        $auction->start_price = $request->input('startPrice');
+        $auction->start_price = $request->input("startPrice");
         $auction->end = $endDate->format('Y-m-d H:i:s');
         $auction->end_price = $request->input('endPrice');
         $auction->interval = $request->input('intervalo');
@@ -207,7 +205,6 @@ class AuctionController extends Controller
 
 		$auction_id = $request->input('auction_id');
 		$amount = $request->input('amount');
-//		dd($auction_id."-".$amount);
 		$auction = Auction::findOrFail($auction_id);
 		$this->authorize('makeBid', $auction);
 		$this->authorize('canBid',Auction::class);
@@ -229,7 +226,6 @@ class AuctionController extends Controller
             $price = str_replace(",","",$prices);
 			DB::beginTransaction();
 				$availability = $auction->getAvailabilityLock();
-
 				if ($amount > 0 && $amount <= $availability  )
 				{
 					$auction->makeBid($amount,$price);
@@ -335,9 +331,10 @@ class AuctionController extends Controller
 
     public function operations(Request $request, $auction_id)
     {
+        setlocale(LC_MONETARY, 'en_US');
+
         $auction = Auction::findOrFail($auction_id);
         $this->authorize('viewOperations', $auction);
-
         $request->session()->put('url.intended', '/auction/operations/'.$auction_id);
         return view('auction.operations',compact('auction'));
     }

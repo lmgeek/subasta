@@ -45,7 +45,7 @@ return [
     'view_operations' => 'Ver operaciones',
     'auction_operations' => 'Operaciones de la subasta de :productName',
     'operations' => 'Operaciones',
-    'operation' => 'Operacion',
+    'operation' => 'Operaci&oacute;n',
     'buyer' => 'Comprador',
     'amount' => 'Cantidad',
     'unity_price' => 'Precio Unitario',
@@ -61,20 +61,20 @@ return [
 	'unauthorized' => 'El usuario actual no está autorizado para realizar compras.',
 	'pending' => 'El usuario actual no se encuentra aprobado.',
     'process' => 'Procesar',
-    'operation_status' => 'Estado Operacion',
-    'qualify_operation' => 'Calificar Operacion',
+    'operation_status' => 'Estado operaci&oacute;n',
+    'qualify_operation' => 'Calificar operaci&oacute;n',
     'reason' => 'Razon',
-    'buyer_qualification' => 'Calificacion comprador',
-    'seller_qualification' => 'Calificacion Vendedor',
+    'buyer_qualification' => 'Calificaci&oacute;n comprador',
+    'seller_qualification' => 'Calificaci&oacute;n Vendedor',
     'comments' => 'Comentarios',
-    'process_operation' => 'Procesar Operacion',
+    'process_operation' => 'Procesar Operaci&oacute;n',
     'qualify' => 'Calificar',
-    'qualification' => 'Calificacion',
+    'qualification' => 'Calificaci&oacute;n',
 	'qualification_negative' => 'Puntaje negativo para usuario',
     'no_bids' => 'No hay compras registradas',
     'drawers' => 'CAJONES',
-    'private' => 'privado',
-    'public' => 'p&uacute;blico'
+    'private' => 'privada',
+    'public' => 'p&uacute;blica'
 
 
 

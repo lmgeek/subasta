@@ -176,7 +176,7 @@ class SellerBoatsController extends Controller
         $boat = Arrive::findOrFail($arrive_id)->boat;
         $this->authorize('createBatch', $boat);
 
-        $products = Product::all();
+        $products = Product::withTrashed()->orderBy('name')->get();
         $calibers = Product::caliber();
         return view('sellerBoats.batch',compact('boat','products','calibers','arrive_id'));
     }
@@ -281,7 +281,8 @@ class SellerBoatsController extends Controller
     {
         $batch = Batch::findOrFail($request->input('id'));
         $this->authorize('makeDirectBid', $batch);
-        $importe = str_replace(',','.',$request->input('importe'));
+//        $importe = str_replace(',','.',$request->input('importe'));
+        $importe = $request->input('importe');
         $batch->makePrivateSale(  $request->input('amount'),
             $importe ,
             $request->input('comprador')

@@ -16,8 +16,6 @@
         </thead>
         @foreach($batches as $batch)
 
-
-
             <?php
             $assigned_auction = $batch->status->assigned_auction;
             $auction_sold = $batch->status->auction_sold;
@@ -144,23 +142,25 @@
                 </td>
 
                 <td>
-                    @can('createAuction',$batch)
-                        @if($remainder>0)
-                            <a href="{{ route('auction.create_from_batch',$batch) }}" class="btn btn-action">Crear
-                                subasta</a>
+                    @if( !$batch->product->trashed() )
+                        @can('createAuction',$batch)
+                            @if($remainder>0)
+                                <a href="{{ route('auction.create_from_batch',$batch) }}" class="btn btn-action">Crear
+                                    subasta</a>
+                            @endif
                         @endif
+
+                        @can('deleteBatch',$batch)
+                            <a href="{{ route('sellerboat.batch.delete',$batch) }}" class="btn btn-action deleteBatch">Borrar
+                                Lote</a>
+                        @endcan
+
+                        @can('makeDirectBid',$batch)
+                            @if($remainder>0)
+                                <a href="{{ url('/priavatesale/'.$batch->id) }}" class="btn btn-action">Venta Privada</a>
+                            @endif
+                        @endcan
                     @endif
-
-                    @can('deleteBatch',$batch)
-                        <a href="{{ route('sellerboat.batch.delete',$batch) }}" class="btn btn-action deleteBatch">Borrar
-                            Lote</a>
-                    @endcan
-
-                    @can('makeDirectBid',$batch)
-                        @if($remainder>0)
-                            <a href="{{ url('/priavatesale/'.$batch->id) }}" class="btn btn-action">Venta Privada</a>
-                        @endif
-                    @endcan
 
                     <div class="modal inmodal fade" id="batch-edit-Modal-{{ $batch->id }}" tabindex="-1" role="dialog"
                          aria-hidden="true">

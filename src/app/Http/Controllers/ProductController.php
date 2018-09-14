@@ -20,7 +20,7 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $products = Product::withTrashed()->get();
+        $products = Product::withTrashed()->orderBy('name')->get();
         return view('products.index',compact('request','products'));
     }
 
@@ -43,11 +43,25 @@ class ProductController extends Controller
     public function store(CreateProductRequest $request)
     {
         $fileName = $request->file('imagen')->getClientOriginalName();
-        $request->file('imagen')->move( 'img/products',$fileName );
+
+        if ( file_exists('img/products/'.$fileName) ){
+
+//            $fileExt = $request->file('imagen')->getClientOriginalExtension();
+//            $fileName =  $request->input('nombre') . "-" . $request->input('unidad') . "." . $fileExt;
+//            $request->file('imagen')->move( 'img/products',$fileName );
+//            $fileName = $request->file('imagen')->getClientOriginalName();
+
+        } else {
+
+            $request->file('imagen')->move( 'img/products',$fileName );
+
+        }
+
 
         $prod = new Product();
         $prod->name = $request->input('nombre');
         $prod->unit = $request->input('unidad');
+        $prod->weigth = $request->input('weigth');
         $prod->image_name = $fileName;
         $prod->save();
 
@@ -90,9 +104,9 @@ class ProductController extends Controller
         $prod = Product::withTrashed()->findOrFail($id);
 
         if(!is_null($request->file('imagen'))){
-            if (!is_null($prod->image_name) and file_exists('img/products/'.$prod->image_name)){
-                unlink('img/products/'.$prod->image_name);
-            }
+//            if (!is_null($prod->image_name) and file_exists('img/products/'.$prod->image_name)){
+//                unlink('img/products/'.$prod->image_name);
+//            }
 
             $fileName = $request->file('imagen')->getClientOriginalName();
             $request->file('imagen')->move( 'img/products',$fileName );
@@ -101,6 +115,7 @@ class ProductController extends Controller
 
         $prod->name = $request->input('nombre');
         $prod->unit = $request->input('unidad');
+        $prod->weigth = $request->input('weigth');
         $prod->save();
 
         return redirect('/products');

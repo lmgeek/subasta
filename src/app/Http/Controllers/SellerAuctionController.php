@@ -20,6 +20,7 @@ class SellerAuctionController extends Controller
      */
     public function index(Request $request)
     {
+
         $this->authorize('seeSellerAuction', Auction::class);
         $status = $request->get('status',Auction::MY_IN_CURSE);
         $auctions = Auction::filterAndPaginate($status);

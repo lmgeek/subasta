@@ -1,6 +1,9 @@
 @extends('admin')
 
-
+<?
+namespace App; use Illuminate\Database\Eloquent\Model;
+use DB;
+?>
 
 @section('content')
     <div class="row wrapper border-bottom white-bg page-heading">
@@ -56,27 +59,24 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <a href="{{ route('products.edit',$p) }}" class="btn btn-action">Editar</a>
-                                                @if($p->trashed())
-                                                    <form action="{{ route('products.restore',$p) }}" class="restoreForm_{{ $p->id }}"  method="post" style="display: inline-block">
-                                                        {{ csrf_field() }}
-                                                        <a href="#" class="btn btn-action restoreItem" data-id="{{ $p->id }}">Activar</a>
-                                                    </form>
-                                                @else
-                                                    @if($p->canBeDeleted())
-                                                    <form action="{{ route('products.destroy',$p) }}" class="deleteForm_{{ $p->id }}"  method="post" style="display: inline-block">
-                                                        {{ csrf_field() }}
-                                                        {{ method_field('DELETE') }}
-                                                        <a href="#" class="btn btn-action deleteItem" data-id="{{ $p->id }}">Borrar</a>
-                                                    </form>
-                                                    @else
-                                                        <form action="{{ route('products.trash',$p) }}" class="trashForm_{{ $p->id }}"  method="post" style="display: inline-block">
-                                                            {{ csrf_field() }}
-                                                            <a href="#" class="btn btn-action trashItem" data-id="{{ $p->id }}">Desactivar</a>
-                                                        </form>
-                                                    @endif
+                                            <a href="{{ route('products.edit',$p) }}" class="btn btn-success"><i class="fa fa-edit"></i> Editar</a>
+                                            <form action="{{ route('products.restore',$p) }}" class="restoreForm_{{ $p->id }}"  method="post" style="display: inline-block">
+                                                {{ csrf_field() }}
+                                                <a href="#" class="btn btn-primary restoreItem" data-id="{{ $p->id }}" @if(!$p->trashed() ) disabled="true" @endif ><i class="fa fa-eye"></i> Activar</a>
+                                            </form>
 
-                                                @endif
+                                            <form action="{{ route('products.trash',$p) }}" class="trashForm_{{ $p->id }}"  method="post" style="display: inline-block">
+                                                {{ csrf_field() }}
+                                                <a href="#" class="btn btn-warning trashItem" data-id="{{ $p->id }}" @if(!$p->canBeDeactivate() || $p->trashed()) disabled="true" @endif ><i class="fa fa-eye-slash"></i> Desactivar</a>
+
+                                            </form>
+                                            @if($p->canBeDeleted())
+                                                <form action="{{ route('products.destroy',$p) }}" class="deleteForm_{{ $p->id }}"  method="post" style="display: inline-block">
+                                                    {{ csrf_field() }}
+                                                    {{ method_field('DELETE') }}
+                                                    <a href="#" class="btn btn-danger deleteItem" data-id="{{ $p->id }}"><i class="fa fa-trash"></i> Borrar</a>
+                                                </form>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
@@ -94,21 +94,21 @@
 
         $(document).ready(function(){
            $(".deleteItem").click(function(){
-                if(confirm('Esta seguro que desea borrar el producto?')){
+                if(confirm('¿Está seguro que desea borrar el producto?')){
                     id = $(this).data('id');
                     $(".deleteForm_"+id).submit();
                 }
                return false;
            });
             $(".trashItem").click(function(){
-                if(confirm('Esta seguro que desea desactivar el producto?')){
+                if(confirm('¿Está seguro que desea desactivar el producto?')){
                     id = $(this).data('id');
                     $(".trashForm_"+id).submit();
                 }
                return false;
            });
             $(".restoreItem").click(function(){
-                if(confirm('Esta seguro que desea activar el producto?')){
+                if(confirm('¿Está seguro que desea activar el producto?')){
                     id = $(this).data('id');
                     $(".restoreForm_"+id).submit();
                 }
