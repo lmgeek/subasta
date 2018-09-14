@@ -27,7 +27,7 @@ class RegisterNewUserRequest extends Request
             'name'=>"required|regex:(^[a-zA-Zá-úÁ-Ú\s]+$)",
             'lastname'=>"required|regex:(^[a-zA-Zá-úÁ-Ú\s]+$)",
             'dni'=>"required|min:7|regex:(^[0-9]+$)",
-            'cuit'=>"required|min:13|regex:(^[0-9]+$)",
+            'cuit'=>"required|min:13|regex:(^[0-9-]+$)",
             'password'=>'required|confirmed|regex:((?=^.{6,10}$)(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&amp;*()_+}{&quot;:;\'?/&gt;.&lt;,])(?!.*\s).*$)',
             'password'=>'required|confirmed|regex:((?=^.{6,10}$)(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&amp;*()_+}{&quot;:;\'?/&gt;.&lt;,])(?!.*\s).*$)',
 			'email' => 'required|min:7|unique:users,email|email'
