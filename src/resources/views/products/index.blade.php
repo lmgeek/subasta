@@ -1,8 +1,9 @@
 @extends('admin')
 
 <?
-namespace App; use Illuminate\Database\Eloquent\Model;
-use DB;
+//namespace App;
+//use Illuminate\Database\Eloquent\Model;
+//use DB;
 ?>
 
 @section('content')
