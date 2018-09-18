@@ -40,7 +40,7 @@ class CreateProductRequest extends Request
 
         if ($prod == null){
             return [
-                'nombre' => 'required',
+                'nombre' => 'required|regex:(^[a-zA-Zá-úÁ-Ú\s]+$)',
                 'unidad' => 'required',
                 'weigth' => 'required',
                 'imagen' => 'required|image',
