@@ -44,7 +44,7 @@
                                 @foreach($boats as $boat)
                                     <tr>
                                         <td class="">
-                                            {{ $boat->user->name }}
+                                            {{ $boat->user->fullname }}
                                         </td>
                                         <td>{{ $boat->name }}</td>
                                         <td>{{ $boat->matricula }}</td>

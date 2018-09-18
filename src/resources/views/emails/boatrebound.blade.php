@@ -20,7 +20,7 @@
                                 </tr>
                                 <tr>
                                     <td class="content-block">
-                                        <h3>{{ $user['name']  }}, Su barco fue rechazado</h3>
+                                        <h3>{{ $user['name']  }}, Su barco {{ $boat['name']  }} fue rechazado</h3>
                                     </td>
                                 </tr>
                                 <tr>

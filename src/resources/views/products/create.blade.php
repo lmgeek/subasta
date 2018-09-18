@@ -12,6 +12,9 @@
             color: #a81a20;
             font-weight: bold;
         }
+        .ibox-footer {
+            border-top: none!important;
+        }
 
     </style>
     <div class="row wrapper border-bottom white-bg page-heading">
@@ -45,7 +48,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="nombre">{{ trans('products.name') }}</label>
-                                        <input type="text" name="nombre" class="form-control" id="name" value="{{ old('nombre') }}">
+                                        <input type="text" name="nombre" class="form-control" id="name" value="{{ old('nombre') }}" onkeypress="return validaName(event);">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -62,7 +65,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="weigth">{{ trans('products.weigth') }}</label>
-                                        <input type="number" name="weigth" class="form-control" id="weigth" value="{{ old('weigth') }}">
+                                        <input type="number" name="weigth" class="form-control" id="weigth" value="{{ old('weigth') }}" min="1">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -92,7 +95,27 @@
             </div>
         </div>
     </div>
+    <script src="{{ asset('/js/jquery-2.1.1.js') }}"></script>
+    <script src="{{ asset('/js/jquery.mask.js') }}"></script>
+    <script src="{{ asset('/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('/js/plugins/iCheck/icheck.min.js') }}"></script>
     <script>
+
+        $(document).on('keydown keyup',"#name",function(e){
+            var evt = e || window.event;
+            var x = evt.key;
+            var str = this.value;
+            var index = str.indexOf(',');
+            var check = x == 0 ? 0: (parseInt(x) || -1);
+            console.log(x);
+
+
+            str = str.replace(/[^\d|\s|^\w]/g,"");
+
+            $(this).val(str);
+
+        });
+
         //Limpiar input type=file
         function resetFile() {
             const file = document.getElementById('imagen');

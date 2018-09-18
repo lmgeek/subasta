@@ -86,7 +86,37 @@
             });
 
             $("#cuit").mask('00-00000000-0');
-            $("#phone").mask('(000)0000-0000');
+            $("#phone").mask('(00)0000-0000');
+        });
+
+        $(document).on('keydown keyup',"#name",function(e){
+            var evt = e || window.event;
+            var x = evt.key;
+            var str = this.value;
+            var index = str.indexOf(',');
+            var check = x == 0 ? 0: (parseInt(x) || -1);
+            console.log(x);
+
+
+            str = str.replace(/[^\d|\s|^\w]/g,"");
+
+            $(this).val(str);
+
+        });
+
+        $(document).on('keydown keyup',"#lastname",function(e){
+            var evt = e || window.event;
+            var x = evt.key;
+            var str = this.value;
+            var index = str.indexOf(',');
+            var check = x == 0 ? 0: (parseInt(x) || -1);
+            console.log(x);
+
+
+            str = str.replace(/[^\d|\s|^\w]/g,"");
+
+            $(this).val(str);
+
         });
     </script>
 </body>
