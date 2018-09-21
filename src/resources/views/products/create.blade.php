@@ -65,7 +65,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="weigth">{{ trans('products.weigth') }}</label>
-                                        <input type="number" name="weigth" class="form-control" id="weigth" value="{{ old('weigth') }}" min="1">
+                                        <input type="text" min="0" name="weigth" class="form-control number" id="weigth" value="{{ old('weigth') }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -100,6 +100,45 @@
     <script src="{{ asset('/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('/js/plugins/iCheck/icheck.min.js') }}"></script>
     <script>
+
+        $(document).on('keydown keyup',".number",onlyNumberWithComma);
+
+        $(".number").blur(function(){
+            var insert = $(this).val().replace(',', '.');
+            var num = parseFloat(insert);
+            var cleanNum = num.toFixed(2).replace(".", ",");
+            $(this).val(cleanNum);
+            if(cleanNum == "NaN"){
+                $(this).val('');
+            }
+            if(num/cleanNum < 1){
+                $('#error').text('Please enter only 2 decimal places, we have truncated extra points');
+            }
+        });
+        function onlyNumberWithComma(e){
+            var evt = e || window.event;
+            var x = evt.key;
+            var str = this.value;
+            var index = str.indexOf(',');
+            var check = x == 0 ? 0: (parseInt(x) || -1);
+            if (index == 0){
+                str = "";
+            }
+            if ( index > -1) {
+                str = str.substr( 0, index + 1 ) +
+                    str.slice( index ).replace( /,/g, '' );
+            }
+
+            str = str.replace(/[^\d|\,]/g,"");
+
+            $(this).val(str);
+
+            if (check === -1 && x != "Backspace" && x != ','){
+                return false;
+            }
+        }
+
+
 
         $(document).on('keydown keyup',"#name",function(e){
             var evt = e || window.event;
