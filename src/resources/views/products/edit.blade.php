@@ -11,6 +11,12 @@
             color: #a81a20;
             font-weight: bold;
         }
+        #preview {
+            max-width: 300px;
+        }
+        #preview img {
+            width: 100%;
+        }
     </style>
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-9">
@@ -65,7 +71,8 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="weigth">{{ trans('products.weigth') }}</label>
-                                        <input type="number" name="weigth" class="form-control" id="weigth" value="@if (is_null(old('weigth'))){{ $product->weigth }}@else{{ old('weigth') }}@endif">
+                                        {{--<input type="number" name="weigth" class="form-control" id="weigth" value="@if (is_null(old('weigth'))){{ $product->weigth }}@else{{ old('weigth') }}@endif">--}}
+                                        <input type="text" min="0" name="weigth" class="form-control number" id="weigth" value="@if (is_null(old('weigth'))){{ $product->weigth }}@else{{ old('weigth') }}@endif">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -89,6 +96,10 @@
 
 
                             </div>
+                            <div class="col-md-6 alert alert-warning alert-dismissable" id="error" style="display: none">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <strong><i class="fa fa-info-circle"></i></strong> El peso debe ser mayor a 0,00.
+                            </div>
                             <div class="ibox-footer text-right">
                                     <button type="submit" class="btn btn-primary">Guardar</button>
                                     <a href="{{ URL::previous() }}" type="button" class="btn btn-danger">Cancelar</a>
@@ -100,6 +111,50 @@
         </div>
     </div>
     <script>
+        $(document).on('keydown keyup',".number",onlyNumberWithComma);
+
+        $(".number").blur(function(){
+            var insert = $(this).val().replace(',', '.');
+            var num = parseFloat(insert);
+            var cleanNum = num.toFixed(2).replace(".", ",");
+            $(this).val(cleanNum);
+            if(cleanNum == "NaN"){
+                $(this).val('');
+            }
+            if(num/cleanNum < 1){
+                $('#error').text('Please enter only 2 decimal places, we have truncated extra points');
+            }
+            if(insert == 0){
+                // $(this).val('');
+                document.getElementById('error').style.display = 'block';
+            }
+            console.log(insert);
+        });
+        function onlyNumberWithComma(e){
+            var evt = e || window.event;
+            var x = evt.key;
+            var str = this.value;
+            var index = str.indexOf(',');
+            var check = x == 0 ? 0: (parseInt(x) || -1);
+            if (index == 0){
+                str = "";
+            }
+            if ( index > -1) {
+                str = str.substr( 0, index + 1 ) +
+                    str.slice( index ).replace( /,/g, '' );
+            }
+
+            str = str.replace(/[^\d|\,]/g,"");
+
+            $(this).val(str);
+
+            if (check === -1 && x != "Backspace" && x != ','){
+                return false;
+            }
+        }
+
+
+
         //Limpiar input type=file
         function resetFile() {
             const uploadFile = document.getElementById('imagen');

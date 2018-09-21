@@ -71,7 +71,7 @@ class CreateProductRequest extends Request
             'nombre.regex' => 'El nombre sólo permite caracteres alfabéticos',
             'unidad.required' => 'La unidad es obligatoria',
             'weigth.required' => 'El peso es obligatorio',
-            'weigth.min' => 'Debe tener un peso mínimo 1 Kg',
+            'weigth.min' => 'Debe tener un peso mayor a 0',
             'weigth.regex' => 'El peso sólo permite caracteres numéricos',
             'imagen.required' => 'La imagen es obligatoria',
             'imagen.image' => 'La imagen no es un formato válido',

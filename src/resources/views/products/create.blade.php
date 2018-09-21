@@ -12,8 +12,15 @@
             color: #a81a20;
             font-weight: bold;
         }
-        .ibox-footer {
-            border-top: none!important;
+        /*.ibox-footer {*/
+            /*border-top: none!important;*/
+        /*}*/
+
+        #preview {
+            max-width: 300px;
+        }
+        #preview img {
+            width: 100%;
         }
 
     </style>
@@ -36,6 +43,7 @@
                     </div>
                 </div>
             @endif
+
             <div class="col-lg-8 col-lg-offset-2">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
@@ -79,14 +87,14 @@
                                         <span><i class="fa fa-trash"></i> Limpiar imagen</span>
                                     </a>
                                 </div>
-                                <div class="col-md-12">
-
-
-                                </div>
-                                <div class="ibox-footer text-right">
-                                    <button type="submit" class="btn btn-primary">Guardar</button>
-                                    <a href="{{ route('products.index') }}" type="button" class="btn btn-danger">Cancelar</a>
-                                </div>
+                            </div>
+                            <div class="col-md-6 alert alert-warning alert-dismissable" id="error" style="display: none">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <strong><i class="fa fa-info-circle"></i></strong> El peso debe ser mayor a 0,00.
+                            </div>
+                            <div class="ibox-footer text-right">
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                <a href="{{ route('products.index') }}" type="button" class="btn btn-danger">Cancelar</a>
                             </div>
                         </form>
                     </div>
@@ -114,6 +122,11 @@
             if(num/cleanNum < 1){
                 $('#error').text('Please enter only 2 decimal places, we have truncated extra points');
             }
+            if(insert == 0){
+                // $(this).val('');
+                document.getElementById('error').style.display = 'block';
+            }
+            console.log(insert);
         });
         function onlyNumberWithComma(e){
             var evt = e || window.event;
@@ -188,8 +201,9 @@
                         resetFile();
                         return false;
                     }
-                    else if (this.width.toFixed(0) != 172 && this.height.toFixed(0) != 102) {
-                        alert('La imagen no puede ser adjuntada. Las medidas deben ser: 172 x 102 pixeles');
+                    // else if (this.width.toFixed(0) != 172 && this.height.toFixed(0) != 102) {
+                    else if (this.width.toFixed(0) != 630 && this.height.toFixed(0) != 404) {
+                        alert('La imagen no puede ser adjuntada. Las medidas deben ser: 630 x 404 pixeles');
                         resetFile();
                         return false;
                     }
