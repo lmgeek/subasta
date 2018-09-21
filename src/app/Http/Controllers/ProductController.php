@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateProductRequest;
@@ -21,6 +20,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $products = Product::withTrashed()->orderBy('name')->get();
+
         return view('products.index',compact('request','products'));
     }
 
@@ -31,7 +31,13 @@ class ProductController extends Controller
      */
     public function create(Request $request)
     {
-        return view('products.create',compact('request'));
+        $units = Product::units();
+        $array_unit = [""=>"Seleccione..."];
+        foreach ($units as $unit){
+            $array_unit[$unit] = $unit;
+        }
+        $units = $array_unit;
+        return view('products.create',compact('request','units'));
     }
 
     /**
@@ -57,7 +63,7 @@ class ProductController extends Controller
 
         }
 
-
+//        dd($request->all());
         $prod = new Product();
         $prod->name = $request->input('nombre');
         $prod->unit = $request->input('unidad');

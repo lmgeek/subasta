@@ -15,12 +15,12 @@
         </tr>
         </thead>
         @foreach($batches as $batch)
-
             <?php
             $assigned_auction = $batch->status->assigned_auction;
             $auction_sold = $batch->status->auction_sold;
             $private_sold = $batch->privateSale->sum('amount');
             $remainder = $batch->status->remainder;
+            $total = $batch->amount;
             $total_sold = $auction_sold + $private_sold;
             $total_unsold = $assigned_auction + $remainder;
             $total_sold_unsold = $total_sold + $total_unsold;
@@ -43,11 +43,12 @@
                        data-placement="top" title="ddddd"></i>
 
                 </td>
-                <td> {{ $total_sold_unsold  }} &nbsp <a data-target="#batch-edit-Modal-{{ $batch->id }}"
-                                                        data-toggle="modal" href="#"><i data-toggle="tooltip"
-                                                                                        title="Editar lote"
-                                                                                        class="fa fa-edit"></i></a>
-
+                <td>
+                    <span>{{ $total }} </span>
+                    <a data-target="#batch-edit-Modal-{{ $batch->id }}" data-toggle="modal" href="#">
+                        <i data-toggle="tooltip" title="Editar lote" class="fa fa-edit">
+                        </i>
+                    </a>
                 </td>
                 <td>
                     <div>

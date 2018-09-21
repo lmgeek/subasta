@@ -54,12 +54,8 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="unit">{{ trans('products.unit') }}</label>
-                                        <select class="form-control" name="unidad" id="unidad">
-                                            <option value="">Seleccione...</option>
-                                            @foreach(\App\Product::units() as $u)
-                                                <option >{{ trans('general.product_units.'.$u) }}</option>
-                                            @endforeach
-                                        </select>
+                                        {!! Form::select('unidad',$units, old('unidad'), ['class' => 'required form-control']) !!}
+
                                     </div>
                                 </div>
                                 <div class="col-md-6">

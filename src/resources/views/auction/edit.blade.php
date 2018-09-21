@@ -70,11 +70,7 @@
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">{{ trans('auction.auction_start') }}</label>
                                         <input type='text' class="form-control" name="fechaInicio" id="datetimepickerStart"
-                                               value="{{
-                                                            !is_null(old('fechaInicio')) ?
-                                                                old('fechaInicio') :
-                                                                Carbon::parse($auction->start)->format('d/m/Y H:i')
-                                               }}"
+                                            value="{{ old('fechaInicio',Carbon::parse($auction->start)->format('d/m/Y H:i')) }}"
                                         />
                                     </div>
                                 </div>
@@ -82,12 +78,7 @@
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">{{ trans('auction.auction_end') }}</label>
                                         <input type='text' class="form-control"  name="fechaFin" id="datetimepickerEnd"
-                                               value="{{
-                                                            !is_null(old('fechaFin')) ?
-                                                                old('fechaFin') :
-                                                                Carbon::parse($auction->end)->format('d/m/Y H:i')
-
-                                               }}"
+                                            value="{{ old('fechaFin',Carbon::parse($auction->end)->format('d/m/Y H:i')) }}"
                                         />
                                     </div>
                                 </div>
@@ -98,12 +89,9 @@
                                         <label for="exampleInputPassword1">{{ trans('auction.auction_price_start') }}</label>
                                         <div class="input-group">
                                             <span class="input-group-addon">$</span>
-                                            <input type="number" name="startPrice" class="form-control"
-                                                   value="{{
-                                                            !is_null(old('startPrice')) ?
-                                                                old('startPrice') :
-                                                                $auction->start_price
-                                               }}"
+                                            <input type="text" name="startPrice" class="form-control number" min="0"
+                                                   {{--preg_replace("/[^\d\,]/","",old('endPrice',$auction->end_price))--}}
+                                                value="{{old('startPrice',$auction->start_price) }}"
                                             >
                                         </div>
                                     </div>
@@ -113,12 +101,11 @@
                                         <label for="exampleInputPassword1">{{ trans('auction.auction_price_end') }}</label>
                                         <div class="input-group">
                                             <span class="input-group-addon">$</span>
-                                            <input type="number" name="endPrice" class="form-control"
-                                                   value="{{
-                                                            !is_null(old('endPrice')) ?
-                                                                old('endPrice') :
-                                                                $auction->end_price
-                                                   }}"
+
+                                            <input type="text" name="endPrice" class="form-control number" min="0"
+                                                   {{--{{ dd(\preg_replace("/[^\d\,]/","",old('endPrice',$auction->end_price))) }}--}}
+
+                                                   value="{{ old('endPrice',$auction->end_price) }}"
                                             >
                                         </div>
                                     </div>
@@ -129,7 +116,7 @@
                                     <label for="exampleInputEmail1">Cantidad</label>
                                     <br>
                                     <div class="text-center">
-                                        <input type="text" value="{{ (is_null(old('amount'))?$auction->amount:old('amount')) }}" data-max="{{ $auction->batch->status->remainder + $auction->amount }}" name="amount" class="dial m-r" data-fgColor="#1AB394" data-width="75" data-height="75"/>
+                                        <input type="text" value="{{ old('amount',$auction->amount) }}" data-max="{{ $auction->batch->status->remainder + $auction->amount }}" name="amount" class="dial m-r" data-fgColor="#1AB394" data-width="75" data-height="75"/>
                                         <br><small>{{ trans('general.product_units.'.$auction->batch->product->unit) }}</small>
                                     </div>
 
@@ -138,7 +125,7 @@
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">{{ trans('auction.interval') }}</label>
                                         <div id="ionrange_2"></div>
-                                        <input type="hidden" name="intervalo" id="interval" value="{{ (is_null(old('interval')) ? $auction->interval : old('interval') ) }}">
+                                        <input type="hidden" name="intervalo" id="interval" value="{{ old('interval',$auction->interval) }}">
                                     </div>
                                 </div>
                             </div>
@@ -164,6 +151,59 @@
 
     <script type="text/javascript">
         $(document).ready(function(){
+            formatNumber();
+            function formatNumber() {
+                var inputs = $(".number");
+                $.each(inputs,function (i,val) {
+                    var insert = $(val).val().replace(',', '.');
+                    var num = parseFloat(insert);
+                    var cleanNum = num.toFixed(2).replace(".", ",");
+                    $(this).val(cleanNum);
+                    if(cleanNum == "NaN"){
+                        inputs.val('');
+                    }
+                    if(num/cleanNum < 1){
+                        $('#error').text('Please enter only 2 decimal places, we have truncated extra points');
+                    }
+                });
+
+            }
+            $(document).on('keydown keyup',".number",onlyNumberWithComma);
+            $(".number").blur(function(){
+                var insert = $(this).val().replace(',', '.');
+                var num = parseFloat(insert);
+                var cleanNum = num.toFixed(2).replace(".", ",");
+                $(this).val(cleanNum);
+                if(cleanNum == "NaN"){
+                    $(this).val('');
+                }
+                if(num/cleanNum < 1){
+                    $('#error').text('Please enter only 2 decimal places, we have truncated extra points');
+                }
+            });
+
+            function onlyNumberWithComma(e){
+                var evt = e || window.event;
+                var x = evt.key;
+                var str = this.value;
+                var index = str.indexOf(',');
+                var check = x == 0 ? 0: (parseInt(x) || -1);
+                if (index == 0){
+                    str = "";
+                }
+                if ( index > -1) {
+                    str = str.substr( 0, index + 1 ) +
+                        str.slice( index ).replace( /,/g, '' );
+                }
+
+                str = str.replace(/[^\d|\,]/g,"");
+
+                $(this).val(str);
+
+                if (check === -1 && x != "Backspace" && x != ','){
+                    return false;
+                }
+            }
             $("#ionrange_2").ionRangeSlider({
                 min: 0,
                 max: 60,

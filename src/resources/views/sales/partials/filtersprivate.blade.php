@@ -6,7 +6,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                          <div class="form-group">
-                                        <label for="comprador">Razon social del comprador</label>
+                                        <label for="comprador">Raz&oacute;n social del comprador</label>
                                         <input type="text" class="form-control" id="comprador" name="comprador" value="{{ $request->get('comprador') }}" autocomplete="off">
                                     </div>
                     </div>

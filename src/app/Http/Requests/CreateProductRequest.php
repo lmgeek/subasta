@@ -33,6 +33,7 @@ class CreateProductRequest extends Request
      */
     public function rules()
     {
+//        dd($this->unidad);
         $prod = Product::withTrashed()
             ->where('name', $this->nombre)
             ->Where('unit', $this->unidad)

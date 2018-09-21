@@ -33,14 +33,17 @@ class ProcessBidRequest extends Request
     }
     public function messages()
     {
-            return [
-                "motivo_no_concretada.required_if" => "El campo :attribute es obligatorio cuando la operaci&oacute;n no fue no concretada"
-            ];
+        return [
+            "motivo_no_concretada.required_if" => "El campo :attribute es obligatorio cuando la operaci&oacute;n no fue concretada",
+            "comentariosCalificacion.required_if" => "El campo :attribute es obligatorio cuando :other es ".trans("validation.".$this->get("calificacion"))
+        ];
     }
     public function attributes()
     {
-            return [
-                "calificacion" => "calificaci&oacute;n"
-            ];
+        return [
+            "calificacion" => "calificaci&oacute;n",
+            "comentariosCalificacion" => "comentario",
+            "motivo_no_concretada" => "motivo"
+        ];
     }
 }

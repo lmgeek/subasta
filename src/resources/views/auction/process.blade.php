@@ -67,7 +67,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12 text-center">
-                                    <textarea name="comentariosCalificacion" placeholder="Comentarios" id="" cols="30" rows="10" required>{{ old('comentariosCalificacion','') }}</textarea>
+                                    <textarea name="comentariosCalificacion" placeholder="Comentarios" id="" cols="30" rows="10" >{{ old('comentariosCalificacion','') }}</textarea>
                                 </div>
                             </div>
                         </div>

@@ -47,7 +47,8 @@ class CreateAuctionRequest extends Request
     {
         if ($this->locale == "es"){
             return [
-                "invitados.required_if" => "El campo :attribute es obligatorio cuando :other es privada"
+                "invitados.required_if" => "El campo :attribute es obligatorio cuando :other es privada",
+                "amount.min" => "La :attribute debe ser de al menos :min"
             ];
         }
         return [];
@@ -57,7 +58,8 @@ class CreateAuctionRequest extends Request
         if ($this->locale == "es"){
             return [
                 "startPrice" => "precio inicial",
-                "endPrice" => "precio final"
+                "endPrice" => "precio final",
+                "amount" => "cantidad"
             ];
         }
         return [];
