@@ -6,7 +6,7 @@ use App\Arrive;
 use App\Batch;
 use App\BatchStatus;
 use App\Boat;
-use App\Http\Requests\BatchRequest;
+use App\Http\Requests\CreateBatchRequest;
 use App\Http\Requests\CreateArriveRequest;
 use App\Http\Requests\CreateBoatRequest;
 use App\Http\Requests\PrivateSaleRequest;

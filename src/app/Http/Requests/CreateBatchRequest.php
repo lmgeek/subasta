@@ -7,7 +7,7 @@ use Auth;
 use App\User;
 use Illuminate\Support\Facades\Validator;
 
-class BatchRequest extends Request
+class CreateBatchRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,12 +26,9 @@ class BatchRequest extends Request
      */
     public function rules()
     {
-        $arrive_id = $this->route('arrive');
-        $boat_id = $this->route('boat');
-
         return [
-//            'arrive' => 'required|exists:arrives,id,boat_id,'.$boat_id,
-            'boat' => 'required',
+            'product' => 'required',
+            'caliber' => 'required',
         ];
     }
 

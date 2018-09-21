@@ -24,14 +24,14 @@ class UpdateArriveRequest extends Request
     public function rules()
     {
         return [
-            'date'  => 'required|date_format:Y-m-d H:i:s|after:'.date('Y-m-d H:i:s'),
+            'date' => 'required|date_format:Y-m-d H:i:s|after:' . date('Y-m-d H:i:s'),
         ];
     }
 
     public function attributes()
     {
         return [
-            'date' => 'La fecha de arribo'
+            'date' => 'fecha de arribo'
         ];
     }
 }

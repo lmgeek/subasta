@@ -26,16 +26,24 @@ class CreateArriveRequest extends Request
     public function rules()
     {
         return [
-            'barco' => 'required|exists:boats,id,user_id,'.Auth::user()->id,
-            'date' => 'required|date|date_format:Y-m-d H:i:s|after:'.date('Y-m-d H:i:s')
+            'barco' => 'required|exists:boats,id,user_id,' . Auth::user()->id,
+            'date' => 'required|date|date_format:Y-m-d H:i:s|after:' . date('Y-m-d H:i:s')
         ];
     }
 
     public function attributes()
     {
         return [
-          'barco' => 'El barco',
-          'date' => 'La fecha de arribo'
+            'barco' => 'El barco',
+            'date' => 'fecha de arribo'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'barco.required' => 'El barco es obligatorio',
+            'barco.exists' => 'El barco es obligatorio',
         ];
     }
 }

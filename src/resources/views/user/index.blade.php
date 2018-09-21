@@ -96,7 +96,7 @@
                                             @endif
 
                                         </td>
-                                        <td>{{ $user->name }}</td>
+                                        <td>{{ $user->full_name }}</td>
                                         <td>{{ $user->email }}</td>
                                         <td>
                                             <span class="label label-{{ $user->status }}">{{ trans("general.status.$user->status") }}</span>

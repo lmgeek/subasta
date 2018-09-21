@@ -31,7 +31,7 @@ class Boat extends Model
 //		if (null != $hasArrive)
 //		{
 //			return Carbon::parse($hasArrive->date)->format('H:i:s d/m/Y') ;
-//		}else
+//		}else000
 //		{
 //			return trans('boats.boats_no_arrive');
 //		}

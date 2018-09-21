@@ -20,7 +20,7 @@
                                     </tr>
                                     <tr>
                                         <td class="content-block">
-                                            <h3>{{ $user['name'] ." " . $user['lastname']  }}</h3>
+                                            <h3>{{ $user->full_name  }}</h3>
                                         </td>
                                     </tr>
                                     <tr>
