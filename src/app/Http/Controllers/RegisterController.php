@@ -148,8 +148,12 @@ class RegisterController extends Controller
             $user->active_mail =  1;
             $user->update();
         }
-
-        $template = 'emails.' . User::COMPRADOR . '.' . 'welcome';
+        $vendedor = Vendedor::where('user_id', $user->id)->first();
+        if($vendedor === null){
+            $template = 'emails.' . User::COMPRADOR . '.' . 'welcome';
+        }else{
+            $template = 'emails.' . User::VENDEDOR . '.' . 'welcome';
+        }
         Mail::send($template, ['user' => $user], function ($message) use ($user) {
             $message->from(
                 env('MAIL_ADDRESS_SYSTEM', 'sistema@subastas.com.ar'),

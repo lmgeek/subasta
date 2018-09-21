@@ -105,7 +105,8 @@
                     <table>
                         <tr>
                             <td>
-                                <strong>{{ trans("sellerBoats.unsolds") }} :</strong> {{$total_sold_unsold - $total_sold}}</td>
+                                <strong>{{ trans("sellerBoats.unsolds") }}
+                                    :</strong> {{$total_sold_unsold - $total_sold}}</td>
                             </td>
                         </tr>
                         <tr>
@@ -149,72 +150,81 @@
                                 <a href="{{ route('auction.create_from_batch',$batch) }}" class="btn btn-action">Crear
                                     subasta</a>
                             @endif
-                        @endif
-
-                        @can('deleteBatch',$batch)
-                            <a href="{{ route('sellerboat.batch.delete',$batch) }}" class="btn btn-action deleteBatch">Borrar
-                                Lote</a>
-                        @endcan
-
-                        @can('makeDirectBid',$batch)
-                            @if($remainder>0)
-                                <a href="{{ url('/priavatesale/'.$batch->id) }}" class="btn btn-action">Venta Privada</a>
                             @endif
-                        @endcan
-                    @endif
 
-                    <div class="modal inmodal fade" id="batch-edit-Modal-{{ $batch->id }}" tabindex="-1" role="dialog"
-                         aria-hidden="true">
-                        <div class="modal-dialog modal-sm">
-                            <form action="{{ url('editbatch') }}" method="post" style="display: inline-block;">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h3>Editar Lote de {{ $batch->product->name  }} </h3>
-                                    </div>
-                                    <div class="modal-body text-center">
+                            @can('deleteBatch',$batch)
+                                <a href="{{ route('sellerboat.batch.delete',$batch) }}"
+                                   class="btn btn-action deleteBatch">Borrar
+                                    Lote</a>
+                            @endcan
 
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <div class="col-lg-5">
-                                                    <div><h3>Vendidos</h3></div>
-                                                    <div class="amountBatch">{{ $total_sold  }}</div>
-                                                    <div><h3>Asignados</h3></div>
-                                                    <div class="amountBatch">{{ $assigned_auction }}</div>
+                            @can('makeDirectBid',$batch)
+                                @if($remainder>0)
+                                    <a href="{{ url('/priavatesale/'.$batch->id) }}" class="btn btn-action">Venta
+                                        Privada</a>
+                                @endif
+                            @endcan
+                            @endif
 
-                                                </div>
-                                                <div class="col-lg-1">
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div><h3>Total</h3></div>
-                                                    <br>
-                                                    <div class="text-center">
-                                                        <input type="hidden" name="hBatchId" value="{{ $batch->id  }}">
-                                                        <input type="number" min="{{ $minEditBatch }}"
-                                                               value="{{ $total_sold_unsold  }}" name="amount"
-                                                               class="form-control bfh-number"/>
-                                                        <small>{{ trans('general.product_units.'.$batch->product->unit) }}</small>
-                                                    </div>
-
-
+                            <div class="modal inmodal fade" id="batch-edit-Modal-{{ $batch->id }}" tabindex="-1"
+                                 role="dialog"
+                                 aria-hidden="true">
+                                <div class="modal-dialog modal-sm">
+                                    <form action="{{ url('editbatch') }}" method="post" style="display: inline-block;">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h3>Editar Lote de {{ $batch->product->name  }} </h3>
+                                                <div class="alert alert-danger" id="error-modal">
+                                                    <strong>Error</strong><br><br>
+                                                    <ul id="error-ul">
+                                                    </ul>
                                                 </div>
                                             </div>
+                                            <div class="modal-body text-center">
+
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="col-lg-5">
+                                                            <div><h3>Vendidos</h3></div>
+                                                            <div class="amountBatch">{{ $total_sold  }}</div>
+                                                            <div><h3>Asignados</h3></div>
+                                                            <div class="amountBatch">{{ $assigned_auction }}</div>
+
+                                                        </div>
+                                                        <div class="col-lg-1">
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <div><h3>Total</h3></div>
+                                                            <br>
+                                                            <div class="text-center">
+                                                                <input type="hidden" name="hBatchId"
+                                                                       value="{{ $batch->id  }}">
+                                                                <input type="number" min="1"
+                                                                       value="{{ $total_sold_unsold  }}" name="amount"
+                                                                       class="form-control bfh-number" required/>
+                                                                <small>{{ trans('general.product_units.'.$batch->product->unit) }}</small>
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="modal-footer">
+
+                                                {{ csrf_field() }}
+                                                <button type="submit"
+                                                        class="btn btn-primary">{{ trans('general.accept') }}</button>
+
+                                                <button type="button" class="btn btn-danger"
+                                                        data-dismiss="modal">{{ trans('general.cancel') }}</button>
+                                            </div>
                                         </div>
-
-
-                                    </div>
-                                    <div class="modal-footer">
-
-                                        {{ csrf_field() }}
-                                        <button type="submit"
-                                                class="btn btn-primary">{{ trans('general.accept') }}</button>
-
-                                        <button type="button" class="btn btn-danger"
-                                                data-dismiss="modal">{{ trans('general.cancel') }}</button>
-                                    </div>
+                                    </form>
                                 </div>
-                            </form>
-                        </div>
-                    </div>
+                            </div>
 
                 </td>
             </tr>
@@ -247,11 +257,41 @@
 
         $(document).ready(function () {
             $(".deleteBatch").unbind().click(function () {
-                if (!confirm('Esta seguro que desea borrar este lote?')) {
+                if (!confirm('¿Está seguro que desea borrar este lote?')) {
                     return false;
                 }
             });
+
+            $("#error-modal").hide();
+            $("#add_batch").click(function () {
+                if (checkForm()) {
+                    $('.btn-save-batch').attr('disabled', false);
+                    $('#addBatchModal').modal('hide');
+                }
+            });
+
+            function checkForm() {
+                var isOK = true;
+                var msg = [];
+                console.log($('#quality').raty('score'));
+
+                if ($("#amount").val() <= 0) {
+                    isOK = false;
+                    msg.push('{{ trans('sellerBoats.batch_must_amount_positive') }}');
+                }
+
+                if (!isOK) {
+                    $("#error-modal").show();
+                    $("#error-ul").empty();
+                    msg.forEach(function (index) {
+                        $("#error-ul").append("<li>" + index + "</li>");
+                    });
+                }
+
+                return isOK;
+            }
         });
+
 
     </script>
 @endif
