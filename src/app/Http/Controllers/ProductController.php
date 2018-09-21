@@ -114,9 +114,19 @@ class ProductController extends Controller
 //                unlink('img/products/'.$prod->image_name);
 //            }
 
+
             $fileName = $request->file('imagen')->getClientOriginalName();
-            $request->file('imagen')->move( 'img/products',$fileName );
-            $prod->image_name = $fileName;
+
+            if ( file_exists('img/products/'.$fileName) ){
+
+                $prod->image_name = $fileName;
+
+            } else {
+
+                $request->file('imagen')->move( 'img/products',$fileName );
+                $prod->image_name = $fileName;
+
+            }
         }
 
         $prod->name = $request->input('nombre');

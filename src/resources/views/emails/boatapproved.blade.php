@@ -25,7 +25,7 @@
                                 </tr>
                                 <tr>
                                     <td class="content-block">
-                                      El barco, {{ $boat['name']  }} fué aprobado.
+                                      El barco, {{ $boat['name']  }} fue aprobado.
                                     </td>
                                 </tr>
                                
