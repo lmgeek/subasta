@@ -45,9 +45,7 @@
                                         @include('auction.partials.auctionPrice')
                                     </div>
                                     <div class="col-md-2">
-										@if($a->active == \App\Auction::ACTIVE)
-											@include('auction.partials.auctionAvailability')
-										@endif
+										@include('auction.partials.auctionAvailability')
                                     </div>
                                     <div class="col-md-3">
 											@include('auction.partials.auctionTime')
@@ -226,7 +224,7 @@
 				    console.log(data);
 					$.each(data,function(i,val){
 						lista_participantes.append(
-						  `<li class="list-group-item">${val.name}</li>`
+						  `<li class="list-group-item">${val.name} ${val.lastname}</li>`
 						);
 					});
                     $(id).modal('show');
@@ -240,7 +238,7 @@
 
 
 		$(".cancelAuction").click(function(){
-			if(!confirm('Esta seguro que quiere cancelar la subasta?')){
+			if(!confirm('¿Está seguro que quiere cancelar la subasta?')){
 				return false;
 			}
 		});

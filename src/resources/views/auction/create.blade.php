@@ -262,12 +262,10 @@
                     var val1 = value;
                     var val2 = $("#weigth").val();
                     var total =  val1 * val2;
-
                     $("#total").val(total).trigger('change');
 
                 }
-            });
-
+            }).children().off('mousewheel DOMMouseScroll');
             $(".dial2").knob({
                 'min': 0,
                 'max': parseInt('{{ $batch->status->remainder }}')*$("#weigth").val()
@@ -338,5 +336,3 @@
 	<link rel="stylesheet" href="{{ asset('/css/plugins/chosen/chosen.css') }}" >
 
 @endsection
-
-      

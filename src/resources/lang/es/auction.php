@@ -63,7 +63,7 @@ return [
     'process' => 'Procesar',
     'operation_status' => 'Estado operaci&oacute;n',
     'qualify_operation' => 'Calificar operaci&oacute;n',
-    'reason' => 'Razon',
+    'reason' => 'Raz&oacute;n',
     'buyer_qualification' => 'Calificaci&oacute;n comprador',
     'seller_qualification' => 'Calificaci&oacute;n Vendedor',
     'comments' => 'Comentarios',

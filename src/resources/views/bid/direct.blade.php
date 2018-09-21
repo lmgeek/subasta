@@ -57,7 +57,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="comprador">Razon social del comprador</label>
+                                        <label for="comprador">Raz&oacute;n social del comprador</label>
                                         <input type="text" class="form-control" id="comprador" name="comprador"
                                                value="{{ old('comprador') }}" autocomplete="off">
                                     </div>
