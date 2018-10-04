@@ -18,14 +18,18 @@
 										<div style="text-align:center;background-color:#1ab394;color:#FFF;font-size:18px;font-weight:bold;padding:10px;">{{ trans('users.change_password')  }}</div>
                                     </td>
                                 </tr>
-                                
+                                <tr>
+                                    <td class="content-block">
+                                        <h3>{{ $user['name'] ." " . $user['lastname']  }}</h3>
+                                    </td>
+                                </tr>
                                 <tr>
                                     <td class="content-block">
 									<br>
                                      <a href="{{ url('password/reset/'.$token) }}"> {{ trans('users.password_link') }} </a>
                                     </td>
                                 </tr>
-                               
+
                                 <tr>
                                     <td class="content-block aligncenter">
                                         
