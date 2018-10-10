@@ -24,13 +24,16 @@ class RegisterNewUserRequest extends Request
     public function rules()
     {
         return [
-            'name'=>"required|regex:(^[a-zA-Zá-úÁ-Ú\s]+$)",
-            'lastname'=>"required|regex:(^[a-zA-Zá-úÁ-Ú\s]+$)",
+            'name'=>"required|regex:(^[a-zA-Zá-úÁ-Ú\s']+$)",
+            'lastname'=>"required|regex:(^[a-zA-Zá-úÁ-Ú\s']+$)",
             'dni'=>"required|min:7|regex:(^[0-9]+$)",
             'cuit'=>"required|min:13|regex:(^[0-9-]+$)",
             'password'=>'required|confirmed|regex:(^\S*(?=\S{6,8})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$)',
 //            'password'=>'required|confirmed|regex:(^\S*(?=\S{6,8})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$)',
-			'email' => 'required|min:7|unique:users,email|email'
+			'email' => 'required|min:7|unique:users,email|email',
+            'password'=>'required|confirmed|regex:(^\S*(?=\S{6,8})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$)',
+			'email' => 'required|min:7|unique:users,email|email',
+            'phone' => 'numeric',
         ];
     }
 
@@ -54,6 +57,7 @@ class RegisterNewUserRequest extends Request
             'email.min' => 'El email debe tener mínimo 7 caracteres',
             'email.email' => 'El email no es un correo válido',
             'email.unique' => 'El email ya ha sido registrado',
+            'phone.numeric' => 'El teléfono sólo permite caracteres numéricos',
         ];
     }
 }
