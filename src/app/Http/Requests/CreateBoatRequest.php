@@ -26,8 +26,8 @@ class CreateBoatRequest extends Request
     public function rules()
     {
         return [
-            'name'      => 'required|unique:boats,name,NULL,id,user_id,'.Auth::user()->id,
-            'matricula' => 'required|unique:boats,matricula,NULL,id,user_id,'.Auth::user()->id
+            'name'      => 'required|regex:(^[0-9a-zA-Zá-úÁ-Ú\s\#\-]+$)',
+            'matricula' => 'required|regex:(^[0-9a-zA-Zá-úÁ-Ú\-]+$)|unique:boats,matricula,NULL,id,user_id,'.Auth::user()->id
         ];
 //        $rules = [
 //            'name'      => 'required|unique:boats,name,NULL,id,user_id,'.Auth::user()->id,
@@ -43,4 +43,17 @@ class CreateBoatRequest extends Request
 //
 //        return ($rules,$messages);
     }
+
+    public function messages()
+    {
+        return [
+            'name.require'           => 'El Nombre del barco no puede estar vacío.',
+            'name.unique'            => 'El nombre del barco ya se encuentra registrado.',
+            'name.regex'             => 'El nombre sólo permite caracteres alfanumericos y # y -',
+            'matricula.require'      => 'La Matrícula no puede estar vacío.',
+            'matricula.unique'       => 'La Matrícula ya se encuentra registrada.',
+            'matricula.regex'        => 'La Matrícula sólo permite caracteres alfanumericos y -',
+        ];
+    }
+
 }

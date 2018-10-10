@@ -30,9 +30,9 @@ return [
     'accept_boat' => 'Aprobar Barco',
     'reject_boat' => 'Rechazar Barco',
     'accept_boat_msg' => 'El Barco fue aprobado',
-    'accept_boat_confirm_msg' => '¿Está seguro que desea aprobar al Barco?',
+    'accept_boat_confirm_msg' => '¿Está seguro que desea aprobar el Barco?',
     'reject_boat_msg' => 'El Barco fue rechazado',
-    'reject_boat_confirm_msg' => '¿Está seguro que desea rechazar al Barco?',
+    'reject_boat_confirm_msg' => '¿Está seguro que desea rechazar el Barco?',
     'no_boats' => 'No hay barcos aprobados.',
     'edit_arrive' => 'Editar Arribo',
 

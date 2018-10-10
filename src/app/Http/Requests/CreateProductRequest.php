@@ -33,25 +33,31 @@ class CreateProductRequest extends Request
      */
     public function rules()
     {
-//        dd($this->unidad);
+//        dd($this->weigth_small);
         $prod = Product::withTrashed()
             ->where('name', $this->nombre)
             ->Where('unit', $this->unidad)
             ->first();
 
+$cero = "0,00";
         if ($prod == null){
             return [
-                'nombre' => 'required|regex:(^[a-zA-Zá-úÁ-Ú\s]+$)',
-                'unidad' => 'required',
-                'weigth' => 'required',
-                'imagen' => 'required|image',
+                'nombre'        => 'required|regex:(^[a-zA-Zá-úÁ-Ú\s]+$)',
+                'unidad'        => 'required',
+                'weigth_small'  => 'required|regex:/^\d{1,}(\,\d+)?$/|greater_weight_than:'.$cero,
+                'weigth_medium' => 'required|regex:/^\d{1,}(\,\d+)?$/|greater_weight_than:'.$cero,
+                'weigth_big'    => 'required|regex:/^\d{1,}(\,\d+)?$/|greater_weight_than:'.$cero,
+                'imagen'        => 'required|image',
             ];
         } else{
             return [
-                'nombre' => 'required|unique:products,name,'.$this->nombre,
-                'unidad' => 'required|unique:products,unit,'.$this->nombre,
-                'weigth' => 'required',
-                'imagen' => 'required|image',
+//                'firstName' => "uniqueFirstAndLastName:{$request->lastName}"
+                'nombre'        => 'required|unique_name_unit:'.$this->unidad,
+                'unidad'        => 'required',
+                'weigth_small'  => 'required|regex:/^\d{1,}(\,\d+)?$/|greater_weight_than:'.$cero,
+                'weigth_medium' => 'required|regex:/^\d{1,}(\,\d+)?$/|greater_weight_than:'.$cero,
+                'weigth_big'    => 'required|regex:/^\d{1,}(\,\d+)?$/|greater_weight_than:'.$cero,
+                'imagen'        => 'required|image',
             ];
         }
     }
@@ -60,7 +66,9 @@ class CreateProductRequest extends Request
     {
         if ($this->locale == "es"){
             return [
-                "weigth" => "peso"
+                "weigth_small"  => "peso por calibre chico",
+                "weigth_medium" => "peso por calibre mediano",
+                "weigth_bis"    => "peso por calibre grande",
             ];
         }
         return [];
@@ -68,15 +76,22 @@ class CreateProductRequest extends Request
     public function messages()
     {
         return [
-            'nombre.required' => 'El nombre es obligatorio',
-            'nombre.regex' => 'El nombre sólo permite caracteres alfabéticos',
-            'unidad.required' => 'La unidad es obligatoria',
-            'weigth.required' => 'El peso es obligatorio',
-            'weigth.min' => 'Debe tener un peso mayor a 0',
-            'weigth.regex' => 'El peso sólo permite caracteres numéricos',
-            'imagen.required' => 'La imagen es obligatoria',
-            'imagen.image' => 'La imagen no es un formato válido',
-            'imagen.unique' => 'La email ya ha sido registrada',
+            'nombre.unique_name_unit'                 => 'La relación nombre unidad ya se encuentra registrada',
+            'nombre.required'                         => 'El nombre es obligatorio',
+            'nombre.regex'                            => 'El nombre sólo permite caracteres alfabéticos',
+            'unidad.required'                         => 'La unidad es obligatoria',
+            'weigth_small.required'                   => 'El peso de calibre chico es obligatorio',
+            'weigth_big.required'                     => 'El peso de calibre grande es obligatorio',
+            'weigth_medium.required'                  => 'El peso de calibre mediano es obligatorio',
+            'weigth_small.greater_weight_than'        => 'El peso de calibre chico debe ser mayor a 0,00',
+            'weigth_medium.greater_weight_than'       => 'El peso de calibre mediano debe ser mayor a 0,00',
+            'weigth_big.greater_weight_than'          => 'El peso de calibre grande debe ser mayor a 0,00',
+            'weigth_small.regex'                      => 'El peso de calibre chico sólo permite caracteres numéricos',
+            'weigth_big.regex'                        => 'El peso de calibre grande sólo permite caracteres numéricos',
+            'weigth_medium.regex'                     => 'El peso de calibre mediano sólo permite caracteres numéricos',
+            'imagen.required'                         => 'La imagen es obligatoria',
+            'imagen.image'                            => 'La imagen no es un formato válido',
+            'imagen.unique'                           => 'La email ya ha sido registrada',
         ];
     }
 }

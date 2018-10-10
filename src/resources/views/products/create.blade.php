@@ -69,7 +69,25 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="weigth">{{ trans('products.weigth') }}</label>
-                                        <input type="text" min="0" name="weigth" class="form-control number" id="weigth" value="{{ old('weigth') }}">
+                                        {{--<input type="text" min="0" name="weigth" class="form-control number" id="weigth" value="{{ old('weigth') }}">--}}
+                                        <br>
+                                        <div class="col-md-4">
+                                            <label for="weigth_small">Chico</label>
+                                            <input type="text" name="weigth_small" class="form-control number" id="weigth_small" value="{{ old('weigth_small') }}">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="weigth_medium">Mediano</label>
+                                            <input type="text" name="weigth_medium" class="form-control number" id="weigth_medium" value="{{ old('weigth_medium') }}">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="weigth_big">Grande</label>
+                                            <input type="text" name="weigth_big" class="form-control number" id="weigth_big" value="{{ old('weigth_big') }}">
+                                        </div>
+                                        <small><p style="color: gray; font-style: italic;">   Sólo permite 2 decimales</p></small>
+                                    </div>
+                                    <div class="col-md-12 alert alert-warning alert-dismissable" id="error" style="display: none">
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        <strong><i class="fa fa-info-circle"></i></strong> El peso debe ser mayor a 0,00.
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -84,10 +102,7 @@
                                     </a>
                                 </div>
                             </div>
-                            <div class="col-md-6 alert alert-warning alert-dismissable" id="error" style="display: none">
-                                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                <strong><i class="fa fa-info-circle"></i></strong> El peso debe ser mayor a 0,00.
-                            </div>
+
                             <div class="ibox-footer text-right">
                                 <button type="submit" class="btn btn-primary">Guardar</button>
                                 <a href="{{ route('products.index') }}" type="button" class="btn btn-danger">Cancelar</a>
@@ -111,6 +126,8 @@
             var insert = $(this).val().replace(',', '.');
             var num = parseFloat(insert);
             var cleanNum = num.toFixed(2).replace(".", ",");
+            var error = document.getElementById('error');
+            error.style.display = 'none';
             $(this).val(cleanNum);
             if(cleanNum == "NaN"){
                 $(this).val('');
@@ -118,11 +135,12 @@
             if(num/cleanNum < 1){
                 $('#error').text('Please enter only 2 decimal places, we have truncated extra points');
             }
-            if(insert == 0){
+            if(insert == 0 || insert == ''){
                 // $(this).val('');
-                document.getElementById('error').style.display = 'block';
+                error.style.display = 'block';
+                $(this).val('0,00');
+                console.log(insert);
             }
-            console.log(insert);
         });
         function onlyNumberWithComma(e){
             var evt = e || window.event;
