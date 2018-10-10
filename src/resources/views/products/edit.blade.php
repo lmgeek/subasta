@@ -70,9 +70,26 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="weigth">{{ trans('products.weigth') }}</label>
+                                        <label >{{ trans('products.weigth') }}</label>
                                         {{--<input type="number" name="weigth" class="form-control" id="weigth" value="@if (is_null(old('weigth'))){{ $product->weigth }}@else{{ old('weigth') }}@endif">--}}
-                                        <input type="text" min="0" name="weigth" class="form-control number" id="weigth" value="@if (is_null(old('weigth'))){{ $product->weigth }}@else{{ old('weigth') }}@endif">
+                                        <br>
+                                        <div class="col-md-4">
+                                            <label for="weigth_small">Chico</label>
+                                            <input type="text"  name="weigth_small" class="form-control number" id="weigth_small" value="@if (is_null(old('weigth_small'))){{ number_format($product->weigth_small,2,",","") }}@else{{ old('weigth_small') }}@endif">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="weigth_medium">Mediano</label>
+                                            <input type="text" name="weigth_medium" class="form-control number" id="weigth_medium" value="@if (is_null(old('weigth_medium'))){{ number_format($product->weigth_medium,2,",","") }}@else{{ old('weigth_medium') }}@endif">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="weigth_big">Grande</label>
+                                            <input type="text" name="weigth_big" class="form-control number" id="weigth_big" value="@if (is_null(old('weigth_big'))){{ number_format($product->weigth_big,2,",","") }}@else{{ old('weigth_big') }}@endif">
+                                        </div>
+                                        <small><p style="color: gray; font-style: italic;">   Sólo permite 2 decimales</p></small>
+                                    </div>
+                                    <div class="col-md-12 alert alert-warning alert-dismissable" id="error" style="display: none">
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        <strong><i class="fa fa-info-circle"></i></strong> El peso debe ser mayor a 0,00.
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -96,10 +113,7 @@
 
 
                             </div>
-                            <div class="col-md-6 alert alert-warning alert-dismissable" id="error" style="display: none">
-                                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                <strong><i class="fa fa-info-circle"></i></strong> El peso debe ser mayor a 0,00.
-                            </div>
+
                             <div class="ibox-footer text-right">
                                     <button type="submit" class="btn btn-primary">Guardar</button>
                                     <a href="{{ URL::previous() }}" type="button" class="btn btn-danger">Cancelar</a>
@@ -117,6 +131,8 @@
             var insert = $(this).val().replace(',', '.');
             var num = parseFloat(insert);
             var cleanNum = num.toFixed(2).replace(".", ",");
+            var error = document.getElementById('error');
+            error.style.display = 'none';
             $(this).val(cleanNum);
             if(cleanNum == "NaN"){
                 $(this).val('');
@@ -126,9 +142,10 @@
             }
             if(insert == 0){
                 // $(this).val('');
-                document.getElementById('error').style.display = 'block';
+                error.style.display = 'block';
+                $(this).val('0,00');
+                console.log(insert);
             }
-            console.log(insert);
         });
         function onlyNumberWithComma(e){
             var evt = e || window.event;
@@ -191,7 +208,8 @@
                         resetFile();
                         $('#actual_img').show();
                         return false;
-                    } else if (this.width.toFixed(0) != 172 && this.height.toFixed(0) != 102) {
+                    // } else if (this.width.toFixed(0) != 172 && this.height.toFixed(0) != 102) {
+                    } else if (this.width.toFixed(0) != 630 && this.height.toFixed(0) != 404) {
                         alert('La imagen no puede ser adjuntada. Las medidas deben ser: 172 x 102 pixeles');
                         resetFile();
                         $('#actual_img').show();

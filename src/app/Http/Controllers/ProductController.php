@@ -67,7 +67,9 @@ class ProductController extends Controller
         $prod = new Product();
         $prod->name = $request->input('nombre');
         $prod->unit = $request->input('unidad');
-        $prod->weigth = $request->input('weigth');
+        $prod->weigth_small = str_replace(",", ".", $request->input('weigth_small') );
+        $prod->weigth_medium = str_replace(",", ".", $request->input('weigth_medium') );
+        $prod->weigth_big = str_replace(",", ".", $request->input('weigth_big') );
         $prod->image_name = $fileName;
         $prod->save();
 
@@ -109,6 +111,7 @@ class ProductController extends Controller
     {
         $prod = Product::withTrashed()->findOrFail($id);
 
+
         if(!is_null($request->file('imagen'))){
 //            if (!is_null($prod->image_name) and file_exists('img/products/'.$prod->image_name)){
 //                unlink('img/products/'.$prod->image_name);
@@ -128,10 +131,12 @@ class ProductController extends Controller
 
             }
         }
-
+//        dd($prod);
         $prod->name = $request->input('nombre');
         $prod->unit = $request->input('unidad');
-        $prod->weigth = $request->input('weigth');
+        $prod->weigth_small = str_replace(",", ".", $request->input('weigth_small') );
+        $prod->weigth_medium = str_replace(",", ".", $request->input('weigth_medium') );
+        $prod->weigth_big = str_replace(",", ".", $request->input('weigth_big') );
         $prod->save();
 
         return redirect('/products');

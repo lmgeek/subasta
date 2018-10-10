@@ -60,7 +60,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <a href="{{ route('products.edit',$p) }}" class="btn btn-success"><i class="fa fa-edit"></i> Editar</a>
+                                            <a href="{{ route('products.edit',$p) }}" class="btn btn-success" @if(!$p->canBeDeactivate() || $p->trashed()) disabled="true" @endif ><i class="fa fa-edit"></i> Editar</a>
                                             <form action="{{ route('products.restore',$p) }}" class="restoreForm_{{ $p->id }}"  method="post" style="display: inline-block">
                                                 {{ csrf_field() }}
                                                 <a href="#" class="btn btn-primary restoreItem" data-id="{{ $p->id }}" @if(!$p->trashed() ) disabled="true" @endif ><i class="fa fa-eye"></i> Activar</a>
