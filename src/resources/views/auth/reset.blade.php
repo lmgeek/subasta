@@ -27,7 +27,7 @@
         <p>
             {{--Perfectly designed and precisely prepared admin theme with over 50 pages with extra new web app views.--}}
         </p>
-        
+
         @if (count($errors) > 0)
             <div class="alert alert-danger">
                 <strong>Error</strong><br><br>
@@ -71,5 +71,4 @@
 <script src="{{ asset('/js/bootstrap.min.js') }}"></script>
 
 </body>
-
 </html>

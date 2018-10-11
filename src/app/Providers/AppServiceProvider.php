@@ -32,6 +32,24 @@ class AppServiceProvider extends ServiceProvider
 
             return $authorize;
         });
+
+//        new
+        Validator::extend('unique_name_unit', function ($attribute, $value, $parameters) {
+            $count = DB::table('products')
+                ->where('name', $value)
+                ->where('unit', $parameters[0])
+                ->count();
+
+            return $count === 0;
+        });
+
+        Validator::extend('greater_weight_than', function($attribute, $value, $parameters) {
+            $request = Request::capture();
+
+            return $value > "0,00";
+        });
+//        new
+
     }
 
     /**

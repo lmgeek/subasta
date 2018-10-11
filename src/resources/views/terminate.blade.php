@@ -238,7 +238,17 @@
                         ?>
                         </span><br>
                         <?
-                        $weigth = $a->batch->product->weigth;
+//                            dd( $a->batch->caliber);
+                        if ( $a->batch->caliber == 'small' ) {
+                            $weigth = $a->batch->product->weigth_small;
+                        }
+                        if ( $a->batch->caliber == 'medium' ) {
+                            $weigth = $a->batch->product->weigth_medium;
+                        }
+                        if ( $a->batch->caliber == 'big' ) {
+                            $weigth = $a->batch->product->weigth_big;
+                        }
+//                        $weigth = $a->batch->product->weigth;
                         $vendido = 0;
                         foreach ($a->bids()->where('status','<>',\App\Bid::NO_CONCRETADA)->get() as $b) {
                             $vendido+= $b->amount;
@@ -256,7 +266,7 @@
                         } else {
                             echo '<span style="font-size: 25px;">';
                         }?>
-                        {{ $disponible }}/{{ $total }}</span>
+                        {{ str_replace('.',',',$disponible) }}/{{ str_replace('.',',',$total) }}</span>
                         <span class="peso">Kg.</span>
                         @if($a->active == \App\Auction::ACTIVE)
                             @include('auction.partials.auctionAvailabilityHome')

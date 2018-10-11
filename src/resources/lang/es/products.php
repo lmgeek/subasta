@@ -7,7 +7,7 @@ return [
     'name'              => 'Nombre',
     'unit'              => 'Unidad',
     'image'             => 'Imagen',
-    'weigth'            => 'Peso aproximado por Unidad (Kg.)',
-    'image_upload_help' => 'La imagen debe tener un máximo de 2 Mb y una dimensión de 172x102 pixeles',
+    'weigth'            => 'Peso aproximado por Kg. por calibre:',
+    'image_upload_help' => 'La imagen debe tener un máximo de 2 Mb y una dimensión de 630x404 pixeles',
     'actual_image'      => 'Imagen actual',
 ];

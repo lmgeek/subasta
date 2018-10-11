@@ -72,7 +72,7 @@
         </div>
     </div>
 @endsection
-
+El peso debe ser mayor a 0,00.
 @section('scripts')
     <script src="{{ asset('/js/plugins/dataTables/jquery.dataTables.js') }}"></script>
     <script src="{{ asset('/js/plugins/dataTables/dataTables.bootstrap.js') }}"></script>

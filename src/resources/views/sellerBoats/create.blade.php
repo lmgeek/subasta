@@ -27,12 +27,12 @@
                         {{ csrf_field() }}
                         <div class="ibox-content">
                             <div class="form-group">
-                                <label for="exampleInputEmail1">{{ trans('sellerBoats.name') }}</label>
-                                <input type="text" name="name" class="form-control" id="exampleInputEmail1" placeholder="{{ trans('sellerBoats.name') }}" value="{{ old('name') }}" required minlength="6"  onkeypress="return validaName(event);"  onKeyUp="this.value = this.value.toUpperCase();">
+                                <label for="name">{{ trans('sellerBoats.name') }}</label>
+                                <input type="text" name="name" class="form-control" id="name" placeholder="{{ trans('sellerBoats.name') }}" value="{{ old('name') }}" required minlength="6"  onkeypress="return validaName(event);"  onKeyUp="this.value = this.value.toUpperCase();">
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputPassword1">{{ trans('sellerBoats.matricula') }}</label>
-                                <input type="text" name="matricula" class="form-control" id="exampleInputPassword1" placeholder="{{ trans('sellerBoats.matricula') }}"  value="{{ old('matricula') }}" required minlength="4"  onkeypress="return validaMatricula(event);"  onKeyUp="this.value = this.value.toUpperCase();">
+                                <label for="matricula">{{ trans('sellerBoats.matricula') }}</label>
+                                <input type="text" name="matricula" class="form-control" id="matricula" placeholder="{{ trans('sellerBoats.matricula') }}"  value="{{ old('matricula') }}" required minlength="4"  onkeypress="return validaMatricula(event);"  onKeyUp="this.value = this.value.toUpperCase();">
                             </div>
                         </div>
                         <div class="ibox-footer text-right">

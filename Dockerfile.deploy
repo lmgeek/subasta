@@ -1,0 +1,5 @@
+FROM registry.netlabs.com.ar/netlabs/deploy:5
+
+MAINTAINER Diego Weinstein <diegow@netlabs.com.ar>
+
+ADD deploy/sql /flyway/sql

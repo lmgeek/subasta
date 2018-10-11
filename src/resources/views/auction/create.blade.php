@@ -1,7 +1,17 @@
 @extends('admin')
 
 @section('content')
-    <?php use Carbon\Carbon; ?>
+    <?php use Carbon\Carbon;
+        if ( $batch->caliber == 'small' ) {
+            $weigth = $batch->product->weigth_small;
+        }
+        if ( $batch->caliber == 'medium' ) {
+            $weigth = $batch->product->weigth_medium;
+        }
+        if ( $batch->caliber == 'big' ) {
+            $weigth = $batch->product->weigth_big;
+        }
+    ?>
 <style>
     #total {font-size: 12px!important}
     p.labelt {
@@ -55,8 +65,8 @@
                         </div>
                     </div>
                 </div>
-				
-				
+
+
 				
             </div>
             <div class="col-lg-9">
@@ -118,7 +128,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4 text-center">
-                                    <p for="exampleInputEmail1" class="labelt">Conversión a Kg</p>
+                                    <p for="exampleInputEmail1" class="labelt">Conversión a Kg aprox.</p>
                                     <br>
                                     <div class="text-center">
                                         <input type="text" id="total" value="100" data-max="{{ $batch->product->weigth * $batch->status->remainder }}" data-displayPrevious=true name="total" class="dial2 m-r" data-fgColor="#1AB394" data-width="100" data-height="100" readonly/>
@@ -266,7 +276,7 @@
                 }
             }).children().off('mousewheel DOMMouseScroll');
             $(".dial2").knob({
-                'min': 0,
+                'min': 0.00,
                 'max': parseInt('{{ $batch->status->remainder }}')*$("#weigth").val()
             });
             @if(old('amount') != null)
