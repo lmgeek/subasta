@@ -233,11 +233,40 @@
         });
 
         $(function () {
-            $('#datetimepickerStart,#datetimepickerEnd').datetimepicker({
+            $('#datetimepickerStart').datetimepicker({
                 locale: '{{ Config::get('app.locale') }}',
                 sideBySide: true,
+                useCurrent:false,
                 format: 'DD/MM/YYYY HH:mm',
+                minDate: moment('{{ old('fechaInicio',date('d/m/Y H:i:s')) }}','DD/MM/YYYY HH:mm'),
+                defaultDate: moment('{{ old('fechaInicio',date('d/m/Y H:i:s')) }}','DD/MM/YYYY HH:mm')
             });
+            $('#datetimepickerEnd').datetimepicker({
+                locale: '{{ Config::get('app.locale') }}',
+                sideBySide: true,
+                useCurrent:false,
+                format: 'DD/MM/YYYY HH:mm',
+                minDate: moment('{{ old('fechaInicio',date('d/m/Y H:i:s')) }}','DD/MM/YYYY HH:mm'),
+                defaultDate: moment('{{ old('fechaFin',date('d/m/Y H:i:s')) }}','DD/MM/YYYY HH:mm')
+            });
+
+            $('#datetimepickerStart').on('dp.change',function(e){
+                var date = e.date;
+                var currentMaxDate = $('#datetimepickerEnd').data('DateTimePicker').date();
+                /**
+                 * e.date
+                 * @return momentJS object
+                 */
+                $('#datetimepickerEnd').data('DateTimePicker').minDate(date);
+                if (currentMaxDate < date){
+                    $('#datetimepickerEnd').data('DateTimePicker').date(date);
+                }
+            });
+            {{--$('#datetimepickerStart,#datetimepickerEnd').datetimepicker({--}}
+                {{--locale: '{{ Config::get('app.locale') }}',--}}
+                {{--sideBySide: true,--}}
+                {{--format: 'DD/MM/YYYY HH:mm',--}}
+            {{--});--}}
         });
     </script>
 @endsection

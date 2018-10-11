@@ -30,7 +30,7 @@
 		@endcan
 		
     <div class="modal inmodal fade modal-bid" id="bid-Modal-{{ $a->id }}" tabindex="-1" role="dialog"  aria-hidden="true">
-        <div class="modal-dialog modal-sm">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -75,18 +75,17 @@
 							</div>
 						</div>
 					</div>
-
-
-
                 </div>
                 <div class="modal-footer">
-					<button type="button"  data-loading-text="Comprando..." auctionId="{{ $a->id }}" class=" noDblClick mak-bid-{{ $a->id }} make-bid btn btn-primary">{{ trans('auction.action_bid') }}</button>
+					<button type="button"  data-loading-text="Comprando..." auctionId="{{ $a->id }}" class=" noDblClick mak-bid-{{ $a->id }} make-bid btn btn-primary">
+						{{ trans('auction.action_bid') }}
+					</button>
                     <button type="button" class="btn btn-danger close-btn-bid" data-dismiss="modal">{{ trans('general.cancel') }}</button>
                 </div>
             </div>
         </div>
     </div>
-		
+
 		
 </div>
 

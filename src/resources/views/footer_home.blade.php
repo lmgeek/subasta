@@ -125,8 +125,8 @@
         }
 
         // var total =   price..replace(/[aiou]/gi,'e')
-        var total =   currency(price).multiply(value)
-        $(".modal-total-"+auctionId).html('Total $' + currency(total).format() )
+        var total =   currency(price).multiply(value);
+        $(".modal-total-"+auctionId).html('Total $' + currency(total,{ separator: ".", decimal: ","}).format() );
     }
 
     function calculatePrice(auctionId)
@@ -143,7 +143,7 @@
                 if($('#bid-Modal-'+auctionId).is(':visible'))
                 {
                     var total = ( $("#amount-bid-" + auctionId ).val()  * data);
-                    $(".modal-total-"+auctionId).html('Total $' + total.toFixed(2) )
+                    $(".modal-total-"+auctionId).html('Total $' + currency(total.toFixed(2),{ separator: ".", decimal: ","}).format());
                 }
 
           }

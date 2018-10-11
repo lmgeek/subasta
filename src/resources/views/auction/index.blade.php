@@ -125,27 +125,32 @@
 	<script src="{{ asset('/js/plugins/chosen/chosen.jquery.js') }}"></script>
 	<script>
 
-	$(function(){
-		$('[data-toggle="tooltip"]').tooltip();
-		$(document.body).on('hidden.bs.modal', function () {
-			$(".amount-bid-modal").val('');
-			$(".modal-price").html('');
-			$(".content-danger").html('');
+
+        $(function(){
+
+			$('[data-toggle="tooltip"]').tooltip();
+			$(document.body).on('hidden.bs.modal', function () {
+				$(".amount-bid-modal").val('');
+				$(".modal-price").html('');
+				$(".content-danger").html('');
+			});
+
+			$(".amount-bid-modal").on("keydown keyup",function(){
+                var max = $(this).attr("max");
+				var auctionId = $(this).attr('auctionId');
+				var value = $(this).val();
+				if (value >= parseInt(max)){
+				    value = max;
+				    $(this).val(max);
+				}
+				var price = $(".hid-currentPrice-"+auctionId).val();
+				// var total =   price..replace(/[aiou]/gi,'e')
+				var total =   currency(price).multiply(value)
+				$(".modal-total-"+auctionId).html('Total $' + currency(total,{ separator: ".",decimal: ","}).format() )
+
+			});
+
 		});
-
-		$(".amount-bid-modal").keyup(function(){
-
-			var auctionId = $(this).attr('auctionId');
-			var value = $(this).val();
-			var price = $(".hid-currentPrice-"+auctionId).val();
-            // var total =   price..replace(/[aiou]/gi,'e')
-            var total =   currency(price).multiply(value)
-            $(".modal-total-"+auctionId).html('Total $' + currency(total,{ separator: ".",decimal: ","}).format() )
-
-		});
-
-	});
-
 	function calculatePrice(auctionId)
 	{
 		$.ajax({
@@ -348,7 +353,6 @@
 
     $(document).on("keypress",".amount-bid-modal",function(e){
         var x = e.keyCode || e.which;
-        console.log(x);
         if (x == 45 || x == 46 || x == 44 || x == 101){
             return false;
         }

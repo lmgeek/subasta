@@ -53,7 +53,7 @@
                         </div>
                         <div class="ibox-footer text-right">
                             <button type="submit" class="btn btn-primary noDblClick" data-loading-text="Guardando...">{{ trans('sellerBoats.save_arrive') }}</button>
-                            <a href="{{ url('home') }}" class="btn btn-danger">{{ trans('sellerBoats.cancel') }}</a>
+                            <a href="{{ url('sellerboat') }}" class="btn btn-danger">{{ trans('sellerBoats.cancel') }}</a>
                         </div>
                     </form>
                 </div>
