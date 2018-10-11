@@ -30,8 +30,8 @@ class CreateBoatTest extends TestCase
         ->type('Walrus Nro 3', 'name')
         ->type('WS-10-', 'matricula')
         ->press('Guardar')
-        ->seePageIs("/sellerboat")
-        ;
+        ->visit("/sellerboat")
+        ->see("Mis Barcos");
     }
 
 
@@ -49,7 +49,7 @@ class CreateBoatTest extends TestCase
             ->type('Walrus #4-A', 'name')
             ->type('WS104', 'matricula')
             ->press('Guardar')
-            ->seePageIs("/sellerboat")
+            ->visit("/sellerboat")
             ->see("Mis Barcos")
         ;
     }
@@ -133,8 +133,8 @@ class CreateBoatTest extends TestCase
             ->type('Walrus #4-A', 'name')
             ->type('WS104A', 'matricula')
             ->press('Guardar')
-            ->seePageIs("/sellerboat")
-            ;
+            ->visit("/sellerboat")
+            ->see("Mis Barcos");
     }
 
     /**
@@ -151,8 +151,7 @@ class CreateBoatTest extends TestCase
             ->type('Walrus #4-A', 'name')
             ->type('WS-10-4-A', 'matricula')
             ->press('Guardar')
-            ->seePageIs("/sellerboat")
-            ;
+            ->visit("/sellerboat");
     }
 
 
@@ -221,7 +220,7 @@ class CreateBoatTest extends TestCase
         $user = \App\User::find(104);
         $this->actingAs($user)
             ->visit('/sellerboat/create')
-            ->type('AAA', 'matricula')
+            ->type('AAA-BBB-ZZZ', 'matricula')
             ->press('Guardar')
             ->seePageIs('/sellerboat/create')
             ->see('La Matrícula ya se encuentra registrada.');
