@@ -114,7 +114,6 @@
                                     <div class="text-center">
                                         <input type="text" value="{{ (is_null(old('amount'))?$batch->status->remainder:old('amount')) }}" data-max="{{ $batch->status->remainder }}" data-displayPrevious=true name="amount" class="dial m-r" data-fgColor="#1AB394" data-width="100" data-height="100" />
                                         <input type="hidden" id="weigth" class="monto" value="{{ $batch->product->weigth }}" disabled/>
-                                        <? $max = $batch->product->weigth * $batch->status->remainder; ?>
                                         <br><small>{{ trans('general.product_units.'.$batch->product->unit) }}</small>
                                     </div>
                                 </div>
@@ -122,7 +121,7 @@
                                     <p for="exampleInputEmail1" class="labelt">Conversión a Kg</p>
                                     <br>
                                     <div class="text-center">
-                                        <input type="text" id="total" value="100" data-max="{{ $max }}" data-displayPrevious=true name="total" class="dial2 m-r" data-fgColor="#1AB394" data-width="100" data-height="100" readonly/>
+                                        <input type="text" id="total" value="100" data-max="{{ $batch->product->weigth * $batch->status->remainder }}" data-displayPrevious=true name="total" class="dial2 m-r" data-fgColor="#1AB394" data-width="100" data-height="100" readonly/>
                                         <br><small><b>Kg.</b></small>
                                     </div>
                                 </div>

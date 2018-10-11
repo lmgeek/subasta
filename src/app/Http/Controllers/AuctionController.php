@@ -109,7 +109,6 @@ class AuctionController extends Controller
 
         $startDate = Carbon::createFromFormat('d/m/Y H:i', $request->input('fechaInicio'));
         $endDate = Carbon::createFromFormat('d/m/Y H:i', $request->input('fechaFin'));
-
         $auction  = new Auction();
         $auction->batch_id = $request->input('batch');
         $auction->start = $startDate->format('Y-m-d H:i:s');
@@ -232,7 +231,7 @@ class AuctionController extends Controller
 					$unit = $auction->batch->product->unit;
 					$product = $auction->batch->product->name;
 					$total = $amount * $price;
-					$resp['isnotavailability'] = 0;
+					$resp['isnotavailability'] = 1;
 					$resp['unit'] = trans('general.product_units.'.$unit);
 					$resp['product'] = $product;
 					$resp['amount'] = $amount;

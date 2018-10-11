@@ -58,7 +58,7 @@
 
                             <button type="submit" class="btn-save-batch btn btn-primary noDblClick" data-loading-text="Guardando...">{{ trans('sellerBoats.save_batch') }}</button>
 
-                            <a href="{{ url('home') }}" class="btn btn-danger">{{ trans('sellerBoats.cancel') }}</a>
+                            <a href="{{ url('sellerbatch') }}" class="btn btn-danger">{{ trans('sellerBoats.cancel') }}</a>
                         </div>
                     </form>
                 </div>

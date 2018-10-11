@@ -15,11 +15,11 @@ trait priceTrait {
         $this->attributes["end_price"] = $this->comma2dot($value);
     }
 
-    public function setBidLimitAttribute($value){
+    public function setBidLimitAttribute($value) {
         $this->attributes["bid_limit"] = $this->comma2dot($value);
     }
 
-    public function comma2dot($value){
+    public function comma2dot($value) {
         return str_replace(",",".",$value);
     }
 }
