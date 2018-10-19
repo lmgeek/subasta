@@ -32,7 +32,7 @@
             {{--<h1 class="logo-name">IN+</h1>--}}
             <img alt="image"  src="{{ asset('/landing/img/logo_subastas.png') }}" width="100%" style="padding: 50px 0px;" />
         </div>
-        <h3>Bienvenido a subasta del Mar</h3>
+        <h3>Bienvenido a Subastas del Mar</h3>
         <p>
             {{--Perfectly designed and precisely prepared admin theme with over 50 pages with extra new web app views.--}}
         </p>

@@ -24,7 +24,6 @@
         @if($status != \App\Auction::FINISHED and $status != \App\Auction::MY_FINISHED )
             <div class="priceText currentPrice-{{ $a->id }}">$ {{ $a->start_price }}</div>
         @else
-
             <div class="priceText currentPrice-{{ $a->id }}">$ {{ $a->end_price }}</div>
         @endif
     </div>

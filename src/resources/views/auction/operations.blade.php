@@ -6,11 +6,6 @@
         <div class="col-lg-9">
             <h2>{{ trans('auction.auction_operations',['productName'=>$auction->batch->product->name]) }}</h2>
         </div>
-        <div class="col-lg-3 text-right">
-            <h2>
-                <a href="{{ url('sellerAuction') }}" class="btn btn-danger">{{ trans('general.back') }}</a>
-            </h2>
-        </div>
     </div>
     <div class="wrapper wrapper-content">
         <div class="row">
