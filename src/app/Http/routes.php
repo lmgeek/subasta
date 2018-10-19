@@ -66,7 +66,7 @@ Route::get('auction/create/{batch}', [
 Route::group(['middleware' => ['auth']],function(){
     Route:resource('auction','AuctionController');
 });
-Route::post("/auction/creates/new","AuctionController@store");
+
 //---------------------------------------------------------------------------
 //User routhes
 //---------------------------------------------------------------------------

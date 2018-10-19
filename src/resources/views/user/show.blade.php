@@ -16,7 +16,7 @@
         @include('user.partials.aprove')
         <div class="row">
             <div class="col-lg-4 col-lg-offset-2">
-
+				
 					<div class="ibox float-e-margins">
 						<div class="ibox-title label-{{ $user->type }}">
 							<h5>{{ trans("general.users_type.$user->type") }}</h5>
@@ -44,10 +44,10 @@
 							</dl>
 						</div>
 					</div>
-
+				
             </div>
 			<div class="col-lg-4">
-
+				
 					<div class="widget style1 lazur-bg">
                         <div class="row vertical-align">
                             <div class="col-xs-3">
@@ -61,7 +61,7 @@
 								@if ($user->type == \App\User::COMPRADOR )
 									Total Compras: {{ number_format($total,2,',','.') }}
 								@endif
-
+                                
 								</h2>
                             </div>
                         </div>
@@ -93,7 +93,7 @@
 								@if ($user->type == \App\User::COMPRADOR )
 									De Vendedores
 								@endif
-
+								
 							</h3>
 							<small>lo recomiendan</small>
 							@if ($user->rating != null )
@@ -106,8 +106,8 @@
 							@endif
 						</div>
 					</div>
-
-
+				
+				
 			</div>
         </div>
 		<div class="row">

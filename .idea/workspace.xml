@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="488e7b69-7c4c-4249-ab06-78335060395c" name="Default Changelist" comment="">
+
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/resources/views/sellerBoats/arrive.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/views/sellerBoats/arrive.blade.php" afterDir="false" />
+
     </list>
     <ignored path="$PROJECT_DIR$/src/vendor/classpreloader/classpreloader/" />
     <ignored path="$PROJECT_DIR$/src/vendor/composer/" />
@@ -95,9 +97,10 @@
     <session id="-879977579">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
+
           <entry key="project.closed" value="17" />
           <entry key="project.open.time.0" value="1" />
-          <entry key="project.open.time.1" value="6" />
+          <entry key="project.open.time.1" value="5" />
           <entry key="project.open.time.10" value="1" />
           <entry key="project.open.time.11" value="3" />
           <entry key="project.open.time.13" value="1" />
@@ -107,6 +110,7 @@
           <entry key="project.open.time.4" value="1" />
           <entry key="project.open.time.8" value="1" />
           <entry key="project.open.time.9" value="1" />
+
           <entry key="project.opened" value="25" />
         </counts>
       </usages-collector>
@@ -121,6 +125,7 @@
           <entry key="json" value="2" />
           <entry key="lock" value="1" />
           <entry key="md" value="1" />
+
           <entry key="php" value="224" />
           <entry key="sql" value="3" />
         </counts>
@@ -128,40 +133,21 @@
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key=".env file" value="4" />
+
           <entry key="Blade" value="100" />
           <entry key="CSS" value="1" />
           <entry key="Git file" value="2" />
           <entry key="JSON" value="3" />
           <entry key="JavaScript" value="3" />
           <entry key="Markdown" value="1" />
+
           <entry key="PHP" value="124" />
           <entry key="PLAIN_TEXT" value="4" />
           <entry key="SQL" value="3" />
         </counts>
       </usages-collector>
-      <usages-collector id="statistics.file.extensions.edit">
-        <counts>
-          <entry key="css" value="1" />
-          <entry key="dummy" value="1" />
-          <entry key="env" value="31" />
-          <entry key="php" value="9412" />
-          <entry key="sql" value="1" />
-        </counts>
-      </usages-collector>
+      
       <usages-collector id="statistics.file.types.edit">
-        <counts>
-          <entry key=".env file" value="31" />
-          <entry key="Blade" value="5920" />
-          <entry key="CSS" value="1" />
-          <entry key="HTML" value="2" />
-          <entry key="PHP" value="3490" />
-          <entry key="PLAIN_TEXT" value="1" />
-          <entry key="SQL" value="1" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.php.new.test" />
-      <usages-collector id="statistics.php.composer.command.options" />
-      <usages-collector id="statistics.php.new.class" />
       <usages-collector id="statistics.php.composer.actions" />
       <usages-collector id="statistics.js.language.service.starts" />
       <usages-collector id="statistics.php.rename.constructor" />
@@ -169,6 +155,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/app/Http/routes.php">
           <provider selected="true" editor-type-id="text-editor">
@@ -179,6 +166,7 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+
         <entry file="file://$PROJECT_DIR$/src/app/Http/Controllers/SellerBoatsController.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1856">
@@ -188,6 +176,7 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+
         <entry file="file://$PROJECT_DIR$/src/resources/views/sellerBoats/arrive.blade.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="880">
@@ -200,6 +189,7 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
+
       <find>buyer</find>
       <find>section(</find>
       <find>$approved</find>
@@ -222,6 +212,7 @@
       <find>saveprivate</find>
       <find>require</find>
       <find>required_</find>
+
       <find>subastaHome</find>
       <find>$(function(){         $('[data-toggle=&quot;tooltip&quot;]').tooltip();         $(document.body).on('hidden.bs.modal', function () {                 $(&quot;.amount-bid-modal&quot;).val('');                 $(&quot;.modal-price&quot;).html('');                 $(&quot;.content-danger&quot;).html('');         });              $(&quot;.amount-bid-modal&quot;).on(&quot;keyup&quot;,validateAvailability);      });      function validateAvailability(){         var auctionId = $(this).attr('auctionId');         var price = $(&quot;.hid-currentPrice-&quot;+auctionId).val();         var value = $(this).val();         var disponible = parseInt($(&quot;.target-total&quot;).attr(&quot;target&quot;));         if (disponible &lt; parseInt(value)){             $(this).val(disponible);             value = disponible;         }          // var total =   price..replace(/[aiou]/gi,'e')         var total =   currency(price).multiply(value)         $(&quot;.modal-total-&quot;+auctionId).html('Total $' + currency(total).format() )     }      function calculatePrice(auctionId)     {         $.ajax({           method: &quot;GET&quot;,           url: &quot;/calculateprice?auction_id=&quot;+auctionId,           success: function(data)           {               var price = currency(parseFloat(data),{ separator: &quot;.&quot;,decimal: &quot;,&quot;}).format();             $(&quot;.currentPrice-&quot;+auctionId).html('&lt;font size=&quot;4px&quot;&gt;$&lt;/font&gt;' + price + ' xKg');             $(&quot;.hid-currentPrice-&quot;+auctionId).val(data);                  if($('#bid-Modal-'+auctionId).is(':visible'))                 {                     var total = ( $(&quot;#amount-bid-&quot; + auctionId ).val()  * data);                     $(&quot;.modal-total-&quot;+auctionId).html('Total $' + total.toFixed(2) )                 }            }         });     }      function showBill(text){                 toastr.remove()                 var options = {                   &quot;closeButton&quot;: true,                   &quot;positionClass&quot;: &quot;toast-top-right&quot;,                   &quot;showDuration&quot;: &quot;99999&quot;,                   &quot;debug&quot;: false,                   &quot;onclick&quot;: null,                   &quot;hideDuration&quot;: &quot;99999&quot;,                   &quot;extendedTimeOut&quot;:&quot;999999&quot;,                   &quot;timeOut&quot;: &quot;99999&quot;,                   &quot;onHidden&quot;:function(){                         location.reload();                   }                 };              toastr.success(text, '', options);      }      function showBillError(text){                 toastr.remove()                 var options = {                   &quot;closeButton&quot;: true,                   &quot;positionClass&quot;: &quot;toast-top-right&quot;,                   &quot;showDuration&quot;: &quot;99999&quot;,                   &quot;debug&quot;: false,                   &quot;onclick&quot;: null,                   &quot;hideDuration&quot;: &quot;99999&quot;,                   &quot;extendedTimeOut&quot;:&quot;999999&quot;,                   &quot;timeOut&quot;: &quot;99999&quot;,                   &quot;onHidden&quot;:function(){                         location.reload();                   }                 };              toastr.error(text, '', options);      }       $(document).ready(function(){         $(&quot;.amount-bid-modal&quot;).on(&quot;focusout&quot;,function (e) {             console.log(this.value);         });          $('.chosen-select').chosen({width:&quot;100%&quot;});            $(&quot;.cancelAuction&quot;).click(function(){             if(!confirm('Esta seguro que quiere cancelar la subasta?')){                 return false;             }         });           $(&quot;.auctionIds&quot;).each(function(){             calculatePrice($(this).val());         });          $(&quot;.dialInterval&quot;).knob({             'format' : function (value) {                 var m = Math.floor(value/60);                 var s = value%60;                 if (s&lt;10)                     s = &quot;0&quot;+s;                  if (m&lt;10)                     m = &quot;0&quot;+m;                  return m+&quot;:&quot;+s;              }         });          setInterval(function(){             $('.dialInterval').each(function(k,v){                 valores = $(v).val().split(':');                 if (valores.length == 2){                     nuevoValor = (valores[0]*60)+(valores[1]-1);                 }else{                     nuevoValor = valores[0]-1;                 }                  if (nuevoValor == 0){                     nuevoValor = parseInt($(v).data('max'))-1;                     var auctionId = $(v).attr('auctionId');                     var active = $(v).attr('active');                     if (active==1){                         calculatePrice(auctionId);                     }                 }                 $(v).val(nuevoValor).trigger(&quot;change&quot;);             });         }, 1000);          setInterval(function(){             $('.dialLeft').each(function(k,v){                 valores = $(v).val().split(':');                 if (valores.length == 3){                     nuevoValor = (valores[0]*3600)+(valores[1]*60)+(valores[2]-1);                 }else{                     nuevoValor = valores[0]-1;                 }                 $(v).val(nuevoValor).trigger(&quot;change&quot;);             });         }, 1000);          $(&quot;.dialLeft&quot;).knob({             'format' : function (value) {                  var h = Math.floor(value/3600);                  if (h&lt;10)                     h = &quot;0&quot;+h;                  var m = Math.floor((value-(h*3600))/60);                  if (m&lt;10)                     m = &quot;0&quot;+m;                  var s = value%60;                 return h+&quot;:&quot;+m+&quot;:&quot;+s;              }         });          $(&quot;.make-bid&quot;).click(function(){             var auctionId = $(this).attr('auctionId');             var amount = $(&quot;#amount-bid-&quot;+auctionId).val();             makeBid(auctionId,amount);         });          $(&quot;.amount-bid&quot;).keypress(function(e) {             if(e.which == 13) {                 var auctionId = $(this).attr('auctionId');                 var amount = $(&quot;#amount-bid-&quot;+auctionId).val();                 makeBid(auctionId,amount);                 return false;             }         });          $('.quality').each(function(k,v){             sc = $(v).data('score');             $(v).raty({                 readOnly: true,                 score: sc,                 starType: 'i',                 hints: ['1 Estrella', '2 Estrellas', '3 Estrellas', '4 Estrellas', '5 Estrellas']             });         });      });      $(document).on(&quot;keypress&quot;,&quot;.amount-bid-modal&quot;,function(e){         var x = e.keyCode || e.which;         console.log(x);         if (x == 44 || x == 45 || x == 46 || x == 101){             return false;         }      });      function makeBid(auctionId,amount)     {         var cDispo =  parseInt($(&quot;.s-disponible-&quot; +auctionId).html());          if ( amount &lt;= cDispo  ){             $.ajax({                           method: &quot;GET&quot;,                           dataType:&quot;json&quot;,                           url: &quot;/makeBid?auction_id=&quot;+auctionId + &quot;&amp;amount=&quot;+amount,                           success: function(data)                           {                             if (data.active == 0)                             {                                 $(&quot;.modal&quot;).modal('hide');                                         var note = '';                                             note+= '&lt;table&gt;';                                                 note+= '&lt;tr&gt;';                                                     note+= '&lt;td colspan=&quot;2&quot;&gt;&lt;strong&gt;La subasta ha sido cancelada por el vendedor&lt;/strong&gt;&lt;/td&gt;';                                                 note+= '&lt;/tr&gt;';                                             note+= '&lt;/table&gt;';                                     showBillError(note);                             }else {                                 if (data.isnotavailability == 0)                                 {                                     $(&quot;.modal&quot;).modal('hide');                                         var note = '&lt;table&gt;';                                             note+= '&lt;tr&gt;';                                                 note+= '&lt;td colspan=&quot;2&quot;&gt;&lt;strong&gt;Su compra se ha realizado con éxito&lt;/strong&gt;&lt;/td&gt;';                                                 note+= '&lt;/tr&gt;';                                                 note+= '&lt;tr&gt;&lt;td colspan=&quot;2&quot; style=&quot;border-bottom:1px solid&quot;&gt;&lt;/td&gt;';                                                 note+= '&lt;/tr&gt;';                                                 note+= '&lt;tr&gt;';                                                 note+= '&lt;td&gt;Producto&lt;/td&gt;';                                                 note+= '&lt;td&gt;'+data.product+'&lt;/td&gt;';                                                 note+= '&lt;/tr&gt;';                                                 note+= '&lt;tr&gt;';                                                 note+= '&lt;td&gt;Precio&lt;/td&gt;';                                                 note+= '&lt;td&gt;$ '+data.price+'&lt;/td&gt;';                                                 note+= '&lt;/tr&gt;';                                                 note+= '&lt;tr&gt;';                                                 note+= '&lt;td&gt;Cantidad&lt;/td&gt;';                                                 note+= '&lt;td&gt;'+data.amount+ ' ' + data.unit  + '&lt;/td&gt;';                                                 note+= '&lt;/tr&gt;';                                                 note+= '&lt;tr&gt;&lt;td colspan=&quot;2&quot; style=&quot;border-bottom:1px solid&quot;&gt;&lt;/td&gt;';                                                 note+= '&lt;/tr&gt;';                                                 note+= '&lt;tr&gt;';                                                 note+= '&lt;td&gt;&lt;strong&gt;Total&lt;/strong&gt;&lt;/td&gt;';                                                 note+= '&lt;td&gt;&lt;strong&gt;$ '+ currency( currency(data.price).multiply(data.amount) ).format() +'&lt;/strong&gt;&lt;/td&gt;';                                                 note+= '&lt;/tr&gt;';                                             note+= '&lt;/tr&gt;';                                         note+='&lt;table&gt;';                                         $(&quot;.bid-button-act&quot;).attr(&quot;disabled&quot;,true);                                         showBill(note);                                 }else{                                     var note = '';                                          note+= '&lt;div class=&quot;alert alert-danger alert-dismissible&quot; role=&quot;alert&quot;&gt;';      …</find>
       <find>urrency(price).multiply(value)</find>
@@ -270,6 +261,7 @@
         <option value="$PROJECT_DIR$/src/resources/views/sales/private.blade.php" />
         <option value="$PROJECT_DIR$/src/resources/views/bid/index.blade.php" />
         <option value="$PROJECT_DIR$/src/resources/views/terminate.blade.php" />
+        <option value="$PROJECT_DIR$/src/resources/views/footer_home.blade.php" />
         <option value="$PROJECT_DIR$/src/resources/views/user/index.blade.php" />
         <option value="$PROJECT_DIR$/src/resources/views/user/partials/summarybuyer.blade.php" />
         <option value="$PROJECT_DIR$/deploy/sql/V4__CHANGE_DOBLE_FLOAT_COLUMNS.sql" />
@@ -293,6 +285,7 @@
         <option value="$PROJECT_DIR$/src/app/Http/Controllers/UserController.php" />
         <option value="$PROJECT_DIR$/src/app/Http/Traits/priceTrait.php" />
         <option value="$PROJECT_DIR$/src/app/Http/Requests/CreateAuctionRequest.php" />
+
         <option value="$PROJECT_DIR$/src/resources/views/footer_home.blade.php" />
         <option value="$PROJECT_DIR$/src/resources/views/sellerBoats/arrive.blade.php" />
         <option value="$PROJECT_DIR$/src/app/Http/routes.php" />
@@ -382,10 +375,10 @@
     </include_path>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1912" />
+    <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1936" />
-    <option name="height" value="1066" />
+    <option name="width" value="1296" />
+    <option name="height" value="1010" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -485,6 +478,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
+
     <property name="SearchEverywhereHistoryKey" value="sellerBoats/arrive&#9;FILE&#9;file://L:/src/subastas/src/resources/views/sellerBoats/arrive.blade.php&#10;SellerBoatsController&#9;FILE&#9;file://L:/src/subastas/src/app/Http/Controllers/SellerBoatsController.php&#10;auction/index&#9;FILE&#9;file://L:/src/subastas/src/resources/views/auction/index.blade.php&#10;AuctionController&#9;FILE&#9;file://L:/src/subastas/src/app/Http/Controllers/AuctionController.php&#10;landing&#9;FILE&#9;file://L:/src/subastas/src/resources/views/landing.blade.php&#10;routes&#9;FILE&#9;file://L:/src/subastas/src/app/Http/routes.php&#10;user/partials/buye&#9;FILE&#9;file://L:/src/subastas/src/resources/views/user/partials/buyerInfo.blade.php&#10;user/show&#9;FILE&#9;file://L:/src/subastas/src/resources/views/user/show.blade.php&#10;UserController&#9;FILE&#9;file://L:/src/subastas/src/app/Http/Controllers/UserController.php&#10;buy&#9;FILE&#9;file://L:/src/subastas/src/resources/views/menu/partials/menu/buyer.blade.php&#10;index&#9;FILE&#9;file://L:/src/subastas/src/resources/views/auction/index.blade.php&#10;auction/inde&#9;FILE&#9;file://L:/src/subastas/src/resources/views/auction/index.blade.php&#10;route&#9;FILE&#9;file://L:/src/subastas/src/app/Http/routes.php&#10;summary&#9;FILE&#9;file://L:/src/subastas/src/resources/views/user/partials/summarybuyer.blade.php&#10;show&#9;FILE&#9;file://L:/src/subastas/src/resources/views/user/show.blade.php&#10;user/index&#9;FILE&#9;file://L:/src/subastas/src/resources/views/user/index.blade.php&#10;bid/inde&#9;FILE&#9;file://L:/src/subastas/src/resources/views/bid/index.blade.php&#10;bidindex&#9;ACTION&#9;null&#10;private.b&#9;FILE&#9;file://L:/src/subastas/src/resources/views/sales/private.blade.php&#10;SellerAuctionController&#9;FILE&#9;file://L:/src/subastas/src/app/Http/Controllers/SellerAuctionController.php&#10;operations&#9;FILE&#9;file://L:/src/subastas/src/resources/views/auction/operations.blade.php&#10;routes.&#9;FILE&#9;file://L:/src/subastas/src/app/Http/routes.php&#10;create&#9;FILE&#9;file://L:/src/subastas/src/resources/views/auction/create.blade.php&#10;sellermen&#9;FILE&#9;file://L:/src/subastas/src/resources/views/auction/partials/auctionSellerMenu.blade.php&#10;views/footer_home.blade.php&#9;FILE&#9;file://L:/src/subastas/src/resources/views/footer_home.blade.php&#10;user&#9;FILE&#9;file://L:/src/subastas/src/app/User.php&#10;auction/crea&#9;FILE&#9;file://L:/src/subastas/src/resources/views/auction/create.blade.php&#10;auctionDetail&#9;FILE&#9;file://L:/src/subastas/src/resources/views/auction/partials/auctionDetail.blade.php&#10;proce&#9;FILE&#9;file://L:/src/subastas/src/resources/views/auction/process.blade.php&#10;auction/operatio&#9;FILE&#9;file://L:/src/subastas/src/resources/views/auction/operations.blade.php&#10;sales/inde&#9;FILE&#9;file://L:/src/subastas/src/resources/views/sales/index.blade.php&#10;emails/user&#9;FILE&#9;file://L:/src/subastas/src/resources/views/emails/userinvited.blade.php&#10;auction/create&#9;FILE&#9;file://L:/src/subastas/src/resources/views/auction/create.blade.php&#10;request/&#9;FILE&#9;file://L:/src/subastas/src/app/Http/Requests&#10;auctioni&#9;FILE&#9;file://L:/src/subastas/src/resources/views/auction/partials/auctionInfo.blade.php&#10;auctionin&#9;FILE&#9;file://L:/src/subastas/src/resources/views/auction/partials/auctionInfo.blade.php&#10;sellerA&#9;FILE&#9;file://L:/src/subastas/src/app/Http/Controllers/SellerAuctionController.php&#10;auction/process&#9;FILE&#9;file://L:/src/subastas/src/resources/views/auction/process.blade.php&#10;menu&#9;FILE&#9;file://L:/src/subastas/src/resources/views/auction/partials/auctionSellerMenu.blade.php&#10;auctio&#9;FILE&#9;file://L:/src/subastas/src/app/Http/Controllers/AuctionController.php&#10;7f6710dbacb3345d16217e2d6fd6ad0e&#9;FILE&#9;file://L:/src/subastas/src/storage/framework/views/7f6710dbacb3345d16217e2d6fd6ad0e&#10;boat/sellerbatch&#9;FILE&#9;file://L:/src/subastas/src/resources/views/boat/sellerbatch.blade.php&#10;boatCon&#9;null&#9;null&#10;sellerM&#9;FILE&#9;file://L:/src/subastas/src/resources/views/auction/partials/auctionSellerMenu.blade.php&#10;Auction.php&#9;FILE&#9;file://L:/src/subastas/src/app/Auction.php&#10;AuctionControl&#9;FILE&#9;file://L:/src/subastas/src/app/Http/Controllers/AuctionController.php&#10;HomeController&#9;null&#9;null&#10;.env&#9;FILE&#9;file://L:/src/subastas/src/.env&#10;config/ap&#9;FILE&#9;file://L:/src/subastas/src/config/app.php&#10;Auction&#9;FILE&#9;file://L:/src/subastas/src/app/Auction.php" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -540,6 +534,7 @@
       <workItem from="1536669720329" duration="5000" />
       <workItem from="1536755441280" duration="1204000" />
       <workItem from="1536843795419" duration="313000" />
+
       <workItem from="1539272297490" duration="878000" />
       <workItem from="1539274797179" duration="322000" />
       <workItem from="1539348545441" duration="531000" />
@@ -548,6 +543,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
+
     <option name="totallyTimeSpent" value="128827000" />
   </component>
   <component name="ToolWindowManager">
@@ -626,10 +622,31 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/resources/views/footer_home.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="703">
+          <caret line="129" column="5" lean-forward="true" selection-start-line="129" selection-start-column="5" selection-end-line="129" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/resources/views/user/index.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="336">
           <caret line="21" column="45" lean-forward="true" selection-end-line="161" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/resources/views/terminate.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="310">
+          <caret line="226" column="26" selection-start-line="226" selection-start-column="26" selection-end-line="226" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/resources/views/landing.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="592">
+          <caret line="37" column="20" selection-start-line="37" selection-start-column="20" selection-end-line="37" selection-end-column="20" />
         </state>
       </provider>
     </entry>
@@ -685,6 +702,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1">
           <caret line="69" column="30" lean-forward="true" selection-start-line="69" selection-start-column="30" selection-end-line="69" selection-end-column="30" />
+          <folding>
+            <element signature="e#23#59#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -709,6 +729,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="609">
           <caret line="76" column="24" selection-start-line="76" selection-start-column="24" selection-end-line="76" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/Http/Controllers/AuctionController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="496">
+          <caret line="75" column="34" selection-start-line="75" selection-start-column="29" selection-end-line="75" selection-end-column="34" />
         </state>
       </provider>
     </entry>
@@ -772,6 +799,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="144">
           <caret line="9" column="15" selection-start-line="9" selection-start-column="15" selection-end-line="9" selection-end-column="15" />
+          <folding>
+            <element signature="e#23#54#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/Http/routes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1168">
+          <caret line="82" column="29" selection-start-line="82" selection-start-column="13" selection-end-line="82" selection-end-column="29" />
         </state>
       </provider>
     </entry>
@@ -796,30 +833,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/Http/Requests/BatchRequest.php" />
-    <entry file="file://$PROJECT_DIR$/src/resources/lang/es/auction.php">
+    <entry file="file://$PROJECT_DIR$/src/resources/views/user/partials/buyerInfo.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-416">
-          <caret line="1" column="2" selection-start-line="1" selection-start-column="2" selection-end-line="1" selection-end-column="2" />
+        <state relative-caret-position="112">
+          <caret line="7" column="108" selection-start-line="7" selection-start-column="108" selection-end-line="7" selection-end-column="108" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/Http/Requests/CreateAuctionRequest.php">
+    <entry file="file://$PROJECT_DIR$/src/app/Http/Controllers/SellerBoatsController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="404">
-          <caret line="44" column="5" lean-forward="true" selection-start-line="44" selection-start-column="5" selection-end-line="44" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/Http/Traits/priceTrait.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="24" column="1" selection-start-line="24" selection-start-column="1" selection-end-line="24" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/Bid.php">
-      <provider selected="true" editor-type-id="text-editor">
+
         <state relative-caret-position="80">
           <caret line="5" column="31" selection-start-line="5" selection-start-column="31" selection-end-line="5" selection-end-column="31" />
         </state>
@@ -829,6 +852,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="144">
           <caret line="13" column="4" selection-start-line="13" selection-start-column="4" selection-end-line="13" selection-end-column="19" />
+
         </state>
       </provider>
     </entry>
@@ -841,18 +865,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/resources/lang/es/validation.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="279">
-          <caret line="60" column="85" selection-start-line="60" selection-start-column="27" selection-end-line="60" selection-end-column="85" />
+        <state relative-caret-position="64">
+          <caret line="5" column="31" selection-start-line="5" selection-start-column="31" selection-end-line="5" selection-end-column="31" />
+          <folding>
+            <element signature="e#23#62#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/PrivateSale.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
+        <state relative-caret-position="144">
           <caret line="10" selection-start-line="10" selection-end-line="10" />
         </state>
       </provider>
     </entry>
+
     <entry file="file://$PROJECT_DIR$/src/resources/views/terminate.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3616">

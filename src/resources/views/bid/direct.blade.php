@@ -66,7 +66,7 @@
                         </div>
                         <div class="ibox-footer text-right">
                             <button type="submit" class="btn btn-primary">Guardar</button>
-                            <a href="{{ url("sellerbatch") }}" class="btn btn-danger">Cancelar</a>
+                            <a href="{{ url('home') }}" class="btn btn-danger">Cancelar</a>
                         </div>
                     </form>
                 </div>
