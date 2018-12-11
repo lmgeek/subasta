@@ -131,6 +131,7 @@
 
     function calculatePrice(auctionId)
     {
+        var now = new Date().toLocaleTimeString();
         $.ajax({
           method: "GET",
           url: "/calculateprice?auction_id="+auctionId,
@@ -145,7 +146,7 @@
                     var total = ( $("#amount-bid-" + auctionId ).val()  * data);
                     $(".modal-total-"+auctionId).html('Total $' + total.toFixed(2) )
                 }
-
+              console.log(now + ' - ' + data);
           }
         });
     }
@@ -236,7 +237,7 @@
                 }
 
                 if (nuevoValor == 0){
-                    nuevoValor = parseInt($(v).data('max'))-1;
+                    nuevoValor = parseInt($(v).data('max'));
                     var auctionId = $(v).attr('auctionId');
                     var active = $(v).attr('active');
                     if (active==1){
@@ -254,6 +255,12 @@
                     nuevoValor = (valores[0]*3600)+(valores[1]*60)+(valores[2]-1);
                 }else{
                     nuevoValor = valores[0]-1;
+                }
+                if (nuevoValor == 0){
+                    $(this).parent().parent().parent().fadeOut(400,function(){
+                        // on Animation Complete remove object from DOM
+                        $(this).remove();
+                    });
                 }
                 $(v).val(nuevoValor).trigger("change");
             });

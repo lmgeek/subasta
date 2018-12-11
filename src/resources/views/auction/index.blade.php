@@ -148,12 +148,12 @@
 
 	function calculatePrice(auctionId)
 	{
+		var now = new Date().toLocaleTimeString();
 		$.ajax({
 		  	method: "GET",
 		  	url: "/calculateprice?auction_id="+auctionId,
 		  	success: function(data)
 		  	{
-                console.log(data);
                 var price = currency(parseFloat(data),{separator: '.',decimal: ","}).format();
 				$(".currentPrice-"+auctionId).html('$' + price);
 				$(".hid-currentPrice-"+auctionId).val(data);
@@ -164,7 +164,7 @@
 
                     $(".modal-total-"+auctionId).html('Total $' + total.toFixed(2) );
 				}
-
+				console.log(now + ' - ' + data);
 		  	}
 		});
 	}
@@ -257,7 +257,6 @@
 
                 if (m<10)
                     m = "0"+m;
-
                 return m+":"+s;
 
             }
@@ -266,19 +265,21 @@
         setInterval(function(){
             $('.dialInterval').each(function(k,v){
                 valores = $(v).val().split(':');
+
                 if (valores.length == 2){
                     nuevoValor = (valores[0]*60)+(valores[1]-1);
                 }else{
                     nuevoValor = valores[0]-1;
                 }
-
+// console.log(valores);
                 if (nuevoValor == 0){
-                    nuevoValor = parseInt($(v).data('max'))-1;
+                    nuevoValor = parseInt($(v).data('max'));
 					var auctionId = $(v).attr('auctionId');
 					var active = $(v).attr('active');
 					if (active==1){
 						calculatePrice(auctionId);
 					}
+					console.log('contador'+nuevoValor);
                 }
                 $(v).val(nuevoValor).trigger("change");
             });
@@ -510,4 +511,6 @@
         }
     </style>
 @endsection
+
+<?php //$today = date('H:m:s'); echo "<pre>"; var_dump('Fecha/hora actual: ', date('Y-m-d h:i:s', time())); echo "</pre>"?>
 
