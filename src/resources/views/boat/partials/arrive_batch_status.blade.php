@@ -174,11 +174,11 @@
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h3>Editar Lote de {{ $batch->product->name  }} </h3>
-                                                <div class="alert alert-danger" id="error-modal">
-                                                    <strong>Error</strong><br><br>
-                                                    <ul id="error-ul">
-                                                    </ul>
-                                                </div>
+                                                {{--<div class="alert alert-danger" id="error-modal">--}}
+                                                    {{--<strong>Error</strong><br><br>--}}
+                                                    {{--<ul id="error-ul">--}}
+                                                    {{--</ul>--}}
+                                                {{--</div>--}}
                                             </div>
                                             <div class="modal-body text-center">
 
@@ -262,7 +262,18 @@
                 }
             });
 
-            $("#error-modal").hide();
+            if ($("#error-modal").hide()){
+                console.log("nada");
+            }
+            $("#error-ul").empty();
+
+            $('#batch-edit-Modal-{{ $batch->id }}').on('hidden.bs.modal', function () {
+                $("#error-modal").hide();
+                $("#error-ul").empty();
+                console.log({{ $batch->id }});
+            });
+
+
             $("#add_batch").click(function () {
                 if (checkForm()) {
                     $('.btn-save-batch').attr('disabled', false);
@@ -281,7 +292,7 @@
                 }
 
                 if (!isOK) {
-                    $("#error-modal").show();
+                    // $("#error-modal").show();
                     $("#error-ul").empty();
                     msg.forEach(function (index) {
                         $("#error-ul").append("<li>" + index + "</li>");

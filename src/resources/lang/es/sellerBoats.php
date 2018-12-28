@@ -56,6 +56,8 @@ return [
 	'listbatch' => 'Mis lotes',
 	'addbatch' => 'Agregar arribo',
 
+    'batch_must_select_product' => 'Debe ingresar un producto',
+    'batch_must_select_caliber' => 'Debe ingresar un calibre',
     'batch_must_select_quality' => 'Debe ingresar la calidad',
     'batch_must_select_amount' => 'Debe ingresar una cantidad',
     'batch_must_amount_positive' => 'Debe ingresar una cantidad superior a 0',

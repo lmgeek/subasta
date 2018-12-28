@@ -70,7 +70,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <button type="button" id="close" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                     <h4 class="modal-title">{{ trans('sellerBoats.new_batch') }}</h4>
                     <div class="alert alert-danger" id="error-modal">
                         <strong>Error</strong><br><br>
@@ -136,7 +136,7 @@
             return textArea.value;
         }
 
-        console.log(decodeEntities('1 &amp; 2'));
+        // console.log(decodeEntities('1 &amp; 2'));
         var c=0;
         $(document).ready(function(){
             $('#amount').mask('00000000000');
@@ -150,6 +150,12 @@
             $("#quality").raty({
                 starType : 'i',
                 hints: ['1 Estrella', '2 Estrellas', '3 Estrellas', '4 Estrellas', '5 Estrellas']
+            });
+
+
+            $('#addBatchModal').on('hidden.bs.modal', function () {
+                $("#error-modal").hide();
+                $("#error-ul").empty();
             });
 
             $("#add_batch").click(function(){
