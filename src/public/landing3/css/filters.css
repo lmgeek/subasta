@@ -1,0 +1,39 @@
+
+.topnav {
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+}
+
+.topnav #myLinks {
+  display: none;
+	background-color: #fff;
+	border:1px solid #eee;
+	padding: 20px 30px;
+}
+
+.topnav a, .topnav .active {
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  display: block;
+}
+
+.topnav a.icon {
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size: 28px;
+	  color:#666;
+}
+
+.topnav a:hover {
+  color: black;
+}
+
+.topnav .active {
+  background-color: #fff;
+  color: #666;
+  border:1px solid #eee;
+}
