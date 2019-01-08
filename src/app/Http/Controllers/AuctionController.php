@@ -708,7 +708,7 @@ class AuctionController extends Controller
 			$userRating[$user->id]= $porc;
 		}
 		
-        return view('landing',compact('auctions','status','products','sellers','request','boats','userRating','type'));
+        return view('landing3/index',compact('auctions','status','products','sellers','request','boats','userRating','type'));
     }
     public function getParticipantes(Request $request){
 
