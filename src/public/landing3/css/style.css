@@ -726,6 +726,8 @@ a.header-notifications-button i {
 ------------------------------------- */
 .user-menu {
 	padding: 0;
+	height: 100%;
+	padding-right: 15px;
 }
 
 .header-notifications.user-menu {
