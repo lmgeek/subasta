@@ -103,40 +103,87 @@
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                         <a href="subastas-list.php" class="headline-link">Ver todas las subastas</a>
                     </div>
-
+                <?php $contadorsubastasdestacadas=0;?>
+                    
                     <!-- Auctions Container -->
                     <div class="tasks-list-container margin-top-35">
-
+                        @if(count($auctions)>0)
+                            <?php
+                            function cmp($a, $b){
+                                return strcmp($a["end"], $b["end"]);
+                            }
+                            usort($auctions,'cmp');
+                            ?>
+                        @foreach($auctions as $auction)
+                            @if($contadorsubastasdestacadas<3)
+                                <?php $contadorsubastasdestacadas++;?>
                         <!-- Auction Listing -->
-                        <div id="div_1" class="task-listing">
-
+                        <div id="div_<?=$contadorsubastasdestacadas?>" class="task-listing">
+                            <?php
+                            setlocale(LC_TIME,'es_ES');
+                            $fechafin=strftime('%d %b %Y', strtotime($auction->end));
+                            switch ($auction->batch->caliber){
+                                case 'small':$calibre='chico';break;
+                                case 'medium':$calibre='mediano';break;
+                                case 'big':$calibre='grande';break;
+                            }
+                            ?>
                             <!-- Auction Listing Details -->
                             <div class="task-listing-details">
                                 <!-- Photo -->
                                 <div class="task-listing-photo">
-                                    <img src="landing3/images/subastas/subasta01.jpg" alt="Camarones">
+                                    <img src="{{ asset('/img/products/'.$auction->batch->product->image_name) }}" alt="{{$auction->batch->product->name}}">
                                 </div>
                                 <!-- Details -->
                                 <div class="task-listing-description">
-                                    <h3 class="task-listing-title"><a href="subasta.php">Camar&oacute;n Mediano/a</a> <div class="star-rating" data-rating="3.5"></div></h3>
+                                    <h3 class="task-listing-title">
+                                        <a href="subasta.php">{{$auction->batch->product->name}} {{$calibre}}</a>
+                                        <div class="star-rating" data-rating="{{$auction->batch->quality}}"></div>
+                                        @if($auction->type!='public')
+                                            <i class="t16 icon-feather-eye-off" data-tippy-placement="right" title="Subasta Privada" data-tippy-theme="dark"></i></h3>
+                                    @endif
+                                    </h3>
+
                                     <ul class="task-icons">
-                                        <li><i class="icon-material-outline-access-time primary"></i><strong class="primary"> 25 Ene 2019</strong></li>
+                                        <li><i class="icon-material-outline-access-time primary"></i><strong class="primary">{{$fechafin}}</strong></li>
                                         <li><i class="icon-material-outline-location-on"></i> Mar del Plata</li>
                                     </ul>
                                     <p class="task-listing-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                                     <ul class="task-icons margin-top-20">
-                                        <li><small>Vendedor</small><br><strong><i class="icon-feather-user"></i> jlopez75</strong><br><div class="medal-rating silver" data-rating="Silver"><span class="medal silver-text"></span></div></li>
-                                        <li><small>Barco</small><br><strong><i class="icon-line-awesome-ship"></i> Barco V</strong><br><div class="star-rating" data-rating="4.9"></div></li>
+                                        <?php $userId = $auction->batch->arrive->boat->user->id;?>
+                                        <li>
+                                            <small>Vendedor</small><br>
+                                            <strong>
+                                                <i class="icon-feather-user"></i> {{$auction->batch->arrive->boat->user->name}}
+                                            </strong><br>
+                                            <div class="medal-rating {{strtolower($usercat[$userId])}}" data-rating="{{$usercat[$userId]}}"><span class="medal {{$usercat[$userId]}}-text"></span></div>
+                                            </li>
+                                        <li><small>Barco</small><br><strong><i class="icon-line-awesome-ship"></i> Barco V</strong><br>
+                                            <div class="star-rating" data-rating="<?=(isset($userRating[$userId]))?round(($userRating[$userId]/20),1,PHP_ROUND_HALF_UP):''?>"></div></li>
                                     </ul>
                                 </div>
                             </div>
-
                             <div class="task-listing-bid">
                                 <div class="task-listing-bid-inner">
                                     <div class="task-offers">
-                                        <p><small>Disponibilidad:</small> <strong>2 <small>de</small> 40 kg</strong><br><small class="green fw700"><i class="icon-material-outline-local-offer green"></i> 2 Ofertas Directas</small></p>
+                                        <?php
+                                        $vendido = 0;
+                                        foreach ($auction->bids()->where('status','<>',\App\Bid::NO_CONCRETADA)->get() as $b) {
+                                            $vendido+= $b->amount;
+                                        }
+                                        $total = $auction->amount;
+                                        $disponible = ($total-$vendido);
+                                        $cantofertas=count($auction->bids);
+                                        ?>
+                                        <p><small>Disponibilidad:</small> <strong>{{$disponible}} <small>de</small> {{$total}} kg</strong><br>
+                                            @if($cantofertas>0)
+                                            <small class="green fw700"><i class="icon-material-outline-local-offer green"></i>
+                                                {{$cantofertas}} Ofertas Directas
+                                            </small>
+                                            @endif
+                                        </p>
                                         <div class="pricing-plan-label billed-monthly-label red"><strong class="red" id="precio_1">$100</strong>/ kg<br><small class="red fw500">&iexcl;Cerca del precio l&iacute;mite!</small></div>
-                                        <div id="timer" class="countdown margin-bottom-0 margin-top-20 blink_me"></div>
+                                        <div id="timer<?=$contadorsubastasdestacadas?>" class="countdown margin-bottom-0 margin-top-20 blink_me timerauction" data-timefin="{{$auction->end}}"></div>
                                     </div>
                                     <div class="w100">
                                         <a href="#small-dialog-compra" class="button ripple-effect popup-with-zoom-anim w100">Comprar</a>
@@ -145,45 +192,10 @@
                                 </div>
                             </div>
                         </div>
-
+                            @endif
+                        @endforeach
+                        @endif
                         <!-- Auction Listing -->
-                        <div id="div_2" class="task-listing">
-
-                            <!-- Auction Listing Details -->
-                            <div class="task-listing-details">
-                                <!-- Photo -->
-                                <div class="task-listing-photo">
-                                    <img src="landing3/images/subastas/subasta02.jpg" alt="Cornalito">
-                                </div>
-                                <!-- Details -->
-                                <div class="task-listing-description">
-                                    <h3 class="task-listing-title"><a href="subasta.php">Cornalito Grande</a> <div class="star-rating" data-rating="5.0"></div>  <i class="t16 icon-feather-eye-off" data-tippy-placement="right" title="Subasta Privada" data-tippy-theme="dark"></i></h3>
-                                    <ul class="task-icons">
-                                        <li><i class="icon-material-outline-access-time primary"></i><strong class="primary"> 11 Ene 2019</strong></li>
-                                        <li><i class="icon-material-outline-location-on"></i> Mar del Plata</li>
-                                    </ul>
-                                    <p class="task-listing-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                    <ul class="task-icons margin-top-20">
-                                        <li><small>Vendedor</small><br><strong><i class="icon-feather-user"></i> gdesancho</strong><br><div class="medal-rating gold" data-rating="Gold"><span class="medal gold-text"></span></div></li>
-                                        <li><small>Barco</small><br><strong><i class="icon-line-awesome-ship"></i> Barco III</strong><br><div class="star-rating" data-rating="4.0"></div></li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="task-listing-bid">
-                                <div class="task-listing-bid-inner">
-                                    <div class="task-offers">
-                                        <p><small>Disponibilidad:</small> <strong>2 <small>de</small> 40 kg</strong><br><small class="green fw700"><i class="icon-material-outline-local-offer green"></i> 2 Ofertas Directas</small></p>
-                                        <div class="pricing-plan-label billed-monthly-label red"><strong class="red" id="precio_1">$100</strong>/ kg<br><small class="red fw500">&iexcl;Cerca del precio l&iacute;mite!</small></div>
-                                        <div id="timer2" class="countdown green margin-bottom-0 margin-top-20"></div>
-                                    </div>
-                                    <div class="w100">
-                                        <a href="#small-dialog-compra" class="button ripple-effect popup-with-zoom-anim w100">Comprar</a>
-                                    </div>
-                                    <div class="w100 text-center margin-top-5 t14">o puedes <a href="#small-dialog-oferta" class="sign-in popup-with-zoom-anim">realizar una oferta</a></div>
-                                </div>
-                            </div>
-                        </div>
 
                         <!-- Auction Listing -->
                         <div id="div_3" class="task-listing">
@@ -485,13 +497,9 @@
 ================================================== -->
 @include('landing3/partials/js')
 <script>
-    // Set the date we're counting down to
-    var countDownDate = new Date("Jan 11, 2019 15:37:25").getTime();
-
-    // Update the count down every 1 second
-    var x = setInterval(function() {
-
-        // Get todays date and time
+    //
+    function timer($id) {
+        var countDownDate = new Date($("#"+$id).data('timefin')).getTime();
         var now = new Date().getTime();
 
         // Find the distance between now and the count down date
@@ -504,41 +512,41 @@
         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
         // Display the result in the element with id="demo"
-        document.getElementById("timer").innerHTML = days + "d " + hours + "h "
-            + minutes + "m " + seconds + "s ";
-        document.getElementById("timer2").innerHTML = days + "d " + hours + "h "
-            + minutes + "m " + seconds + "s ";
-        document.getElementById("timer3").innerHTML = days + "d " + hours + "h "
+        document.getElementById($id).innerHTML = days + "d " + hours + "h "
             + minutes + "m " + seconds + "s ";
 
         // If the count down is finished, write some text
         if (distance < 0) {
-            clearInterval(x);
-            document.getElementById("timer").innerHTML = "¡Finalizada!";
-            document.getElementById("timer2").innerHTML = "¡Finalizada!";
-            document.getElementById("timer3").innerHTML = "¡Finalizada!";
+            document.getElementById($id).innerHTML = "¡Finalizada!";
+        }else{
+            setTimeout(function(){timer($id);},1000);
         }
-    }, 1000);
+    }
+    $(document).ready(function(){
+        $('.timerauction').each(function(){
+           timer($(this).attr("id"));
+        });
+    });
 </script>
 <script type="text/javascript">
-    window.onload = setTimeout(swapDiv, 9000);
-    window.onload = setTimeout(swapDiv2, 18000);
-    function swapDiv() {
-        $("#div_1").swap({
-            target: "div_2", // Mandatory. The ID of the element we want to swap with
-            opacity: "0.8", // Optional. If set will give the swapping elements a translucent effect while in motion
-            speed: 1000, // Optional. The time taken in milliseconds for the animation to occur
-        });
-        $("#precio_2").text("$10");
-    }
-    function swapDiv2() {
-        $("#div_3").swap({
-            target: "div_2", // Mandatory. The ID of the element we want to swap with
-            opacity: "0.8", // Optional. If set will give the swapping elements a translucent effect while in motion
-            speed: 1000, // Optional. The time taken in milliseconds for the animation to occur
-        });
-        $("#precio_3").text("$190");
-    }
+    // window.onload = setTimeout(swapDiv, 9000);
+    // window.onload = setTimeout(swapDiv2, 18000);
+    // function swapDiv() {
+    //     $("#div_1").swap({
+    //         target: "div_2", // Mandatory. The ID of the element we want to swap with
+    //         opacity: "0.8", // Optional. If set will give the swapping elements a translucent effect while in motion
+    //         speed: 1000, // Optional. The time taken in milliseconds for the animation to occur
+    //     });
+    //     $("#precio_2").text("$10");
+    // }
+    // function swapDiv2() {
+    //     $("#div_3").swap({
+    //         target: "div_2", // Mandatory. The ID of the element we want to swap with
+    //         opacity: "0.8", // Optional. If set will give the swapping elements a translucent effect while in motion
+    //         speed: 1000, // Optional. The time taken in milliseconds for the animation to occur
+    //     });
+    //     $("#precio_3").text("$190");
+    // }
 
 </script>
 <script src="js/jquery-ui.min.js"></script>
