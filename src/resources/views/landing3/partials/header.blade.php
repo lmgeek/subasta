@@ -73,7 +73,7 @@
                 <!--  Actions / End -->
 
                 <!--  User Notifications -->
-                <div class="header-widget hide-on-mobile">
+                {{--<div class="header-widget hide-on-mobile">
 
                     <!-- Notifications -->
                     <div class="header-notifications">
@@ -143,9 +143,11 @@
 
                     </div>
 
-                </div>
+                </div>--}}
                 <!--  User Notifications / End -->
 
+
+            @if (Auth::check())
                 <!-- User Menu -->
                 <div class="header-widget">
 
@@ -172,15 +174,16 @@
                             </div>
 
                             <ul class="user-menu-small-nav">
-                                <li><a href="#"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
-                                <li><a href="dash-ajustes.php"><i class="icon-feather-user"></i> Mi Cuenta</a></li>
-                                <li><a href="#"><i class="icon-material-outline-shopping-cart"></i> Mis Compras</a></li>
-                                <li><a href="#"><i class="icon-feather-heart"></i> Favoritas</a></li>
-                                <li><a href="dash-list-barcos.php"><i class="icon-line-awesome-ship"></i> Mis Barcos</a></li>
-                                <li><a href="dash-list-arribos.php"><i class="icon-material-outline-access-time"></i> Mis Arribos</a></li>
-                                <li><a href="dash-list-lotes.php"><i class="icon-feather-box"></i> Mis Lotes</a></li>
-                                <li><a href="dash-list-subastas.php"><i class="icon-material-outline-gavel"></i> Mis Subastas</a></li>
-                                <li><a href="#"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
+                                <li><a href="{{url('/home')}}"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
+                                <li><a href="#"><i class="icon-feather-user"></i> Mi Cuenta</a></li>
+                                <li><a href="{{url('/sellerboat')}}"><i class="icon-line-awesome-ship"></i> Mis Barcos</a></li>
+                                <li><a href="{{url('/sellerbatch')}}"><i class="icon-feather-box"></i> Mis Lotes</a></li>
+                                <li><a href="{{url('/sales')}}"><i class="icon-material-outline-gavel"></i> Ventas de Subastas</a></li>
+                                <li><a href="{{ url('/privatesales') }}"><i class="icon-feather-eye-off"></i> Ventas privadas</a></li>
+                                <li><a href="{{url('auth/logout')}}"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
+                                {{--<li><a href="dash-list-arribos.php"><i class="icon-material-outline-access-time"></i> Mis Arribos</a></li>--}}
+                                {{--<li><a href="#"><i class="icon-material-outline-shopping-cart"></i> Mis Compras</a></li>--}}
+                                {{--<li><a href="#"><i class="icon-feather-heart"></i> Favoritas</a></li>--}}
                             </ul>
 
                         </div>
@@ -205,6 +208,23 @@
     </div>
     <!-- Header / End -->
 
+    @else
+
+        <div class="header-widget">
+                <div class=" user-menu">
+                    <div class="header-notifications-trigger">
+                        <a href="{{ url('auth/login') }}" class="option-login" rel="nofollow">
+                            <img alt="image" width="20" height="20" src="{{ asset('/landing/img/header_usuario.png') }}" /> Ingresá</a>
+                    </div>
+                </div>
+        </div>
+
+    @endif
+
 </header>
 <div class="clearfix"></div>
+
+
+
+
 
