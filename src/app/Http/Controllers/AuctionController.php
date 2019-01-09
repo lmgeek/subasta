@@ -675,10 +675,10 @@ class AuctionController extends Controller
 		
 		$auction_id = $request->get('auction_id',null);
 		$invited = $request->get('invited',null);
-		$type = $request->get('type',Auction::AUCTION_PUBLIC);
-		
+		$type = $request->get('type',"all");
 		
 		$auctions = Auction::filterAndPaginate($status,$product,$seller,$boat,$type,true);
+//		$auctions=Auction::auctionPrivate(Auth::user()->id,$status);
 //        dump($auctions);
 //        $auctions = Auction::getClosingAuction();
         $array_auctions = [];
@@ -686,7 +686,7 @@ class AuctionController extends Controller
 		$products = array();
 		$sellers =  array();
 		$boats = array();
-		$products = Product::select()->get();
+		$products = Product::Select()->get();
 		$sellers = User::filter(null, array(User::VENDEDOR), array(User::APROBADO));
 		$boats = Boat::Select()->get();
 		
@@ -707,12 +707,43 @@ class AuctionController extends Controller
 			}
 			$userRating[$user->id]= $porc;
 		}
-		
-        return view('landing3/index',compact('auctions','status','products','sellers','request','boats','userRating','type'));
+        //return view('landing',compact('auctions','status','products','sellers','request','boats','userRating','type'));
+        return view('/landing3/index',compact('auctions','status','products','sellers','request','boats','userRating','type'));
+    }
+
+    public function subastasDestacadasHome(){
+        $auctions=array();
+        $auctions1 = Auction::auctionHome()[0];
+        $products1 = Product::Select()->get();
+        $sellers1 = User::filter(null, array(User::VENDEDOR), array(User::APROBADO));
+        $boats1 = Boat::Select()->get();
+        $userRating =  array();$usercat=array();
+        foreach($auctions1 as $a) {
+            $user = $a->batch->arrive->boat->user;
+            $ratings = $user->rating;
+            $total = ($ratings!=null)?($ratings->positive + $ratings->negative + $ratings->neutral):0;
+            $userRating[$user->id]= ($ratings!=null and $total>0)?(round(($ratings->positive*100)/$total , 2)):0;
+            $usercat[$user->id]=Auction::catUserByAuctions($user->id);
+            $auctions[]=$a;
+        }
+        $auctions2 = Auction::auctionHome()[1];
+        $products2 = Product::Select()->get();
+        $sellers2 = User::filter(null, array(User::VENDEDOR), array(User::APROBADO));
+        $boats2 = Boat::Select()->get();
+        foreach($auctions2 as $a) {
+            $user = $a->batch->arrive->boat->user;
+            $ratings = $user->rating;
+            $total = ($ratings!=null)?($ratings->positive + $ratings->negative + $ratings->neutral):0;
+            $userRating[$user->id]= ($ratings!=null)?(round(($ratings->positive*100)/$total , 2)):0;
+            $auctions[]=$a;
+        }
+
+
+        return view('/landing3/index',compact('auctions','userRating','usercat'));
     }
     public function getParticipantes(Request $request){
 
-	    $auction = Auction::find($request->get("auction"));
+	    $auction = Auction::find($request->get("auctions"));
 	    return $auction->userInvited;
     }
 
