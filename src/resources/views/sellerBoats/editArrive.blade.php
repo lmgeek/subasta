@@ -37,6 +37,15 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label for="arrival_id">Puerto</label>
+                                <select class="form-control" id="arrival_id" name="puerto">
+                                    <option>Seleccione...</option>
+                                    @foreach($ports as $port)
+                                        <option @if($arrive->port_id == $port->id) selected @endif value="{{ $port->id }}">{{ $port->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
 
                             <div class="form-group">
                                 <label for="boat">{{ trans('sellerBoats.datetime') }}</label>

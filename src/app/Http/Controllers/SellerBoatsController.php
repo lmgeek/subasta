@@ -15,6 +15,7 @@ use App\Product;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Ports;
 use Auth;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\DB;
@@ -136,20 +137,25 @@ class SellerBoatsController extends Controller
     public function editArrive($arrive_id)
     {
         $arrive = Arrive::findOrFail($arrive_id);
+
+
         $this->authorize('editArrive', $arrive);
 
         $boats = Boat::where('user_id',Auth::user()->id)
             ->where('status',Boat::APROBADO)
             ->get();
 
-        return view('sellerBoats.editArrive',compact('arrive','boats'));
+        $ports = Ports::get();
+
+        return view('sellerBoats.editArrive',compact('arrive','boats','ports'));
     }
 
     public function updateArrive(UpdateArriveRequest $request)
     {
         $arrive = Arrive::findOrFail($request->input('id'));
         $this->authorize('editArrive', $arrive);
-
+        
+        $arrive->port_id = $request->input('puerto');
         $arrive->date = $request->input('date');
         $arrive->save();
 
@@ -163,6 +169,7 @@ class SellerBoatsController extends Controller
 
         $arrive = new Arrive();
         $arrive->boat_id = $request->input('barco');
+        $arrive->port_id = $request->input('puerto');
         $arrive->date = $request->input('date');
         $arrive->save();
 

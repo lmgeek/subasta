@@ -36,6 +36,17 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label for="arrival_id">Puerto</label>
+                                <select class="form-control" id="arrival_id" name="puerto">
+                                    <option disabled selected>Seleccione...</option>
+                                    <option value="1">Mar del Plata</option>
+                                    <option value="2">Buenos Aires</option>
+                                    <option value="3">Puerto Madryn</option>
+                                    <option value="4">General Lavalle</option>
+                                    
+                                </select>
+                            </div>
 
                             <div class="form-group">
                                 <label for="boat">{{ trans('sellerBoats.datetime') }}</label>
