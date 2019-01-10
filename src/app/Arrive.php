@@ -8,7 +8,7 @@ class Arrive extends Model
 {
     protected $table = 'arrives';
 
-    protected $fillable = ['boat_id', 'date'];
+    protected $fillable = ['boat_id', 'date', 'port_id'];
 
     public function boat(){
         return $this->belongsTo('App\Boat');

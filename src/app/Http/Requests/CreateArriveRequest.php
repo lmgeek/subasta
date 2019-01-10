@@ -27,6 +27,7 @@ class CreateArriveRequest extends Request
     {
         return [
             'barco' => 'required|exists:boats,id,user_id,' . Auth::user()->id,
+            'puerto' => 'required',
             'date' => 'required|date|date_format:Y-m-d H:i:s|after:' . date('Y-m-d H:i:s')
         ];
     }
@@ -35,6 +36,7 @@ class CreateArriveRequest extends Request
     {
         return [
             'barco' => 'El barco',
+            'puerto'=> 'Del puerto',
             'date' => 'fecha de arribo'
         ];
     }
