@@ -79,8 +79,10 @@ class RegisterController extends Controller
 
     public function postRegisterSeller(RegisterNewUserRequest $request)
     {
+
         $name = $request->input('name');
         $lastname = $request->input('lastname');
+        $nickname = $request->input('nickname');
         $cuit = $request->input('cuit');
         $email = $request->input('email');
         $password = $request->input('password');
@@ -89,6 +91,7 @@ class RegisterController extends Controller
         $user = new User();
         $user->name = $name;
         $user->lastname = $lastname;
+        $user->nickname = $nickname;
         $user->email = $email;
         $user->password = Hash::make($password);
         $user->phone = $phone;
