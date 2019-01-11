@@ -46,10 +46,11 @@
                             <label for="where-input" class="field-title ripple-effect bg-secondary-light">&iquest;Qu&eacute; puerto prefieres?</label>
                             <div class="input-with-icon">
                                 <select class="selectpicker" multiple title="Escoge una opción...">
-                                    <option>Mar del Plata</option>
-                                    <option>Ciudad de Buenos Aires</option>
-                                    <option>Puerto Madryn</option>
+                                    @foreach($ports as $port)
+                                    <option value="{{$port->id}}">{{$port->name}}</option>
+                                    @endforeach
                                 </select>
+
                             </div>
                         </div>
 
@@ -76,11 +77,11 @@
                             <span>Toneladas diarias</span>
                         </li>
                         <li>
-                            <strong class="counter white">543</strong>
+                            <strong class="counter white">{{count($boats)}}</strong>
                             <span>Barcos pesqueros</span>
                         </li>
                         <li>
-                            <strong class="counter white">1,832</strong>
+                            <strong class="counter white">{{count($buyers)}}</strong>
                             <span>Clientes satisfechos</span>
                         </li>
                     </ul>
@@ -105,9 +106,6 @@
                     </div>
                 <?php $contadorsubastasdestacadas=0;?>
 
-
-
-
                     <!-- Auctions Container -->
                     <div class="tasks-list-container margin-top-35">
                         @if(count($auctions)>0)
@@ -117,9 +115,11 @@
                             }
                             usort($auctions,'cmp');
                             ?>
+
                         @foreach($auctions as $auction)
                             @if($contadorsubastasdestacadas<3)
                                 <?php $contadorsubastasdestacadas++;?>
+
                         <!-- Auction Listing -->
 
                         <div id="div_<?=$auction->id?>" class="task-listing auction" data-id="{{$auction->id}}">
@@ -145,13 +145,13 @@
                                         <div class="star-rating" data-rating="{{$auction->batch->quality}}"></div>
                                         @if($auction->type!='public')
                                             <i class="t16 icon-feather-eye-off" data-tippy-placement="right" title="Subasta Privada" data-tippy-theme="dark"></i></h3>
-                                    @endif
+                                        @endif
                                     </h3>
 
 
                                     <ul class="task-icons">
                                         <li><i class="icon-material-outline-access-time primary"></i><strong class="primary">{{$fechafin}}</strong></li>
-                                        <li><i class="icon-material-outline-location-on"></i> {{$port[$auction->id]}}</li>
+                                        <li><i class="icon-material-outline-location-on"></i> {{$ports[$auction->batch->arrive->port_id]['name']}}</li>
                                     </ul>
                                     <p class="task-listing-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                                     <ul class="task-icons margin-top-20">

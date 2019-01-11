@@ -739,13 +739,10 @@ class AuctionController extends Controller
     public function subastasDestacadasHome(){
         $auctions=array();
         $auctions1 = Auction::auctionHome()[0];
-        $products1 = Product::Select()->get();
-        $sellers1 = User::filter(null, array(User::VENDEDOR), array(User::APROBADO));
-        $boats1 = Boat::Select()->get();
-        $port1 = Ports::Select()->get();
         $userRating =  array();$usercat=array();$price=array();$port=array();
         $products = Product::Select()->get();
         $sellers = User::filter(null, array(User::VENDEDOR), array(User::APROBADO));
+        $buyers = User::filter(null, array(User::COMPRADOR), array(User::APROBADO));
         $boats = Boat::Select()->get();
         $ports = Ports::Select()->get();
         $userRating =  array();$usercat=array();$port=array();
@@ -756,8 +753,7 @@ class AuctionController extends Controller
             $userRating[$user->id]= ($ratings!=null and $total>0)?(round(($ratings->positive*100)/$total , 2)):0;
             $usercat[$user->id]=Auction::catUserByAuctions($user->id);
             $price[$a->id]=$this->calculatePriceID($a->id);
-            $port[$a->id]=$port1[$a->batch->arrive->port_id];
-            $port[$a->id]=$ports[$a->batch->arrive->port_id]->name;
+            //$port[$a->id]=$ports[$a->batch->arrive->port_id]->name;
             $price[$a->id]=$this->calculatePriceID($a->id);
             $auctions[]=$a;
         }
@@ -768,12 +764,12 @@ class AuctionController extends Controller
             $total = ($ratings!=null)?($ratings->positive + $ratings->negative + $ratings->neutral):0;
             $userRating[$user->id]= ($ratings!=null)?(round(($ratings->positive*100)/$total , 2)):0;
             $usercat[$user->id]=Auction::catUserByAuctions($user->id);
-            $port[$a->id]=$ports[$a->batch->arrive->port_id]->name;
+            //$port[$a->id]=$ports[$a->batch->arrive->port_id]->name;
             $price[$a->id]=$this->calculatePriceID($a->id);
             $auctions[]=$a;
         }
 
-        return view('/landing3/index',compact('auctions','userRating','usercat','port','price'));
+        return view('/landing3/index',compact('auctions','userRating','usercat','price','ports','boats','buyers'));
     }
     public function getParticipantes(Request $request){
 
