@@ -282,6 +282,8 @@ class Auction extends Model
         $now =date("Y-m-d H:i:s");
         $rtrn = Auction::select('auctions.*')
             ->join('batches','auctions.batch_id','=','batches.id')
+            ->join('arrives','batches.arrive_id','=','arrives.id')
+            ->join('port','arrives.port_id','=','port.id')
             ->where('start','<',$now)
             ->where('end','>',$now)
             ->where('auctions.type','=',self::AUCTION_PUBLIC)

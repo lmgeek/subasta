@@ -110,6 +110,9 @@ class AuctionController extends Controller
 
         $startDate = Carbon::createFromFormat('d/m/Y H:i', $request->input('fechaInicio'));
         $endDate = Carbon::createFromFormat('d/m/Y H:i', $request->input('fechaFin'));
+        $endprice=$request->input('endPrice');
+        $rand=rand(1,7)/100;
+        $targetprice=($endprice*$rand)+$endprice;
         $auction  = new Auction();
         $endprice=$request->input('endPrice');
         $rand=rand(1,7)/100;
@@ -188,7 +191,6 @@ class AuctionController extends Controller
         $price = number_format(str_replace(",","",$prices),2,',','');
         return $price;
     }
-
 	 public function calculatePeso(Request $request)
 	 {
 		$product_id = $request->input('product_id');
@@ -730,15 +732,17 @@ class AuctionController extends Controller
 			}
 			$userRating[$user->id]= $porc;
 		}
-        //return view('landing',compact('auctions','status','products','sellers','request','boats','userRating','type'));
-        return view('/landing3/index',compact('auctions','status','products','sellers','request','boats','userRating','type'));
+        return view('landing',compact('auctions','status','products','sellers','request','boats','userRating','type'));
+        //return view('/landing3/index',compact('auctions','status','products','sellers','request','boats','userRating','type'));
     }
 
     public function subastasDestacadasHome(){
         $auctions=array();
         $auctions1 = Auction::auctionHome()[0];
+        $userRating =  array();$usercat=array();$price=array();$port=array();
         $products = Product::Select()->get();
         $sellers = User::filter(null, array(User::VENDEDOR), array(User::APROBADO));
+        $buyers = User::filter(null, array(User::COMPRADOR), array(User::APROBADO));
         $boats = Boat::Select()->get();
         $ports = Ports::Select()->get();
         $userRating =  array();$usercat=array();$port=array();
@@ -748,7 +752,8 @@ class AuctionController extends Controller
             $total = ($ratings!=null)?($ratings->positive + $ratings->negative + $ratings->neutral):0;
             $userRating[$user->id]= ($ratings!=null and $total>0)?(round(($ratings->positive*100)/$total , 2)):0;
             $usercat[$user->id]=Auction::catUserByAuctions($user->id);
-            $port[$a->id]=$ports[$a->batch->arrive->port_id]->name;
+            $price[$a->id]=$this->calculatePriceID($a->id);
+            //$port[$a->id]=$ports[$a->batch->arrive->port_id]->name;
             $price[$a->id]=$this->calculatePriceID($a->id);
             $auctions[]=$a;
         }
@@ -759,13 +764,12 @@ class AuctionController extends Controller
             $total = ($ratings!=null)?($ratings->positive + $ratings->negative + $ratings->neutral):0;
             $userRating[$user->id]= ($ratings!=null)?(round(($ratings->positive*100)/$total , 2)):0;
             $usercat[$user->id]=Auction::catUserByAuctions($user->id);
-            $port[$a->id]=$ports[$a->batch->arrive->port_id]->name;
+            //$port[$a->id]=$ports[$a->batch->arrive->port_id]->name;
             $price[$a->id]=$this->calculatePriceID($a->id);
             $auctions[]=$a;
         }
 
-
-        return view('/landing3/index',compact('auctions','userRating','usercat','port','price'));
+        return view('/landing3/index',compact('auctions','userRating','usercat','price','ports','boats','buyers'));
     }
     public function getParticipantes(Request $request){
 

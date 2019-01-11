@@ -1,6 +1,6 @@
 <!-- Hacer oferta
 ================================================== -->
-<div id="small-dialog-compra" class="zoom-anim-dialog mfp-hide dialog-with-tabs">
+<div id="small-dialog-compra-{{$auction->id}}" class="small-dialog zoom-anim-dialog mfp-hide dialog-with-tabs ">
 
     <!--Tabs -->
     <div class="sign-in-form bid-offer">
@@ -26,9 +26,9 @@
                     <div class="row margin-bottom-15">
                         <div class="col-md-5 bidding-widget">
                             <!-- Headline -->
-                            <span class="bidding-detail">Disponibles <strong>10</strong> de <strong>400</strong> kg</span>
+                            <span class="bidding-detail">Disponibles <strong>{{$disponible}}</strong> de <strong>{{$total}}</strong> kg</span>
                             <div class="margin-top-15">
-                                <h4 class="price red">$210 <small>x kg</small></h4>
+                                <h4 class="price red">${{$price[$auction->id]}} <small>x kg</small></h4>
                                 <small class="red">&Uacute;ltimo precio registrado</small>
                             </div>
                         </div>
@@ -40,7 +40,7 @@
                                     <!-- Quantity Buttons -->
                                     <div class="qtyButtons">
                                         <div class="qtyDec"></div>
-                                        <input type="text" name="qtyInput" value="1" id="cantidad">
+                                        <input type="text" name="qtyInput" value="1" id="cantidad-{{$auction->id}}" max="{{$disponible}}">
                                         <div class="qtyInc"></div>
                                     </div>
                                 </div>
@@ -60,9 +60,8 @@
 
                 </form>
 
-
                 <!-- Button -->
-                <button class="button margin-top-35 full-width button-sliding-icon ripple-effect" type="submit" form="apply-now-form">Comprar <i class="icon-material-outline-arrow-right-alt"></i></button>
+                <button class="button margin-top-35 full-width button-sliding-icon ripple-effect" type="submit" form="apply-now-form" onclick="makeBid({{$auction->id}})")>Comprar <i class="icon-material-outline-arrow-right-alt"></i></button>
 
             </div>
 

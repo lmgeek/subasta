@@ -941,7 +941,11 @@ $(document).ready(function(){
       var oldValue = $button.parent().find("input").val();
 
       if ($button.hasClass('qtyInc')) {
-          $button.parent().find("input").val(parseFloat(oldValue) + 1);
+          var $act=$button.parent().find("input");
+          if($act.val()<$act.attr('max')){
+          	$act.val(parseFloat(oldValue) + 1);
+		  }
+
       } else {
          if (oldValue > 1) {
             $button.parent().find("input").val(parseFloat(oldValue) - 1);
