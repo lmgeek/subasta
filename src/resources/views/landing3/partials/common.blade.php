@@ -22,3 +22,4 @@
 <link rel="stylesheet" href="/landing3/css/color/blue.css">
 <link rel="stylesheet" href="/landing3/css/datetimepicker.css">
 <link rel="stylesheet" href="/landing3/css/filters.css">
+<link rel="stylesheet" href="http://luismarin.subastas.dev.netlabs/css/plugins/toastr/toastr.min.css">
