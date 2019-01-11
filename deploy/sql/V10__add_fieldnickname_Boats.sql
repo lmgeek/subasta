@@ -1,0 +1,1 @@
+Alter TABLE boats ADD nickname VARCHAR(255) not NULL DEFAULT '';
