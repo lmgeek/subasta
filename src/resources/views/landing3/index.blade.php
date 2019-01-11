@@ -146,7 +146,7 @@
 
                                     <ul class="task-icons">
                                         <li><i class="icon-material-outline-access-time primary"></i><strong class="primary">{{$fechafin}}</strong></li>
-                                        <li><i class="icon-material-outline-location-on"></i> Mar del Plata</li>
+                                        <li><i class="icon-material-outline-location-on"></i> {{$port[$auction->id]}}</li>
                                     </ul>
                                     <p class="task-listing-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                                     <ul class="task-icons margin-top-20">
@@ -154,7 +154,7 @@
                                         <li>
                                             <small>Vendedor</small><br>
                                             <strong>
-                                                <i class="icon-feather-user"></i> {{$auction->batch->arrive->boat->user->name}}
+                                                <i class="icon-feather-user"></i> {{$auction->batch->arrive->boat->user->nickname}}
                                             </strong><br>
                                             <div class="medal-rating {{strtolower($usercat[$userId])}}" data-rating="{{$usercat[$userId]}}"><span class="medal {{$usercat[$userId]}}-text"></span></div>
                                             </li>
@@ -182,7 +182,8 @@
                                             </small>
                                             @endif
                                         </p>
-                                        <div class="pricing-plan-label billed-monthly-label red"><strong class="red" id="precio_1">$100</strong>/ kg<br><small class="red fw500">&iexcl;Cerca del precio l&iacute;mite!</small></div>
+                                        <div class="pricing-plan-label billed-monthly-label red"><strong class="red" id="Price{{$auction->id}}">${{$price[$auction->id]}}</strong>/ kg<br>
+                                            <small class="red fw500" id="ClosePrice{{$auction->id}}" style="display: none;">&iexcl;Cerca del precio l&iacute;mite!</small></div>
                                         <div id="timer<?=$contadorsubastasdestacadas?>" class="countdown margin-bottom-0 margin-top-20 blink_me timerauction" data-timefin="{{$auction->end}}"></div>
                                     </div>
                                     <div class="w100">
