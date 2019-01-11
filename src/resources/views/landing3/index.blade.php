@@ -118,7 +118,7 @@
                             @if($contadorsubastasdestacadas<3)
                                 <?php $contadorsubastasdestacadas++;?>
                         <!-- Auction Listing -->
-                        <div id="div_<?=$contadorsubastasdestacadas?>" class="task-listing">
+                        <div id="div_<?=$auction->id?>" class="task-listing auction" data-id="{{$auction->id}}">
                             <?php
                             setlocale(LC_TIME,'es_ES');
                             $fechafin=strftime('%d %b %Y', strtotime($auction->end));
@@ -146,7 +146,7 @@
 
                                     <ul class="task-icons">
                                         <li><i class="icon-material-outline-access-time primary"></i><strong class="primary">{{$fechafin}}</strong></li>
-                                        <li><i class="icon-material-outline-location-on"></i> Mar del Plata</li>
+                                        <li><i class="icon-material-outline-location-on"></i> {{$port[$auction->id]}}</li>
                                     </ul>
                                     <p class="task-listing-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                                     <ul class="task-icons margin-top-20">
@@ -154,7 +154,7 @@
                                         <li>
                                             <small>Vendedor</small><br>
                                             <strong>
-                                                <i class="icon-feather-user"></i> {{$auction->batch->arrive->boat->user->name}}
+                                                <i class="icon-feather-user"></i> {{$auction->batch->arrive->boat->user->nickname}}
                                             </strong><br>
                                             <div class="medal-rating {{strtolower($usercat[$userId])}}" data-rating="{{$usercat[$userId]}}"><span class="medal {{$usercat[$userId]}}-text"></span></div>
                                             </li>
@@ -182,8 +182,9 @@
                                             </small>
                                             @endif
                                         </p>
-                                        <div class="pricing-plan-label billed-monthly-label red"><strong class="red" id="precio_1">$100</strong>/ kg<br><small class="red fw500">&iexcl;Cerca del precio l&iacute;mite!</small></div>
-                                        <div id="timer<?=$contadorsubastasdestacadas?>" class="countdown margin-bottom-0 margin-top-20 blink_me timerauction" data-timefin="{{$auction->end}}"></div>
+                                        <div class="pricing-plan-label billed-monthly-label red"><strong class="red" id="Price{{$auction->id}}">${{$price[$auction->id]}}</strong>/ kg<br>
+                                            <small class="red fw500" id="ClosePrice{{$auction->id}}" style="display: none;">&iexcl;Cerca del precio l&iacute;mite!</small></div>
+                                        <div id="timer<?=$auction->id?>" class="countdown margin-bottom-0 margin-top-20 blink_me timerauction" data-timefin="{{$auction->end}}"></div>
                                     </div>
                                     <div class="w100">
                                         <a href="#small-dialog-compra" class="button ripple-effect popup-with-zoom-anim w100">Comprar</a>
@@ -499,7 +500,7 @@
 <script>
     //
     function timer($id) {
-        var countDownDate = new Date($("#"+$id).data('timefin')).getTime();
+        var countDownDate = new Date($("#"+$id).attr('data-timefin')).getTime();
         var now = new Date().getTime();
 
         // Find the distance between now and the count down date
@@ -522,9 +523,28 @@
             setTimeout(function(){timer($id);},1000);
         }
     }
+    function getInfo($id){
+        $.get('calculateprice?i=c&auction_id='+$id,function(result){
+            $result=JSON.parse(result);
+            console.log($result);
+            $('#Price'+$id).html("$"+$result['price']);
+            $('#timer'+$id).attr('data-timefin',$result['end']);
+            if($result['close']==1){
+                $('#ClosePrice'+$id).fadeIn();
+            }else{
+                $('#ClosePrice'+$id).fadeOut();
+                //holas
+            }
+
+        });
+        setTimeout(function(){getInfo($id)},10000);
+    }
     $(document).ready(function(){
         $('.timerauction').each(function(){
            timer($(this).attr("id"));
+        });
+        $('.auction').each(function(){
+            getInfo($(this).data('id'))
         });
     });
 </script>

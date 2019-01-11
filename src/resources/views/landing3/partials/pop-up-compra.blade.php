@@ -60,6 +60,7 @@
 
                 </form>
 
+
                 <!-- Button -->
                 <button class="button margin-top-35 full-width button-sliding-icon ripple-effect" type="submit" form="apply-now-form">Comprar <i class="icon-material-outline-arrow-right-alt"></i></button>
 
