@@ -21,14 +21,14 @@
                 </div>
 
                 <!-- Form -->
-                <form method="post" id="compra-form">
+                <form method="post" id="compra-form{{$auction->id}}">
 
                     <div class="row margin-bottom-15">
                         <div class="col-md-5 bidding-widget">
                             <!-- Headline -->
                             <span class="bidding-detail">Disponibles <strong>{{$disponible}}</strong> de <strong>{{$total}}</strong> kg</span>
                             <div class="margin-top-15">
-                                <h4 class="price red">${{$price[$auction->id]}} <small>x kg</small></h4>
+                                <h4 class="price red" id="PricePopUp{{$auction->id}}">${{$price[$auction->id]}} <small>x kg</small></h4>
                                 <small class="red">&Uacute;ltimo precio registrado</small>
                             </div>
                         </div>
@@ -39,9 +39,9 @@
                                 <div class="bidding-field">
                                     <!-- Quantity Buttons -->
                                     <div class="qtyButtons">
-                                        <div class="qtyDec"></div>
+                                        <div class="qtyDec" data-id="{{$auction->id}}"></div>
                                         <input type="text" name="qtyInput" value="1" id="cantidad-{{$auction->id}}" max="{{$disponible}}">
-                                        <div class="qtyInc"></div>
+                                        <div class="qtyInc" data-id="{{$auction->id}}"></div>
                                     </div>
                                 </div>
                                 <div class="bidding-field">
@@ -53,8 +53,8 @@
                     </div>
                     <div class="bd-tp-1 padding-top-10 text-center">
                         <div class="checkbox">
-                            <input type="checkbox" id="chekcbox1" onclick="enable_text(this.checked)">
-                            <label for="chekcbox1"><span class="checkbox-icon"></span> Adquirir todo el lote</label>
+                            <input type="checkbox" id="checkbox{{$auction->id}}" onclick="popupCompraDisableText({{$auction->id}})">
+                            <label for="checkbox{{$auction->id}}"><span class="checkbox-icon"></span> Adquirir todo el lote</label>
                         </div>
                     </div>
 
@@ -68,11 +68,3 @@
         </div>
     </div>
 </div>
-<!-- Hacer oferta popup / End -->
-<script>
-    function enable_text(status)
-    {
-        //alert(status);
-        document.getElementById("cantidad").disabled = status;
-    }
-</script>

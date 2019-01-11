@@ -114,12 +114,14 @@ class AuctionController extends Controller
         $rand=rand(1,7)/100;
         $targetprice=($endprice*$rand)+$endprice;
         $auction  = new Auction();
+        $startprice=$request->input("startPrice");
         $endprice=$request->input('endPrice');
+        $difprice=$startprice-$endprice;
         $rand=rand(1,7)/100;
-        $targetprice=$endprice+($endprice*$rand);
+        $targetprice=$endprice+($difprice*$rand);
         $auction->batch_id = $request->input('batch');
         $auction->start = $startDate->format('Y-m-d H:i:s');
-        $auction->start_price = $request->input("startPrice");
+        $auction->start_price = $startprice;
         $auction->end = $endDate->format('Y-m-d H:i:s');
         $auction->end_price = $endprice;
         $auction->target_price = $targetprice;
@@ -328,7 +330,14 @@ class AuctionController extends Controller
         $auction->start = $startDate;
         $auction->end = $endDate;
         $auction->start_price = $request->input('startPrice');
-        $auction->end_price = $request->input('endPrice');
+        $endprice=$request->input('endPrice');
+        if($endprice!=$auction->end_price){
+            $rand=rand(1,7)/100;
+            $targetprice=($endprice*$rand)+$endprice;
+            $auction->target_price=$targetprice;
+        }
+        $auction->end_price = $endprice;
+
         $auction->interval = $request->input('intervalo');
         $auction->description = $request->input('descri');
         $oldAmount = $auction->amount;

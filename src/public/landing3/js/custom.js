@@ -936,26 +936,29 @@ $(document).ready(function(){
 	qtySum();
 
    $(".qtyDec, .qtyInc").on("click", function() {
+   		var $id=$(this).data('id');
+	   if(!$('#checkbox'+$id).is(':checked')) {
 
-      var $button = $(this);
-      var oldValue = $button.parent().find("input").val();
+		   var $button = $(this);
+		   var oldValue = $button.parent().find("input").val();
 
-      if ($button.hasClass('qtyInc')) {
-          var $act=$button.parent().find("input");
-          if($act.val()<$act.attr('max')){
-          	$act.val(parseFloat(oldValue) + 1);
-		  }
+		   if ($button.hasClass('qtyInc')) {
+			   var $act = $button.parent().find("input");
+			   if ($act.val() < $act.attr('max')) {
+				   $act.val(parseFloat(oldValue) + 1);
+			   }
 
-      } else {
-         if (oldValue > 1) {
-            $button.parent().find("input").val(parseFloat(oldValue) - 1);
-         } else {
-            $button.parent().find("input").val(1);
-         }
-      }
+		   } else {
+			   if (oldValue > 1) {
+				   $button.parent().find("input").val(parseFloat(oldValue) - 1);
+			   } else {
+				   $button.parent().find("input").val(1);
+			   }
+		   }
 
-      qtySum();
-      $(".qtyTotal").addClass("rotate-x");
+		   qtySum();
+		   $(".qtyTotal").addClass("rotate-x");
+	   }
 
    });
 
