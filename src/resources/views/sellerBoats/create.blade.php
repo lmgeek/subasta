@@ -1,3 +1,8 @@
+<?php
+use App\Boat;
+
+?>
+
 @extends('admin')
 
 @section('content')
@@ -34,6 +39,13 @@
                                 <label for="matricula">{{ trans('sellerBoats.matricula') }}</label>
                                 <input type="text" name="matricula" class="form-control" id="matricula" placeholder="{{ trans('sellerBoats.matricula') }}"  value="{{ old('matricula') }}" required minlength="4"  onkeypress="return validaMatricula(event);"  onKeyUp="this.value = this.value.toUpperCase();">
                             </div>
+
+                            <div class="form-group">
+                                <label for="alias">Alias</label>
+                                <input type="text" name="alias1" class="form-control" id="alias1" placeholder="Alias" value = "{{"Barco ".Boat::RomanNumber(count(Boat::filterForSellerNickname(Auth::user()->id))+1)}}" required minlength="10" disabled="true" >
+                                <input type="hidden" name="alias" class="form-control" id="alias" placeholder="Alias" value = "{{"Barco ".Boat::RomanNumber(count(Boat::filterForSellerNickname(Auth::user()->id))+1)}}" required minlength="10" >
+                            </div>
+
                         </div>
                         <div class="ibox-footer text-right">
                             <button type="submit" class="btn btn-primary noDblClick" data-loading-text="Guardando...">Guardar</button>
