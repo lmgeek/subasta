@@ -119,6 +119,7 @@ class AuctionController extends Controller
         $auction->interval = $request->input('intervalo');
         $auction->amount = $request->input('amount');
 		$auction->type = $request->input('tipoSubasta');
+		$auction->description = $request->input('descri');
 		$auction->save();
 		if ($request->input('tipoSubasta') == \App\Auction::AUCTION_PRIVATE )
 		{
@@ -304,6 +305,7 @@ class AuctionController extends Controller
         $auction->start_price = $request->input('startPrice');
         $auction->end_price = $request->input('endPrice');
         $auction->interval = $request->input('intervalo');
+        $auction->description = $request->input('descri');
         $oldAmount = $auction->amount;
         $newAmount = $request->input('amount');
         $auction->amount = $newAmount;

@@ -25,7 +25,7 @@ class Auction extends Model
     const AUCTION_PRIVATE = 'private';
     const AUCTION_PUBLIC = 'public';
 
-    protected $fillable = ['batch_id', 'start','start_price','end','end_price','interval','type','notification_status','notification_status'];
+    protected $fillable = ['batch_id', 'start','start_price','end','end_price','interval','type','notification_status','description'];
 
     const NOTIFICATION_STATUS_IN_CURSE = '0';
     const NOTIFICATION_STATUS_SENDING = '1';
