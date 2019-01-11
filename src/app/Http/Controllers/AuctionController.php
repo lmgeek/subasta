@@ -114,6 +114,9 @@ class AuctionController extends Controller
         $rand=rand(1,7)/100;
         $targetprice=($endprice*$rand)+$endprice;
         $auction  = new Auction();
+        $endprice=$request->input('endPrice');
+        $rand=rand(1,7)/100;
+        $targetprice=$endprice+($endprice*$rand);
         $auction->batch_id = $request->input('batch');
         $auction->start = $startDate->format('Y-m-d H:i:s');
         $auction->start_price = $request->input("startPrice");
@@ -158,37 +161,35 @@ class AuctionController extends Controller
 
         return redirect('/sellerbatch');
     }
-	
-	 public function calculatePrice(Request $request)
-	 {
-		$auction_id = $request->input('auction_id');
-		$bidDate = date('Y-m-d H:i:s');
-		$auction = Auction::findOrFail($auction_id);
-		$prices = $auction->calculatePrice($bidDate);
-         $price = str_replace(",","",$prices);
-         $endprice=$auction->end_price;
 
-         $close=($price<$targetprice)?1:0;
-		if($request->input('i')=='c'){
-		    $return=array(
-		        'price'=>number_format($price,2,',',''),
-                'endTime'=>$auction->end,
-                'isClose'=>$close
-            );
-		    return json_encode($return);
+    public function calculatePrice(Request $request)
+    {
+        $auction_id = $request->input('auction_id');
+        $bidDate = date('Y-m-d H:i:s');
+        $auction = Auction::findOrFail($auction_id);
+        $prices = $auction->calculatePrice($bidDate);
+        $price = number_format(str_replace(",","",$prices),2,',','');
+        if($request->get("i") and $request->get('i')=='c'){
+            $targetprice=$auction->target_price;
+            $close=($price<$targetprice)?1:0;
+            return json_encode(array(
+                'id'=>$auction_id,
+                'price'=>$price,
+                'close'=>$close,
+                'end'=>$auction->end
+            ));
         }else{
-            return number_format($price,2,',','');
+            return $price;
         }
 
-	 }
+    }
     public function calculatePriceID($id)
     {
         $bidDate = date('Y-m-d H:i:s');
         $auction = Auction::findOrFail($id);
         $prices = $auction->calculatePrice($bidDate);
-        $price = str_replace(",","",$prices);
-
-        return number_format($price,2,',','');
+        $price = number_format(str_replace(",","",$prices),2,',','');
+        return $price;
     }
 	 public function calculatePeso(Request $request)
 	 {
@@ -743,6 +744,11 @@ class AuctionController extends Controller
         $boats1 = Boat::Select()->get();
         $port1 = Ports::Select()->get();
         $userRating =  array();$usercat=array();$price=array();$port=array();
+        $products = Product::Select()->get();
+        $sellers = User::filter(null, array(User::VENDEDOR), array(User::APROBADO));
+        $boats = Boat::Select()->get();
+        $ports = Ports::Select()->get();
+        $userRating =  array();$usercat=array();$port=array();
         foreach($auctions1 as $a) {
             $user = $a->batch->arrive->boat->user;
             $ratings = $user->rating;
@@ -751,23 +757,23 @@ class AuctionController extends Controller
             $usercat[$user->id]=Auction::catUserByAuctions($user->id);
             $price[$a->id]=$this->calculatePriceID($a->id);
             $port[$a->id]=$port1[$a->batch->arrive->port_id];
+            $port[$a->id]=$ports[$a->batch->arrive->port_id]->name;
+            $price[$a->id]=$this->calculatePriceID($a->id);
             $auctions[]=$a;
         }
         $auctions2 = Auction::auctionHome()[1];
-        $products2 = Product::Select()->get();
-        $sellers2 = User::filter(null, array(User::VENDEDOR), array(User::APROBADO));
-        $boats2 = Boat::Select()->get();
         foreach($auctions2 as $a) {
             $user = $a->batch->arrive->boat->user;
             $ratings = $user->rating;
             $total = ($ratings!=null)?($ratings->positive + $ratings->negative + $ratings->neutral):0;
             $userRating[$user->id]= ($ratings!=null)?(round(($ratings->positive*100)/$total , 2)):0;
+            $usercat[$user->id]=Auction::catUserByAuctions($user->id);
+            $port[$a->id]=$ports[$a->batch->arrive->port_id]->name;
             $price[$a->id]=$this->calculatePriceID($a->id);
             $auctions[]=$a;
         }
 
-
-        return view('/landing3/index',compact('auctions','userRating','usercat','price','port'));
+        return view('/landing3/index',compact('auctions','userRating','usercat','port','price'));
     }
     public function getParticipantes(Request $request){
 

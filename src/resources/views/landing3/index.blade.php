@@ -1,7 +1,3 @@
-
-
-
-
 <!doctype html>
 <html lang="es">
 <head>
@@ -65,7 +61,7 @@
 
                         <!-- Button -->
                         <div class="intro-search-button">
-                            <button class="button ripple-effect" onclick="#">Buscar</button>
+                            <button class="button ripple-effect" {{--onclick="#"--}}>Buscar</button>
                         </div>
                     </div>
                 </div>
@@ -125,7 +121,8 @@
                             @if($contadorsubastasdestacadas<3)
                                 <?php $contadorsubastasdestacadas++;?>
                         <!-- Auction Listing -->
-                        <div id="div_<?=$contadorsubastasdestacadas?>" class="task-listing auction" data-idauction="{{$auction->id}}">
+
+                        <div id="div_<?=$auction->id?>" class="task-listing auction" data-id="{{$auction->id}}">
                             <?php
                             setlocale(LC_TIME,'es_ES');
                             $fechafin=strftime('%d %b %Y', strtotime($auction->end));
@@ -154,7 +151,7 @@
 
                                     <ul class="task-icons">
                                         <li><i class="icon-material-outline-access-time primary"></i><strong class="primary">{{$fechafin}}</strong></li>
-                                        <li><i class="icon-material-outline-location-on"></i> {{$port[$auction->id]->name}}</li>
+                                        <li><i class="icon-material-outline-location-on"></i> {{$port[$auction->id]}}</li>
                                     </ul>
                                     <p class="task-listing-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                                     <ul class="task-icons margin-top-20">
@@ -162,7 +159,7 @@
                                         <li>
                                             <small>Vendedor</small><br>
                                             <strong>
-                                                <i class="icon-feather-user"></i> <?=(isset($auction->batch->arrive->boat->user->nickname)?$auction->batch->arrive->boat->user->nickname:$auction->batch->arrive->boat->user->name)?>
+                                                <i class="icon-feather-user"></i> {{$auction->batch->arrive->boat->user->nickname}}
                                             </strong><br>
                                             <div class="medal-rating {{strtolower($usercat[$userId])}}" data-rating="{{$usercat[$userId]}}"><span class="medal {{$usercat[$userId]}}-text"></span></div>
                                             </li>
@@ -190,11 +187,9 @@
                                             </small>
                                             @endif
                                         </p>
-                                        <div class="pricing-plan-label billed-monthly-label red" >
-                                            <strong class="red"id="precio_<?=$auction->id?>">${{$price[$auction->id]}}</strong>/ kg<br>
-                                            <small class="red fw500" id="CloseTime{{$auction->id}}" style="display: none;">¡Cerca del precio límite!</small>
-                                        </div>
-                                        <div id="timer<?=$auction->id?>" class="countdown margin-bottom-0 margin-top-20 blink_me timerauction" data-timefin="{{$auction->end}}" data-timestart="{{$auction->start}}" data-id="<?=$auction->id?>"></div>
+                                        <div class="pricing-plan-label billed-monthly-label red"><strong class="red" id="Price{{$auction->id}}">${{$price[$auction->id]}}</strong>/ kg<br>
+                                            <small class="red fw500" id="ClosePrice{{$auction->id}}" style="display: none;">&iexcl;Cerca del precio l&iacute;mite!</small></div>
+                                        <div id="timer<?=$auction->id?>" class="countdown margin-bottom-0 margin-top-20 blink_me timerauction" data-timefin="{{$auction->end}}" data-id="{{$auction->id}}"></div>
                                     </div>
                                     <div class="w100">
                                         <a href="#small-dialog-compra-{{$auction->id}}" class="button ripple-effect popup-with-zoom-anim w100">Comprar</a>
@@ -203,8 +198,7 @@
                                 </div>
                             </div>
                         </div>
-                                @include('/landing3/partials/pop-up-compra')
-                                @include('landing3/partials/pop-up-oferta')
+                                @include('landing3/partials/pop-up-compra')
                             @endif
                         @endforeach
                         @endif
@@ -510,12 +504,11 @@
 ================================================== -->
 @include('landing3/partials/js')
 <script>
-    var param=Math.floor((Math.random() * 7) + 1);
     function timer($id) {
         window['dateend']= new Date($("#timer"+$id).attr('data-timefin'));
+        var countDownDate = new Date($("#"+$id).attr('data-timefin')).getTime();
         var now = new Date().getTime();
         var distance = window['dateend']- now,string='';
-console.log($("#timer"+$id).attr('data-timefin'))
         var days = Math.floor(distance / (1000 * 60 * 60 * 24));
         var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
@@ -530,22 +523,6 @@ console.log($("#timer"+$id).attr('data-timefin'))
         }else{
             setTimeout(function(){timer($id);},1000);
         }
-    }
-    function getPrice($id){
-
-        $.get('/calculateprice?auction_id='+$id+'&i=c',function(result){
-            var $result=JSON.parse(result);
-            $("#precio_"+$id).html('$'+$result['price']);
-            window['dateend']=$result['endTime'];
-            $('#timer'+$id).attr('data-timefin',window['dateend']);
-            if($result['isClose']==1 && $('#CloseTime'+$id).css('display')=='none'){
-                $('#CloseTime'+$id).fadeIn();
-            }else{
-                $('#CloseTime'+$id).fadeOut();
-            }
-            console.log($result)
-        });
-        setTimeout(function(){getPrice($id)},30000);
     }
     function makeBid(auctionId)
     {
@@ -653,13 +630,26 @@ console.log($("#timer"+$id).attr('data-timefin'))
 
         }
     }
+    function getInfo($id){
+        $.get('calculateprice?i=c&auction_id='+$id,function(result){
+            $result=JSON.parse(result);
+            $('#Price'+$id).html("$"+$result['price']);
+            $('#timer'+$id).attr('data-timefin',$result['end']);
+            if($result['close']==1){
+                $('#ClosePrice'+$id).fadeIn();
+            }else{
+                $('#ClosePrice'+$id).fadeOut();
+            }
 
+        });
+        setTimeout(function(){getInfo($id)},10000);
+    }
     $(document).ready(function(){
         $('.timerauction').each(function(){
            timer($(this).data('id'))
         });
         $('.auction').each(function(){
-            getPrice($(this).data('idauction'));
+            getInfo($(this).data('id'))
         })
     });
 </script>
