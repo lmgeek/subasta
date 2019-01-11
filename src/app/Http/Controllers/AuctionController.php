@@ -167,7 +167,14 @@ class AuctionController extends Controller
         $prices = $auction->calculatePrice($bidDate);
         $price = number_format(str_replace(",","",$prices),2,',','');
         if($request->get("i") and $request->get('i')=='c'){
-
+            $targetprice=$auction->target_price;
+            $close=($price<$targetprice)?1:0;
+            return json_encode(array(
+                'id'=>$auction_id,
+                'price'=>$price,
+                'close'=>$close,
+                'end'=>$auction->end
+            ));
         }else{
             return $price;
         }
