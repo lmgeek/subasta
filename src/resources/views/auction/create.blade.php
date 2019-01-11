@@ -158,7 +158,13 @@
                                         </div>
                                     </div>
                                 </div>
+                            
                             </div>
+
+                         
+
+
+
                             <div class="row buyers-auction" style="display:none">
                                 <div class="col-md-12">
                                     <div class="form-group">
@@ -167,6 +173,19 @@
                                     </div>
                                 </div>
                             </div>
+
+
+
+                              <div class="row">
+                                <div class="col-md-12">
+                                        <div for="exampleInputEmail1">
+                                            <label for="exampleInputPassword1">Descripción</label>
+                                            <div class="input-group">
+                                                 <textarea  maxlength="1000" cols="50" rows="10" class="form-control" name="descri" id="descri" >{{ old('descri') }}</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                         </div>
                         <div class="ibox-footer text-right">
                             <button type="submit" class="btn btn-primary noDblClick" data-loading-text="Creando...">{{ trans('auction.create_auction') }}</button>
@@ -295,7 +314,9 @@
 			@if (old('tipoSubasta') == \App\Auction::AUCTION_PRIVATE)
 					$(".buyers-auction").show();
 			@endif
-
+            @if (old('descri') == \App\Auction::AUCTION_PRIVATE)
+                    $(".buyers-auction").show();
+            @endif
             $('#datetimepickerStart').datetimepicker({
                 locale: '{{ Config::get('app.locale') }}',
                 sideBySide: true,

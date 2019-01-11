@@ -29,6 +29,7 @@ class UpdateAuctionRequest extends Request
             'fechaFin'    => 'required|date_format:d/m/Y H:i|after:fechaInicio',
             'startPrice' => 'required|regex:/^\d{1,}(\,\d+)?$/|min:1|auction_price_greater_than:endPrice',
             'endPrice'   => 'required|regex:/^\d{1,}(\,\d+)?$/|min:1',
+            'descri'   => 'required|min:5|max:1000',
             'amount'     => 'required|numeric|min:1',
             'intervalo'   => 'required|numeric|min:5'
         ];
@@ -38,6 +39,7 @@ class UpdateAuctionRequest extends Request
         return [
             "amount.min" => "La :attribute debe ser de al menos :min",
             "startPrice.min" => "El :attribute debe ser de al menos :min",
+            "descri.min" => "El campo :attribute debe ser de al menos :min",
             "endPrice.min" => "El :attribute debe ser de al menos :min"
         ];
     }
@@ -46,6 +48,7 @@ class UpdateAuctionRequest extends Request
         return [
             "startPrice" => "precio inicial",
             "endPrice" => "precio final",
+            "descri" => "descripción",
             "amount" => "cantidad"
         ];
     }
