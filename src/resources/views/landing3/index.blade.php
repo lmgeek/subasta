@@ -107,7 +107,7 @@
                 <?php $contadorsubastasdestacadas=0;?>
 
                     <!-- Auctions Container -->
-                    <div class="tasks-list-container margin-top-35">
+                    <div class="tasks-list-container margin-top-35"  id="FeaturedAuctions">
                         @if(count($auctions)>0)
                             <?php
                             function cmp($a, $b){
@@ -122,7 +122,7 @@
 
                         <!-- Auction Listing -->
 
-                        <div id="div_<?=$auction->id?>" class="task-listing auction" data-id="{{$auction->id}}">
+                        <div id="Auction_<?=$auction->id?>" class="task-listing auction" data-id="{{$auction->id}}">
                             <?php
                             setlocale(LC_TIME,'es_ES');
                             $fechafin=strftime('%d %b %Y', strtotime($auction->end));
@@ -191,10 +191,12 @@
                                             <small class="red fw500" id="ClosePrice{{$auction->id}}" style="display: none;">&iexcl;Cerca del precio l&iacute;mite!</small></div>
                                         <div id="timer<?=$auction->id?>" class="countdown margin-bottom-0 margin-top-20 blink_me timerauction" data-timefin="{{$auction->end}}" data-id="{{$auction->id}}"></div>
                                     </div>
-                                    <div class="w100">
-                                        <a href="#small-dialog-compra-{{$auction->id}}" class="button ripple-effect popup-with-zoom-anim w100">Comprar</a>
+                                    <div  id="OpenerPopUpCompra{{$auction->id}}">
+                                        <div class="w100">
+                                            <a href="#small-dialog-compra-{{$auction->id}}" class="button ripple-effect popup-with-zoom-anim w100">Comprar</a>
+                                        </div>
+                                        <div class="w100 text-center margin-top-5 t14">o puedes <a href="#small-dialog-oferta" class="sign-in popup-with-zoom-anim">realizar una oferta</a></div>
                                     </div>
-                                    <div class="w100 text-center margin-top-5 t14">o puedes <a href="#small-dialog-oferta" class="sign-in popup-with-zoom-anim">realizar una oferta</a></div>
                                 </div>
                             </div>
                         </div>
@@ -261,7 +263,7 @@
                     </div>
 
                     <!-- Auctions Container -->
-                    <div class="tasks-list-container margin-top-35">
+                    <div class="tasks-list-container margin-top-35" id="FinishedAuctions">
 
                         <!-- Auction Listing -->
                         <div id="div_4" class="task-listing bg-disabled">
@@ -336,7 +338,41 @@
                                 </div>
                             </div>
                         </div>
+                        <div id="div_6" class="task-listing bg-disabled">
 
+                            <!-- Auction Listing Details -->
+                            <div class="task-listing-details">
+                                <!-- Photo -->
+                                <div class="task-listing-photo">
+                                    <img src="landing3/images/subastas/subasta02.jpg" alt="Cornalito">
+                                </div>
+                                <!-- Details -->
+                                <div class="task-listing-description">
+                                    <h3 class="task-listing-title"><a href="subasta.php">Oportunidad: Corvina y Raya</a> <div class="star-rating" data-rating="5.0"></div></h3>
+                                    <ul class="task-icons">
+                                        <li><i class="icon-material-outline-access-time"></i><strong class="primary"> 11 Ene 2019</strong></li>
+                                        <li><i class="icon-material-outline-location-on"></i> Mar del Plata</li>
+                                    </ul>
+                                    <p class="task-listing-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                    <ul class="task-icons margin-top-20">
+                                        <li><small>Vendedor</small><br><strong><i class="icon-feather-user"></i> gdesancho</strong><br><div class="medal-rating gold" data-rating="Gold"><span class="medal gold-text"></span></div></li>
+                                        <li><small>Barco</small><br><strong><i class="icon-line-awesome-ship"></i> Barco I</strong><br><div class="star-rating" data-rating="4.0"></div></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="task-listing-bid">
+                                <div class="task-listing-bid-inner">
+                                    <div class="task-offers">
+                                        <small>Disponibilidad:</small>
+                                        <p><strong>0 <small>de</small> 240 kg</strong></p>
+                                        <div class="pricing-plan-label billed-monthly-label"><strong id="precio_2">$650</strong>/ kg</div>
+                                        <small>Precio final.</small>
+                                        <div id="timer2" class="countdown margin-bottom-0 margin-top-20">&iexcl;Finalizada!</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Auctions Container / End -->
@@ -520,6 +556,19 @@
         document.getElementById('timer'+$id).innerHTML = string;
         if (distance < 0) {
             document.getElementById('timer'+$id).innerHTML = "¡Finalizada!";
+            $('#OpenerPopUpCompra'+$id).remove();
+            $('#Auction_'+$id).addClass('bg-disabled');
+            $('#ClosePrice'+$id).html('Precio Final');
+            var $html='<div id="Auction_'+$id+'" class="task-listing auction bg-disabled" style="display:none"data-id="'+$id+'">'+$('#Auction_'+$id).html()+'</div>'+$('#FinishedAuctions').html();
+            $('#Auction_'+$id).fadeOut();
+            setTimeout(function(){$('#Auction_'+$id).remove();},400);
+            $('#FinishedAuctions').html($html);
+            $('#Auction_'+$id+' .pricing-plan-label .billed-monthly-label').removeClass('red');
+            $('#Auction_'+$id+' .icon-material-outline-access-time').removeClass('primary');
+            setTimeout(function(){$('#Auction_'+$id).fadeIn();},400);
+            if($('#FinishedAuctions > .task-listing').length>3){
+                $("#FinishedAuctions").children('.task-listing').last().remove();
+            }
         }else{
             setTimeout(function(){timer($id);},1000);
         }
@@ -634,6 +683,7 @@
         $.get('calculateprice?i=c&auction_id='+$id,function(result){
             $result=JSON.parse(result);
             $('#Price'+$id).html("$"+$result['price']);
+            $('#PricePopUp'+$id).html("$"+$result['price']+" <small>x kg</small>")
             $('#timer'+$id).attr('data-timefin',$result['end']);
             if($result['close']==1){
                 $('#ClosePrice'+$id).fadeIn();
@@ -643,6 +693,14 @@
 
         });
         setTimeout(function(){getInfo($id)},10000);
+    }
+    function popupCompraDisableText($id) {
+        if($('#checkbox'+$id).is(':checked')){
+            $('#cantidad-'+$id).attr('disabled','true');
+            $('#cantidad-'+$id).val($('#cantidad-'+$id).attr('max'));
+        }else{
+            $('#cantidad-'+$id).removeAttr('disabled');
+        }
     }
     $(document).ready(function(){
         $('.timerauction').each(function(){
