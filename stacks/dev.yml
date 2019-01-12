@@ -1,0 +1,78 @@
+version: "3.4"
+
+services:
+
+  web:
+    image: registry.netlabs.com.ar/netlabs/subastas
+    environment:
+      - DB_HOST=subastas_db
+      - DB_DATABASE=subastas
+      - DB_USERNAME=root
+      - DB_PASSWORD=m1SQl03r
+      - APP_ENV=development
+      - APP_DEBUG=true
+      - APP_KEY=8UjkgIRwUCW1iVb8ylTtb56OXGKALoul
+      - CACHE_DRIVER=file
+      - SESSION_DRIVER=file
+      - QUEUE_DRIVER=sync
+      - MAIL_DRIVER=smtp
+      - MAIL_HOST=190.210.73.141
+      - MAIL_PORT=25
+      - MAIL_USERNAME=alertas@netlabs.com.ar
+      - MAIL_PASSWORD=4l3rt4s
+      - MAIL_ENCRYPTION=null
+      - MAIL_ADDRESS_SYSTEM=sistema@subastas.com.ar
+      - MAIL_ADDRESS_SYSTEM_NAME=Subastas
+    networks:
+      - frontend
+      - backend
+    volumes:
+      - /c/Users/${USERNAME}/Desktop/docker/src/subastas/src:/var/www/html
+    deploy:
+      labels:
+        traefik.frontend.rule: "Host:subastas.local.dev.netlabs.com.ar"
+        traefik.port: 80
+        traefik.docker.network: frontend
+
+  db:
+    image: mysql:5.7.22
+    environment:
+      - MYSQL_ROOT_PASSWORD=m1SQl03r
+    networks:
+      - backend
+    volumes:
+      - data:/var/lib/mysql
+      - /c/Users/${USERNAME}/Desktop/docker/src/subastas/deploy:/deploy
+    ports:
+      - 3306
+    deploy:
+      labels:
+        traefik.enable: "false"
+
+  deploy:
+    image: registry.netlabs.com.ar/netlabs/deploy:5
+    environment:
+      - DB_HOST=subastas_db
+      - DB_DATABASE=subastas
+      - DB_USERNAME=root
+      - DB_PASSWORD=m1SQl03r
+      - MAIL_TO=${MAIL_TO}
+      - SUBJECT="dev deploy subastas"
+      - FLYWAY_LOCATIONS=filesystem:/deploy/sql,filesystem:/deploy/dev
+    networks:
+      - backend
+    volumes:
+      - /c/Users/${USERNAME}/Desktop/docker/src/subastas/deploy:/deploy
+    deploy:
+      restart_policy:
+        condition: none
+      labels:
+        traefik.enable: "false"
+
+networks:
+  frontend:
+    external: true
+  backend:
+
+volumes:
+  data:

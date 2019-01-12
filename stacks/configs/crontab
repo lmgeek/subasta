@@ -1,0 +1,6 @@
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+0 2 * * * root /backup.sh internos_db 3306 root m1SQl03r SISTEMAS_INTERNOS /backup daily 6 1>/proc/1/fd/1  2>/proc/1/fd/1
+0 3 */7 * * root /backup.sh internos_db 3306 root m1SQl03r SISTEMAS_INTERNOS /backup weekly 6 1>/proc/1/fd/1  2>/proc/1/fd/1
+0 4 1 * * root /backup.sh internos_db 3306 root m1SQl03r SISTEMAS_INTERNOS /backup monthly 6 1>/proc/1/fd/1  2>/proc/1/fd/1

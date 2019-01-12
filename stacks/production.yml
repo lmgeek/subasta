@@ -1,0 +1,83 @@
+version: "3.4"
+
+configs:
+  crontab_2018042402:
+    file: ./configs/crontab
+
+services:
+
+  web:
+    image: registry.netlabs.com.ar/netlabs/internos
+    environment:
+      - MYSQL_HOST=internos_db
+      - MYSQL_DB=SISTEMAS_INTERNOS
+      - MYSQL_USER=root
+      - MYSQL_PASS=m1SQl03r
+    networks:
+      - frontend
+      - backend
+    deploy:
+      labels:
+        traefik.frontend.rule: "Host:internos.netlabs.com.ar"
+        traefik.port: 80
+        traefik.docker.network: frontend
+        traefik.frontend.whiteList.sourceRange: "190.111.246.210/32,201.216.224.192/29,190.210.73.128/28"
+
+  db:
+    image: mysql:5.5
+    environment:
+      - MYSQL_ROOT_PASSWORD=m1SQl03r
+    networks:
+      - backend
+    volumes:
+      - data:/var/lib/mysql
+    deploy:
+      labels:
+        traefik.enable: "false"
+
+  deploy:
+    image: registry.netlabs.com.ar/netlabs/internos_deploy
+    environment:
+      - DB_HOST=internos_db
+      - DB_DATABASE=SISTEMAS_INTERNOS
+      - DB_USERNAME=root
+      - DB_PASSWORD=m1SQl03r
+      - SUBJECT="prod deploy internos"
+    networks:
+      - backend
+    deploy:
+      restart_policy:
+        condition: none
+      labels:
+        traefik.enable: "false"
+
+  cron:
+    image: registry.netlabs.com.ar/netlabs/backup_mysql_55:6
+    networks:
+      - backend
+    volumes:
+      - backup:/backup
+      - /etc/localtime:/etc/localtime
+    configs:
+      - source: crontab_2018042402
+        target: /etc/crontab
+    deploy:
+      labels:
+        traefik.enable: "false"
+
+
+networks:
+  frontend:
+    external: true
+  backend:
+    external: true
+
+volumes:
+  data:
+    driver: "vsphere"
+    driver_opts:
+      size: 8gb
+
+  backup:
+    driver: "nasbackup/minio"
+    name: internos-db
