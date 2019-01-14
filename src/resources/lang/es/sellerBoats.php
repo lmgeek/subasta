@@ -15,6 +15,9 @@ return [
     'actions' => [
         'title' => 'Acciones'
     ],
+    'nickname' => [
+        'title' => 'Alias'
+    ],
     'new_boat' => 'Agregar Barco',
 
     'boat_info' => 'Informaci&oacute;n del barco',

@@ -41,6 +41,10 @@
                             <div class="col-md-8"><span>{{ $batch->arrive->boat->name }}</span> </div>
                         </div>
                         <div class="row">
+                            <div class="col-md-4"><label>{{trans("sellerBoats.nickname.title")}}</label></div>
+                            <div class="col-md-8"><span>{{ $batch->arrive->boat->nickname }}</span> </div>
+                        </div>
+                        <div class="row">
                             <div class="col-md-4"><label>Arribo:</label></div>
                             <div class="col-md-8"><span>{{ Carbon::parse($batch->arrive->date)->format('H:i:s d/m/Y')  }}</span> </div>
                         </div>
@@ -170,7 +174,7 @@
                         </div>
                         <div class="ibox-footer text-right">
                             <button type="submit" class="btn btn-primary noDblClick" data-loading-text="Creando...">{{ trans('auction.create_auction') }}</button>
-                            <a href="{{ url('home') }}" class="btn btn-danger">Cancelar</a>
+                            <a href="{{ url('/sellerbatch') }}" class="btn btn-danger">Cancelar</a>
                         </div>
                     </form>
                 </div>
