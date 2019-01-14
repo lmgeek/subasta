@@ -1,7 +1,5 @@
 @extends('admin')
 
-
-
 @section('content')
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-9">
@@ -44,6 +42,10 @@
                                 <th>
                                     {{ trans('sellerBoats.actions.title') }}
                                 </th>
+
+                                <th>
+                                    {{ trans('sellerBoats.nickname.title') }}
+                                </th>
                             </tr>
                             </thead>
                             <tbody>
@@ -60,6 +62,7 @@
 											@endif
                                         </td>
                                         <td>
+                                        <td>{{ $barco->nickname }}</td>
                                         </td>
                                     </tr>
                                 @endforeach
