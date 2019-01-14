@@ -163,7 +163,7 @@
                                             </strong><br>
                                             <div class="medal-rating {{strtolower($usercat[$userId])}}" data-rating="{{$usercat[$userId]}}"><span class="medal {{$usercat[$userId]}}-text"></span></div>
                                             </li>
-                                        <li><small>Barco</small><br><strong><i class="icon-line-awesome-ship"></i> Barco V</strong><br>
+                                        <li><small>Barco</small><br><strong><i class="icon-line-awesome-ship"></i> {{$auction->batch->arrive->boat->nickname}}</strong><br>
                                             <div class="star-rating" data-rating="<?=(isset($userRating[$userId]))?round(($userRating[$userId]/20),1,PHP_ROUND_HALF_UP):''?>"></div></li>
                                     </ul>
                                 </div>
@@ -383,7 +383,9 @@
         </div>
     </div>
     <!-- Featured Auctions / End -->
+    <div id="notificationsauction">
 
+    </div>
 
     <!-- Features Ports -->
     <div class="section padding-top-65 padding-bottom-65 bd-bt-1">
@@ -539,6 +541,69 @@
 <!-- Scripts
 ================================================== -->
 @include('landing3/partials/js')
+<style type="text/css">
+    #notificationsauction{
+        margin: 10px;
+        padding: 10px;
+        width: calc(20% - 20px);
+        position:fixed;
+        top: 80px;
+        right: 0px;
+        z-index: 999;
+    }
+    .notificationauction {
+        width: calc(100% - 20px);
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        border-width: 1px;
+        border-style: solid;
+        padding: 10px;
+        margin: 10px 0px;
+        -webkit-box-shadow: 4px 2px 5px -1px rgba(0, 0, 0, 0.75);
+        -moz-box-shadow: 4px 2px 5px -1px rgba(0, 0, 0, 0.75);
+        box-shadow: 4px 2px 5px -1px rgba(0, 0, 0, 0.75);
+        opacity: 0.5;
+        height:150px;
+    }
+    .notificationauction:hover{
+        opacity: 1;
+
+    }
+    .notificationauction >.notificationicon{
+        display:inline-block;
+        position:relative;
+        width: 50px;
+        top:50%;
+        transform: translateY(-50%);
+    }
+    .notificationauction > .notificationcontent{
+        display: inline-block;
+        position:relative;
+        top:50%;
+        transform: translateY(-50%);
+
+    }
+    .notificationauction.error{
+        border-color: #8b0008!important;
+        background-color: #8b4242!important;
+        color: #ffffff !important;
+    }
+    .notificationauction.success{
+        border-color: #00ff00!important;
+        background-color: #00a200!important;
+        color: #ffffff !important;
+    }
+    @media screen and (max-width:768px){
+        #notificationsauction{
+            width: calc(100% - 20px);
+            margin: 10px;
+            padding: 10px;
+            bottom: 0px;
+            top: auto;
+        }
+    }
+</style>
 <script>
     function timer($id) {
         window['dateend']= new Date($("#timer"+$id).attr('data-timefin'));
@@ -573,112 +638,32 @@
             setTimeout(function(){timer($id);},1000);
         }
     }
-    function makeBid(auctionId)
-    {
-        var cDispo =  parseInt($(".s-disponible-" +auctionId).html()),amount=$('#cantidad-{{$auction->id}}').val();
-
-        if ( amount <= cDispo  ){
-            $.ajax({
-                method: "GET",
-                dataType:"json",
-                url: "/makeBid?auction_id="+auctionId + "&amount="+amount,
-                success: function(data)
-                {
-                    if (data.active == 0)
-                    {
-                        $(".modal").modal('hide');
-                        var note = '';
-                        note+= '<table>';
-                        note+= '<tr>';
-                        note+= '<td colspan="2"><strong>La subasta ha sido cancelada por el vendedor</strong></td>';
-                        note+= '</tr>';
-                        note+= '</table>';
-                        showBillError(note);
-                    }else {
-                        if (data.isnotavailability == 0)
-                        {
-                            $(".modal").modal('hide');
-                            var note = '<table>';
-                            note+= '<tr>';
-                            note+= '<td colspan="2"><strong>Su compra se ha realizado con éxito</strong></td>';
-                            note+= '</tr>';
-                            note+= '<tr><td colspan="2" style="border-bottom:1px solid"></td>';
-                            note+= '</tr>';
-                            note+= '<tr>';
-                            note+= '<td>Producto</td>';
-                            note+= '<td>'+data.product+'</td>';
-                            note+= '</tr>';
-                            note+= '<tr>';
-                            note+= '<td>Precio</td>';
-                            note+= '<td>$ '+data.price+'</td>';
-                            note+= '</tr>';
-                            note+= '<tr>';
-                            note+= '<td>Cantidad</td>';
-                            note+= '<td>'+data.amount+ ' ' + data.unit  + '</td>';
-                            note+= '</tr>';
-                            note+= '<tr><td colspan="2" style="border-bottom:1px solid"></td>';
-                            note+= '</tr>';
-                            note+= '<tr>';
-                            note+= '<td><strong>Total</strong></td>';
-                            note+= '<td><strong>$ '+ currency( currency(data.price).multiply(data.amount) ).format() +'</strong></td>';
-                            note+= '</tr>';
-                            note+= '</tr>';
-                            note+='<table>';
-                            $(".bid-button-act").attr("disabled",true);
-                            showBill(note);
-                        }else{
-                            var note = '';
-
-                            note+= '<div class="alert alert-danger alert-dismissible" role="alert">';
-                            note+= '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
-                            note+= 'Sólo quedan disponibles ' + data.availability + ' ' + data.unit + ' de ' + data.product ;
-                            note+= '</div>';
-
-                            $(".content-danger-" +auctionId ).html(note);
-                            $("#amount-bid-" +auctionId).val(data.availability);
-                            $("#amount-bid-" +auctionId).attr('max',data.availability);
-                            $(".s-disponible-" +auctionId).html(data.availability);
-
-                            var price = $(".hid-currentPrice-"+auctionId).val();
-                            var total = price * data.availability;
-                            $(".modal-total-"+auctionId).html('Total $' + currency(total).format() );
-
-                            if (data.availability < 0)
-                            {
-                                $("#amount-bid-" +auctionId).attr('disabled',true);
-                                $(".mak-bid-"+auctionId).hide();
-                            }
-
-                        }
-                    }
-                }
-            });
+    function notifications($type,$product=null,$price=null,$quantity=null,$text=null){
+        if($type==1){
+            $html='<div class="notificationauction success"><div class="notificationicon"><i class="icon-line-awesome-check"></i></div><div class="notificationcontent">' +
+                'Su compra se ha realizado con exito' +
+                '</div></div>'
         }else{
-
-            var note = '';
-            note+= '<div class="alert alert-danger alert-dismissible" role="alert">';
-            note+= '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
-            note+= 'Sólo quedan disponibles ' + cDispo + ' ' + $(".modal-unit-"+auctionId).html() ;
-            note+= '</div>';
-            $(".content-danger-" +auctionId ).html(note);
-            $("#amount-bid-" +auctionId).val(cDispo);
-            $("#amount-bid-" +auctionId).attr('max',cDispo);
-
-
-            var price1 = $(".hid-currentPrice-"+auctionId).val();
-            var total1 = currency(price1).multiply(cDispo);
-            $(".modal-total-"+auctionId).html('Total $' + currency(total1).format() );
-
-
-            if (cDispo == 0)
-            {
-                $("#amount-bid-" +auctionId).attr('disabled',true);
-                $(".mak-bid-"+auctionId).hide();
-            }
-
-
+            $html='<div class="notificationauction success">\n' +
+                '            <div class="notificationicon">\n' +
+                '                <i class="icon-line-awesome-check"></i>\n' +
+                '            </div>\n' +
+                '            <div class="notificationcontent">\n' +
+                '                success\n' +
+                '            </div>\n' +
+                '        </div>'
         }
     }
+    function makeBid($id){
+
+        $.get("/makeBid?auction_id="+$id + "&amount="+$('#cantidad-'+$id).val(),function(result){
+
+        }).fail(function(){
+
+        });
+    }
+
+
     function getInfo($id){
         $.get('calculateprice?i=c&auction_id='+$id,function(result){
             $result=JSON.parse(result);
