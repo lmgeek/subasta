@@ -18,8 +18,8 @@ CREATE TABLE `arrives` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `boat_id` int(10) unsigned NOT NULL,
   `date` datetime NOT NULL,
-  `created_at` timestamp NOT NULL default '0000-00-00 00:00:00',
-  `updated_at` timestamp NOT NULL default '0000-00-00 00:00:00',
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL default CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -38,8 +38,8 @@ CREATE TABLE `auctions` (
   `notification_status` int(11) NOT NULL default '0',
   `type` enum('public','private') collate utf8_unicode_ci default 'public',
   `invited` text collate utf8_unicode_ci,
-  `created_at` timestamp NOT NULL default '0000-00-00 00:00:00',
-  `updated_at` timestamp NOT NULL default '0000-00-00 00:00:00',
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL default CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -49,8 +49,8 @@ CREATE TABLE `auctions_invites` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `auction_id` int(10) unsigned NOT NULL,
   `user_id` int(10) unsigned NOT NULL,
-  `created_at` timestamp NOT NULL default '0000-00-00 00:00:00',
-  `updated_at` timestamp NOT NULL default '0000-00-00 00:00:00',
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL default CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -63,8 +63,8 @@ CREATE TABLE `batch_statuses` (
   `auction_sold` int(11) NOT NULL,
   `private_sold` int(11) NOT NULL,
   `remainder` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL default '0000-00-00 00:00:00',
-  `updated_at` timestamp NOT NULL default '0000-00-00 00:00:00',
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL default CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC;
 
@@ -77,8 +77,8 @@ CREATE TABLE `batches` (
   `caliber` varchar(255) collate utf8_unicode_ci NOT NULL,
   `quality` int(11) NOT NULL,
   `amount` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL default '0000-00-00 00:00:00',
-  `updated_at` timestamp NOT NULL default '0000-00-00 00:00:00',
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL default CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -91,8 +91,8 @@ CREATE TABLE `bids` (
   `amount` int(11) NOT NULL,
   `price` double(8,2) NOT NULL,
   `bid_date` datetime NOT NULL,
-  `created_at` timestamp NOT NULL default '0000-00-00 00:00:00',
-  `updated_at` timestamp NOT NULL default '0000-00-00 00:00:00',
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL default CURRENT_TIMESTAMP,
   `status` enum('noConcretized','concretized','pending') collate utf8_unicode_ci NOT NULL default 'pending',
   `reason` longtext collate utf8_unicode_ci NOT NULL,
   `user_calification` enum('positive','neutral','negative') collate utf8_unicode_ci default NULL,
@@ -111,8 +111,8 @@ CREATE TABLE `boats` (
   `matricula` varchar(255) collate utf8_unicode_ci NOT NULL,
   `status` enum('pending','approved','rejected') collate utf8_unicode_ci NOT NULL,
   `rebound` varchar(255) collate utf8_unicode_ci default NULL,
-  `created_at` timestamp NOT NULL default '0000-00-00 00:00:00',
-  `updated_at` timestamp NOT NULL default '0000-00-00 00:00:00',
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL default CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -153,7 +153,7 @@ CREATE TABLE `migrations` (
 CREATE TABLE `password_resets` (
   `email` varchar(255) collate utf8_unicode_ci NOT NULL,
   `token` varchar(255) collate utf8_unicode_ci NOT NULL,
-  `created_at` timestamp NOT NULL default '0000-00-00 00:00:00',
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP,
   KEY `password_resets_email_index` (`email`),
   KEY `password_resets_token_index` (`token`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -169,8 +169,8 @@ CREATE TABLE `private_sales` (
   `weight` int(11) NOT NULL,
   `date` datetime NOT NULL,
   `buyer_name` varchar(255) collate utf8_unicode_ci NOT NULL,
-  `created_at` timestamp NOT NULL default '0000-00-00 00:00:00',
-  `updated_at` timestamp NOT NULL default '0000-00-00 00:00:00',
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL default CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -180,8 +180,8 @@ CREATE TABLE `products` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `name` varchar(255) collate utf8_unicode_ci NOT NULL,
   `unit` varchar(255) collate utf8_unicode_ci NOT NULL,
-  `created_at` timestamp NOT NULL default '0000-00-00 00:00:00',
-  `updated_at` timestamp NOT NULL default '0000-00-00 00:00:00',
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL default CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL default NULL,
   `image_name` varchar(255) collate utf8_unicode_ci default NULL,
   PRIMARY KEY  (`id`)
@@ -194,8 +194,8 @@ CREATE TABLE `subscriptions` (
   `auction_id` int(10) unsigned NOT NULL,
   `user_id` int(10) unsigned NOT NULL,
   `status` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL default '0000-00-00 00:00:00',
-  `updated_at` timestamp NOT NULL default '0000-00-00 00:00:00',
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL default CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -211,8 +211,8 @@ CREATE TABLE `users` (
   `status` enum('pending','approved','rejected') collate utf8_unicode_ci NOT NULL,
   `rebound` text collate utf8_unicode_ci,
   `remember_token` varchar(100) collate utf8_unicode_ci default NULL,
-  `created_at` timestamp NOT NULL default '0000-00-00 00:00:00',
-  `updated_at` timestamp NOT NULL default '0000-00-00 00:00:00',
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL default CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -225,8 +225,8 @@ CREATE TABLE `users_ratings` (
   `positive` int(11) NOT NULL,
   `negative` int(11) NOT NULL,
   `neutral` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL default '0000-00-00 00:00:00',
-  `updated_at` timestamp NOT NULL default '0000-00-00 00:00:00',
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL default CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
