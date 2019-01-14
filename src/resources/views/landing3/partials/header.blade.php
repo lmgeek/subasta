@@ -56,7 +56,8 @@
 
             <!-- Right Side Content / End -->
             <div class="right-side">
-
+            @if (Auth::check())
+                @if(Auth::user()->type == \App\User::VENDEDOR)
                 <!--  Actions -->
                 <div class="header-widget hide-on-mobile">
 
@@ -74,7 +75,11 @@
                 </div>
                 <!--  Actions / End -->
 
-                <!--  User Notifications -->
+                @endif
+            @endif
+
+
+            <!--  User Notifications -->
             {{--<div class="header-widget hide-on-mobile">
 
                 <!-- Notifications -->
