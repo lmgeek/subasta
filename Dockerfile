@@ -31,6 +31,8 @@ RUN apt-get clean && \
 
 ADD scripts/* /
 
+COPY configs/apache2/apache2.conf /etc/apache2/apache2.conf
+
 WORKDIR /var/www/html
 
 ADD src /var/www/html
