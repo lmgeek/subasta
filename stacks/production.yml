@@ -32,7 +32,7 @@ services:
       - backend
     deploy:
       labels:
-        traefik.frontend.rule: "Host:subastas.netlabs.com.ar"
+        traefik.frontend.rule: "Host:subastas.netlabs.com.ar,subastasdelmar.com,www.subastasdelmar.com"
         traefik.port: 80
         traefik.docker.network: frontend
 #        traefik.frontend.whiteList.sourceRange: "190.111.246.210/32,201.216.224.192/29,190.210.73.128/28"
