@@ -1,32 +1,47 @@
 version: "3.4"
 
 configs:
-  crontab_2018042402:
+  crontab_20190114:
     file: ./configs/crontab
 
 services:
 
   web:
-    image: registry.netlabs.com.ar/netlabs/internos
+    image: registry.netlabs.com.ar/netlabs/subastas
     environment:
-      - MYSQL_HOST=internos_db
-      - MYSQL_DB=SISTEMAS_INTERNOS
-      - MYSQL_USER=root
-      - MYSQL_PASS=m1SQl03r
+      - DB_HOST=subastas_db
+      - DB_DATABASE=subastas
+      - DB_USERNAME=root
+      - DB_PASSWORD=pfjwortij987235!!eas
+      - APP_ENV=production
+      - APP_DEBUG=false
+      - APP_KEY=8UjkgIRwUCW1iVb8ylTtb56OXGKALoul
+      - CACHE_DRIVER=file
+      - SESSION_DRIVER=file
+      - QUEUE_DRIVER=sync
+      - MAIL_DRIVER=smtp
+      - MAIL_HOST=190.210.73.141
+      - MAIL_PORT=25
+      - MAIL_USERNAME=alertas@netlabs.com.ar
+      - MAIL_PASSWORD=4l3rt4s
+      - MAIL_ENCRYPTION=null
+      - MAIL_ADDRESS_SYSTEM=sistema@subastas.com.ar
+      - MAIL_ADDRESS_SYSTEM_NAME=Subastas
     networks:
       - frontend
       - backend
     deploy:
       labels:
-        traefik.frontend.rule: "Host:internos.netlabs.com.ar"
+        traefik.frontend.rule: "Host:subastas.netlabs.com.ar"
         traefik.port: 80
         traefik.docker.network: frontend
-        traefik.frontend.whiteList.sourceRange: "190.111.246.210/32,201.216.224.192/29,190.210.73.128/28"
+#        traefik.frontend.whiteList.sourceRange: "190.111.246.210/32,201.216.224.192/29,190.210.73.128/28"
 
   db:
-    image: mysql:5.5
+    image: mysql:5.7.22
+    command: mysqld --ignore-db-dir=lost+found
     environment:
-      - MYSQL_ROOT_PASSWORD=m1SQl03r
+      - MYSQL_ROOT_PASSWORD=pfjwortij987235!!eas
     networks:
       - backend
     volumes:
@@ -36,13 +51,13 @@ services:
         traefik.enable: "false"
 
   deploy:
-    image: registry.netlabs.com.ar/netlabs/internos_deploy
+    image: registry.netlabs.com.ar/netlabs/subastas_deploy
     environment:
-      - DB_HOST=internos_db
-      - DB_DATABASE=SISTEMAS_INTERNOS
+      - DB_HOST=subastas_db
+      - DB_DATABASE=subastas
       - DB_USERNAME=root
-      - DB_PASSWORD=m1SQl03r
-      - SUBJECT="prod deploy internos"
+      - DB_PASSWORD=pfjwortij987235!!eas
+      - SUBJECT="prod deploy subastas"
     networks:
       - backend
     deploy:
@@ -52,14 +67,14 @@ services:
         traefik.enable: "false"
 
   cron:
-    image: registry.netlabs.com.ar/netlabs/backup_mysql_55:6
+    image: registry.netlabs.com.ar/netlabs/backup_mysql_57:1
     networks:
       - backend
     volumes:
       - backup:/backup
       - /etc/localtime:/etc/localtime
     configs:
-      - source: crontab_2018042402
+      - source: crontab_20190114
         target: /etc/crontab
     deploy:
       labels:
@@ -80,4 +95,4 @@ volumes:
 
   backup:
     driver: "nasbackup/minio"
-    name: internos-db
+    name: subastas-db
