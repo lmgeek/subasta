@@ -7,4 +7,4 @@ then
   exit 255
 fi
 
-docker stack deploy -c dev.yml internos --with-registry-auth
+docker stack deploy -c dev.yml subastas --with-registry-auth
