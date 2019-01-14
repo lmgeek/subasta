@@ -11,6 +11,7 @@
             <td><strong>{{ trans("sellerBoats.sales") }}</strong></td>
             <td><strong>{{ trans("sellerBoats.type_sales") }}</strong></td>
             <td><strong>{{ trans("sellerBoats.assigned_auction") }}</strong></td>
+            <td><strong>{{ trans("sellerBoats.nickname.title")}}</strong></td>
             <td></td>
         </tr>
         </thead>
@@ -142,6 +143,8 @@
                         });
                     </script>
                 </td>
+
+                <td>{{$boat->nickname}}</td>
 
                 <td>
                     @if( !$batch->product->trashed() )
