@@ -26,6 +26,7 @@
 // });
 
 Route::get('/', 'AuctionController@subastasDestacadasHome');
+Route::get('/subastas', 'AuctionController@listaSubastas');
 Route::get('/landing2', 'AuctionController@subastaHome');
 
 // Authentication routes...

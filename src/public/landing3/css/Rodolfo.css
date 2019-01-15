@@ -1,0 +1,90 @@
+#notificationsauction{
+    margin: 10px;
+    padding: 10px;
+    width: calc(25% - 20px);
+    position:fixed;
+    top: 80px;
+    right: 0px;
+    z-index: 999;
+    font-size: 12px;
+}
+.notificationauction {
+    width: calc(100% - 20px);
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    border-width: 1px;
+    border-style: solid;
+    padding: 10px;
+    margin: 10px 0px;
+    -webkit-box-shadow: 4px 2px 5px -1px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 4px 2px 5px -1px rgba(0, 0, 0, 0.75);
+    box-shadow: 4px 2px 5px -1px rgba(0, 0, 0, 0.75);
+    opacity: 0.5;
+    line-height: 1.2em;
+}
+.notificationauction:hover{
+    opacity: 1;
+}
+.notificationauction >.notificationicon{
+    display:inline-block;
+    position:relative;
+    width: 50px;
+}
+.notificationauction > .notificationcontent{
+    display: inline-block;
+    width: calc(100% - 50px);
+}
+.notificationauction.error{
+    border-color: #8b0008!important;
+    background-color: #8b4242!important;
+    color: #ffffff !important;
+}
+.notificationauction.success{
+    border-color: #00ff00!important;
+    background-color: #00a200!important;
+    color: #ffffff !important;
+}
+.notificationauction > .notificationcontent > .title{
+    border-bottom:1px solid #fff;
+    font-weight:bold;
+    margin-bottom: 5px;
+}
+.notificationauction > .notificationcontent > .fieldtitle{
+    display: inline-block;
+    width:35%;
+}
+.notificationauction > .notificationcontent > .fieldvalue{
+    display: inline-block;
+    width:65%;
+}
+.notificationauction > .notificationcontent > .total{
+    font-weight: bold;
+    border-top:1px solid #fff;
+    margin-top:5px
+}
+.notificationauction > .notificationcontent > .total > .totalvalue{
+    display: inline-block;
+    width:65%;
+    float:right;
+    text-align: left;
+}
+#MasterFilter{
+    width:30%;
+    display:inline-block;
+    vertical-align: top;
+}
+#Auctions{
+    width:70%;
+    display:inline-block;
+    vertical-align: top;
+}
+@media screen and (max-width:768px){
+    #notificationsauction{
+        width: calc(100% - 20px);
+        margin: 10px;
+        padding: 10px;
+        bottom: 0px;
+        top: auto;
+    }
+}
