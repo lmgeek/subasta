@@ -280,6 +280,7 @@ class Auction extends Model
     }
     public static function auctionHome(){
         $now =date("Y-m-d H:i:s");
+        //destacadas publicas
         $rtrn = Auction::select('auctions.*')
             ->join('batches','auctions.batch_id','=','batches.id')
             ->join('arrives','batches.arrive_id','=','arrives.id')
@@ -289,9 +290,20 @@ class Auction extends Model
             ->where('auctions.type','=',self::AUCTION_PUBLIC)
             ->where('active','=',self::ACTIVE)
             ->orderBy('end','asc');
-        $rtrn2=array();
         $rtrn=$rtrn->paginate();
+        //finalizadas publicas
+        $rtrn3 = Auction::select('auctions.*')
+            ->join('batches','auctions.batch_id','=','batches.id')
+            ->join('arrives','batches.arrive_id','=','arrives.id')
+            ->join('port','arrives.port_id','=','port.id')
+            ->where('end','<',$now)
+            ->where('auctions.type','=',self::AUCTION_PUBLIC)
+            ->where('active','=',self::ACTIVE)
+            ->orderBy('end','desc');
+        $rtrn3=$rtrn3->paginate();
+        $rtrn2=array();$rtrn4=array();
         if(isset(Auth::user()->id)){
+            //destacadas privadas
             $rtrn2 = Auction::select('auctions.*')
                 ->join('batches','auctions.batch_id','=','batches.id')
                 ->join('auctions_invites','auctions.id','=','auctions_invites.auction_id')
@@ -302,10 +314,19 @@ class Auction extends Model
                 ->where('auctions_invites.user_id','=',Auth::user()->id)
                 ->orderBy('end','asc');
             $rtrn2=$rtrn2->paginate();
+            //finalizadas privadas
+            $rtrn4= Auction::select('auctions.*')
+                ->join('batches','auctions.batch_id','=','batches.id')
+                ->join('auctions_invites','auctions.id','=','auctions_invites.auction_id')
+                ->where('end','<',$now)
+                ->where('active','=',self::ACTIVE)
+                ->where('auctions.type','=',self::AUCTION_PRIVATE)
+                ->where('auctions_invites.user_id','=',Auth::user()->id)
+                ->orderBy('end','desc');
+            $rtrn4=$rtrn4->paginate();
         }
 
-
-        return array($rtrn,$rtrn2);
+        return array($rtrn,$rtrn2,$rtrn3,$rtrn4);
     }
 
 

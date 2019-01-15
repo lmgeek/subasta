@@ -69,8 +69,8 @@
 										case 'medium':$calibre='Mediano';break;
 										case 'big':$calibre='Grande';break;
 									}?>
-								<input type="checkbox" id="Caliber{{$valor}}" onclick="auctionListFilter()" class="AuctionListFilter" data-field="caliber" data-value="{{$key}}">
-								<label for="Caliber{{$valor}}"><span class="checkbox-icon"></span> {{$calibre}} ({{$valor}})</label>
+								<input type="checkbox" id="Caliber{{$key}}" onclick="auctionListFilter()" class="AuctionListFilter" data-field="caliber" data-value="{{$key}}">
+								<label for="Caliber{{$key}}"><span class="checkbox-icon"></span> {{$calibre}} ({{$valor}})</label>
 								@endforeach
 							</div>
 						</div>
@@ -79,7 +79,7 @@
 						<div class="sidebar-widget">
 							<h3>Calidad</h3>
 							<div class="checkbox">
-								<input type="checkbox" id="chekcbox9"  onclick="auctionListFilter()" class="AuctionListFilter" data-field="product" data-value="1" >
+								<input type="checkbox" id="chekcbox9"  onclick="auctionListFilter()" class="AuctionListFilter" data-field="quality" data-value="1" >
 								<label for="chekcbox9"><span class="checkbox-icon"></span> <div class="star-rating" data-rating="1"></div></label>
 								<input type="checkbox" id="chekcbox10" onclick="auctionListFilter()" class="AuctionListFilter" data-field="quality" data-value="2">
 								<label for="chekcbox10"><span class="checkbox-icon"></span> <div class="star-rating" data-rating="2"></div></label>
@@ -133,6 +133,7 @@
 							</div>
 						</div>
 					</div><div class="tasks-list-container margin-top-35"  id="Auctions">
+
 					@if(count($auctions)>0)
 						<?php
 						function cmp($a, $b){

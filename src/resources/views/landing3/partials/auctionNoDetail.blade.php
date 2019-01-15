@@ -1,11 +1,11 @@
 <?php $userId = $auction->batch->arrive->boat->user->id;
 
 $userRating=(($userrating[$userId]/20))?1:round(($userrating[$userId]/20),0,PHP_ROUND_HALF_UP)?>
-<div id="Auction_<?=$auction->id?>" class="task-listing auction" data-id="{{$auction->id}}" data-price="{{$price[$auction->id]}}"
+<div id="Auction_<?=$auction->id?>" class="task-listing <?=(empty($finished))?'auction':''?>" data-id="{{$auction->id}}" data-price="{{$price[$auction->id]}}"
 <?=(isset($nopic))?('data-port="'.$ports[$auction->batch->arrive->port_id]['name'].'"
 data-product="'.$auction->batch->product->name.'"
 data-caliber="'.$auction->batch->caliber.'"
-data-quality="'.$auction->batch->quality.'"
+data-quality="'.(($auction->batch->quality<1)?1:$auction->batch->quality).'"
 data-user="'.$auction->batch->arrive->boat->user->nickname.'"
 data-userrating="'.$userRating.'"'):''?>>
 <?php
@@ -16,6 +16,7 @@ switch ($auction->batch->caliber){
     case 'medium':$calibre='mediano';break;
     case 'big':$calibre='grande';break;
 }
+
 ?>
 <!-- Auction Listing Details -->
     <div class="task-listing-details">
@@ -68,7 +69,8 @@ switch ($auction->batch->caliber){
                 $cantofertas=count($auction->bids);
                 ?>
                 <p> <div id="auctionAvailability{{$auction->id}}" style="display: inline-block!important;font-weight: bold"><small style="font-weight: 400">Disponibilidad:</small> {{$disponible}} <small>de</small> {{$total}} kg</div> <br>
-                @if($cantofertas>0)
+                @if(empty($finished))
+                    @if($cantofertas>0)
                     <small class="green fw700"><i class="icon-material-outline-local-offer green"></i>
                         {{$cantofertas}} Ofertas Directas
                     </small>
@@ -76,49 +78,54 @@ switch ($auction->batch->caliber){
                     </p>
                     <div class="pricing-plan-label billed-monthly-label red"><strong class="red" id="Price{{$auction->id}}">${{$price[$auction->id]}}</strong>/ kg<br>
                         <small class="red fw500" id="ClosePrice{{$auction->id}}" style="display: none;">&iexcl;Cerca del precio l&iacute;mite!</small></div>
-                    <div id="timer<?=$auction->id?>" class="countdown margin-bottom-0 margin-top-20 blink_me timerauction" data-timefin="{{$auction->end}}" data-id="{{$auction->id}}"></div>
-            </div>
-            <div  id="OpenerPopUpCompra{{$auction->id}}">
-                <div class="w100">
-                @can('canBid', \App\Auction::class)
-                    <div class="">
-                    @if ($disponible > 0)
-                        <a
-                        @if(Auth::user()->status != "approved")
-                            href="#" onclick="notifications(0,null,null,null,'Usuario no aprobado')"
-                        @else
-                            <? if (Auth::user()->type == \App\User::VENDEDOR){ ?>
-                            href="#" onclick="notifications(0,null,null,null,'Los vendedores no pueden participar en subastas')"
-                            <? } else {?>
-                            href="#small-dialog-compra-{{$auction->id}}" class="button ripple-effect popup-with-zoom-anim w100"
-                            <? } ?>
-                        @endif
-                        >Comprar</a>
-                    @endif
-                    </div>
-                @else
-                    <? if (Auth::user()){ ?>
-                    <a
-                        @if(Auth::user()->status != "approved")
-                        href="#" onclick="notifications(0,null,null,null,'Usuario no aprobado')"
-                        @else
-                            <? if (Auth::user()->type == \App\User::VENDEDOR){ ?>
-                        href="#" onclick="notifications(0,null,null,null,'Los vendedores no pueden participar en subastas')"
-                            <? } else {?>
-                        href="#small-dialog-compra-{{$auction->id}}" class="button ripple-effect popup-with-zoom-anim w100"
-                            <? } ?>
-                        @endif
-                    >Comprar</a>
-                    <? } else { ?>
-                    <a href="{{ url('/auction') }}" class="button">Comprar</a>
-                    <? } ?>
-                @endcan
 
-                    {{--<a href="#small-dialog-compra-{{$auction->id}}" class="button ripple-effect popup-with-zoom-anim w100">Comprar</a>--}}
-                </div>
-                <div class="w100 text-center margin-top-5 t14">o puedes <a href="#small-dialog-oferta" class="sign-in popup-with-zoom-anim">realizar una oferta</a></div>
+                    @endif
+                        <div id="timer<?=$auction->id?>" class="countdown margin-bottom-0 margin-top-20 blink_me <?=(empty($finished))?'timerauction':''?>" data-timefin="{{$auction->end}}" data-id="{{$auction->id}}">
+                            <?=(isset($finished))?'Finalizada!':''?></div>
             </div>
+            @if(empty($finished))
+                <div  id="OpenerPopUpCompra{{$auction->id}}">
+                    <div class="w100">
+                    @can('canBid', \App\Auction::class)
+                        <div class="">
+                        @if ($disponible > 0)
+                            <a
+                            @if(Auth::user()->status != "approved")
+                                href="#" onclick="notifications(0,null,null,null,'Usuario no aprobado')"
+                            @else
+                                <? if (Auth::user()->type == \App\User::VENDEDOR){ ?>
+                                href="#" onclick="notifications(0,null,null,null,'Los vendedores no pueden participar en subastas')"
+                                <? } else {?>
+                                href="#small-dialog-compra-{{$auction->id}}" class="button ripple-effect popup-with-zoom-anim w100"
+                                <? } ?>
+                            @endif
+                            >Comprar</a>
+                        @endif
+                        </div>
+                    @else
+                        <? if (Auth::user()){ ?>
+                        <a
+                            @if(Auth::user()->status != "approved")
+                            href="#" onclick="notifications(0,null,null,null,'Usuario no aprobado')"
+                            @else
+                                <? if (Auth::user()->type == \App\User::VENDEDOR){ ?>
+                            href="#" onclick="notifications(0,null,null,null,'Los vendedores no pueden participar en subastas')"
+                                <? } else {?>
+                            href="#small-dialog-compra-{{$auction->id}}" class="button ripple-effect popup-with-zoom-anim w100"
+                                <? } ?>
+                            @endif
+                        >Comprar</a>
+                        <? } else { ?>
+                        <a href="{{ url('/auction') }}" class="button">Comprar</a>
+                        <? } ?>
+                    @endcan
+
+                        {{--<a href="#small-dialog-compra-{{$auction->id}}" class="button ripple-effect popup-with-zoom-anim w100">Comprar</a>--}}
+                    </div>
+                    <div class="w100 text-center margin-top-5 t14">o puedes <a href="#small-dialog-oferta" class="sign-in popup-with-zoom-anim">realizar una oferta</a></div>
+                </div>
+                @include('landing3/partials/pop-up-compra')
+            @endif
         </div>
     </div>
 </div>
-@include('landing3/partials/pop-up-compra')
