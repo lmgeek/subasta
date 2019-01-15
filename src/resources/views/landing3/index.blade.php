@@ -102,7 +102,7 @@
                     <div class="section-headline margin-top-0 margin-bottom-35">
                         <h2>Subastas destacadas</h2>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        <a href="subastas-list.php" class="headline-link">Ver todas las subastas</a>
+                        <a href="/subastas" class="headline-link">Ver todas las subastas</a>
                     </div>
                 <?php $contadorsubastasdestacadas=0;?>
 
@@ -122,85 +122,7 @@
 
                         <!-- Auction Listing -->
 
-                        <div id="Auction_<?=$auction->id?>" class="task-listing auction" data-id="{{$auction->id}}">
-                            <?php
-                            setlocale(LC_TIME,'es_ES');
-                            $fechafin=strftime('%d %b %Y', strtotime($auction->end));
-                            switch ($auction->batch->caliber){
-                                case 'small':$calibre='chico';break;
-                                case 'medium':$calibre='mediano';break;
-                                case 'big':$calibre='grande';break;
-                            }
-                            ?>
-                            <!-- Auction Listing Details -->
-                            <div class="task-listing-details">
-                                <!-- Photo -->
-                                <div class="task-listing-photo">
-                                    <img src="{{ asset('/img/products/'.$auction->batch->product->image_name) }}" alt="{{$auction->batch->product->name}}">
-                                </div>
-                                <!-- Details -->
-                                <div class="task-listing-description">
-                                    <h3 class="task-listing-title">
-                                        <a href="subasta.php">{{$auction->batch->product->name}} {{$calibre}}</a>
-                                        <div class="star-rating" data-rating="{{$auction->batch->quality}}"></div>
-                                        @if($auction->type!='public')
-                                            <i class="t16 icon-feather-eye-off" data-tippy-placement="right" title="Subasta Privada" data-tippy-theme="dark"></i></h3>
-                                        @endif
-                                    </h3>
-
-
-                                    <ul class="task-icons">
-                                        <li><i class="icon-material-outline-access-time primary"></i><strong class="primary">{{$fechafin}}</strong></li>
-                                        <li><i class="icon-material-outline-location-on"></i> {{$ports[$auction->batch->arrive->port_id]['name']}}</li>
-                                    </ul>
-                                    <p class="task-listing-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                    <ul class="task-icons margin-top-20">
-                                        <?php $userId = $auction->batch->arrive->boat->user->id;?>
-                                        <li>
-                                            <small>Vendedor</small><br>
-                                            <strong>
-                                                <i class="icon-feather-user"></i> {{$auction->batch->arrive->boat->user->nickname}}
-                                            </strong><br>
-                                            <div class="medal-rating {{strtolower($usercat[$userId])}}" data-rating="{{$usercat[$userId]}}"><span class="medal {{$usercat[$userId]}}-text"></span></div>
-                                            </li>
-                                        <li><small>Barco</small><br><strong><i class="icon-line-awesome-ship"></i> {{$auction->batch->arrive->boat->nickname}}</strong><br>
-                                            <div class="star-rating" data-rating="<?=(isset($userRating[$userId]))?round(($userRating[$userId]/20),1,PHP_ROUND_HALF_UP):''?>"></div></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="task-listing-bid">
-                                <div class="task-listing-bid-inner">
-                                    <div class="task-offers">
-                                        <?php
-                                        $vendido = 0;
-                                        foreach ($auction->bids()->where('status','<>',\App\Bid::NO_CONCRETADA)->get() as $b) {
-                                            $vendido+= $b->amount;
-                                        }
-                                        $total = $auction->amount;
-                                        $disponible = ($total-$vendido);
-                                        $cantofertas=count($auction->bids);
-                                        ?>
-                                        <p><small>Disponibilidad:</small> <strong>{{$disponible}} <small>de</small> {{$total}} kg</strong><br>
-                                            @if($cantofertas>0)
-                                            <small class="green fw700"><i class="icon-material-outline-local-offer green"></i>
-                                                {{$cantofertas}} Ofertas Directas
-                                            </small>
-                                            @endif
-                                        </p>
-                                        <div class="pricing-plan-label billed-monthly-label red"><strong class="red" id="Price{{$auction->id}}">${{$price[$auction->id]}}</strong>/ kg<br>
-                                            <small class="red fw500" id="ClosePrice{{$auction->id}}" style="display: none;">&iexcl;Cerca del precio l&iacute;mite!</small></div>
-                                        <div id="timer<?=$auction->id?>" class="countdown margin-bottom-0 margin-top-20 blink_me timerauction" data-timefin="{{$auction->end}}" data-id="{{$auction->id}}"></div>
-                                    </div>
-                                    <div  id="OpenerPopUpCompra{{$auction->id}}">
-                                        <div class="w100">
-                                            <a href="#small-dialog-compra-{{$auction->id}}" class="button ripple-effect popup-with-zoom-anim w100">Comprar</a>
-                                        </div>
-                                        <div class="w100 text-center margin-top-5 t14">o puedes <a href="#small-dialog-oferta" class="sign-in popup-with-zoom-anim">realizar una oferta</a></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                                @include('landing3/partials/pop-up-compra')
+                                @include('/landing3/partials/auctionNoDetail')
                             @endif
                         @endforeach
                         @endif
@@ -383,9 +305,7 @@
         </div>
     </div>
     <!-- Featured Auctions / End -->
-    <div id="notificationsauction">
-
-    </div>
+    <div id="notificationsauction"></div>
 
     <!-- Features Ports -->
     <div class="section padding-top-65 padding-bottom-65 bd-bt-1">
@@ -541,161 +461,6 @@
 <!-- Scripts
 ================================================== -->
 @include('landing3/partials/js')
-<style type="text/css">
-    #notificationsauction{
-        margin: 10px;
-        padding: 10px;
-        width: calc(20% - 20px);
-        position:fixed;
-        top: 80px;
-        right: 0px;
-        z-index: 999;
-    }
-    .notificationauction {
-        width: calc(100% - 20px);
-        -webkit-border-radius: 10px;
-        -moz-border-radius: 10px;
-        border-radius: 10px;
-        border-width: 1px;
-        border-style: solid;
-        padding: 10px;
-        margin: 10px 0px;
-        -webkit-box-shadow: 4px 2px 5px -1px rgba(0, 0, 0, 0.75);
-        -moz-box-shadow: 4px 2px 5px -1px rgba(0, 0, 0, 0.75);
-        box-shadow: 4px 2px 5px -1px rgba(0, 0, 0, 0.75);
-        opacity: 0.5;
-        height:150px;
-    }
-    .notificationauction:hover{
-        opacity: 1;
-
-    }
-    .notificationauction >.notificationicon{
-        display:inline-block;
-        position:relative;
-        width: 50px;
-        top:50%;
-        transform: translateY(-50%);
-    }
-    .notificationauction > .notificationcontent{
-        display: inline-block;
-        position:relative;
-        top:50%;
-        transform: translateY(-50%);
-
-    }
-    .notificationauction.error{
-        border-color: #8b0008!important;
-        background-color: #8b4242!important;
-        color: #ffffff !important;
-    }
-    .notificationauction.success{
-        border-color: #00ff00!important;
-        background-color: #00a200!important;
-        color: #ffffff !important;
-    }
-    @media screen and (max-width:768px){
-        #notificationsauction{
-            width: calc(100% - 20px);
-            margin: 10px;
-            padding: 10px;
-            bottom: 0px;
-            top: auto;
-        }
-    }
-</style>
-<script>
-    function timer($id) {
-        window['dateend']= new Date($("#timer"+$id).attr('data-timefin'));
-        var countDownDate = new Date($("#"+$id).attr('data-timefin')).getTime();
-        var now = new Date().getTime();
-        var distance = window['dateend']- now,string='';
-        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        if(days!=0){string+=days+'d ';}
-        if(hours!=0 || days!=0){string+=hours+'h ';}
-        if(minutes!=0 || hours!=0 || days!=0){string+=minutes+'m ';}
-        string+=seconds+'s';
-        document.getElementById('timer'+$id).innerHTML = string;
-        if (distance < 0) {
-            document.getElementById('timer'+$id).innerHTML = "¡Finalizada!";
-            $('#OpenerPopUpCompra'+$id).remove();
-            $('#Auction_'+$id).addClass('bg-disabled');
-            $('#ClosePrice'+$id).html('Precio Final');
-            var $html='<div id="Auction_'+$id+'" class="task-listing auction bg-disabled" style="display:none"data-id="'+$id+'">'+$('#Auction_'+$id).html()+'</div>'+$('#FinishedAuctions').html();
-            $('#Auction_'+$id).fadeOut();
-            setTimeout(function(){$('#Auction_'+$id).remove();},400);
-            $('#FinishedAuctions').html($html);
-            $('#Auction_'+$id+' .pricing-plan-label .billed-monthly-label').removeClass('red');
-            $('#Auction_'+$id+' .icon-material-outline-access-time').removeClass('primary');
-            setTimeout(function(){$('#Auction_'+$id).fadeIn();},400);
-            if($('#FinishedAuctions > .task-listing').length>3){
-                $("#FinishedAuctions").children('.task-listing').last().remove();
-            }
-        }else{
-            setTimeout(function(){timer($id);},1000);
-        }
-    }
-    function notifications($type,$product=null,$price=null,$quantity=null,$text=null){
-        if($type==1){
-            $html='<div class="notificationauction success"><div class="notificationicon"><i class="icon-line-awesome-check"></i></div><div class="notificationcontent">' +
-                'Su compra se ha realizado con exito' +
-                '</div></div>'
-        }else{
-            $html='<div class="notificationauction success">\n' +
-                '            <div class="notificationicon">\n' +
-                '                <i class="icon-line-awesome-check"></i>\n' +
-                '            </div>\n' +
-                '            <div class="notificationcontent">\n' +
-                '                success\n' +
-                '            </div>\n' +
-                '        </div>'
-        }
-    }
-    function makeBid($id){
-
-        $.get("/makeBid?auction_id="+$id + "&amount="+$('#cantidad-'+$id).val(),function(result){
-
-        }).fail(function(){
-
-        });
-    }
-
-
-    function getInfo($id){
-        $.get('calculateprice?i=c&auction_id='+$id,function(result){
-            $result=JSON.parse(result);
-            $('#Price'+$id).html("$"+$result['price']);
-            $('#PricePopUp'+$id).html("$"+$result['price']+" <small>x kg</small>")
-            $('#timer'+$id).attr('data-timefin',$result['end']);
-            if($result['close']==1){
-                $('#ClosePrice'+$id).fadeIn();
-            }else{
-                $('#ClosePrice'+$id).fadeOut();
-            }
-
-        });
-        setTimeout(function(){getInfo($id)},10000);
-    }
-    function popupCompraDisableText($id) {
-        if($('#checkbox'+$id).is(':checked')){
-            $('#cantidad-'+$id).attr('disabled','true');
-            $('#cantidad-'+$id).val($('#cantidad-'+$id).attr('max'));
-        }else{
-            $('#cantidad-'+$id).removeAttr('disabled');
-        }
-    }
-    $(document).ready(function(){
-        $('.timerauction').each(function(){
-           timer($(this).data('id'))
-        });
-        $('.auction').each(function(){
-            getInfo($(this).data('id'))
-        })
-    });
-</script>
 <script type="text/javascript">
     // window.onload = setTimeout(swapDiv, 9000);
     // window.onload = setTimeout(swapDiv2, 18000);
