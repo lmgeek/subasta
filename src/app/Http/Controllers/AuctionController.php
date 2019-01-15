@@ -753,18 +753,9 @@ class AuctionController extends Controller
         return view('landing',compact('auctions','status','products','sellers','request','boats','userRating','type'));
         //return view('/landing3/index',compact('auctions','status','products','sellers','request','boats','userRating','type'));
     }
-
-    public function subastasDestacadasHome($return=null){
-        $auctions=array();
-        $auctions1 = Auction::auctionHome()[0];
-        $userRating =  array();$usercat=array();$price=array();$port=array();
-        $products = Product::Select()->get();
-        $sellers = User::filter(null, array(User::VENDEDOR), array(User::APROBADO));
-        $buyers = User::filter(null, array(User::COMPRADOR), array(User::APROBADO));
-        $boats = Boat::Select()->get();
-        $ports = Ports::Select()->get();
-        $userRating =  array();$usercat=array();$port=array();$products=array();$calibers=array();$users=array();
-        foreach($auctions1 as $a) {
+    public function getAuctionsDataForHome($auctions,$return){
+        $auctionsreturn=array();$userRating =  array();$usercat=array();$port=array();$products=array();$calibers=array();$users=array();$price=array();
+        foreach($auctions as $a) {
             $bids = Bid::where('auction_id', $a->id)->get();
             $availability = $a->amount;
             $amounts = 0;
@@ -779,88 +770,136 @@ class AuctionController extends Controller
                 $userRating[$user->id] = ($ratings != null and $total > 0) ? (round(($ratings->positive * 100) / $total, 2)) : 0;
                 $usercat[$user->id] = Auction::catUserByAuctions($user->id);
                 $price[$a->id] = $this->calculatePriceID($a->id);
-
-                $auctions[] = $a;
+                $auctionsreturn[] = $a;
                 if ($return != null) {
-                    if (isset($caliber[$a->batch->caliber]['cant'])) {
-                        $calibers[$a->batch->caliber]++;
-                    } else {
-                        $calibers[$a->batch->caliber] = 1;
-                    }
-                    if (isset($users[$user->id])) {
-                        $users[$user->id]['cant']++;
-                    } else {
-                        $users[$user->id] = array(
-                            'cant' => 1,
-                            'nickname' => $user->nickname
-                        );
-                    }
-                    if (isset($port[$a->batch->arrive->port_id]['cant'])) {
-                        $port[$a->batch->arrive->port_id]['cant']++;
-                    } else {
-                        $port[$a->batch->arrive->port_id] = array(
-                            'name' => $ports[$a->batch->arrive->port_id]->name,
-                            'cant' => 1
-                        );
-                    }
-                    if (isset($products[$a->batch->product->name]['cant'])) {
-                        $products[$a->batch->product->name]['cant']++;
-                    } else {
-                        $products[$a->batch->product->name] = array(
-                            'id' => $a->batch->product->id,
-                            'cant' => 1
-                        );
-                    }
+
+                }
+                if (isset($caliber[$a->batch->caliber]['cant'])) {
+                    $calibers[$a->batch->caliber]++;
+                } else {
+                    $calibers[$a->batch->caliber] = 1;
+                }
+                if (isset($users[$user->id])) {
+                    $users[$user->id]['cant']++;
+                } else {
+                    $users[$user->id] = array(
+                        'cant' => 1,
+                        'nickname' => $user->nickname
+                    );
+                }
+                if (isset($port[$a->batch->arrive->port_id]['cant'])) {
+                    $port[$a->batch->arrive->port_id]['cant']++;
+                } else {
+                    $ports = Ports::Select('port.name')->where('port.id','=',$a->batch->arrive->port_id)->get();
+                    $port[$a->batch->arrive->port_id] = array(
+                        'name' => $ports[0]['name'],
+                        'cant' => 1
+                    );
+
+                }
+                if (isset($products[$a->batch->product->name]['cant'])) {
+                    $products[$a->batch->product->name]['cant']++;
+                } else {
+                    $products[$a->batch->product->name] = array(
+                        'id' => $a->batch->product->id,
+                        'cant' => 1
+                    );
                 }
             }
         }
+        return array(
+            'auctions'=>$auctionsreturn,
+            'products'=>$products,
+            'ports'=>$port,
+            'calibers'=>$calibers,
+            'users'=>$users,
+            'usercat'=>$usercat,
+            'userrating'=>$userRating,
+            'prices'=>$price
+        );
+    }
+    public function subastasDestacadasHome($return=null){
+        $auctions=array();$finishedauctions=array();
+        $auctions1 = Auction::auctionHome()[0];
         $auctions2 = Auction::auctionHome()[1];
-        foreach($auctions2 as $a) {
-            $user = $a->batch->arrive->boat->user;
-            $ratings = $user->rating;
-            $total = ($ratings!=null)?($ratings->positive + $ratings->negative + $ratings->neutral):0;
-            $userRating[$user->id]= ($ratings!=null)?(round(($ratings->positive*100)/$total , 2)):0;
-            $usercat[$user->id]=Auction::catUserByAuctions($user->id);
-            //$port[$a->id]=$ports[$a->batch->arrive->port_id]->name;
-            $price[$a->id]=$this->calculatePriceID($a->id);
-            $auctions[]=$a;
-            if($return!=null){
-                if(isset($caliber[$a->batch->caliber]['cant'])){
-                    $calibers[$a->batch->caliber]++;
+        $auctions3 = Auction::auctionHome()[2];
+        $auctions4 = Auction::auctionHome()[3];
+        $userRating =  array();$usercat=array();$price=array();$port=array();
+        $products = Product::Select()->get();
+        $sellers = User::filter(null, array(User::VENDEDOR), array(User::APROBADO));
+        $buyers = User::filter(null, array(User::COMPRADOR), array(User::APROBADO));
+        $boats = Boat::Select()->get();
+
+        $userRating =  array();$usercat=array();$port=array();$products=array();$calibers=array();$users=array();
+        $auctiondetails1=$this->getAuctionsDataForHome($auctions1,$return);
+        $auctiondetails2=$this->getAuctionsDataForHome($auctions2,$return);
+        $auctiondetails3=$this->getAuctionsDataForHome($auctions3,$return);
+        $auctiondetails4=$this->getAuctionsDataForHome($auctions4,$return);
+        for($z=1;$z<=4;$z++){
+            $var="auctiondetails$z";
+            foreach(${$var}['auctions'] as $item){
+                if($z<3){
+                    $auctions[]=$item;
                 }else{
-                    $calibers[$a->batch->caliber]=1;
+                    $finishedauctions[]=$item;
                 }
-                if(isset($users[$user->id])){
-                    $users[$user->id]['cant']++;
-                }else{
-                    $users[$user->id]=array(
-                        'cant'=>1,
-                        'nickname'=>$user->nickname
-                    );
+            }
+
+            if($return!=null) {
+                if($z<=3){
+                    foreach (${$var}['products'] as $item => $val) {
+                        $products[$item] = $val;
+                    }
+                    foreach (${$var}['ports'] as $item => $val) {
+                        $port[$item] = $val;
+                    }
+                    foreach (${$var}['calibers'] as $item => $val) {
+                        $calibers[$item] = $val;
+                    }
+                    foreach (${$var}['users'] as $item => $val) {
+                        $users[$item] = $val;
+                    }
+                    foreach (${$var}['usercat'] as $item => $val) {
+                        $usercat[$item] = $val;
+                    }
+                    foreach (${$var}['userrating'] as $item => $val) {
+                        $userRating[$item] = $val;
+                    }
+                    foreach (${$var}['prices'] as $item => $val) {
+                        $price[$item] = $val;
+                    }
                 }
-                if(isset($port[$a->batch->arrive->port_id]['cant'])){
-                    $port[$a->batch->arrive->port_id]['cant']++;
-                }else{
-                    $port[$a->batch->arrive->port_id]=array(
-                        'name'=>$ports[$a->batch->arrive->port_id]->name,
-                        'cant'=>1
-                    );
+
+            }else{
+                foreach (${$var}['products'] as $item => $val) {
+                    $products[$item] = $val;
                 }
-                if(isset($products[$a->batch->product->name]['cant'])){
-                    $products[$a->batch->product->name]['cant']++;
-                }else{
-                    $products[$a->batch->product->name]=array(
-                        'id'=>$a->batch->product->id,
-                        'cant'=>1
-                    );
+                foreach (${$var}['ports'] as $item => $val) {
+                    $port[$item] = $val;
+                }
+                foreach (${$var}['calibers'] as $item => $val) {
+                    $calibers[$item] = $val;
+                }
+                foreach (${$var}['users'] as $item => $val) {
+                    $users[$item] = $val;
+                }
+                foreach (${$var}['usercat'] as $item => $val) {
+                    $usercat[$item] = $val;
+                }
+                foreach (${$var}['userrating'] as $item => $val) {
+                    $userRating[$item] = $val;
+                }
+                foreach (${$var}['prices'] as $item => $val) {
+                    $price[$item] = $val;
                 }
             }
         }
         if($return==null){
             return view('/landing3/index')
                 ->withAuctions($auctions)
+                ->withAuctionsf($finishedauctions)
                 ->withUserrating($userRating)
-                ->withPorts($ports)
+                ->withPorts($port)
                 ->withUsercat($usercat)
                 ->withPrice($price)
                 ->withBoats($boats)

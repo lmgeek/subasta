@@ -15,7 +15,10 @@
     ================================================== -->
 @include('landing3/partials/header')
 <!-- Header Container / End -->
-
+<?php
+                            function cmp($a, $b){
+                                return strcmp($a["end"], $b["end"]);
+                            }?>
     <!-- Intro Banner
     ================================================== -->
     <!-- add class "disable-gradient" to enable consistent background overlay -->
@@ -46,9 +49,7 @@
                             <label for="where-input" class="field-title ripple-effect bg-secondary-light">&iquest;Qu&eacute; puerto prefieres?</label>
                             <div class="input-with-icon">
                                 <select class="selectpicker" multiple title="Escoge una opción...">
-                                    @foreach($ports as $port)
-                                    <option value="{{$port->id}}">{{$port->name}}</option>
-                                    @endforeach
+
                                 </select>
 
                             </div>
@@ -104,15 +105,10 @@
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                         <a href="/subastas" class="headline-link">Ver todas las subastas</a>
                     </div>
-                <?php $contadorsubastasdestacadas=0;?>
-
-                    <!-- Auctions Container -->
+                    <?php $contadorsubastasdestacadas=0;?>
                     <div class="tasks-list-container margin-top-35"  id="FeaturedAuctions">
                         @if(count($auctions)>0)
                             <?php
-                            function cmp($a, $b){
-                                return strcmp($a["end"], $b["end"]);
-                            }
                             usort($auctions,'cmp');
                             ?>
 
@@ -126,54 +122,9 @@
                             @endif
                         @endforeach
                         @endif
-                        <!-- Auction Listing -->
-
-                        <!-- Auction Listing -->
-                        <div id="div_3" class="task-listing">
-
-                            <!-- Auction Listing Details -->
-                            <div class="task-listing-details">
-                                <!-- Photo -->
-                                <div class="task-listing-photo">
-                                    <img src="landing3/images/subastas/subasta03.jpg" alt="Calamares">
-                                </div>
-                                <!-- Details -->
-                                <div class="task-listing-description">
-                                    <h3 class="task-listing-title"><a href="subasta.php">Calamar Chico/a</a> <div class="star-rating" data-rating="4.5"></div></h3>
-                                    <ul class="task-icons">
-                                        <li><i class="icon-material-outline-access-time primary"></i><strong class="primary"> 28 Dic 2018</strong></li>
-                                        <li><i class="icon-material-outline-location-on"></i> Mar del Plata</li>
-                                    </ul>
-                                    <p class="task-listing-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                    <ul class="task-icons margin-top-20">
-                                        <li><small>Vendedor</small><br><strong><i class="icon-feather-user"></i> netlabs</strong><br><div class="medal-rating bronze" data-rating="Bronze"><span class="medal bronze-text"></span></div></li>
-                                        <li><small>Barco</small><br><strong><i class="icon-line-awesome-ship"></i> Barco II</strong><br><div class="star-rating" data-rating="3.5"></div></li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="task-listing-bid">
-                                <div class="task-listing-bid-inner">
-                                    <div class="task-offers">
-                                        <p><small>Disponibilidad:</small> <strong>2 <small>de</small> 40 kg</strong><br><small class="green fw700"><i class="icon-material-outline-local-offer green"></i> 2 Ofertas Directas</small></p>
-                                        <div class="pricing-plan-label billed-monthly-label red"><strong class="red" id="precio_1">$100</strong>/ kg<br><small class="red fw500">&iexcl;Cerca del precio l&iacute;mite!</small></div>
-                                        <div id="timer3" class="countdown green margin-bottom-0 margin-top-20"></div>
-                                    </div>
-                                    <div class="w100">
-                                        <a href="#small-dialog-compra" class="button ripple-effect popup-with-zoom-anim w100">Comprar</a>
-                                    </div>
-                                    <div class="w100 text-center margin-top-5 t14">o puedes <a href="#small-dialog-oferta" class="sign-in popup-with-zoom-anim">realizar una oferta</a></div>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
-
-                    <!-- Auctions Container / End -->
-
                 </div>
             </div>
-
             <!-- Finalizadas -->
             <div class="row margin-top-35">
                 <div class="col-xl-12">
@@ -185,116 +136,19 @@
                     </div>
 
                     <!-- Auctions Container -->
-                    <div class="tasks-list-container margin-top-35" id="FinishedAuctions">
+                    <div class="tasks-list-container margin-top-35 bg-disabled" id="FinishedAuctions">
 
-                        <!-- Auction Listing -->
-                        <div id="div_4" class="task-listing bg-disabled">
+                    @if(count($auctionsf)>0)
+                        <?php $contadorsubastasdestacadas=0;$finished=1;usort($auctionsf,'cmp');
+                        ?>
+                        @foreach($auctionsf as $auction)
+                            @if($contadorsubastasdestacadas<3)
+                                <?php $contadorsubastasdestacadas++;?>
+                                @include('/landing3/partials/auctionNoDetail')
+                            @endif
+                        @endforeach
+                    @endif
 
-                            <!-- Auction Listing Details -->
-                            <div class="task-listing-details">
-                                <!-- Photo -->
-                                <div class="task-listing-photo">
-                                    <img src="landing3/images/subastas/subasta01.jpg" alt="Camarones">
-                                </div>
-                                <!-- Details -->
-                                <div class="task-listing-description">
-                                    <h3 class="task-listing-title"><a href="subasta.php">Lote de Caballa tierna</a> <div class="star-rating" data-rating="3.5"></div></h3>
-                                    <ul class="task-icons">
-                                        <li><i class="icon-material-outline-access-time"></i><strong> 25 Ene 2019</strong></li>
-                                        <li><i class="icon-material-outline-location-on"></i> Mar del Plata</li>
-                                    </ul>
-                                    <p class="task-listing-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                    <ul class="task-icons margin-top-20">
-                                        <li><small>Vendedor</small><br><strong><i class="icon-feather-user"></i> jlopez75</strong><br><div class="medal-rating silver" data-rating="Silver"><span class="medal silver-text"></span></div></li>
-                                        <li><small>Barco</small><br><strong><i class="icon-line-awesome-ship"></i> Barco IV</strong><br><div class="star-rating" data-rating="4.9"></div></li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="task-listing-bid">
-                                <div class="task-listing-bid-inner">
-                                    <div class="task-offers">
-                                        <small>Disponibilidad:</small>
-                                        <p><strong>0 <small>de</small> 40 kg</strong></p>
-                                        <div class="pricing-plan-label"><strong id="precio_1">$100</strong>/ kg</div>
-                                        <small>Precio final.</small>
-                                        <div id="timer" class="countdown margin-bottom-0 margin-top-20">&iexcl;Finalizada!</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Auction Listing -->
-                        <div id="div_5" class="task-listing bg-disabled">
-
-                            <!-- Auction Listing Details -->
-                            <div class="task-listing-details">
-                                <!-- Photo -->
-                                <div class="task-listing-photo">
-                                    <img src="landing3/images/subastas/subasta02.jpg" alt="Cornalito">
-                                </div>
-                                <!-- Details -->
-                                <div class="task-listing-description">
-                                    <h3 class="task-listing-title"><a href="subasta.php">Oportunidad: Corvina y Raya</a> <div class="star-rating" data-rating="5.0"></div></h3>
-                                    <ul class="task-icons">
-                                        <li><i class="icon-material-outline-access-time"></i><strong class="primary"> 11 Ene 2019</strong></li>
-                                        <li><i class="icon-material-outline-location-on"></i> Mar del Plata</li>
-                                    </ul>
-                                    <p class="task-listing-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                    <ul class="task-icons margin-top-20">
-                                        <li><small>Vendedor</small><br><strong><i class="icon-feather-user"></i> gdesancho</strong><br><div class="medal-rating gold" data-rating="Gold"><span class="medal gold-text"></span></div></li>
-                                        <li><small>Barco</small><br><strong><i class="icon-line-awesome-ship"></i> Barco I</strong><br><div class="star-rating" data-rating="4.0"></div></li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="task-listing-bid">
-                                <div class="task-listing-bid-inner">
-                                    <div class="task-offers">
-                                        <small>Disponibilidad:</small>
-                                        <p><strong>0 <small>de</small> 240 kg</strong></p>
-                                        <div class="pricing-plan-label billed-monthly-label"><strong id="precio_2">$650</strong>/ kg</div>
-                                        <small>Precio final.</small>
-                                        <div id="timer2" class="countdown margin-bottom-0 margin-top-20">&iexcl;Finalizada!</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="div_6" class="task-listing bg-disabled">
-
-                            <!-- Auction Listing Details -->
-                            <div class="task-listing-details">
-                                <!-- Photo -->
-                                <div class="task-listing-photo">
-                                    <img src="landing3/images/subastas/subasta02.jpg" alt="Cornalito">
-                                </div>
-                                <!-- Details -->
-                                <div class="task-listing-description">
-                                    <h3 class="task-listing-title"><a href="subasta.php">Oportunidad: Corvina y Raya</a> <div class="star-rating" data-rating="5.0"></div></h3>
-                                    <ul class="task-icons">
-                                        <li><i class="icon-material-outline-access-time"></i><strong class="primary"> 11 Ene 2019</strong></li>
-                                        <li><i class="icon-material-outline-location-on"></i> Mar del Plata</li>
-                                    </ul>
-                                    <p class="task-listing-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                    <ul class="task-icons margin-top-20">
-                                        <li><small>Vendedor</small><br><strong><i class="icon-feather-user"></i> gdesancho</strong><br><div class="medal-rating gold" data-rating="Gold"><span class="medal gold-text"></span></div></li>
-                                        <li><small>Barco</small><br><strong><i class="icon-line-awesome-ship"></i> Barco I</strong><br><div class="star-rating" data-rating="4.0"></div></li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="task-listing-bid">
-                                <div class="task-listing-bid-inner">
-                                    <div class="task-offers">
-                                        <small>Disponibilidad:</small>
-                                        <p><strong>0 <small>de</small> 240 kg</strong></p>
-                                        <div class="pricing-plan-label billed-monthly-label"><strong id="precio_2">$650</strong>/ kg</div>
-                                        <small>Precio final.</small>
-                                        <div id="timer2" class="countdown margin-bottom-0 margin-top-20">&iexcl;Finalizada!</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                     <!-- Auctions Container / End -->
