@@ -49,7 +49,9 @@
                             <label for="where-input" class="field-title ripple-effect bg-secondary-light">&iquest;Qu&eacute; puerto prefieres?</label>
                             <div class="input-with-icon">
                                 <select class="selectpicker" multiple title="Escoge una opción...">
-
+                                    @foreach($portsall as $port)
+                                        <option value="{{$port->id}}">{{$port->name}}</option>
+                                    @endforeach
                                 </select>
 
                             </div>
@@ -109,6 +111,7 @@
                     <div class="tasks-list-container margin-top-35"  id="FeaturedAuctions">
                         @if(count($auctions)>0)
                             <?php
+
                             usort($auctions,'cmp');
                             ?>
 
@@ -173,13 +176,12 @@
                         <p>Busca las subastas m&aacute;s cercanas a tu lugar de residencia.</p>
                     </div>
                 </div>
-
                 <div class="col-xl-3 col-md-6">
                     <!-- Photo Box -->
                     <a href="#" class="photo-box" data-background-image="landing3/images/puertos/mdq.jpg">
                         <div class="photo-box-content">
                             <h3>Mar del Plata</h3>
-                            <span>66 Subastas</span>
+                            <span>{{(isset($ports[1]))?$ports[1]['cant']:0}} Subasta<?=(isset($ports[1]))?(($ports[1]['cant']!=1)?'s':''):'s'?></span>
                         </div>
                     </a>
                 </div>
@@ -189,7 +191,7 @@
                     <a href="#" class="photo-box" data-background-image="landing3/images/puertos/caba.jpg">
                         <div class="photo-box-content">
                             <h3>Buenos Aires</h3>
-                            <span>25 Subastas</span>
+                            <span>{{(isset($ports[2]))?$ports[2]['cant']:0}} Subasta<?=(isset($ports[2]))?(($ports[2]['cant']!=1)?'s':''):'s'?></span>
                         </div>
                     </a>
                 </div>
@@ -199,7 +201,7 @@
                     <a href="#" class="photo-box" data-background-image="landing3/images/puertos/madryn.jpg">
                         <div class="photo-box-content">
                             <h3>Puerto Madryn</h3>
-                            <span>12 Subastas</span>
+                            <span>{{(isset($ports[3]))?$ports[3]['cant']:0}} Subasta<?=(isset($ports[3]))?(($ports[3]['cant']!=1)?'s':''):'s'?></span>
                         </div>
                     </a>
                 </div>
@@ -209,7 +211,7 @@
                     <a href="#" class="photo-box" data-background-image="landing3/images/puertos/lavalle.jpg">
                         <div class="photo-box-content">
                             <h3>General Lavalle</h3>
-                            <span>3 Subastas</span>
+                            <span>{{(isset($ports[4]))?$ports[4]['cant']:0}} Subasta<?=(isset($ports[4]))?(($ports[4]['cant']!=1)?'s':''):'s'?></span>
                         </div>
                     </a>
                 </div>
