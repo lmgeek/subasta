@@ -478,4 +478,52 @@ class Auction extends Model
     static function getClosingAuction(){
         dd(Auction::find(66)->bids);
     }
+
+
+    /* Funcion para validar el tamaño del producto*/
+    public function caliber($caliber){
+
+        switch ($caliber){
+
+            case 'small':$calibre='chico';
+                break;
+            case 'medium':$calibre='mediano';
+                break;
+            case 'big':$calibre='grande';
+                break;
+
+        }
+        echo  $calibre;
+
+    }
+
+    //Funcion para darle formato a la fecha
+    public function formatDate($fecha){
+
+    setlocale(LC_TIME,'es_ES');
+    $fechafin = strftime('%d %b %Y', strtotime($fecha));
+
+    echo $fechafin;
+
+    }
+
+
+    //Funcion para sacar la cantidad de vendidos
+
+    public function amountSold($user_id){
+
+        $amount = Bid::Select()->where('status','<>',Bid::NO_CONCRETADA)
+            ->where('user_i','=', $user_id)
+            ->get();
+        $amount = $amount->toArray();
+
+
+
+
+        var_dump($amount);
+
+    }
+
+
+
 }
