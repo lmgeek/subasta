@@ -179,11 +179,14 @@ class AuctionController extends Controller
             $availability=$availabilityboth['availability'];
             $offerscounter=$availabilityboth['offerscounter'];
             $time=round(microtime(true) * 1000);
+            setlocale(LC_TIME,'es_ES');
+            $fechafin=strftime('%d %b %Y', strtotime($auction->end));
             return json_encode(array(
                 'id'=>$auction_id,
                 'price'=>$price,
                 'close'=>$close,
                 'end'=>$auction->end,
+                'endfriendly'=>$fechafin,
                 'availability'=>$availability,
                 'offerscounter'=>$offerscounter,
                 'currenttime'=>$time
@@ -269,7 +272,7 @@ class AuctionController extends Controller
 		}else{
             $availabilityboth=$this->getAuctionAvailability($auction_id,$auction->amount);
             $availability=$availabilityboth['availability'];
-            $offerscounter=$availabilityboth['offerscounter'];
+            $offerscounter=$availabilityboth['offerscounter']+1;
 			$bidDate = date('Y-m-d H:i:s');
 			$prices = $auction->calculatePrice($bidDate);
             $price = str_replace(",","",$prices);
@@ -835,7 +838,7 @@ class AuctionController extends Controller
     }
     public function subastasDestacadasHome($return=4)
     {
-        $auctions = array();$finishedauctions = array();$userRating =  array();$usercat=array();$port=array();$products=array();$calibers=array();$users=array();
+        $auctions = array();$finishedauctions = array();$userRating =  array();$usercat=array();$port=array();$products=array();$calibers=array();$users=array();$price=array();
         $auctions1 = Auction::auctionHome()[0];
         $auctiondetails1=$this->getAuctionsDataForHome($auctions1,$return);
         $auctions2 = Auction::auctionHome()[1];
@@ -849,6 +852,7 @@ class AuctionController extends Controller
         $sellers = User::filter(null, array(User::VENDEDOR), array(User::APROBADO));
         $buyers = User::filter(null, array(User::COMPRADOR), array(User::APROBADO));
         $boats = Boat::Select()->get();
+
         for($z=1;$z<=$return;$z++){
             $var="auctiondetails$z";
             foreach(${$var}['auctions'] as $item){
@@ -878,11 +882,13 @@ class AuctionController extends Controller
             }
         }
         if($return==4){
+            $ports=Ports::Select()->get();
             return view('/landing3/index')
                 ->withAuctions($auctions)
                 ->withAuctionsf($finishedauctions)
                 ->withUserrating($userRating)
                 ->withPorts($port)
+                ->withPortsall($ports)
                 ->withUsercat($usercat)
                 ->withPrice($price)
                 ->withBoats($boats)

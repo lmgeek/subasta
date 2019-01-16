@@ -1,7 +1,8 @@
 <?php $userId = $auction->batch->arrive->boat->user->id;
-
+$close=($price<$auction->targetprice)?1:0;
 $userRating=(($userrating[$userId]/20))?1:round(($userrating[$userId]/20),0,PHP_ROUND_HALF_UP)?>
 <div id="Auction_<?=$auction->id?>" class="task-listing <?=(empty($finished))?'auction':''?>" data-id="{{$auction->id}}" data-price="{{$price[$auction->id]}}"
+     data-end="{{$auction->end}}" data-endOrder="{{date('YmdHi',strtotime($auction->end))}}" data-close="{{$close}}"
 <?=(isset($nopic))?('data-port="'.$ports[$auction->batch->arrive->port_id]['name'].'"
 data-product="'.$auction->batch->product->name.'"
 data-caliber="'.$auction->batch->caliber.'"
@@ -38,7 +39,7 @@ switch ($auction->batch->caliber){
 
 
             <ul class="task-icons">
-                <li><i class="icon-material-outline-access-time <?=(empty($finished)?'primary':'')?>"></i><strong class="primary">{{$fechafin}}</strong></li>
+                <li><i class="icon-material-outline-access-time <?=(empty($finished)?'primary':'')?>"></i><strong class="primary" id="FriendlyDate{{$auction->id}}">{{$fechafin}}</strong></li>
                 <li><i class="icon-material-outline-location-on"></i> {{$ports[$auction->batch->arrive->port_id]['name']}}</li>
             </ul>
             <p class="task-listing-text"> <?=(strlen($auction->description)>90)?substr($auction->description,0,90).'...':$auction->description?></p>
@@ -77,7 +78,7 @@ switch ($auction->batch->caliber){
                 </p>
 
                         <div class="pricing-plan-label billed-monthly-label <?=(empty($finished)?'red':'')?>" id="PriceContainer{{$auction->id}}"><strong class="red" id="Price{{$auction->id}}">${{$price[$auction->id]}}</strong>/ kg<br>
-                            <small class="red fw500" id="ClosePrice{{$auction->id}}" style="display: none;"><?=(empty($finished))?'&iexcl;Cerca del precio l&iacute;mite!':'Precio Final'?></small></div>
+                            <small class="red fw500" id="ClosePrice{{$auction->id}}" {{($close==0)?'style="display:none"':''}}><?=(empty($finished))?'&iexcl;Cerca del precio l&iacute;mite!':'Precio Final'?></small></div>
                         <div id="timer<?=$auction->id?>" class="countdown margin-bottom-0 margin-top-20 blink_me <?=(empty($finished))?'timerauction':''?>" data-timefin="{{$auction->end}}" data-id="{{$auction->id}}">
                             <?=(isset($finished))?'Finalizada!':''?></div>
             </div>

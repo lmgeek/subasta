@@ -32,6 +32,9 @@
     position:relative;
     width: 50px;
     vertical-align: middle;
+    text-align: center;
+    top:50%;
+    transform:translateY(-50%);
 }
 .notificationauction > .notificationcontent{
     display: inline-block;

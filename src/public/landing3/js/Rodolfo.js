@@ -12,9 +12,11 @@ function endAuction($id){
     $('#PriceContainer'+$id).removeClass('red');
     $('#OffersCounter'+$id).remove();
     setTimeout(function(){$('#Auction_'+$id).fadeIn();},400);
+    orderAuctions();
     if($('#FinishedAuctions > .task-listing').length>3){
         $("#FinishedAuctions").children('.task-listing').last().remove();
     }
+
 }
 
 function timer($id) {
@@ -39,7 +41,7 @@ function timer($id) {
         string += seconds + 's';
         $('#timer'+$id).html(string);
         if (distance < 0) {
-            endAuction($id)
+            endAuction($id);
         } else {
             setTimeout(function () {
                 timer($id);
@@ -47,29 +49,42 @@ function timer($id) {
         }
     }
 }
+$cont=0;
+function orderAuction($type='Finished'){
+    $('#' + $type + "Auctions").find('.task-listing').sort(function (a, b) {
+        var $a = a.getAttribute('data-endorder'), $b = b.getAttribute('data-endorder');
+        if ($a < $b) {
+            return 1;
+        } else {
+            return -1;
+        }
+    }).appendTo($('#' + $type + "Auctions"));
+}
+function orderAuctions(){
+    orderAuction();
+    orderAuction('Featured');
+}
 function getInfo($id) {
     var d = new Date();
     var n = d.getSeconds();
-    if (n == 0 ) {
+    if (n == 0 && !$('#Auction_'+$id).hasClass('bg-disabled')) {
         $.get('calculateprice?i=c&auction_id=' + $id, function (result) {
-            $result = JSON.parse(result);
-            console.log($result);
+            var $result = JSON.parse(result);
             $('#Price' + $id).html("$" + $result['price']);
             $('#PricePopUp' + $id).html("$" + $result['price'] + " <small>x kg</small>")
             $('#timer' + $id).attr('data-timefin', $result['end']);
+            $('#FriendlyDate'+$id).html($result['endfriendly']);
+            $('#Auction_'+$id).attr('data-price',$result['price']);
+            $('#Auction_'+$id).attr('data-end',$result['end']);
             if ($result['close'] == 1) {
                 $('#ClosePrice' + $id).fadeIn();
             } else {
                 $('#ClosePrice' + $id).fadeOut();
             }
-            var $offers=$result['offerscounter'];
-            if($offers==1){
-                $('#OffersCounter'+$id).html('<i class="icon-material-outline-local-offer green"></i>'+$offers+' Oferta Directa');
-            }else if($offers>0){
-                $('#OffersCounter'+$id).html('<i class="icon-material-outline-local-offer green"></i>'+$offers+' Ofertas Directas');
-            }
+            modifyOffersCounter($id,$result['offerscounter']);
         });
     }
+    orderAuctions();
     setTimeout(function(){getInfo($id)},1000);
 }
 window['notificationCounter']=0;
@@ -96,6 +111,13 @@ function notifications($type,$product=null,$price=null,$quantity=null,$text=null
 
     window['timeoutNotification'+$idnotification]=setTimeout(function(){notifications_close($idnotification)},10000);
 }
+function modifyOffersCounter($id,$offers){
+    if($offers==1){
+        $('#OffersCounter'+$id).html('<i class="icon-material-outline-local-offer green"></i>'+$offers+' Oferta Directa');
+    }else if($offers>0){
+        $('#OffersCounter'+$id).html('<i class="icon-material-outline-local-offer green"></i>'+$offers+' Ofertas Directas');
+    }
+}
 function makeBid($id){
     $.magnificPopup.close();
     $.get("/makeBid?auction_id="+$id + "&amount="+$('#cantidad-'+$id).val(),function(result){
@@ -109,12 +131,7 @@ function makeBid($id){
             var $availability=$result['availability'];
             $('#auctionAvailability'+$id).html('<small style="font-weight: 400">Disponibilidad:</small> '+$availability+' <small>de</small> '+$result['totalAmount']+' kg');
             notifications(1,$result['product'],$result['price'],$result['amount']);
-            var $offers=$result['offerscounter'];
-            if($offers==1){
-                $('#OffersCounter'+$id).html('<i class="icon-material-outline-local-offer green"></i>'+$offers+' Oferta Directa');
-            }else if($offers>0){
-                $('#OffersCounter'+$id).html('<i class="icon-material-outline-local-offer green"></i>'+$offers+' Ofertas Directas');
-            }
+            modifyOffersCounter($id,$result['offerscounter']);
             if($availability<=0){
                 endAuction($id);
             }
@@ -164,5 +181,5 @@ $(document).ready(function(){
     if($('#MasterFilter').length>0){
         auctionListFilter();
     }
-
+    orderAuctions();
 });
