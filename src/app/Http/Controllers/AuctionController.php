@@ -929,7 +929,13 @@ class AuctionController extends Controller
     }
 
 
+    //Obtener el puerto por id
+    static public function getPortById($port_id){
 
+        $ports = Ports::Select('name')->where('id','=',$port_id)->get();
+        echo $ports[0]['name'];
+
+    }
 
 
 
