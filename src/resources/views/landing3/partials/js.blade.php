@@ -16,4 +16,4 @@
 <script src="/landing3/js/datetimepicker.js"></script>
 <script src="/landing3/js/jquery-swapsie.js"></script>
 <script src="https://unpkg.com/currency.js@1.1.4/dist/currency.min.js"></script>
-<script src="/landing3/js/Rodolfo.js"></script>
+<script src="/landing3/js/netlabs-subastas3.js"></script>
