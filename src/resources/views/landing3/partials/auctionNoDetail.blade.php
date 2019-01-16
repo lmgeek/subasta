@@ -38,7 +38,7 @@ switch ($auction->batch->caliber){
 
 
             <ul class="task-icons">
-                <li><i class="icon-material-outline-access-time primary"></i><strong class="primary">{{$fechafin}}</strong></li>
+                <li><i class="icon-material-outline-access-time <?=(empty($finished)?'primary':'')?>"></i><strong class="primary">{{$fechafin}}</strong></li>
                 <li><i class="icon-material-outline-location-on"></i> {{$ports[$auction->batch->arrive->port_id]['name']}}</li>
             </ul>
             <p class="task-listing-text"> <?=(strlen($auction->description)>90)?substr($auction->description,0,90).'...':$auction->description?></p>
@@ -70,16 +70,14 @@ switch ($auction->batch->caliber){
                 ?>
                 <p> <div id="auctionAvailability{{$auction->id}}" style="display: inline-block!important;font-weight: bold"><small style="font-weight: 400">Disponibilidad:</small> {{$disponible}} <small>de</small> {{$total}} kg</div> <br>
                 @if(empty($finished))
-                    @if($cantofertas>0)
-                    <small class="green fw700"><i class="icon-material-outline-local-offer green"></i>
-                        {{$cantofertas}} Ofertas Directas
-                    </small>
-                    @endif
-                    </p>
-                    <div class="pricing-plan-label billed-monthly-label red"><strong class="red" id="Price{{$auction->id}}">${{$price[$auction->id]}}</strong>/ kg<br>
-                        <small class="red fw500" id="ClosePrice{{$auction->id}}" style="display: none;">&iexcl;Cerca del precio l&iacute;mite!</small></div>
+                <small class="green fw700" id="OffersCounter{{$auction->id}}">
+                    <?=(($cantofertas>0)?('<i class="icon-material-outline-local-offer green"></i>'.$cantofertas.(($cantofertas>1)?' Ofertas Directas':' Oferta Directa')):'')?>
+                </small>
+                @endif
+                </p>
 
-                    @endif
+                        <div class="pricing-plan-label billed-monthly-label <?=(empty($finished)?'red':'')?>" id="PriceContainer{{$auction->id}}"><strong class="red" id="Price{{$auction->id}}">${{$price[$auction->id]}}</strong>/ kg<br>
+                            <small class="red fw500" id="ClosePrice{{$auction->id}}" style="display: none;"><?=(empty($finished))?'&iexcl;Cerca del precio l&iacute;mite!':'Precio Final'?></small></div>
                         <div id="timer<?=$auction->id?>" class="countdown margin-bottom-0 margin-top-20 blink_me <?=(empty($finished))?'timerauction':''?>" data-timefin="{{$auction->end}}" data-id="{{$auction->id}}">
                             <?=(isset($finished))?'Finalizada!':''?></div>
             </div>
