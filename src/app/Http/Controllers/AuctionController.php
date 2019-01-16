@@ -175,11 +175,18 @@ class AuctionController extends Controller
         if($request->get("i") and $request->get('i')=='c'){
             $targetprice=$auction->target_price;
             $close=($price<$targetprice)?1:0;
+            $availabilityboth=$this->getAuctionAvailability($auction_id,$auction->amount);
+            $availability=$availabilityboth['availability'];
+            $offerscounter=$availabilityboth['offerscounter'];
+            $time=round(microtime(true) * 1000);
             return json_encode(array(
                 'id'=>$auction_id,
                 'price'=>$price,
                 'close'=>$close,
-                'end'=>$auction->end
+                'end'=>$auction->end,
+                'availability'=>$availability,
+                'offerscounter'=>$offerscounter,
+                'currenttime'=>$time
             ));
         }else{
             return $price;
@@ -227,7 +234,18 @@ class AuctionController extends Controller
 
 
 	 }
-	 
+	 function getAuctionAvailability($auction_id,$amount){
+         $bids = Bid::where('auction_id' , $auction_id )->get();
+         $availability=$amount;$amounts=0;
+         foreach($bids as $bid){
+             $amounts+=$bid->amount;
+         }
+         $availability-=$amounts;
+         return array(
+             'availability'=>$availability,
+             'offerscounter'=>count($bids)
+         );
+     }
 	 public function makeBid(Request $request)
 	 {
 
@@ -249,12 +267,9 @@ class AuctionController extends Controller
 			$resp['active'] = $auction->active ;
 			
 		}else{
-            $bids = Bid::where('auction_id' , $auction_id )->get();
-            $availability=$auction->amount;$amounts=0;
-            foreach($bids as $bid){
-                $amounts+=$bid->amount;
-            }
-            $availability-=$amounts;
+            $availabilityboth=$this->getAuctionAvailability($auction_id,$auction->amount);
+            $availability=$availabilityboth['availability'];
+            $offerscounter=$availabilityboth['offerscounter'];
 			$bidDate = date('Y-m-d H:i:s');
 			$prices = $auction->calculatePrice($bidDate);
             $price = str_replace(",","",$prices);
@@ -272,10 +287,10 @@ class AuctionController extends Controller
 					$resp['amount'] = $amount;
 					$resp['price'] = $price;
 					$resp['totalAmount']=$auction->amount;
+					$resp['offerscounter']=$offerscounter;
 				}else{
-					
 					$resp['isnotavailability'] = 1;
-					$resp['availability'] = $availability;
+					$resp['availability'] = $availability-$amount;
 					$unit = $auction->batch->product->unit;
 					$product = $auction->batch->product->name;
 					$resp['unit'] = trans('general.product_units.'.$unit);
@@ -818,83 +833,51 @@ class AuctionController extends Controller
             'prices'=>$price
         );
     }
-    public function subastasDestacadasHome($return=null){
-        $auctions=array();$finishedauctions=array();
+    public function subastasDestacadasHome($return=4)
+    {
+        $auctions = array();$finishedauctions = array();$userRating =  array();$usercat=array();$port=array();$products=array();$calibers=array();$users=array();
         $auctions1 = Auction::auctionHome()[0];
+        $auctiondetails1=$this->getAuctionsDataForHome($auctions1,$return);
         $auctions2 = Auction::auctionHome()[1];
-        $auctions3 = Auction::auctionHome()[2];
-        $auctions4 = Auction::auctionHome()[3];
-        $userRating =  array();$usercat=array();$price=array();$port=array();
-        $products = Product::Select()->get();
+        $auctiondetails2=$this->getAuctionsDataForHome($auctions2,$return);
+        if ($return == 4) {
+            $auctions3 = Auction::auctionHome()[2];
+            $auctiondetails3=$this->getAuctionsDataForHome($auctions3,$return);
+            $auctions4 = Auction::auctionHome()[3];
+            $auctiondetails4=$this->getAuctionsDataForHome($auctions4,$return);
+        }
         $sellers = User::filter(null, array(User::VENDEDOR), array(User::APROBADO));
         $buyers = User::filter(null, array(User::COMPRADOR), array(User::APROBADO));
         $boats = Boat::Select()->get();
-
-        $userRating =  array();$usercat=array();$port=array();$products=array();$calibers=array();$users=array();
-        $auctiondetails1=$this->getAuctionsDataForHome($auctions1,$return);
-        $auctiondetails2=$this->getAuctionsDataForHome($auctions2,$return);
-        $auctiondetails3=$this->getAuctionsDataForHome($auctions3,$return);
-        $auctiondetails4=$this->getAuctionsDataForHome($auctions4,$return);
-        for($z=1;$z<=4;$z++){
+        for($z=1;$z<=$return;$z++){
             $var="auctiondetails$z";
             foreach(${$var}['auctions'] as $item){
-                if($z<3){
-                    $auctions[]=$item;
-                }else{
-                    $finishedauctions[]=$item;
-                }
+                $var2=($z<3)?'auctions':'finishedauctions';
+                ${$var2}[]=$item;
             }
-
-            if($return!=null) {
-                if($z<=3){
-                    foreach (${$var}['products'] as $item => $val) {
-                        $products[$item] = $val;
-                    }
-                    foreach (${$var}['ports'] as $item => $val) {
-                        $port[$item] = $val;
-                    }
-                    foreach (${$var}['calibers'] as $item => $val) {
-                        $calibers[$item] = $val;
-                    }
-                    foreach (${$var}['users'] as $item => $val) {
-                        $users[$item] = $val;
-                    }
-                    foreach (${$var}['usercat'] as $item => $val) {
-                        $usercat[$item] = $val;
-                    }
-                    foreach (${$var}['userrating'] as $item => $val) {
-                        $userRating[$item] = $val;
-                    }
-                    foreach (${$var}['prices'] as $item => $val) {
-                        $price[$item] = $val;
-                    }
-                }
-
-            }else{
-                foreach (${$var}['products'] as $item => $val) {
-                    $products[$item] = $val;
-                }
-                foreach (${$var}['ports'] as $item => $val) {
-                    $port[$item] = $val;
-                }
-                foreach (${$var}['calibers'] as $item => $val) {
-                    $calibers[$item] = $val;
-                }
-                foreach (${$var}['users'] as $item => $val) {
-                    $users[$item] = $val;
-                }
-                foreach (${$var}['usercat'] as $item => $val) {
-                    $usercat[$item] = $val;
-                }
-                foreach (${$var}['userrating'] as $item => $val) {
-                    $userRating[$item] = $val;
-                }
-                foreach (${$var}['prices'] as $item => $val) {
-                    $price[$item] = $val;
-                }
+            foreach (${$var}['products'] as $item => $val) {
+                $products[$item] = $val;
+            }
+            foreach (${$var}['ports'] as $item => $val) {
+                $port[$item] = $val;
+            }
+            foreach (${$var}['calibers'] as $item => $val) {
+                $calibers[$item] = $val;
+            }
+            foreach (${$var}['users'] as $item => $val) {
+                $users[$item] = $val;
+            }
+            foreach (${$var}['usercat'] as $item => $val) {
+                $usercat[$item] = $val;
+            }
+            foreach (${$var}['userrating'] as $item => $val) {
+                $userRating[$item] = $val;
+            }
+            foreach (${$var}['prices'] as $item => $val) {
+                $price[$item] = $val;
             }
         }
-        if($return==null){
+        if($return==4){
             return view('/landing3/index')
                 ->withAuctions($auctions)
                 ->withAuctionsf($finishedauctions)
@@ -920,7 +903,7 @@ class AuctionController extends Controller
         }
     }
     public function listaSubastas(){
-	    $all=$this->subastasDestacadasHome(1);
+	    $all=$this->subastasDestacadasHome(2);
         return view('/landing3/subastas')
             ->withAuctions($all['auctions'])
             ->withUserrating($all['userRating'])

@@ -22,6 +22,7 @@
     box-shadow: 4px 2px 5px -1px rgba(0, 0, 0, 0.75);
     opacity: 0.5;
     line-height: 1.2em;
+    cursor: pointer;
 }
 .notificationauction:hover{
     opacity: 1;
@@ -30,6 +31,7 @@
     display:inline-block;
     position:relative;
     width: 50px;
+    vertical-align: middle;
 }
 .notificationauction > .notificationcontent{
     display: inline-block;
