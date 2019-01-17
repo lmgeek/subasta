@@ -121,7 +121,12 @@ $objtAuction = new Auction();
                             function cmp($a, $b){
                                 return strcmp($a["end"], $b["end"]);
                             }
-                            usort($auctions,'cmp');
+                            if(isset($auctions)){
+                                usort($auctions,'cmp');
+                            }
+                            if(isset($auctionsf)){
+                                usort($auctionsf,'cmp');
+                            }
                             ?>
 
                         @foreach($auctions as $auction)
@@ -153,7 +158,7 @@ $objtAuction = new Auction();
                     <div class="tasks-list-container margin-top-35 bg-disabled" id="FinishedAuctions">
 
                     @if(count($auctionsf)>0)
-                        <?php $contadorsubastasdestacadas=0;$finished=1;usort($auctionsf,'cmp');
+                        <?php $contadorsubastasdestacadas=0;$finished=1;
                         ?>
                         @foreach($auctionsf as $auction)
                             @if($contadorsubastasdestacadas<3)
