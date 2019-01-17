@@ -61,7 +61,7 @@
                 </form>
 
                 <!-- Button -->
-                <button class="button margin-top-35 full-width button-sliding-icon ripple-effect" type="submit" form="apply-now-form" onclick="makeBid({{$auction->id}})")>Comprar <i class="icon-material-outline-arrow-right-alt"></i></button>
+                <button class="button margin-top-35 full-width button-sliding-icon ripple-effect" type="submit" form="apply-now-form" onclick="makeBid({{$auction->id}})">Comprar <i class="icon-material-outline-arrow-right-alt"></i></button>
 
             </div>
 
