@@ -127,7 +127,80 @@ $objtAuction = new Auction();
                         @foreach($auctions as $auction)
                             @if($contadorsubastasdestacadas<3)
                                 <?php $contadorsubastasdestacadas++;?>
-                                @include('landing3/partials/auctionNoDetail')
+
+                        <!-- Auction Listing -->
+
+                        <div id="Auction_<?=$auction->id?>" class="task-listing auction" data-id="{{$auction->id}}">
+
+                            <!-- Auction Listing Details -->
+                            <div class="task-listing-details">
+                                <!-- Photo -->
+                                <div class="task-listing-photo">
+                                    <img src="{{ asset('/img/products/'.$auction->batch->product->image_name) }}" alt="{{$auction->batch->product->name}}">
+                                </div>
+                                <!-- Details -->
+                                <div class="task-listing-description">
+                                    <h3 class="task-listing-title">
+                                        <a href="{{url('/auction/details/'.$auction->id)}}">{{$auction->batch->product->name}} <?php $objtAuction->caliber($auction->batch->caliber)?></a>
+                                        <div class="star-rating" data-rating="{{$auction->batch->quality}}"></div>
+                                        @if($auction->type!='public')
+                                            <i class="t16 icon-feather-eye-off" data-tippy-placement="right" title="Subasta Privada" data-tippy-theme="dark"></i></h3>
+                                        @endif
+                                    </h3>
+
+
+                                    <ul class="task-icons">
+                                        <li><i class="icon-material-outline-access-time primary"></i><strong class="primary">{{$objtAuction->formatDate($auction->end)}}</strong></li>
+                                        <li><i class="icon-material-outline-location-on"></i> {{$ports[$auction->batch->arrive->port_id]['name']}}</li>
+                                    </ul>
+                                    <p class="task-listing-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                    <ul class="task-icons margin-top-20">
+                                        <?php $userId = $auction->batch->arrive->boat->user->id;?>
+                                        <li>
+                                            <small>Vendedor</small><br>
+                                            <strong>
+                                                <i class="icon-feather-user"></i> {{$auction->batch->arrive->boat->user->nickname}}
+                                            </strong><br>
+                                            <div class="medal-rating {{strtolower($usercat[$userId])}}" data-rating="{{$usercat[$userId]}}"><span class="medal {{$usercat[$userId]}}-text"></span></div>
+                                            </li>
+                                        <li><small>Barco</small><br><strong><i class="icon-line-awesome-ship"></i> {{$auction->batch->arrive->boat->nickname}}</strong><br>
+                                            <div class="star-rating" data-rating="<?=(isset($userRating[$userId]))?round(($userRating[$userId]/20),1,PHP_ROUND_HALF_UP):''?>"></div></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="task-listing-bid">
+                                <div class="task-listing-bid-inner">
+                                    <div class="task-offers">
+                                        <?php
+                                        $vendido = 0;
+                                        foreach ($auction->bids()->where('status','<>',\App\Bid::NO_CONCRETADA)->get() as $b) {
+                                            $vendido+= $b->amount;
+                                        }
+                                        $total = $auction->amount;
+                                        $disponible = ($total-$vendido);
+                                        $cantofertas=count($auction->bids);
+                                        ?>
+                                        <p><small>Disponibilidad:</small> <strong>{{$disponible}} <small>de</small> {{$total}} kg</strong><br>
+                                            @if($cantofertas>0)
+                                            <small class="green fw700"><i class="icon-material-outline-local-offer green"></i>
+                                                {{$cantofertas}} Ofertas Directas
+                                            </small>
+                                            @endif
+                                        </p>
+                                        <div class="pricing-plan-label billed-monthly-label red"><strong class="red" id="Price{{$auction->id}}">${{$price[$auction->id]}}</strong>/ kg<br>
+                                            <small class="red fw500" id="ClosePrice{{$auction->id}}" style="display: none;">&iexcl;Cerca del precio l&iacute;mite!</small></div>
+                                            <div id="timer<?=$auction->id?>" class="countdown margin-bottom-0 margin-top-20 blink_me timerauction" data-timefin="{{$auction->end}}" data-id="{{$auction->id}}"></div>
+                                    </div>
+                                    <div  id="OpenerPopUpCompra{{$auction->id}}">
+                                        <div class="w100">
+                                            <a href="#small-dialog-compra-{{$auction->id}}" class="button ripple-effect popup-with-zoom-anim w100">Comprar</a>
+                                        </div>
+                                        <div class="w100 text-center margin-top-5 t14">o puedes <a href="#small-dialog-oferta" class="sign-in popup-with-zoom-anim">realizar una oferta</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                                @include('landing3/partials/pop-up-compra')
                             @endif
                         @endforeach
                         @endif
@@ -153,7 +226,7 @@ $objtAuction = new Auction();
                     <div class="tasks-list-container margin-top-35 bg-disabled" id="FinishedAuctions">
 
                     @if(count($auctionsf)>0)
-                        <?php $contadorsubastasdestacadas=0;$finished=1;usort($auctionsf,'cmp');
+                        <?php $contadorsubastasdestacadas=0;$finished=1;
                         ?>
                         @foreach($auctionsf as $auction)
                             @if($contadorsubastasdestacadas<3)
