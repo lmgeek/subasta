@@ -5,14 +5,14 @@
 @section('content')
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-9">
-            <h2>{{ trans('users.title') }}</h2>
+            <h2>{{ trans('users.title</h2>
         </div>
     </div>
     <div class="wrapper wrapper-content">
         <div class="row">
             @if ($request->session()->has('confirm_msg'))
                 <div class="alert alert-success">
-                    {{ $request->session()->get('confirm_msg') }}
+                    {{ $request->session()->get('confirm_msg
                 </div>
             @endif
             <div class="col-lg-12">
@@ -63,26 +63,26 @@
             <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>{{ trans('users.users') }}</h5>
+                        <h5>{{ trans('users.users</h5>
                     </div>
                     <div class="ibox-content">
                         <table class="table table-bordered table-hover dataTables-example">
                             <thead>
                             <tr role="row">
                                 <th class="sorting">
-                                    {{ trans('users.type') }}
+                                    {{ trans('users.type
                                 </th>
                                 <th class="sorting">
-                                    {{ trans('users.name') }}
+                                    {{ trans('users.name
                                 </th>
                                 <th class="sorting">
-                                    {{ trans('users.email') }}
+                                    {{ trans('users.email
                                 </th>
                                 <th class="sorting">
-                                    {{ trans('users.status') }}
+                                    {{ trans('users.status
                                 </th>
                                 <th>
-                                    {{ trans('users.actions.title') }}
+                                    {{ trans('users.actions.title
                                 </th>
                             </tr>
                             </thead>
@@ -103,7 +103,7 @@
                                         </td>
                                         <td>
                                             @can('seeUserDetail',Auth::user())
-                                                <a href="{{ route('users.show',$user) }}" class="btn-action">{{ trans('users.actions.view') }}</a>
+                                                <a href="{{ route('users.show',$user) }}" class="btn-action">{{ trans('users.actions.view</a>
                                             @endcan
                                         </td>
                                     </tr>
@@ -119,11 +119,11 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('/js/plugins/dataTables/jquery.dataTables.js') }}"></script>
-    <script src="{{ asset('/js/plugins/dataTables/dataTables.bootstrap.js') }}"></script>
-    <script src="{{ asset('/js/plugins/dataTables/dataTables.responsive.js') }}"></script>
-    <script src="{{ asset('/js/plugins/dataTables/dataTables.tableTools.min.js') }}"></script>
-    <script src="{{ asset('/js/plugins/chosen/chosen.jquery.js') }}"></script>
+    <script src="/js/plugins/dataTables/jquery.dataTables.js"></script>
+    <script src="/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+    <script src="/js/plugins/dataTables/dataTables.responsive.js"></script>
+    <script src="/js/plugins/dataTables/dataTables.tableTools.min.js"></script>
+    <script src="/js/plugins/chosen/chosen.jquery.js"></script>
 
     <script>
         $(document).ready(function () {
@@ -156,7 +156,7 @@
 @endsection
 
 @section('stylesheets')
-    <link href="{{ asset('/css/plugins/dataTables/dataTables.responsive.css') }}" rel="stylesheet">
-    {{--<link href="{{ asset('/css/plugins/dataTables/dataTables.tableTools.min.css') }}" rel="stylesheet">--}}
-    <link href="{{ asset('/css/plugins/chosen/chosen.css') }}" rel="stylesheet">
+    <link href="/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+    {{--<link href="/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">--}}
+    <link href="/css/plugins/chosen/chosen.css" rel="stylesheet">
 @endsection

@@ -3,40 +3,40 @@
 @section('content')
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-9">
-            <h2>{{ trans('boats.title') }}</h2>
+            <h2>{{ trans('boats.title</h2>
         </div>
     </div>
     <div class="wrapper wrapper-content">
         <div class="row">
             @if ($request->session()->has('confirm_msg'))
                 <div class="alert alert-success">
-                    {{ $request->session()->get('confirm_msg') }}
+                    {{ $request->session()->get('confirm_msg
                 </div>
             @endif
             @include('boat.partials.boat_filter')
             <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>{{ trans('boats.boats') }}</h5>
+                        <h5>{{ trans('boats.boats</h5>
                     </div>
                     <div class="ibox-content">
                         <table class="table table-bordered table-hover dataTables-example">
                             <thead>
                             <tr role="row">
                                 <th class="sorting">
-                                    {{ trans('boats.buyer.label') }}
+                                    {{ trans('boats.buyer.label
                                 </th>
                                 <th class="sorting">
-                                    {{ trans('boats.name') }}
+                                    {{ trans('boats.name
                                 </th>
                                 <th class="sorting">
-                                    {{ trans('boats.matricula') }}
+                                    {{ trans('boats.matricula
                                 </th>
                                 <th class="sorting">
-                                    {{ trans('boats.status') }}
+                                    {{ trans('boats.status
                                 </th>
                                 <th>
-                                    {{ trans('boats.actions.title') }}
+                                    {{ trans('boats.actions.title
                                 </th>
                             </tr>
                             </thead>
@@ -59,7 +59,7 @@
                                         </td>
                                         <td>
                                             @can('seeBoatDetail',$boat)
-                                                <a href="{{ route('boats.show',$boat) }}" class="btn-action">{{ trans('boats.actions.view') }}</a>
+                                                <a href="{{ route('boats.show',$boat) }}" class="btn-action">{{ trans('boats.actions.view</a>
                                             @endcan
                                         </td>
                                     </tr>
@@ -75,11 +75,11 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('/js/plugins/dataTables/jquery.dataTables.js') }}"></script>
-    <script src="{{ asset('/js/plugins/dataTables/dataTables.bootstrap.js') }}"></script>
-    <script src="{{ asset('/js/plugins/dataTables/dataTables.responsive.js') }}"></script>
-    <script src="{{ asset('/js/plugins/dataTables/dataTables.tableTools.min.js') }}"></script>
-    <script src="{{ asset('/js/plugins/chosen/chosen.jquery.js') }}"></script>
+    <script src="/js/plugins/dataTables/jquery.dataTables.js"></script>
+    <script src="/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+    <script src="/js/plugins/dataTables/dataTables.responsive.js"></script>
+    <script src="/js/plugins/dataTables/dataTables.tableTools.min.js"></script>
+    <script src="/js/plugins/chosen/chosen.jquery.js"></script>
 
     <script>
         $(document).ready(function () {
@@ -114,7 +114,7 @@
 @endsection
 
 @section('stylesheets')
-    <link href="{{ asset('/css/plugins/dataTables/dataTables.responsive.css') }}" rel="stylesheet">
-    <link href="{{ asset('/css/plugins/dataTables/dataTables.tableTools.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('/css/plugins/chosen/chosen.css') }}" rel="stylesheet">
+    <link href="/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+    <link href="/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+    <link href="/css/plugins/chosen/chosen.css" rel="stylesheet">
 @endsection
