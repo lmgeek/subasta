@@ -4,16 +4,16 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="{{ asset('/img/favicon.ico') }}" type="image/icon">
-    <link rel="shortcut icon" type="image/png" href="{{ asset('/img/favicon.ico') }}" />
+    <link rel="icon" href="/img/favicon.ico" type="image/icon">
+    <link rel="shortcut icon" type="image/png" href="/img/favicon.ico" />
     <title>{{ trans("general.app_name") }} :: {{ trans("general.control_panel") }}</title>
 
-    <link href="{{ asset('/css/bootstrap.css') }}" rel="stylesheet">
-    <link href="{{ asset('/font-awesome/css/font-awesome.css') }}" rel="stylesheet">
-    <link href="{{ asset('/css/plugins/toastr/toastr.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('/css/animate.css') }}" rel="stylesheet">
-    <link href="{{ asset('/css/style.css') }}" rel="stylesheet">
-    <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="/css/animate.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/app.css" rel="stylesheet">
     @yield('stylesheets')
 
             <!-- Fonts -->
@@ -27,15 +27,15 @@
     <![endif]-->
 
     <!-- Scripts -->
-    <script src="{{ asset('/js/jquery-2.1.1.js') }}"></script>
-    <script src="{{ asset('/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('/js/plugins/metisMenu/jquery.metisMenu.js') }}"></script>
-    <script src="{{ asset('/js/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
+    <script src="/js/jquery-2.1.1.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
-    <script src="{{ asset('/js/inspinia.js') }}"></script>
-    <script src="{{ asset('/js/plugins/pace/pace.min.js') }}"></script>
-    <script src="{{ asset('/js/plugins/toastr/toastr.min.js') }}"></script>
-    <script src="{{ asset('/js/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
+    <script src="/js/inspinia.js"></script>
+    <script src="/js/plugins/pace/pace.min.js"></script>
+    <script src="/js/plugins/toastr/toastr.min.js"></script>
+    <script src="/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
     <script>
         @if (Session::has('notification'))
