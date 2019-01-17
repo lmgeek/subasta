@@ -8,11 +8,11 @@
 
     <title>{{trans('register.title_seller')}}</title>
 
-    <link href="{{ asset('/landing/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('/font-awesome/css/font-awesome.css') }}" rel="stylesheet">
-    <link href="{{ asset('/css/plugins/iCheck/custom.css') }}" rel="stylesheet">
-    <link href="{{ asset('/css/animate.css') }}" rel="stylesheet">
-    <link href="{{ asset('/css/style.css') }}" rel="stylesheet">
+    <link href="/landing/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="/css/animate.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
 
 </head>
 
@@ -76,11 +76,11 @@
     </div>
 
     <!-- Mainly scripts -->
-    <script src="{{ asset('/js/jquery-2.1.1.js') }}"></script>
-    <script src="{{ asset('/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('/js/jquery.mask.js') }}"></script>
+    <script src="/js/jquery-2.1.1.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/jquery.mask.js"></script>
     <!-- iCheck -->
-    <script src="{{ asset('/js/plugins/iCheck/icheck.min.js') }}"></script>
+    <script src="/js/plugins/iCheck/icheck.min.js"></script>
     <script>
         $(document).ready(function(){
             $('.i-checks').iCheck({

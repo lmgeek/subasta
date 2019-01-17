@@ -23,3 +23,14 @@
 <link rel="stylesheet" href="/landing3/css/datetimepicker.css">
 <link rel="stylesheet" href="/landing3/css/filters.css">
 <link rel="stylesheet" href="/landing3/css/netlabs-subastas3.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-132702736-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+<?php if(Auth::user()){?>
+gtag('set', {'user_id': '<?=Auth::user()->nickname?>'});
+<?php }?>
+  gtag('config', 'UA-132702736-1');
+</script>
