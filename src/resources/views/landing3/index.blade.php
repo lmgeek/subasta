@@ -121,7 +121,12 @@ $objtAuction = new Auction();
                             function cmp($a, $b){
                                 return strcmp($a["end"], $b["end"]);
                             }
-                            usort($auctions,'cmp');
+                            if(isset($auctions)){
+                                usort($auctions,'cmp');
+                            }
+                            if(isset($auctionsf)){
+                                usort($auctionsf,'cmp');
+                            }
                             ?>
 
                         @foreach($auctions as $auction)

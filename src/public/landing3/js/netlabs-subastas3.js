@@ -121,11 +121,9 @@ function modifyOffersCounter($id,$offers){
     }
 }
 function makeBid($id){
-    console.log('asd');
     $.magnificPopup.close();
     $.get("/makeBid?auction_id="+$id + "&amount="+$('#cantidad-'+$id).val(),function(result){
         $result=JSON.parse(result);
-        console.log($result);
         if($result['active']==0){
             notifications(0,null,null,null,'La subasta ha sido cancelada por el vendedor');
             return null;
