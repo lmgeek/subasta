@@ -75,11 +75,11 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('/js/plugins/dataTables/jquery.dataTables.js') }}"></script>
-    <script src="{{ asset('/js/plugins/dataTables/dataTables.bootstrap.js') }}"></script>
-    <script src="{{ asset('/js/plugins/dataTables/dataTables.responsive.js') }}"></script>
-    <script src="{{ asset('/js/plugins/dataTables/dataTables.tableTools.min.js') }}"></script>
-    <script src="{{ asset('/js/plugins/chosen/chosen.jquery.js') }}"></script>
+    <script src="/js/plugins/dataTables/jquery.dataTables.js"></script>
+    <script src="/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+    <script src="/js/plugins/dataTables/dataTables.responsive.js"></script>
+    <script src="/js/plugins/dataTables/dataTables.tableTools.min.js"></script>
+    <script src="/js/plugins/chosen/chosen.jquery.js"></script>
 
     <script>
         $(document).ready(function () {
@@ -114,7 +114,7 @@
 @endsection
 
 @section('stylesheets')
-    <link href="{{ asset('/css/plugins/dataTables/dataTables.responsive.css') }}" rel="stylesheet">
-    <link href="{{ asset('/css/plugins/dataTables/dataTables.tableTools.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('/css/plugins/chosen/chosen.css') }}" rel="stylesheet">
+    <link href="/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+    <link href="/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+    <link href="/css/plugins/chosen/chosen.css" rel="stylesheet">
 @endsection

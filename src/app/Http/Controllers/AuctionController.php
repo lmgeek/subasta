@@ -1033,6 +1033,18 @@ class AuctionController extends Controller
             return ('<h1 style="    text-align: center; margin-top: 300px; font-size: 5em">No hay ofertas realizadas<br>Disponibles: '. $available['available'].'</h1>');
     }
 
+    /*funcion que llama la vista de detalles de una subasta*/
+    public function auctionDetails($auction_id){
+
+        $auction = Auction::findOrFail($auction_id);
+
+        //Creamos la instacia de AuctionController para usar el metodo de calculatePriceID
+        $objAuct = new AuctionController();
+
+        $price= $objAuct->calculatePriceID($auction_id);
+        return view('landing3.subasta', compact('auction','price'));
+
+    }
 
     public function getAvailable($auction_id, $amountTotal){
         $sold = 0;

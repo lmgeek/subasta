@@ -1,14 +1,13 @@
 <?php $userId = $auction->batch->arrive->boat->user->id;
 $close=($price<$auction->targetprice)?1:0;
-$userRating=(($userrating[$userId]/20))?1:round(($userrating[$userId]/20),0,PHP_ROUND_HALF_UP)?>
-<div id="Auction_<?=$auction->id?>" class="task-listing <?=(empty($finished))?'auction':''?>" data-id="{{$auction->id}}" data-price="{{$price[$auction->id]}}"
-     data-end="{{$auction->end}}" data-endOrder="{{date('YmdHi',strtotime($auction->end))}}" data-close="{{$close}}"
-<?=(isset($nopic))?('data-port="'.$ports[$auction->batch->arrive->port_id]['name'].'"
+$userRatings=(($userrating[$userId]/20)<1)?1:round(($userrating[$userId]/20),0,PHP_ROUND_HALF_UP);
+?>
+<div id="Auction_<?=$auction->id?>" class="task-listing <?=(empty($finished))?'auction':''?>" data-id="{{$auction->id}}" data-price="{{$price[$auction->id]}}" data-end="{{$auction->end}}" data-endOrder="{{date('YmdHi',strtotime($auction->end))}}" data-close="{{$close}}"data-userrating="{{$userRatings}}"
+<?='data-port="'.$ports[$auction->batch->arrive->port_id]['name'].'"
 data-product="'.$auction->batch->product->name.'"
 data-caliber="'.$auction->batch->caliber.'"
 data-quality="'.(($auction->batch->quality<1)?1:$auction->batch->quality).'"
-data-user="'.$auction->batch->arrive->boat->user->nickname.'"
-data-userrating="'.$userRating.'"'):''?>>
+data-user="'.$auction->batch->arrive->boat->user->nickname.'"'?>>
 <?php
 setlocale(LC_TIME,'es_ES');
 $fechafin=strftime('%d %b %Y', strtotime($auction->end));
@@ -53,7 +52,7 @@ switch ($auction->batch->caliber){
                     <div class="medal-rating {{strtolower($usercat[$userId])}}" data-rating="{{$usercat[$userId]}}"><span class="medal {{$usercat[$userId]}}-text"></span></div>
                 </li>
                 <li><small>Barco</small><br><strong><i class="icon-line-awesome-ship"></i> {{$auction->batch->arrive->boat->nickname}}</strong><br>
-                    <div class="star-rating" data-rating="<?=$userRating?>"></div></li>
+                    <div class="star-rating" data-rating="<?=$userRatings?>"></div></li>
             </ul>
         </div>
     </div>
