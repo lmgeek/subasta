@@ -1,6 +1,6 @@
 
 
-<header id="header-container" class="fullwidth transparent-header">
+<header id="header-container" class="fullwidth transparent-header" <?=(isset($outsidehome))?'style="background-color: #0e6c92"':''?>>
 
     <!-- Header -->
     <div id="header">
