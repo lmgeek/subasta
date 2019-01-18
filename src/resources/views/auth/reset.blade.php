@@ -47,11 +47,11 @@
 										</div>
 										
 										<div class="form-group">
-										    <input class="form-control" type="password" name="password" placeholder="{{ trans('users.password') }}" value="{{ old('password') }}">
+										    <input class="form-control" type="password" min="6" maxlength="10" name="password" placeholder="{{ trans('users.password') }}" value="{{ old('password') }}">
 										</div>
 										
 										<div class="form-group">
-										    <input class="form-control" type="password" name="password_confirmation" placeholder="{{ trans('users.password_confirm') }}" value="{{ old('password_confirmation') }}">
+										    <input class="form-control" type="password" min="6" maxlength="10" name="password_confirmation" placeholder="{{ trans('users.password_confirm') }}" value="{{ old('password_confirmation') }}">
 										</div>
 										
 									
