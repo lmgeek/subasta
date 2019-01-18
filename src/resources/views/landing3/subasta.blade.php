@@ -154,7 +154,7 @@ $userId = $auction->batch->arrive->boat->user->id;
                                 </div>
                                 <div class="bidding-fields">
                                     <div class="checkbox">
-                                        <input type="checkbox" id="chekcbox{{$auction->id}}" onclick="popupCompraDisableText({{$auction->id}})">
+                                        <input type="checkbox" id="chekcbox{{$auction->id}}" onclick="totalQuatity({{$auction->id}})">
                                         {{--<input type="checkbox" id="chekcbox1" onclick="enable_text(this.checked)">--}}
                                         <label for="chekcbox{{$auction->id}}"><span class="checkbox-icon"></span> Adquirir todo el lote</label>
                                     </div>
@@ -210,7 +210,7 @@ $userId = $auction->batch->arrive->boat->user->id;
 
 <script>
 
-       function popupCompraDisableText($id) {
+       function totalQuatity($id) {
            $var = $('#cantidad-'+$id).attr('max')
 
            $('#checkbox'+$id).click(
