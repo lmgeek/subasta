@@ -2,25 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Auction;
-use App\AuctionInvited;
-use App\Batch;
-use App\Bid;
-use App\Boat;
 use App\Http\Requests\CreateAuctionRequest;
-use App\Http\Requests\ProcessBidRequest;
 use App\Http\Requests\SellerQualifyRequest;
 use App\Http\Requests\UpdateAuctionRequest;
-use App\Ports;
-use App\Product;
-use App\User;
-use App\UserRating;
-use Auth;
-use Carbon\Carbon;
-use Excel;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
+use App\Http\Requests\ProcessBidRequest;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+use App\AuctionInvited;
+use App\UserRating;
+use Carbon\Carbon;
+use App\Auction;
+use App\Product;
+use App\Offers;
+use App\Batch;
+use App\Ports;
+use App\Boat;
+use App\User;
+use App\Bid;
+use Excel;
+use Auth;
+use App;
 
 class AuctionController extends Controller
 {
@@ -167,35 +170,31 @@ class AuctionController extends Controller
 
     public function calculatePrice(Request $request)
     {
+        $data = array();
         $auction_id = $request->input('auction_id');
         $bidDate = date('Y-m-d H:i:s');
         $auction = Auction::findOrFail($auction_id);
         $prices = $auction->calculatePrice($bidDate);
-        $price = number_format(str_replace(",","",$prices),2,',','');
+//        $price = number_format(str_replace(",","",$prices),2,',','');
+        $price = str_replace(",","",$prices);
+        $available=$this->getAvailable($auction_id,$auction->amount);
+
         if($request->get("i") and $request->get('i')=='c'){
             $targetprice=$auction->target_price;
             $close=($price<$targetprice)?1:0;
-            $availabilityboth=$this->getAuctionAvailability($auction_id,$auction->amount);
-            $availability=$availabilityboth['availability'];
-            $offerscounter=$availabilityboth['offerscounter'];
-            $time=round(microtime(true) * 1000);
-            setlocale(LC_TIME,'es_ES');
-            $fechafin=strftime('%d %b %Y', strtotime($auction->end));
-            $fechafinorden=date('YmdHi',strtotime($auction->end));
-            return json_encode(array(
-                'id'=>$auction_id,
-                'price'=>$price,
-                'close'=>$close,
-                'end'=>$auction->end,
-                'amount'=>$auction->amount,
-                'endfriendly'=>$fechafin,
-                'endorder'=>$fechafinorden,
-                'availability'=>$availability,
-                'offerscounter'=>$offerscounter,
-                'currenttime'=>$time
-            ));
+            $time = round(microtime(true) * 1000);
+            $data['id'] = $auction_id;
+            $data['close'] = $close;
+            $data['end'] = $auction->end;
+            $data['availability'] = $available['available'];
+            $data['currenttime'] = $time;
+            $data['price'] = $price;
+            $data['available'] = $available['available'];
+            return json_encode($data);
         }else{
-            return $price;
+            $data['price'] = $price;
+            $data['available'] = $available['available'];
+            return $data;
         }
 
     }
@@ -240,18 +239,9 @@ class AuctionController extends Controller
 
 
 	 }
-	 function getAuctionAvailability($auction_id,$amount){
-         $bids = Bid::where('auction_id' , $auction_id )->get();
-         $availability=$amount;$amounts=0;
-         foreach($bids as $bid){
-             $amounts+=$bid->amount;
-         }
-         $availability-=$amounts;
-         return array(
-             'availability'=>$availability,
-             'offerscounter'=>count($bids)
-         );
-     }
+
+
+
 	 public function makeBid(Request $request)
 	 {
 
@@ -273,9 +263,9 @@ class AuctionController extends Controller
 			$resp['active'] = $auction->active ;
 			
 		}else{
-            $availabilityboth=$this->getAuctionAvailability($auction_id,$auction->amount);
-            $availability=$availabilityboth['availability'];
-            $offerscounter=$availabilityboth['offerscounter']+1;
+            $availabilityboth=$this->getAvailable($auction_id,$auction->amount);
+            $availability=$availabilityboth['available'];
+            $offerscounter=$availabilityboth['sold']+1;
 			$bidDate = date('Y-m-d H:i:s');
 			$prices = $auction->calculatePrice($bidDate);
             $price = str_replace(",","",$prices);
@@ -867,7 +857,6 @@ class AuctionController extends Controller
         $sellers = User::filter(null, array(User::VENDEDOR), array(User::APROBADO));
         $buyers = User::filter(null, array(User::COMPRADOR), array(User::APROBADO));
         $boats = Boat::Select()->get();
-
         for($z=1;$z<=$return;$z++){
             $var="auctiondetails$z";
             foreach(${$var}['auctions'] as $item){
@@ -943,6 +932,74 @@ class AuctionController extends Controller
 	    return $auction->userInvited;
     }
 
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function offersAuction(Request $request)
+    {
+        $auction_id = $request->input('auction_id');
+        $prices = $request->input('prices');
+        $auction = Auction::findOrFail($auction_id);
+        $this->authorize('makeBid', $auction);
+        $this->authorize('canBid',Auction::class);
+
+        if ($auction->type == \App\Auction::AUCTION_PRIVATE )
+        {
+            $this->authorize('isInvited', $auction);
+        }
+
+        $resp  =  array();
+
+        if ($auction->active == 0 )
+        {
+            $resp['active'] = $auction->active ;
+
+        }else{
+            $price = str_replace(",","",$prices);
+            DB::beginTransaction();
+            $available = $this->getAvailable($auction_id, $auction->amount);
+
+            if ($available['available'] > 0 )
+            {
+                $auction->offersAuction($available['available'],$price);
+                $unit = $auction->batch->product->unit;
+                $caliber = $auction->batch->caliber;
+                $quality = $auction->batch->quality;
+                $product = $auction->batch->product->name;
+                $total = $available['available'] * $price;
+                $resp['isnotavailability'] = 0;
+                $resp['unit'] = trans('general.product_units.'.$unit);
+                $resp['caliber'] = $caliber;
+                $resp['quality'] = $quality;
+                $resp['product'] = $product;
+                $resp['amount'] = $available['available'];
+                $resp['price'] = $price;
+            }else{
+                return Redirect::back()->with('error','No es posible ofertar, no hay disponibilidad de este producto');
+            }
+
+            $resp['active'] = $auction->active ;
+
+            DB::commit();
+        }
+
+        $user = User::findOrFail(Auth::user()->id);
+        $template = 'emails.offerauction';
+        $seller = $auction->batch->arrive->boat->user ;
+        Mail::queue($template, ['user' => $user , 'seller'=> $seller, 'product'=> $resp] , function ($message) use ($user) {
+            $message->from(
+                env('MAIL_ADDRESS_SYSTEM','sistema@subastas.com.ar'),
+                env('MAIL_ADDRESS_SYSTEM_NAME','Subastas')
+            );
+            $message->subject(trans('users.offer_auction'));
+            $message->to($user->email);
+        });
+
+        return Redirect::back()->with('success','Su oferta se registro satisfactoriamente. Se ha enviado un correo con la información detallada');
+
+    }
+
 
     //Obtener el puerto por id
     static public function getPortById($port_id){
@@ -952,6 +1009,41 @@ class AuctionController extends Controller
 
     }
 
+    /**
+     * @param Request $request
+     * @param $auction_id
+     * @return string|void
+     */
+    public function offersToBid(Request $request, $auction_id)
+    {
+
+        setlocale(LC_MONETARY, 'en_US');
+        $auction = Auction::findOrFail($auction_id);
+        $this->authorize('viewOperations', $auction);
+        $request->session()->put('url.intended', '/auction/offers/'.$auction_id);
+        $available = $this->getAvailable($auction_id, $auction->amount);
+        $offers = $this->getOffers($auction_id);
+        foreach ($offers as $offer) {
+            //verifica que el precio ofertado sea mayor e igual al de la subasta terminada
+            if ($offer->price >= $offer->end_price){
+                if ($offer->status == Offers::PENDIENTE){
+                    //registramos la compra a la mejor opc de compra
+                    $offerForSale = $this->offerForSale($auction, $offer);
+                    if ($offerForSale == true)
+                        return;
+                } else
+                    return ('<h1 style="    text-align: center; margin-top: 300px; font-size: 5em">La subasta no ha culminado</h1>');
+            }
+        }
+
+        if ($available['available'] == 0)
+            return ('<h1 style="    text-align: center; margin-top: 300px; font-size: 5em">Se vendio todo</h1>');
+
+        if (count($offers)>0)
+            return $offers;
+        else
+            return ('<h1 style="    text-align: center; margin-top: 300px; font-size: 5em">No hay ofertas realizadas<br>Disponibles: '. $available['available'].'</h1>');
+    }
 
     /*funcion que llama la vista de detalles de una subasta*/
     public function auctionDetails($auction_id){
@@ -966,13 +1058,121 @@ class AuctionController extends Controller
 
     }
 
+    public function getAvailable($auction_id, $amountTotal){
+        $sold = 0;
+        $data = array();
+        $bids = Bid::Select()
+            ->where('status','<>',\App\Bid::NO_CONCRETADA)
+            ->where('auction_id',$auction_id)
+            ->get();
+
+        foreach ($bids as $b) {
+            $sold+= $b->amount;
+        }
+        $available = $amountTotal-$sold;
+//        dd($disponible);
+        $data['available'] = $available;
+        $data['sold'] = count($bids);
+        return $data;
+    }
 
 
+    public function offerForSale($auction, $offer)
+    {
+//        dd($offer);
+        $auction_id = $auction->id;
+        $prices = $offer->price;
+        $resp  =  array();
+        $price = str_replace(",","",$prices);
+        $this->authorize('canBid',Auction::class);
 
+        $available = $this->getAvailable($auction_id, $auction->amount);
 
+        if ($available['available'] > 0){
+            if ($price <= $auction->end_price)
+                return;
 
+            //Datos de envio de correo
+            $unit = $auction->batch->product->unit;
+            $caliber = $auction->batch->caliber;
+            $quality = $auction->batch->quality;
+            $product = $auction->batch->product->name;
+            $total = $available['available'] * $price;
+            $resp['isnotavailability'] = 0;
+            $resp['unit'] = trans('general.product_units.'.$unit);
+            $resp['caliber'] = $caliber;
+            $resp['quality'] = $quality;
+            $resp['product'] = $product;
+            $resp['amount'] = $available['available'];
+            $resp['price'] = $price;
+            $resp['active'] = $auction->active;
 
+//Guardo la venta
+            $this->bid = new Bid();
+            $this->bid->user_id = $offer->user_id;
+            $this->bid->auction_id = $auction_id;
+            $this->bid->amount = $available['available'];
+            $this->bid->price = $prices;
+            $this->bid->status = Bid::PENDIENTE;
+            $this->bid->bid_date = date('Y-m-d H:i:s');
+            $this->bid->save();
 
+//Update status oferta
+            $this->offers = Offers::findOrFail($offer->id);
+            $this->offers->auction_id = $auction_id;
+            $this->offers->status = Offers::ACEPTADA;
+            $this->offers->save();
+
+//Update batch_statuses
+//        $this->status = Batch::findOrFail($auction->batch_id)->status;
+//        $this->status->assigned_auction -= $available['available'];
+//        $this->status->auction_sold += $available['available'];
+//        $this->status->save();
+
+            $user = User::findOrFail(Auth::user()->id);
+            $template = 'emails.offerForBid';
+            $seller = $auction->batch->arrive->boat->user ;
+            Mail::queue($template, ['user' => $user , 'seller'=> $seller, 'product'=> $resp] , function ($message) use ($user) {
+                $message->from(
+                    env('MAIL_ADDRESS_SYSTEM','sistema@subastas.com.ar'),
+                    env('MAIL_ADDRESS_SYSTEM_NAME','Subastas')
+                );
+                $message->subject(trans('users.offer_Bid'));
+                $message->to($user->email);
+            });
+        } else
+            return;
+    }
+
+    public function getOffers($auction_id)
+    {
+        $offers = Offers::Select(
+            'auctions_offers.id',
+            'auctions_offers.auction_id',
+            'auctions_offers.price',
+            'auctions_offers.status',
+            'auctions.end_price',
+            'auctions.end AS FinSubasta',
+            'batches.caliber',
+            'batches.quality',
+            'products.name AS Producto',
+            'auctions_offers.user_id',
+            'users.name AS Comprador')
+            ->join('auctions','auctions.id','=','auction_id')
+            ->join('batches','batches.id','=','auctions.batch_id')
+            ->join('products','products.id','=','batches.product_id')
+            ->join('users','users.id','=','auctions_offers.user_id')
+            ->where('auctions_offers.auction_id','=',$auction_id)
+            ->orderBy('auctions_offers.price','desc')
+            ->get();
+        return $offers;
+    }
+
+    public function getCurrentTime()
+    {
+        $date = date('Y-m-d H:i:s');
+        return $date;
+    }
 
 
 }

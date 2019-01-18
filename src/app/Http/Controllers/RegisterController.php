@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Comprador;
-use App\Http\Requests\RegisterNewUserRequest;
+use App\Http\Requests\RegisterNewBuyerRequest;
 use App\Jobs\SendEmail;
 use App\User;
 use App\Vendedor;
@@ -35,7 +35,7 @@ class RegisterController extends Controller
         return view('seller');
     }
 
-    public function postRegisterBuyer(RegisterNewUserRequest $request)
+    public function postRegisterBuyer(RegisterNewBuyerRequest $request)
     {
         $name = $request->input('name');
         $lastname = $request->input('lastname');

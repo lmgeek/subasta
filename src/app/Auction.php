@@ -52,6 +52,29 @@ class Auction extends Model
 
     }
 
+    /**
+     * @param $amount
+     * @param $price
+     */
+    public function offersAuction($amount , $price)
+    {
+
+        $prices = str_replace(",","",$price);
+        $this->offers = new Offers();
+        $this->offers->auction_id = $this->id;
+        $this->offers->user_id = Auth::user()->id;
+        $this->offers->price = $prices;
+        $this->offers->status = Offers::PENDIENTE;
+        $this->offers->save();
+
+        $this->status = $this->batch->status;
+        $this->status->assigned_auction -= $amount;
+        $this->status->auction_sold += $amount;
+        $this->status->save();
+
+
+    }
+
     public function getAvailability()
     {
         return $this->batch->status->assigned_auction;
@@ -479,6 +502,21 @@ class Auction extends Model
         dd(Auction::find(66)->bids);
     }
 
+    public function available($auction_id, $amountTotal){
+        $vendido = 0;
+
+        $bids = Bid::Select()
+            ->where('status','<>',\App\Bid::NO_CONCRETADA)
+            ->where('auction_id',$auction_id)
+            ->get();
+
+        foreach ($bids as $b) {
+            $vendido+= $b->amount;
+        }
+        $disponible = $amountTotal-$vendido;
+//        dd($disponible);
+        return $disponible;
+    }
 
     /* Funcion para validar el tamaño del producto*/
     public function caliber($caliber){
