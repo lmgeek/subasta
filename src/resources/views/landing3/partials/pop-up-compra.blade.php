@@ -17,7 +17,7 @@
                 <!-- Welcome Text -->
                 <div class="welcome-text">
                     <h3>&iexcl;Aprovecha y ll&eacute;vatelo ahora!</h3>
-                    <p class="padding-top-25">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <p class="padding-top-25">{{$auction->description}}</p>
                 </div>
 
                 <!-- Form -->
