@@ -80,47 +80,10 @@ switch ($auction->batch->caliber){
                         <small class="red fw500" id="ClosePrice{{$auction->id}}" {{($close==0)?'style="display:none"':''}}><?=(empty($finished))?'&iexcl;Cerca del precio l&iacute;mite!':'Precio Final'?></small></div>
                     <div id="timer<?=$auction->id?>" class="countdown margin-bottom-0 margin-top-20 blink_me <?=(empty($finished))?'timerauction':''?>" data-timefin="{{$auction->end}}" data-id="{{$auction->id}}">
                         <?=(isset($finished))?'Finalizada!':''?></div>
-                        <div class="pricing-plan-label billed-monthly-label <?=(empty($finished)?'red':'')?>" id="PriceContainer{{$auction->id}}"><strong class="red" id="Price{{$auction->id}}">${{$price[$auction->id]}}</strong>/ kg<br>
-                            <small class="red fw500" id="ClosePrice{{$auction->id}}" style="display:none"><?=(empty($finished))?'&iexcl;Cerca del precio l&iacute;mite!':'Precio Final'?></small></div>
-                        <div id="timer<?=$auction->id?>" class="countdown margin-bottom-0 margin-top-20 blink_me <?=(empty($finished))?'timerauction':''?>" data-timefin="{{$auction->end}}" data-id="{{$auction->id}}">
-                            <?=(isset($finished))?'Finalizada!':''?></div>
             </div>
             @if(empty($finished))
                 <div  id="OpenerPopUpCompra{{$auction->id}}">
                     <div class="w100">
-                        @can('canBid', \App\Auction::class)
-                            <div class="">
-                                @if ($disponible > 0)
-                                    <a
-                                            @if(Auth::user()->status != "approved")
-                                            href="#" onclick="notifications(0,null,null,null,'Usuario no aprobado')"
-                                            @else
-                                            <? if (Auth::user()->type == \App\User::VENDEDOR){ ?>
-                                            href="#" onclick="notifications(0,null,null,null,'Los vendedores no pueden participar en subastas')"
-                                            <? } else {?>
-                                            href="#small-dialog-compra-{{$auction->id}}" class="button ripple-effect popup-with-zoom-anim w100"
-                                    <? } ?>
-                                            @endif
-                                    >Comprar</a>
-                                @endif
-                            </div>
-                        @else
-                            <? if (Auth::user()){ ?>
-                            <a
-                                    @if(Auth::user()->status != "approved")
-                                    href="#" onclick="notifications(0,null,null,null,'Usuario no aprobado')"
-                                    @else
-                                    <? if (Auth::user()->type == \App\User::VENDEDOR){ ?>
-                                    href="#" onclick="notifications(0,null,null,null,'Los vendedores no pueden participar en subastas')"
-                                    <? } else {?>
-                                    href="#small-dialog-compra-{{$auction->id}}" class="button ripple-effect popup-with-zoom-anim w100"
-                            <? } ?>
-                                    @endif
-                            >Comprar</a>
-                            <? } else { ?>
-                            <a href="{{ url('/auction') }}" class="button">Comprar</a>
-                            <? } ?>
-                        @endcan
                     <?php
                     if(Auth::user()){
                         $userses=Auth::user();//$userses->usersession
