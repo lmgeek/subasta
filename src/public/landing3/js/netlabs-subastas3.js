@@ -103,10 +103,10 @@ function updateAuctionData($id,$price=null,$end=null,$endorder=null,$endfriendly
         }
     }
 }
-function getInfo($id) {
+function getInfo($id,$firstrun=0) {
     var d = new Date();
     var n = d.getSeconds();
-    if (n == 0 && !$('#Auction_'+$id).hasClass('bg-disabled')) {
+    if ((n == 0 || $firstrun==1) && !$('#Auction_'+$id).hasClass('bg-disabled')) {
         $.get('calculateprice?i=c&auction_id=' + $id, function (result) {
             var $result = JSON.parse(result);
             updateAuctionData($id,$result['price'],$result['end'],$result['endorder'],$result['endfriendly'],$result['close']);
@@ -200,7 +200,7 @@ $(document).ready(function(){
         timer($(this).data('id'))
     });
     $('.auction').each(function(){
-        getInfo($(this).data('id'))
+        getInfo($(this).data('id'),1)
     });
     if($('#MasterFilter').length>0){
         auctionListFilter();

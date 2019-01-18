@@ -1,5 +1,5 @@
 <?php $userId = $auction->batch->arrive->boat->user->id;
-$close=($price<$auction->targetprice)?1:0;
+$close=($price[$auction->id]<$auction->targetprice)?1:0;
 $userRatings=(($userrating[$userId]/20)<1)?1:round(($userrating[$userId]/20),0,PHP_ROUND_HALF_UP);
 ?>
 <div id="Auction_<?=$auction->id?>" class="task-listing <?=(empty($finished))?'auction':''?>" data-id="{{$auction->id}}" data-price="{{$price[$auction->id]}}" data-end="{{$auction->end}}" data-endOrder="{{date('YmdHi',strtotime($auction->end))}}" data-close="{{$close}}"data-userrating="{{$userRatings}}"
@@ -77,7 +77,7 @@ switch ($auction->batch->caliber){
                 </p>
 
                         <div class="pricing-plan-label billed-monthly-label <?=(empty($finished)?'red':'')?>" id="PriceContainer{{$auction->id}}"><strong class="red" id="Price{{$auction->id}}">${{$price[$auction->id]}}</strong>/ kg<br>
-                            <small class="red fw500" id="ClosePrice{{$auction->id}}" {{($close==0)?'style="display:none"':''}}><?=(empty($finished))?'&iexcl;Cerca del precio l&iacute;mite!':'Precio Final'?></small></div>
+                            <small class="red fw500" id="ClosePrice{{$auction->id}}" style="display:none"><?=(empty($finished))?'&iexcl;Cerca del precio l&iacute;mite!':'Precio Final'?></small></div>
                         <div id="timer<?=$auction->id?>" class="countdown margin-bottom-0 margin-top-20 blink_me <?=(empty($finished))?'timerauction':''?>" data-timefin="{{$auction->end}}" data-id="{{$auction->id}}">
                             <?=(isset($finished))?'Finalizada!':''?></div>
             </div>
