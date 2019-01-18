@@ -538,30 +538,27 @@ class Auction extends Model
     //Funcion para darle formato a la fecha
     public function formatDate($fecha){
 
-    setlocale(LC_TIME,'es_ES');
-    $fechafin = strftime('%d %b %Y', strtotime($fecha));
+        setlocale(LC_TIME,'es_ES');
+        $fechafin = strftime('%d %b %Y', strtotime($fecha));
 
-    echo $fechafin;
+        echo $fechafin;
 
     }
 
 
-    //Funcion para sacar la cantidad de vendidos
+    //Funcion para sacar la cantidad de ofertas directas
 
-    public function amountSold($user_id){
+    public function amountSold($auction_id){
 
         $amount = Bid::Select()->where('status','<>',Bid::NO_CONCRETADA)
-            ->where('user_i','=', $user_id)
+            ->where('auction_id','=',$auction_id)
             ->get();
         $amount = $amount->toArray();
 
-
-
-
-        var_dump($amount);
+        $total = count($amount);
+        echo $total;
 
     }
-
 
 
 }
