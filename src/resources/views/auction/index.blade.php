@@ -1,7 +1,10 @@
 @extends('admin')
 
 @section('content')
-<?php use Carbon\Carbon; ?>
+<?php
+	use Carbon\Carbon;
+	use \App\Http\Controllers\AuctionController;
+?>
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-9">
             <h2>{{ trans('auction.auction_list') }}</h2>
@@ -18,18 +21,32 @@
 
             <div class="col-lg-12" style="margin-top: 10px">
                 <div class="ibox float-e-margins">
-				@if(Auth::user()->isBuyer())
-					 @can('canBid', \App\Auction::class)
+					@if(Auth::user()->isBuyer())
+						 @can('canBid', \App\Auction::class)
 
-					 @else
-							<div class="alert alert-warning">
-                                <strong> {{ trans('auction.bid_limit')  }}  </strong>
-                            </div>
-					 @endcan
-				@endif
+						 @else
+								<div class="alert alert-warning">
+									<strong> {{ trans('auction.bid_limit')  }}  </strong>
+								</div>
+						 @endcan
+					@endif
+					@if (\Session::has('success'))
+						<div class="alert alert-success">
+							<ul>
+								<li>{!! \Session::get('success') !!}</li>
+							</ul>
+						</div>
+					@endif
                     <div class="ibox-title">
                         <h5>{{ trans('auction.auctions') }}</h5>
-                    </div>
+
+						{{--<div onLoad="mostrar_hora()">--}}
+							{{--<div id="fecha">--}}
+								{{--<span id="hora"></span> horas, <span id="minuto"></span> minutos,  <span id="segundo"></span> segundos--}}
+							{{--</div>--}}
+						{{--</div>--}}
+
+					</div>
                     <div class="ibox-content">
                         @if (count($auctions) == 0)
                             <div class="text-center">
@@ -138,34 +155,40 @@
 			var auctionId = $(this).attr('auctionId');
 			var value = $(this).val();
 			var price = $(".hid-currentPrice-"+auctionId).val();
-            // var total =   price..replace(/[aiou]/gi,'e')
-            var total =   currency(price).multiply(value)
-            $(".modal-total-"+auctionId).html('Total $' + currency(total,{ separator: ".",decimal: ","}).format() )
+			$.get('calculateprice?i=c&auction_id=' + auctionId, function (data) {
+				$data = JSON.parse(data);
+				var available = $data['available'];
+				console.log(available);
 
+				if (value > available)
+					var total = 0;
+				else
+					var total = currency(price).multiply(value);
+
+				$(".modal-total-"+auctionId).html('Total $' + currency(total,{ separator: ".",decimal: ","}).format() )
+			});
+            // var total =   price..replace(/[aiou]/gi,'e')
 		});
 
 	});
 
+
 	function calculatePrice(auctionId)
 	{
 		var now = new Date().toLocaleTimeString();
-		$.ajax({
-		  	method: "GET",
-		  	url: "/calculateprice?auction_id="+auctionId,
-		  	success: function(data)
-		  	{
-                var price = currency(parseFloat(data),{separator: '.',decimal: ","}).format();
-				$(".currentPrice-"+auctionId).html('$' + price);
-				$(".hid-currentPrice-"+auctionId).val(data);
-
-				if($('#bid-Modal-'+auctionId).is(':visible'))
-				{
-					var total = ( $("#amount-bid-" + auctionId ).val()  * data);
-
-                    $(".modal-total-"+auctionId).html('Total $' + total.toFixed(2) );
-				}
-				console.log(now + ' - ' + data);
-		  	}
+		$.get('calculateprice?i=c&auction_id=' + auctionId, function (data) {
+			$data = JSON.parse(data);
+			var price = currency(parseFloat($data['price']),{separator: '.',decimal: ","}).format();
+			console.log(price);
+			$(".currentPrice-"+auctionId).html('$' + price);
+			$(".hid-currentPrice-"+auctionId).val($data['price']);
+			$(".currentAvailability-"+auctionId).html($data['available']);
+			$(".hid-currentAvailability-"+auctionId).val($data['price']);
+			if($('#bid-Modal-'+auctionId).is(':visible')){
+				var total = ( $("#amount-bid-" + auctionId ).val()  * $data['price']);
+				// $(".modal-total-"+auctionId).html('Total $' + total.toFixed(2) );
+				$(".modal-total-"+auctionId).html('Total $' + currency(total,{ separator: ".",decimal: ","}).format() )
+			}
 		});
 	}
 
@@ -211,6 +234,52 @@
 
 
 	$(document).ready(function(){
+		//new
+		/*window.onload=hora;
+		fecha = new Date("<? echo date('Y-m-d H:i:s'); ?>");
+
+		function hora(){
+			var hora=fecha.getHours();
+			var minutos=fecha.getMinutes();
+			var segundos=fecha.getSeconds();
+			if(hora<10){ hora='0'+hora;}
+			if(minutos<10){minutos='0'+minutos; }
+			if(segundos<10){ segundos='0'+segundos; }
+			fech=hora+":"+minutos+":"+segundos;
+			document.getElementById('hora').innerHTML=fech;
+			console.log('Hora: '+fech);
+			fecha.setSeconds(fecha.getSeconds()+1);
+			setTimeout("hora()",1000);
+		}*/
+
+		// var tiempo = {};
+		// // var clock = new Date("2016-06-01 5:00:00 PM"); // Obtener la fecha y almacenar en clock
+		// var intervalo = window.setInterval(mostrar_hora, 1000); // Frecuencia de actualización
+		// var i = 0; // Esta variable me ayudará a definir los estados de intervalo
+		//
+		// function mostrar_hora(){
+		// 	$.get('current-time', function (data) {
+		// 		console.log(data);
+		// 	});
+		// 	var now = new Date();
+		//
+		// 	// Inserta la hora almacenada en clock en el span con id hora
+		// 	tiempo.horas = document.getElementById('hora');
+		// 	tiempo.horas.innerHTML = clock.getHours() - now.getHours();
+		//
+		// 	// Inserta los minutos almacenados en clock en el span con id minuto
+		// 	tiempo.minuto = document.getElementById('minuto');
+		// 	tiempo.minuto.innerHTML = clock.getMinutes()+60 - now.getMinutes();
+		//
+		// 	// Inserta los segundos almacenados en clock en el span con id segundo
+		// 	tiempo.segundos = document.getElementById('segundo')
+		// 	tiempo.segundos.innerHTML = "0" + clock.getSeconds()+60 - now.getSeconds();
+		//
+		//
+		// }
+		//end new
+
+
 	    $(".ver_participantes").click(function (e) {
             var lista_participantes = $("ul#participantes");
             lista_participantes.html("");
@@ -221,7 +290,7 @@
 				url: "{{ url('/get/participantes') }}",
 				data:{auction:auction, _token: "{{ csrf_token() }}"},
 				success: function (data) {
-				    console.log(data);
+				    // console.log(data);
 					$.each(data,function(i,val){
 						lista_participantes.append(
 						  `<li class="list-group-item">${val.name} ${val.lastname}</li>`
@@ -279,7 +348,7 @@
 					if (active==1){
 						calculatePrice(auctionId);
 					}
-					console.log('contador'+nuevoValor);
+					// console.log('contador'+nuevoValor);
                 }
                 $(v).val(nuevoValor).trigger("change");
             });
@@ -288,11 +357,12 @@
         setInterval(function(){
             $('.dialLeft').each(function(k,v){
                 valores = $(v).val().split(':');
-                if (valores.length == 2){
-                    nuevoValor = (valores[0]*60)+(valores[1]-1);
+                if (valores.length == 3){
+					nuevoValor = (valores[0]*3600)+(valores[1]*60)+(valores[2]-1);
                 }else{
                     nuevoValor = valores[0]-1;
                 }
+                // console.log('dial.Left: ' + nuevoValor);
                 if (nuevoValor == 0){
                     $(this).parent().parent().parent().parent().parent().fadeOut(400,function(){
                         // on Animation Complete remove object from DOM
@@ -301,22 +371,35 @@
 				}
                 $(v).val(nuevoValor).trigger("change");
             });
-        }, {{ env('AUCTION_GRAPH_UPDATE_INTERVAL',60000) }});
+        }, 1000);
 
-        $(".dialLeft").knob({
-            'format' : function (value) {
-                var h = Math.floor(value/60);
-                var m = value%60;
+		$(".dialLeft").knob({
+			'format' : function (value) {
+				var h = Math.floor(value/3600);
+				if (h<10)
+					h = "0"+h;
+				var m = Math.floor((value-(h*3600))/60);
+				if (m<10)
+					m = "0"+m;
+				var s = value%60;
+				return h+":"+m+":"+s;
 
-                if (h<10)
-                    h = "0"+h;
-
-                if (m<10)
-                    m = "0"+m;
-
-                return h+":"+m;
-            }
-        });
+			}
+		});
+        // $(".dialLeft").knob({
+        //     'format' : function (value) {
+        //         var h = Math.floor(value/60);
+        //         var m = value%60;
+		//
+        //         if (h<10)
+        //             h = "0"+h;
+		//
+        //         if (m<10)
+        //             m = "0"+m;
+		//
+        //         return h+":"+m;
+        //     }
+        // });
 
 		$(".make-bid").click(function(){
 			var auctionId = $(this).attr('auctionId');
@@ -349,7 +432,7 @@
 
     $(document).on("keypress",".amount-bid-modal",function(e){
         var x = e.keyCode || e.which;
-        console.log(x);
+        // console.log(x);
         if (x == 45 || x == 46 || x == 44 || x == 101){
             return false;
         }
@@ -424,7 +507,8 @@
 
 							var price = $(".hid-currentPrice-"+auctionId).val();
 							var total = price * data.availability;
-							$(".modal-total-"+auctionId).html('Total $' + total.toFixed(2) )
+							// $(".modal-total-"+auctionId).html('Total $' + total.toFixed(2) )
+							$(".modal-total-"+auctionId).html('Total $' + currency(total,{ separator: ".",decimal: ","}).format() )
 
 							if (data.availability < 0)
 							{
@@ -449,7 +533,8 @@
 
             var price1 = $(".hid-currentPrice-"+auctionId).val();
             var total1 = price1 * cDispo;
-            $(".modal-total-"+auctionId).html('Total $' + total1.toFixed(2) )
+            // $(".modal-total-"+auctionId).html('Total $' + total1.toFixed(2) )
+			$(".modal-total-"+auctionId).html('Total $' + currency(total1,{ separator: ".",decimal: ","}).format() )
 
 			if (cDispo < 0)
 			{

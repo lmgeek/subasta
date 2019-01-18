@@ -52,6 +52,9 @@
 								<div><p class="text-navy text-muted "> {{ trans("boats.boats_date_arrive") }}
 									@if (is_null($lastArrive))
 										{{ trans('boats.boats_no_arrive') }}
+									@endif
+									@if ($lastArrive->date < date('Y-m-d H:i:s'))
+										{{$lastArrive->date}}
 									@else
 										<i class="fa fa-clock-o"></i><a href="{{ route('sellerboat.editarrive',$lastArrive) }}" title="{{ trans('boats.edit_arrive') }}"> {{ Carbon::parse($lastArrive->date)->format('H:i:s d/m/Y') }} </a>
 									@endif

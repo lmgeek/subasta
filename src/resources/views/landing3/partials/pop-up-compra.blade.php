@@ -26,7 +26,7 @@
                     <div class="row margin-bottom-15">
                         <div class="col-md-5 bidding-widget">
                             <!-- Headline -->
-                            <span class="bidding-detail">Disponibles <strong>{{$disponible}}</strong> de <strong>{{$total}}</strong> kg</span>
+                            <p> <div id="auctionAvailabilitypopup{{$auction->id}}" style="display: inline-block!important;font-weight: bold"><small style="font-weight: 400">Disponibilidad:</small> {{$disponible}} <small>de</small> {{$total}} kg</div> <br>
                             <div class="margin-top-15">
                                 <h4 class="price red" id="PricePopUp{{$auction->id}}">${{$price[$auction->id]}} <small>x kg</small></h4>
                                 <small class="red">&Uacute;ltimo precio registrado</small>

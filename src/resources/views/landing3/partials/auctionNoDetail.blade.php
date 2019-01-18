@@ -1,5 +1,5 @@
 <?php $userId = $auction->batch->arrive->boat->user->id;
-$close=($price<$auction->targetprice)?1:0;
+$close=($price[$auction->id]<$auction->targetprice)?1:0;
 $userRatings=(($userrating[$userId]/20)<1)?1:round(($userrating[$userId]/20),0,PHP_ROUND_HALF_UP);
 ?>
 <div id="Auction_<?=$auction->id?>" class="task-listing <?=(empty($finished))?'auction':''?>" data-id="{{$auction->id}}" data-price="{{$price[$auction->id]}}" data-end="{{$auction->end}}" data-endOrder="{{date('YmdHi',strtotime($auction->end))}}" data-close="{{$close}}"data-userrating="{{$userRatings}}"
@@ -80,6 +80,10 @@ switch ($auction->batch->caliber){
                         <small class="red fw500" id="ClosePrice{{$auction->id}}" {{($close==0)?'style="display:none"':''}}><?=(empty($finished))?'&iexcl;Cerca del precio l&iacute;mite!':'Precio Final'?></small></div>
                     <div id="timer<?=$auction->id?>" class="countdown margin-bottom-0 margin-top-20 blink_me <?=(empty($finished))?'timerauction':''?>" data-timefin="{{$auction->end}}" data-id="{{$auction->id}}">
                         <?=(isset($finished))?'Finalizada!':''?></div>
+                        <div class="pricing-plan-label billed-monthly-label <?=(empty($finished)?'red':'')?>" id="PriceContainer{{$auction->id}}"><strong class="red" id="Price{{$auction->id}}">${{$price[$auction->id]}}</strong>/ kg<br>
+                            <small class="red fw500" id="ClosePrice{{$auction->id}}" style="display:none"><?=(empty($finished))?'&iexcl;Cerca del precio l&iacute;mite!':'Precio Final'?></small></div>
+                        <div id="timer<?=$auction->id?>" class="countdown margin-bottom-0 margin-top-20 blink_me <?=(empty($finished))?'timerauction':''?>" data-timefin="{{$auction->end}}" data-id="{{$auction->id}}">
+                            <?=(isset($finished))?'Finalizada!':''?></div>
             </div>
             @if(empty($finished))
                 <div  id="OpenerPopUpCompra{{$auction->id}}">
@@ -117,12 +121,33 @@ switch ($auction->batch->caliber){
                             <a href="{{ url('/auction') }}" class="button">Comprar</a>
                             <? } ?>
                         @endcan
+                    <?php
+                    if(Auth::user()){
+                        $userses=Auth::user();//$userses->usersession
+                        if($userses->status!="approved"){?>
+                        <a href="#" class="button" onclick="notifications(0,null,null,null,'Usuario no aprobado')">Comprar</a>
+                        <div class="w100 text-center margin-top-5 t14">o puedes <a href="#" onclick="notifications(0,null,null,null,'Usuario no aprobado')">realizar una oferta</a></div>
+                        <?php }elseif($userses->status=="approved" and $userses->type!=\App\User::COMPRADOR){?>
+                        <a href="#" class="button" onclick="notifications(0,null,null,null,'El tipo de usuario no permite comprar')">Comprar</a>
+                        <div class="w100 text-center margin-top-5 t14">o puedes <a href="#" onclick="notifications(0,null,null,null,'El tipo de usuario no permite ofertar')">realizar una oferta</a></div>
+                        <?php }else{?>
+                        <a href="#small-dialog-compra-{{$auction->id}}" class="button ripple-effect popup-with-zoom-anim w100">Comprar</a>
+                        <div class="w100 text-center margin-top-5 t14">o puedes <a href="#small-dialog-oferta{{$auction->id}}" class="sign-in popup-with-zoom-anim">realizar una oferta</a></div>
+                        @include('landing3/partials/pop-up-compra')
+                        <?php }
+                    }else{ ?>
+                        <a href="/auction" class="button">Comprar</a>
+                        <div class="w100 text-center margin-top-5 t14">o puedes <a href="/auction">realizar una oferta</a></div>
+                    <?php
+                    }
+                    ?>
+
 
                         {{--<a href="#small-dialog-compra-{{$auction->id}}" class="button ripple-effect popup-with-zoom-anim w100">Comprar</a>--}}
                     </div>
-                    <div class="w100 text-center margin-top-5 t14">o puedes <a href="#small-dialog-oferta" class="sign-in popup-with-zoom-anim">realizar una oferta</a></div>
+
                 </div>
-                @include('landing3/partials/pop-up-compra')
+
             @endif
         </div>
     </div>

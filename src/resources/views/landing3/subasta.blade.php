@@ -34,6 +34,7 @@ $userId = $auction->batch->arrive->boat->user->id;
     <!-- Header Container
     ================================================== -->
 @include('landing3/partials/header-details')
+@include('landing3/partials/header')
 <!-- Header Container / End -->
 
 

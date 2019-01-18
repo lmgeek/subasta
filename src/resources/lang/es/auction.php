@@ -32,7 +32,7 @@ return [
     'auction_finished' => 'Subastas terminadas',
 	'error_auction_cancel'=> 'La subasta ha sido cancelada por el vendedor',
     'next_price_update' => 'Proxima actualizacion de precio',
-    'aviability' => 'Disponibilidad',
+    'aviability' => 'Disponibilidad actual',
 	'no_stock' => 'Sin stock',
 	'error_aviability' => 'Se produjo un error de disponibilidad en la compra.',
     'completion' => 'Finalizaci&oacute;n',

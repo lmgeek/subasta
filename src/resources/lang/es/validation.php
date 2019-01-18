@@ -27,6 +27,7 @@ return [
         "string"  => ":attribute tiene que tener entre :min - :max caracteres",
         "array"   => ":attribute tiene que tener entre :min - :max ítems",
     ],
+
     "boolean"          => "El campo :attribute debe tener un valor verdadero o falso",
     "confirmed"        => "La confirmación de :attribute no coincide",
     "date"             => ":attribute no es una fecha válida",
@@ -56,7 +57,7 @@ return [
     ],
     "not_in"           => ":attribute es inválido",
     "numeric"          => ":attribute debe ser numérico",
-    "regex"            => "El formato de :attribute es inválido",
+    "regex"            => "La contraseña debe tener de 6 a 10: 1 mayúscula, 1 letra minúscula, 1 número y  1 carácter especial",
     "required"         => "El campo :attribute es obligatorio",
     "required_if"      => "El campo :attribute es obligatorio cuando :other es :value",
     "required_with"    => "El campo :attribute es obligatorio cuando :values está presente",
