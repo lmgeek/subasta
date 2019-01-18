@@ -47,8 +47,10 @@
                 <td>
                     <span>{{ $total }} </span>
                     <a data-target="#batch-edit-Modal-{{ $batch->id }}" data-toggle="modal" href="#">
-                        <i data-toggle="tooltip" title="Editar lote" class="fa fa-edit">
+                      
+                        <i data-toggle="tooltip"  title="Editar lote" class="fa fa-edit">
                         </i>
+                       
                     </a>
                 </td>
                 <td>
@@ -203,6 +205,9 @@
                                                                 <input type="hidden" name="hBatchId"
                                                                        value="{{ $batch->id  }}">
                                                                 <input type="number" min="1"
+                                                                      @if ($assigned_auction  != 0 || $private_sold != 0)
+                                                                      disabled 
+                                                                      @endif  
                                                                        value="{{ $total_sold_unsold  }}" name="amount"
                                                                        class="form-control bfh-number" required/>
                                                                 <small>{{ trans('general.product_units.'.$batch->product->unit) }}</small>
@@ -219,6 +224,9 @@
 
                                                 {{ csrf_field() }}
                                                 <button type="submit"
+                                                        @if ($assigned_auction  != 0 || $private_sold != 0)
+                                                            disabled 
+                                                        @endif
                                                         class="btn btn-primary">{{ trans('general.accept') }}</button>
 
                                                 <button type="button" class="btn btn-danger"
