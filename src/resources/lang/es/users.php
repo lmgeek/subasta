@@ -34,6 +34,8 @@ return [
 	'change_password' => 'Restablecer contraseña',
 	'password_confirm' => 'Confirmar contraseña',
 	'private_auction' => 'Subastas Privadas',
+    'offer_auction' => 'Opcion de Compra',
+    'offer_Bid' => 'Ganador de Oferta',
 	'password' => 'Contraseña',
 	'password_send' => 'Cambiar contraseña',
 	'password_link'=>'Haga clic aquí para restablecer la contraseña',

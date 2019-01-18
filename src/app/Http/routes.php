@@ -60,7 +60,9 @@ Route::post('auction/operations/process/', [
 Route::get('auction/operations/{auction}', [
     'as' => 'auction.operations', 'uses' => 'AuctionController@operations'
 ]);
-
+Route::get('auction/offers/{auction}', [
+    'as' => 'auction.offers', 'uses' => 'AuctionController@offersToBid'
+]);
 
 Route::get('auction/deactivate/{auction}', [
     'as' => 'auction.deactivate', 'uses' => 'AuctionController@deactivate'
@@ -164,6 +166,8 @@ Route::get('privatesales', 'SellerAuctionController@privatesales');
 Route::get('calculateprice', 'AuctionController@calculatePrice');
 Route::get('calculatepeso', 'AuctionController@calculatePeso');
 Route::get('makeBid', 'AuctionController@makeBid');
+Route::post('offersAuction', 'AuctionController@offersAuction');
+
 
 Route::group(['middleware' => ['auth']],function(){
     Route:resource('sellerbatch', 'BoatController@sellerbatch');
@@ -203,6 +207,9 @@ Route::post('bids/qualify/{bid}', [
 
 Route::get('subscribe/{auction}','AuctionController@subscribeUser');
 
-
+//---------------------------------------------------------------------------
+//Get Fecha actual routhes
+//---------------------------------------------------------------------------
+Route::get('current-time', 'AuctionController@getCurrentTime');
 
 
