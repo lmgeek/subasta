@@ -1,29 +1,8 @@
-<!doctype html>
-<html lang="es">
-<head>
-
-	<title>Subastas del Mar</title>
-	@include('landing3/partials/common')
-
-</head>
-<body>
-
-<!-- Wrapper -->
-<div id="wrapper" class="wrapper-with-transparent-header">
-
-	<!-- Header Container
-    ================================================== -->
-@include('landing3/partials/header')
-<!-- Header Container / End -->
-
-	<!-- Intro Banner
-    ================================================== -->
-	<!-- add class "disable-gradient" to enable consistent background overlay -->
-
-
-
-	<!-- Features auctions -->
-	<div class="section gray padding-top-65 padding-bottom-75">
+<?php $outsidehome=1;?>
+@extends('landing3/partials/layout')
+@section('title',' | Lista de subastas')
+@section('content')
+	<div class="section gray padding-top-65 padding-bottom-75 margin-top-30">
 		<div class="container">
 			<div class="row">
 				<div class="col-xl-12">
@@ -135,12 +114,6 @@
 					</div><div class="tasks-list-container margin-top-35"  id="Auctions">
 
 					@if(count($auctions)>0)
-						<?php
-						function cmp($a, $b){
-							return strcmp($a["end"], $b["end"]);
-						}
-						usort($auctions,'cmp');
-						?>
 
 						@foreach($auctions as $auction)
 							<?php $contadorsubastasdestacadas++;?>
@@ -164,70 +137,4 @@
 
 		</div>
 	</div>
-	<!-- Featured Auctions / End -->
-	<div id="notificationsauction"></div>
-	<!-- Como funciona Boxes / End -->
-
-	<!-- Footer
-    ================================================== -->
-	<div id="footer">
-
-		<!-- Footer Top Section -->
-	@include('landing3/partials/footer-top')
-	<!-- Footer Top Section / End -->
-
-		<!-- Footer Middle Section -->
-	@include('landing3/partials/footer-mid')
-	<!-- Footer Middle Section / End -->
-
-		<!-- Footer Copyrights -->
-	@include('landing3/partials/copyright')
-	<!-- Footer Copyrights / End -->
-
-	</div>
-	<!-- Footer / End -->
-
-</div>
-<!-- Wrapper / End -->
-
-
-@include('landing3/partials/pop-up-register-login')
-
-<!-- Scripts
-================================================== -->
-@include('landing3/partials/js')
-<script type="text/javascript">
-	// window.onload = setTimeout(swapDiv, 9000);
-	// window.onload = setTimeout(swapDiv2, 18000);
-	// function swapDiv() {
-	//     $("#div_1").swap({
-	//         target: "div_2", // Mandatory. The ID of the element we want to swap with
-	//         opacity: "0.8", // Optional. If set will give the swapping elements a translucent effect while in motion
-	//         speed: 1000, // Optional. The time taken in milliseconds for the animation to occur
-	//     });
-	//     $("#precio_2").text("$10");
-	// }
-	// function swapDiv2() {
-	//     $("#div_3").swap({
-	//         target: "div_2", // Mandatory. The ID of the element we want to swap with
-	//         opacity: "0.8", // Optional. If set will give the swapping elements a translucent effect while in motion
-	//         speed: 1000, // Optional. The time taken in milliseconds for the animation to occur
-	//     });
-	//     $("#precio_3").text("$190");
-	// }
-
-</script>
-<script src="js/jquery-ui.min.js"></script>
-<script>
-	jQuery(document).ready(function(){
-
-		$('.blink_me').animatedBG({
-			colorSet: ['#dc3545', '#a01321']
-		});
-
-	});
-</script>
-
-
-</body>
-</html>
+@endsection
