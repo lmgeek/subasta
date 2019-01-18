@@ -117,18 +117,6 @@ $objtAuction = new Auction();
                     <!-- Auctions Container -->
                     <div class="tasks-list-container margin-top-35"  id="FeaturedAuctions">
                         @if(count($auctions)>0)
-                            <?php
-                            function cmp($a, $b){
-                                return strcmp($a["end"], $b["end"]);
-                            }
-                            if(isset($auctions)){
-                                usort($auctions,'cmp');
-                            }
-                            if(isset($auctionsf)){
-                                usort($auctionsf,'cmp');
-                            }
-                            ?>
-
                         @foreach($auctions as $auction)
                             @if($contadorsubastasdestacadas<3)
                                 <?php $contadorsubastasdestacadas++;?>

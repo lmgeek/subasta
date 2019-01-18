@@ -764,8 +764,20 @@ class AuctionController extends Controller
         return view('landing',compact('auctions','status','products','sellers','request','boats','userRating','type'));
         //return view('/landing3/index',compact('auctions','status','products','sellers','request','boats','userRating','type'));
     }
-    public function getAuctionsDataForHome($auctions,$return){
+    public function orderAuctions($auctions){
+	    $cant=count($auctions);
+	    for($z=0;$z<$cant;$z++){
+	        if($z<($cant-1) and $auctions[$z]->end>$auctions[$z+1]->end){
+	            $temp=$auctions[$z];
+	            $auctions[$z]=$auctions[$z+1];
+	            $auctions[$z+1]=$temp;
+            }
+        }
+	    return $auctions;
+    }
+    public function getAuctionsDataForHome($auctionsnoorder,$return){
         $auctionsreturn=array();$userRating =  array();$usercat=array();$port=array();$products=array();$calibers=array();$users=array();$price=array();
+        $auctions=$this->orderAuctions($auctionsnoorder);
         foreach($auctions as $a) {
             $bids = Bid::where('auction_id', $a->id)->get();
             $availability = $a->amount;

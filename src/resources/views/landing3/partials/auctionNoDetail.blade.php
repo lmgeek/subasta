@@ -84,45 +84,33 @@ switch ($auction->batch->caliber){
             @if(empty($finished))
                 <div  id="OpenerPopUpCompra{{$auction->id}}">
                     <div class="w100">
-                    @can('canBid', \App\Auction::class)
-                        <div class="">
-                        @if ($disponible > 0)
-                            <a
-                            @if(Auth::user()->status != "approved")
-                                href="#" onclick="notifications(0,null,null,null,'Usuario no aprobado')"
-                            @else
-                                <? if (Auth::user()->type == \App\User::VENDEDOR){ ?>
-                                href="#" onclick="notifications(0,null,null,null,'Los vendedores no pueden participar en subastas')"
-                                <? } else {?>
-                                href="#small-dialog-compra-{{$auction->id}}" class="button ripple-effect popup-with-zoom-anim w100"
-                                <? } ?>
-                            @endif
-                            >Comprar</a>
-                        @endif
-                        </div>
-                    @else
-                        <? if (Auth::user()){ ?>
-                        <a
-                            @if(Auth::user()->status != "approved")
-                            href="#" onclick="notifications(0,null,null,null,'Usuario no aprobado')"
-                            @else
-                                <? if (Auth::user()->type == \App\User::VENDEDOR){ ?>
-                            href="#" onclick="notifications(0,null,null,null,'Los vendedores no pueden participar en subastas')"
-                                <? } else {?>
-                            href="#small-dialog-compra-{{$auction->id}}" class="button ripple-effect popup-with-zoom-anim w100"
-                                <? } ?>
-                            @endif
-                        >Comprar</a>
-                        <? } else { ?>
-                        <a href="{{ url('/auction') }}" class="button">Comprar</a>
-                        <? } ?>
-                    @endcan
+                    <?php
+                    if(Auth::user()){
+                        $userses=Auth::user();//$userses->usersession
+                        if($userses->status!="approved"){?>
+                        <a href="#" class="button" onclick="notifications(0,null,null,null,'Usuario no aprobado')">Comprar</a>
+                        <div class="w100 text-center margin-top-5 t14">o puedes <a href="#" onclick="notifications(0,null,null,null,'Usuario no aprobado')">realizar una oferta</a></div>
+                        <?php }elseif($userses->status=="approved" and $userses->type!=\App\User::COMPRADOR){?>
+                        <a href="#" class="button" onclick="notifications(0,null,null,null,'El tipo de usuario no permite comprar')">Comprar</a>
+                        <div class="w100 text-center margin-top-5 t14">o puedes <a href="#" onclick="notifications(0,null,null,null,'El tipo de usuario no permite ofertar')">realizar una oferta</a></div>
+                        <?php }else{?>
+                        <a href="#small-dialog-compra-{{$auction->id}}" class="button ripple-effect popup-with-zoom-anim w100">Comprar</a>
+                        <div class="w100 text-center margin-top-5 t14">o puedes <a href="#small-dialog-oferta{{$auction->id}}" class="sign-in popup-with-zoom-anim">realizar una oferta</a></div>
+                        @include('landing3/partials/pop-up-compra')
+                        <?php }
+                    }else{ ?>
+                        <a href="/auction" class="button">Comprar</a>
+                        <div class="w100 text-center margin-top-5 t14">o puedes <a href="/auction">realizar una oferta</a></div>
+                    <?php
+                    }
+                    ?>
+
 
                         {{--<a href="#small-dialog-compra-{{$auction->id}}" class="button ripple-effect popup-with-zoom-anim w100">Comprar</a>--}}
                     </div>
-                    <div class="w100 text-center margin-top-5 t14">o puedes <a href="#small-dialog-oferta" class="sign-in popup-with-zoom-anim">realizar una oferta</a></div>
+
                 </div>
-                @include('landing3/partials/pop-up-compra')
+
             @endif
         </div>
     </div>
