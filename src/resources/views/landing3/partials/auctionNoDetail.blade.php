@@ -23,13 +23,13 @@ switch ($auction->batch->caliber){
         <!-- Photo -->
         @if(!isset($nopic))
         <div class="task-listing-photo">
-            <img src="{{ asset('/img/products/'.$auction->batch->product->image_name) }}" alt="{{$auction->batch->product->name}}">
+            <img src="/img/products/{{$auction->batch->product->image_name}}" alt="{{$auction->batch->product->name}}">
         </div>
         @endif
         <!-- Details -->
         <div class="task-listing-description">
             <h3 class="task-listing-title">
-                <a href="subasta.php">{{$auction->batch->product->name}} {{$calibre}}</a>
+                <a href="/auction/details/{{$auction->id}}">{{$auction->batch->product->name}} {{$calibre}}</a>
                 <div class="star-rating" data-rating="{{$auction->batch->quality}}"></div>
                 @if($auction->type!='public')
                     <i class="t16 icon-feather-eye-off" data-tippy-placement="right" title="Subasta Privada" data-tippy-theme="dark"></i></h3>
