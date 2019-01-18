@@ -33,6 +33,7 @@ $userId = $auction->batch->arrive->boat->user->id;
 
     <!-- Header Container
     ================================================== -->
+@include('landing3/partials/header-details')
 @include('landing3/partials/header')
 <!-- Header Container / End -->
 
@@ -40,7 +41,7 @@ $userId = $auction->batch->arrive->boat->user->id;
 
     <!-- Titlebar
     ================================================== -->
-    <div class="single-page-header bd-bt-1" data-background-image="landing3/images/single-auction.jpg">
+    <div class="single-page-header bd-bt-1" data-background-image="{{asset('landing3/images/single-auction.jpg')}}">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
