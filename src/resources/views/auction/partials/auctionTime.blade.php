@@ -1,5 +1,10 @@
 <div class="row" style="margin-top: 10px">
-    <?php use Carbon\Carbon; ?>
+    <?php use Carbon\Carbon;
+    $fechaActual = date('Y-m-d H:i:s');
+    $fechaInicial = $a->start;
+    $fechaFinal = $a->end;
+    $segundos = strtotime($fechaFinal) - strtotime($fechaActual);
+    $segFinal = strtotime($fechaFinal) - strtotime($fechaInicial);?>
     @if($status == \App\Auction::IN_CURSE or $status == \App\Auction::MY_IN_CURSE)
     <div class="col-md-6">
         <label for="">{{ trans('auction.completion') }}</label><br>
@@ -10,8 +15,10 @@
             @if ($a->getAuctionLeftTimeInMinutes() <= env('AUCTION_GRAPH_MAX_MINUTES',360))
             <input type="text"
                    class        = "dial dialLeft m-r"
-                   value        = "{{ $a->getAuctionLeftTimeInMinutes() }}"
-                   data-max     = "{{ env('AUCTION_GRAPH_MAX_MINUTES',360) }}"
+                   {{--value        = "{{ $a->getAuctionLeftTimeInMinutes() }}"--}}
+                   {{--data-max     = "{{ env('AUCTION_GRAPH_MAX_MINUTES',360) }}"--}}
+                   value="{{ $segundos }}"
+                   data-max="{{ $segFinal }}"
                    data-min     = "0"
                    name         = "amount"
                    data-fgColor = "#1AB394"
