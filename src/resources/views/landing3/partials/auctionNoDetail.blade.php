@@ -22,14 +22,14 @@ switch ($auction->batch->caliber){
     <div class="task-listing-details">
         <!-- Photo -->
         @if(!isset($nopic))
-        <div class="task-listing-photo">
-            <img src="{{ asset('/img/products/'.$auction->batch->product->image_name) }}" alt="{{$auction->batch->product->name}}">
-        </div>
-        @endif
-        <!-- Details -->
+            <div class="task-listing-photo">
+                <img src="{{ asset('/img/products/'.$auction->batch->product->image_name) }}" alt="{{$auction->batch->product->name}}">
+            </div>
+    @endif
+    <!-- Details -->
         <div class="task-listing-description">
             <h3 class="task-listing-title">
-                <a href="subasta.php">{{$auction->batch->product->name}} {{$calibre}}</a>
+                <a href="{{url('/auction/details/'.$auction->id)}}">{{$auction->batch->product->name}} {{$calibre}}</a>
                 <div class="star-rating" data-rating="{{$auction->batch->quality}}"></div>
                 @if($auction->type!='public')
                     <i class="t16 icon-feather-eye-off" data-tippy-placement="right" title="Subasta Privada" data-tippy-theme="dark"></i></h3>
@@ -70,11 +70,11 @@ switch ($auction->batch->caliber){
                 ?>
                 <p> <div id="auctionAvailability{{$auction->id}}" style="display: inline-block!important;font-weight: bold"><small style="font-weight: 400">Disponibilidad:</small> {{$disponible}} <small>de</small> {{$total}} kg</div> <br>
                 @if(empty($finished))
-                <small class="green fw700" id="OffersCounter{{$auction->id}}">
-                    <?=(($cantofertas>0)?('<i class="icon-material-outline-local-offer green"></i>'.$cantofertas.(($cantofertas>1)?' Ofertas Directas':' Oferta Directa')):'')?>
-                </small>
-                @endif
-                </p>
+                    <small class="green fw700" id="OffersCounter{{$auction->id}}">
+                        <?=(($cantofertas>0)?('<i class="icon-material-outline-local-offer green"></i>'.$cantofertas.(($cantofertas>1)?' Ofertas Directas':' Oferta Directa')):'')?>
+                    </small>
+                    @endif
+                    </p>
 
                         <div class="pricing-plan-label billed-monthly-label <?=(empty($finished)?'red':'')?>" id="PriceContainer{{$auction->id}}"><strong class="red" id="Price{{$auction->id}}">${{$price[$auction->id]}}</strong>/ kg<br>
                             <small class="red fw500" id="ClosePrice{{$auction->id}}" style="display:none"><?=(empty($finished))?'&iexcl;Cerca del precio l&iacute;mite!':'Precio Final'?></small></div>
