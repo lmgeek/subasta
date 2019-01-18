@@ -266,8 +266,3 @@
 
 </header>
 <div class="clearfix"></div>
-
-
-
-
-
