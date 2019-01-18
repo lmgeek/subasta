@@ -190,6 +190,7 @@ class AuctionController extends Controller
             $data['currenttime'] = $time;
             $data['price'] = $price;
             $data['available'] = $available['available'];
+            $data['amount']=$auction->amount;
             return json_encode($data);
         }else{
             $data['price'] = $price;
@@ -776,7 +777,7 @@ class AuctionController extends Controller
 	    return $auctions;
     }
     public function getAuctionsDataForHome($auctionsnoorder,$return){
-        $auctionsreturn=array();$userRating =  array();$usercat=array();$port=array();$products=array();$calibers=array();$users=array();$price=array();
+        $auctionsreturn=array();$userRating =  array();$usercat=array();$port=array();$products=array();$calibers=array();$users=array();$price=array();$close=array();
         $auctions=$this->orderAuctions($auctionsnoorder);
         foreach($auctions as $a) {
             $bids = Bid::where('auction_id', $a->id)->get();
@@ -793,6 +794,7 @@ class AuctionController extends Controller
                 $userRating[$user->id] = ($ratings != null and $total > 0) ? (round(($ratings->positive * 100) / $total, 2)) : 0;
                 $usercat[$user->id] = Auction::catUserByAuctions($user->id);
                 $price[$a->id] = $this->calculatePriceID($a->id);
+                $close[$a->id]=($price[$a->id]<$a->target_price)?1:0;
                 $auctionsreturn[] = $a;
                 if ($return != null) {
 
@@ -838,12 +840,13 @@ class AuctionController extends Controller
             'users'=>$users,
             'usercat'=>$usercat,
             'userrating'=>$userRating,
-            'prices'=>$price
+            'prices'=>$price,
+            'close'=>$close
         );
     }
     public function subastasDestacadasHome($return=4)
     {
-        $auctions = array();$finishedauctions = array();$userRating =  array();$usercat=array();$port=array();$products=array();$calibers=array();$users=array();$price=array();
+        $auctions = array();$finishedauctions = array();$userRating =  array();$usercat=array();$port=array();$products=array();$calibers=array();$users=array();$price=array();$close=array();
         $auctions1 = Auction::auctionHome()[0];
         $auctiondetails1=$this->getAuctionsDataForHome($auctions1,$return);
         $auctions2 = Auction::auctionHome()[1];
@@ -884,6 +887,9 @@ class AuctionController extends Controller
             foreach (${$var}['prices'] as $item => $val) {
                 $price[$item] = $val;
             }
+            foreach (${$var}['close'] as $item => $val) {
+                $close[$item] = $val;
+            }
         }
         if($return==4){
             $ports=Ports::Select()->get();
@@ -897,6 +903,7 @@ class AuctionController extends Controller
                 ->withPrice($price)
                 ->withBoats($boats)
                 ->withBuyers($buyers)
+                ->withClose($close)
                 ->withProducts($products);
         }else{
             return array(
@@ -909,6 +916,7 @@ class AuctionController extends Controller
                 'products'=>$products,
                 'caliber'=>$calibers,
                 'users'=>$users,
+                'close'=>$close,
                 'sellers'=>$sellers);
         }
     }
@@ -922,6 +930,7 @@ class AuctionController extends Controller
             ->withPrice($all['price'])
             ->withBoats($all['boats'])
             ->withusers($all['users'])
+            ->withClose($all['close'])
             ->withCaliber($all['caliber'])
             ->withProducts($all['products'])
             ;
