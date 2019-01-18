@@ -26,7 +26,7 @@ class RegisterNewUserRequest extends Request
         return [
             'name'=>"required|regex:(^[a-zA-Zá-úÁ-Ú\s']+$)",
             'lastname'=>"required|regex:(^[a-zA-Zá-úÁ-Ú\s']+$)",
-            'alias'=>"required|regex:(^[0-9a-zA-Zá-úÁ-Ú\s*]$)",
+            'alias'=>"required|regex:([a-zA-Z_0-9])",
             'dni'=>"required|min:7|regex:(^[0-9]+$)",
             'cuit'=>"required|min:13|regex:(^[0-9-]+$)",
             'password'=>'required|confirmed|regex:(^\S*(?=\S{6,8})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$)',

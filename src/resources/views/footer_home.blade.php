@@ -3,14 +3,14 @@
         <div class="row">
             <div class="col-lg-12 text-center m-t-lg m-b-lg">
                 <p style="color: #FFFFFF">
-                    <img alt="image" height="20" src="{{ asset('/landing/img/logo_subastas_header.png') }}" />
+                    <img alt="image" height="20" src="/landing/img/logo_subastas_header.png" />
                     <br>
                     <strong>
                     Copyright &copy; <? echo date('Y'); ?> </strong>
                      Todos los derechos reservados.<br>
                     Terminos y condiciones, Privacidad y Notificación sobre Cockies.
                 </p>
-                <font color="#ffffff">poweder by </font><img class="text-center" alt="image" width="80px" src="{{ asset('/img/netlabs-footer.png') }}" />
+                <font color="#ffffff">poweder by </font><img class="text-center" alt="image" width="80px" src="/img/netlabs-footer.png" />
             </div>
         </div>
     </div>
@@ -76,29 +76,29 @@
 <!-- Scripts -->
 <!-- Landing -->
 <script src="https://unpkg.com/currency.js@1.1.4/dist/currency.min.js"></script>
-<script src="{{ asset('/landing/js/jquery-2.1.1.js') }}"></script>
-<script src="{{ asset('/landing/js/pace.min.js') }}"></script>
-<script src="{{ asset('/landing/js/bootstrap.min.js') }}"></script>
-<script src="{{ asset('/landing/js/classie.js') }}"></script>
-<script src="{{ asset('/landing/js/cbpAnimatedHeader.js') }}"></script>
-<script src="{{ asset('/landing/js/wow.min.js') }}"></script>
-<script src="{{ asset('/landing/js/inspinia.js') }}"></script>
+<script src="/landing/js/jquery-2.1.1.js"></script>
+<script src="/landing/js/pace.min.js"></script>
+<script src="/landing/js/bootstrap.min.js"></script>
+<script src="/landing/js/classie.js"></script>
+<script src="/landing/js/cbpAnimatedHeader.js"></script>
+<script src="/landing/js/wow.min.js"></script>
+<script src="/landing/js/inspinia.js"></script>
 
-    <script src="{{ asset('/js/plugins/metisMenu/jquery.metisMenu.js') }}"></script>
-    <script src="{{ asset('/js/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
+    <script src="/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
-    {{--<script src="{{ asset('/js/plugins/toastr/toastr.min.js') }}"></script>--}}
+    {{--<script src="/js/plugins/toastr/toastr.min.js"></script>--}}
 <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-    <script src="{{ asset('/js/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
+    <script src="/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
 
-    <script src="{{ asset('/js/plugins/moment/moment.js') }}"></script>
-    <script src="{{ asset('/js/plugins/datetimepicker/bootstrap-datetimepicker.js') }}"></script>
-    <script src="{{ asset('/js/plugins/ionRangeSlider/ion.rangeSlider.min.js') }}"></script>
-    <script src="{{ asset('/js/plugins/star_rating/jquery.raty.js') }}"></script>
-    <script src="{{ asset('/js/plugins/jasny/jasny-bootstrap.min.js') }}"></script>
-    <script src="{{ asset('/js/plugins/jsKnob/jquery.knob2.js') }}"></script>
-    <script src="{{ asset('/js/plugins/chosen/chosen.jquery.js') }}"></script>
+    <script src="/js/plugins/moment/moment.js"></script>
+    <script src="/js/plugins/datetimepicker/bootstrap-datetimepicker.js"></script>
+    <script src="/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+    <script src="/js/plugins/star_rating/jquery.raty.js"></script>
+    <script src="/js/plugins/jasny/jasny-bootstrap.min.js"></script>
+    <script src="/js/plugins/jsKnob/jquery.knob2.js"></script>
+    <script src="/js/plugins/chosen/chosen.jquery.js"></script>
 
     <script>
 
