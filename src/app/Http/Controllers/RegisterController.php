@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Comprador;
 use App\Http\Requests\RegisterNewBuyerRequest;
+use App\Http\Requests\RegisterNewUserRequest;
 use App\Jobs\SendEmail;
 use App\User;
 use App\Vendedor;
@@ -82,7 +83,7 @@ class RegisterController extends Controller
 
         $name = $request->input('name');
         $lastname = $request->input('lastname');
-        $nickname = $request->input('nickname');
+        $nickname = $request->input('alias');
         $cuit = $request->input('cuit');
         $email = $request->input('email');
         $password = $request->input('password');
