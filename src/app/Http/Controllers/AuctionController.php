@@ -1033,6 +1033,10 @@ class AuctionController extends Controller
         $available = $this->getAvailable($auction_id, $auction->amount);
         $offers = $this->getOffers($auction_id);
         foreach ($offers as $offer) {
+            // Verifico la fecha de la subasta
+            if ($auction->end >= date('Y-m-d H:i:s'))
+                return ('<h1 style="    text-align: center; margin-top: 300px; font-size: 5em">La subasta no ha culminado</h1>');
+
             //verifica que el precio ofertado sea mayor e igual al de la subasta terminada
             if ($offer->price >= $offer->end_price){
                 if ($offer->status == Offers::PENDIENTE){
