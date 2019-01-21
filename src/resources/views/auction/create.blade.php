@@ -112,15 +112,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="interval">{{ trans('auction.interval') }}</label>
-                                        <div id="ionrange_2"></div>
-                                        <input type="hidden" name="intervalo" id="interval" value="{{ old('intervalo',0) }}">
-                                    </div>
-                                </div>
-                            </div>
+
                             <div class="row" style="margin-top: 20px;">
                                 <div class="col-md-4 text-center">
                                     <p for="exampleInputEmail1" class="labelt">Cantidad</p>
@@ -159,6 +151,16 @@
                                         <div class="input-group">
                                             <span class="input-group-addon">$</span>
                                             <input type="text" min="0" name="endPrice" class="form-control number" value="{{ old('endPrice') }}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="interval">El {{ trans('auction.interval') }} es de: 1 minuto</label>
+                                            {{--<div id="ionrange_2"></div>--}}
+                                            <input type="hidden" name="intervalo" id="interval" value="1">
+                                            {{--<input type="hidden" name="intervalo" id="interval" value="{{ old('intervalo',0) }}">--}}
                                         </div>
                                     </div>
                                 </div>
