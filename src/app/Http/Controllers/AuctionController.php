@@ -1043,9 +1043,8 @@ class AuctionController extends Controller
                     //registramos la compra a la mejor opc de compra
                     $offerForSale = $this->offerForSale($auction, $offer);
                     if ($offerForSale == true)
-                        return;
-                } else
-                    return ('<h1 style="    text-align: center; margin-top: 300px; font-size: 5em">La subasta no ha culminado</h1>');
+                        return ('<h1 style="    text-align: center; margin-top: 300px; font-size: 5em">Se vendio todo</h1>');
+                }
             }
         }
 
@@ -1092,13 +1091,10 @@ class AuctionController extends Controller
 
     public function offerForSale($auction, $offer)
     {
-//        dd($offer);
         $auction_id = $auction->id;
         $prices = $offer->price;
         $resp  =  array();
         $price = str_replace(",","",$prices);
-        $this->authorize('canBid',Auction::class);
-
         $available = $this->getAvailable($auction_id, $auction->amount);
 
         if ($available['available'] > 0){
@@ -1153,8 +1149,9 @@ class AuctionController extends Controller
                 $message->subject(trans('users.offer_Bid'));
                 $message->to($user->email);
             });
+            return true;
         } else
-            return;
+            return false;
     }
 
     public function getOffers($auction_id)
@@ -1169,8 +1166,9 @@ class AuctionController extends Controller
             'batches.caliber',
             'batches.quality',
             'products.name AS Producto',
-            'auctions_offers.user_id',
-            'users.name AS Comprador')
+            'auctions_offers.user_id'/*,
+            'users.name AS Comprador'*/
+        )
             ->join('auctions','auctions.id','=','auction_id')
             ->join('batches','batches.id','=','auctions.batch_id')
             ->join('products','products.id','=','batches.product_id')
