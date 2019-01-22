@@ -65,14 +65,15 @@ class SellerBoatsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateBoatRequest $request)
+//    public function store(CreateBoatRequest $request)
+    public function store(Request $request)
     {
 
         $this->authorize('addBoat', new Boat());
 
         $boat = new Boat();
-        $boat->name = $request->input('name');
-        $boat->matricula = $request->input('matricula');
+        /*$boat->name = $request->input('name');
+        $boat->matricula = $request->input('matricula');*/
         $boat->nickname = $request->input('alias');
         $boat->status = Boat::PENDIENTE;
         $boat->user_id = Auth::user()->id;

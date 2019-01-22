@@ -45,7 +45,7 @@
                     <input name="lastname" id="lastname" type="text" class="form-control" placeholder="{{trans('register.lastname')}}"  value="{{ old('lastname') }}">
                 </div>
                 <div class="form-group">
-                    <input name="alias" id="alias" type="text" class="form-control" placeholder="{{trans('register.nickname')}}"  maxlength="10" value="{{ old('alias') }}" onkeypress="return check(event)">
+                    <input name="alias" id="alias" type="text" class="form-control" placeholder="{{trans('register.nickname')}}"  maxlength="10" value="{{ old('alias') }}" onkeypress="return blankSpace(event)">
                 </div>
 				<div class="form-group">
                     <input name="cuit" id="cuit" type="text" class="form-control" placeholder="{{trans('register.cuit')}}" value="{{ old('cuit') }}" >
@@ -79,6 +79,7 @@
     <script src="/js/jquery-2.1.1.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/jquery.mask.js"></script>
+    <script src="/landing3/js/netlabs-subastas3.js"></script>;
     <!-- iCheck -->
     <script src="/js/plugins/iCheck/icheck.min.js"></script>
     <script>
@@ -123,20 +124,6 @@
         });
 
 
-        //Evitar escribir espacio
-        function check(e) {
-            tecla = (document.all) ? e.keyCode : e.which;
-
-            //Tecla de retroceso para borrar, siempre la permite
-            if (tecla == 8) {
-                return true;
-            }
-
-            // Patron de entrada, en este caso solo acepta numeros y letras
-            patron = /[A-Za-z0-9]/;
-            tecla_final = String.fromCharCode(tecla);
-            return patron.test(tecla_final);
-        }
 
     </script>
 </body>
