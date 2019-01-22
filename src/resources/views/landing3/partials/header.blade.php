@@ -54,7 +54,7 @@
             <!-- Left Side Content / End -->
 
 
-            <!-- Right Side Content / End -->
+            <!-- Si el usuario es vendedor aprace un icono para indicar que puede crear una nueva subasta-->
             <div class="right-side">
             @if (Auth::check())
                 @if(Auth::user()->type == \App\User::VENDEDOR)
@@ -162,7 +162,8 @@
                             <!-- Messages -->
                             <div class="header-notifications user-menu">
                                 <div class="header-notifications-trigger">
-                                    <a href="#"><div class="user-avatar"><img src="landing3/images/avatar/gear_icon.ico" alt="jlopez"></div></a>
+                                    {{--<a href="#"><div class="user-avatar "><i class="icon-feather-user"></i></div></a>--}}
+                                    <a href="#"><div class=""><i class="icon-feather-user"></i></div></a>
                                 </div>
 
                                 <!-- Dropdown -->
@@ -173,9 +174,9 @@
 
                                         <!-- User Name / Avatar -->
                                         <div class="user-details">
-                                            <div class="user-avatar status-online"><img src="landing3/images/avatar/gear_icon.ico" alt=""></div>
+                                            <div class="user-avatar status-online"><img src="landing3/images/avatar/icon-user-64.png" alt=""></div>
                                             <div class="user-name">
-                                                Julio L&oacute;pez <span class="blue">Netlabs</span><span class="blue">Vendedor</span>
+                                                {{Auth::user()->name}} <span class="blue">Subastas del Mar</span><span class="blue">Vendedor</span>
                                             </div>
                                         </div>
 
@@ -226,7 +227,7 @@
             <!-- Messages -->
             <div class="header-notifications user-menu">
                 <div class="header-notifications-trigger">
-                    <a href="#"><div class="user-avatar"><img src="landing3/images/avatar/gear_icon.ico" alt="jlopez"></div></a>
+                    <a href="#"><div class=""><i class="icon-feather-user"></i></div></a>
                 </div>
 
                 <!-- Dropdown -->
@@ -237,9 +238,9 @@
 
                         <!-- User Name / Avatar -->
                         <div class="user-details">
-                            <div class="user-avatar status-online"><img src="landing3/images/avatar/gear_icon.ico" alt=""></div>
+                            <div class="user-avatar status-online"><img src="landing3/images/avatar/icon-user-64.png" alt=""></div>
                             <div class="user-name">
-                                Julio L&oacute;pez <span class="blue">Netlabs</span><span class="blue">Comprador</span>
+                                {{Auth::user()->name}} <span class="blue">Subastas del Mar</span><span class="blue">Comprador</span>
                             </div>
                         </div>
 
@@ -286,7 +287,7 @@
             <!-- Messages -->
             <div class="header-notifications user-menu">
                 <div class="header-notifications-trigger">
-                    <a href="#"><div class="user-avatar"><img src="landing3/images/avatar/gear_icon.ico" alt="jlopez"></div></a>
+                    <a href="#"><div class=""><i class="icon-feather-user"></i></div></a>
                 </div>
 
                 <!-- Dropdown -->
@@ -297,9 +298,9 @@
 
                         <!-- User Name / Avatar -->
                         <div class="user-details">
-                            <div class="user-avatar status-online"><img src="landing3/images/avatar/gear_icon.ico" alt=""></div>
+                            <div class="user-avatar status-online"><img src="landing3/images/avatar/icon-user-64.png" alt=""></div>
                             <div class="user-name">
-                                Julio L&oacute;pez <span class="blue">Netlabs</span><span class="blue">Administrador</span>
+                                {{Auth::user()->name}} <span class="blue">Subastas del Mar</span><span class="blue">Administrador</span>
                             </div>
                         </div>
 

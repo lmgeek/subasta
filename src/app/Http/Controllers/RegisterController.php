@@ -40,6 +40,7 @@ class RegisterController extends Controller
     {
         $name = $request->input('name');
         $lastname = $request->input('lastname');
+        $nickname = $request->input('alias');
         $dni = $request->input('dni');
         $email = $request->input('email');
         $password = $request->input('password');
@@ -48,6 +49,7 @@ class RegisterController extends Controller
         $user = new User();
         $user->name = $name;
         $user->lastname = $lastname;
+        $user->nickname = $nickname;
         $user->email = $email;
         $user->password = Hash::make($password);
         $user->phone = $phone;

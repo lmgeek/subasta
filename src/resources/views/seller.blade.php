@@ -45,7 +45,7 @@
                     <input name="lastname" id="lastname" type="text" class="form-control" placeholder="{{trans('register.lastname')}}"  value="{{ old('lastname') }}">
                 </div>
                 <div class="form-group">
-                    <input name="alias" id="alias" type="text" class="form-control" placeholder="Alias"  maxlength="10" value="{{ old('Nickname') }}" onkeypress="return check(event)">
+                    <input name="alias" id="alias" type="text" class="form-control" placeholder="{{trans('register.nickname')}}"  maxlength="10" value="{{ old('alias') }}" onkeypress="return check(event)">
                 </div>
 				<div class="form-group">
                     <input name="cuit" id="cuit" type="text" class="form-control" placeholder="{{trans('register.cuit')}}" value="{{ old('cuit') }}" >
