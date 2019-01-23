@@ -15,6 +15,10 @@
 				<?php $contadorsubastasdestacadas=0;$nopic=1;?>
 
 				<!-- Auctions Container -->
+					<div id="FilterToggler" class="topnav" onclick="$('#MasterFilter').slideToggle()">
+						<div id="title">Filtros</div>
+						<i class="icon-feather-sliders" id="icon"></i>
+					</div>
 					<div id="MasterFilter"class=" margin-top-35">
 						<div class="sidebar-widget">
 							<h3>Puertos</h3>

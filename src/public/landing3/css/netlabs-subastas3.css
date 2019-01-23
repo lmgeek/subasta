@@ -84,6 +84,7 @@
     display:inline-block;
     vertical-align: top;
 }
+#FilterToggler{display: none;}
 @media screen and (max-width:768px){
     #notificationsauction{
         width: calc(100% - 20px);
@@ -91,5 +92,27 @@
         padding: 10px;
         bottom: 0px;
         top: auto;
+    }
+    #MasterFilter{
+        width:100%;
+        display:none;
+    }
+    #Auctions{
+        width:100%;
+        vertical-align: top;
+    }
+    #FilterToggler{
+        display: block;
+    }
+    #FilterToggler > #title{
+        display: inline-block;
+        font-size: 17px;
+        padding:14px 16px;
+    }
+    #FilterToggler > #icon{
+        display: inline-block;
+        float: right;
+        font-size:28px;
+        padding:14px 16px;
     }
 }
