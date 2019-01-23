@@ -32,7 +32,7 @@
                                 <select class="form-control" id="boat_id" name="barco">
                                     <option>Seleccione...</option>
                                     @foreach($boats as $boat)
-                                        <option @if($boat_id == $boat->id) selected @endif value="{{ $boat->id }}">{{ $boat->name }}</option>
+                                        <option @if($boat_id == $boat->id) selected @endif value="{{ $boat->id }}">{{ $boat->nickname }}</option>
                                     @endforeach
                                 </select>
                             </div>
