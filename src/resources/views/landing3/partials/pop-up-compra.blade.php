@@ -29,7 +29,7 @@
                                     </div>
                                 </div>
                                 <div class="bidding-field">
-                                    <input type="text" class="with-border" value="{{$auction->batch->product->unit}}" disabled>
+                                    <input type="text" class="with-border" value="{{$auction->batch->product->unit}}" id="UnitAuction{{$auction->id}}" disabled>
                                     <input type="hidden" id="PriceBid{{$auction->id}}">
                                 </div>
                             </div>

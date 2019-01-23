@@ -3,6 +3,14 @@ use App\Auction;
 $userId = $auction->batch->arrive->boat->user->id;
 $close=($price[$auction->id]<$auction->targetprice)?1:0;
 $userRatings=(($userrating[$userId]/20)<1)?1:round(($userrating[$userId]/20),0,PHP_ROUND_HALF_UP);
+$vendido = 0;
+foreach ($auction->bids()->where('status','<>',\App\Bid::NO_CONCRETADA)->get() as $b) {
+    $vendido+= $b->amount;
+}
+$total = $auction->amount;
+$disponible = ($total-$vendido);
+$cantbids=count($auction->bids);
+$cantofertas=\App\Http\Controllers\AuctionController::getOffersCount($auction->id);
 ?>
 <div id="Auction_<?=$auction->id?>" class="task-listing <?=(empty($finished))?'auction':''?>" data-id="{{$auction->id}}" data-price="{{$price[$auction->id]}}" data-end="{{$auction->end}}" data-endOrder="{{date('YmdHi',strtotime($auction->end))}}" data-close="{{$close}}"data-userrating="{{$userRatings}}"
 <?='data-port="'.$ports[$auction->batch->arrive->port_id]['name'].'"
@@ -31,7 +39,7 @@ switch ($auction->batch->caliber){
     <!-- Details -->
         <div class="task-listing-description">
             <h3 class="task-listing-title">
-                <a href="{{url('/auction/details/'.$auction->id)}}">{{$auction->batch->product->name}} {{$calibre}}</a>
+                <a href="{{(empty($finished))?url('/auction/details/'.$auction->id):'#'}}">{{$auction->batch->product->name}} {{$calibre}}</a>
                 <div class="star-rating" data-rating="{{$auction->batch->quality}}"></div>
                 @if($auction->type!='public')
                     <i class="t16 icon-feather-eye-off" data-tippy-placement="right" title="Subasta Privada" data-tippy-theme="dark"></i></h3>
@@ -63,14 +71,7 @@ switch ($auction->batch->caliber){
         <div class="task-listing-bid-inner">
             <div class="task-offers">
                 <?php
-                $vendido = 0;
-                foreach ($auction->bids()->where('status','<>',\App\Bid::NO_CONCRETADA)->get() as $b) {
-                    $vendido+= $b->amount;
-                }
-                $total = $auction->amount;
-                $disponible = ($total-$vendido);
-                $cantbids=count($auction->bids);
-                $cantofertas=\App\Http\Controllers\AuctionController::getOffersCount($auction->id);
+
                 ?>
                 <p> <div id="auctionAvailability{{$auction->id}}" style="display: inline-block!important;font-weight: bold"><small style="font-weight: 400">Disponibilidad:</small> {{$disponible}} <small>de</small> {{$total}} {{$auction->batch->product->unit}}</div> <br>
                 @if(empty($finished))
@@ -97,12 +98,14 @@ switch ($auction->batch->caliber){
                         <div class="text-center"><small class="green fw700 text-center" id="OffersCounter{{$auction->id}}">
                             <?=(($cantofertas>0)?('<i class="icon-material-outline-local-offer green"></i>'.$cantofertas.(($cantofertas>1)?' Ofertas Directas':' Oferta Directa')):'')?>
                         </small></div>
+                        <input type="hidden" value="{{$auction->batch->product->unit}}" id="UnitAuction{{$auction->id}}">
                         <?php }elseif($userses->status=="approved" and $userses->type!=\App\User::COMPRADOR){?>
                         <a href="#" class="button" onclick="notifications(0,null,null,null,'El tipo de usuario no permite comprar')">Comprar</a>
                         <div class="w100 text-center margin-top-5 t14">o puedes <a href="#" onclick="notifications(0,null,null,null,'El tipo de usuario no permite ofertar')">realizar una oferta</a></div>
                         <div class="text-center"><small class="green fw700 text-center" id="OffersCounter{{$auction->id}}">
                             <?=(($cantofertas>0)?('<i class="icon-material-outline-local-offer green"></i>'.$cantofertas.(($cantofertas>1)?' Ofertas Directas':' Oferta Directa')):'')?>
                         </small></div>
+                        <input type="hidden" value="{{$auction->batch->product->unit}}" id="UnitAuction{{$auction->id}}">
                         <?php }else{?>
                         <a href="#small-dialog-compra-{{$auction->id}}" onclick="openPopupCompra({{$auction->id}})"  class="button ripple-effect popup-with-zoom-anim w100">Comprar</a>
                         <div class="w100 text-center margin-top-5 t14">o puedes <a href="#small-dialog-oferta{{$auction->id}}" class="sign-in popup-with-zoom-anim">realizar una oferta</a></div>
@@ -118,6 +121,7 @@ switch ($auction->batch->caliber){
                         <div class="text-center"><small class="green fw700 text-center" id="OffersCounter{{$auction->id}}">
                                 <?=(($cantofertas>0)?('<i class="icon-material-outline-local-offer green"></i>'.$cantofertas.(($cantofertas>1)?' Ofertas Directas':' Oferta Directa')):'')?>
                             </small></div>
+                        <input type="hidden" value="{{$auction->batch->product->unit}}" id="UnitAuction{{$auction->id}}">
                     <?php
                     }
                     ?>

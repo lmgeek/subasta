@@ -180,12 +180,13 @@ class AuctionController extends Controller
         $available=$this->getAvailable($auction_id,$auction->amount);
         $amount=$auction->amount;
         $targetamount=($amount*0.75);
-        $cantventas=$this->getSoldAmount($auction_id);
+        $cantventas=$available['sold'];
         $hot=($cantventas>$targetamount)?1:0;
         if($request->get("i") and $request->get('i')=='c'){
             $targetprice=$auction->target_price;
             $close=($price<$targetprice)?1:0;
             $time = round(microtime(true) * 1000);
+
             $data['id'] = $auction_id;
             $data['close'] = $close;
             $data['end'] = $auction->end;
@@ -252,6 +253,28 @@ class AuctionController extends Controller
         return count($offers);
     }
 
+    public function checkIfBuyerCanBuy($amount){
+        if(empty(Auth::user()->id)){
+            return false;
+        }
+        if(Auth::user()->type!='buyer'){
+            return false;
+        }
+        if(Auth::user()->status!='approved'){
+            return false;
+        }
+
+        $bids = Bid::where('user_id', Auth::user()->id)->get();
+        foreach($bids as $bid){
+            $amount+=($bid->amount*$bid->price);
+        }
+
+        $comprador = User::select('*')
+            ->join('comprador','users.id','=','comprador.user_id')
+            ->where('users.id', Auth::user()->id)->get();
+        return ($amount>$comprador[0]->bid_limit)?false:true;
+
+    }
 	 public function makeBid(Request $request)
 	 {
 
@@ -259,13 +282,23 @@ class AuctionController extends Controller
 		$amount = $request->input('amount');
 		$auction = Auction::findOrFail($auction_id);
 		$this->authorize('makeBid', $auction);
-		//$this->authorize('canBid',Auction::class);
 
 		if ($auction->type == \App\Auction::AUCTION_PRIVATE )
 		{
 			$this->authorize('isInvited', $auction);
 		}
-	
+
+         if(empty($request->input('price'))){
+             $bidDate = date('Y-m-d H:i:s');
+             $prices = $auction->calculatePrice($bidDate);
+             $price = str_replace(",","",$prices);
+         }else{
+             $price=$request->input('price');
+         }
+		$checklimit=$this->checkIfBuyercanBuy($amount*$price);
+        if($checklimit==false){
+            return json_encode(array('limited'=>1));
+        }
 		$resp  =  array();
 		
 		if ($auction->active == 0 )
@@ -273,22 +306,20 @@ class AuctionController extends Controller
 			$resp['active'] = $auction->active ;
 			
 		}else{
-            $availabilityboth=$this->getAvailabilityComplete($auction_id,$auction->amount);
+            $availabilityboth=$this->getAvailable($auction_id,$auction->amount);
             $availability=$availabilityboth['available'];
-            $bidscounter=$availabilityboth['quantity']+1;
-			$bidDate = date('Y-m-d H:i:s');
-			$prices = $auction->calculatePrice($bidDate);
-            $price = str_replace(",","",$prices);
-			DB::beginTransaction();
+            $bidscounter=$availabilityboth['sold']+1;
+            DB::beginTransaction();
 				if ($amount > 0 && $amount <= $availability  )
 				{
+
 					$auction->makeBid($amount,$price);
+
 					$unit = $auction->batch->product->unit;
 					$product = $auction->batch->product->name;
                     $amounttotal=$auction->amount;
                     $targetamount=($amounttotal*0.75);
-                    $cantventas=$this->getSoldAmount($auction_id);
-                    $hot=($cantventas>$targetamount)?1:0;
+                    $hot=($bidscounter>$targetamount)?1:0;
 					$total = $amount * $price;
 					$resp['isnotavailability'] = 0;
                     $resp['availability'] = $availability-$amount;
@@ -299,7 +330,7 @@ class AuctionController extends Controller
 					$resp['totalAmount']=$auction->amount;
                     $resp['bidscounter']=$bidscounter;
                     $resp['offerscounter']=$this->getOffersCount($auction_id);
-                    $resp['hotcounter']=$hot;
+                    $resp['hot']=$hot;
 				}else{
 					$resp['isnotavailability'] = 1;
 					$resp['availability'] = $availability-$amount;
@@ -856,16 +887,7 @@ class AuctionController extends Controller
             'close'=>$close
         );
     }
-    public function getAvailabilityComplete($id,$amount){
-	    $bids=Bid::select()
-            ->where('auction_id','=',$id)->get();
-	    $sum=0;
-	    foreach($bids as $bid){
-	        $sum+=$bid->amount;
-        }
-	    return array('available'=>$amount-$sum,'quantity'=>count($bids));
-    }
-    public function getMoreAuctions(Request $request){
+    public function getMoreAuctions(Request $request,$limit=1){
 
         $ids=explode("**",$request->input('ids'));
         $now =date("Y-m-d H:i:s");
@@ -879,10 +901,10 @@ class AuctionController extends Controller
             ->where('active','=','1')
             ->whereNotIn('auctions.id',$ids)
             ->orderBy('auctions.end','asc')
-            ->limit(1);
+            ->limit($limit);
         $rtrn=$rtrn->paginate();
         foreach($rtrn as $a){
-            $availability=$this->getAvailabilityComplete($a->id,$a->amount)['available'];
+            $availability=$this->getAvailable($a->id,$a->amount)['available'];
             if($availability>0){
                 $return[]=$a;
             }
@@ -899,10 +921,10 @@ class AuctionController extends Controller
                 ->where('auctions_invites.user_id', '=', Auth::user()->id)
                 ->whereNotIn('auctions.id', $ids)
                 ->orderBy('auctions.end', 'asc')
-                ->limit(1);
+                ->limit($limit);
             $rtrn2 = $rtrn2->paginate();
             foreach ($rtrn2 as $a) {
-                $availability = $this->getAvailabilityComplete($a->id, $a->amount)['available'];
+                $availability = $this->getAvailable($a->id, $a->amount)['available'];
                 if ($availability > 0) {
                     $return[] = $a;
                 }
@@ -922,17 +944,6 @@ class AuctionController extends Controller
             ->withPrice($auctioninfo['prices'])
             ->withClose($auctioninfo['close'])
             ->withProducts($auctioninfo['products']);
-    }
-    public function getSoldAmount($id){
-	    $acumulador=0;
-        $bids = Bid::Select()
-            ->where('status','<>',\App\Bid::NO_CONCRETADA)
-            ->where('auction_id',$id)
-            ->get();
-        foreach($bids as $bid){
-            $acumulador+=$bid->amount;
-        }
-        return $acumulador;
     }
     public function subastasDestacadasHome($return=4)
     {
@@ -1041,7 +1052,7 @@ class AuctionController extends Controller
         $prices = $request->input('prices');
         $auction = Auction::findOrFail($auction_id);
         $this->authorize('makeBid', $auction);
-        $this->authorize('canBid',Auction::class);
+        //$this->authorize('canBid',Auction::class);
 
         if ($auction->type == \App\Auction::AUCTION_PRIVATE )
         {

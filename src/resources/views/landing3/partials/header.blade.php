@@ -11,14 +11,14 @@
 
                 <!-- Logo -->
                 <div id="logo">
-                    <a href="index.php"><img src="/landing3/images/logo2.png" data-sticky-logo="/landing3/images/logo.png" data-transparent-logo="/landing3/images/logo2.png" alt="Subastas del Mar"></a>
+                    <a href="/"><img src="/landing3/images/logo2.png" data-sticky-logo="/landing3/images/logo.png" data-transparent-logo="/landing3/images/logo2.png" alt="Subastas del Mar"></a>
                 </div>
 
                 <!-- Main Navigation -->
                 <nav id="navigation">
                     <ul id="responsive">
 
-                        <li><a href="index.php" class="current simple">Home</a></li>
+                        <li><a href="/" class="current simple">Home</a></li>
 
                         <!--<li><a href="#">Categor&iacute;as</a>
                             <ul class="dropdown-nav">
@@ -31,7 +31,7 @@
                             </ul>
                         </li>-->
 
-                        <li><a href="#">Subastas</a>
+                        <li><a href="/subastas">Subastas</a>
                             <ul class="dropdown-nav">
                                 <li><a href="subastas-list.php">Todas</a></li>
                                 <li><a href="subastas-list.php">Finalizando</a></li>

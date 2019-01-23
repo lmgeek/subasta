@@ -19,7 +19,7 @@ function endAuction($id){
 }
 function getMoreAuctions(){
     var $cant=$('#FeaturedAuctions').children('.auction').length;
-    if ($cant >= 30) {
+    if ($cant >= 3) {
         return;
     }
     var $ids='', $cont = 0;
@@ -99,7 +99,6 @@ function timer($id) {
         }
     }
 }
-$cont=0;
 function orderAuction($type='Finished'){
     $('#' + $type + "Auctions").find('.task-listing').sort(function (a, b) {
         var $a = a.getAttribute('data-endorder'), $b = b.getAttribute('data-endorder');
@@ -116,8 +115,8 @@ function orderAuctions(){
     orderAuction();
     deleteExcessAuctionsFinished();
 }
-function modifyAvailability($id,$availability,$total){
-    var $availabilitytext='<small style="font-weight: 400">Disponibilidad:</small> '+$availability+' <small>de</small> '+$total+' kg';
+function modifyAvailability($id,$availability,$total,$unit){
+    var $availabilitytext='<small style="font-weight: 400">Disponibilidad:</small> '+$availability+' <small>de</small> '+$total+' '+$('#UnitAuction'+$id).val();
     $('#auctionAvailabilitypopup'+$id).html($availabilitytext);
     $('#auctionAvailability'+$id).html($availabilitytext);
     $('#cantidad-'+$id).attr('max',$availability);
@@ -166,7 +165,7 @@ function getInfo($id,$firstrun=0) {
     var d = new Date();
     var n = d.getSeconds();
     if ((n == 0 || $firstrun==1) && !$('#Auction_'+$id).hasClass('bg-disabled')) {
-        $.get('calculateprice?i=c&auction_id=' + $id, function (result) {
+        $.get('/calculateprice?i=c&auction_id=' + $id, function (result) {
             var $result = JSON.parse(result);
             updateAuctionData($id,$result['price'],$result['end'],$result['endorder'],$result['endfriendly'],$result['close'],$result['hot']);
             modifyAvailability($id,$result['availability'],$result['amount']);
@@ -221,7 +220,13 @@ function modifyOffersCounter($id,$bids=null,$offers=null){
 function makeBid($id){
     $.magnificPopup.close();
     $.get("/makeBid?auction_id="+$id + "&price="+$('#PriceBid'+$id).val()+"&amount="+$('#cantidad-'+$id).val(),function(result){
+        console.log(result)
         $result=JSON.parse(result);
+        console.log($result)
+        if($result['limited']==1){
+            notifications(0,null,null,null,'Has superado el limite de compras impuesto a tu usuario');
+            return null;
+        }
         if($result['active']==0){
             notifications(0,null,null,null,'La subasta ha sido cancelada por el vendedor');
             return null;
@@ -230,7 +235,7 @@ function makeBid($id){
             modifyAvailability($id,$result['availability'],$result['totalAmount']);
             notifications(1,$result['product'],$result['price'],$result['amount']);
             modifyOffersCounter($id,$result['bidscounter'],$result['offerscounter']);
-            updateAuctionData($id,$result['price'],null,null,null,null,$result['hot']);
+            updateAuctionData($id,$result['price'],null,null,null,null, $result['hot']);
         }else{
             notifications(0,null,null,null,'La subasta no tiene suficiente disponibilidad');
         }
