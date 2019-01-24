@@ -26,7 +26,7 @@ class RegisterNewUserRequest extends Request
         return [
             'name'=>"required|regex:(^[a-zA-Zá-úÁ-Ú\s']+$)",
             'lastname'=>"required|regex:(^[a-zA-Zá-úÁ-Ú\s']+$)",
-            'alias'=>"required|regex:([a-zA-Z_0-9])",
+            'alias'=>"required|unique:users,nickname|regex:([a-zA-Z_0-9])",
             'dni'=>"required|min:7|regex:(^[0-9]+$)",
             'cuit'=>"required|min:13|regex:(^[0-9-]+$)",
             'password'=>'required|confirmed|regex:(^\S*(?=\S{6,8})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$)',
@@ -47,6 +47,7 @@ class RegisterNewUserRequest extends Request
             'lastname.required' => 'El apellido es obligatorio',
             'lastname.regex' => 'El apellido sólo permite caracteres alfabéticos',
             'alias.regex' => ' El alias sólo permite letras y números',
+            'alias.unique' => ' Este alias ya existe',
             'dni.required' => 'El DNI es obligatorio',
             'dni.min' => 'El DNI debe tener mínimo 7 caracteres',
             'dni.regex' => 'El DNI sólo permite caracteres numéricos',

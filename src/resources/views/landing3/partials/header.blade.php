@@ -11,14 +11,14 @@
 
                 <!-- Logo -->
                 <div id="logo">
-                    <a href="index.php"><img src="/landing3/images/logo2.png" data-sticky-logo="/landing3/images/logo.png" data-transparent-logo="/landing3/images/logo2.png" alt="Subastas del Mar"></a>
+                    <a href="/"><img src="/landing3/images/logo2.png" data-sticky-logo="/landing3/images/logo.png" data-transparent-logo="/landing3/images/logo2.png" alt="Subastas del Mar"></a>
                 </div>
 
                 <!-- Main Navigation -->
                 <nav id="navigation">
                     <ul id="responsive">
 
-                        <li><a href="index.php" class="current simple">Home</a></li>
+                        <li><a href="/" class="current simple">Home</a></li>
 
                         <!--<li><a href="#">Categor&iacute;as</a>
                             <ul class="dropdown-nav">
@@ -31,7 +31,7 @@
                             </ul>
                         </li>-->
 
-                        <li><a href="#">Subastas</a>
+                        <li><a href="/subastas">Subastas</a>
                             <ul class="dropdown-nav">
                                 <li><a href="subastas-list.php">Todas</a></li>
                                 <li><a href="subastas-list.php">Finalizando</a></li>
@@ -54,7 +54,7 @@
             <!-- Left Side Content / End -->
 
 
-            <!-- Right Side Content / End -->
+            <!-- Si el usuario es vendedor aprace un icono para indicar que puede crear una nueva subasta-->
             <div class="right-side">
             @if (Auth::check())
                 @if(Auth::user()->type == \App\User::VENDEDOR)
@@ -162,7 +162,8 @@
                             <!-- Messages -->
                             <div class="header-notifications user-menu">
                                 <div class="header-notifications-trigger">
-                                    <a href="#"><div class="user-avatar"><img src="landing3/images/avatar/gear_icon.ico" alt="jlopez"></div></a>
+                                    {{--<a href="#"><div class="user-avatar "><i class="icon-feather-user"></i></div></a>--}}
+                                    <a href="#"><div class=""><i class="icon-feather-user"></i></div></a>
                                 </div>
 
                                 <!-- Dropdown -->
@@ -173,9 +174,9 @@
 
                                         <!-- User Name / Avatar -->
                                         <div class="user-details">
-                                            <div class="user-avatar status-online"><img src="landing3/images/avatar/gear_icon.ico" alt=""></div>
+                                            <div class="user-avatar status-online"><img src="landing3/images/avatar/icon-user-64.png" alt=""></div>
                                             <div class="user-name">
-                                                Julio L&oacute;pez <span class="blue">Netlabs</span><span class="blue">Vendedor</span>
+                                                {{Auth::user()->name}} <span class="blue">Subastas del Mar</span><span class="blue">Vendedor</span>
                                             </div>
                                         </div>
 
@@ -226,7 +227,7 @@
             <!-- Messages -->
             <div class="header-notifications user-menu">
                 <div class="header-notifications-trigger">
-                    <a href="#"><div class="user-avatar"><img src="landing3/images/avatar/gear_icon.ico" alt="jlopez"></div></a>
+                    <a href="#"><div class=""><i class="icon-feather-user"></i></div></a>
                 </div>
 
                 <!-- Dropdown -->
@@ -237,9 +238,9 @@
 
                         <!-- User Name / Avatar -->
                         <div class="user-details">
-                            <div class="user-avatar status-online"><img src="landing3/images/avatar/gear_icon.ico" alt=""></div>
+                            <div class="user-avatar status-online"><img src="landing3/images/avatar/icon-user-64.png" alt=""></div>
                             <div class="user-name">
-                                Julio L&oacute;pez <span class="blue">Netlabs</span><span class="blue">Comprador</span>
+                                {{Auth::user()->name}} <span class="blue">Subastas del Mar</span><span class="blue">Comprador</span>
                             </div>
                         </div>
 
@@ -286,7 +287,7 @@
             <!-- Messages -->
             <div class="header-notifications user-menu">
                 <div class="header-notifications-trigger">
-                    <a href="#"><div class="user-avatar"><img src="landing3/images/avatar/gear_icon.ico" alt="jlopez"></div></a>
+                    <a href="#"><div class=""><i class="icon-feather-user"></i></div></a>
                 </div>
 
                 <!-- Dropdown -->
@@ -297,9 +298,9 @@
 
                         <!-- User Name / Avatar -->
                         <div class="user-details">
-                            <div class="user-avatar status-online"><img src="landing3/images/avatar/gear_icon.ico" alt=""></div>
+                            <div class="user-avatar status-online"><img src="landing3/images/avatar/icon-user-64.png" alt=""></div>
                             <div class="user-name">
-                                Julio L&oacute;pez <span class="blue">Netlabs</span><span class="blue">Administrador</span>
+                                {{Auth::user()->name}} <span class="blue">Subastas del Mar</span><span class="blue">Administrador</span>
                             </div>
                         </div>
 
@@ -350,7 +351,17 @@
                         <img alt="image" width="20" height="20" src="{{ asset('/landing/img/header_usuario.png') }}" /> Ingresá</a>
                 </div>
             </div>
+
         </div>
+
+        <!-- Mobile Navigation Button -->
+        <span class="mmenu-trigger">
+            <button class="hamburger hamburger--collapse" type="button">
+                <span class="hamburger-box">
+                    <span class="hamburger-inner"></span>
+                </span>
+            </button>
+        </span>
 
     @endif
 

@@ -104,6 +104,8 @@ $objtAuction = new Auction();
                                     @include('/landing3/partials/auctionNoDetail')
                             @endif
                         @endforeach
+                        @else
+                            <h1 class="text-center">No hay Subastas para mostrar</h1>
                         @endif
 
                     </div>

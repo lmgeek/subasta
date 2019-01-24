@@ -2,7 +2,7 @@
 
 use App\Auction;
 use App\UserRating;
-use Illuminate\Auth;
+//use Illuminate\Auth;
 
 //Creamos un objeto de ña clase para usar sus funciones
 $objtAuction = new Auction();
@@ -12,35 +12,12 @@ $userRating = new UserRating();
 
 //Id del usuario
 $userId = $auction->batch->arrive->boat->user->id;
-
-
-?>
-
-        <!doctype html>
-<html lang="en">
-<head>
-
-    <title>Subasta | Subastas del Mar</title>
-    @include('landing3/partials/common')
-
-    <script src="landing3/js/netlabs-subastas3.js"></script>
-
-</head>
-<body>
-
-<!-- Wrapper -->
-<div id="wrapper">
-
-    <!-- Header Container
-    ================================================== -->
-@include('landing3/partials/header-details')
-<!-- Header Container / End -->
-
-
-
-    <!-- Titlebar
-    ================================================== -->
-    <div class="single-page-header bd-bt-1" data-background-image="{{asset('landing3/images/single-auction.jpg')}}">
+$outsidehome=1;
+$cantofertas=\App\Http\Controllers\AuctionController::getOffersCount($auction->id);?>
+@extends('landing3/partials/layout')
+@section('title',' | Lista de subastas')
+@section('content')
+    <div class="single-page-header bd-bt-1 margin-top-35 auction" id="Auction_{{$auction->id}}" data-id="{{$auction->id}}" data-background-image="{{asset('landing3/images/single-auction.jpg')}}">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -58,6 +35,7 @@ $userId = $auction->batch->arrive->boat->user->id;
                                 <ul>
                                     <li><i class="icon-material-outline-access-time primary"></i><strong class="primary">{{$objtAuction->formatDate($auction->end)}}</strong></li>
                                     <li><i class="icon-material-outline-location-on"></i> {{\App\Http\Controllers\AuctionController::getPortById($auction->batch->arrive->port_id) }}</li>
+                                    <li style="display: none" id="HotAuction{{$auction->id}}"><i class="icon-line-awesome-fire red" ></i> <strong class="red">¡Subasta caliente!</strong></li>
                                 </ul>
                                 <ul class="task-icons margin-top-6">
                                     <li>
@@ -78,10 +56,10 @@ $userId = $auction->batch->arrive->boat->user->id;
                         <div class="right-side">
                             <div class="salary-box">
                                 <div class="salary-type"><span>&Uacute;ltimo precio:</span></div>
-                                <div class="salary-amount t32"><strong>{{$price}}</strong> x kg<br>
-                                    <small class="green fw400">
+                                <div class="salary-amount t32"><strong  id="Price{{$auction->id}}">${{$price}}</strong>/ {{$auction->batch->product->unit}}<br>
+                                    <small class="green fw400" id="BidsCounter{{$auction->id}}">
                                         <i id="ofertasDirectas" class="icon-material-outline-local-offer green"></i>
-                                        {{$objtAuction->amountSold($auction->id)}} Ofertas Directas
+                                        {{$objtAuction->amountSold($auction->id)}} Compras Directas
                                     </small>
                                 </div>
                             </div>
@@ -91,10 +69,6 @@ $userId = $auction->batch->arrive->boat->user->id;
             </div>
         </div>
     </div>
-
-
-    <!-- Page Content
-    ================================================== -->
     <div class="container">
         <div class="row">
 
@@ -107,17 +81,6 @@ $userId = $auction->batch->arrive->boat->user->id;
                     <p>{{$auction->description}}</p>
 
                 </div>
-
-                <!-- Skills -->
-                {{--<div class="single-page-section">--}}
-                {{--<h3>Categor&iacute;as</h3>--}}
-                {{--<div class="task-tags">--}}
-                {{--<span>Camar&oacute;n</span>--}}
-                {{--<span>Mar del Plata</span>--}}
-                {{--<span>Premium</span>--}}
-                {{--<span>Mariscos</span>--}}
-                {{--</div>--}}
-                {{--</div>--}}
                 <div class="clearfix"></div>
 
             </div>
@@ -136,7 +99,9 @@ $userId = $auction->batch->arrive->boat->user->id;
                         <div class="bidding-inner">
 
                             <!-- Headline -->
-                            <span class="bidding-detail t18 bd-bt-1 padding-bottom-10">Disponibles <strong>{{$objtAuction->available($auction->id,$auction->amount)}}</strong> de <strong>{{$auction->amount}}</strong> kg</span>
+                            <span class="bidding-detail t18 bd-bt-1 padding-bottom-10"  id="auctionAvailabilitypopup{{$auction->id}}" >
+                                <small style="font-weight: 400">Disponibilidad:</small> {{$objtAuction->available($auction->id,$auction->amount)}} <small>de</small> {{$auction->amount}} {{$auction->batch->product->unit}}
+                            </span>
 
                             <!-- Headline -->
                             <span class="bidding-detail margin-top-10 fw300">Por favor, haz tu pedido:</span>
@@ -152,21 +117,58 @@ $userId = $auction->batch->arrive->boat->user->id;
                                     </div>
                                 </div>
                                 <div class="bidding-field">
-                                    <input type="text" class="with-border" value="Kg" disabled>
+                                    <input type="text" class="with-border" value="{{$auction->batch->product->unit}}" id="UnitAuction{{$auction->id}}" disabled>
                                 </div>
                             </div>
                             <div class="bidding-fields">
                                 <div class="checkbox">
-                                    <input type="checkbox" id="chekcbox{{$auction->id}}" onclick="totalQuatity({{$auction->id}})">
+                                    <input type="checkbox" id="checkbox{{$auction->id}}"  onclick="popupCompraDisableText({{$auction->id}})">
                                     {{--<input type="checkbox" id="chekcbox1" onclick="enable_text(this.checked)">--}}
-                                    <label for="chekcbox{{$auction->id}}"><span class="checkbox-icon"></span> Adquirir todo el lote</label>
+                                    <label for="checkbox{{$auction->id}}"><span class="checkbox-icon"></span> Adquirir todo el lote</label>
                                 </div>
                             </div>
 
                             <!-- Button -->
-                            <button id="snackbar-place-bid" class="button ripple-effect move-on-hover full-width margin-top-25" onclick="makeBid({{$auction->id}})")><span>Comprar</span></button>
+                            <div  id="OpenerPopUpCompra{{$auction->id}}">
+                                <div class="w100">
+                                    <?php
+                                    if(Auth::user()){
+                                    $userses=Auth::user();//$userses->usersession
+                                    if($userses->status!="approved"){?>
+                                    <a href="#" class="button" onclick="notifications(0,null,null,null,'Usuario no aprobado')">Comprar</a>
+                                    <div class="w100 text-center margin-top-5 t14">o puedes <a href="#" onclick="notifications(0,null,null,null,'Usuario no aprobado')">realizar una oferta</a></div>
+                                    <div class="text-center"><small class="green fw700 text-center" id="OffersCounter{{$auction->id}}">
+                                            <?=(($cantofertas>0)?('<i class="icon-material-outline-local-offer green"></i>'.$cantofertas.(($cantofertas>1)?' Ofertas Directas':' Oferta Directa')):'')?>
+                                        </small></div>
+                                    <?php }elseif($userses->status=="approved" and $userses->type!=\App\User::COMPRADOR){?>
+                                    <a href="#" class="button" onclick="notifications(0,null,null,null,'El tipo de usuario no permite comprar')">Comprar</a>
+                                    <div class="w100 text-center margin-top-5 t14">o puedes <a href="#" onclick="notifications(0,null,null,null,'El tipo de usuario no permite ofertar')">realizar una oferta</a></div>
+                                    <div class="text-center"><small class="green fw700 text-center" id="OffersCounter{{$auction->id}}">
+                                            <?=(($cantofertas>0)?('<i class="icon-material-outline-local-offer green"></i>'.$cantofertas.(($cantofertas>1)?' Ofertas Directas':' Oferta Directa')):'')?>
+                                        </small></div>
+                                    <?php }else{?>
+                                        <button class="button margin-top-35 full-width button-sliding-icon ripple-effect" type="submit" form="apply-now-form" onclick="makeBid({{$auction->id}})">Comprar <i class="icon-material-outline-arrow-right-alt"></i></button>
+                                    <div class="w100 text-center margin-top-5 t14">o puedes <a href="#small-dialog-oferta{{$auction->id}}" class="sign-in popup-with-zoom-anim">realizar una oferta</a></div>
+                                        <input type="hidden" id="PriceBid{{$auction->id}}">
+                                    <div class="text-center"><small class="green fw700 text-center" id="OffersCounter{{$auction->id}}">
+                                            <?=(($cantofertas>0)?('<i class="icon-material-outline-local-offer green"></i>'.$cantofertas.(($cantofertas>1)?' Ofertas Directas':' Oferta Directa')):'')?>
+                                        </small></div>
+                                    @include('landing3/partials/pop-up-oferta')
+                                    <?php }
+                                    }else{ ?>
+                                    <a href="/auction" class="button">Comprar</a>
+                                    <div class="w100 text-center margin-top-5 t14">o puedes <a href="/auction">realizar una oferta</a></div>
+                                    <div class="text-center"><small class="green fw700 text-center" id="OffersCounter{{$auction->id}}">
+                                            <?=(($cantofertas>0)?('<i class="icon-material-outline-local-offer green"></i>'.$cantofertas.(($cantofertas>1)?' Ofertas Directas':' Oferta Directa')):'')?>
+                                        </small></div>
+                                    <?php
+                                    }
+                                    ?>
+                                </div>
+
+                            </div>
                         </div>
-                        <div class="bidding-signup t12">&iquest;Prefieres hacer una oferta? <a href="#small-dialog-oferta" class="sign-in popup-with-zoom-anim">Real&iacute;zala ahora</a></div>
+
                     </div>
                 </div>
 
@@ -174,145 +176,4 @@ $userId = $auction->batch->arrive->boat->user->id;
         </div>
 
     </div>
-</div>
-
-
-<!-- Spacer -->
-<div class="margin-top-15"></div>
-<!-- Spacer / End-->
-
-<!-- Footer
-================================================== -->
-<div id="footer">
-
-    <!-- Footer Top Section -->
-@include('landing3/partials/footer-top')
-<!-- Footer Top Section / End -->
-
-    <!-- Footer Middle Section -->
-@include('landing3/partials/footer-mid')
-<!-- Footer Middle Section / End -->
-
-    <!-- Footer Copyrights -->
-@include('landing3/partials/copyright')
-<!-- Footer Copyrights / End -->
-
-</div>
-<!-- Footer / End -->
-
-</div>
-<!-- Wrapper / End -->
-{{--@include('landing3/partials/popup-oferta.php')--}}
-{{--@include('landing3/partials/popup-register-login.php')--}}
-{{----}}
-
-@include('landing3/partials/js')
-<!-- Scripts
-================================================== -->
-
-<script>
-
-    function totalQuatity($id) {
-        $var = $('#cantidad-'+$id).attr('max');
-
-        $('#checkbox'+$id).check(
-            $('#cantidad-'+$id).val($var)
-        )
-
-    }
-
-
-    function timer($id) {
-        window['dateend']= new Date($("#timer"+$id).attr('data-timefin'));
-        var countDownDate = new Date($("#"+$id).attr('data-timefin')).getTime();
-        var now = new Date().getTime();
-        var distance = window['dateend']- now,string='';
-        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        if(days!=0){string+=days+'d ';}
-        if(hours!=0 || days!=0){string+=hours+'h ';}
-        if(minutes!=0 || hours!=0 || days!=0){string+=minutes+'m ';}
-        string+=seconds+'s';
-        document.getElementById('timer'+$id).innerHTML = string;
-        if (distance < 0) {
-            document.getElementById('timer'+$id).innerHTML = "¡Finalizada!";
-
-            $('#Auction_'+$id).addClass('bg-disabled');
-            $('#ClosePrice'+$id).html('Precio Final');
-            var $html='<div id="Auction_'+$id+'" class="task-listing auction bg-disabled" style="display:none"data-id="'+$id+'">'+$('#Auction_'+$id).html()+'</div>'+$('#FinishedAuctions').html();
-            $('#Auction_'+$id).fadeOut();
-            setTimeout(function(){$('#Auction_'+$id).remove();},400);
-            $('#FinishedAuctions').html($html);
-            $('#Auction_'+$id+' .pricing-plan-label .billed-monthly-label').removeClass('red');
-            $('#Auction_'+$id+' .icon-material-outline-access-time').removeClass('primary');
-            setTimeout(function(){$('#Auction_'+$id).fadeIn();},400);
-            if($('#FinishedAuctions > .task-listing').length>3){
-                $("#FinishedAuctions").children('.task-listing').last().remove();
-            }
-        }else{
-            setTimeout(function(){timer($id);},1000);
-        }
-    }
-
-    $(document).ready(function(){
-        $('.timerauction').each(function(){
-            timer($(this).data('id'))
-        });
-    });
-
-
-
-
-
-    // Set the date we're counting down to
-    var countDownDate = new Date("Jan 23, 2019 15:37:25").getTime();
-
-    // Update the count down every 1 second
-    /*    var x = setInterval(function() {
-
-            // Get todays date and time
-            var now = new Date().getTime();
-
-            // Find the distance between now and the count down date
-            var distance = countDownDate - now;
-
-            // Time calculations for days, hours, minutes and seconds
-            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            // Display the result in the element with id="demo"
-            document.getElementById("timer_1").innerHTML = days + "d " + hours + "h "
-                + minutes + "m " + seconds + "s ";
-
-            // If the count down is finished, write some text
-            if (distance < 0) {
-                clearInterval(x);
-                document.getElementById("timer_1").innerHTML = "Subasta Finalizada";
-                document.getElementById("timer_1").classList.add("fw300");
-            }
-        }, 1000);*/
-</script>
-
-<!-- Snackbar // documentation: https://www.polonel.com/snackbar/ -->
-<script>
-    // Snackbar for "hacer oferta" button
-    $('#snackbar-place-bid').click(function() {
-        Snackbar.show({
-            text: '¡Felicidades! Has comprado este producto.',
-        });
-    });
-</script>
-<script>
-    function enable_text(status)
-    {
-        //alert(status);
-        document.getElementById("cantidad").disabled = status;
-    }
-</script>
-
-</body>
-</html>
+@endsection

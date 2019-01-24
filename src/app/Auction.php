@@ -312,7 +312,8 @@ class Auction extends Model
             ->where('end','>',$now)
             ->where('auctions.type','=',self::AUCTION_PUBLIC)
             ->where('active','=',self::ACTIVE)
-            ->orderBy('end','asc');
+            ->orderBy('end','asc')
+            ->limit(3);
         $rtrn=$rtrn->paginate();
         //finalizadas publicas
         $rtrn3 = Auction::select('auctions.*')
@@ -322,7 +323,8 @@ class Auction extends Model
             ->where('end','<',$now)
             ->where('auctions.type','=',self::AUCTION_PUBLIC)
             ->where('active','=',self::ACTIVE)
-            ->orderBy('end','desc');
+            ->orderBy('end','desc')
+            ->limit(3);
         $rtrn3=$rtrn3->paginate();
         $rtrn2=array();$rtrn4=array();
         if(isset(Auth::user()->id)){
@@ -335,7 +337,8 @@ class Auction extends Model
                 ->where('active','=',self::ACTIVE)
                 ->where('auctions.type','=',self::AUCTION_PRIVATE)
                 ->where('auctions_invites.user_id','=',Auth::user()->id)
-                ->orderBy('end','asc');
+                ->orderBy('end','asc')
+                ->limit(3);
             $rtrn2=$rtrn2->paginate();
             //finalizadas privadas
             $rtrn4= Auction::select('auctions.*')
@@ -345,7 +348,8 @@ class Auction extends Model
                 ->where('active','=',self::ACTIVE)
                 ->where('auctions.type','=',self::AUCTION_PRIVATE)
                 ->where('auctions_invites.user_id','=',Auth::user()->id)
-                ->orderBy('end','desc');
+                ->orderBy('end','desc')
+                ->limit(3);
             $rtrn4=$rtrn4->paginate();
         }
 
