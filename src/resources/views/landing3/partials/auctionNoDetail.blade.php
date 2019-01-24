@@ -73,7 +73,7 @@ switch ($auction->batch->caliber){
                 <?php
 
                 ?>
-                <p> <div id="auctionAvailability{{$auction->id}}" style="display: inline-block!important;font-weight: bold"><small style="font-weight: 400">Disponibilidad:</small> {{$disponible}} <small>de</small> {{$total}} {{$auction->batch->product->unit}}</div> <br>
+                <p> <div id="auctionAvailability{{$auction->id}}" style="display: inline-block!important;font-weight: bold"><small style="font-weight: 400">Disponibilidad:</small> {{$disponible}} <small>de</small> {{$total}} {{$auction->batch->product->unit.(($total>1)?'s':'')}}</div> <br>
                 @if(empty($finished))
                         <small class="green fw700" id="BidsCounter{{$auction->id}}">
                             <?=(($cantbids>0)?('<i class="icon-material-outline-local-offer green"></i>'.$cantbids.(($cantbids>1)?' Compras Directas':' Compra Directa')):'')?>
@@ -81,7 +81,7 @@ switch ($auction->batch->caliber){
                     @endif
                     </p>
 
-                    <div class="pricing-plan-label billed-monthly-label <?=(empty($finished)?'red':'')?>" id="PriceContainer{{$auction->id}}"><strong class="red" id="Price{{$auction->id}}">${{$price[$auction->id]}}</strong>/ {{$auction->batch->product->unit}}<br>
+                    <div class="pricing-plan-label billed-monthly-label <?=(empty($finished)?'red':'')?>" id="PriceContainer{{$auction->id}}"><strong class="red" id="Price{{$auction->id}}">${{$price[$auction->id]}}</strong>/ Kg<br>
                         <small class="red fw500" id="ClosePrice{{$auction->id}}"style="display:none"><?=(empty($finished))?'&iexcl;Cerca del precio l&iacute;mite!':'Precio Final'?></small></div>
                     <div id="timer<?=$auction->id?>" class="countdown margin-bottom-0 margin-top-20 blink_me <?=(empty($finished))?'timerauction':''?>" data-timefin="{{$auction->end}}" data-id="{{$auction->id}}">
                         <?=(isset($finished))?'Finalizada!':''?></div>

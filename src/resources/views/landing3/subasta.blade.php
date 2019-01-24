@@ -13,11 +13,13 @@ $userRating = new UserRating();
 //Id del usuario
 $userId = $auction->batch->arrive->boat->user->id;
 $outsidehome=1;
-$cantofertas=\App\Http\Controllers\AuctionController::getOffersCount($auction->id);?>
+$cantofertas=\App\Http\Controllers\AuctionController::getOffersCount($auction->id);
+$cantcompras=$availability['sold'];
+?>
 @extends('landing3/partials/layout')
 @section('title',' | Lista de subastas')
 @section('content')
-    <div class="single-page-header bd-bt-1 margin-top-35 auction" id="Auction_{{$auction->id}}" data-id="{{$auction->id}}" data-background-image="{{asset('landing3/images/single-auction.jpg')}}">
+    <div class="single-page-header bd-bt-1 margin-top-35 auction nodelete" id="Auction_{{$auction->id}}" data-id="{{$auction->id}}" data-background-image="{{asset('landing3/images/single-auction.jpg')}}">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -56,10 +58,12 @@ $cantofertas=\App\Http\Controllers\AuctionController::getOffersCount($auction->i
                         <div class="right-side">
                             <div class="salary-box">
                                 <div class="salary-type"><span>&Uacute;ltimo precio:</span></div>
-                                <div class="salary-amount t32"><strong  id="Price{{$auction->id}}">${{$price}}</strong>/ {{$auction->batch->product->unit}}<br>
+                                <div class="salary-amount t32"><strong  id="Price{{$auction->id}}">${{$price}}</strong>/ Kg<br>
                                     <small class="green fw400" id="BidsCounter{{$auction->id}}">
-                                        <i id="ofertasDirectas" class="icon-material-outline-local-offer green"></i>
-                                        {{$objtAuction->amountSold($auction->id)}} Compras Directas
+                                        <?php if($cantcompras>0){?>
+                                            <i id="ofertasDirectas" class="icon-material-outline-local-offer green"></i>
+                                            {{$cantcompras}} Compras Directas
+                                        <?php }?>
                                     </small>
                                 </div>
                             </div>
@@ -100,7 +104,7 @@ $cantofertas=\App\Http\Controllers\AuctionController::getOffersCount($auction->i
 
                             <!-- Headline -->
                             <span class="bidding-detail t18 bd-bt-1 padding-bottom-10"  id="auctionAvailabilitypopup{{$auction->id}}" >
-                                <small style="font-weight: 400">Disponibilidad:</small> {{$objtAuction->available($auction->id,$auction->amount)}} <small>de</small> {{$auction->amount}} {{$auction->batch->product->unit}}
+                                <small style="font-weight: 400">Disponibilidad:</small> {{$objtAuction->available($auction->id,$auction->amount)}} <small>de</small> {{$auction->amount}} {{$auction->batch->product->unit.(($auction->amount>1)?'s':'')}}
                             </span>
 
                             <!-- Headline -->

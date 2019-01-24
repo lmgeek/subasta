@@ -301,59 +301,79 @@ class Auction extends Model
             return 'Gold';
         }
     }
-    public static function auctionHome(){
+    public static function getAvailable($auction_id, $amountTotal){
+        $sold = 0;
+        $data = array();
+        $bids = Bid::Select()
+            ->where('status','<>',\App\Bid::NO_CONCRETADA)
+            ->where('auction_id',$auction_id)
+            ->get();
+
+        foreach ($bids as $b) {
+            $sold+= $b->amount;
+        }
+        $available = $amountTotal-$sold;
+        $data['available'] = $available;
+        $data['sold'] = count($bids);
+        return $data;
+    }
+    public static function checkifUserInvited($id){
+        if(!isset(Auth::user()->id)){
+            return false;
+        }
+        $auction=AuctionInvited::select('*')
+            ->where('auction_id','=',$id)
+            ->where('user_id','=',Auth::user()->id)->get();
+        return (count($auction)>0)?true:false;
+    }
+    public static function auctionHome($ids=null){
         $now =date("Y-m-d H:i:s");
-        //destacadas publicas
-        $rtrn = Auction::select('auctions.*')
+        $auctions = Auction::select('auctions.*')
             ->join('batches','auctions.batch_id','=','batches.id')
             ->join('arrives','batches.arrive_id','=','arrives.id')
             ->join('port','arrives.port_id','=','port.id')
             ->where('start','<',$now)
-            ->where('end','>',$now)
-            ->where('auctions.type','=',self::AUCTION_PUBLIC)
-            ->where('active','=',self::ACTIVE)
-            ->orderBy('end','asc')
-            ->limit(3);
-        $rtrn=$rtrn->paginate();
-        //finalizadas publicas
-        $rtrn3 = Auction::select('auctions.*')
-            ->join('batches','auctions.batch_id','=','batches.id')
-            ->join('arrives','batches.arrive_id','=','arrives.id')
-            ->join('port','arrives.port_id','=','port.id')
-            ->where('end','<',$now)
-            ->where('auctions.type','=',self::AUCTION_PUBLIC)
-            ->where('active','=',self::ACTIVE)
-            ->orderBy('end','desc')
-            ->limit(3);
-        $rtrn3=$rtrn3->paginate();
-        $rtrn2=array();$rtrn4=array();
-        if(isset(Auth::user()->id)){
-            //destacadas privadas
-            $rtrn2 = Auction::select('auctions.*')
-                ->join('batches','auctions.batch_id','=','batches.id')
-                ->join('auctions_invites','auctions.id','=','auctions_invites.auction_id')
-                ->where('start','<',$now)
-                ->where('end','>',$now)
-                ->where('active','=',self::ACTIVE)
-                ->where('auctions.type','=',self::AUCTION_PRIVATE)
-                ->where('auctions_invites.user_id','=',Auth::user()->id)
-                ->orderBy('end','asc')
-                ->limit(3);
-            $rtrn2=$rtrn2->paginate();
-            //finalizadas privadas
-            $rtrn4= Auction::select('auctions.*')
-                ->join('batches','auctions.batch_id','=','batches.id')
-                ->join('auctions_invites','auctions.id','=','auctions_invites.auction_id')
-                ->where('end','<',$now)
-                ->where('active','=',self::ACTIVE)
-                ->where('auctions.type','=',self::AUCTION_PRIVATE)
-                ->where('auctions_invites.user_id','=',Auth::user()->id)
-                ->orderBy('end','desc')
-                ->limit(3);
-            $rtrn4=$rtrn4->paginate();
+            ->where('active','=',self::ACTIVE);
+        if($ids!=null){
+            $auctions=$auctions->whereNotIn('auctions.id',$ids);
         }
+        $auctions=$auctions->orderBy('end','asc');
+        $auctions=$auctions->paginate();
+        $counter=0;$continue=1;
+        $return=array(
+            'Current'=>array(),
+            'Finished'=>array()
+        );
+        while($continue==1){
+            $availability=self::getAvailable($auctions[$counter]->id,$auctions[$counter]->amount)['available'];
+            if($availability>0){
+                if($auctions[$counter]->type=='public'){
+                    if($auctions[$counter]->end>$now){
+                        $return['Current'][]=$auctions[$counter];
+                    }else{
+                        $return['Finished'][]=$auctions[$counter];
+                    }
+                }elseif($auctions[$counter]->type=='private' and self::checkifUserInvited($auctions[$counter]->id)==true){
+                    if($auctions[$counter]->end>$now){
+                        $return['Current'][]=$auctions[$counter];
+                    }else{
+                        $return['Finished'][]=$auctions[$counter];
+                    }
+                }
+            }else{
+                if($auctions[$counter]->type=='public'){
+                    $return['Finished'][]=$auctions[$counter];
+                }elseif($auctions[$counter]->type=='private' and self::checkifUserInvited($auctions[$counter]->id)==true){
+                    $return['Finished'][]=$auctions[$counter];
+                }
+            }
 
-        return array($rtrn,$rtrn2,$rtrn3,$rtrn4);
+            $counter++;
+            if(!isset($auctions[$counter])){
+                $continue++;
+            }
+        }
+        return $return;
     }
 
 
