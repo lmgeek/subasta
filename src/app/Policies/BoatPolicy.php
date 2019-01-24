@@ -56,11 +56,11 @@ class BoatPolicy
 
     public function addBoatArrive($user,Boat $boat)
     {
-        return ($this->isMyBoat($user,$boat) and $this->isAproved($user,$boat));
+        return ($this->isMyBoat($user,$boat) && $this->isAproved($user,$boat));
     }
 
     public function createBatch($user,Boat $boat)
     {
-        return ($this->isMyBoat($user,$boat) and $this->isAproved($user,$boat));
+        return ($this->isMyBoat($user,$boat) && $this->isAproved($user,$boat));
     }
 }

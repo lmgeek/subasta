@@ -182,7 +182,7 @@ class AuctionController extends Controller
         $targetamount=($amount*0.75);
         $cantventas=$available['available'];
         $hot=($cantventas<$targetamount)?1:0;
-        if($request->get("i") and $request->get('i')=='c'){
+        if($request->get("i") && $request->get('i')=='c'){
             $targetprice=$auction->target_price;
             $close=($price<$targetprice)?1:0;
             $time = round(microtime(true) * 1000);
@@ -826,7 +826,7 @@ class AuctionController extends Controller
     public function orderAuctions($auctions){
 	    $cant=count($auctions);
 	    for($z=0;$z<$cant;$z++){
-	        if($z<($cant-1) and $auctions[$z]->end>$auctions[$z+1]->end){
+	        if($z<($cant-1) && $auctions[$z]->end>$auctions[$z+1]->end){
 	            $temp=$auctions[$z];
 	            $auctions[$z]=$auctions[$z+1];
 	            $auctions[$z+1]=$temp;
@@ -841,7 +841,7 @@ class AuctionController extends Controller
             $user = $a->batch->arrive->boat->user;
             $ratings = $user->rating;
             $total = ($ratings != null) ? ($ratings->positive + $ratings->negative + $ratings->neutral) : 0;
-            $userRating[$user->id] = ($ratings != null and $total > 0) ? (round(($ratings->positive * 100) / $total, 2)) : 0;
+            $userRating[$user->id] = ($ratings != null && $total > 0) ? (round(($ratings->positive * 100) / $total, 2)) : 0;
             $usercat[$user->id] = Auction::catUserByAuctions($user->id);
             $price[$a->id] = $this->calculatePriceID($a->id);
             $close[$a->id]=($price[$a->id]<$a->target_price)?1:0;

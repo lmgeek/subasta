@@ -37,11 +37,11 @@ class BatchPolicy
     {
         $hasActivity = ($batch->status->remainder != $batch->amount);
 
-        return ($this->isMyBatch($user,$batch) and !$hasActivity);
+        return ($this->isMyBatch($user,$batch) && !$hasActivity);
     }
 
     public function makeDirectBid($user,Batch $batch)
     {
-        return ($user->isSeller() and $this->isMyBatch($user,$batch));
+        return ($user->isSeller() && $this->isMyBatch($user,$batch));
     }
 }

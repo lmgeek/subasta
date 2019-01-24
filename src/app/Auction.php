@@ -295,7 +295,7 @@ class Auction extends Model
         $cant=count($query);
         if($cant<1){
             return 'Bronze';
-        }elseif($cant>=1 and $cant<1000){
+        }elseif($cant>=1 && $cant<1000){
             return 'Silver';
         }else{
             return 'Gold';
@@ -353,7 +353,7 @@ class Auction extends Model
                     }else{
                         $return['Finished'][]=$auctions[$counter];
                     }
-                }elseif($auctions[$counter]->type=='private' and self::checkifUserInvited($auctions[$counter]->id)==true){
+                }elseif($auctions[$counter]->type=='private' && self::checkifUserInvited($auctions[$counter]->id)==true){
                     if($auctions[$counter]->end>$now){
                         $return['Current'][]=$auctions[$counter];
                     }else{
@@ -363,7 +363,7 @@ class Auction extends Model
             }else{
                 if($auctions[$counter]->type=='public'){
                     $return['Finished'][]=$auctions[$counter];
-                }elseif($auctions[$counter]->type=='private' and self::checkifUserInvited($auctions[$counter]->id)==true){
+                }elseif($auctions[$counter]->type=='private' && self::checkifUserInvited($auctions[$counter]->id)==true){
                     $return['Finished'][]=$auctions[$counter];
                 }
             }
@@ -423,7 +423,7 @@ class Auction extends Model
         $cEnd = Carbon::parse($timeEnd)->timestamp;
         $cToday = Carbon::now()->timestamp;
 
-        if ($cStart < $cToday and $cEnd > $cToday) {
+        if ($cStart < $cToday && $cEnd > $cToday) {
             $interval = $this->interval;
             $intervalSegundo = $interval * 60;
 
@@ -481,7 +481,7 @@ class Auction extends Model
     public function isInCourse()
     {
         $now = date("Y-m-d H:i:s");
-        return ( $this->start < $now and $this->end > $now );
+        return ( $this->start < $now && $this->end > $now );
     }
 
     public function isFinished()

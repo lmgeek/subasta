@@ -18,7 +18,7 @@ class UserPolicy
 
     public function canLogin(User $user)
     {
-        return ($user->isAdmin() or !$user->isRejected());
+        return ($user->isAdmin() || !$user->isRejected());
     }
 
     public function seeUsersList(User $user)
