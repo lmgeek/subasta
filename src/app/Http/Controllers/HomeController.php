@@ -20,6 +20,7 @@ class HomeController extends Controller
     /**
      * HomeController constructor.
      */
+    protected $redirectTo = '/';
     public function __construct()
     {
         $this->middleware('auth');

@@ -5,7 +5,7 @@
     position:fixed;
     top: 80px;
     right: 0px;
-    z-index: 999;
+    z-index: 9999;
     font-size: 12px;
 }
 .notificationauction {

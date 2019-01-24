@@ -12,9 +12,9 @@
                 <form method="post" id="compra-form{{$auction->id}}">
                     <div class="row margin-bottom-15">
                         <div class="col-md-5 bidding-widget">
-                            <p> <div id="auctionAvailabilitypopup{{$auction->id}}" style="display: inline-block!important;font-weight: bold"><small style="font-weight: 400">Disponibilidad:</small> {{$disponible}} <small>de</small> {{$total}} {{$auction->batch->product->unit}}</div> <br>
+                            <p> <div id="auctionAvailabilitypopup{{$auction->id}}" style="display: inline-block!important;font-weight: bold"><small style="font-weight: 400">Disponibilidad:</small> {{$disponible}} <small>de</small> {{$total}} {{$auction->batch->product->unit.(($total>1)?'s':'')}}</div> <br>
                             <div class="margin-top-15">
-                                <h4 class="price red" id="PricePopUp{{$auction->id}}">${{$price[$auction->id]}} <small>x {{$auction->batch->product->unit}}</small></h4>
+                                <h4 class="price red" id="PricePopUp{{$auction->id}}">${{$price[$auction->id]}} <small>x Kg</small></h4>
                                 <small class="red">&Uacute;ltimo precio registrado</small>
                             </div>
                         </div>
@@ -24,7 +24,7 @@
                                 <div class="bidding-field">
                                     <div class="qtyButtons">
                                         <div class="qtyDec" data-id="{{$auction->id}}"></div>
-                                        <input type="text" name="qtyInput" value="1" id="cantidad-{{$auction->id}}" max="{{$disponible}}">
+                                        <input type="text" name="qtyInput" value="1" id="cantidad-{{$auction->id}}" max="{{$disponible}}" onkeydown="avoidSending()">
                                         <div class="qtyInc" data-id="{{$auction->id}}"></div>
                                     </div>
                                 </div>

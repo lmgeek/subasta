@@ -95,15 +95,15 @@ $objtAuction = new Auction();
                     </div>
                 <?php $contadorsubastasdestacadas=0;?>
 
-                    <!-- Auctions Container -->
+                <!-- Auctions Container -->
                     <div class="tasks-list-container margin-top-35"  id="FeaturedAuctions">
                         @if(count($auctions)>0)
-                        @foreach($auctions as $auction)
-                            @if($contadorsubastasdestacadas<3)
-                                <?php $contadorsubastasdestacadas++;?>
+                            @foreach($auctions as $auction)
+                                @if($contadorsubastasdestacadas<3)
+                                    <?php $contadorsubastasdestacadas++;?>
                                     @include('/landing3/partials/auctionNoDetail')
-                            @endif
-                        @endforeach
+                                @endif
+                            @endforeach
                         @else
                             <h1 class="text-center">No hay Subastas para mostrar</h1>
                         @endif
@@ -128,16 +128,16 @@ $objtAuction = new Auction();
                     <!-- Auctions Container -->
                     <div class="tasks-list-container margin-top-35 bg-disabled" id="FinishedAuctions">
 
-                    @if(count($auctionsf)>0)
-                        <?php $contadorsubastasdestacadas=0;$finished=1;
-                        ?>
-                        @foreach($auctionsf as $auction)
-                            @if($contadorsubastasdestacadas<3)
-                                <?php $contadorsubastasdestacadas++;?>
-                                @include('/landing3/partials/auctionNoDetail')
-                            @endif
-                        @endforeach
-                    @endif
+                        @if(count($auctionsf)>0)
+                            <?php $contadorsubastasdestacadas=0;$finished=1;
+                            ?>
+                            @foreach($auctionsf as $auction)
+                                @if($contadorsubastasdestacadas<3)
+                                    <?php $contadorsubastasdestacadas++;?>
+                                    @include('/landing3/partials/auctionNoDetail')
+                                @endif
+                            @endforeach
+                        @endif
 
                     </div>
 
