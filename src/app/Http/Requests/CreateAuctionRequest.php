@@ -39,7 +39,7 @@ class CreateAuctionRequest extends Request
             'startPrice' => 'required|regex:/^\d{1,}(\,\d+)?$/|min:1|auction_price_greater_than:endPrice',
             'endPrice'   => 'required|regex:/^\d{1,}(\,\d+)?$/|min:1',
             'amount'     => 'required|numeric|min:1',
-            'descri'   => 'required|min:5|max:1000',
+            'descri'   => 'required|min:120|max:1000',
             'intervalo'   => 'required|numeric|min:5',
 			'invitados'   => 'required_if:tipoSubasta,' . Auction::AUCTION_PRIVATE
         ];
@@ -49,7 +49,7 @@ class CreateAuctionRequest extends Request
         if ($this->locale == "es"){
             return [
                 "invitados.required_if" => "El campo :attribute es obligatorio cuando :other es privada",
-                "descri.min" => "El campo :attribute debe ser de al menos :min",
+                "descri.min" => "El campo :attribute debe ser de al menos :min carateres",
                 "amount.min" => "La :attribute debe ser de al menos :min"
             ];
         }
