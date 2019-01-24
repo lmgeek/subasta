@@ -39,17 +39,17 @@
                     </div>
 
                     {{ $batch->product->name  }}
-                    <i class="fa fa-info-circle text-info" data-id="{{ $batch->id }}"
+                    <em class="fa fa-info-circle text-info" data-id="{{ $batch->id }}"
                        data-quality="{{ $batch->quality }}" id="indo_{{ $batch->id }}" data-toggle="tooltip"
-                       data-placement="top" title="ddddd"></i>
+                       data-placement="top" title="ddddd"></em>
 
                 </td>
                 <td>
                     <span>{{ $total }} </span>
                     <a data-target="#batch-edit-Modal-{{ $batch->id }}" data-toggle="modal" href="#">
                       
-                        <i data-toggle="tooltip"  title="Editar lote" class="fa fa-edit">
-                        </i>
+                        <em data-toggle="tooltip"  title="Editar lote" class="fa fa-edit">
+                        </em>
                        
                     </a>
                 </td>

@@ -53,7 +53,7 @@
 												<span class="label label-{{ $boat->status }}">{{ trans("general.status.$boat->status") }}</span>
 
 												@if ($boat->status == \App\Boat::RECHAZADO)
-													<i data-toggle="tooltip" data-placement="top" title="{{ $boat->rebound }}"  class="fa fa-info-circle"></i>
+													<em data-toggle="tooltip" data-placement="top" title="{{ $boat->rebound }}"  class="fa fa-info-circle"></em>
 												@endif
 
                                         </td>

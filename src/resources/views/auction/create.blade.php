@@ -131,7 +131,7 @@
                                     <br>
                                     <div class="text-center">
                                         <input type="text" id="total" value="100" data-max="{{ $max }}" data-displayPrevious=true name="total" class="dial2 m-r" data-fgColor="#1AB394" data-width="100" data-height="100" readonly/>
-                                        <br><small><b>Kg.</b></small>
+                                        <br><small><strong>Kg.</strong></small>
                                     </div>
                                 </div>
                             </div>

@@ -33,13 +33,13 @@
                                     <tr>
 										<td>
 											@if ($b->seller_calification == \App\Bid::CALIFICACION_POSITIVA)
-												<span class="text-navy" data-toggle="tooltip" data-placement="top" title="{{ $b->seller_calification_comments }}"  style="font-size:18px;"><i class="fa fa-plus-circle"></i> </span>
+												<span class="text-navy" data-toggle="tooltip" data-placement="top" title="{{ $b->seller_calification_comments }}"  style="font-size:18px;"><em class="fa fa-plus-circle"></em> </span>
 											@endif
 											@if ($b->seller_calification == \App\Bid::CALIFICACION_NEGATIVA)
-												<span class="text-danger" data-toggle="tooltip" data-placement="top" title="{{ $b->seller_calification_comments }}"  style="font-size:18px;"><i class="fa fa-minus-circle"></i> </span>
+												<span class="text-danger" data-toggle="tooltip" data-placement="top" title="{{ $b->seller_calification_comments }}"  style="font-size:18px;"><em class="fa fa-minus-circle"></em> </span>
 											@endif
 											@if ($b->seller_calification == \App\Bid::CALIFICACION_NEUTRAL)
-												<span data-toggle="tooltip" data-placement="top" title="{{ $b->seller_calification_comments }}"  style="color:#BABABA;font-size:18px;"><i class="fa fa-dot-circle-o"></i> </span>
+												<span data-toggle="tooltip" data-placement="top" title="{{ $b->seller_calification_comments }}"  style="color:#BABABA;font-size:18px;"><em class="fa fa-dot-circle-o"></em> </span>
 											@endif
 										</td>
                                         <td>
