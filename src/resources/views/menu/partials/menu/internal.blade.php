@@ -1,19 +1,19 @@
     <li>
-        <a href="{{ url('/') }}"><i class="fa fa-dashboard"></i> <span class="nav-label">{{ trans('general.dashboard') }}</span></a>
+        <a href="{{ url('/') }}"><em class="fa fa-dashboard"></em> <span class="nav-label">{{ trans('general.dashboard') }}</span></a>
     </li>
     <li @if (Request::is('home*')) class="active" @endif>
-        <a href="{{ url('/home') }}"><i class="fa fa-dashboard"></i> <span class="nav-label">{{ Lang::get('Dashboard') }}</span></a>
+        <a href="{{ url('/home') }}"><em class="fa fa-dashboard"></em> <span class="nav-label">{{ Lang::get('Dashboard') }}</span></a>
     </li>
     @can('seeUsersList',Auth::user())
         <li @if (Request::is('users*')) class="active" @endif>
-            <a href="{{ url('/users') }}"><i class="fa fa-users"></i> <span class="nav-label">{{ trans('users.title') }}</span></a>
+            <a href="{{ url('/users') }}"><em class="fa fa-users"></em> <span class="nav-label">{{ trans('users.title') }}</span></a>
         </li>
     @endcan
     @can('seeAllBoatsList')
         <li @if (Request::is('boats*')) class="active" @endif>
-            <a href="{{ url('/boats') }}"><i class="fa fa-ship"></i> <span class="nav-label">{{ trans('boats.title') }}</span></a>
+            <a href="{{ url('/boats') }}"><em class="fa fa-ship"></em> <span class="nav-label">{{ trans('boats.title') }}</span></a>
         </li>
     @endcan
     <li @if (Request::is('product*')) class="active" @endif>
-        <a href="{{ url('/products') }}"><i class="fa fa-cubes"></i> <span class="nav-label">{{ trans('products.title') }}</span></a>
+        <a href="{{ url('/products') }}"><em class="fa fa-cubes"></em> <span class="nav-label">{{ trans('products.title') }}</span></a>
     </li>
