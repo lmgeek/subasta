@@ -5,7 +5,7 @@
     {{--</span>--}}
     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
         <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">{{ Auth::user()->name . " " . Auth::user()->lastname }}</strong>
-        </span> <span class="text-muted text-xs block">{{ Auth::user()->email }} <b class="caret"></b></span> </span>
+        </span> <span class="text-muted text-xs block">{{ Auth::user()->email }} <strong class="caret"></strong></span> </span>
     </a>
     <ul class="dropdown-menu animated fadeInRight m-t-xs">
         <li>

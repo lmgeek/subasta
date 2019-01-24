@@ -28,7 +28,7 @@
 								@if (is_null($lastArrive))
 									{{ trans('boats.boats_no_arrive') }}
 								@else
-									<i class="fa fa-clock-o"></i> {{ Carbon::parse($lastArrive->date)->format('H:i:s d/m/Y') }}
+									<em class="fa fa-clock-o"></em> {{ Carbon::parse($lastArrive->date)->format('H:i:s d/m/Y') }}
 								@endif
 							</p></div>
 							
@@ -37,17 +37,15 @@
 							
 							@endif
 							<div class="actions">
-								<a href="{{ url('sellerboat/arrive',$boat) }}" class="btn btn-xs btn-white"><i class="fa "></i>{{ trans('boats.boats_new_arrive') }} </a>
+								<a href="{{ url('sellerboat/arrive',$boat) }}" class="btn btn-xs btn-white"><em class="fa "></em>{{ trans('boats.boats_new_arrive') }} </a>
 								@if(!is_null($lastArrive))
-									<a href="{{ url('sellerboat/batch',$lastArrive) }}" class="btn btn-xs btn-white"><i class="fa "></i>{{ trans('boats.boats_load_lote') }} </a>
+									<a href="{{ url('sellerboat/batch',$lastArrive) }}" class="btn btn-xs btn-white"><em class="fa "></em>{{ trans('boats.boats_load_lote') }} </a>
 								@endif
-								<!-- <a class="btn btn-xs btn-white"><i class="fa "></i> Love</a> -->
 							</div>
 						</div>
 					</div>
 				 @endforeach
 				</div>
-				<!-- <button class="btn btn-primary btn-block m-t"><i class="fa fa-arrow-down"></i> Show More</button>-->
 			</div>
 		</div>
 	</div>
