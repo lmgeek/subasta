@@ -15,22 +15,22 @@
 			</div>
         </div>
         <div class="row" >
-            @if(isset($sellerAuction) and $sellerAuction==true)
+            @if(isset($sellerAuction) && $sellerAuction==true)
                 <div class="col-md-12 text-center"><label>{{ $a->batch->arrive->boat->name }}</label></div>
             @else
                 <div class="col-md-12 text-center"><label>{{ $a->batch->arrive->boat->user->name }} 
 				<?php $userId = $a->batch->arrive->boat->user->id ?>
 				@if ($userRating[$userId] > 0)
-					<i data-toggle="tooltip" data-placement="top" title="{{ $userRating[$userId]  }}% {{trans('users.reputability.seller')}}" class="fa fa-info-circle" ></i>
+					<em data-toggle="tooltip" data-placement="top" title="{{ $userRating[$userId]  }}% {{trans('users.reputability.seller')}}" class="fa fa-info-circle" ></em>
 				@endif
 				<br> {{ $a->batch->arrive->boat->name }}</label></div>
             @endif
 			
-			@if (!is_null($a->batch->product->image_name) and file_exists('img/products/'.$a->batch->product->image_name) )
+			@if (!is_null($a->batch->product->image_name) && file_exists('img/products/'.$a->batch->product->image_name) )
 				<center>
 					<a href="#" data-target="#product-Modal-{{ $a->id }}"  data-toggle="modal" class="product-img" auction="{{ $a->id }}" >
-						<i data-toggle="tooltip" title="Imagen del producto" class="fa fa-image">
-						</i>
+						<em data-toggle="tooltip" title="Imagen del producto" class="fa fa-image">
+						</em>
 					</a>
 				</center>
 				<div class="col-md-12 text-center">

@@ -124,8 +124,8 @@ function orderAuction($type='Finished'){
         }
     }).appendTo($('#' + $type + "Auctions"));
 }
-function orderAuctions(){
-    orderAuction();
+function orderAuctions($type='Finished'){
+    orderAuction($type);
     deleteExcessAuctionsFinished();
 }
 function modifyAvailability($id,$availability,$total,$unit){
