@@ -101,9 +101,9 @@ class User extends Model implements AuthenticatableContract,
     public static function filter($name = null, $type = null, $status = null)
     {
         $rtrn = User::where('type','<>',User::INTERNAL);
-        if(!is_null($name) and $name != '') $rtrn->where('name','like',"%$name%");
-        if(!is_null($type) and count($type) > 0) $rtrn->whereIn('type',$type);
-        if(!is_null($status) and count($status) > 0) $rtrn->whereIn('status',$status);
+        if(!is_null($name) && $name != '') $rtrn->where('name','like',"%$name%");
+        if(!is_null($type) && count($type) > 0) $rtrn->whereIn('type',$type);
+        if(!is_null($status) && count($status) > 0) $rtrn->whereIn('status',$status);
 
         return $rtrn->orderBy('name','ASC')->get();
     }
@@ -111,7 +111,7 @@ class User extends Model implements AuthenticatableContract,
 	public static function getInternals($status = null)
     {
         $rtrn = User::where('type','=',User::INTERNAL);
-        if(!is_null($status) and count($status) > 0) $rtrn->whereIn('status',$status);
+        if(!is_null($status) && count($status) > 0) $rtrn->whereIn('status',$status);
 
         return $rtrn->orderBy('created_at','desc')->get();
     }
@@ -156,7 +156,7 @@ class User extends Model implements AuthenticatableContract,
         $rtrn = false;
         if(count($this->subscription)>0){
             foreach ($this->subscription as $sub) {
-                if(!is_null($sub->auction) and $sub->auction->id == $auction->id){
+                if(!is_null($sub->auction) && $sub->auction->id == $auction->id){
                     $rtrn = true;
                     break;
                 }

@@ -42,8 +42,8 @@ class Boat extends Model
 	{
 
 		$query = Boat::select('boats.*');
-		if (!is_null($user) and count($user) > 0) $query->whereIn('user_id',$user);
-		if (!is_null($status) and count($status) > 0) $query->whereIn('status',$status);
+		if (!is_null($user) && count($user) > 0) $query->whereIn('user_id',$user);
+		if (!is_null($status) && count($status) > 0) $query->whereIn('status',$status);
 		if (!is_null($name)) $query->where('name', 'like', "%$name%");
 
 		return $query->orderBy('created_at','desc')->get();
