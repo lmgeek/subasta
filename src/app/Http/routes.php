@@ -31,7 +31,7 @@ Route::get('/landing2', 'AuctionController@subastaHome');
 
 // Authentication routes...
 Route::get('auth/login', 'Auth\AuthController@getLogin');
-Route::post('auth/login', 'Auth\AuthController@postLogin');
+Route::post('auth/login', 'Auth\AuthControllerLogin@postLogin');
 Route::get('auth/logout', 'Auth\AuthController@getLogout');
 
 // Registration routes...
