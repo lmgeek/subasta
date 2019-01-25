@@ -51,7 +51,6 @@ class Product extends Model
 
     public function canBeDeactivate()
     {
-        $now = date('Y-m-d H:i:s');
 
         $consult = DB::table('batch_statuses')
             ->join('batches','batch_statuses.batch_id','=','batches.id')

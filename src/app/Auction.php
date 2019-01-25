@@ -320,9 +320,8 @@ class Auction extends Model{
             'Finished'=>array()
         );
         while($continue==1){
-
             if(self::getAvailable($auctions[$counter]->id,$auctions[$counter]->amount)['available']>0){
-                if($auctions[$counter]->type=='public'){
+                if($auctions[$counter]->type==self::AUCTION_PUBLIC){
                     if($auctions[$counter]->end>$now){
                         $return['Current'][]=$auctions[$counter];
                     }else{
@@ -336,7 +335,7 @@ class Auction extends Model{
                     }
                 }
             }else{
-                if($auctions[$counter]->type=='public'){
+                if($auctions[$counter]->type==self::AUCTION_PUBLIC){
                     $return['Finished'][]=$auctions[$counter];
                 }elseif($auctions[$counter]->type==self::AUCTION_PRIVATE && self::checkifUserInvited($auctions[$counter]->id)==1){
                     $return['Finished'][]=$auctions[$counter];
@@ -371,7 +370,7 @@ class Auction extends Model{
             ->where('auctions_invites.user_id','=',$user_id)
             ->where('active','=',self::ACTIVE)
             ->orderBy('end','DESC')
-            ->paginate();;
+            ->paginate();
     }
 
 
