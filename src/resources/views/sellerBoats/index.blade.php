@@ -21,7 +21,7 @@
                         <div class="ibox-tools">
                             @can('addBoat',new App\Boat)
                             <a href="{{ route('sellerboat.create') }}" class="btn-action">
-                                <i class="fa fa-plus text-success"></i> {{ trans('sellerBoats.new_boat') }}
+                                <em class="fa fa-plus text-success"></em> {{ trans('sellerBoats.new_boat') }}
                             </a>
                             @endcan
                         </div>
@@ -58,7 +58,7 @@
                                         <td>
                                             <span class="label label-{{ $barco->status }}">{{ trans("general.status.$barco->status") }}</span>
 											@if ($barco->status == \App\Boat::RECHAZADO)
-													<i data-toggle="tooltip" data-placement="top" title="{{ $barco->rebound }}"  class="fa fa-info-circle"></i>
+													<em data-toggle="tooltip" data-placement="top" title="{{ $barco->rebound }}"  class="fa fa-info-circle"></em>
 											@endif
                                         </td>
                                         <td>

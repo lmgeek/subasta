@@ -89,7 +89,7 @@
                                     </div>
                                     <div class="col-md-12 alert alert-warning alert-dismissable" id="error" style="display: none">
                                         <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                        <strong><i class="fa fa-info-circle"></i></strong> El peso debe ser mayor a 0,00.
+                                        <strong><em class="fa fa-info-circle"></em></strong> El peso debe ser mayor a 0,00.
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -103,7 +103,7 @@
                                     @endif
                                     <div id="preview"></div>
                                     <a href="#" onclick="resetFile()" id="trash">
-                                        <span><i class="fa fa-trash"></i> Limpiar imagen</span>
+                                        <span><em class="fa fa-trash"></em> Limpiar imagen</span>
                                     </a>
                                 </div>
                                 {{--<div class="col-md-12" style="margin-bottom: 20px">--}}
