@@ -108,7 +108,7 @@
 
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
-							</button><h3><center>Lista de invitados</center></h3>
+							</button><h3 class="text-center">Lista de invitados</h3>
 						</div>
 						<div class="modal-body text-center">
 							<div class="row">
