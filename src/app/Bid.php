@@ -31,14 +31,12 @@ class Bid extends Model
 	
 	public function getTotalByUser($user)
 	{
-		$sum = Bid::where('user_id' , $user->id )->orderBy('bid_date', 'desc')->where('status',Bid::CONCRETADA)->sum('price');
-		return $sum;
+		return Bid::where('user_id' , $user->id )->orderBy('bid_date', 'desc')->where('status',Bid::CONCRETADA)->sum('price');
 	}
 	
 	public function getTotalPendienteByUser($user)
 	{
-		$count = Bid::where('user_id' , $user->id )->orderBy('bid_date', 'desc')->where('status',Bid::PENDIENTE)->count('id');
-		return $count;
+		return Bid::where('user_id' , $user->id )->orderBy('bid_date', 'desc')->where('status',Bid::PENDIENTE)->count('id');
 	}
 	
 }

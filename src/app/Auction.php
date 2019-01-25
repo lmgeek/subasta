@@ -1,17 +1,12 @@
 <?php
-
 namespace App;
-
 use App\Http\Traits\priceTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Auth;
 use App\Bid;
 use Nexmo\Call\Collection;
-
-
-class Auction extends Model
-{
+class Auction extends Model{
     use priceTrait;
     protected $table = 'auctions';
     const IN_CURSE = 'incourse';
@@ -105,7 +100,6 @@ class Auction extends Model
         $now = Carbon::now()->timestamp;
         $position = $now % ($this->interval * 60);
         $segundosRestantes = ($this->interval * 60) - $position;
-        $minutosRestantes = ceil($segundosRestantes/60);
         return ($position == 0) ? $this->interval*60 : $segundosRestantes;
 
     }
@@ -130,32 +124,13 @@ class Auction extends Model
         return $sold;
     }
 
-    private function getAuctionLeftTime($type)
-    {
-        switch ($type){
-            case 'minutes':
-                $rtrn = Carbon::now()->diffInMinutes(Carbon::createFromFormat('Y-m-d H:i:s',$this->end));
-                break;
-            case 'seconds':
-                $rtrn = Carbon::now()->diffInSeconds(Carbon::createFromFormat('Y-m-d H:i:s',$this->end));
-                break;
-        }
-
-        return $rtrn;
+    private function getAuctionLeftTime($type){
+        return ($type=='minutes')?(Carbon::now()->diffInMinutes(Carbon::createFromFormat('Y-m-d H:i:s',$this->end))):(Carbon::now()->diffInSeconds(Carbon::createFromFormat('Y-m-d H:i:s',$this->end)));
     }
 
     private function getAuctionDuration($type)
     {
-        switch ($type){
-            case 'minutes':
-                $rtrn = Carbon::createFromFormat('Y-m-d H:i:s',$this->start)->diffInMinutes(Carbon::createFromFormat('Y-m-d H:i:s',$this->end));
-                break;
-            case 'seconds':
-                $rtrn = Carbon::createFromFormat('Y-m-d H:i:s',$this->start)->diffInSeconds(Carbon::createFromFormat('Y-m-d H:i:s',$this->end));
-                break;
-        }
-
-        return $rtrn;
+        return ($type=='minutes')?(Carbon::createFromFormat('Y-m-d H:i:s',$this->start)->diffInMinutes(Carbon::createFromFormat('Y-m-d H:i:s',$this->end))):(Carbon::createFromFormat('Y-m-d H:i:s',$this->start)->diffInSeconds(Carbon::createFromFormat('Y-m-d H:i:s',$this->end)));
     }
 
     public static function filterAndPaginate($status , $product = null , $seller = null , $boat = null , $type = self::AUCTION_PUBLIC , $withStock = false)
@@ -319,12 +294,12 @@ class Auction extends Model
     }
     public static function checkifUserInvited($id){
         if(!isset(Auth::user()->id)){
-            return false;
+            return 0;
         }
         $auction=AuctionInvited::select('*')
             ->where('auction_id','=',$id)
             ->where('user_id','=',Auth::user()->id)->get();
-        return (count($auction)>0)?true:false;
+        return (count($auction)>0)?1:0;
     }
     public static function auctionHome($ids=null){
         $now =date("Y-m-d H:i:s");
@@ -353,7 +328,7 @@ class Auction extends Model
                     }else{
                         $return['Finished'][]=$auctions[$counter];
                     }
-                }elseif($auctions[$counter]->type=='private' && self::checkifUserInvited($auctions[$counter]->id)==true){
+                }elseif($auctions[$counter]->type==self::AUCTION_PRIVATE && self::checkifUserInvited($auctions[$counter]->id)==1){
                     if($auctions[$counter]->end>$now){
                         $return['Current'][]=$auctions[$counter];
                     }else{
@@ -363,7 +338,7 @@ class Auction extends Model
             }else{
                 if($auctions[$counter]->type=='public'){
                     $return['Finished'][]=$auctions[$counter];
-                }elseif($auctions[$counter]->type=='private' && self::checkifUserInvited($auctions[$counter]->id)==true){
+                }elseif($auctions[$counter]->type==self::AUCTION_PRIVATE && self::checkifUserInvited($auctions[$counter]->id)==1){
                     $return['Finished'][]=$auctions[$counter];
                 }
             }
@@ -441,34 +416,7 @@ class Auction extends Model
             $finalPrice = $priceStart - ($intervalBuy * $intvPrice);
             $hoy = $cToday - strtotime($timeStart);
 
-            $arraydump = array(
-                "start_seg" => strtotime($timeStart),
-                "start" => $timeStart,
-                "end_seg" => strtotime($timeEnd),
-                "end" => $timeEnd,
-                "priceStart" => $priceStart,
-                "priceEnd" => $priceEnd,
-                "interval" => $interval,
-                "numberIntervals" => $numberIntervals,
-                "cStart" => $cStart,
-                "cEnd" => $cEnd,
-                "cToday" => $cToday,
-                "intervalSegundo" => $intervalSegundo,
-                "diffminutesSE" => $diffminutesSE,
-                "restante" => $hoy,
-                "diffPriceSE" => $diffPriceSE,
-                "diffBuyDatStartDat" => $diffBuyDatStarDat,
-                "intervalBuy" => $intervalBuy,
-                "bidDate_seg" => strtotime($bidDate),
-                "bidDate" => $bidDate,
-                "intevPrice" => $intvPrice,
-                "finalPrice" => $finalPrice,
-            );
-
-
-//            dd($arraydump);
-
-
+            //$arraydump = array("start_seg" => strtotime($timeStart), "start" => $timeStart, "end_seg" => strtotime($timeEnd), "end" => $timeEnd, "priceStart" => $priceStart, "priceEnd" => $priceEnd, "interval" => $interval, "numberIntervals" => $numberIntervals, "cStart" => $cStart, "cEnd" => $cEnd, "cToday" => $cToday, "intervalSegundo" => $intervalSegundo, "diffminutesSE" => $diffminutesSE, "restante" => $hoy, "diffPriceSE" => $diffPriceSE, "diffBuyDatStartDat" => $diffBuyDatStarDat, "intervalBuy" => $intervalBuy, "bidDate_seg" => strtotime($bidDate), "bidDate" => $bidDate, "intevPrice" => $intvPrice, "finalPrice" => $finalPrice);dd($arraydump);
             return number_format($finalPrice, env('AUCTION_PRICE_DECIMALS', 2));
         }else if($cEnd < $cToday) {
             return number_format($priceEnd, env('AUCTION_PRICE_DECIMALS', 2));
@@ -537,9 +485,7 @@ class Auction extends Model
         foreach ($bids as $b) {
             $vendido+= $b->amount;
         }
-        $disponible = $amountTotal-$vendido;
-//        dd($disponible);
-        return $disponible;
+        return $amountTotal-$vendido;
     }
 
     /* Funcion para validar el tamaño del producto*/
@@ -573,14 +519,11 @@ class Auction extends Model
     //Funcion para sacar la cantidad de ofertas directas
 
     public function amountSold($auction_id){
-
         $amount = Bid::Select()->where('status','<>',Bid::NO_CONCRETADA)
             ->where('auction_id','=',$auction_id)
             ->get();
         $amount = $amount->toArray();
-
-        $total = count($amount);
-        echo $total;
+        echo count($amount);
 
     }
 
