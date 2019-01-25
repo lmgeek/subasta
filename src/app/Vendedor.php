@@ -109,8 +109,8 @@ class Vendedor extends Model
             inner join batches ba on a.batch_id = ba.id
             inner join arrives ar on ba.arrive_id = ar.id
             inner join boats bo on ar.boat_id = bo.id
-            inner join users u on bo.user_id = u.id && u.id = ".Auth::user()->id."
-            where bid_date BETWEEN '".$end_dt."' && '".$start_dt."'
+            inner join users u on bo.user_id = u.id AND u.id = ".Auth::user()->id."
+            where bid_date BETWEEN '$end_dt' AND '$start_dt'
             GROUP BY mes");
 
         foreach ($result as $item) {
@@ -142,8 +142,8 @@ class Vendedor extends Model
               month(ar.date)         mes
             FROM arrives ar
               INNER JOIN boats bo ON ar.boat_id = bo.id
-              INNER JOIN users u ON bo.user_id = u.id && u.id = ".Auth::user()->id."
-            WHERE ar.date BETWEEN '".$end_dt."' && '".$start_dt."'
+              INNER JOIN users u ON bo.user_id = u.id AND u.id = ".Auth::user()->id."
+            WHERE ar.date BETWEEN '".$end_dt."' AND '".$start_dt."'
             GROUP BY mes");
 
         foreach ($result as $item) {
