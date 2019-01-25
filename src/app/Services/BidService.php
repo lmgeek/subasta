@@ -33,10 +33,7 @@ class BidService {
 			$diffBuyDatStarDat = ceil((strtotime($bidDate) - strtotime($timeStart) )/ 60);
 			
 			$intervalBuy = ($diffBuyDatStarDat / $interval);
-			
-			$finalPrice = $priceStart - ($intervalBuy * $intvPrice);
-			
-			return $finalPrice;
+			return $priceStart - ($intervalBuy * $intvPrice);
 		
     }
 

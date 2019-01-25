@@ -86,7 +86,6 @@ function timer($id) {
     if ($("#timer" + $id).attr('data-timefin') != null) {
         var $end = new Date($("#timer" + $id).attr('data-timefin'));
         window['now'] = new Date().getTime();
-        var countDownDate = new Date($("#" + $id).attr('data-timefin')).getTime();
         var distance = $end - window['now'], string = '';
         var days = Math.floor(distance / (1000 * 60 * 60 * 24));
         var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));

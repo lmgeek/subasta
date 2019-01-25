@@ -99,7 +99,7 @@ switch ($auction->batch->caliber){
                             <?=(($cantofertas>0)?('<em class="icon-material-outline-local-offer green"></em>'.$cantofertas.(($cantofertas>1)?' Ofertas Directas':' Oferta Directa')):'')?>
                         </small></div>
                         <input type="hidden" value="{{$auction->batch->product->unit}}" id="UnitAuction{{$auction->id}}">
-                        <?php }elseif($userses->status=="approved" and $userses->type!=\App\User::COMPRADOR){?>
+                        <?php }elseif($userses->status=="approved" && $userses->type!=\App\User::COMPRADOR){?>
                         <a href="#" class="button" onclick="notifications(0,null,null,null,'El tipo de usuario no permite comprar')">Comprar</a>
                         <div class="w100 text-center margin-top-5 t14">o puedes <a href="#" onclick="notifications(0,null,null,null,'El tipo de usuario no permite ofertar')">realizar una oferta</a></div>
                         <div class="text-center"><small class="green fw700 text-center" id="OffersCounter{{$auction->id}}">
