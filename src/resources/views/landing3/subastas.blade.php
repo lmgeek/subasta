@@ -17,7 +17,7 @@
 				<!-- Auctions Container -->
 					<div id="FilterToggler" class="topnav" onclick="$('#MasterFilter').slideToggle()">
 						<div id="title">Filtros</div>
-						<i class="icon-feather-sliders" id="icon"></i>
+						<em class="icon-feather-sliders" id="icon"></em>
 					</div>
 					<div id="MasterFilter"class=" margin-top-35">
 						<div class="sidebar-widget">
@@ -84,7 +84,7 @@
 							<input class="range-slider" type="text" value="" data-slider-currency="$" data-slider-min="10" data-slider-max="2500" data-slider-step="25" data-slider-value="[50,2500]"/>
 							<div class="checkbox margin-top-15">
 								<input type="checkbox" id="CloseLimitPrice" onclick="auctionListFilter()" class="AuctionListFilter" data-field="close" data-value="1">
-								<label for="CloseLimitPrice" class="red"><span class="checkbox-icon"></span><i class="icon-line-awesome-exclamation-circle red"></i> Cerca de precio l&iacute;mite</label>
+								<label for="CloseLimitPrice" class="red"><span class="checkbox-icon"></span><em class="icon-line-awesome-exclamation-circle red"></em> Cerca de precio l&iacute;mite</label>
 							</div>
 						</div>
 

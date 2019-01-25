@@ -41,11 +41,11 @@
 
             <!-- Newsletter -->
             <div class="col-xl-3 col-lg-3 col-md-12">
-                <h3><i class="icon-feather-mail"></i> Suscr&iacute;bete al Newsletter</h3>
+                <h3><em class="icon-feather-mail"></em> Suscr&iacute;bete al Newsletter</h3>
                 <p>Ent&eacute;rate antes acerca de las pr&oacute;ximas subastas.</p>
                 <form action="#" method="get" class="newsletter">
                     <input type="text" name="fname" placeholder="Ingresa tu email...">
-                    <button type="submit"><i class="icon-feather-arrow-right"></i></button>
+                    <button type="submit"><em class="icon-feather-arrow-right"></em></button>
                 </form>
             </div>
         </div>
