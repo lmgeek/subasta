@@ -24,7 +24,7 @@
                         <h5>{{ trans('sellerBoats.batch_info') }}</h5>
                         <div class="ibox-tools">
                             <a class="btn-action" data-toggle="modal" data-target="#addBatchModal">
-                                <i class="fa fa-plus text-success"></i> {{ trans('sellerBoats.add_batch') }}
+                                <em class="fa fa-plus text-success"></em> {{ trans('sellerBoats.add_batch') }}
                             </a>
                         </div>
                     </div>

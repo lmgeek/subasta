@@ -11,7 +11,7 @@
             </li>
             @include('menu.partials.menu.'.Auth::user()->type)
         </ul>
-		<a class="navbar-minimalize hidden-xs  sidebar-minify-btn" href="#"><i class="ccc fa fa-angle-double-left"></i></a>
+		<a class="navbar-minimalize hidden-xs  sidebar-minify-btn" href="#"><em class="ccc fa fa-angle-double-left"></em></a>
     </div>
 </nav>
 <script>

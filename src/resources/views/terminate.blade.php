@@ -26,9 +26,9 @@
             </script> --}}
 @if (count($auctions) == 0)
     <div class="text-center">
-        <b><i>
+        <strong><em>
             {{ trans('auction.no_auction_home') }}
-        </i></b>
+        </em></strong>
     </div>
 @else
     <? $items = 0; ?>
