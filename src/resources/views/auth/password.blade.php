@@ -54,7 +54,7 @@
 										</div>
 									
 									<div class="ibox-footer text-right">
-										<center><button type="submit" class="btn btn-primary">{{ trans('users.email_reset_send_link') }}</button></center><br>
+										<div class="text-center"><button type="submit" class="btn btn-primary">{{ trans('users.email_reset_send_link') }}</button></div><br>
 										 <p class="text-muted text-center"><small>{{trans('register.ifexist')}}</small></p>
                 <a class="btn btn-sm btn-white btn-block" href="/auth/login">{{trans('register.login')}}</a>
 									</div>

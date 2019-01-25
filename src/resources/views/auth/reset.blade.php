@@ -56,7 +56,7 @@
 										
 									
 									<div class="ibox-footer text-right"><br>
-										<center><button type="submit" class="btn btn-primary">{{ trans('users.password_send') }}</button></center>
+										<div class="text-center"><button type="submit" class="btn btn-primary">{{ trans('users.password_send') }}</button></div>
 										<br>
 										<p class="text-muted text-center"><small>{{trans('register.ifexist')}}</small></p>
                 <a class="btn btn-sm btn-white btn-block" href="/auth/login">{{trans('register.login')}}</a>

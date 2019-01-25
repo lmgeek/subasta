@@ -74,10 +74,10 @@
                                     echo '<span class="usertext" data-toggle="tooltip" data-placement="top" data-original-title="'.$cadena.'">';
                                 }
 
-                                    strlen($cadena);
-                                    if (strlen($cadena) >= 8) {
+                                        $longitudcadena=strlen($cadena);
+                                    if ($longitudcadena >= 8) {
                                         echo strtoupper(substr($cadena, 0, 7) ). "...";
-                                    } elseif (strlen($cadena) <= 7) {
+                                    } elseif ($longitudcadena <= 7) {
                                         echo strtoupper($cadena);
                                     }
                                 ?>
@@ -94,11 +94,10 @@
                                 <?php
                                 $cadena = "Mar del Plata";
                                 echo '<span class="usertext" data-toggle="tooltip" data-placement="top" data-original-title="'.$cadena.'">';
-
-                                    strlen($cadena);
-                                    if (strlen($cadena) >= 14) {
+                                $longitudcadena=strlen($cadena);
+                                    if ($longitudcadena >= 14) {
                                         echo strtoupper(substr($cadena, 0, 13) ). "...";
-                                    } elseif (strlen($cadena) <= 13) {
+                                    } elseif ($longitudcadena <= 13) {
                                         echo strtoupper($cadena);
                                     }
                                 ?></span>
@@ -114,11 +113,10 @@
                     <?php
                         $cadena = $a->batch->arrive->boat->name ;
                         echo '<span class="barco" data-toggle="tooltip" data-placement="top" data-original-title="'.$cadena.'">';
-
-                            strlen($cadena);
-                            if (strlen($cadena) >= 18) {
+                    $longitudcadena=strlen($cadena);
+                            if ($longitudcadena >= 18) {
                                 echo strtoupper(substr($cadena, 0, 17) ). "...";
-                            } elseif (strlen($cadena) <= 17) {
+                            } elseif ($longitudcadena <= 17) {
                                 echo strtoupper($cadena);
                             }
                         ?>
@@ -129,11 +127,10 @@
                     <?php
                         $cadena = "Buque Pesquero y cañero";
                         echo '<span class="tipo-barco" data-toggle="tooltip" data-placement="top" data-original-title="'.$cadena.'">';
-
-                            strlen($cadena);
-                            if (strlen($cadena) >= 18) {
+                    $longitudcadena=strlen($cadena);
+                            if ($longitudcadena >= 18) {
                                 echo strtoupper(substr($cadena, 0, 17) ). "...";
-                            } elseif (strlen($cadena) <= 17) {
+                            } elseif ($longitudcadena <= 17) {
                                 echo strtoupper($cadena);
                             }
                         ?></span>
@@ -217,10 +214,10 @@
                         $cadena = $a->batch->product->name. " " .trans('general.product_caliber.'.$a->batch->caliber);
                         echo '<span style="font-weight: 600" data-toggle="tooltip" data-placement="top" data-original-title="'.$cadena.'">';
 
-                            strlen($cadena);
-                            if (strlen($cadena) >= 18) {
+                        $longitudcadena=strlen($cadena);
+                            if ($longitudcadena >= 18) {
                                 echo strtoupper(substr($cadena, 0, 17) ). "...";
-                            } elseif (strlen($cadena) <= 17) {
+                            } elseif ($longitudcadena <= 17) {
                                 echo strtoupper($cadena);
                             }
                         ?>
@@ -229,10 +226,10 @@
                         $cadena = "Longfin Inshore Squid netlabs";
                         echo '<span style="font-size: 10px; color: #00e4a1" data-toggle="tooltip" data-placement="top" data-original-title="'.$cadena.'">';
 
-                            strlen($cadena);
-                            if (strlen($cadena) >= 24) {
+                        $longitudcadena=strlen($cadena);
+                            if ($longitudcadena >= 24) {
                                 echo strtoupper(substr($cadena, 0, 23) ). "...";
-                            } elseif (strlen($cadena) <= 23) {
+                            } elseif ($longitudcadena <= 23) {
                                 echo strtoupper($cadena);
                             }
                         ?>
@@ -258,10 +255,10 @@
                         $total = $subtotal * $weigth;
                         ?>
                         <span style="font-size: 11px;">DISPONIBILIDAD</span><br>
-                        <? strlen($disponible);
-                        if (strlen($disponible) == 5) {
+                        <? $longitudcadena=strlen($disponible);
+                        if ($longitudcadena == 5) {
                             echo '<span style="font-size: 21px;">';
-                        } if (strlen($disponible) > 5) {
+                        } if ($longitudcadena > 5) {
                             echo '<span style="font-size: 17px;">';
                         } else {
                             echo '<span style="font-size: 25px;">';

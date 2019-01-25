@@ -42,7 +42,7 @@
                                     ?>
                                     <td class="{{ $class }}">{{ trans('general.bid_status.'.$sale->status) }}</td>
                                     <td>
-										<center>
+										<div class="text-center">
 											@if ($sale->seller_calification == \App\Bid::CALIFICACION_POSITIVA)
 												<span class="text-navy" data-toggle="tooltip" data-placement="top" title="{{ $sale->seller_calification_comments }}"  style="font-size:18px;"><em class="fa fa-plus-circle"></em> </span>
 											@endif
@@ -52,9 +52,9 @@
 											@if ($sale->seller_calification == \App\Bid::CALIFICACION_NEUTRAL)
 												<span data-toggle="tooltip" data-placement="top" title="{{ $sale->seller_calification_comments }}"  style="color:#BABABA;font-size:18px;"><em class="fa fa-dot-circle-o"></em> </span>
 											@endif
-										</center>
+										</div>
 									</td>
-									<td><center>
+									<td><div class="text-center">
 											@if ($sale->user_calification == \App\Bid::CALIFICACION_POSITIVA)
 												<span class="text-navy" data-toggle="tooltip" data-placement="top" title="{{ $sale->user_calification_comments }}"  style="font-size:18px;"><em class="fa fa-plus-circle"></em> </span>
 											@endif
@@ -64,7 +64,7 @@
 											@if ($sale->user_calification == \App\Bid::CALIFICACION_NEUTRAL)
 												<span data-toggle="tooltip" data-placement="top" title="{{ $sale->user_calification_comments }}"  style="color:#BABABA;font-size:18px;"><em class="fa fa-dot-circle-o"></em> </span>
 											@endif
-											</center>
+											</div>
                                     </td>
 									
 									
