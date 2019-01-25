@@ -29,27 +29,26 @@ $cantcompras=$availability['sold'];
                             <div class="header-details">
                                 <h3 class="margin-bottom-0">{{$auction->batch->product->name}} <?php $objtAuction->caliber($auction->batch->caliber);?> <div class="star-rating" data-rating="5.0"></div>
                                     @if($auction->type!='public')
-                                        <i class="t16 icon-feather-eye-off" data-tippy-placement="right" title="Subasta Privada" data-tippy-theme="dark"></i>
+                                        <em class="t16 icon-feather-eye-off" data-tippy-placement="right" title="Subasta Privada" data-tippy-theme="dark"></em>
                                     @endif
                                 </h3>
 
 
                                 <ul>
-                                    <li><i class="icon-material-outline-access-time primary"></i><strong class="primary">{{$objtAuction->formatDate($auction->end)}}</strong></li>
-                                    <li><i class="icon-material-outline-location-on"></i> {{\App\Http\Controllers\AuctionController::getPortById($auction->batch->arrive->port_id) }}</li>
-                                    <li style="display: none" id="HotAuction{{$auction->id}}"><i class="icon-line-awesome-fire red" ></i> <strong class="red">¡Subasta caliente!</strong></li>
+                                    <li><em class="icon-material-outline-access-time primary"></em><strong class="primary">{{$objtAuction->formatDate($auction->end)}}</strong></li>
+                                    <li><em class="icon-material-outline-location-on"></em> {{\App\Http\Controllers\AuctionController::getPortById($auction->batch->arrive->port_id) }}</li>
+                                    <li style="display: none" id="HotAuction{{$auction->id}}"><em class="icon-line-awesome-fire red" ></em> <strong class="red">¡Subasta caliente!</strong></li>
                                 </ul>
                                 <ul class="task-icons margin-top-6">
                                     <li>
                                         <small>Vendedor</small><br>
-                                        <strong><i class="icon-feather-user"></i> {{$auction->batch->arrive->boat->user->nickname}}</strong><br>
-                                        {{--<div class="medal-rating {{strtolower($usercat[$userId])}}" data-rating="{{$usercat[$userId]}}"><span class="medal {{$usercat[$userId]}}-text"></span></div>--}}
+                                        <strong><em class="icon-feather-user"></em> {{$auction->batch->arrive->boat->user->nickname}}</strong><br>
                                         <div class="medal-rating {{strtolower(\App\Auction::catUserByAuctions($userId))}}" data-rating="{{\App\Auction::catUserByAuctions($userId)}}">
                                             <span class="medal {{\App\Auction::catUserByAuctions($userId)}}"></span>
                                         </div>
                                     </li>
                                     <li><small>Barco</small><br>
-                                        <strong><i class="icon-line-awesome-ship"></i>{{$auction->batch->arrive->boat->nickname}}</strong><br>
+                                        <strong><em class="icon-line-awesome-ship"></em>{{$auction->batch->arrive->boat->nickname}}</strong><br>
                                         <div class="star-rating" data-rating="<?php $userRating->calculateTheRatingUser($userId)?>"></div>
                                     </li>
                                 </ul>
@@ -61,7 +60,7 @@ $cantcompras=$availability['sold'];
                                 <div class="salary-amount t32"><strong  id="Price{{$auction->id}}">${{$price}}</strong>/ Kg<br>
                                     <small class="green fw400" id="BidsCounter{{$auction->id}}">
                                         <?php if($cantcompras>0){?>
-                                            <i id="ofertasDirectas" class="icon-material-outline-local-offer green"></i>
+                                            <em id="ofertasDirectas" class="icon-material-outline-local-offer green"></em>
                                             {{$cantcompras}} Compras Directas
                                         <?php }?>
                                     </small>
@@ -142,20 +141,20 @@ $cantcompras=$availability['sold'];
                                     <a href="#" class="button" onclick="notifications(0,null,null,null,'Usuario no aprobado')">Comprar</a>
                                     <div class="w100 text-center margin-top-5 t14">o puedes <a href="#" onclick="notifications(0,null,null,null,'Usuario no aprobado')">realizar una oferta</a></div>
                                     <div class="text-center"><small class="green fw700 text-center" id="OffersCounter{{$auction->id}}">
-                                            <?=(($cantofertas>0)?('<i class="icon-material-outline-local-offer green"></i>'.$cantofertas.(($cantofertas>1)?' Ofertas Directas':' Oferta Directa')):'')?>
+                                            <?=(($cantofertas>0)?('<em class="icon-material-outline-local-offer green"></em>'.$cantofertas.(($cantofertas>1)?' Ofertas Directas':' Oferta Directa')):'')?>
                                         </small></div>
                                     <?php }elseif($userses->status=="approved" and $userses->type!=\App\User::COMPRADOR){?>
                                     <a href="#" class="button" onclick="notifications(0,null,null,null,'El tipo de usuario no permite comprar')">Comprar</a>
                                     <div class="w100 text-center margin-top-5 t14">o puedes <a href="#" onclick="notifications(0,null,null,null,'El tipo de usuario no permite ofertar')">realizar una oferta</a></div>
                                     <div class="text-center"><small class="green fw700 text-center" id="OffersCounter{{$auction->id}}">
-                                            <?=(($cantofertas>0)?('<i class="icon-material-outline-local-offer green"></i>'.$cantofertas.(($cantofertas>1)?' Ofertas Directas':' Oferta Directa')):'')?>
+                                            <?=(($cantofertas>0)?('<em class="icon-material-outline-local-offer green"></em>'.$cantofertas.(($cantofertas>1)?' Ofertas Directas':' Oferta Directa')):'')?>
                                         </small></div>
                                     <?php }else{?>
-                                        <button class="button margin-top-35 full-width button-sliding-icon ripple-effect" type="submit" form="apply-now-form" onclick="makeBid({{$auction->id}})">Comprar <i class="icon-material-outline-arrow-right-alt"></i></button>
+                                        <button class="button margin-top-35 full-width button-sliding-icon ripple-effect" type="submit" form="apply-now-form" onclick="makeBid({{$auction->id}})">Comprar <em class="icon-material-outline-arrow-right-alt"></em></button>
                                     <div class="w100 text-center margin-top-5 t14">o puedes <a href="#small-dialog-oferta{{$auction->id}}" class="sign-in popup-with-zoom-anim">realizar una oferta</a></div>
                                         <input type="hidden" id="PriceBid{{$auction->id}}">
                                     <div class="text-center"><small class="green fw700 text-center" id="OffersCounter{{$auction->id}}">
-                                            <?=(($cantofertas>0)?('<i class="icon-material-outline-local-offer green"></i>'.$cantofertas.(($cantofertas>1)?' Ofertas Directas':' Oferta Directa')):'')?>
+                                            <?=(($cantofertas>0)?('<em class="icon-material-outline-local-offer green"></em>'.$cantofertas.(($cantofertas>1)?' Ofertas Directas':' Oferta Directa')):'')?>
                                         </small></div>
                                     @include('landing3/partials/pop-up-oferta')
                                     <?php }
@@ -163,7 +162,7 @@ $cantcompras=$availability['sold'];
                                     <a href="/auction" class="button">Comprar</a>
                                     <div class="w100 text-center margin-top-5 t14">o puedes <a href="/auction">realizar una oferta</a></div>
                                     <div class="text-center"><small class="green fw700 text-center" id="OffersCounter{{$auction->id}}">
-                                            <?=(($cantofertas>0)?('<i class="icon-material-outline-local-offer green"></i>'.$cantofertas.(($cantofertas>1)?' Ofertas Directas':' Oferta Directa')):'')?>
+                                            <?=(($cantofertas>0)?('<em class="icon-material-outline-local-offer green"></em>'.$cantofertas.(($cantofertas>1)?' Ofertas Directas':' Oferta Directa')):'')?>
                                         </small></div>
                                     <?php
                                     }

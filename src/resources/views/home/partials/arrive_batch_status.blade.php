@@ -33,7 +33,7 @@
 					<div id="estrellas_{{ $batch->id }}" style="display:none"><div><strong>{{ trans('sellerBoats.caliber') }}: </strong><span>{{ trans('general.product_caliber.'.$batch->caliber) }}</span><br><strong>{{ trans('sellerBoats.quality') }}: </strong><div id='quality_{{ $batch->id }}' class='text-warning' style='font-size: 8px; display: inline-block;'></div></div></div>
 
 					{{ $batch->product->name  }}
-					<i class="fa fa-info-circle text-info" id="indo_{{ $batch->id }}" data-toggle="tooltip" data-placement="top" title="dddd"></i>
+					<em class="fa fa-info-circle text-info" id="indo_{{ $batch->id }}" data-toggle="tooltip" data-placement="top" title="dddd"></em>
 					<script>
 						$(document).ready(function(){
 							$('#quality_{{ $batch->id }}').raty({

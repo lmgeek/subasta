@@ -66,7 +66,7 @@
 
                         <!-- Trigger -->
                         <div class="header-notifications-link">
-                            <a href="dash-nueva-subasta.php" data-tippy-placement="left" title="Nueva Subasta" data-tippy-theme="dark"><i class="icon-material-outline-gavel"></i></a>
+                            <a href="dash-nueva-subasta.php" data-tippy-placement="left" title="Nueva Subasta" data-tippy-theme="dark"><em class="icon-material-outline-gavel"></em></a>
                         </div>
 
 
@@ -87,7 +87,7 @@
 
                     <!-- Trigger -->
                     <div class="header-notifications-trigger">
-                        <a href="#" data-tippy-placement="left" title="Notificaciones" data-tippy-theme="dark"><i class="icon-feather-bell"></i><span>4</span></a>
+                        <a href="#" data-tippy-placement="left" title="Notificaciones" data-tippy-theme="dark"><em class="icon-feather-bell"></em><span>4</span></a>
                     </div>
 
                     <!-- Dropdown -->
@@ -96,7 +96,7 @@
                         <div class="header-notifications-headline">
                             <h4>Notificaciones</h4>
                             <button class="mark-as-read ripple-effect-dark" title="Marcar todas como leídas" data-tippy-placement="left">
-                                <i class="icon-feather-check-square"></i>
+                                <em class="icon-feather-check-square"></em>
                             </button>
                         </div>
 
@@ -106,7 +106,7 @@
                                     <!-- Notification -->
                                     <li class="notifications-not-read">
                                         <a href="#">
-                                            <span class="notification-icon"><i class="icon-feather-clock"></i></span>
+                                            <span class="notification-icon"><em class="icon-feather-clock"></em></span>
                                             <span class="notification-text">
                                                 <strong>Lote de Camarones Premium</strong> est&aacute; por finalizar.<span class="color"> &iquest;Vas a dejar pasar esta oportunidad?</span>
                                             </span>
@@ -116,7 +116,7 @@
                                     <!-- Notification -->
                                     <li>
                                         <a href="#">
-                                            <span class="notification-icon"><i class="icon-feather-thumbs-up"></i></span>
+                                            <span class="notification-icon"><em class="icon-feather-thumbs-up"></em></span>
                                             <span class="notification-text">
                                                 <strong>&iexcl;Felicidades!</strong> Gustavo de Sancho hizo una oferta en tu subasta Pesca de alta mar.
                                             </span>
@@ -126,7 +126,7 @@
                                     <!-- Notification -->
                                     <li>
                                         <a href="#">
-                                            <span class="notification-icon"><i class="icon-line-awesome-fire"></i></span>
+                                            <span class="notification-icon"><em class="icon-line-awesome-fire"></em></span>
                                             <span class="notification-text">
                                                 La subasta <strong>Cornalitos alta calidad</strong>  est&aacute; registrando muchas ofertas. <span class="color">&iexcl;Haz tu oferta ahora!</span>
                                             </span>
@@ -136,7 +136,7 @@
                                     <!-- Notification -->
                                     <li>
                                         <a href="#">
-                                            <span class="notification-icon"><i class="icon-feather-eye"></i></span>
+                                            <span class="notification-icon"><em class="icon-feather-eye"></em></span>
                                             <span class="notification-text">
                                                 Tu subasta <strong>Pesca de alta mar</strong> est&aacute; recibiendo muchas visitas. <span class="color">&iexcl;Bien hecho!</span>
                                             </span>
@@ -162,8 +162,7 @@
                             <!-- Messages -->
                             <div class="header-notifications user-menu">
                                 <div class="header-notifications-trigger">
-                                    {{--<a href="#"><div class="user-avatar "><i class="icon-feather-user"></i></div></a>--}}
-                                    <a href="#"><div class=""><i class="icon-feather-user"></i></div></a>
+                                    <a href="#"><div class=""><em class="icon-feather-user"></em></div></a>
                                 </div>
 
                                 <!-- Dropdown -->
@@ -183,17 +182,14 @@
                                     </div>
 
                                     <ul class="user-menu-small-nav">
-                                        <li><a href="{{url('/home')}}"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
-                                        <li><a href="#"><i class="icon-feather-user"></i> Mi Cuenta</a></li>
-                                        <li><a href="{{url('/sellerboat')}}"><i class="icon-line-awesome-ship"></i> Mis Barcos</a></li>
-                                        <li><a href="{{url('/sellerbatch')}}"><i class="icon-feather-box"></i> Mis Lotes</a></li>
-                                        <li><a href="{{url('/sellerAuction')}}"><i class="icon-material-outline-gavel"></i>Mis Subastas</a></li>
-                                        <li><a href="{{url('/sales')}}"><i class="icon-material-outline-gavel"></i> Ventas de Subastas</a></li>
-                                        <li><a href="{{ url('/privatesales') }}"><i class="icon-feather-eye-off"></i> Ventas privadas</a></li>
-                                        <li><a href="{{url('auth/logout')}}"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
-                                        {{--<li><a href="dash-list-arribos.php"><i class="icon-material-outline-access-time"></i> Mis Arribos</a></li>--}}
-                                        {{--<li><a href="#"><i class="icon-material-outline-shopping-cart"></i> Mis Compras</a></li>--}}
-                                        {{--<li><a href="#"><i class="icon-feather-heart"></i> Favoritas</a></li>--}}
+                                        <li><a href="{{url('/home')}}"><em class="icon-material-outline-dashboard"></em> Dashboard</a></li>
+                                        <li><a href="#"><em class="icon-feather-user"></em> Mi Cuenta</a></li>
+                                        <li><a href="{{url('/sellerboat')}}"><em class="icon-line-awesome-ship"></em> Mis Barcos</a></li>
+                                        <li><a href="{{url('/sellerbatch')}}"><em class="icon-feather-box"></em> Mis Lotes</a></li>
+                                        <li><a href="{{url('/sellerAuction')}}"><em class="icon-material-outline-gavel"></em>Mis Subastas</a></li>
+                                        <li><a href="{{url('/sales')}}"><em class="icon-material-outline-gavel"></em> Ventas de Subastas</a></li>
+                                        <li><a href="{{ url('/privatesales') }}"><em class="icon-feather-eye-off"></em> Ventas privadas</a></li>
+                                        <li><a href="{{url('auth/logout')}}"><em class="icon-material-outline-power-settings-new"></em> Logout</a></li>
                                     </ul>
 
                                 </div>
@@ -227,7 +223,7 @@
             <!-- Messages -->
             <div class="header-notifications user-menu">
                 <div class="header-notifications-trigger">
-                    <a href="#"><div class=""><i class="icon-feather-user"></i></div></a>
+                    <a href="#"><div class=""><em class="icon-feather-user"></em></div></a>
                 </div>
 
                 <!-- Dropdown -->
@@ -247,12 +243,12 @@
                     </div>
 
                     <ul class="user-menu-small-nav">
-                        <li><a href="{{url('/home')}}"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
-                        <li><a href="#"><i class="icon-feather-user"></i> Mi Cuenta</a></li>
-                        <li><a href="{{url('/auction')}}"><i class="icon-material-outline-gavel"></i> Subastas</a></li>
-                        <li><a href="{{url('/auction?type=private')}}"><i class="icon-feather-eye-off"></i> Subastas Privadas</a></li>
-                        <li><a href="{{url('/bids')}}"><i class="icon-material-outline-shopping-cart"></i> Compra</a></li>
-                        <li><a href="{{url('auth/logout')}}"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
+                        <li><a href="{{url('/home')}}"><em class="icon-material-outline-dashboard"></em> Dashboard</a></li>
+                        <li><a href="#"><em class="icon-feather-user"></em> Mi Cuenta</a></li>
+                        <li><a href="{{url('/auction')}}"><em class="icon-material-outline-gavel"></em> Subastas</a></li>
+                        <li><a href="{{url('/auction?type=private')}}"><em class="icon-feather-eye-off"></em> Subastas Privadas</a></li>
+                        <li><a href="{{url('/bids')}}"><em class="icon-material-outline-shopping-cart"></em> Compra</a></li>
+                        <li><a href="{{url('auth/logout')}}"><em class="icon-material-outline-power-settings-new"></em> Logout</a></li>
                     </ul>
 
                 </div>
@@ -287,7 +283,7 @@
             <!-- Messages -->
             <div class="header-notifications user-menu">
                 <div class="header-notifications-trigger">
-                    <a href="#"><div class=""><i class="icon-feather-user"></i></div></a>
+                    <a href="#"><div class=""><em class="icon-feather-user"></em></div></a>
                 </div>
 
                 <!-- Dropdown -->
@@ -307,13 +303,12 @@
                     </div>
 
                     <ul class="user-menu-small-nav">
-                        <li><a href="{{url('/home')}}"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
-                        <li><a href="#"><i class="icon-feather-user"></i> Mi Cuenta</a></li>
-                        <li><a href="{{url('/users')}}"><i class="icon-line-awesome-list"></i> Listado de Usuarios</a></li>
-                        <li><a href="{{url('/boats')}}"><i class="icon-line-awesome-ship"></i> Listado de Barcos</a></li>
-                        {{--<li><a href="{{url('/products')}}"><i class="icon-line-awesome-sellsy"></i>Productos</a></li>--}}
-                        <li><a href="{{url('/products')}}"><i class="icon-brand-product-hunt"></i> Productos</a></li>
-                        <li><a href="{{url('auth/logout')}}"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
+                        <li><a href="{{url('/home')}}"><em class="icon-material-outline-dashboard"></em> Dashboard</a></li>
+                        <li><a href="#"><em class="icon-feather-user"></em> Mi Cuenta</a></li>
+                        <li><a href="{{url('/users')}}"><em class="icon-line-awesome-list"></em> Listado de Usuarios</a></li>
+                        <li><a href="{{url('/boats')}}"><em class="icon-line-awesome-ship"></em> Listado de Barcos</a></li>
+                        <li><a href="{{url('/products')}}"><em class="icon-brand-product-hunt"></em> Productos</a></li>
+                        <li><a href="{{url('auth/logout')}}"><em class="icon-material-outline-power-settings-new"></em> Logout</a></li>
                     </ul>
 
                 </div>

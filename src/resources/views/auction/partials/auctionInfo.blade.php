@@ -48,7 +48,7 @@
 						  <div class="modal-body text-center">
 							  <div class="row">
 								<div class="col-md-12 text-center">
-									<center><img class="img-responsive" src="{{ asset('/img/products/'.$a->batch->product->image_name) }}" style="border-radius:6px"  ></center>
+									<center><img class="img-responsive" src="{{ asset('/img/products/'.$a->batch->product->image_name) }}" style="border-radius:6px" alt="{{$a->batch->product->name}}"  ></center>
 								</div>
 							  </div>
 						  </div>

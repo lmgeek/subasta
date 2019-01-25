@@ -29,17 +29,17 @@
                             <!-- Headline -->
 
                             <div class="input-with-icon-left col-md-6 offset-md-3">
-                                <i class="currency">AR$</i>
+                                <em class="currency">AR$</em>
                                 <input class="with-border margin-bottom-5" type="text" placeholder="Precio por kilo" id="OfferPrice{{$auction->id}}" onkeydown="avoidSending()">
                             </div>
-                            <span class="bidding-detail text-center red"><i class="icon-material-outline-info red"></i> La oferta aplica sobre todo el lote o el remanente.</span>
+                            <span class="bidding-detail text-center red"><em class="icon-material-outline-info red"></em> La oferta aplica sobre todo el lote o el remanente.</span>
                         </div>
                     </div>
 
                 </form>
 
                 <!-- Button -->
-                <button class="button margin-top-25 full-width button-sliding-icon ripple-effect" type="submit" form="apply-now-form" onclick="makeOffer({{$auction->id}})">Hacer Oferta <i class="icon-material-outline-arrow-right-alt"></i></button>
+                <button class="button margin-top-25 full-width button-sliding-icon ripple-effect" type="submit" form="apply-now-form" onclick="makeOffer({{$auction->id}})">Hacer Oferta <em class="icon-material-outline-arrow-right-alt"></em></button>
 
             </div>
 
