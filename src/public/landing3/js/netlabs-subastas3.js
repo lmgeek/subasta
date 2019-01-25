@@ -195,7 +195,7 @@ function notifications_close($id){
 }
 function notifications($type,$product=null,$price=null,$quantity=null,$text=null){
     window['notificationCounter']++;
-    var $idnotification=window['notificationCounter'];
+    var $idnotification=window['notificationCounter'],$html;
     if($type==1){
         $html='<div class="notificationauction success" id="notificationauction'+$idnotification+'" onclick="notifications_close('+$idnotification+')"><div class="notificationicon"><i class="icon-line-awesome-check"></i></div><div class="notificationcontent">' +
             '<div class="title">Su compra se ha realizado con exito</div>' +
@@ -240,8 +240,7 @@ function makeBid($id){
     }
     $.magnificPopup.close();
     $.get("/makeBid?auction_id="+$id + "&price="+$('#PriceBid'+$id).val()+"&amount="+$('#cantidad-'+$id).val(),function(result){
-        $result=JSON.parse(result);
-        console.log($result);
+        var $result=JSON.parse(result);
         if($result['limited']==1){
             notifications(0,null,null,null,'Has superado el limite de compras impuesto a tu usuario');
             return null;
@@ -332,7 +331,7 @@ $(document).ready(function(){
 
 //G.B Evitar escribir espacio
 function blankSpace(e) {
-    tecla = (document.all) ? e.keyCode : e.which;
+    var tecla = (document.all) ? e.keyCode : e.which;
 
     //Tecla de retroceso para borrar, siempre la permite
     if (tecla == 8) {
@@ -340,7 +339,7 @@ function blankSpace(e) {
     }
 
     // Patron de entrada, en este caso solo acepta numeros y letras
-    patron = /[A-Za-z0-9]/;
-    tecla_final = String.fromCharCode(tecla);
+    var patron = /[A-Za-z0-9]/;
+    var tecla_final = String.fromCharCode(tecla);
     return patron.test(tecla_final);
 }
