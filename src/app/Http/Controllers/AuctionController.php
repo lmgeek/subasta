@@ -41,9 +41,6 @@ class AuctionController extends Controller
 		$product = $request->get('product',null);
 		$seller = $request->get('seller',null);
 		$boat = $request->get('boat',null);
-
-		$auction_id = $request->get('auction_id',null);
-		$invited = $request->get('invited',null);
 		$type = $request->get('type',null);
 
 		if ($type == Auction::AUCTION_PRIVATE)
@@ -52,10 +49,6 @@ class AuctionController extends Controller
 		}else{
 			$auctions = Auction::filterAndPaginate($status,$product,$seller,$boat);
 		}
-
-		$products = array();
-		$sellers =  array();
-		$boats = array();
 		$products = Product::select()->get();
 		$sellers = User::filter(null, array(User::VENDEDOR), array(User::APROBADO));
 		$boats = Boat::Select()->get();
@@ -211,14 +204,12 @@ class AuctionController extends Controller
         $bidDate = date('Y-m-d H:i:s');
         $auction = Auction::findOrFail($id);
         $prices = $auction->calculatePrice($bidDate);
-        $price = number_format(str_replace(",","",$prices),2,',','');
-        return $price;
+        return number_format(str_replace(",","",$prices),2,',','');
     }
 	 public function calculatePeso(Request $request)
 	 {
-		$product_id = $request->input('product_id');
 		// dd($product_id);
-		return $product_id;
+		return $request->input('product_id');
 		// $weigth = $request->input('weigth');
 
 		// $auction = Auction::findOrFail($weigth);
@@ -255,13 +246,13 @@ class AuctionController extends Controller
 
     public function checkIfBuyerCanBuy($id,$amount,$type="bid",$privacy='public'){
         if(empty(Auth::user()->id)){
-            return false;
+            return 0;
         }
         if(Auth::user()->type!='buyer'){
-            return false;
+            return 0;
         }
         if(Auth::user()->status!='approved'){
-            return false;
+            return 0;
         }
         if($privacy=='private'){
             $auction = Auction::select('*')
@@ -270,11 +261,11 @@ class AuctionController extends Controller
                 ->where('auctions_invites.user_id', '=', Auth::user()->id)
                 ->where('auctions.id','=', $id);
             if(count($auction)==0){
-                return false;
+                return 0;
             }
         }
         if($type!='bid'){
-            return true;
+            return 1;
         }
         $bids = Bid::where('user_id', Auth::user()->id)->where('status','=','pending')->get();
         foreach($bids as $bid){
@@ -284,7 +275,7 @@ class AuctionController extends Controller
         $comprador = User::select('*')
             ->join('comprador','users.id','=','comprador.user_id')
             ->where('users.id', Auth::user()->id)->get();
-        return ($amount>$comprador[0]->bid_limit)?false:true;
+        return ($amount>$comprador[0]->bid_limit)?0:1;
 
     }
 	 public function makeBid(Request $request)
@@ -295,14 +286,9 @@ class AuctionController extends Controller
          $auction = Auction::findOrFail($auction_id);
          $this->authorize('makeBid', $auction);
          $checkuser=$this->checkIfBuyerCanBuy($auction_id,$amount,'bid',$auction->type);
-         if($checkuser==false){
+         if($checkuser==0){
              return json_encode(array('error'=>'Tu usuario no puede comprar'));
          }
-		if ($auction->type == \App\Auction::AUCTION_PRIVATE )
-		{
-			$this->authorize('isInvited', $auction);
-		}
-
          if(empty($request->input('price'))){
              $bidDate = date('Y-m-d H:i:s');
              $prices = $auction->calculatePrice($bidDate);
@@ -332,7 +318,6 @@ class AuctionController extends Controller
                     $amounttotal=$auction->amount;
                     $targetamount=($amounttotal*0.75);
                     $hot=(($availability-$amount)<$targetamount)?1:0;
-					$total = $amount * $price;
 					$resp['isnotavailability'] = 0;
                     $resp['availability'] = $availability-$amount;
 					$resp['unit'] = trans('general.product_units.'.$unit);
@@ -786,19 +771,15 @@ class AuctionController extends Controller
 		$seller = $request->get('seller',null);
 		$boat = $request->get('boat',null);
 		
-		$auction_id = $request->get('auction_id',null);
-		$invited = $request->get('invited',null);
+//		$auction_id = $request->get('auction_id',null);
+//		$invited = $request->get('invited',null);
 		$type = $request->get('type',"all");
 		
 		$auctions = Auction::filterAndPaginate($status,$product,$seller,$boat,$type,true);
 //		$auctions=Auction::auctionPrivate(Auth::user()->id,$status);
 //        dump($auctions);
 //        $auctions = Auction::getClosingAuction();
-        $array_auctions = [];
-
-		$products = array();
-		$sellers =  array();
-		$boats = array();
+//        $array_auctions = [];
 		$products = Product::Select()->get();
 		$sellers = User::filter(null, array(User::VENDEDOR), array(User::APROBADO));
 		$boats = Boat::Select()->get();
@@ -847,7 +828,6 @@ class AuctionController extends Controller
             $close[$a->id]=($price[$a->id]<$a->target_price)?1:0;
             $auctionsreturn[] = $a;
             if (isset($caliber[$a->batch->caliber]['cant'])) {
-                $calibers[$a->batch->caliber]++;
             } else {
                 $calibers[$a->batch->caliber] = 1;
             }
@@ -1043,7 +1023,7 @@ class AuctionController extends Controller
                 $caliber = $auction->batch->caliber;
                 $quality = $auction->batch->quality;
                 $product = $auction->batch->product->name;
-                $total = $available['available'] * $price;
+//                $total = $available['available'] * $price;
                 $resp['isnotavailability'] = 0;
                 $resp['unit'] = trans('general.product_units.'.$unit);
                 $resp['caliber'] = $caliber;
@@ -1085,15 +1065,7 @@ class AuctionController extends Controller
         //$this->authorize('canBid',Auction::class);
 
         $checkuser=$this->checkIfBuyerCanBuy($auction_id,null,'offer',$auction->type);
-        if($checkuser==false){
-            return json_encode(array('error'=>'Tu usuario no puede ofertar'));
-        }
-        if ($auction->type == \App\Auction::AUCTION_PRIVATE )
-        {
-            $this->authorize('isInvited', $auction);
-        }
-        $checkuser=$this->checkIfBuyerCanBuy(null,'offer');
-        if($checkuser==false){
+        if($checkuser==0){
             return json_encode(array('error'=>'Tu usuario no puede ofertar'));
         }
         $resp  =  array();
@@ -1114,7 +1086,6 @@ class AuctionController extends Controller
                 $caliber = $auction->batch->caliber;
                 $quality = $auction->batch->quality;
                 $product = $auction->batch->product->name;
-                $total = $available['available'] * $price;
                 $resp['isnotavailability'] = 0;
                 $resp['unit'] = trans('general.product_units.'.$unit);
                 $resp['caliber'] = $caliber;
@@ -1182,7 +1153,7 @@ class AuctionController extends Controller
                 if ($offer->status == Offers::PENDIENTE){
                     //registramos la compra a la mejor opc de compra
                     $offerForSale = $this->offerForSale($auction, $offer);
-                    if ($offerForSale == true)
+                    if ($offerForSale)
                         return ('<h1 style="    text-align: center; margin-top: 300px; font-size: 5em">Se vendio todo</h1>');
                 }
             }
@@ -1247,7 +1218,6 @@ class AuctionController extends Controller
             $caliber = $auction->batch->caliber;
             $quality = $auction->batch->quality;
             $product = $auction->batch->product->name;
-            $total = $available['available'] * $price;
             $resp['isnotavailability'] = 0;
             $resp['unit'] = trans('general.product_units.'.$unit);
             $resp['caliber'] = $caliber;
@@ -1297,7 +1267,7 @@ class AuctionController extends Controller
 
     public function getOffers($auction_id)
     {
-        $offers = Offers::Select(
+        return Offers::Select(
             'auctions_offers.id',
             'auctions_offers.auction_id',
             'auctions_offers.price',
@@ -1317,13 +1287,11 @@ class AuctionController extends Controller
             ->where('auctions_offers.auction_id','=',$auction_id)
             ->orderBy('auctions_offers.price','desc')
             ->get();
-        return $offers;
     }
 
     public function getCurrentTime()
     {
-        $date = date('Y-m-d H:i:s');
-        return $date;
+        return date('Y-m-d H:i:s');
     }
 
 
