@@ -881,7 +881,6 @@ class AuctionController extends Controller
         $cantreturn=(count($auctions)>$limit)?$limit:count($auctions);
         $auctioninfo=$this->getAuctionsDataForHome($auctions);
         for($z=0;$z<$cantreturn;$z++){
-            //die();
             $view= view('/landing3/partials/auctionNoDetail')
                 ->withAuction($auctions[$z])
                 ->withUserrating($auctioninfo['userrating'])

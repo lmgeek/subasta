@@ -320,8 +320,8 @@ class Auction extends Model{
             'Finished'=>array()
         );
         while($continue==1){
-            $availability=self::getAvailable($auctions[$counter]->id,$auctions[$counter]->amount)['available'];
-            if($availability>0){
+
+            if(self::getAvailable($auctions[$counter]->id,$auctions[$counter]->amount)['available']>0){
                 if($auctions[$counter]->type=='public'){
                     if($auctions[$counter]->end>$now){
                         $return['Current'][]=$auctions[$counter];
@@ -367,14 +367,11 @@ class Auction extends Model{
             $rtrn = $rtrn->where('end','>',$now);
         }
 
-
-        $rtrn = $rtrn->where('auctions.type','=',self::AUCTION_PRIVATE)
+        return $rtrn->where('auctions.type','=',self::AUCTION_PRIVATE)
             ->where('auctions_invites.user_id','=',$user_id)
             ->where('active','=',self::ACTIVE)
             ->orderBy('end','DESC')
-            ->paginate();
-
-        return $rtrn;
+            ->paginate();;
     }
 
 
@@ -414,7 +411,6 @@ class Auction extends Model{
             $intervalBuy = ($diffBuyDatStarDat / $interval);
 
             $finalPrice = $priceStart - ($intervalBuy * $intvPrice);
-            $hoy = $cToday - strtotime($timeStart);
 
             //$arraydump = array("start_seg" => strtotime($timeStart), "start" => $timeStart, "end_seg" => strtotime($timeEnd), "end" => $timeEnd, "priceStart" => $priceStart, "priceEnd" => $priceEnd, "interval" => $interval, "numberIntervals" => $numberIntervals, "cStart" => $cStart, "cEnd" => $cEnd, "cToday" => $cToday, "intervalSegundo" => $intervalSegundo, "diffminutesSE" => $diffminutesSE, "restante" => $hoy, "diffPriceSE" => $diffPriceSE, "diffBuyDatStartDat" => $diffBuyDatStarDat, "intervalBuy" => $intervalBuy, "bidDate_seg" => strtotime($bidDate), "bidDate" => $bidDate, "intevPrice" => $intvPrice, "finalPrice" => $finalPrice);dd($arraydump);
             return number_format($finalPrice, env('AUCTION_PRICE_DECIMALS', 2));

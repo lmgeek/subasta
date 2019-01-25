@@ -24,7 +24,7 @@ class UserRating extends Model
         //convertirmos el resultado de la consulta en array
         $userRating = $userRating->toArray();
         $suma=0;$porcentaje=0;
-        foreach ($userRating as $key => $value){
+        foreach ($userRating as $value){
             $suma=  array_sum($value);
 
         }

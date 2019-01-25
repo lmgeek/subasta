@@ -41,14 +41,12 @@ class PasswordControllerIndex extends Controller
         $response = Password::reset($credentials, function ($user, $password) {
             $this->resetPassword($user, $password);
         });
-
-        switch ($response) {
-            case Password::PASSWORD_RESET:
-                return redirect("home.php");
-            default:
-                return redirect()->back()
-                            ->withInput($request->only('email'))
-                            ->withErrors(['email' => trans($response)]);
+        if($response==Password::PASSWORD_RESET){
+            return redirect("home.php");
+        }else{
+            return redirect()->back()
+                ->withInput($request->only('email'))
+                ->withErrors(['email' => trans($response)]);
         }
     }
     
