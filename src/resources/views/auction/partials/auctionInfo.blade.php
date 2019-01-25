@@ -27,12 +27,12 @@
             @endif
 			
 			@if (!is_null($a->batch->product->image_name) && file_exists('img/products/'.$a->batch->product->image_name) )
-				<center>
+				<div class="text-center">
 					<a href="#" data-target="#product-Modal-{{ $a->id }}"  data-toggle="modal" class="product-img" auction="{{ $a->id }}" >
 						<em data-toggle="tooltip" title="Imagen del producto" class="fa fa-image">
 						</em>
 					</a>
-				</center>
+				</div>
 				<div class="col-md-12 text-center">
 					{{ trans("auction.".$a->type) }}
 				</div>
@@ -43,12 +43,12 @@
 							
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
-							</button><h3><center>{{ $a->batch->product->name }}</center></h3>
+							</button><h3 class="text-center">{{ $a->batch->product->name }}</h3>
 						   </div>
 						  <div class="modal-body text-center">
 							  <div class="row">
 								<div class="col-md-12 text-center">
-									<center><img class="img-responsive" src="{{ asset('/img/products/'.$a->batch->product->image_name) }}" style="border-radius:6px" alt="{{$a->batch->product->name}}"  ></center>
+									<img class="img-responsive" src="{{ asset('/img/products/'.$a->batch->product->image_name) }}" style="border-radius:6px" alt="{{$a->batch->product->name}}"  >
 								</div>
 							  </div>
 						  </div>

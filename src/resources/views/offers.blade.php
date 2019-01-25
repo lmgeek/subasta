@@ -33,13 +33,11 @@
                             <?php
                             $cadena = "Mariano Ramirez";
                             echo '<span class="usertext" data-toggle="tooltip" data-placement="top" data-original-title="'.$cadena.'">';
-                            
-                                strlen($cadena);
-                                if (strlen($cadena) >= 8) {
-                                    echo strtoupper(substr($cadena, 0, 7) ). "...";
-                                } elseif (strlen($cadena) <= 7) {
-                                    echo strtoupper($cadena);
-                                }   
+                            if (strlen($cadena) >= 8) {
+                                echo strtoupper(substr($cadena, 0, 7) ). "...";
+                            } elseif (strlen($cadena) <= 7) {
+                                echo strtoupper($cadena);
+                            }
                             ?>    
                             </span>
                         </td>
@@ -54,13 +52,12 @@
                             <?php
                             $cadena = "Mar del Plata";
                             echo '<span class="usertext" data-toggle="tooltip" data-placement="top" data-original-title="'.$cadena.'">';
-                                
-                                strlen($cadena);
-                                if (strlen($cadena) >= 14) {
-                                    echo strtoupper(substr($cadena, 0, 13) ). "...";
-                                } elseif (strlen($cadena) <= 13) {
-                                    echo strtoupper($cadena);
-                                }
+                            $longitudcadena=strlen($cadena);
+                            if ($longitudcadena >= 14) {
+                                echo strtoupper(substr($cadena, 0, 13) ). "...";
+                            } elseif ($longitudcadena <= 13) {
+                                echo strtoupper($cadena);
+                            }
                             ?></span>
                         </td>
                     </tr>

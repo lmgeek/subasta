@@ -10,7 +10,7 @@
                      Todos los derechos reservados.<br>
                     Terminos y condiciones, Privacidad y Notificación sobre Cockies.
                 </p>
-                <font color="#ffffff">poweder by </font><img class="text-center" alt="image" width="80px" src="/img/netlabs-footer.png" />
+                <div class="color:#fff">poweder by </div><img class="text-center" alt="image" width="80px" src="/img/netlabs-footer.png" />
             </div>
         </div>
     </div>
