@@ -38,9 +38,9 @@ class AuctionController extends Controller
     {
         $this->authorize('seeAuctions', Auction::class);
 
-        $status = $request->get('status',C::IN_CURSE);
-		$product = $request->get('product',null);
-		$seller = $request->get('seller',null);
+        $status = $request->get(Constants::STATUS,C::IN_CURSE);
+		$product = $request->get(Constants::PRODUCT,null);
+		$seller = $request->get(Constants::SELLER,null);
 		$boat = $request->get('boat',null);
 		$type = $request->get('type',null);
 
@@ -71,7 +71,7 @@ class AuctionController extends Controller
 			}
 			$userRating[$user->id]= $porc;
 		}
-        return view('auction.index',compact('auctions','status','products','sellers','request','boats','userRating','type'));
+        return view('auction.index',compact(Constants::AUCTIONS,Constants::STATUS,Constants::PRODUCTS,Constants::SELLERS,'request',Constants::BOATS,Constants::USER_RATING,'type'));
     }
 
     /**
@@ -141,7 +141,7 @@ class AuctionController extends Controller
 				$user = User::findOrFail($i);
 				$template = 'emails.userinvited';
 				$seller = $auction->batch->arrive->boat->user ;
-				Mail::queue($template, ['user' => $user , 'seller'=> $seller] , function ($message) use ($user) {
+				Mail::queue($template, ['user' => $user , Constants::SELLER=> $seller] , function ($message) use ($user) {
 					$message->from(
 						env('MAIL_ADDRESS_SYSTEM','sistema@subastas.com.ar'),
 						env('MAIL_ADDRESS_SYSTEM_NAME','Subastas')
@@ -267,7 +267,7 @@ class AuctionController extends Controller
         if($type!='bid'){
             return 1;
         }
-        $bids = Bid::where('user_id', Auth::user()->id)->where('status','=','pending')->get();
+        $bids = Bid::where('user_id', Auth::user()->id)->where(Constants::STATUS,'=','pending')->get();
         foreach($bids as $bid){
             $amount+=($bid->amount*$bid->price);
         }
@@ -296,6 +296,7 @@ class AuctionController extends Controller
          }else{
              $price=$request->input('price');
          }
+
         //if($this->checkIfBuyercanBuy($amount*$price)==false){return json_encode(array('limited'=>1));}
 		$resp  =  array();
 		
@@ -312,7 +313,6 @@ class AuctionController extends Controller
 				{
 
 					$auction->makeBid($amount,$price);
-
 					$unit = $auction->batch->product->unit;
 					$product = $auction->batch->product->name;
                     $amounttotal=$auction->amount;
@@ -321,7 +321,7 @@ class AuctionController extends Controller
 					$resp['isnotavailability'] = 0;
                     $resp['availability'] = $availability-$amount;
 					$resp['unit'] = trans('general.product_units.'.$unit);
-					$resp['product'] = $product;
+					$resp[Constants::PRODUCT] = $product;
 					$resp['amount'] = $amount;
 					$resp['price'] = $price;
 					$resp['totalAmount']=$amounttotal;
@@ -334,7 +334,7 @@ class AuctionController extends Controller
 					$unit = $auction->batch->product->unit;
 					$product = $auction->batch->product->name;
 					$resp['unit'] = trans('general.product_units.'.$unit);
-					$resp['product'] = $product;
+					$resp[Constants::PRODUCT] = $product;
 				
 				}
 				
@@ -522,7 +522,7 @@ class AuctionController extends Controller
 				$user = User::findOrFail($user_id);
 				$template = 'emails.userqualifynegative';
 				$seller = $bid->auction->batch->arrive->boat->user ;
-				Mail::queue($template, ['bid'=>$bid, 'user' => $user , 'comentariosCalificacion'=> $request->input('comentariosCalificacion') , 'seller'=> $seller , 'type' => User::COMPRADOR ] , function ($message) use ($i) {
+				Mail::queue($template, ['bid'=>$bid, 'user' => $user , 'comentariosCalificacion'=> $request->input('comentariosCalificacion') , Constants::SELLER=> $seller , 'type' => User::COMPRADOR ] , function ($message) use ($i) {
 					$message->from(
 						env('MAIL_ADDRESS_SYSTEM','sistema@subastas.com.ar'),
 						env('MAIL_ADDRESS_SYSTEM_NAME','Subastas')
@@ -568,7 +568,7 @@ class AuctionController extends Controller
 				$user = User::findOrFail($bid->user_id);
 				$template = 'emails.userqualifynegative';
 				$seller = $bid->auction->batch->arrive->boat->user ;
-				Mail::queue($template, ['bid'=>$bid,'user' => $user , 'comentariosCalificacion'=> $request->input('comentariosCalificacion') , 'seller'=> $seller , 'type' => User::VENDEDOR ] , function ($message) use ($i) {
+				Mail::queue($template, ['bid'=>$bid,'user' => $user , 'comentariosCalificacion'=> $request->input('comentariosCalificacion') , Constants::SELLER=> $seller , 'type' => User::VENDEDOR ] , function ($message) use ($i) {
 					$message->from(
 						env('MAIL_ADDRESS_SYSTEM','sistema@subastas.com.ar'),
 						env('MAIL_ADDRESS_SYSTEM_NAME','Subastas')
@@ -765,9 +765,9 @@ class AuctionController extends Controller
 
 	public function subastaHome(Request $request)
     {
-        $status = $request->get('status',Constants::IN_CURSE);
-		$product = $request->get('product',null);
-		$seller = $request->get('seller',null);
+        $status = $request->get(Constants::STATUS,Constants::IN_CURSE);
+		$product = $request->get(Constants::PRODUCT,null);
+		$seller = $request->get(Constants::SELLER,null);
 		$boat = $request->get('boat',null);
 		$type = $request->get('type',"all");
 		$auctions = Auction::filterAndPaginate($status,$product,$seller,$boat,$type,true);
@@ -792,8 +792,8 @@ class AuctionController extends Controller
 			}
 			$userRating[$user->id]= $porc;
 		}
-        return view('landing',compact('auctions','status','products','sellers','request','boats','userRating','type'));
-        //return view('/landing3/index',compact('auctions','status','products','sellers','request','boats','userRating','type'));
+        return view('landing',compact(Constants::AUCTIONS,Constants::STATUS,Constants::PRODUCTS,Constants::SELLERS,'request',Constants::BOATS,Constants::USER_RATING,'type'));
+        //return view('/landing3/index',compact(Constants::AUCTIONS,Constants::STATUS,Constants::PRODUCTS,Constants::SELLERS,'request',Constants::BOATS,Constants::USER_RATING,'type'));
     }
     public function orderAuctions($auctions){
 	    $cant=count($auctions);
@@ -850,13 +850,13 @@ class AuctionController extends Controller
             }
         }
         return array(
-            'auctions'=>$auctionsreturn,
-            'products'=>$products,
+            Constants::AUCTIONS=>$auctionsreturn,
+            Constants::PRODUCTS=>$products,
             'ports'=>$port,
             'calibers'=>$calibers,
             'users'=>$users,
             'usercat'=>$usercat,
-            'userrating'=>$userRating,
+            Constants::USER_RATING=>$userRating,
             'prices'=>$price,
             'close'=>$close
         );
@@ -874,12 +874,12 @@ class AuctionController extends Controller
         for($z=0;$z<$cantreturn;$z++){
             $view= view('/landing3/partials/auctionNoDetail')
                 ->withAuction($auctions[$z])
-                ->withUserrating($auctioninfo['userrating'])
+                ->withUserrating($auctioninfo[Constants::USER_RATING])
                 ->withPorts($auctioninfo['ports'])
                 ->withUsercat($auctioninfo['usercat'])
                 ->withPrice($auctioninfo['prices'])
                 ->withClose($auctioninfo['close'])
-                ->withProducts($auctioninfo['products']);
+                ->withProducts($auctioninfo[Constants::PRODUCTS]);
             $views[]=(string)$view;
         }
         return json_encode($views);
@@ -900,11 +900,11 @@ class AuctionController extends Controller
         $auctions = array();$finishedauctions = array();$userRating =  array();$usercat=array();$port=array();$products=array();$calibers=array();$users=array();$price=array();$close=array();
         for($z=1;$z<=$return;$z++){
             $var="auctiondetails$z";
-            foreach(${$var}['auctions'] as $item){
-                $var2=($z==1)?'auctions':'finishedauctions';
+            foreach(${$var}[Constants::AUCTIONS] as $item){
+                $var2=($z==1)?Constants::AUCTIONS:'finishedauctions';
                 ${$var2}[]=$item;
             }
-            foreach (${$var}['products'] as $item => $val) {
+            foreach (${$var}[Constants::PRODUCTS] as $item => $val) {
                 $products[$item] = $val;
             }
             foreach (${$var}['ports'] as $item => $val) {
@@ -919,7 +919,7 @@ class AuctionController extends Controller
             foreach (${$var}['usercat'] as $item => $val) {
                 $usercat[$item] = $val;
             }
-            foreach (${$var}['userrating'] as $item => $val) {
+            foreach (${$var}[Constants::USER_RATING] as $item => $val) {
                 $userRating[$item] = $val;
             }
             foreach (${$var}['prices'] as $item => $val) {
@@ -945,32 +945,32 @@ class AuctionController extends Controller
                 ->withProducts($products);
         }else{
             return array(
-                'auctions'=>$auctions,
+                Constants::AUCTIONS=>$auctions,
                 'usercat'=>$usercat,
-                'userRating'=>$userRating,
+                Constants::USER_RATING=>$userRating,
                 'price'=>$price,
                 'ports'=>$port,
-                'boats'=>$boats,
-                'products'=>$products,
+                Constants::BOATS=>$boats,
+                Constants::PRODUCTS=>$products,
                 'caliber'=>$calibers,
                 'users'=>$users,
                 'close'=>$close,
-                'sellers'=>$sellers);
+                Constants::SELLERS=>$sellers);
         }
     }
     public function listaSubastas(){
 	    $all=$this->subastasDestacadasHome(1);
         return view('/landing3/subastas')
-            ->withAuctions($all['auctions'])
-            ->withUserrating($all['userRating'])
+            ->withAuctions($all[Constants::AUCTIONS])
+            ->withUserrating($all[Constants::USER_RATING])
             ->withPorts($all['ports'])
             ->withUsercat($all['usercat'])
             ->withPrice($all['price'])
-            ->withBoats($all['boats'])
+            ->withBoats($all[Constants::BOATS])
             ->withusers($all['users'])
             ->withClose($all['close'])
             ->withCaliber($all['caliber'])
-            ->withProducts($all['products'])
+            ->withProducts($all[Constants::PRODUCTS])
             ;
     }
     public function getParticipantes(Request $request){
@@ -1017,7 +1017,7 @@ class AuctionController extends Controller
                 $resp['unit'] = trans('general.product_units.'.$unit);
                 $resp['caliber'] = $caliber;
                 $resp['quality'] = $quality;
-                $resp['product'] = $product;
+                $resp[Constants::PRODUCT] = $product;
                 $resp['amount'] = $available['available'];
                 $resp['price'] = $price;
 
@@ -1033,7 +1033,7 @@ class AuctionController extends Controller
         $user = User::findOrFail(Auth::user()->id);
         $template = 'emails.offerauction';
         $seller = $auction->batch->arrive->boat->user ;
-        Mail::queue($template, ['user' => $user , 'seller'=> $seller, 'product'=> $resp] , function ($message) use ($user) {
+        Mail::queue($template, ['user' => $user , Constants::SELLER=> $seller, Constants::PRODUCT=> $resp] , function ($message) use ($user) {
             $message->from(
                 env('MAIL_ADDRESS_SYSTEM','sistema@subastas.com.ar'),
                 env('MAIL_ADDRESS_SYSTEM_NAME','Subastas')
@@ -1077,7 +1077,7 @@ class AuctionController extends Controller
                 $resp['unit'] = trans('general.product_units.'.$unit);
                 $resp['caliber'] = $caliber;
                 $resp['quality'] = $quality;
-                $resp['product'] = $product;
+                $resp[Constants::PRODUCT] = $product;
                 $resp['amount'] = $available['available'];
                 $resp['price'] = $price;
                 $resp['offerscounter']=$this->getOffersCount($auction_id);
@@ -1094,7 +1094,7 @@ class AuctionController extends Controller
         $user = User::findOrFail(Auth::user()->id);
         $template = 'emails.offerauction';
         $seller = $auction->batch->arrive->boat->user ;
-        Mail::queue($template, ['user' => $user , 'seller'=> $seller, 'product'=> $resp] , function ($message) use ($user) {
+        Mail::queue($template, ['user' => $user , Constants::SELLER=> $seller, Constants::PRODUCT=> $resp] , function ($message) use ($user) {
             $message->from(
                 env('MAIL_ADDRESS_SYSTEM','sistema@subastas.com.ar'),
                 env('MAIL_ADDRESS_SYSTEM_NAME','Subastas')
@@ -1173,15 +1173,14 @@ class AuctionController extends Controller
         $sold = 0;
         $data = array();
         $bids = Bid::Select()
-            ->where('status','<>',\App\Bid::NO_CONCRETADA)
-            ->where('auction_id',$auction_id)
+            ->where(Constants::STATUS,'<>',Constants::NO_CONCRETADA)
+            ->where(Constants::BIDS_AUCTION_ID,$auction_id)
             ->get();
 
         foreach ($bids as $b) {
             $sold+= $b->amount;
         }
         $available = $amountTotal-$sold;
-//        dd($disponible);
         $data['available'] = $available;
         $data['sold'] = count($bids);
         return $data;
@@ -1209,7 +1208,7 @@ class AuctionController extends Controller
             $resp['unit'] = trans('general.product_units.'.$unit);
             $resp['caliber'] = $caliber;
             $resp['quality'] = $quality;
-            $resp['product'] = $product;
+            $resp[Constants::PRODUCT] = $product;
             $resp['amount'] = $available['available'];
             $resp['price'] = $price;
             $resp['active'] = $auction->active;
@@ -1239,7 +1238,7 @@ class AuctionController extends Controller
             $user = User::findOrFail(Auth::user()->id);
             $template = 'emails.offerForBid';
             $seller = $auction->batch->arrive->boat->user ;
-            Mail::queue($template, ['user' => $user , 'seller'=> $seller, 'product'=> $resp] , function ($message) use ($user) {
+            Mail::queue($template, ['user' => $user , Constants::SELLER=> $seller, Constants::PRODUCT=> $resp] , function ($message) use ($user) {
                 $message->from(
                     env('MAIL_ADDRESS_SYSTEM','sistema@subastas.com.ar'),
                     env('MAIL_ADDRESS_SYSTEM_NAME','Subastas')
@@ -1267,9 +1266,9 @@ class AuctionController extends Controller
             'auctions_offers.user_id'/*,
             'users.name AS Comprador'*/
         )
-            ->join('auctions','auctions.id','=','auction_id')
+            ->join(Constants::AUCTIONS,'auctions.id','=','auction_id')
             ->join('batches','batches.id','=','auctions.batch_id')
-            ->join('products','products.id','=','batches.product_id')
+            ->join(Constants::PRODUCTS,'products.id','=','batches.product_id')
             ->join('users','users.id','=','auctions_offers.user_id')
             ->where('auctions_offers.auction_id','=',$auction_id)
             ->orderBy('auctions_offers.price','desc')

@@ -4,7 +4,7 @@ $userId = $auction->batch->arrive->boat->user->id;
 $close=($price[$auction->id]<$auction->targetprice)?1:0;
 $userRatings=(($userrating[$userId]/20)<1)?1:round(($userrating[$userId]/20),0,PHP_ROUND_HALF_UP);
 $vendido = 0;
-foreach ($auction->bids()->where('status','<>',\App\Bid::NO_CONCRETADA)->get() as $b) {
+foreach ($auction->bids()->where('status','<>',\App\Constants::NO_CONCRETADA)->get() as $b) {
     $vendido+= $b->amount;
 }
 $total = $auction->amount;
