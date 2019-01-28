@@ -21,25 +21,20 @@ data-user="'.$auction->batch->arrive->boat->user->nickname.'"'?>>
 <?php
 setlocale(LC_TIME,'es_ES');
 $fechafin=strftime('%d %b %Y', strtotime($auction->end));
-switch ($auction->batch->caliber){
-    case 'small':$calibre='chico';break;
-    case 'medium':$calibre='mediano';break;
-    case 'big':$calibre='grande';break;
-}
-
+$calibre=\App\Auction::caliber($auction->batch->caliber);
 ?>
 <!-- Auction Listing Details -->
     <div class="task-listing-details">
         <!-- Photo -->
         @if(!isset($nopic))
             <div class="task-listing-photo">
-                <img src="{{ asset('/img/products/'.$auction->batch->product->image_name) }}" alt="{{$auction->batch->product->name}}">
+                <img src="/img/products/{{$auction->batch->product->image_name}}" alt="{{$auction->batch->product->name}}">
             </div>
     @endif
     <!-- Details -->
         <div class="task-listing-description">
             <h3 class="task-listing-title">
-                <a href="{{(empty($finished))?url('/auction/details/'.$auction->id):'#'}}">{{$auction->batch->product->name}} {{$calibre}}</a>
+                <a href="{{(empty($finished))?'/auction/details/'.$auction->id:'#'}}">{{$auction->batch->product->name}} {{$calibre}}</a>
                 <div class="star-rating" data-rating="{{$auction->batch->quality}}"></div>
                 @if($auction->type!='public')
                     <em class="t16 icon-feather-eye-off" data-tippy-placement="right" title="Subasta Privada" data-tippy-theme="dark"></em></h3>
