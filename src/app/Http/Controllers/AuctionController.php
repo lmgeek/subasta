@@ -873,7 +873,7 @@ class AuctionController extends Controller
     public function getMoreAuctions(Request $request){
         $limit=(int)$request->input('limit');
         $ids=explode("**",$request->input('ids'));
-        $auctions=Auction::auctionHome($ids)['Current'];
+        $auctions=Auction::auctionHome($ids)[Auction::IN_CURSE];
         $views=array();
         if(count($auctions)==0){
             return json_encode($views);
@@ -900,10 +900,10 @@ class AuctionController extends Controller
         $buyers = User::filter(null, array(User::COMPRADOR), array(User::APROBADO));
         $boats = Boat::Select()->get();
         $auctionhome=Auction::auctionHome();
-        $auctions1 = $auctionhome['Current'];
+        $auctions1 = $auctionhome[Auction::IN_CURSE];
         $auctiondetails1=$this->getAuctionsDataForHome($auctions1,$return);
         if ($return == 2) {
-            $auctions2 = $auctionhome['Finished'];
+            $auctions2 = $auctionhome[Auction::FINISHED];
             $auctiondetails2=$this->getAuctionsDataForHome($auctions2,$return);
         }
         $auctions = array();$finishedauctions = array();$userRating =  array();$usercat=array();$port=array();$products=array();$calibers=array();$users=array();$price=array();$close=array();
