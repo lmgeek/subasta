@@ -1,1 +1,0 @@
-UPDATE users SET active_mail = 1, nickname = 'admin' WHERE email ='admin@gmail.com';
