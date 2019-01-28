@@ -240,6 +240,7 @@ function makeBid($id){
     }
     $.magnificPopup.close();
     $.get("/makeBid?auction_id="+$id + "&price="+$('#PriceBid'+$id).val()+"&amount="+$('#cantidad-'+$id).val(),function(result){
+        //console.log(result);
         var $result=JSON.parse(result);
         if($result['limited']==1){
             notifications(0,null,null,null,'Has superado el limite de compras impuesto a tu usuario');
