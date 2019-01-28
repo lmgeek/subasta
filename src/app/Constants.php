@@ -13,9 +13,23 @@ class Constants{
     const MY_FUTURE = 'my_future';
     const ACTIVE = '1';
     const INACTIVE = '0';
+    const ACTIVE_LIT='active';
     const START='start';
     const MINUTES='minutes';
+    const AMOUNT='amount';
+    const AVAILABLE='available';
+    const AVAILABILITY='availability';
+    const IS_NOT_AVAILABLE='isnotavailability';
+    const TRANS_UNITS='general.product_units.';
+    const CLOSE='close';
+    const PRICE='price';
+    const ERROR='error';
     const DATE_FORMAT= 'Y-m-d H:i:s';
+    const DATE_FORMAT_INPUT= 'd/m/Y H:i';
+    const INPUT_END_PRICE='endPrice';
+    const INPUT_AUCTION_ID='auction_id';
+    const MAKE_BID='makeBid';
+    const AUCTION='auction';
     const AUCTIONS='auctions';
     const AUCTIONS_SELECT_ALL= 'auctions.*';
     const AUCTIONS_ID='auctions.id';
@@ -25,8 +39,10 @@ class Constants{
     const AUCTIONS_BATCH_ID='auctions.batch_id';
     const AUCTIONS_START='auctions.start';
     const AUCTIONS_END='auctions.end';
+    const AUCTIONS_INVITES='auctions_invites';
     const AUCTION_INV_AUCTION_ID='auctions_invites.auction_id';
     const AUCTION_PRICE_DECIMALS='AUCTION_PRICE_DECIMALS';
+    const BATCH='batch';
     const BATCHES='batches';
     const BATCH_ID='batches.id';
     const BATCH_ARRIVE_ID='batches.arrive_id';
@@ -55,5 +71,8 @@ class Constants{
     const CALIFICACION_POSITIVA = 'positive';
     const CALIFICACION_NEUTRAL = 'neutral';
     const CALIFICACION_NEGATIVA = 'negative';
-
+    const MAIL_ADDRESS_SYSTEM='MAIL_ADDRESS_SYSTEM';
+    const MAIL_ADDRESS_SYSTEM_NAME='MAIL_ADDRESS_SYSTEM_NAME';
+    const MAIL_ADDRESS='sistema@subastas.com.ar';
+    const MAIL_NAME='Subastas';
 }
