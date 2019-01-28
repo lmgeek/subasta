@@ -1,8 +1,6 @@
 <?php
 use App\Auction;
 $userId = $auction->batch->arrive->boat->user->id;
-$close=($price[$auction->id]<$auction->targetprice)?1:0;
-$userRatings=(($userrating[$userId]/20)<1)?1:round(($userrating[$userId]/20),0,PHP_ROUND_HALF_UP);
 $vendido = 0;
 foreach ($auction->bids()->where('status','<>',\App\Constants::NO_CONCRETADA)->get() as $b) {
     $vendido+= $b->amount;
@@ -11,8 +9,12 @@ $total = $auction->amount;
 $disponible = ($total-$vendido);
 $cantbids=count($auction->bids);
 $cantofertas=\App\Http\Controllers\AuctionController::getOffersCount($auction->id);
+$price=\App\Http\Controllers\AuctionController::calculatePriceID($auction->id);
+$close=$price['Close'];
+$userRatings=\App\Http\Controllers\AuctionController::getUserRating($auction->batch->arrive->boat->user);
+$usercat=Auction::catUserByAuctions($userId);
 ?>
-<div id="Auction_<?=$auction->id?>" class="task-listing <?=(empty($finished))?'auction':''?>" data-id="{{$auction->id}}" data-price="{{$price[$auction->id]}}" data-end="{{$auction->end}}" data-endOrder="{{date('YmdHi',strtotime($auction->end))}}" data-close="{{$close}}"data-userrating="{{$userRatings}}"
+<div id="Auction_<?=$auction->id?>" class="task-listing <?=(empty($finished))?'auction':''?>" data-id="{{$auction->id}}" data-price="{{$price['CurrentPrice']}}" data-end="{{$auction->end}}" data-endOrder="{{date('YmdHi',strtotime($auction->end))}}" data-close="{{$close}}"data-userrating="{{$userRatings}}"
 <?='data-port="'.$ports[$auction->batch->arrive->port_id]['name'].'"
 data-product="'.$auction->batch->product->name.'"
 data-caliber="'.$auction->batch->caliber.'"
@@ -55,7 +57,7 @@ $calibre=\App\Auction::caliber($auction->batch->caliber);
                     <strong>
                         <em class="icon-feather-user"></em> {{$auction->batch->arrive->boat->user->nickname}}
                     </strong><br>
-                    <div class="medal-rating {{strtolower($usercat[$userId])}}" data-rating="{{$usercat[$userId]}}"><span class="medal {{$usercat[$userId]}}-text"></span></div>
+                    <div class="medal-rating {{strtolower($usercat)}}" data-rating="{{$usercat}}"><span class="medal {{$usercat}}-text"></span></div>
                 </li>
                 <li><small>Barco</small><br><strong><em class="icon-line-awesome-ship"></em> {{$auction->batch->arrive->boat->nickname}}</strong><br>
                     <div class="star-rating" data-rating="<?=$userRatings?>"></div></li>
@@ -76,7 +78,7 @@ $calibre=\App\Auction::caliber($auction->batch->caliber);
                     @endif
                     </p>
 
-                    <div class="pricing-plan-label billed-monthly-label <?=(empty($finished)?'red':'')?>" id="PriceContainer{{$auction->id}}"><strong class="red" id="Price{{$auction->id}}">${{$price[$auction->id]}}</strong>/ Kg<br>
+                    <div class="pricing-plan-label billed-monthly-label <?=(empty($finished)?'red':'')?>" id="PriceContainer{{$auction->id}}"><strong class="red" id="Price{{$auction->id}}">${{$price['CurrentPrice']}}</strong>/ Kg<br>
                         <small class="red fw500" id="ClosePrice{{$auction->id}}"style="display:none"><?=(empty($finished))?'&iexcl;Cerca del precio l&iacute;mite!':'Precio Final'?></small></div>
                     <div id="timer<?=$auction->id?>" class="countdown margin-bottom-0 margin-top-20 blink_me <?=(empty($finished))?'timerauction':''?>" data-timefin="{{$auction->end}}" data-id="{{$auction->id}}">
                         <?=(isset($finished))?'Finalizada!':''?></div>

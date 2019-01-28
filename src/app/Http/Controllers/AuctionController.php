@@ -195,7 +195,7 @@ class AuctionController extends Controller
         }
 
     }
-    public function calculatePriceID($id,$targetprice=null)
+    public static function calculatePriceID($id,$targetprice=null)
     {
         $bidDate = date(Constants::DATE_FORMAT);
         $auction = Auction::findOrFail($id);
@@ -814,11 +814,6 @@ class AuctionController extends Controller
         $auctions=$this->orderAuctions($auctionsnoorder);
         foreach($auctions as $a) {
             $user = $a->batch->arrive->boat->user;
-            $userRating[$user->id] = self::getUserRating($user);
-            $usercat[$user->id] = Auction::catUserByAuctions($user->id);
-            $prices=$this->calculatePriceID($a->id);
-            $price[$a->id] = $prices['CurrentPrice'];
-            $close[$a->id]=$prices['Close'];
             $auctionsreturn[] = $a;
             if (isset($caliber[$a->batch->caliber]['cant'])) {
                 $calibers[$a->batch->caliber]++;
@@ -858,10 +853,6 @@ class AuctionController extends Controller
             'ports'=>$port,
             'calibers'=>$calibers,
             'users'=>$users,
-            'usercat'=>$usercat,
-            Constants::USER_RATING=>$userRating,
-            'prices'=>$price,
-            Constants::CLOSE=>$close
         );
     }
     public function getMoreAuctions(Request $request){
@@ -877,11 +868,7 @@ class AuctionController extends Controller
         for($z=0;$z<$cantreturn;$z++){
             $view= view('/landing3/partials/auctionNoDetail')
                 ->withAuction($auctions[$z])
-                ->withUserrating($auctioninfo[Constants::USER_RATING])
                 ->withPorts($auctioninfo['ports'])
-                ->withUsercat($auctioninfo['usercat'])
-                ->withPrice($auctioninfo['prices'])
-                ->withClose($auctioninfo[Constants::CLOSE])
                 ->withProducts($auctioninfo[Constants::PRODUCTS]);
             $views[]=(string)$view;
         }
@@ -893,6 +880,9 @@ class AuctionController extends Controller
         $sellers = User::filter(null, array(User::VENDEDOR), array(User::APROBADO));
         $buyers = User::filter(null, array(User::COMPRADOR), array(User::APROBADO));
         $boats = Boat::Select()->get();
+        $auctions = array();$finishedauctions = array();$userRating =  array();
+        $port=array();$products=array();$calibers=array();
+        $users=array();
         $auctionhome=Auction::auctionHome();
         $auctions1 = $auctionhome[Constants::IN_CURSE];
         $auctiondetails1=$this->getAuctionsDataForHome($auctions1,$return);
@@ -900,7 +890,6 @@ class AuctionController extends Controller
             $auctions2 = $auctionhome[Constants::FINISHED];
             $auctiondetails2=$this->getAuctionsDataForHome($auctions2,$return);
         }
-        $auctions = array();$finishedauctions = array();$userRating =  array();$usercat=array();$port=array();$products=array();$calibers=array();$users=array();$price=array();$close=array();
         for($z=1;$z<=$return;$z++){
             $var="auctiondetails$z";
             foreach(${$var}[Constants::AUCTIONS] as $item){
@@ -919,45 +908,22 @@ class AuctionController extends Controller
             foreach (${$var}['users'] as $item => $val) {
                 $users[$item] = $val;
             }
-            foreach (${$var}['usercat'] as $item => $val) {
-                $usercat[$item] = $val;
-            }
-            foreach (${$var}[Constants::USER_RATING] as $item => $val) {
-                $userRating[$item] = $val;
-            }
-            foreach (${$var}['prices'] as $item => $val) {
-                $price[$item] = $val;
-            }
-            foreach (${$var}[Constants::CLOSE] as $item => $val) {
-                $close[$item] = $val;
-            }
         }
         if($return==2){
-            $ports=Ports::Select()->get();
             return view('/landing3/index')
                 ->withAuctions($auctions)
                 ->withAuctionsf($finishedauctions)
-                ->withUserrating($userRating)
                 ->withPorts($port)
-                ->withPortsall($ports)
-                ->withUsercat($usercat)
-                ->withPrice($price)
                 ->withBoats($boats)
                 ->withBuyers($buyers)
-                ->withClose($close)
                 ->withProducts($products);
         }else{
             return array(
                 Constants::AUCTIONS=>$auctions,
-                'usercat'=>$usercat,
-                Constants::USER_RATING=>$userRating,
-                Constants::PRICE=>$price,
                 'ports'=>$port,
                 Constants::BOATS=>$boats,
                 Constants::PRODUCTS=>$products,
-                'caliber'=>$calibers,
                 'users'=>$users,
-                Constants::CLOSE=>$close,
                 Constants::SELLERS=>$sellers);
         }
     }
@@ -965,13 +931,9 @@ class AuctionController extends Controller
 	    $all=$this->subastasDestacadasHome(1);
         return view('/landing3/subastas')
             ->withAuctions($all[Constants::AUCTIONS])
-            ->withUserrating($all[Constants::USER_RATING])
             ->withPorts($all['ports'])
-            ->withUsercat($all['usercat'])
-            ->withPrice($all[Constants::PRICE])
             ->withBoats($all[Constants::BOATS])
             ->withusers($all['users'])
-            ->withClose($all[Constants::CLOSE])
             ->withCaliber($all['caliber'])
             ->withProducts($all[Constants::PRODUCTS])
             ;
