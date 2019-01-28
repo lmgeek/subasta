@@ -6,31 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 use Auth;
 use App\Bid;
 use Nexmo\Call\Collection;
+use App\Constants;
 class Auction extends Model{
     use priceTrait;
     protected $table = 'auctions';
-    const IN_CURSE = 'incourse';
-    const FINISHED = 'finished';
-    const FUTURE = 'future';
-    const MY_IN_CURSE = 'my_incurse';
-    const MY_FINISHED = 'my_finished';
-    const MY_FUTURE = 'my_future';
-    const ACTIVE = '1';
-    const INACTIVE = '0';
-    const AUCTION_PRIVATE = 'private';
-    const AUCTION_PUBLIC = 'public';
-    const DATE_FORMAT= 'Y-m-d H:i:s';
-    const AUCTIONS_SELECT_ALL= 'auctions.*';
-    const AUCTIONS_ID='auctions.id';
-    const AUCTIONS_BATCH_ID='auctions.batch_id';
-    const BATCH_ID='batches.id';
-    const BIDS_AUCTION_ID='bids.auction_id';
     protected $fillable = ['batch_id', 'start','start_price','end','end_price','interval','type','notification_status','description'];
-
+    
     const NOTIFICATION_STATUS_IN_CURSE = '0';
     const NOTIFICATION_STATUS_SENDING = '1';
     const NOTIFICATION_STATUS_SENDED = '2';
-
     public function makeBid($amount , $price){
         $prices = str_replace(",","",$price);
         $this->bid = new Bid();
@@ -39,7 +23,7 @@ class Auction extends Model{
         $this->bid->amount = $amount;
         $this->bid->price = $prices;
         $this->bid->status = Bid::PENDIENTE;
-        $this->bid->bid_date = date(self::DATE_FORMAT);
+        $this->bid->bid_date = date(Constants::DATE_FORMAT);
         $this->bid->save();
         $this->status = $this->batch->status;
         $this->status->assigned_auction -= $amount;
@@ -114,22 +98,22 @@ class Auction extends Model{
     }
 
     private function getAuctionLeftTime($type){
-        return ($type=='minutes')?(Carbon::now()->diffInMinutes(Carbon::createFromFormat(self::DATE_FORMAT,$this->end))):(Carbon::now()->diffInSeconds(Carbon::createFromFormat( self::DATE_FORMAT,$this->end)));
+        return ($type=='minutes')?(Carbon::now()->diffInMinutes(Carbon::createFromFormat(Constants::DATE_FORMAT,$this->end))):(Carbon::now()->diffInSeconds(Carbon::createFromFormat( Constants::DATE_FORMAT,$this->end)));
     }
 
     private function getAuctionDuration($type)
     {
-        return ($type=='minutes')?(Carbon::createFromFormat( self::DATE_FORMAT,$this->start)->diffInMinutes(Carbon::createFromFormat( self::DATE_FORMAT,$this->end))):(Carbon::createFromFormat( self::DATE_FORMAT,$this->start)->diffInSeconds(Carbon::createFromFormat( self::DATE_FORMAT,$this->end)));
+        return ($type=='minutes')?(Carbon::createFromFormat( Constants::DATE_FORMAT,$this->start)->diffInMinutes(Carbon::createFromFormat( Constants::DATE_FORMAT,$this->end))):(Carbon::createFromFormat( Constants::DATE_FORMAT,$this->start)->diffInSeconds(Carbon::createFromFormat( Constants::DATE_FORMAT,$this->end)));
     }
 
-    public static function filterAndPaginate($status , $product = null , $seller = null , $boat = null , $type = self::AUCTION_PUBLIC , $withStock = false){
-        $now =date(self::DATE_FORMAT);
+    public static function filterAndPaginate($status , $product = null , $seller = null , $boat = null , $type = Constants::AUCTION_PUBLIC , $withStock = false){
+        $now =date(Constants::DATE_FORMAT);
         switch ($status){
-            case self::FINISHED:
+            case Constants::FINISHED:
                 $rtrn = Auction::where('end','<=',$now)->where('auctions.type','=',$type)->orderBy('start','DESC');
                 break;
-            case self::FUTURE:
-                $rtrn = Auction::select( self::AUCTIONS_SELECT_ALL)->join('batches',self::AUCTIONS_BATCH_ID,'=','batches.id');
+            case Constants::FUTURE:
+                $rtrn = Auction::select( Constants::AUCTIONS_SELECT_ALL)->join('batches',Constants::AUCTIONS_BATCH_ID,'=',Constants::BATCH_ID);
                 if ( null != $product  ) {
                     $rtrn = $rtrn->whereIn('batches.product_id',$product);
                 }
@@ -145,17 +129,17 @@ class Auction extends Model{
                 }
                 $rtrn = $rtrn->where('start','>',$now)->where('auctions.type','=',$type)->orderBy('start','DESC');
                 break;
-            case self::MY_IN_CURSE:
-                $rtrn = Auction::select( self::AUCTIONS_SELECT_ALL)->join('batches',self::AUCTIONS_BATCH_ID,'=','batches.id')->join('arrives','batches.arrive_id','=','arrives.id')->join('boats','arrives.boat_id','=','boats.id')->join('users','boats.user_id','=','users.id')->where('users.id',Auth::user()->id)->where('auctions.start','<',$now)->where('auctions.end','>',$now)->orderBy('auctions.end','desc');
+            case Constants::MY_IN_CURSE:
+                $rtrn = Auction::select( Constants::AUCTIONS_SELECT_ALL)->join('batches',Constants::AUCTIONS_BATCH_ID,'=',Constants::BATCH_ID)->join('arrives','batches.arrive_id','=','arrives.id')->join('boats','arrives.boat_id','=','boats.id')->join('users','boats.user_id','=','users.id')->where('users.id',Auth::user()->id)->where('auctions.start','<',$now)->where('auctions.end','>',$now)->orderBy('auctions.end','desc');
                 break;
-            case self::MY_FUTURE:
-                $rtrn = Auction::select( self::AUCTIONS_SELECT_ALL)->join('batches',self::AUCTIONS_BATCH_ID,'=','batches.id')->join('arrives','batches.arrive_id','=','arrives.id')->join('boats','arrives.boat_id','=','boats.id')->join('users','boats.user_id','=','users.id')->where('users.id',Auth::user()->id)->where('auctions.start','>',$now)->orderBy('auctions.created_at','desc');
+            case Constants::MY_FUTURE:
+                $rtrn = Auction::select( Constants::AUCTIONS_SELECT_ALL)->join('batches',Constants::AUCTIONS_BATCH_ID,'=',Constants::BATCH_ID)->join('arrives','batches.arrive_id','=','arrives.id')->join('boats','arrives.boat_id','=','boats.id')->join('users','boats.user_id','=','users.id')->where('users.id',Auth::user()->id)->where('auctions.start','>',$now)->orderBy('auctions.created_at','desc');
                 break;
-            case self::MY_FINISHED:
-                $rtrn = Auction::select( self::AUCTIONS_SELECT_ALL)->join('batches',self::AUCTIONS_BATCH_ID,'=','batches.id')->join('arrives','batches.arrive_id','=','arrives.id')->join('boats','arrives.boat_id','=','boats.id')->join('users','boats.user_id','=','users.id')->where('users.id',Auth::user()->id)->where('auctions.end','<=',$now)->orderBy('auctions.created_at','desc');
+            case Constants::MY_FINISHED:
+                $rtrn = Auction::select( Constants::AUCTIONS_SELECT_ALL)->join('batches',Constants::AUCTIONS_BATCH_ID,'=',Constants::BATCH_ID)->join('arrives','batches.arrive_id','=','arrives.id')->join('boats','arrives.boat_id','=','boats.id')->join('users','boats.user_id','=','users.id')->where('users.id',Auth::user()->id)->where('auctions.end','<=',$now)->orderBy('auctions.created_at','desc');
                 break;
             default:
-                $rtrn = Auction::select( self::AUCTIONS_SELECT_ALL)->join('batches',self::AUCTIONS_BATCH_ID,'=','batches.id');
+                $rtrn = Auction::select( Constants::AUCTIONS_SELECT_ALL)->join('batches',Constants::AUCTIONS_BATCH_ID,'=',Constants::BATCH_ID);
                 if ( null != $product  ) {
                     $rtrn = $rtrn->whereIn('batches.product_id',$product);
                 }
@@ -168,7 +152,7 @@ class Auction extends Model{
                         $rtrn = $rtrn->whereIn('boats.id',$boat);
                     }
                 }
-                $rtrn = $rtrn->where('start','<',$now)->where('end','>',$now)->where('auctions.type','=',$type)->where('active','=',self::ACTIVE)->orderBy('end','asc');
+                $rtrn = $rtrn->where('start','<',$now)->where('end','>',$now)->where('auctions.type','=',$type)->where('active','=',Constants::ACTIVE)->orderBy('end','asc');
                 break;
         }
         if ($withStock){
@@ -198,7 +182,7 @@ class Auction extends Model{
     }
 
     public static function catUserByAuctions($iduser){
-        $cant=count(Auction::select( self::AUCTIONS_SELECT_ALL)->join('batches',self::AUCTIONS_BATCH_ID,'=',self::BATCH_ID)->join('auctions_invites',self::AUCTIONS_ID,'=','auctions_invites.auction_id')->where('auctions_invites.user_id','=',$iduser));
+        $cant=count(Auction::select( Constants::AUCTIONS_SELECT_ALL)->join('batches',Constants::AUCTIONS_BATCH_ID,'=',Constants::BATCH_ID)->join('auctions_invites',Constants::AUCTIONS_ID,'=','auctions_invites.auction_id')->where('auctions_invites.user_id','=',$iduser));
         if($cant<500){
             return 'Bronze';
         }elseif($cant>=500 && $cant<1000){
@@ -233,20 +217,20 @@ class Auction extends Model{
         return (count($auction)>0)?1:0;
     }
     public static function auctionHome($ids=null){
-        $now =date(self::DATE_FORMAT);
-        $auctions = Auction::select( self::AUCTIONS_SELECT_ALL)->join('batches',self::AUCTIONS_BATCH_ID,'=','batches.id')->join('arrives','batches.arrive_id','=','arrives.id')->join('port','arrives.port_id','=','port.id')->where('active','=',self::ACTIVE);
+        $now =date(Constants::DATE_FORMAT);
+        $auctions = Auction::select( Constants::AUCTIONS_SELECT_ALL)->join('batches',Constants::AUCTIONS_BATCH_ID,'=',Constants::BATCH_ID)->join('arrives','batches.arrive_id','=','arrives.id')->join('port','arrives.port_id','=','port.id')->where('active','=',Constants::ACTIVE);
         if($ids!=null){
-            $auctions=$auctions->whereNotIn(self::AUCTIONS_ID,$ids);
+            $auctions=$auctions->whereNotIn(Constants::AUCTIONS_ID,$ids);
         }
         $auctions=$auctions->orderBy('end','asc')->paginate();
         $counter=0;$continue=1;
-        $return=array(self::FINISHED=>array(), self::IN_CURSE=>array(), self::FUTURE=>array());
+        $return=array(Constants::FINISHED=>array(), Constants::IN_CURSE=>array(), Constants::FUTURE=>array());
         while($continue==1){
-            if($auctions[$counter]->type==self::AUCTION_PUBLIC || ($auctions[$counter]->type==self::AUCTION_PRIVATE && self::checkifUserInvited($auctions[$counter]->id)==1)){
+            if($auctions[$counter]->type==Constants::AUCTION_PUBLIC || ($auctions[$counter]->type==Constants::AUCTION_PRIVATE && self::checkifUserInvited($auctions[$counter]->id)==1)){
                 if(self::getAvailable($auctions[$counter]->id,$auctions[$counter]->amount)['available']>0){
-                    $return[($auctions[$counter]->end>$now)?self::IN_CURSE:(($auctions[$counter]->start<$now)?self::FINISHED:self::FUTURE)][]=$auctions[$counter];
+                    $return[($auctions[$counter]->end>$now)?Constants::IN_CURSE:(($auctions[$counter]->start<$now)?Constants::FINISHED:Constants::FUTURE)][]=$auctions[$counter];
                 }else{
-                    $return[self::FINISHED][]=$auctions[$counter];
+                    $return[Constants::FINISHED][]=$auctions[$counter];
                 }
             }
             $counter++;
@@ -260,12 +244,12 @@ class Auction extends Model{
 
     public static function auctionPrivate($user_id , $status)
     {
-        $now =date(self::DATE_FORMAT);
-        $rtrn = Auction::select( self::AUCTIONS_SELECT_ALL)
-            ->join('batches',self::AUCTIONS_BATCH_ID,'=','batches.id')
-            ->join('auctions_invites',self::AUCTIONS_ID,'=','auctions_invites.auction_id');
+        $now =date(Constants::DATE_FORMAT);
+        $rtrn = Auction::select( Constants::AUCTIONS_SELECT_ALL)
+            ->join('batches',Constants::AUCTIONS_BATCH_ID,'=',Constants::BATCH_ID)
+            ->join('auctions_invites',Constants::AUCTIONS_ID,'=','auctions_invites.auction_id');
 
-        if ($status == self::FUTURE)
+        if ($status == Constants::FUTURE)
         {
             $rtrn = $rtrn->where('start','>',$now);
         }else{
@@ -273,9 +257,9 @@ class Auction extends Model{
             $rtrn = $rtrn->where('end','>',$now);
         }
 
-        return $rtrn->where('auctions.type','=',self::AUCTION_PRIVATE)
+        return $rtrn->where('auctions.type','=',Constants::AUCTION_PRIVATE)
             ->where('auctions_invites.user_id','=',$user_id)
-            ->where('active','=',self::ACTIVE)
+            ->where('active','=',Constants::ACTIVE)
             ->orderBy('end','DESC')
             ->paginate();
     }
@@ -330,19 +314,19 @@ class Auction extends Model{
 
     public function isInCourse()
     {
-        $now = date(self::DATE_FORMAT);
+        $now = date(Constants::DATE_FORMAT);
         return ( $this->start < $now && $this->end > $now );
     }
 
     public function isFinished()
     {
-        $now = date(self::DATE_FORMAT);
+        $now = date(Constants::DATE_FORMAT);
         return ( $this->end < $now );
     }
 
     public function isNoStarted()
     {
-        $now = date(self::DATE_FORMAT);
+        $now = date(Constants::DATE_FORMAT);
         return ( $this->start > $now );
     }
 
