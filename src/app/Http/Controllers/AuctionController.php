@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\AuctionInvited;
 use App\UserRating;
+use App\Constants;
 use Carbon\Carbon;
 use App\Auction;
 use App\Product;
@@ -21,6 +22,7 @@ use App\Ports;
 use App\Boat;
 use App\User;
 use App\Bid;
+
 use Excel;
 use Auth;
 use App;
@@ -35,15 +37,14 @@ class AuctionController extends Controller
     public function index(Request $request)
     {
         $this->authorize('seeAuctions', Auction::class);
-//        dd(Auth::user()->privateAuctions[0]->userInvited);
 
-        $status = $request->get('status',Auction::IN_CURSE);
+        $status = $request->get('status',C::IN_CURSE);
 		$product = $request->get('product',null);
 		$seller = $request->get('seller',null);
 		$boat = $request->get('boat',null);
 		$type = $request->get('type',null);
 
-		if ($type == Auction::AUCTION_PRIVATE)
+		if ($type == Constants::AUCTION_PRIVATE)
 		{	$user = Auth::user();
 			$auctions = Auction::auctionPrivate($user->id , $status);
 		}else{
@@ -126,7 +127,7 @@ class AuctionController extends Controller
 		$auction->type = $request->input('tipoSubasta');
 		$auction->description = $request->input('descri');
 		$auction->save();
-		if ($request->input('tipoSubasta') == \App\Auction::AUCTION_PRIVATE )
+		if ($request->input('tipoSubasta') == Constants::AUCTION_PRIVATE )
 		{
 			$sInvited  = $request->input('invitados');
 			
@@ -168,7 +169,6 @@ class AuctionController extends Controller
         $bidDate = date('Y-m-d H:i:s');
         $auction = Auction::findOrFail($auction_id);
         $prices = $auction->calculatePrice($bidDate);
-//        $price = number_format(str_replace(",","",$prices),2,',','');
         $price = str_replace(",","",$prices);
         $available=$this->getAvailable($auction_id,$auction->amount);
         $amount=$auction->amount;
@@ -459,7 +459,7 @@ class AuctionController extends Controller
 		 $now = strtotime(date("Y-m-d H:i:s"));
 		 $auction = Auction::findOrFail($auction_id);
 		 $this->authorize('isMyAuction',$auction);
-		 $auction->active = Auction::INACTIVE; 
+		 $auction->active = Constants::INACTIVE;
 		 
 		 $start = strtotime($auction->start);
 		 $end = strtotime($auction->end);
@@ -748,7 +748,7 @@ class AuctionController extends Controller
 		$auction = Auction::findOrFail($auction_id);
 		$auction->subscribeUser(Auth::user());
 
-		return redirect('auction?status='.Auction::FUTURE);
+		return redirect('auction?status='.Constants::FUTURE);
 	}
 
 
@@ -765,21 +765,12 @@ class AuctionController extends Controller
 
 	public function subastaHome(Request $request)
     {
-        // $this->authorize('seeAuctions', Auction::class);
-        $status = $request->get('status',Auction::IN_CURSE);
+        $status = $request->get('status',Constants::IN_CURSE);
 		$product = $request->get('product',null);
 		$seller = $request->get('seller',null);
 		$boat = $request->get('boat',null);
-		
-//		$auction_id = $request->get('auction_id',null);
-//		$invited = $request->get('invited',null);
 		$type = $request->get('type',"all");
-		
 		$auctions = Auction::filterAndPaginate($status,$product,$seller,$boat,$type,true);
-//		$auctions=Auction::auctionPrivate(Auth::user()->id,$status);
-//        dump($auctions);
-//        $auctions = Auction::getClosingAuction();
-//        $array_auctions = [];
 		$products = Product::Select()->get();
 		$sellers = User::filter(null, array(User::VENDEDOR), array(User::APROBADO));
 		$boats = Boat::Select()->get();
@@ -815,7 +806,7 @@ class AuctionController extends Controller
         }
 	    return $auctions;
     }
-    public function getAuctionsDataForHome($auctionsnoorder,$return=null){
+    public function getAuctionsDataForHome($auctionsnoorder){
         $auctionsreturn=array();$userRating =  array();$usercat=array();$port=array();$products=array();$calibers=array();$users=array();$price=array();$close=array();
         $auctions=$this->orderAuctions($auctionsnoorder);
         foreach($auctions as $a) {
@@ -873,7 +864,7 @@ class AuctionController extends Controller
     public function getMoreAuctions(Request $request){
         $limit=(int)$request->input('limit');
         $ids=explode("**",$request->input('ids'));
-        $auctions=Auction::auctionHome($ids)[Auction::IN_CURSE];
+        $auctions=Auction::auctionHome($ids)[Constants::IN_CURSE];
         $views=array();
         if(count($auctions)==0){
             return json_encode($views);
@@ -900,10 +891,10 @@ class AuctionController extends Controller
         $buyers = User::filter(null, array(User::COMPRADOR), array(User::APROBADO));
         $boats = Boat::Select()->get();
         $auctionhome=Auction::auctionHome();
-        $auctions1 = $auctionhome[Auction::IN_CURSE];
+        $auctions1 = $auctionhome[Constants::IN_CURSE];
         $auctiondetails1=$this->getAuctionsDataForHome($auctions1,$return);
         if ($return == 2) {
-            $auctions2 = $auctionhome[Auction::FINISHED];
+            $auctions2 = $auctionhome[Constants::FINISHED];
             $auctiondetails2=$this->getAuctionsDataForHome($auctions2,$return);
         }
         $auctions = array();$finishedauctions = array();$userRating =  array();$usercat=array();$port=array();$products=array();$calibers=array();$users=array();$price=array();$close=array();
@@ -998,9 +989,8 @@ class AuctionController extends Controller
         $prices = $request->input('prices');
         $auction = Auction::findOrFail($auction_id);
         $this->authorize('makeBid', $auction);
-        //$this->authorize('canBid',Auction::class);
 
-        if ($auction->type == \App\Auction::AUCTION_PRIVATE )
+        if ($auction->type == Constants::AUCTION_PRIVATE )
         {
             $this->authorize('isInvited', $auction);
         }
@@ -1061,8 +1051,6 @@ class AuctionController extends Controller
         $prices = $request->input('prices');
         $auction = Auction::findOrFail($auction_id);
         $this->authorize('makeBid', $auction);
-        //$this->authorize('canBid',Auction::class);
-
         $checkuser=$this->checkIfBuyerCanBuy($auction_id,null,'offer',$auction->type);
         if($checkuser==0){
             return json_encode(array('error'=>'Tu usuario no puede ofertar'));
