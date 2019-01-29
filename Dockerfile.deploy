@@ -1,5 +1,8 @@
-FROM registry.netlabs.com.ar/netlabs/deploy:8
+FROM registry.netlabs.com.ar/netlabs/deploy:9
 
 MAINTAINER Diego Weinstein <diegow@netlabs.com.ar>
 
 ADD deploy/sql /flyway/sql
+ADD deploy/production /flyway/sql/production
+ADD deploy/dev /flyway/sql/dev
+ADD deploy/qa /flyway/sql/qa
