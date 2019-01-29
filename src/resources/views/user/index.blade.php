@@ -92,7 +92,7 @@
                                         <td> <!--class="color-{{ $user->type }}" -->
                                             {{ trans("general.users_type.$user->type") }}
                                         @if ($userRating[$user->id] > 0)
-                                                <i data-toggle="tooltip" data-placement="right" title="{{ $userRating[$user->id]  }}% {{trans('users.reputability.'.$user->type)}}" class="fa fa-info-circle" ></i>
+                                                <em data-toggle="tooltip" data-placement="right" title="{{ $userRating[$user->id]  }}% {{trans('users.reputability.'.$user->type)}}" class="fa fa-info-circle" ></em>
                                             @endif
 
                                         </td>

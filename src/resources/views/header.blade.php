@@ -95,15 +95,15 @@ use Carbon\Carbon;
                                             <strong class="font-bold">{{ Auth::user()->name }}</strong>
                                         </span>
                                         <span class="text-muted text-xs block">
-                                            <b class="caret"></b>
+                                            <strong class="caret"></strong>
                                         </span>
                                     </span>
                                 </a>
                                 <ul class="dropdown-menu animated fadeInDown m-t-xs">
                                     <li>
 
-                                        <a href="{{ url('/home" style="border-left: none;padding-left: 10px; background-color: #2680ff!important;">
-                                            <i class="fa fa-tachometer" aria-hidden="true"></i>
+                                        <a href="{{ url('/home')}}" style="border-left: none;padding-left: 10px; background-color: #2680ff!important;">
+                                            <em class="fa fa-tachometer" aria-hidden="true"></em>
                                             Mi cuenta
                                         </a>
                                     </li>
@@ -113,9 +113,9 @@ use Carbon\Carbon;
                                     {{--<li class="divider"></li>--}}
                                     <li>
 
-                                        <a href="{{ url('/auth/logout" style="border-left: none;padding-left: 10px;">
-                                            <i class="fa fa-sign-out" aria-hidden="true"></i>
-                                            {{ Lang::get('general.logout
+                                        <a href="{{ url('/auth/logout')}}" style="border-left: none;padding-left: 10px;">
+                                            <em class="fa fa-sign-out" aria-hidden="true"></em>
+                                            {{ Lang::get('general.logout')}}
                                         </a>
 
 
@@ -134,13 +134,13 @@ use Carbon\Carbon;
                             <nav class="nav-header-user-layer user-menu">
                                 <div class="user-menu__main">
                                     <div class="user-menu__shortcuts ">
-                                        <a href="{{ url('/home" data-id="home" rel="nofollow">
-                                            <i class="fa fa-tachometer" style="font-size: 22px;"></i>&nbsp;&nbsp;
+                                        <a href="{{ url('/home')}}" data-id="home" rel="nofollow">
+                                            <em class="fa fa-tachometer" style="font-size: 22px;"></em>&nbsp;&nbsp;
                                           Mi cuenta
                                         </a>
-                                        <a href="{{ url('/auth/logout" data-id="logout" rel="nofollow">
-                                            <i class="fa fa-sign-out" style="font-size: 22px;"></i>&nbsp;&nbsp;
-                                          {{ Lang::get('general.logout
+                                        <a href="{{ url('/auth/logout')}}" data-id="logout" rel="nofollow">
+                                            <em class="fa fa-sign-out" style="font-size: 22px;"></em>&nbsp;&nbsp;
+                                          {{ Lang::get('general.logout')}}
                                         </a>
                                     </div>
                                 </div>
@@ -161,7 +161,7 @@ use Carbon\Carbon;
 
                 @else
                     {{-- <a href="#" class="option-register" rel="nofollow">Registrate</a> --}}
-                    <a href="{{ url('auth/login" class="option-login" rel="nofollow">
+                    <a href="{{ url('auth/login')}}" class="option-login" rel="nofollow">
                      <img alt="image" width="20" height="20" src="/landing/img/header_usuario.png" /> Ingresá</a>
                     {{-- <a href="#" class="option-help" rel="nofollow">Ayuda</a> --}}
                     {{-- <a href="#" class="option-sell" rel="nofollow">Vender </a></nav> --}}
@@ -172,9 +172,9 @@ use Carbon\Carbon;
             <button class="nav-search-clear-btn" type="button" title="Limpiar"></button>
             <button class="nav-search-close-btn" type="button" title="Cerrar"></button>
             <button type="submit" class="nav-search-btn" tabindex="3">
-                <i class="fa fa-search">
+                <em class="fa fa-search">
                     <span>Buscar</span>
-                </i>
+                </em>
             </button>
         </form>
         <div class="nav-menu">
@@ -194,13 +194,13 @@ use Carbon\Carbon;
                   </li>
                   
                   <li class="nav-menu-item">
-                    <a href="{{ url('/auction" class="nav-menu-item-link" rel="nofollow" data-js="nav-menu-item-trigger">Subastas del día</a></li>
+                    <a href="{{ url('/auction')}}" class="nav-menu-item-link" rel="nofollow" data-js="nav-menu-item-trigger">Subastas del día</a></li>
                   <li class="nav-menu-item">
                     <a href="#" class="nav-menu-item-link" rel="nofollow" data-js="nav-menu-item-trigger">Tu historial</a></li>
                   <li class="nav-menu-item">
-                    <a href="{{ url('/bids" class="nav-menu-item-link" rel="nofollow" data-js="nav-menu-item-trigger">Tus compras</a></li>
+                    <a href="{{ url('/bids')}}" class="nav-menu-item-link" rel="nofollow" data-js="nav-menu-item-trigger">Tus compras</a></li>
                   <li class="nav-menu-item">
-                    <a href="{{ url('/sellerbatch" class="nav-menu-item-link" rel="nofollow" data-js="nav-menu-item-trigger">Subastar</a></li>
+                    <a href="{{ url('/sellerbatch')}}" class="nav-menu-item-link" rel="nofollow" data-js="nav-menu-item-trigger">Subastar</a></li>
                 </ul>
             </div>
         </div>

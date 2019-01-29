@@ -2,6 +2,7 @@
 return [
     'name' => 'Nombre ',
     'lastname' => 'Apellido',
+    'nickname' => 'Alias',
     'dni' => 'DNI',
 	'cuit' => 'CUIT',
 	'title_buyer' => 'Registro comprador',

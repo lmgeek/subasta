@@ -26,7 +26,7 @@
 
                         <div class="ibox-tools">
                             <a href="{{ route('products.create') }}" class="btn-action">
-                                <i class="fa fa-plus text-success"></i> {{ trans('products.new') }}
+                                <em class="fa fa-plus text-success"></em> {{ trans('products.new') }}
                             </a>
                         </div>
                     </div>
@@ -60,22 +60,22 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <a href="{{ route('products.edit',$p) }}" class="btn btn-success" @if(!$p->canBeDeactivate() || $p->trashed()) disabled="true" @endif ><i class="fa fa-edit"></i> Editar</a>
+                                            <a href="{{ route('products.edit',$p) }}" class="btn btn-success" @if(!$p->canBeDeactivate() || $p->trashed()) disabled="true" @endif ><em class="fa fa-edit"></em> Editar</a>
                                             <form action="{{ route('products.restore',$p) }}" class="restoreForm_{{ $p->id }}"  method="post" style="display: inline-block">
                                                 {{ csrf_field() }}
-                                                <a href="#" class="btn btn-primary restoreItem" data-id="{{ $p->id }}" @if(!$p->trashed() ) disabled="true" @endif ><i class="fa fa-eye"></i> Activar</a>
+                                                <a href="#" class="btn btn-primary restoreItem" data-id="{{ $p->id }}" @if(!$p->trashed() ) disabled="true" @endif ><em class="fa fa-eye"></em> Activar</a>
                                             </form>
 
                                             <form action="{{ route('products.trash',$p) }}" class="trashForm_{{ $p->id }}"  method="post" style="display: inline-block">
                                                 {{ csrf_field() }}
-                                                <a href="#" class="btn btn-warning trashItem" data-id="{{ $p->id }}" @if(!$p->canBeDeactivate() || $p->trashed()) disabled="true" @endif ><i class="fa fa-eye-slash"></i> Desactivar</a>
+                                                <a href="#" class="btn btn-warning trashItem" data-id="{{ $p->id }}" @if(!$p->canBeDeactivate() || $p->trashed()) disabled="true" @endif ><em class="fa fa-eye-slash"></em> Desactivar</a>
 
                                             </form>
                                             @if($p->canBeDeleted())
                                                 <form action="{{ route('products.destroy',$p) }}" class="deleteForm_{{ $p->id }}"  method="post" style="display: inline-block">
                                                     {{ csrf_field() }}
                                                     {{ method_field('DELETE') }}
-                                                    <a href="#" class="btn btn-danger deleteItem" data-id="{{ $p->id }}"><i class="fa fa-trash"></i> Borrar</a>
+                                                    <a href="#" class="btn btn-danger deleteItem" data-id="{{ $p->id }}"><em class="fa fa-trash"></em> Borrar</a>
                                                 </form>
                                             @endif
                                         </td>

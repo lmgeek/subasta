@@ -29,7 +29,7 @@
                         <h5>{{ trans('sellerBoats.batch_info') }}</h5>
 						<div class="ibox-tools">
 							<a href="{{ url('sellerboat/arrive/0') }}" class="btn-action">
-								<i class="fa fa-plus text-success"></i> {{ trans('sellerBoats.addbatch') }}
+								<em class="fa fa-plus text-success"></em> {{ trans('sellerBoats.addbatch') }}
 							</a>
                         </div>
                     </div>
@@ -56,7 +56,7 @@
 									@if ($lastArrive->date < date('Y-m-d H:i:s'))
 										{{$lastArrive->date}}
 									@else
-										<i class="fa fa-clock-o"></i><a href="{{ route('sellerboat.editarrive',$lastArrive) }}" title="{{ trans('boats.edit_arrive') }}"> {{ Carbon::parse($lastArrive->date)->format('H:i:s d/m/Y') }} </a>
+										<em class="fa fa-clock-o"></em><a href="{{ route('sellerboat.editarrive',$lastArrive) }}" title="{{ trans('boats.edit_arrive') }}"> {{ Carbon::parse($lastArrive->date)->format('H:i:s d/m/Y') }} </a>
 									@endif
 								</p></div>
 
@@ -66,7 +66,7 @@
 								<div class="actions">
 									@can('createBatch',$boat)
 										@if(!is_null($lastArrive))
-											<a href="{{ url('sellerboat/batch',$lastArrive) }}" class="btn btn-action"><i class="fa "></i>{{ trans('boats.boats_load_lote') }} </a>
+											<a href="{{ url('sellerboat/batch',$lastArrive) }}" class="btn btn-action"><em class="fa "></em>{{ trans('boats.boats_load_lote') }} </a>
 										@endif
 									@endcan
 									<!-- <a class="btn btn-xs btn-white"><i class="fa "></i> Love</a> -->

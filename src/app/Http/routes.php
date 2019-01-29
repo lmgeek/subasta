@@ -31,7 +31,7 @@ Route::get('/landing2', 'AuctionController@subastaHome');
 
 // Authentication routes...
 Route::get('auth/login', 'Auth\AuthController@getLogin');
-Route::post('auth/login', 'Auth\AuthController@postLogin');
+Route::post('auth/login', 'Auth\AuthControllerLogin@postLogin');
 Route::get('auth/logout', 'Auth\AuthController@getLogout');
 
 // Registration routes...
@@ -174,7 +174,8 @@ Route::get('calculateprice', 'AuctionController@calculatePrice');
 Route::get('calculatepeso', 'AuctionController@calculatePeso');
 Route::get('makeBid', 'AuctionController@makeBid');
 Route::post('offersAuction', 'AuctionController@offersAuction');
-
+Route::get('offersAuctionFront', 'AuctionController@offersAuctionFront');
+Route::get('getMoreAuctions', 'AuctionController@getMoreAuctions');
 
 Route::group(['middleware' => ['auth']],function(){
     Route:resource('sellerbatch', 'BoatController@sellerbatch');

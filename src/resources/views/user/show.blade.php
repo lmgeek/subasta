@@ -51,7 +51,7 @@
 					<div class="widget style1 lazur-bg">
                         <div class="row vertical-align">
                             <div class="col-xs-3">
-                                <i class="fa fa-usd fa-3x"></i>
+                                <em class="fa fa-usd fa-3x"></em>
                             </div>
                             <div class="col-xs-9 text-right">
 								<h2 class="font-bold">
@@ -70,7 +70,7 @@
 						<div class="widget style1 lazur-bg">
 							<div class="row vertical-align">
 								<div class="col-xs-3">
-									<i class="fa fa-usd fa-3x"></i>
+									<em class="fa fa-usd fa-3x"></em>
 								</div>
 								<div class="col-xs-9 text-right">
 									<h3 class="font-bold" style="font-size:28px;">
@@ -84,7 +84,7 @@
 					@endif
 					<div class="widget navy-bg p-lg text-center">
 						<div class="m-b-md">
-							<i class="fa fa-thumbs-up fa-4x"></i>
+							<em class="fa fa-thumbs-up fa-4x"></em>
 							<h1 class="m-xs">{{ $score }} % </h1>
 							<h3 class="font-bold no-margins">
 								@if ($user->type == \App\User::VENDEDOR )
@@ -99,9 +99,9 @@
 							@if ($user->rating != null )
 								<h5>Total Votos</h5>
 								<div>
-									<span data-toggle="tooltip" data-placement="top" title="Votos Positivos" >{{ $user->rating->positive }} <i class="fa fa-plus-circle"></i></span> |
-									<span data-toggle="tooltip" data-placement="top" title="Votos Negativos">{{ $user->rating->negative }} <i class="fa fa-minus-circle"></i></span> |
-									<span data-toggle="tooltip" data-placement="top" title="Votos Neutro">{{ $user->rating->neutral }} <i style="" class="fa fa-dot-circle-o"></i></span>
+									<span data-toggle="tooltip" data-placement="top" title="Votos Positivos" >{{ $user->rating->positive }} <em class="fa fa-plus-circle"></em></span> |
+									<span data-toggle="tooltip" data-placement="top" title="Votos Negativos">{{ $user->rating->negative }} <em class="fa fa-minus-circle"></em></span> |
+									<span data-toggle="tooltip" data-placement="top" title="Votos Neutro">{{ $user->rating->neutral }} <em style="" class="fa fa-dot-circle-o"></em></span>
 								</div>
 							@endif
 						</div>

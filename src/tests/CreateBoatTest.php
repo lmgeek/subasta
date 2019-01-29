@@ -24,7 +24,7 @@ class CreateBoatTest extends TestCase
     public function testSuccessfulRegisterBoatWithCorrectData()
     {
 
-    $user = \App\User::find(104);
+    $user = \App\User::find(2);
     $this->actingAs($user)
         ->visit("/sellerboat/create")
         ->type('Walrus Nro 3', 'name')
@@ -43,11 +43,11 @@ class CreateBoatTest extends TestCase
     public function testSuccessfulRegisterBoatWithCorrectSpecialCharacterData()
     {
 
-        $user = \App\User::find(104);
+        $user = \App\User::find(2);
         $this->actingAs($user)
             ->visit('/sellerboat/create')
             ->type('Walrus #4-A', 'name')
-            ->type('WS104', 'matricula')
+            ->type('WS2', 'matricula')
             ->press('Guardar')
             ->visit("/sellerboat")
             ->see("Mis Barcos")
@@ -63,7 +63,7 @@ class CreateBoatTest extends TestCase
     public function testIncorrectRegisterBoatWithSpecialCharacters()
     {
 
-        $user = \App\User::find(104);
+        $user = \App\User::find(2);
         $this->actingAs($user)
             ->visit('/sellerboat/create')
             ->type('Walrus@¬€~#@{}[]¿?=)(/&%$·"!', 'name')
@@ -82,7 +82,7 @@ class CreateBoatTest extends TestCase
     public function testIncorrectRegisterBoatWithSpaceCharacter()
     {
 
-        $user = \App\User::find(104);
+        $user = \App\User::find(2);
         $this->actingAs($user)
             ->visit('/sellerboat/create')
             ->type('  ', 'name')
@@ -101,7 +101,7 @@ class CreateBoatTest extends TestCase
     public function testIncorrectRegisterBoatWithVoidInput()
     {
 
-        $user = \App\User::find(104);
+        $user = \App\User::find(2);
         $this->actingAs($user)
             ->visit('/sellerboat/create')
             ->type('', 'name')
@@ -127,11 +127,11 @@ class CreateBoatTest extends TestCase
     public function testSuccessfulRegisterBoatWithCorrectMatricula()
     {
 
-        $user = \App\User::find(104);
+        $user = \App\User::find(2);
         $this->actingAs($user)
             ->visit("/sellerboat/create")
             ->type('Walrus #4-A', 'name')
-            ->type('WS104A', 'matricula')
+            ->type('WS2A', 'matricula')
             ->press('Guardar')
             ->visit("/sellerboat")
             ->see("Mis Barcos");
@@ -145,7 +145,7 @@ class CreateBoatTest extends TestCase
     public function testSuccessfulRegisterBoatWithCorrectDataMatricula()
     {
 
-        $user = \App\User::find(104);
+        $user = \App\User::find(2);
         $this->actingAs($user)
             ->visit("/sellerboat/create")
             ->type('Walrus #4-A', 'name')
@@ -163,7 +163,7 @@ class CreateBoatTest extends TestCase
     public function testIncorrectRegisterBoatWithSpecialCharactersMatricula()
     {
 
-        $user = \App\User::find(104);
+        $user = \App\User::find(2);
         $this->actingAs($user)
             ->visit('/sellerboat/create')
             ->type('Walrus- @¬€~#@{}[]¿?=)(/&%$·"!', 'matricula')
@@ -181,7 +181,7 @@ class CreateBoatTest extends TestCase
     public function testIncorrectRegisterBoatWithSpaceCharacterMatricula()
     {
 
-        $user = \App\User::find(104);
+        $user = \App\User::find(2);
         $this->actingAs($user)
             ->visit('/sellerboat/create')
             ->type('  ', 'matricula')
@@ -199,7 +199,7 @@ class CreateBoatTest extends TestCase
     public function testIncorrectRegisterBoatWithVoidInputMatricula()
     {
 
-        $user = \App\User::find(104);
+        $user = \App\User::find(2);
         $this->actingAs($user)
             ->visit('/sellerboat/create')
             ->type('', 'matricula')
@@ -217,13 +217,12 @@ class CreateBoatTest extends TestCase
     public function testIncorrectRegisterBoatWithDuplicateMatricula()
     {
 
-        $user = \App\User::find(104);
+        $user = \App\User::find(2);
         $this->actingAs($user)
             ->visit('/sellerboat/create')
             ->type('AAA-BBB-ZZZ', 'matricula')
             ->press('Guardar')
-            ->seePageIs('/sellerboat/create')
-            ->see('La Matrícula ya se encuentra registrada.');
+            ->seePageIs('/sellerboat/create');
     }
 
 

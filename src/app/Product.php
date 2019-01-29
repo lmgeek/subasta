@@ -51,9 +51,6 @@ class Product extends Model
 
     public function canBeDeactivate()
     {
-        $now = date('Y-m-d H:i:s');
-
-        $a = Auction::where('start_price','<=',$now)->where('end_price','>=',$now)->orwhere('start','>=',$now)->count();
 
         $consult = DB::table('batch_statuses')
             ->join('batches','batch_statuses.batch_id','=','batches.id')

@@ -1,7 +1,7 @@
 <div class="row border-bottom">
     <nav class="navbar navbar-static-top  " role="navigation" style="margin-bottom: 0">
         <div class="navbar-header">
-            <a class="navbar-minimalize minimalize-styl-2 btn btn-primary hidden-lg hidden-md  hidden-sm" href="#"><i class="fa fa-bars"></i> </a>
+            <a class="navbar-minimalize minimalize-styl-2 btn btn-primary hidden-lg hidden-md  hidden-sm" href="#"><em class="fa fa-bars"></em> </a>
             @if (Auth::user()->status == \App\User::PENDIENTE)
                 <div style="float: left; margin-top: 20px; margin-left: 20px;">
                         {{--<input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search">--}}
@@ -22,7 +22,7 @@
             </li>
             <li>
                 <a href="{{ url('/auth/logout') }}">
-                    <i class="fa fa-sign-out"></i> {{ Lang::get('general.logout') }}
+                    <em class="fa fa-sign-out"></em> {{ Lang::get('general.logout') }}
                 </a>
             </li>
         </ul>

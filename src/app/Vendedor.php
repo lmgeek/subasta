@@ -28,11 +28,11 @@ class Vendedor extends Model
             ->join('boats','arrives.boat_id','=','boats.id')
             ->where('boats.user_id',$this->user->id);
 
-        if(!is_null($status) and count($status) > 0) $bids->whereIn('bids.status',$status);
-        if(!is_null($buyer) and count($buyer) > 0) $bids->whereIn('bids.user_id',$buyer);
-        if(!is_null($batches) and count($batches) > 0) $bids->whereIn('batches.id',$batches);
-        if(!is_null($arrives) and count($arrives) > 0) $bids->whereIn('arrives.id',$arrives);
-        if(!is_null($boats) and count($boats) > 0) $bids->whereIn('boats.id',$boats);
+        if(!is_null($status) && count($status) > 0) $bids->whereIn('bids.status',$status);
+        if(!is_null($buyer) && count($buyer) > 0) $bids->whereIn('bids.user_id',$buyer);
+        if(!is_null($batches) && count($batches) > 0) $bids->whereIn('batches.id',$batches);
+        if(!is_null($arrives) && count($arrives) > 0) $bids->whereIn('arrives.id',$arrives);
+        if(!is_null($boats) && count($boats) > 0) $bids->whereIn('boats.id',$boats);
 
         return $bids;
     }
@@ -82,7 +82,7 @@ class Vendedor extends Model
     public function myPrivateSales($buyer = null)
     {
         $sales = PrivateSale::where('user_id',$this->user->id);
-		if(!is_null($buyer) and count($buyer) > 0) $sales->where('buyer_name', 'like', "%$buyer%");
+		if(!is_null($buyer) && count($buyer) > 0) $sales->where('buyer_name', 'like', "%$buyer%");
         return $sales;
 
     }
@@ -109,8 +109,8 @@ class Vendedor extends Model
             inner join batches ba on a.batch_id = ba.id
             inner join arrives ar on ba.arrive_id = ar.id
             inner join boats bo on ar.boat_id = bo.id
-            inner join users u on bo.user_id = u.id and u.id = ".Auth::user()->id."
-            where bid_date BETWEEN '".$end_dt."' and '".$start_dt."'
+            inner join users u on bo.user_id = u.id AND u.id = ".Auth::user()->id."
+            where bid_date BETWEEN '$end_dt' AND '$start_dt'
             GROUP BY mes");
 
         foreach ($result as $item) {

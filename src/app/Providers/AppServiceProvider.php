@@ -24,13 +24,11 @@ class AppServiceProvider extends ServiceProvider
             return intval($value) > intval($parameterValue);
         });
         Validator::extend('batch_is_mine', function($attribute, $value, $parameters) {
-            $authorize = DB::table('batches')
+            return DB::table('batches')
                 ->join('arrives','batches.arrive_id','=','arrives.id')
                 ->join('boats','arrives.boat_id','=','boats.id')
                 ->where('batches.id',$value)
                 ->where('boats.user_id',Auth::user()->id)->count();
-
-            return $authorize;
         });
 
 //        new
@@ -44,8 +42,6 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Validator::extend('greater_weight_than', function($attribute, $value, $parameters) {
-            $request = Request::capture();
-
             return $value > "0,00";
         });
 //        new

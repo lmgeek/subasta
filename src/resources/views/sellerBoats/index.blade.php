@@ -21,7 +21,7 @@
                         <div class="ibox-tools">
                             @can('addBoat',new App\Boat)
                             <a href="{{ route('sellerboat.create') }}" class="btn-action">
-                                <i class="fa fa-plus text-success"></i> {{ trans('sellerBoats.new_boat') }}
+                                <em class="fa fa-plus text-success"></em> {{ trans('sellerBoats.new_boat') }}
                             </a>
                             @endcan
                         </div>
@@ -30,12 +30,12 @@
                         <table class="table table-bordered table-hover dataTables-example">
                             <thead>
                             <tr role="row">
-                                <th class="sorting">
-                                    {{ trans('sellerBoats.name') }}
-                                </th>
-                                <th class="sorting">
-                                    {{ trans('sellerBoats.matricula') }}
-                                </th>
+                                {{--<th class="sorting">--}}
+                                    {{--{{ trans('sellerBoats.name') }}--}}
+                                {{--</th>--}}
+                                {{--<th class="sorting">--}}
+                                    {{--{{ trans('sellerBoats.matricula') }}--}}
+                                {{--</th>--}}
                                 <th class="sorting">
                                     {{ trans('sellerBoats.status.title') }}
                                 </th>
@@ -51,14 +51,14 @@
                             <tbody>
                                 @foreach($barcos as $barco)
                                     <tr>
-                                        <td>
-                                            {{ $barco->name }}
-                                        </td>
-                                        <td>{{ $barco->matricula }}</td>
+                                        {{--<td>--}}
+                                            {{--{{ $barco->name }}--}}
+                                        {{--</td>--}}
+                                        {{--<td>{{ $barco->matricula }}</td>--}}
                                         <td>
                                             <span class="label label-{{ $barco->status }}">{{ trans("general.status.$barco->status") }}</span>
 											@if ($barco->status == \App\Boat::RECHAZADO)
-													<i data-toggle="tooltip" data-placement="top" title="{{ $barco->rebound }}"  class="fa fa-info-circle"></i>
+													<em data-toggle="tooltip" data-placement="top" title="{{ $barco->rebound }}"  class="fa fa-info-circle"></em>
 											@endif
                                         </td>
                                         <td>
@@ -81,33 +81,33 @@
     <script src="{{ asset('/js/plugins/dataTables/dataTables.responsive.js') }}"></script>
     <script src="{{ asset('/js/plugins/dataTables/dataTables.tableTools.min.js') }}"></script>
 
-    <script>
-        $(document).ready(function () {
-            $('.dataTables-example').DataTable({
-                "aaSorting": [],
-                language:
-                {
-                    url: "http://cdn.datatables.net/plug-ins/1.10.7/i18n/Spanish.json"
-                },
-                responsive: true,
-                "aoColumnDefs": [
-                    { 'bSortable': false, 'aTargets': [ -1 ] }
-                ],
-                "columns": [
-                    { "width": "25%" },
-                    null              ,
-                    { "width": "15%" },
-                    { "width": "15%" }
-                ]
-            });
+    {{--<script>--}}
+        {{--$(document).ready(function () {--}}
+            {{--$('.dataTables-example').DataTable({--}}
+                {{--"aaSorting": [],--}}
+                {{--language:--}}
+                {{--{--}}
+                    {{--url: "http://cdn.datatables.net/plug-ins/1.10.7/i18n/Spanish.json"--}}
+                {{--},--}}
+                {{--responsive: true,--}}
+                {{--"aoColumnDefs": [--}}
+                    {{--{ 'bSortable': false, 'aTargets': [ -1 ] }--}}
+                {{--],--}}
+                {{--"columns": [--}}
+                    {{--{ "width": "25%" },--}}
+                    {{--null              ,--}}
+                    {{--{ "width": "15%" },--}}
+                    {{--{ "width": "15%" }--}}
+                {{--]--}}
+            {{--});--}}
 
-			$(function () {
-			  $('[data-toggle="tooltip"]').tooltip()
-			})
+			{{--$(function () {--}}
+			  {{--$('[data-toggle="tooltip"]').tooltip()--}}
+			{{--})--}}
 
-        });
+        {{--});--}}
 
-    </script>
+    {{--</script>--}}
 @endsection
 
 @section('style')

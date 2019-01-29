@@ -22,17 +22,17 @@
                                 <ul class="footer-social-links">
                                     <li>
                                         <a href="#" title="Facebook" data-tippy-placement="bottom" data-tippy-theme="light">
-                                            <i class="icon-brand-facebook-f"></i>
+                                            <em class="icon-brand-facebook-f"></em>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="#" title="Twitter" data-tippy-placement="bottom" data-tippy-theme="light">
-                                            <i class="icon-brand-twitter"></i>
+                                            <em class="icon-brand-twitter"></em>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="#" title="LinkedIn" data-tippy-placement="bottom" data-tippy-theme="light">
-                                            <i class="icon-brand-linkedin-in"></i>
+                                            <em class="icon-brand-linkedin-in"></em>
                                         </a>
                                     </li>
                                 </ul>

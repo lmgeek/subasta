@@ -55,7 +55,7 @@
 
 								<!-- Trigger -->
 								<div class="header-notifications-link">
-									<a href="dash-nueva-subasta.php" data-tippy-placement="left" title="Nueva Subasta" data-tippy-theme="dark"><i class="icon-material-outline-gavel"></i></a>
+									<a href="dash-nueva-subasta.php" data-tippy-placement="left" title="Nueva Subasta" data-tippy-theme="dark"><em class="icon-material-outline-gavel"></em></a>
 								</div>
 
 
@@ -96,14 +96,14 @@
 									</div>
 
 									<ul class="user-menu-small-nav">
-										<li><a href="{{url('/home')}}"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
-										<li><a href="#"><i class="icon-feather-user"></i> Mi Cuenta</a></li>
-										<li><a href="{{url('/sellerboat')}}"><i class="icon-line-awesome-ship"></i> Mis Barcos</a></li>
-										<li><a href="{{url('/sellerbatch')}}"><i class="icon-feather-box"></i> Mis Lotes</a></li>
-										<li><a href="{{url('/sellerAuction')}}"><i class="icon-material-outline-gavel"></i>Mis Subastas</a></li>
-										<li><a href="{{url('/sales')}}"><i class="icon-material-outline-gavel"></i> Ventas de Subastas</a></li>
-										<li><a href="{{ url('/privatesales') }}"><i class="icon-feather-eye-off"></i> Ventas privadas</a></li>
-										<li><a href="{{url('auth/logout')}}"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
+										<li><a href="{{url('/home')}}"><em class="icon-material-outline-dashboard"></em> Dashboard</a></li>
+										<li><a href="#"><em class="icon-feather-user"></em> Mi Cuenta</a></li>
+										<li><a href="{{url('/sellerboat')}}"><em class="icon-line-awesome-ship"></em> Mis Barcos</a></li>
+										<li><a href="{{url('/sellerbatch')}}"><em class="icon-feather-box"></em> Mis Lotes</a></li>
+										<li><a href="{{url('/sellerAuction')}}"><em class="icon-material-outline-gavel"></em>Mis Subastas</a></li>
+										<li><a href="{{url('/sales')}}"><em class="icon-material-outline-gavel"></em> Ventas de Subastas</a></li>
+										<li><a href="{{ url('/privatesales') }}"><em class="icon-feather-eye-off"></em> Ventas privadas</a></li>
+										<li><a href="{{url('auth/logout')}}"><em class="icon-material-outline-power-settings-new"></em> Logout</a></li>
 
 									</ul>
 
@@ -158,12 +158,12 @@
 					</div>
 
 					<ul class="user-menu-small-nav">
-						<li><a href="{{url('/home')}}"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
-						<li><a href="#"><i class="icon-feather-user"></i> Mi Cuenta</a></li>
-						<li><a href="{{url('/auction')}}"><i class="icon-material-outline-gavel"></i> Subastas</a></li>
-						<li><a href="{{url('/auction?type=private')}}"><i class="icon-feather-eye-off"></i> Subastas Privadas</a></li>
-						<li><a href="{{url('/bids')}}"><i class="icon-material-outline-shopping-cart"></i> Compra</a></li>
-						<li><a href="{{url('auth/logout')}}"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
+						<li><a href="{{url('/home')}}"><em class="icon-material-outline-dashboard"></em> Dashboard</a></li>
+						<li><a href="#"><em class="icon-feather-user"></em> Mi Cuenta</a></li>
+						<li><a href="{{url('/auction')}}"><em class="icon-material-outline-gavel"></em> Subastas</a></li>
+						<li><a href="{{url('/auction?type=private')}}"><em class="icon-feather-eye-off"></em> Subastas Privadas</a></li>
+						<li><a href="{{url('/bids')}}"><em class="icon-material-outline-shopping-cart"></em> Compra</a></li>
+						<li><a href="{{url('auth/logout')}}"><em class="icon-material-outline-power-settings-new"></em> Logout</a></li>
 					</ul>
 
 				</div>
@@ -218,13 +218,12 @@
 					</div>
 
 					<ul class="user-menu-small-nav">
-						<li><a href="{{url('/home')}}"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
-						<li><a href="#"><i class="icon-feather-user"></i> Mi Cuenta</a></li>
-						<li><a href="{{url('/users')}}"><i class="icon-line-awesome-list"></i> Listado de Usuarios</a></li>
-						<li><a href="{{url('/boats')}}"><i class="icon-line-awesome-ship"></i> Listado de Barcos</a></li>
-						{{--<li><a href="{{url('/products')}}"><i class="icon-line-awesome-sellsy"></i>Productos</a></li>--}}
-						<li><a href="{{url('/products')}}"><i class="icon-brand-product-hunt"></i> Productos</a></li>
-						<li><a href="{{url('auth/logout')}}"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
+						<li><a href="{{url('/home')}}"><em class="icon-material-outline-dashboard"></em> Dashboard</a></li>
+						<li><a href="#"><em class="icon-feather-user"></em> Mi Cuenta</a></li>
+						<li><a href="{{url('/users')}}"><em class="icon-line-awesome-list"></em> Listado de Usuarios</a></li>
+						<li><a href="{{url('/boats')}}"><em class="icon-line-awesome-ship"></em> Listado de Barcos</a></li>
+						<li><a href="{{url('/products')}}"><em class="icon-brand-product-hunt"></em> Productos</a></li>
+						<li><a href="{{url('auth/logout')}}"><em class="icon-material-outline-power-settings-new"></em> Logout</a></li>
 					</ul>
 
 				</div>
