@@ -2,6 +2,7 @@
 use App\Auction;
 //Creamos un objeto de la clase para usar sus funciones
 $objtAuction = new Auction();
+$portsall=\App\Ports::Select()->get();
 ?>
 @extends('landing3/partials/layout')
 @section('title',' | Home')

@@ -167,6 +167,7 @@ class AuctionController extends Controller
         $prices = $auction->calculatePrice($bidDate);
         $price = str_replace(",","",$prices);
         $available=$this->getAvailable($auction_id,$auction->amount);
+
         $amount=$auction->amount;
         $targetamount=($amount*0.75);
         $cantventas=$available[Constants::AVAILABLE];
@@ -195,7 +196,7 @@ class AuctionController extends Controller
         }
 
     }
-    public function calculatePriceID($id,$targetprice=null)
+    public static function calculatePriceID($id,$targetprice=null)
     {
         $bidDate = date(Constants::DATE_FORMAT);
         $auction = Auction::findOrFail($id);
@@ -814,11 +815,6 @@ class AuctionController extends Controller
         $auctions=$this->orderAuctions($auctionsnoorder);
         foreach($auctions as $a) {
             $user = $a->batch->arrive->boat->user;
-            $userRating[$user->id] = self::getUserRating($user);
-            $usercat[$user->id] = Auction::catUserByAuctions($user->id);
-            $prices=$this->calculatePriceID($a->id);
-            $price[$a->id] = $prices['CurrentPrice'];
-            $close[$a->id]=$prices['Close'];
             $auctionsreturn[] = $a;
             if (isset($caliber[$a->batch->caliber]['cant'])) {
                 $calibers[$a->batch->caliber]++;
@@ -858,10 +854,6 @@ class AuctionController extends Controller
             'ports'=>$port,
             'calibers'=>$calibers,
             'users'=>$users,
-            'usercat'=>$usercat,
-            Constants::USER_RATING=>$userRating,
-            'prices'=>$price,
-            Constants::CLOSE=>$close
         );
     }
     public function getMoreAuctions(Request $request){
@@ -877,11 +869,7 @@ class AuctionController extends Controller
         for($z=0;$z<$cantreturn;$z++){
             $view= view('/landing3/partials/auctionNoDetail')
                 ->withAuction($auctions[$z])
-                ->withUserrating($auctioninfo[Constants::USER_RATING])
                 ->withPorts($auctioninfo['ports'])
-                ->withUsercat($auctioninfo['usercat'])
-                ->withPrice($auctioninfo['prices'])
-                ->withClose($auctioninfo[Constants::CLOSE])
                 ->withProducts($auctioninfo[Constants::PRODUCTS]);
             $views[]=(string)$view;
         }
@@ -893,6 +881,9 @@ class AuctionController extends Controller
         $sellers = User::filter(null, array(User::VENDEDOR), array(User::APROBADO));
         $buyers = User::filter(null, array(User::COMPRADOR), array(User::APROBADO));
         $boats = Boat::Select()->get();
+        $auctions = array();$finishedauctions = array();$userRating =  array();
+        $port=array();$products=array();$calibers=array();
+        $users=array();
         $auctionhome=Auction::auctionHome();
         $auctions1 = $auctionhome[Constants::IN_CURSE];
         $auctiondetails1=$this->getAuctionsDataForHome($auctions1,$return);
@@ -900,7 +891,6 @@ class AuctionController extends Controller
             $auctions2 = $auctionhome[Constants::FINISHED];
             $auctiondetails2=$this->getAuctionsDataForHome($auctions2,$return);
         }
-        $auctions = array();$finishedauctions = array();$userRating =  array();$usercat=array();$port=array();$products=array();$calibers=array();$users=array();$price=array();$close=array();
         for($z=1;$z<=$return;$z++){
             $var="auctiondetails$z";
             foreach(${$var}[Constants::AUCTIONS] as $item){
@@ -919,45 +909,22 @@ class AuctionController extends Controller
             foreach (${$var}['users'] as $item => $val) {
                 $users[$item] = $val;
             }
-            foreach (${$var}['usercat'] as $item => $val) {
-                $usercat[$item] = $val;
-            }
-            foreach (${$var}[Constants::USER_RATING] as $item => $val) {
-                $userRating[$item] = $val;
-            }
-            foreach (${$var}['prices'] as $item => $val) {
-                $price[$item] = $val;
-            }
-            foreach (${$var}[Constants::CLOSE] as $item => $val) {
-                $close[$item] = $val;
-            }
         }
         if($return==2){
-            $ports=Ports::Select()->get();
             return view('/landing3/index')
                 ->withAuctions($auctions)
                 ->withAuctionsf($finishedauctions)
-                ->withUserrating($userRating)
                 ->withPorts($port)
-                ->withPortsall($ports)
-                ->withUsercat($usercat)
-                ->withPrice($price)
                 ->withBoats($boats)
                 ->withBuyers($buyers)
-                ->withClose($close)
                 ->withProducts($products);
         }else{
             return array(
                 Constants::AUCTIONS=>$auctions,
-                'usercat'=>$usercat,
-                Constants::USER_RATING=>$userRating,
-                Constants::PRICE=>$price,
                 'ports'=>$port,
                 Constants::BOATS=>$boats,
                 Constants::PRODUCTS=>$products,
-                'caliber'=>$calibers,
                 'users'=>$users,
-                Constants::CLOSE=>$close,
                 Constants::SELLERS=>$sellers);
         }
     }
@@ -965,13 +932,9 @@ class AuctionController extends Controller
 	    $all=$this->subastasDestacadasHome(1);
         return view('/landing3/subastas')
             ->withAuctions($all[Constants::AUCTIONS])
-            ->withUserrating($all[Constants::USER_RATING])
             ->withPorts($all['ports'])
-            ->withUsercat($all['usercat'])
-            ->withPrice($all[Constants::PRICE])
             ->withBoats($all[Constants::BOATS])
             ->withusers($all['users'])
-            ->withClose($all[Constants::CLOSE])
             ->withCaliber($all['caliber'])
             ->withProducts($all[Constants::PRODUCTS])
             ;
@@ -1132,8 +1095,12 @@ class AuctionController extends Controller
         $request->session()->put('url.intended', '/auction/offers/'.$auction_id);
         $available = $this->getAvailable($auction_id, $auction->amount);
         $offers = $this->getOffers($auction_id);
+        $count = count($offers);
+//        $declineoffer = 'auction/offers/decline/'.$auction_id;
+//        dd($declineoffer);
         foreach ($offers as $offer) {
             // Verifico la fecha de la subasta
+
             if ($auction->end >= date(Constants::DATE_FORMAT))
                 return ('<h1 style="    text-align: center; margin-top: 300px; font-size: 5em">La subasta no ha culminado</h1>');
 
@@ -1141,6 +1108,7 @@ class AuctionController extends Controller
             if ($offer->price >= $offer->end_price){
                 if ($offer->status == Offers::PENDIENTE){
                     //registramos la compra a la mejor opc de compra
+
                     $offerForSale = $this->offerForSale($auction, $offer);
                     if ($offerForSale)
                         return ('<h1 style="    text-align: center; margin-top: 300px; font-size: 5em">Se vendio todo</h1>');
@@ -1157,7 +1125,50 @@ class AuctionController extends Controller
             return ('<h1 style="    text-align: center; margin-top: 300px; font-size: 5em">No hay ofertas realizadas<br>Disponibles: '. $available[Constants::AVAILABLE].'</h1>');
     }
 
-    /*funcion que llama la vista de detalles de una subasta*/
+
+    public function autoOffersBid(Request $request, $auction_id)
+    {
+
+        setlocale(LC_MONETARY, 'en_US');
+        $auction = Auction::findOrFail($auction_id);
+        $this->authorize('viewOperations', $auction);
+        $request->session()->put('url.intended', '/auction/offers/'.$auction_id);
+        $available = $this->getAvailable($auction_id, $auction->amount);
+        $offers = $this->getOffers($auction_id);
+        $count = count($offers);
+        foreach ($offers as $offer) {
+            // Verifico la fecha de la subasta
+            if ($auction->end >= date('Y-m-d H:i:s'))
+                return;
+
+            //verifica que el precio ofertado sea mayor e igual al de la subasta terminada
+            if ($offer->price >= $offer->end_price){
+                if ($offer->status == Offers::PENDIENTE){
+                    //registramos la compra a la mejor opc de compra
+                    $offerForSale = $this->offerForSale($auction, $offer);
+                        return $offerForSale;
+                }
+            }
+        }
+
+        if ($available['available'] == 0){
+            $offer_id = null;
+            $this->declineOffers($auction_id,$offer_id,$request);
+            return;
+        }
+
+        if (count($offers)>0)
+            return;
+        else
+            return;
+    }
+
+
+    /**
+     * funcion que llama la vista de detalles de una subasta
+     * @param $auction_id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function auctionDetails($auction_id){
 
         $auction = Auction::findOrFail($auction_id);
@@ -1194,8 +1205,10 @@ class AuctionController extends Controller
         $auction_id = $auction->id;
         $prices = $offer->price;
         $resp  =  array();
+        $request = null;
         $price = str_replace(",","",$prices);
         $available = $this->getAvailable($auction_id, $auction->amount);
+
 
         if ($available[Constants::AVAILABLE] > 0){
             if ($price <= $auction->end_price)
@@ -1225,12 +1238,19 @@ class AuctionController extends Controller
             $this->bid->bid_date = date(Constants::DATE_FORMAT);
             $this->bid->save();
 
-//Update status oferta
-            $this->offers = Offers::findOrFail($offer->id);
-            $this->offers->auction_id = $auction_id;
-            $this->offers->status = Offers::ACEPTADA;
-            $this->offers->save();
+            $offers = $this->getOffers($auction_id);
+            foreach ($offers as $o){
+                if ($o->id == $offer->id){
+                    //Update status oferta
+                    $this->offers = Offers::findOrFail($offer->id);
+                    $this->offers->auction_id = $auction_id;
+                    $this->offers->status = Offers::ACEPTADA;
+                    $this->offers->save();
+                } else {
+                    $this->declineOffers($auction_id,$o->id,$request);
+                }
 
+            }
 //Update batch_statuses
 //        $this->status = Batch::findOrFail($auction->batch_id)->status;
 //        $this->status->assigned_auction -= $available[Constants::AVAILABLE];
@@ -1248,9 +1268,12 @@ class AuctionController extends Controller
                 $message->subject(trans('users.offer_Bid'));
                 $message->to($user->email);
             });
-            return true;
-        } else
-            return false;
+            return;
+        } else {
+            $offer = null;
+            $this->declineOffers($auction_id,$offer,$request);
+            return;
+        }
     }
 
     public function getOffers($auction_id)
@@ -1262,11 +1285,12 @@ class AuctionController extends Controller
             'auctions_offers.status',
             'auctions.end_price',
             'auctions.end AS FinSubasta',
+            'auctions_offers.created_at',
             'batches.caliber',
             'batches.quality',
             'products.name AS Producto',
-            'auctions_offers.user_id'/*,
-            'users.name AS Comprador'*/
+            'auctions_offers.user_id',
+            'users.nickname AS Comprador'
         )
             ->join(Constants::AUCTIONS,Constants::AUCTIONS_ID,'=',Constants::INPUT_AUCTION_ID)
             ->join(Constants::BATCHES,'batches.id','=',Constants::AUCTIONS_BATCH_ID)
@@ -1274,12 +1298,58 @@ class AuctionController extends Controller
             ->join('users',Constants::USERS_ID,'=','auctions_offers.user_id')
             ->where('auctions_offers.auction_id','=',$auction_id)
             ->orderBy('auctions_offers.price','desc')
+            ->orderBy('auctions_offers.created_at','asc')
             ->get();
     }
 
     public function getCurrentTime()
     {
+
         return date(Constants::DATE_FORMAT);
+    }
+
+
+    //Declinar de forma masiva las ofertas
+
+    /**
+     * @param $auction_id
+     * @return bool
+     */
+    public function declineOffers($auction_id,$offer_id = null,Request $request = null)
+    {
+        $offers = $this->getOffers($auction_id);
+        if ($offer_id == null){
+            foreach ($offers as $o){
+                $this->offers = Offers::findOrFail($o->id);
+                $this->offers->auction_id = $auction_id;
+                $this->offers->status = Offers::NO_ACEPTADA;
+                $this->offers->save();
+            }
+        } else {
+            if ($request == null){
+                foreach ($offers as $o){
+                    $this->offers = Offers::findOrFail($o->id);
+                    $this->offers->auction_id = $auction_id;
+                    $this->offers->status = Offers::NO_ACEPTADA;
+                    $this->offers->save();
+                }
+            } else {
+                foreach ($offers as $o){
+                    if ($o->id != $offer_id) {
+                        $this->offers = Offers::findOrFail($o->id);
+                        $this->offers->auction_id = $auction_id;
+                        $this->offers->status = Offers::NO_ACEPTADA;
+                        $this->offers->save();
+                    } else {
+                        $this->offers = Offers::findOrFail($o->id);
+                        $this->offers->auction_id = $auction_id;
+                        $this->offers->status = Offers::ACEPTADA;
+                        $this->offers->save();
+                    }
+                }
+            }
+        }
+        return;
     }
 
 
