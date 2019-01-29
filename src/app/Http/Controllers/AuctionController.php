@@ -179,6 +179,9 @@ class AuctionController extends Controller
         $price = str_replace(",","",$prices);
         $available=$this->getAvailable($auction_id,$auction->amount);
 
+//        if (strtotime($bidDate) >= strtotime($auction->end))
+//            $data['sold'] = $this->offersToBid($request,$auction->id);
+
         if($request->get("i") and $request->get('i')=='c'){
             $targetprice=$auction->target_price;
             $close=($price<$targetprice)?1:0;
@@ -1032,24 +1035,30 @@ class AuctionController extends Controller
         $request->session()->put('url.intended', '/auction/offers/'.$auction_id);
         $available = $this->getAvailable($auction_id, $auction->amount);
         $offers = $this->getOffers($auction_id);
+        $count = count($offers);
+//        $declineoffer = 'auction/offers/decline/'.$auction_id;
+//        dd($declineoffer);
         foreach ($offers as $offer) {
             // Verifico la fecha de la subasta
+
             if ($auction->end >= date('Y-m-d H:i:s'))
-                return ('<h1 style="    text-align: center; margin-top: 300px; font-size: 5em">La subasta no ha culminado</h1>');
+                return ('<h1 style="    text-align: center; margin-top: 300px; font-size: 5em">La subasta no ha culminado<br>Ofertas al momento: </h1>'.$count);
 
             //verifica que el precio ofertado sea mayor e igual al de la subasta terminada
             if ($offer->price >= $offer->end_price){
                 if ($offer->status == Offers::PENDIENTE){
                     //registramos la compra a la mejor opc de compra
-                    $offerForSale = $this->offerForSale($auction, $offer);
-                    if ($offerForSale == true)
-                        return ('<h1 style="    text-align: center; margin-top: 300px; font-size: 5em">Se vendio todo</h1>');
+                    $this->offerForSale($auction, $offer);
+                    $offers = $this->getOffers($auction_id);
+                    return $offers;
                 }
             }
         }
-
-        if ($available['available'] == 0)
-            return ('<h1 style="    text-align: center; margin-top: 300px; font-size: 5em">Se vendio todo</h1>');
+        if ($available['available'] == 0){
+            $offer_id = null;
+            $this->declineOffers($auction_id,$offer_id,$request);
+            return $offers;
+        }
 
         if (count($offers)>0)
             return $offers;
@@ -1057,7 +1066,50 @@ class AuctionController extends Controller
             return ('<h1 style="    text-align: center; margin-top: 300px; font-size: 5em">No hay ofertas realizadas<br>Disponibles: '. $available['available'].'</h1>');
     }
 
-    /*funcion que llama la vista de detalles de una subasta*/
+
+    public function autoOffersBid(Request $request, $auction_id)
+    {
+
+        setlocale(LC_MONETARY, 'en_US');
+        $auction = Auction::findOrFail($auction_id);
+        $this->authorize('viewOperations', $auction);
+        $request->session()->put('url.intended', '/auction/offers/'.$auction_id);
+        $available = $this->getAvailable($auction_id, $auction->amount);
+        $offers = $this->getOffers($auction_id);
+        $count = count($offers);
+        foreach ($offers as $offer) {
+            // Verifico la fecha de la subasta
+            if ($auction->end >= date('Y-m-d H:i:s'))
+                return;
+
+            //verifica que el precio ofertado sea mayor e igual al de la subasta terminada
+            if ($offer->price >= $offer->end_price){
+                if ($offer->status == Offers::PENDIENTE){
+                    //registramos la compra a la mejor opc de compra
+                    $offerForSale = $this->offerForSale($auction, $offer);
+                        return $offerForSale;
+                }
+            }
+        }
+
+        if ($available['available'] == 0){
+            $offer_id = null;
+            $this->declineOffers($auction_id,$offer_id,$request);
+            return;
+        }
+
+        if (count($offers)>0)
+            return;
+        else
+            return;
+    }
+
+
+    /**
+     * funcion que llama la vista de detalles de una subasta
+     * @param $auction_id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function auctionDetails($auction_id){
 
         $auction = Auction::findOrFail($auction_id);
@@ -1094,12 +1146,14 @@ class AuctionController extends Controller
         $auction_id = $auction->id;
         $prices = $offer->price;
         $resp  =  array();
+        $request = null;
         $price = str_replace(",","",$prices);
         $available = $this->getAvailable($auction_id, $auction->amount);
-
+//        $offers = getOffers($auction_id);
+dd();
         if ($available['available'] > 0){
-            if ($price <= $auction->end_price)
-                return;
+            if ($price < $auction->end_price)
+                return false;
 
             //Datos de envio de correo
             $unit = $auction->batch->product->unit;
@@ -1126,12 +1180,19 @@ class AuctionController extends Controller
             $this->bid->bid_date = date('Y-m-d H:i:s');
             $this->bid->save();
 
-//Update status oferta
-            $this->offers = Offers::findOrFail($offer->id);
-            $this->offers->auction_id = $auction_id;
-            $this->offers->status = Offers::ACEPTADA;
-            $this->offers->save();
+            $offers = $this->getOffers($auction_id);
+            foreach ($offers as $o){
+                if ($o->id == $offer->id){
+                    //Update status oferta
+                    $this->offers = Offers::findOrFail($offer->id);
+                    $this->offers->auction_id = $auction_id;
+                    $this->offers->status = Offers::ACEPTADA;
+                    $this->offers->save();
+                } else {
+                    $this->declineOffers($auction_id,$o->id,$request);
+                }
 
+            }
 //Update batch_statuses
 //        $this->status = Batch::findOrFail($auction->batch_id)->status;
 //        $this->status->assigned_auction -= $available['available'];
@@ -1149,9 +1210,12 @@ class AuctionController extends Controller
                 $message->subject(trans('users.offer_Bid'));
                 $message->to($user->email);
             });
-            return true;
-        } else
-            return false;
+            return;
+        } else {
+            $offer = null;
+            $this->declineOffers($auction_id,$offer,$request);
+            return;
+        }
     }
 
     public function getOffers($auction_id)
@@ -1163,11 +1227,12 @@ class AuctionController extends Controller
             'auctions_offers.status',
             'auctions.end_price',
             'auctions.end AS FinSubasta',
+            'auctions_offers.created_at',
             'batches.caliber',
             'batches.quality',
             'products.name AS Producto',
-            'auctions_offers.user_id'/*,
-            'users.name AS Comprador'*/
+            'auctions_offers.user_id',
+            'users.nickname AS Comprador'
         )
             ->join('auctions','auctions.id','=','auction_id')
             ->join('batches','batches.id','=','auctions.batch_id')
@@ -1175,14 +1240,61 @@ class AuctionController extends Controller
             ->join('users','users.id','=','auctions_offers.user_id')
             ->where('auctions_offers.auction_id','=',$auction_id)
             ->orderBy('auctions_offers.price','desc')
+            ->orderBy('auctions_offers.created_at','asc')
             ->get();
         return $offers;
     }
 
     public function getCurrentTime()
     {
-        $date = date('Y-m-d H:i:s');
+        // Thu Jan 24 2019 12:32:17 GMT-0300 (hora estándar de Argentina)
+//        $date = date('Y-m-d H:i:s');
+        $date = strtotime(date("D M j Y h:i:s \G\M\TO", time()));
         return $date;
+    }
+
+
+    //Declinar de forma masiva las ofertas
+
+    /**
+     * @param $auction_id
+     * @return bool
+     */
+    public function declineOffers($auction_id,$offer_id = null,Request $request = null)
+    {
+        $offers = $this->getOffers($auction_id);
+        if ($offer_id == null){
+            foreach ($offers as $o){
+                $this->offers = Offers::findOrFail($o->id);
+                $this->offers->auction_id = $auction_id;
+                $this->offers->status = Offers::NO_ACEPTADA;
+                $this->offers->save();
+            }
+        } else {
+            if ($request == null){
+                foreach ($offers as $o){
+                    $this->offers = Offers::findOrFail($o->id);
+                    $this->offers->auction_id = $auction_id;
+                    $this->offers->status = Offers::NO_ACEPTADA;
+                    $this->offers->save();
+                }
+            } else {
+                foreach ($offers as $o){
+                    if ($o->id != $offer_id) {
+                        $this->offers = Offers::findOrFail($o->id);
+                        $this->offers->auction_id = $auction_id;
+                        $this->offers->status = Offers::NO_ACEPTADA;
+                        $this->offers->save();
+                    } else {
+                        $this->offers = Offers::findOrFail($o->id);
+                        $this->offers->auction_id = $auction_id;
+                        $this->offers->status = Offers::ACEPTADA;
+                        $this->offers->save();
+                    }
+                }
+            }
+        }
+        return;
     }
 
 

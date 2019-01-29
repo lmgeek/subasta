@@ -234,52 +234,9 @@
 
 
 	$(document).ready(function(){
-		//new
-		/*window.onload=hora;
-		fecha = new Date("<? echo date('Y-m-d H:i:s'); ?>");
-
-		function hora(){
-			var hora=fecha.getHours();
-			var minutos=fecha.getMinutes();
-			var segundos=fecha.getSeconds();
-			if(hora<10){ hora='0'+hora;}
-			if(minutos<10){minutos='0'+minutos; }
-			if(segundos<10){ segundos='0'+segundos; }
-			fech=hora+":"+minutos+":"+segundos;
-			document.getElementById('hora').innerHTML=fech;
-			console.log('Hora: '+fech);
-			fecha.setSeconds(fecha.getSeconds()+1);
-			setTimeout("hora()",1000);
-		}*/
-
-		// var tiempo = {};
-		// // var clock = new Date("2016-06-01 5:00:00 PM"); // Obtener la fecha y almacenar en clock
-		// var intervalo = window.setInterval(mostrar_hora, 1000); // Frecuencia de actualización
-		// var i = 0; // Esta variable me ayudará a definir los estados de intervalo
-		//
-		// function mostrar_hora(){
-		// 	$.get('current-time', function (data) {
-		// 		console.log(data);
-		// 	});
-		// 	var now = new Date();
-		//
-		// 	// Inserta la hora almacenada en clock en el span con id hora
-		// 	tiempo.horas = document.getElementById('hora');
-		// 	tiempo.horas.innerHTML = clock.getHours() - now.getHours();
-		//
-		// 	// Inserta los minutos almacenados en clock en el span con id minuto
-		// 	tiempo.minuto = document.getElementById('minuto');
-		// 	tiempo.minuto.innerHTML = clock.getMinutes()+60 - now.getMinutes();
-		//
-		// 	// Inserta los segundos almacenados en clock en el span con id segundo
-		// 	tiempo.segundos = document.getElementById('segundo')
-		// 	tiempo.segundos.innerHTML = "0" + clock.getSeconds()+60 - now.getSeconds();
-		//
-		//
-		// }
-		//end new
-
-
+		$('.timerauction').each(function(){
+			timer($(this).data('id'))
+		});
 	    $(".ver_participantes").click(function (e) {
             var lista_participantes = $("ul#participantes");
             lista_participantes.html("");
@@ -354,38 +311,46 @@
             });
         }, 1000);
 
-        setInterval(function(){
-            $('.dialLeft').each(function(k,v){
-                valores = $(v).val().split(':');
-                if (valores.length == 3){
-					nuevoValor = (valores[0]*3600)+(valores[1]*60)+(valores[2]-1);
-                }else{
-                    nuevoValor = valores[0]-1;
-                }
-                // console.log('dial.Left: ' + nuevoValor);
-                if (nuevoValor == 0){
-                    $(this).parent().parent().parent().parent().parent().fadeOut(400,function(){
-                        // on Animation Complete remove object from DOM
-                        $(this).remove();
-					});
-				}
-                $(v).val(nuevoValor).trigger("change");
-            });
-        }, 1000);
-
-		$(".dialLeft").knob({
-			'format' : function (value) {
-				var h = Math.floor(value/3600);
-				if (h<10)
-					h = "0"+h;
-				var m = Math.floor((value-(h*3600))/60);
-				if (m<10)
-					m = "0"+m;
-				var s = value%60;
-				return h+":"+m+":"+s;
-
-			}
-		});
+        // setInterval(function(){
+        //     $('.dialLeft').each(function(k,v){
+        //         valores = $(v).val().split(':');
+		//
+        //         if (valores.length == 3){
+		// 			nuevoValor = (valores[0]*3600)+(valores[1]*60)+(valores[2]-1);
+        //         }else{
+        //             nuevoValor = valores[0]-1;
+        //         }
+        //         // console.log('dial.Left: ' + nuevoValor);
+        //         if (nuevoValor == 0){
+		// 			var auctionId = $(this).attr('auctionId');
+		// 			// var url = 'auction/autofersbid/' + auctionId;
+		// 			var url = 'auction/offers/' + auctionId;
+		// 			$.get(url, function (data) {
+		// 				console.log(data);
+		// 			});
+		// 			$(this).parent().parent().parent().parent().parent().fadeOut(400,function(){
+		// 				// on Animation Complete remove object from DOM
+		// 				$(this).remove();
+		// 			});
+		//
+		// 		}
+        //         $(v).val(nuevoValor).trigger("change");
+        //     });
+        // }, 1000);
+		//
+		// $(".dialLeft").knob({
+		// 	'format' : function (value) {
+		// 		var h = Math.floor(value/3600);
+		// 		if (h<10)
+		// 			h = "0"+h;
+		// 		var m = Math.floor((value-(h*3600))/60);
+		// 		if (m<10)
+		// 			m = "0"+m;
+		// 		var s = value%60;
+		// 		return h+":"+m+":"+s;
+		//
+		// 	}
+		// });
         // $(".dialLeft").knob({
         //     'format' : function (value) {
         //         var h = Math.floor(value/60);
@@ -543,6 +508,45 @@
 			}
 
 
+		}
+	}
+
+	function timer($id) {
+		if ($("#timer" + $id).attr('data-timefin') != null) {
+			var $end = new Date($("#timer" + $id).attr('data-timefin'));
+			window['now'] = new Date().getTime();
+			var countDownDate = new Date($("#" + $id).attr('data-timefin')).getTime();
+			var distance = $end - window['now'], string = '';
+			var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+			var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+			var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+			var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+			if (days != 0) {
+				string += days + 'd ';
+			}
+			if (hours != 0 || days != 0) {
+				string += hours + 'h ';
+			}
+			if (minutes != 0 || hours != 0 || days != 0) {
+				string += minutes + 'm ';
+			}
+			string += seconds + 's';
+			$('#timer'+$id).html(string);
+			if (distance < 0) {
+				console.log(distance);
+				var url = 'auction/offers/' + $id;
+				console.log(url);
+				$.get(url, function (data) {
+				});
+				$("#timer" + $id).parent().parent().parent().parent().fadeOut(400,function(){
+					// on Animation Complete remove object from DOM
+					$(this).remove();
+				});
+			} else {
+				setTimeout(function () {
+					timer($id);
+				}, 1000);
+			}
 		}
 	}
 
