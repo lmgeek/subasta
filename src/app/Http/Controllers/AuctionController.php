@@ -499,7 +499,7 @@ class AuctionController extends Controller
         $this->authorize('qualifyBid', $bid);
 
         $bid->status = $request->input('concretada');
-        if($request->input('concretada') == Bid::NO_CONCRETADA){
+        if($request->input('concretada') == Constants::NO_CONCRETADA){
             $bid->auction->cancelBid($bid);
             $bid->reason = $request->input('motivo_no_concretada');
         }
@@ -511,7 +511,7 @@ class AuctionController extends Controller
 		$this->incrementRatingUser($bid , $user_id);
 		
 		
-		if ($request->input(Constants::INPUT_CALIFICACION) == Bid::CALIFICACION_NEGATIVA)
+		if ($request->input(Constants::INPUT_CALIFICACION) == Constants::CALIFICACION_NEGATIVA)
 		{
 			$internals = User::getInternals(array(User::APROBADO));
 			foreach($internals as $i)
@@ -596,13 +596,13 @@ class AuctionController extends Controller
 			$userRating->save();
 		}
 		
-		if ($bid->seller_calification == Bid::CALIFICACION_POSITIVA)
+		if ($bid->seller_calification == Constants::CALIFICACION_POSITIVA)
 		{
 			$userRating->increment('positive', 1);
-		}else if ($bid->seller_calification == Bid::CALIFICACION_NEGATIVA)
+		}else if ($bid->seller_calification == Constants::CALIFICACION_NEGATIVA)
 		{
 			$userRating->increment('negative', 1);
-		}else if ($bid->seller_calification == Bid::CALIFICACION_NEUTRAL)
+		}else if ($bid->seller_calification == Constants::CALIFICACION_NEUTRAL)
 		{
 			$userRating->increment('neutral', 1);
 		}
@@ -1070,7 +1070,7 @@ class AuctionController extends Controller
             }
             //verifica que el precio ofertado sea mayor e igual al de la subasta terminada
             if ($offer->price >= $offer->end_price){
-                if ($offer->status == Offers::PENDIENTE){
+                if ($offer->status == Constants::PENDIENTE){
                     //registramos la compra a la mejor opc de compra
                     $offerForSale = $this->offerForSale($auction, $offer);
                     if ($offerForSale){
@@ -1153,7 +1153,7 @@ class AuctionController extends Controller
             $this->bid->auction_id = $auction_id;
             $this->bid->amount = $available[Constants::AVAILABLE];
             $this->bid->price = $prices;
-            $this->bid->status = Bid::PENDIENTE;
+            $this->bid->status = Constants::PENDIENTE;
             $this->bid->bid_date = date(Constants::DATE_FORMAT);
             $this->bid->save();
 

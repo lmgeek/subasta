@@ -75,15 +75,15 @@
                                         <br>
                                         <div class="col-md-4">
                                             <label for="weigth_small">Chico</label>
-                                            <input type="text"  name="weigth_small" class="form-control number" id="weigth_small" value="@if (is_null(old('weigth_small'))){{ number_format($product->weigth_small,2,",","") }}@else{{ old('weigth_small') }}@endif">
+                                            <input type="text"  name="weight_small" class="form-control number" id="weigth_small" value="@if (is_null(old('weight_small'))){{ number_format($product->weigth_small,2,",","") }}@else{{ old('weight_small') }}@endif">
                                         </div>
                                         <div class="col-md-4">
                                             <label for="weigth_medium">Mediano</label>
-                                            <input type="text" name="weigth_medium" class="form-control number" id="weigth_medium" value="@if (is_null(old('weigth_medium'))){{ number_format($product->weigth_medium,2,",","") }}@else{{ old('weigth_medium') }}@endif">
+                                            <input type="text" name="weight_medium" class="form-control number" id="weigth_medium" value="@if (is_null(old('weight_medium'))){{ number_format($product->weigth_medium,2,",","") }}@else{{ old('weight_medium') }}@endif">
                                         </div>
                                         <div class="col-md-4">
                                             <label for="weigth_big">Grande</label>
-                                            <input type="text" name="weigth_big" class="form-control number" id="weigth_big" value="@if (is_null(old('weigth_big'))){{ number_format($product->weigth_big,2,",","") }}@else{{ old('weigth_big') }}@endif">
+                                            <input type="text" name="weight_big" class="form-control number" id="weigth_big" value="@if (is_null(old('weight_big'))){{ number_format($product->weigth_big,2,",","") }}@else{{ old('weight_big') }}@endif">
                                         </div>
                                         <small><p style="color: gray; font-style: italic;">   Sólo permite 2 decimales</p></small>
                                     </div>

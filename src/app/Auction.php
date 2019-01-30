@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Auth;
 use App\Bid;
 use Nexmo\Call\Collection;
-use App\Constants;
+use App\Constants as ConstantsAlias;
 class Auction extends Model{
     use priceTrait;
     protected $table = 'auctions';
@@ -95,27 +95,27 @@ class Auction extends Model{
     }
 
     private function getAuctionLeftTime($type){
-        return ($type==Constants::MINUTES)?(Carbon::now()->diffInMinutes(Carbon::createFromFormat(Constants::DATE_FORMAT,$this->end))):(Carbon::now()->diffInSeconds(Carbon::createFromFormat( Constants::DATE_FORMAT,$this->end)));
+        return ($type== Constants::MINUTES)?(Carbon::now()->diffInMinutes(Carbon::createFromFormat(Constants::DATE_FORMAT,$this->end))):(Carbon::now()->diffInSeconds(Carbon::createFromFormat( Constants::DATE_FORMAT,$this->end)));
     }
 
     private function getAuctionDuration($type)
     {
-        return ($type==Constants::MINUTES)?(Carbon::createFromFormat( Constants::DATE_FORMAT,$this->start)->diffInMinutes(Carbon::createFromFormat( Constants::DATE_FORMAT,$this->end))):(Carbon::createFromFormat( Constants::DATE_FORMAT,$this->start)->diffInSeconds(Carbon::createFromFormat( Constants::DATE_FORMAT,$this->end)));
+        return ($type== Constants::MINUTES)?(Carbon::createFromFormat( Constants::DATE_FORMAT,$this->start)->diffInMinutes(Carbon::createFromFormat( Constants::DATE_FORMAT,$this->end))):(Carbon::createFromFormat( Constants::DATE_FORMAT,$this->start)->diffInSeconds(Carbon::createFromFormat( Constants::DATE_FORMAT,$this->end)));
     }
 
     public static function filterAndPaginate($status , $product = null , $seller = null , $boat = null , $type = Constants::AUCTION_PUBLIC , $withStock = false){
         $now =date(Constants::DATE_FORMAT);
         switch ($status){
             case Constants::FINISHED:
-                $rtrn = Auction::where('end','<=',$now)->where(Constants::AUCTIONS_TYPE,Constants::EQUAL,$type)->orderBy(Constants::START,'DESC');
+                $rtrn = Auction::where('end','<=',$now)->where(Constants::AUCTIONS_TYPE, Constants::EQUAL,$type)->orderBy(Constants::START,'DESC');
                 break;
             case Constants::FUTURE:
-                $rtrn = Auction::select( Constants::AUCTIONS_SELECT_ALL)->join(Constants::BATCHES,Constants::AUCTIONS_BATCH_ID,Constants::EQUAL,Constants::BATCH_ID);
+                $rtrn = Auction::select( Constants::AUCTIONS_SELECT_ALL)->join(Constants::BATCHES, Constants::AUCTIONS_BATCH_ID, Constants::EQUAL, Constants::BATCH_ID);
                 if ( null != $product  ) {
                     $rtrn = $rtrn->whereIn('batches.product_id',$product);
                 }
                 if ( null != $seller || null != $boat ) {
-                    $rtrn = $rtrn->join(Constants::ARRIVES,Constants::BATCH_ARRIVE_ID,Constants::EQUAL,Constants::ARRIVES_ID)->join(Constants::BOATS,Constants::ARRIVES_BOAT_ID,Constants::EQUAL,Constants::BOATS_ID)->join(Constants::USERS,Constants::BOATS_USER_ID,Constants::EQUAL,Constants::USERS_ID);
+                    $rtrn = $rtrn->join(Constants::ARRIVES, Constants::BATCH_ARRIVE_ID, Constants::EQUAL, Constants::ARRIVES_ID)->join(Constants::BOATS, Constants::ARRIVES_BOAT_ID, Constants::EQUAL, Constants::BOATS_ID)->join(Constants::USERS, Constants::BOATS_USER_ID, Constants::EQUAL, Constants::USERS_ID);
                     if (null != $seller) {
                         $rtrn = $rtrn->whereIn(Constants::USERS_ID,$seller);
                     }
@@ -124,24 +124,24 @@ class Auction extends Model{
                     }
 
                 }
-                $rtrn = $rtrn->where(Constants::START,'>',$now)->where(Constants::AUCTIONS_TYPE,Constants::EQUAL,$type)->orderBy(Constants::START,'DESC');
+                $rtrn = $rtrn->where(Constants::START,'>',$now)->where(Constants::AUCTIONS_TYPE, Constants::EQUAL,$type)->orderBy(Constants::START,'DESC');
                 break;
             case Constants::MY_IN_CURSE:
-                $rtrn = Auction::select( Constants::AUCTIONS_SELECT_ALL)->join(Constants::BATCHES,Constants::AUCTIONS_BATCH_ID,Constants::EQUAL,Constants::BATCH_ID)->join(Constants::ARRIVES,Constants::BATCH_ARRIVE_ID,Constants::EQUAL,Constants::ARRIVES_ID)->join(Constants::BOATS,Constants::ARRIVES_BOAT_ID,Constants::EQUAL,Constants::BOATS_ID)->join(Constants::USERS,Constants::BOATS_USER_ID,Constants::EQUAL,Constants::USERS_ID)->where(Constants::USERS_ID,Auth::user()->id)->where(Constants::AUCTIONS_START,'<',$now)->where(Constants::AUCTIONS_END,'>',$now)->orderBy(Constants::AUCTIONS_END,'desc');
+                $rtrn = Auction::select( Constants::AUCTIONS_SELECT_ALL)->join(Constants::BATCHES, Constants::AUCTIONS_BATCH_ID, Constants::EQUAL, Constants::BATCH_ID)->join(Constants::ARRIVES, Constants::BATCH_ARRIVE_ID, Constants::EQUAL, Constants::ARRIVES_ID)->join(Constants::BOATS, Constants::ARRIVES_BOAT_ID, Constants::EQUAL, Constants::BOATS_ID)->join(Constants::USERS, Constants::BOATS_USER_ID, Constants::EQUAL, Constants::USERS_ID)->where(Constants::USERS_ID,Auth::user()->id)->where(Constants::AUCTIONS_START,'<',$now)->where(Constants::AUCTIONS_END,'>',$now)->orderBy(Constants::AUCTIONS_END,'desc');
                 break;
             case Constants::MY_FUTURE:
-                $rtrn = Auction::select( Constants::AUCTIONS_SELECT_ALL)->join(Constants::BATCHES,Constants::AUCTIONS_BATCH_ID,Constants::EQUAL,Constants::BATCH_ID)->join(Constants::ARRIVES,Constants::BATCH_ARRIVE_ID,Constants::EQUAL,Constants::ARRIVES_ID)->join(Constants::BOATS,Constants::ARRIVES_BOAT_ID,Constants::EQUAL,Constants::BOATS_ID)->join(Constants::USERS,Constants::BOATS_USER_ID,Constants::EQUAL,Constants::USERS_ID)->where(Constants::USERS_ID,Auth::user()->id)->where(Constants::AUCTIONS_START,'>',$now)->orderBy('auctions.created_at','desc');
+                $rtrn = Auction::select( Constants::AUCTIONS_SELECT_ALL)->join(Constants::BATCHES, Constants::AUCTIONS_BATCH_ID, Constants::EQUAL, Constants::BATCH_ID)->join(Constants::ARRIVES, Constants::BATCH_ARRIVE_ID, Constants::EQUAL, Constants::ARRIVES_ID)->join(Constants::BOATS, Constants::ARRIVES_BOAT_ID, Constants::EQUAL, Constants::BOATS_ID)->join(Constants::USERS, Constants::BOATS_USER_ID, Constants::EQUAL, Constants::USERS_ID)->where(Constants::USERS_ID,Auth::user()->id)->where(Constants::AUCTIONS_START,'>',$now)->orderBy('auctions.created_at','desc');
                 break;
             case Constants::MY_FINISHED:
-                $rtrn = Auction::select( Constants::AUCTIONS_SELECT_ALL)->join(Constants::BATCHES,Constants::AUCTIONS_BATCH_ID,Constants::EQUAL,Constants::BATCH_ID)->join(Constants::ARRIVES,Constants::BATCH_ARRIVE_ID,Constants::EQUAL,Constants::ARRIVES_ID)->join(Constants::BOATS,Constants::ARRIVES_BOAT_ID,Constants::EQUAL,Constants::BOATS_ID)->join(Constants::USERS,Constants::BOATS_USER_ID,Constants::EQUAL,Constants::USERS_ID)->where(Constants::USERS_ID,Auth::user()->id)->where(Constants::AUCTIONS_END,'<=',$now)->orderBy('auctions.created_at','desc');
+                $rtrn = Auction::select( Constants::AUCTIONS_SELECT_ALL)->join(Constants::BATCHES, Constants::AUCTIONS_BATCH_ID, Constants::EQUAL, Constants::BATCH_ID)->join(Constants::ARRIVES, Constants::BATCH_ARRIVE_ID, Constants::EQUAL, Constants::ARRIVES_ID)->join(Constants::BOATS, Constants::ARRIVES_BOAT_ID, Constants::EQUAL, Constants::BOATS_ID)->join(Constants::USERS, Constants::BOATS_USER_ID, Constants::EQUAL, Constants::USERS_ID)->where(Constants::USERS_ID,Auth::user()->id)->where(Constants::AUCTIONS_END,'<=',$now)->orderBy('auctions.created_at','desc');
                 break;
             default:
-                $rtrn = Auction::select( Constants::AUCTIONS_SELECT_ALL)->join(Constants::BATCHES,Constants::AUCTIONS_BATCH_ID,Constants::EQUAL,Constants::BATCH_ID);
+                $rtrn = Auction::select( Constants::AUCTIONS_SELECT_ALL)->join(Constants::BATCHES, Constants::AUCTIONS_BATCH_ID, Constants::EQUAL, Constants::BATCH_ID);
                 if ( null != $product  ) {
                     $rtrn = $rtrn->whereIn('batches.product_id',$product);
                 }
                 if ( null != $seller || null != $boat ) {
-                    $rtrn = $rtrn->join(Constants::ARRIVES,Constants::BATCH_ARRIVE_ID,Constants::EQUAL,Constants::ARRIVES_ID)->join(Constants::BOATS,Constants::ARRIVES_BOAT_ID,Constants::EQUAL,Constants::BOATS_ID)->join(Constants::USERS,Constants::BOATS_USER_ID,Constants::EQUAL,Constants::USERS_ID);
+                    $rtrn = $rtrn->join(Constants::ARRIVES, Constants::BATCH_ARRIVE_ID, Constants::EQUAL, Constants::ARRIVES_ID)->join(Constants::BOATS, Constants::ARRIVES_BOAT_ID, Constants::EQUAL, Constants::BOATS_ID)->join(Constants::USERS, Constants::BOATS_USER_ID, Constants::EQUAL, Constants::USERS_ID);
                     if (null != $seller) {
                         $rtrn = $rtrn->whereIn(Constants::USERS_ID,$seller);
                     }
@@ -149,7 +149,7 @@ class Auction extends Model{
                         $rtrn = $rtrn->whereIn(Constants::BOATS_ID,$boat);
                     }
                 }
-                $rtrn = $rtrn->where(Constants::START,'<',$now)->where('end','>',$now)->where(Constants::AUCTIONS_TYPE,Constants::EQUAL,$type)->where(Constants::ACTIVE_LIT,Constants::EQUAL,Constants::ACTIVE)->orderBy('end','asc');
+                $rtrn = $rtrn->where(Constants::START,'<',$now)->where('end','>',$now)->where(Constants::AUCTIONS_TYPE, Constants::EQUAL,$type)->where(Constants::ACTIVE_LIT, Constants::EQUAL, Constants::ACTIVE)->orderBy('end','asc');
                 break;
         }
         if ($withStock){
@@ -179,10 +179,14 @@ class Auction extends Model{
     }
 
     public static function catUserByAuctions($iduser){
-        $cant=count(Auction::select( Constants::AUCTIONS_SELECT_ALL)->join(Constants::BATCHES,Constants::AUCTIONS_BATCH_ID,Constants::EQUAL,Constants::BATCH_ID)->join(Constants::AUCTIONS_INVITES,Constants::AUCTIONS_ID,Constants::EQUAL,'auctions_invites.auction_id')->where('auctions_invites.user_id',Constants::EQUAL,$iduser));
-        if($cant<500){
+        $cant=count(Auction::select( Constants::AUCTIONS_SELECT_ALL)
+            ->join(Constants::BATCHES, Constants::AUCTIONS_BATCH_ID, Constants::EQUAL, Constants::BATCH_ID)
+            ->join(Constants::ARRIVES, Constants::BATCH_ARRIVE_ID, Constants::EQUAL,Constants::ARRIVES_ID)
+            ->join(Constants::BOATS, Constants::ARRIVES_BOAT_ID, Constants::EQUAL,Constants::BOATS_ID)
+            ->where('boats.user_id', Constants::EQUAL,$iduser)->get());
+        if($cant<Constants::CANT_MAX_BRONZE){
             return 'Bronze';
-        }elseif($cant>=500 && $cant<1000){
+        }elseif($cant>=Constants::CANT_MAX_BRONZE && $cant<Constants::CANT_MAX_SILVER){
             return 'Silver';
         }else{
             return 'Gold';
@@ -192,7 +196,7 @@ class Auction extends Model{
         $sold = 0;
         $data = array();
         $bids = Bid::Select()
-            ->where(Constants::STATUS,'<>',Constants::NO_CONCRETADA)
+            ->where(Constants::STATUS,'<>', Constants::NO_CONCRETADA)
             ->where(Constants::BIDS_AUCTION_ID,$auction_id)
             ->get();
 
@@ -209,21 +213,47 @@ class Auction extends Model{
             return 0;
         }
         $auction=AuctionInvited::select('*')
-            ->where(Constants::AUCTION_INV_AUCTION_ID,Constants::EQUAL,$id)
-            ->where('user_id',Constants::EQUAL,Auth::user()->id)->get();
-        return (count($auction)>0)?Constants::ACTIVE:Constants::INACTIVE;
+            ->where(Constants::AUCTION_INV_AUCTION_ID, Constants::EQUAL,$id)
+            ->where('user_id', Constants::EQUAL,Auth::user()->id)->get();
+        return (count($auction)>0)? Constants::ACTIVE: Constants::INACTIVE;
+    }
+    public static function AuctionsQueryBuilder($idauction=null,$idstoavoid=null,$batchid=null,$productid=null,$sellerid=null,$boatid=null,$portid=null,$orderby='end',$order='ASC',$paginate=false){
+        $auctions = Auction::select( Constants::AUCTIONS_SELECT_ALL)
+            ->join(Constants::BATCHES, Constants::AUCTIONS_BATCH_ID, Constants::EQUAL, Constants::BATCH_ID)
+            ->join(Constants::ARRIVES, Constants::BATCH_ARRIVE_ID, Constants::EQUAL, Constants::ARRIVES_ID)
+            ->join(Constants::PORT,'arrives.port_id', Constants::EQUAL,'port.id')
+            ->join(Constants::BOATS, Constants::ARRIVES_BOAT_ID, Constants::EQUAL, Constants::BOATS_ID)
+            ->join(Constants::USERS, Constants::BOATS_USER_ID, Constants::EQUAL, Constants::USERS_ID);
+        if($idauction!=null){
+            $auctions=$auctions->where(Constants::AUCTIONS_ID, Constants::EQUAL,$idauction);
+        }elseif($idstoavoid!=null){
+            $auctions=$auctions->whereNotIn(Constants::AUCTIONS_ID,$idstoavoid);
+        }
+        if($batchid!=null){
+            $auctions=$auctions->where(Constants::AUCTIONS_BATCH_ID, Constants::EQUAL,$batchid);
+        }
+        if($productid!=null){
+            $auctions=$auctions->where('batches.product_id', Constants::EQUAL,$productid);
+        }
+        if($sellerid!=null){
+            $auctions = $auctions->whereIn(Constants::USERS_ID,$sellerid);
+        }
+        if($boatid!=null){
+            $auctions=$auctions->whereIn(Constants::BOATS_ID,$boatid);
+        }
+        if($portid!=null){
+            $auctions=$auctions->whereIn('arrives.port_id',$portid);
+        }
+        $auctions=$auctions->where(Constants::ACTIVE_LIT, Constants::EQUAL, Constants::ACTIVE)->orderBy($orderby,$order);
+        if($paginate==false){
+            return $auctions->get();
+        }else{
+            return $auctions->paginate();
+        }
     }
     public static function auctionHome($ids=null){
         $now =date(Constants::DATE_FORMAT);
-        $auctions = Auction::select( Constants::AUCTIONS_SELECT_ALL)
-            ->join(Constants::BATCHES,Constants::AUCTIONS_BATCH_ID,Constants::EQUAL,Constants::BATCH_ID)
-            ->join(Constants::ARRIVES,Constants::BATCH_ARRIVE_ID,Constants::EQUAL,Constants::ARRIVES_ID)
-            ->join(Constants::PORT,'arrives.port_id',Constants::EQUAL,'port.id')
-            ->where(Constants::ACTIVE_LIT,Constants::EQUAL,Constants::ACTIVE);
-        if($ids!=null){
-            $auctions=$auctions->whereNotIn(Constants::AUCTIONS_ID,$ids);
-        }
-        $auctions=$auctions->orderBy('end','asc')->get();
+        $auctions=self::AuctionsQueryBuilder(null,$ids);
         $counter=0;$continue=1;
         $return=array(Constants::FINISHED=>array(), Constants::IN_CURSE=>array(), Constants::FUTURE=>array());
         while($continue==1){
@@ -231,8 +261,8 @@ class Auction extends Model{
                 return $return;
             }
             $availability=self::getAvailable($auctions[$counter]->id,$auctions[$counter]->amount)['available'];
-            $timeline=($auctions[$counter]->end>$now && $availability>0)?Constants::IN_CURSE:(($auctions[$counter]->start<$now || $availability<=0)?Constants::FINISHED:Constants::FUTURE);
-            if($auctions[$counter]->type==Constants::AUCTION_PUBLIC || ($auctions[$counter]->type==Constants::AUCTION_PRIVATE && self::checkifUserInvited($auctions[$counter]->id)==Constants::ACTIVE)){
+            $timeline=($auctions[$counter]->end>$now && $availability>0)? Constants::IN_CURSE:(($auctions[$counter]->start<$now || $availability<=0)? Constants::FINISHED: Constants::FUTURE);
+            if($auctions[$counter]->type== Constants::AUCTION_PUBLIC || ($auctions[$counter]->type== Constants::AUCTION_PRIVATE && self::checkifUserInvited($auctions[$counter]->id)== Constants::ACTIVE)){
                 $return[$timeline][]=$auctions[$counter];
             }
             $counter++;
@@ -244,8 +274,8 @@ class Auction extends Model{
     {
         $now =date(Constants::DATE_FORMAT);
         $rtrn = Auction::select( Constants::AUCTIONS_SELECT_ALL)
-            ->join(Constants::BATCHES,Constants::AUCTIONS_BATCH_ID,Constants::EQUAL,Constants::BATCH_ID)
-            ->join(Constants::AUCTIONS_INVITES,Constants::AUCTIONS_ID,Constants::EQUAL,Constants::AUCTION_INV_AUCTION_ID);
+            ->join(Constants::BATCHES, Constants::AUCTIONS_BATCH_ID, Constants::EQUAL, Constants::BATCH_ID)
+            ->join(Constants::AUCTIONS_INVITES, Constants::AUCTIONS_ID, Constants::EQUAL, Constants::AUCTION_INV_AUCTION_ID);
 
         if ($status == Constants::FUTURE)
         {
@@ -255,9 +285,9 @@ class Auction extends Model{
             $rtrn = $rtrn->where('end','>',$now);
         }
 
-        return $rtrn->where(Constants::AUCTIONS_TYPE,Constants::EQUAL,Constants::AUCTION_PRIVATE)
-            ->where('auctions_invites.user_id',Constants::EQUAL,$user_id)
-            ->where(Constants::ACTIVE_LIT,Constants::EQUAL,Constants::ACTIVE)
+        return $rtrn->where(Constants::AUCTIONS_TYPE, Constants::EQUAL, Constants::AUCTION_PRIVATE)
+            ->where('auctions_invites.user_id', Constants::EQUAL,$user_id)
+            ->where(Constants::ACTIVE_LIT, Constants::EQUAL, Constants::ACTIVE)
             ->orderBy('end','DESC')
             ->paginate();
     }
@@ -349,7 +379,7 @@ class Auction extends Model{
         $this->subscription->save();
     }
     public function userInvited(){
-        return $this->belongsToMany('App\User',Constants::AUCTIONS_INVITES)->orderBy("name");
+        return $this->belongsToMany('App\User', Constants::AUCTIONS_INVITES)->orderBy("name");
     }
     static function getClosingAuction(){
         dd(Auction::find(66)->bids);
@@ -359,7 +389,7 @@ class Auction extends Model{
         $vendido = 0;
 
         $bids = Bid::Select()
-            ->where(Constants::STATUS,'<>',Constants::NO_CONCRETADA)
+            ->where(Constants::STATUS,'<>', Constants::NO_CONCRETADA)
             ->where(Constants::BIDS_AUCTION_ID,$auction_id)
             ->get();
 
@@ -386,7 +416,7 @@ class Auction extends Model{
 
     public function amountSold($auction_id){
         $amount = Bid::Select()->where(Constants::STATUS,'<>',Bid::NO_CONCRETADA)
-            ->where(Constants::BIDS_AUCTION_ID,Constants::EQUAL,$auction_id)
+            ->where(Constants::BIDS_AUCTION_ID, Constants::EQUAL,$auction_id)
             ->get();
         $amount = $amount->toArray();
         echo count($amount);

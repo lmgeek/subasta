@@ -10,6 +10,7 @@ use App\User;
 use App\Vendedor;
 use Auth;
 use Hash;
+use App\Constants;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Session;

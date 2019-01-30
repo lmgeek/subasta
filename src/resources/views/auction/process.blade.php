@@ -31,17 +31,17 @@
                             <div class="row">
                                 <div class="col-md-12 text-center">
                                     <div class="btn-group" data-toggle="buttons">
-                                        <label class="btn btn-white btn_concretada {{ (old('concretada',null) == \App\Bid::CONCRETADA ? 'active': '') }}">
-                                            <input type="radio" value="{{ \App\Bid::CONCRETADA }}" {{ (old('concretada',null) == \App\Bid::CONCRETADA ? 'checked': '') }} name="concretada" id="ventaConcretada">
+                                        <label class="btn btn-white btn_concretada {{ (old('concretada',null) == \App\Constants::CONCRETADA ? 'active': '') }}">
+                                            <input type="radio" value="{{ \App\Constants::CONCRETADA }}" {{ (old('concretada',null) == \App\Constants::CONCRETADA ? 'checked': '') }} name="concretada" id="ventaConcretada">
                                             Compra Concretada
                                         </label>
-                                        <label class="btn btn-white btn_noConcretada {{ (old('concretada',null) == \App\Bid::NO_CONCRETADA ? 'active': '') }}">
-                                            <input type="radio"  value="{{ \App\Bid::NO_CONCRETADA }}" {{ (old('concretada',null) == \App\Bid::NO_CONCRETADA ? 'checked': '') }} name="concretada" id="ventaNoConcretada">
+                                        <label class="btn btn-white btn_noConcretada {{ (old('concretada',null) == \App\Constants::NO_CONCRETADA ? 'active': '') }}">
+                                            <input type="radio"  value="{{ \App\Constants::NO_CONCRETADA }}" {{ (old('concretada',null) == \App\Constants::NO_CONCRETADA ? 'checked': '') }} name="concretada" id="ventaNoConcretada">
                                             Compra no concretada
                                         </label>
                                     </div>
                                 </div>
-                                <div class="col-md-12 text-center motivoNoConcretada" style="{{ (old('concretada',null) == \App\Bid::NO_CONCRETADA ? 'display: block;': 'display: none;') }}">
+                                <div class="col-md-12 text-center motivoNoConcretada" style="{{ (old('concretada',null) == \App\Constants::NO_CONCRETADA ? 'display: block;': 'display: none;') }}">
                                     <textarea name="motivo_no_concretada" placeholder="Motivo" id="" cols="30" rows="10">{{ old('motivo_no_concretada','') }}</textarea>
                                 </div>
                             </div>
@@ -52,16 +52,16 @@
                                 </div>
                                 <div class="col-md-12 text-center">
                                     <div class="btn-group" data-toggle="buttons">
-                                        <label class="btn btn-white btn_positivo {{ (old('calificacion',null) == \App\Bid::CALIFICACION_POSITIVA ? 'active': '') }}">
-                                            <input type="radio" value="{{ \App\Bid::CALIFICACION_POSITIVA }}" {{ (old('calificacion',null) == \App\Bid::CALIFICACION_POSITIVA ? 'checked': '') }} name="calificacion" id="calificacionPositiva">
+                                        <label class="btn btn-white btn_positivo {{ (old('calificacion',null) == \App\Constants::CALIFICACION_POSITIVA ? 'active': '') }}">
+                                            <input type="radio" value="{{ \App\Constants::CALIFICACION_POSITIVA }}" {{ (old('calificacion',null) == \App\Constants::CALIFICACION_POSITIVA ? 'checked': '') }} name="calificacion" id="calificacionPositiva">
                                             Calificaci&oacute;n Positiva
                                         </label>
-                                        <label class="btn btn-white btn_neutro {{ (old('calificacion',null) == \App\Bid::CALIFICACION_NEUTRAL ? 'active': '') }}">
-                                            <input type="radio"  value="{{ \App\Bid::CALIFICACION_NEUTRAL }}" {{ (old('calificacion',null) == \App\Bid::CALIFICACION_NEUTRAL ? 'checked': '') }} name="calificacion" id="calificacionNeutra">
+                                        <label class="btn btn-white btn_neutro {{ (old('calificacion',null) == \App\Constants::CALIFICACION_NEUTRAL ? 'active': '') }}">
+                                            <input type="radio"  value="{{ \App\Constants::CALIFICACION_NEUTRAL }}" {{ (old('calificacion',null) == \App\Constants::CALIFICACION_NEUTRAL ? 'checked': '') }} name="calificacion" id="calificacionNeutra">
                                             Calificaci&oacute;n Neutra
                                         </label>
-                                        <label class="btn btn-white btn_negativa {{ (old('calificacion',null) == \App\Bid::CALIFICACION_NEGATIVA ? 'active': '') }}">
-                                            <input type="radio"  value="{{ \App\Bid::CALIFICACION_NEGATIVA}}" {{ (old('calificacion',null) == \App\Bid::CALIFICACION_NEGATIVA ? 'checked': '') }} name="calificacion" id="calificacionNegativa">
+                                        <label class="btn btn-white btn_negativa {{ (old('calificacion',null) == \App\Constants::CALIFICACION_NEGATIVA ? 'active': '') }}">
+                                            <input type="radio"  value="{{ \App\Constants::CALIFICACION_NEGATIVA}}" {{ (old('calificacion',null) == \App\Constants::CALIFICACION_NEGATIVA ? 'checked': '') }} name="calificacion" id="calificacionNegativa">
                                             Calificaci&oacute;n Negativa
                                         </label>
                                     </div>
@@ -91,7 +91,7 @@
     <script>
         $(document).ready(function () {
             $('input[name="concretada"]').bind('change',function(){
-                var showOrHide = ($(this).val() == '{{ \App\Bid::NO_CONCRETADA }}') ? true : false;
+                var showOrHide = ($(this).val() == '{{ \App\Constants::NO_CONCRETADA }}') ? true : false;
                 $('.motivoNoConcretada').toggle(showOrHide);
             });
         });
