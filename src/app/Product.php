@@ -68,4 +68,7 @@ class Product extends Model
 
         return (($total == $total_amount));
     }
+    public static function getProductFromId($id){
+        return self::select()->where('products.id','=',$id)->get()[0]['name'];
+    }
 }

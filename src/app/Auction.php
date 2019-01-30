@@ -218,12 +218,12 @@ class Auction extends Model{
         $auctions = Auction::select( Constants::AUCTIONS_SELECT_ALL)
             ->join(Constants::BATCHES,Constants::AUCTIONS_BATCH_ID,Constants::EQUAL,Constants::BATCH_ID)
             ->join(Constants::ARRIVES,Constants::BATCH_ARRIVE_ID,Constants::EQUAL,Constants::ARRIVES_ID)
-            ->join('port','arrives.port_id',Constants::EQUAL,'port.id')
+            ->join(Constants::PORT,'arrives.port_id',Constants::EQUAL,'port.id')
             ->where(Constants::ACTIVE_LIT,Constants::EQUAL,Constants::ACTIVE);
         if($ids!=null){
             $auctions=$auctions->whereNotIn(Constants::AUCTIONS_ID,$ids);
         }
-        $auctions=$auctions->orderBy('end','asc')->paginate();
+        $auctions=$auctions->orderBy('end','asc')->get();
         $counter=0;$continue=1;
         $return=array(Constants::FINISHED=>array(), Constants::IN_CURSE=>array(), Constants::FUTURE=>array());
         while($continue==1){

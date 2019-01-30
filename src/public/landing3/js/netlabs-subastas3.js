@@ -103,9 +103,6 @@ function timer($id) {
         string += seconds + 's';
         $('#timer'+$id).html(string);
         if (distance < 0) {
-            var url = 'auction/offers/' + $id;
-            $.get(url, function (data) {
-            });
             endAuction($id);
         } else {
             setTimeout(function () {

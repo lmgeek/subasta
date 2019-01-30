@@ -163,46 +163,20 @@ $portsall=\App\Ports::Select()->get();
                         <p>Busca las subastas m&aacute;s cercanas a tu lugar de residencia.</p>
                     </div>
                 </div>
+<?php $portsimg=array('mdq.jpg','caba.jpg','madryn.jpg','lavalle.jpg');
+for($z=0;$z<count($portsall);$z++){
+    $cantsubastas=(isset($ports[$portsall[$z]['id']]))?$ports[$portsall[$z]['id']]:0;
+    ?>
                 <div class="col-xl-3 col-md-6">
                     <!-- Photo Box -->
-                    <a href="#" class="photo-box" data-background-image="landing3/images/puertos/mdq.jpg">
+                    <a href="<?=($cantsubastas>0)?'/subastas?port_id='.$portsall[$z]['id']:'#'?>" class="photo-box" data-background-image="landing3/images/puertos/<?=$portsimg[$z]?>">
                         <div class="photo-box-content">
-                            <h3>Mar del Plata</h3>
-                            <span>{{(isset($ports[1]))?$ports[1]['cant']:0}} Subasta<?=(isset($ports[1]))?(($ports[1]['cant']!=1)?'s':''):'s'?></span>
+                            <h3><?=$portsall[$z]['name']?></h3>
+                            <span>{{$cantsubastas}} Subasta<?=(isset($ports[$portsall[$z]['id']]))?(($ports[$portsall[$z]['id']]!=1)?'s':''):'s'?></span>
                         </div>
                     </a>
                 </div>
-
-                <div class="col-xl-3 col-md-6">
-                    <!-- Photo Box -->
-                    <a href="#" class="photo-box" data-background-image="landing3/images/puertos/caba.jpg">
-                        <div class="photo-box-content">
-                            <h3>Buenos Aires</h3>
-                            <span>{{(isset($ports[2]))?$ports[2]['cant']:0}} Subasta<?=(isset($ports[2]))?(($ports[2]['cant']!=1)?'s':''):'s'?></span>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col-xl-3 col-md-6">
-                    <!-- Photo Box -->
-                    <a href="#" class="photo-box" data-background-image="landing3/images/puertos/madryn.jpg">
-                        <div class="photo-box-content">
-                            <h3>Puerto Madryn</h3>
-                            <span>{{(isset($ports[3]))?$ports[3]['cant']:0}} Subasta<?=(isset($ports[3]))?(($ports[3]['cant']!=1)?'s':''):'s'?></span>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col-xl-3 col-md-6">
-                    <!-- Photo Box -->
-                    <a href="#" class="photo-box" data-background-image="landing3/images/puertos/lavalle.jpg">
-                        <div class="photo-box-content">
-                            <h3>General Lavalle</h3>
-                            <span>{{(isset($ports[4]))?$ports[4]['cant']:0}} Subasta<?=(isset($ports[4]))?(($ports[4]['cant']!=1)?'s':''):'s'?></span>
-                        </div>
-                    </a>
-                </div>
-
+<?php }?>
             </div>
         </div>
     </div>

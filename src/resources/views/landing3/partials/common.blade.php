@@ -51,3 +51,30 @@ gtag('set', {'user_id': '<?=Auth::user()->nickname?>'});
   <img height="1" width="1" style="display:none"
        src="https://www.facebook.com/tr?id=your-pixel-id-goes-here&ev=PageView&noscript=1"/>
 </noscript>
+
+
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '2005390536433596',
+      cookie     : true,
+      xfbml      : true,
+      version    : 'v3.2',
+      <?php if(Auth::user()){?>
+      uid: '<?=Auth::user()->nickname?>'
+      <?php }?>
+    });
+
+    FB.AppEvents.logPageView();
+
+  };
+
+fbq('init', '<pixel_id>', {uid: '<userID>'});
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
