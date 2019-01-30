@@ -32,13 +32,13 @@
                                 @foreach($auction->bids as $b)
                                     <tr>
 										<td>
-											@if ($b->seller_calification == \App\Bid::CALIFICACION_POSITIVA)
+											@if ($b->seller_calification == \App\Constants::CALIFICACION_POSITIVA)
 												<span class="text-navy" data-toggle="tooltip" data-placement="top" title="{{ $b->seller_calification_comments }}"  style="font-size:18px;"><em class="fa fa-plus-circle"></em> </span>
 											@endif
-											@if ($b->seller_calification == \App\Bid::CALIFICACION_NEGATIVA)
+											@if ($b->seller_calification == \App\Constants::CALIFICACION_NEGATIVA)
 												<span class="text-danger" data-toggle="tooltip" data-placement="top" title="{{ $b->seller_calification_comments }}"  style="font-size:18px;"><em class="fa fa-minus-circle"></em> </span>
 											@endif
-											@if ($b->seller_calification == \App\Bid::CALIFICACION_NEUTRAL)
+											@if ($b->seller_calification == \App\Constants::CALIFICACION_NEUTRAL)
 												<span data-toggle="tooltip" data-placement="top" title="{{ $b->seller_calification_comments }}"  style="color:#BABABA;font-size:18px;"><em class="fa fa-dot-circle-o"></em> </span>
 											@endif
 										</td>
@@ -52,7 +52,7 @@
                                         <td style="text-align: right">$ {{ number_format($b->price * $b->amount,2,',','.') }}</td>
                                         <td style="text-align: right">{{ Carbon::parse($b->bid_date)->format('H:i:s d/m/Y') }}</td>
                                         <td>
-                                            @if ($b->status == \App\Bid::PENDIENTE)
+                                            @if ($b->status == \App\Constants::PENDIENTE)
                                                 {{ trans('general.bid_status.'.$b->status) }}
                                             @else
                                                 <a href="#" class="showStatusInfo" data-status="{{ trans('general.bid_status.'.$b->status) }}"  data-userCal="{{ trans('general.buyer_qualification.'.$b->user_calification) }}" data-UserCalCom="{{ $b->user_calification_comments }}" data-reason="{{ $b->reason }}">
@@ -62,7 +62,7 @@
                                         </td>
                                         <td>
                                             @can('qualifyBid',$b)
-                                                @if ($b->status == \App\Bid::PENDIENTE)
+                                                @if ($b->status == \App\Constants::PENDIENTE)
                                                     <a href="{{ route('auction.operations.process',$b) }}" class="btn-action">{{ trans('auction.process') }}</a>
                                                 @endif
                                             @endcan
@@ -155,13 +155,13 @@
 
                 $('#status').html(status);
 
-                if(status == '{{ trans('general.bid_status.'.\App\Bid::NO_CONCRETADA) }}'){
+                if(status == '{{ trans('general.bid_status.'.\App\Constants::NO_CONCRETADA) }}'){
                     $('#negativeReason').show();
                 }
                 $('#reason').html(reason);
 
                 $('#userCal').html(userCal);
-                if(userCal == '{{ trans('general.buyer_qualification.'.\App\Bid::CALIFICACION_POSITIVA) }}' && UserCalCom == "" ) {
+                if(userCal == '{{ trans('general.buyer_qualification.'.\App\Constants::CALIFICACION_POSITIVA) }}' && UserCalCom == "" ) {
                     $("#comments").hide();
                 }
                 $('#UserCalCom').html(UserCalCom);

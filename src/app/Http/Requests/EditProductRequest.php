@@ -6,6 +6,7 @@ use App\Http\Requests\Request;
 use App\Product;
 use App\User;
 use Auth;
+use App\Constants;
 use Illuminate\Support\Facades\Input;
 
 class EditProductRequest extends Request
@@ -28,39 +29,39 @@ class EditProductRequest extends Request
     public function rules()
     {
         $prod = Product::withTrashed()
-            ->where('name', Request::get('nombre'))
-            ->Where('unit', Request::get('unidad'))
+            ->where('name', Request::get(Constants::NOMBRE))
+            ->Where('unit', Request::get(Constants::UNIDAD))
             ->first();
         $product_id = Request::get('id');
-
+        $cero = "0,00";
         if ($prod == null){
             return [
-                'nombre'        => 'required|regex:(^[a-zA-Zá-úÁ-Ú\s]+$)',
-                'unidad'        => 'required',
-                'weigth_small'  => 'required',
-                'weigth_medium' => 'required',
-                'weigth_big'    => 'required',
-                'imagen'        => 'image',
+                Constants::NOMBRE        => 'required|regex:(^[a-zA-Zá-úÁ-Ú\s]+$)',
+                Constants::UNIDAD        => Constants::REQUIRED,
+                Constants::WEIGHT_SMALL  => Constants::REQUIRED,
+                Constants::WEIGHT_MEDIUM => Constants::REQUIRED,
+                Constants::WEIGHT_BIG    => Constants::REQUIRED,
+                Constants::IMAGEN        => Constants::IMAGE,
             ];
         } else{
            if ($product_id != $prod->id) {
 
                 return [
-                    'nombre'        => 'required|unique_name_unit:'.$this->unidad,
-                    'unidad'        => 'required',
-                    'weigth_small'  => 'required|regex:/^\d{1,}(\,\d+)?$/|greater_weight_than',
-                    'weigth_medium' => 'required|regex:/^\d{1,}(\,\d+)?$/|greater_weight_than',
-                    'weigth_big'    => 'required|regex:/^\d{1,}(\,\d+)?$/|greater_weight_than',
-                    'imagen'        => 'image',
+                    Constants::NOMBRE        => 'required|unique_name_unit:'.$this->unidad,
+                    Constants::UNIDAD        => Constants::REQUIRED,
+                    Constants::WEIGHT_SMALL  => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
+                    Constants::WEIGHT_MEDIUM => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
+                    Constants::WEIGHT_BIG    => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
+                    Constants::IMAGEN        => Constants::IMAGE,
                 ];
             } else {
                 return [
-                    'nombre'        => 'required',
-                    'unidad'        => 'required',
-                    'weigth_small'  => 'required|regex:/^\d{1,}(\,\d+)?$/|greater_weight_than',
-                    'weigth_medium' => 'required|regex:/^\d{1,}(\,\d+)?$/|greater_weight_than',
-                    'weigth_big'    => 'required|regex:/^\d{1,}(\,\d+)?$/|greater_weight_than',
-                    'imagen'        => 'image',
+                    Constants::NOMBRE        => Constants::REQUIRED,
+                    Constants::UNIDAD        => Constants::REQUIRED,
+                    Constants::WEIGHT_SMALL  => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
+                    Constants::WEIGHT_MEDIUM => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
+                    Constants::WEIGHT_BIG    => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
+                    Constants::IMAGEN        => Constants::IMAGE,
                 ];
 
             }

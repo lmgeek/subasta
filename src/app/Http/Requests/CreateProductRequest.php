@@ -44,9 +44,9 @@ $cero = "0,00";
             return [
                 'nombre'        => 'required|regex:(^[a-zA-Zá-úÁ-Ú\s]+$)',
                 'unidad'        => 'required',
-                'weigth_small'  => 'required|regex:/^\d{1,}(\,\d+)?$/|greater_weight_than:'.$cero,
-                'weigth_medium' => 'required|regex:/^\d{1,}(\,\d+)?$/|greater_weight_than:'.$cero,
-                'weigth_big'    => 'required|regex:/^\d{1,}(\,\d+)?$/|greater_weight_than:'.$cero,
+                Constants::WEIGHT_SMALL  => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
+                Constants::WEIGHT_MEDIUM => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
+                Constants::WEIGHT_BIG    => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
                 'imagen'        => 'required|image',
             ];
         } else{
@@ -54,9 +54,9 @@ $cero = "0,00";
 //                'firstName' => "uniqueFirstAndLastName:{$request->lastName}"
                 'nombre'        => 'required|unique_name_unit:'.$this->unidad,
                 'unidad'        => 'required',
-                'weigth_small'  => 'required|regex:/^\d{1,}(\,\d+)?$/|greater_weight_than:'.$cero,
-                'weigth_medium' => 'required|regex:/^\d{1,}(\,\d+)?$/|greater_weight_than:'.$cero,
-                'weigth_big'    => 'required|regex:/^\d{1,}(\,\d+)?$/|greater_weight_than:'.$cero,
+                Constants::WEIGHT_SMALL  => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
+                Constants::WEIGHT_MEDIUM => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
+                Constants::WEIGHT_BIG    => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
                 'imagen'        => 'required|image',
             ];
         }

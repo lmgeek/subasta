@@ -1,5 +1,6 @@
 <?php
 use App\Auction;
+use App\Constants;
 $userId = $auction->batch->arrive->boat->user->id;
 $vendido = 0;
 foreach ($auction->bids()->where('status','<>',\App\Constants::NO_CONCRETADA)->get() as $b) {
@@ -75,7 +76,7 @@ $fechafin=strftime('%d %b %Y', strtotime($auction->end));
                 <p> <div id="auctionAvailability{{$auction->id}}" style="display: inline-block!important;font-weight: bold"><small style="font-weight: 400">Disponibilidad:</small> {{$disponible}} <small>de</small> {{$total}} {{$auction->batch->product->unit.(($total>1)?'s':'')}}</div> <br>
                 @if(empty($finished))
                         <small class="green fw700" id="BidsCounter{{$auction->id}}">
-                            <?=(($cantbids>0)?('<em class="icon-material-outline-local-offer green"></em>'.$cantbids.(($cantbids>1)?' Compras Directas':' Compra Directa')):'')?>
+                            <?=(($cantbids>0)?(Constants::ICON_OFFERS_BIDS_GREEN.$cantbids.(($cantbids>1)?' Compras Directas':' Compra Directa')):'')?>
                         </small>
                     @endif
                     </p>
@@ -95,21 +96,21 @@ $fechafin=strftime('%d %b %Y', strtotime($auction->end));
                         <a href="#" class="button" onclick="notifications(0,null,null,null,'Usuario no aprobado')">Comprar</a>
                         <div class="w100 text-center margin-top-5 t14">o puedes <a href="#" onclick="notifications(0,null,null,null,'Usuario no aprobado')">realizar una oferta</a></div>
                         <div class="text-center"><small class="green fw700 text-center" id="OffersCounter{{$auction->id}}">
-                            <?=(($cantofertas>0)?('<em class="icon-material-outline-local-offer green"></em>'.$cantofertas.(($cantofertas>1)?' Ofertas Directas':' Oferta Directa')):'')?>
+                            <?=(($cantofertas>0)?(Constants::ICON_OFFERS_BIDS_GREEN.$cantofertas.(($cantofertas>1)?' Ofertas Directas':' Oferta Directa')):'')?>
                         </small></div>
                         <input type="hidden" value="{{$auction->batch->product->unit}}" id="UnitAuction{{$auction->id}}">
                         <?php }elseif($userses->status=="approved" && $userses->type!=\App\User::COMPRADOR){?>
                         <a href="#" class="button" onclick="notifications(0,null,null,null,'El tipo de usuario no permite comprar')">Comprar</a>
                         <div class="w100 text-center margin-top-5 t14">o puedes <a href="#" onclick="notifications(0,null,null,null,'El tipo de usuario no permite ofertar')">realizar una oferta</a></div>
                         <div class="text-center"><small class="green fw700 text-center" id="OffersCounter{{$auction->id}}">
-                            <?=(($cantofertas>0)?('<em class="icon-material-outline-local-offer green"></em>'.$cantofertas.(($cantofertas>1)?' Ofertas Directas':' Oferta Directa')):'')?>
+                            <?=(($cantofertas>0)?(Constants::ICON_OFFERS_BIDS_GREEN.$cantofertas.(($cantofertas>1)?' Ofertas Directas':' Oferta Directa')):'')?>
                         </small></div>
                         <input type="hidden" value="{{$auction->batch->product->unit}}" id="UnitAuction{{$auction->id}}">
                         <?php }else{?>
                         <a href="#small-dialog-compra-{{$auction->id}}" onclick="openPopupCompra({{$auction->id}})"  class="button ripple-effect popup-with-zoom-anim w100">Comprar</a>
                         <div class="w100 text-center margin-top-5 t14">o puedes <a href="#small-dialog-oferta{{$auction->id}}" class="sign-in popup-with-zoom-anim">realizar una oferta</a></div>
                         <div class="text-center"><small class="green fw700 text-center" id="OffersCounter{{$auction->id}}">
-                            <?=(($cantofertas>0)?('<em class="icon-material-outline-local-offer green"></em>'.$cantofertas.(($cantofertas>1)?' Ofertas Directas':' Oferta Directa')):'')?>
+                            <?=(($cantofertas>0)?(Constants::ICON_OFFERS_BIDS_GREEN.$cantofertas.(($cantofertas>1)?' Ofertas Directas':' Oferta Directa')):'')?>
                         </small></div>
                         @include('landing3/partials/pop-up-compra')
                         @include('landing3/partials/pop-up-oferta')
@@ -118,7 +119,7 @@ $fechafin=strftime('%d %b %Y', strtotime($auction->end));
                         <a href="/auction" class="button">Comprar</a>
                         <div class="w100 text-center margin-top-5 t14">o puedes <a href="/auction">realizar una oferta</a></div>
                         <div class="text-center"><small class="green fw700 text-center" id="OffersCounter{{$auction->id}}">
-                                <?=(($cantofertas>0)?('<em class="icon-material-outline-local-offer green"></em>'.$cantofertas.(($cantofertas>1)?' Ofertas Directas':' Oferta Directa')):'')?>
+                                <?=(($cantofertas>0)?(Constants::ICON_OFFERS_BIDS_GREEN.$cantofertas.(($cantofertas>1)?' Ofertas Directas':' Oferta Directa')):'')?>
                             </small></div>
                         <input type="hidden" value="{{$auction->batch->product->unit}}" id="UnitAuction{{$auction->id}}">
                     <?php

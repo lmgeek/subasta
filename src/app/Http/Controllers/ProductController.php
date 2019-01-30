@@ -67,9 +67,9 @@ class ProductController extends Controller
         $prod = new Product();
         $prod->name = $request->input('nombre');
         $prod->unit = $request->input('unidad');
-        $prod->weigth_small = str_replace(",", ".", $request->input('weigth_small') );
-        $prod->weigth_medium = str_replace(",", ".", $request->input('weigth_medium') );
-        $prod->weigth_big = str_replace(",", ".", $request->input('weigth_big') );
+        $prod->weigth_small = str_replace(",", ".", $request->input('weight_small') );
+        $prod->weigth_medium = str_replace(",", ".", $request->input('weight_medium') );
+        $prod->weigth_big = str_replace(",", ".", $request->input('weight_big') );
         $prod->image_name = $fileName;
         $prod->save();
 
@@ -134,9 +134,9 @@ class ProductController extends Controller
 //        dd($prod);
         $prod->name = $request->input('nombre');
         $prod->unit = $request->input('unidad');
-        $prod->weigth_small = str_replace(",", ".", $request->input('weigth_small') );
-        $prod->weigth_medium = str_replace(",", ".", $request->input('weigth_medium') );
-        $prod->weigth_big = str_replace(",", ".", $request->input('weigth_big') );
+        $prod->weigth_small = str_replace(",", ".", $request->input('weight_small') );
+        $prod->weigth_medium = str_replace(",", ".", $request->input('weight_medium') );
+        $prod->weigth_big = str_replace(",", ".", $request->input('weight_big') );
         $prod->save();
 
         return redirect(Constants::URL_PRODUCTS);

@@ -2,6 +2,7 @@
 
 use App\Auction;
 use App\UserRating;
+use App\Constants;
 //use Illuminate\Auth;
 
 //Creamos un objeto de ña clase para usar sus funciones
@@ -141,20 +142,20 @@ $cantcompras=$availability['sold'];
                                     <a href="#" class="button" onclick="notifications(0,null,null,null,'Usuario no aprobado')">Comprar</a>
                                     <div class="w100 text-center margin-top-5 t14">o puedes <a href="#" onclick="notifications(0,null,null,null,'Usuario no aprobado')">realizar una oferta</a></div>
                                     <div class="text-center"><small class="green fw700 text-center" id="OffersCounter{{$auction->id}}">
-                                            <?=(($cantofertas>0)?('<em class="icon-material-outline-local-offer green"></em>'.$cantofertas.(($cantofertas>1)?' Ofertas Directas':' Oferta Directa')):'')?>
+                                            <?=(($cantofertas>0)?(Constants::ICON_OFFERS_BIDS_GREEN.$cantofertas.(($cantofertas>1)?Constants::OFERTAS_DIRECTAS:Constants::OFERTA_DIRECTA)):'')?>
                                         </small></div>
                                     <?php }elseif($userses->status=="approved" && $userses->type!=\App\User::COMPRADOR){?>
                                     <a href="#" class="button" onclick="notifications(0,null,null,null,'El tipo de usuario no permite comprar')">Comprar</a>
                                     <div class="w100 text-center margin-top-5 t14">o puedes <a href="#" onclick="notifications(0,null,null,null,'El tipo de usuario no permite ofertar')">realizar una oferta</a></div>
                                     <div class="text-center"><small class="green fw700 text-center" id="OffersCounter{{$auction->id}}">
-                                            <?=(($cantofertas>0)?('<em class="icon-material-outline-local-offer green"></em>'.$cantofertas.(($cantofertas>1)?' Ofertas Directas':' Oferta Directa')):'')?>
+                                            <?=(($cantofertas>0)?(Constants::ICON_OFFERS_BIDS_GREEN.$cantofertas.(($cantofertas>1)?Constants::OFERTAS_DIRECTAS:Constants::OFERTA_DIRECTA)):'')?>
                                         </small></div>
                                     <?php }else{?>
                                         <button class="button margin-top-35 full-width button-sliding-icon ripple-effect" type="submit" form="apply-now-form" onclick="makeBid({{$auction->id}})">Comprar <em class="icon-material-outline-arrow-right-alt"></em></button>
                                     <div class="w100 text-center margin-top-5 t14">o puedes <a href="#small-dialog-oferta{{$auction->id}}" class="sign-in popup-with-zoom-anim">realizar una oferta</a></div>
                                         <input type="hidden" id="PriceBid{{$auction->id}}">
                                     <div class="text-center"><small class="green fw700 text-center" id="OffersCounter{{$auction->id}}">
-                                            <?=(($cantofertas>0)?('<em class="icon-material-outline-local-offer green"></em>'.$cantofertas.(($cantofertas>1)?' Ofertas Directas':' Oferta Directa')):'')?>
+                                            <?=(($cantofertas>0)?(Constants::ICON_OFFERS_BIDS_GREEN.$cantofertas.(($cantofertas>1)?Constants::OFERTAS_DIRECTAS:Constants::OFERTA_DIRECTA)):'')?>
                                         </small></div>
                                     @include('landing3/partials/pop-up-oferta')
                                     <?php }
@@ -162,7 +163,7 @@ $cantcompras=$availability['sold'];
                                     <a href="/auction" class="button">Comprar</a>
                                     <div class="w100 text-center margin-top-5 t14">o puedes <a href="/auction">realizar una oferta</a></div>
                                     <div class="text-center"><small class="green fw700 text-center" id="OffersCounter{{$auction->id}}">
-                                            <?=(($cantofertas>0)?('<em class="icon-material-outline-local-offer green"></em>'.$cantofertas.(($cantofertas>1)?' Ofertas Directas':' Oferta Directa')):'')?>
+                                            <?=(($cantofertas>0)?(Constants::ICON_OFFERS_BIDS_GREEN.$cantofertas.(($cantofertas>1)?Constants::OFERTAS_DIRECTAS:Constants::OFERTA_DIRECTA)):'')?>
                                         </small></div>
                                     <?php
                                     }

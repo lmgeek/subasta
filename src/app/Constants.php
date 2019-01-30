@@ -1,9 +1,17 @@
 <?php
 namespace App;
 class Constants{
+    const CANT_MAX_BRONZE=500;
+    const CANT_MAX_SILVER=1000;
+    const MAIL_ADDRESS='sistema@subastas.com.ar';
+    const MAIL_NAME='Subastas';
+    const MIDDLEWARE='middleware';
     const EMAIL='email';
     const PASSWORD='password';
+    const NOMBRE='nombre';
+    const UNIDAD='unidad';
     const REMEMBER='remember';
+    const IMAGE='image';
     const IMAGEN='imagen';
     const VERIFY='verify';
     const IN_CURSE = 'incourse';
@@ -13,6 +21,7 @@ class Constants{
     const ASC='asc';
     const DESC='desc';
     const STATUS='status';
+    const NICKNAME='nickname';
     const MY_IN_CURSE = 'my_incurse';
     const MY_FINISHED = 'my_finished';
     const MY_FUTURE = 'my_future';
@@ -86,9 +95,7 @@ class Constants{
     const CALIFICACION_NEUTRAL = 'neutral';
     const CALIFICACION_NEGATIVA = 'negative';
     const MAIL_ADDRESS_SYSTEM='MAIL_ADDRESS_SYSTEM';
-    const MAIL_ADDRESS='sistema@subastas.com.ar';
     const MAIL_ADDRESS_SYSTEM_NAME='MAIL_ADDRESS_SYSTEM_NAME';
-    const MAIL_NAME='Subastas';
     const MAIL_SUBJECT_WELCOME='users.email_welcome_title';
     const MAIL_TEMPLATE_START='emails.';
     const CSS_SOLID='solid';
@@ -107,4 +114,12 @@ class Constants{
     const CHICO     = "small";
     const MEDIANO   = "medium";
     const GRANDE    = "big";
+    const WEIGHT_SMALL='weight_small';
+    const WEIGHT_MEDIUM='weight_medium';
+    const WEIGHT_BIG='weight_big';
+    const VALIDATION_RULES_PRODUCT_WEIGHT='required|regex:/^\d{1,}(\,\d+)?$/|greater_weight_than:';
+    const REQUIRED='required';
+    const ICON_OFFERS_BIDS_GREEN='<em class="icon-material-outline-local-offer green"></em>';
+    const OFERTA_DIRECTA=' Oferta Directa';
+    const OFERTAS_DIRECTAS=' Ofertas Directas';
 }

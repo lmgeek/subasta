@@ -76,7 +76,7 @@ class SellerBoatsController extends Controller
         /*$boat->name = $request->input('name');
         $boat->matricula = $request->input('matricula');*/
         $boat->nickname = $request->input('alias');
-        $boat->status = Boat::PENDIENTE;
+        $boat->status = Constants::PENDIENTE;
         $boat->user_id = Auth::user()->id;
         $boat->save();
 
