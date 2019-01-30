@@ -14,9 +14,9 @@
                         <div class="form-group">
                             <label class="font-noraml">Estado</label>
                             <select data-placeholder="Seleccione una o varias opciones" name="status[]" class="chosen-select" multiple tabindex="4">
-                                <option @if (!is_null($request->get('status')) and in_array(\App\Boat::PENDIENTE,$request->get('status'))) selected @endif value="{{ \App\Boat::PENDIENTE }}">{{ trans('general.status.'.\App\Boat::PENDIENTE) }}</option>
-                                <option @if (!is_null($request->get('status')) and in_array(\App\Boat::APROBADO,$request->get('status'))) selected @endif value="{{ \App\Boat::APROBADO }}">{{ trans('general.status.'.\App\Boat::APROBADO) }}</option>
-                                <option @if (!is_null($request->get('status')) and in_array(\App\Boat::RECHAZADO,$request->get('status'))) selected @endif value="{{ \App\Boat::RECHAZADO }}">{{ trans('general.status.'.\App\Boat::RECHAZADO) }}</option>
+                                <option @if (!is_null($request->get('status')) and in_array(\App\Constants::PENDIENTE,$request->get('status'))) selected @endif value="{{ \App\Constants::PENDIENTE }}">{{ trans('general.status.'.\App\Constants::PENDIENTE) }}</option>
+                                <option @if (!is_null($request->get('status')) and in_array(\App\Constants::APROBADO,$request->get('status'))) selected @endif value="{{ \App\Constants::APROBADO }}">{{ trans('general.status.'.\App\Constants::APROBADO) }}</option>
+                                <option @if (!is_null($request->get('status')) and in_array(\App\Constants::RECHAZADO,$request->get('status'))) selected @endif value="{{ \App\Constants::RECHAZADO }}">{{ trans('general.status.'.\App\Constants::RECHAZADO) }}</option>
                             </select>
                         </div>
                     </div>

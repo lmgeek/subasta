@@ -1,6 +1,11 @@
 <?php
 namespace App;
 class Constants{
+    const EMAIL='email';
+    const PASSWORD='password';
+    const REMEMBER='remember';
+    const IMAGEN='imagen';
+    const VERIFY='verify';
     const IN_CURSE = 'incourse';
     const FINISHED = 'finished';
     const FUTURE = 'future';
@@ -20,6 +25,7 @@ class Constants{
     const AVAILABLE='available';
     const AVAILABILITY='availability';
     const IS_NOT_AVAILABLE='isnotavailability';
+    const QUALITY='quality';
     const TRANS_UNITS='general.product_units.';
     const CLOSE='close';
     const PRICE='price';
@@ -55,11 +61,13 @@ class Constants{
     const BOATS='boats';
     const BOATS_ID='boats.id';
     const BOATS_USER_ID='boats.user_id';
+    const USER='user';
     const USERS='users';
     const USERS_ID='users.id';
     const BIDS_DATE='bid_date';
     const BIDS_AUCTION_ID='bids.auction_id';
     const BIDS_USER_ID='bids.user_id';
+    const CALIBER='caliber';
     const CALIBERS='calibers';
     const PORT='port';
     const PORTS='ports';
@@ -78,8 +86,25 @@ class Constants{
     const CALIFICACION_NEUTRAL = 'neutral';
     const CALIFICACION_NEGATIVA = 'negative';
     const MAIL_ADDRESS_SYSTEM='MAIL_ADDRESS_SYSTEM';
-    const MAIL_ADDRESS_SYSTEM_NAME='MAIL_ADDRESS_SYSTEM_NAME';
     const MAIL_ADDRESS='sistema@subastas.com.ar';
+    const MAIL_ADDRESS_SYSTEM_NAME='MAIL_ADDRESS_SYSTEM_NAME';
     const MAIL_NAME='Subastas';
+    const MAIL_SUBJECT_WELCOME='users.email_welcome_title';
+    const MAIL_TEMPLATE_START='emails.';
     const CSS_SOLID='solid';
+    const URL_PRODUCTS='/products';
+    const URL_LOGIN='auth/login';
+    const URL_SELLER_BATCH='sellerbatch';
+    const REGISTER_MESSAGE='register_message';
+    const BUYER_NAME='buyer_name';
+    const APROBADO = "approved";
+    const RECHAZADO = "rejected";
+    const USER_ID='user_id';
+    const CAJAS     = "Cajas";
+    const CAJONES   = "Cajones";
+    const PASTILLAS = "Pastillas";
+    const UNIDADES  = "Unidades";
+    const CHICO     = "small";
+    const MEDIANO   = "medium";
+    const GRANDE    = "big";
 }

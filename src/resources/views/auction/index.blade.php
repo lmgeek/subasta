@@ -69,17 +69,17 @@
                                     </div>
 									 <div class="col-md-2">
                                         @if(isset($sellerAuction) and $sellerAuction==true)
-                                            @if($status == \App\Auction::MY_IN_CURSE or $status == \App\Auction::MY_FINISHED)
+                                            @if($status == \App\Constants::MY_IN_CURSE or $status == \App\Constants::MY_FINISHED)
                                                 @include('auction.partials.auctionDetail')
 											@else
 											  <br>
                                             @endif
 
-											@if( $status != \App\Auction::MY_FINISHED )
+											@if( $status != \App\Constants::MY_FINISHED )
 												<div class="col-md-2">
-													@if($a->active == \App\Auction::ACTIVE)
+													@if($a->active == \App\Constants::ACTIVE)
 														<a class="btn btn-action cancelAuction" href="{{ route('auction.deactivate',$a) }}">{{trans('auction.btnauction_cancel')}}</a>
-														@if($status == \App\Auction::MY_FUTURE )
+														@if($status == \App\Constants::MY_FUTURE )
 															<a class="btn btn-action" href="{{ route('auction.edit',$a) }}">Editar</a>
 														@endif
 													@else
@@ -90,7 +90,7 @@
 												</div>
 											@endif
                                         @else
-											@if($a->active == \App\Auction::ACTIVE)
+											@if($a->active == \App\Constants::ACTIVE)
 												@include('auction.partials.auctionBid')
 											@endif
                                         @endif

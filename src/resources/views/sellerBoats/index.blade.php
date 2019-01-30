@@ -57,7 +57,7 @@
                                         {{--<td>{{ $barco->matricula }}</td>--}}
                                         <td>
                                             <span class="label label-{{ $barco->status }}">{{ trans("general.status.$barco->status") }}</span>
-											@if ($barco->status == \App\Boat::RECHAZADO)
+											@if ($barco->status == \App\Constants::RECHAZADO)
 													<em data-toggle="tooltip" data-placement="top" title="{{ $barco->rebound }}"  class="fa fa-info-circle"></em>
 											@endif
                                         </td>

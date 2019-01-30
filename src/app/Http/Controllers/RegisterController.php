@@ -66,17 +66,17 @@ class RegisterController extends Controller
 
         $this->notifyNewUserToAdmins($user);
 
-        $template = 'emails.' . User::COMPRADOR . '.' . 'verify';
-        Mail::send($template, ['user' => $user], function ($message) use ($user) {
+        $template = Constants::MAIL_TEMPLATE_START . User::COMPRADOR . '.' . Constants::VERIFY;
+        Mail::send($template, [Constants::USER => $user], function ($message) use ($user) {
             $message->from(
-                env('MAIL_ADDRESS_SYSTEM', 'sistema@subastas.com.ar'),
-                env('MAIL_ADDRESS_SYSTEM_NAME', 'Subastas')
+                env(Constants::MAIL_ADDRESS_SYSTEM, Constants::MAIL_ADDRESS),
+                env(Constants::MAIL_ADDRESS_SYSTEM_NAME, Constants::MAIL_NAME)
             );
-            $message->subject(trans('users.email_welcome_title'));
+            $message->subject(trans(Constants::MAIL_SUBJECT_WELCOME));
             $message->to($user->email);
         });
-        Session::flash('register_message', true);
-        return redirect('auth/login');
+        Session::flash(Constants::REGISTER_MESSAGE, true);
+        return redirect(Constants::URL_LOGIN);
 
     }
 
@@ -111,18 +111,18 @@ class RegisterController extends Controller
 
         $this->notifyNewUserToAdmins($user);
 
-        $template = 'emails.' . User::VENDEDOR . '.' . 'verify';
-        Mail::send($template, ['user' => $user], function ($message) use ($user) {
+        $template = Constants::MAIL_TEMPLATE_START . User::VENDEDOR . '.' . Constants::VERIFY;
+        Mail::send($template, [Constants::USER => $user], function ($message) use ($user) {
             $message->from(
-                env('MAIL_ADDRESS_SYSTEM', 'sistema@subastas.com.ar'),
-                env('MAIL_ADDRESS_SYSTEM_NAME', 'Subastas')
+                env(Constants::MAIL_ADDRESS_SYSTEM, Constants::MAIL_ADDRESS),
+                env(Constants::MAIL_ADDRESS_SYSTEM_NAME, Constants::MAIL_NAME)
             );
-            $message->subject(trans('users.email_welcome_title'));
+            $message->subject(trans(Constants::MAIL_SUBJECT_WELCOME));
             $message->to($user->email);
         });
 
-        Session::flash('register_message', true);
-        return redirect('auth/login');
+        Session::flash(Constants::REGISTER_MESSAGE, true);
+        return redirect(Constants::URL_LOGIN);
 
     }
 
@@ -130,10 +130,10 @@ class RegisterController extends Controller
     {
         $adminUsers = User::where('type', User::INTERNAL)->get();
         foreach ($adminUsers as $AdminUser) {
-            Mail::queue('emails.internal.newUser', ['user' => $user], function ($message) use ($AdminUser) {
+            Mail::queue('emails.internal.newUser', [Constants::USER => $user], function ($message) use ($AdminUser) {
                 $message->from(
-                    env('MAIL_ADDRESS_SYSTEM', 'sistema@subastas.com.ar'),
-                    env('MAIL_ADDRESS_SYSTEM_NAME', 'Subastas')
+                    env(Constants::MAIL_ADDRESS_SYSTEM, Constants::MAIL_ADDRESS),
+                    env(Constants::MAIL_ADDRESS_SYSTEM_NAME, Constants::MAIL_NAME)
                 );
                 $message->subject(trans('emails.internal.newUser.title'));
                 $message->to($AdminUser->email, $AdminUser->name);
@@ -147,7 +147,7 @@ class RegisterController extends Controller
         if (time() - $dbdate > 15 * 60) {
             $this->updateHashUser($hash);
             Session::flash('register_message_fail', true);
-            return redirect('auth/login');
+            return redirect(Constants::URL_LOGIN);
         }
 
         if($user && $user->active_mail == 0){
@@ -156,21 +156,21 @@ class RegisterController extends Controller
         }
         $vendedor = Vendedor::where('user_id', $user->id)->first();
         if($vendedor === null){
-            $template = 'emails.' . User::COMPRADOR . '.' . 'welcome';
+            $template = Constants::MAIL_TEMPLATE_START . User::COMPRADOR . '.' . 'welcome';
         }else{
-            $template = 'emails.' . User::VENDEDOR . '.' . 'welcome';
+            $template = Constants::MAIL_TEMPLATE_START . User::VENDEDOR . '.' . 'welcome';
         }
-        Mail::send($template, ['user' => $user], function ($message) use ($user) {
+        Mail::send($template, [Constants::USER => $user], function ($message) use ($user) {
             $message->from(
-                env('MAIL_ADDRESS_SYSTEM', 'sistema@subastas.com.ar'),
-                env('MAIL_ADDRESS_SYSTEM_NAME', 'Subastas')
+                env(Constants::MAIL_ADDRESS_SYSTEM, Constants::MAIL_ADDRESS),
+                env(Constants::MAIL_ADDRESS_SYSTEM_NAME, Constants::MAIL_NAME)
             );
-            $message->subject(trans('users.email_welcome_title'));
+            $message->subject(trans(Constants::MAIL_SUBJECT_WELCOME));
             $message->to($user->email);
         });
 
         Auth::login($user);
-        Session::flash('register_message', true);
+        Session::flash(Constants::REGISTER_MESSAGE, true);
         return redirect('home');
     }
 
@@ -189,13 +189,13 @@ class RegisterController extends Controller
         $user->hash =  $this->generateRandomString(45);
         $user->update();
 
-        $template = 'emails.' . User::COMPRADOR . '.' . 'verify';
-        Mail::send($template, ['user' => $user], function ($message) use ($user) {
+        $template = Constants::MAIL_TEMPLATE_START . User::COMPRADOR . '.' . Constants::VERIFY;
+        Mail::send($template, [Constants::USER => $user], function ($message) use ($user) {
             $message->from(
-                env('MAIL_ADDRESS_SYSTEM', 'sistema@subastas.com.ar'),
-                env('MAIL_ADDRESS_SYSTEM_NAME', 'Subastas')
+                env(Constants::MAIL_ADDRESS_SYSTEM, Constants::MAIL_ADDRESS),
+                env(Constants::MAIL_ADDRESS_SYSTEM_NAME, Constants::MAIL_NAME)
             );
-            $message->subject(trans('users.email_welcome_title'));
+            $message->subject(trans(Constants::MAIL_SUBJECT_WELCOME));
             $message->to($user->email);
         });
 

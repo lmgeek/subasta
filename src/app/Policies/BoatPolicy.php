@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Boat;
+use App\Constants;
 
 class BoatPolicy
 {
@@ -46,7 +47,7 @@ class BoatPolicy
 
     public function isAproved($user,Boat $boat)
     {
-        return ($boat->status == Boat::APROBADO);
+        return ($boat->status == Constants::APROBADO);
     }
 
     public function addBoat($user)

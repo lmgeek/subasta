@@ -1,6 +1,6 @@
 <?php
 $vendido = 0;
-foreach ($a->bids()->where('status', '<>', \App\Bid::NO_CONCRETADA)->get() as $b) {
+foreach ($a->bids()->where('status', '<>', \App\Constants::NO_CONCRETADA)->get() as $b) {
     $vendido += $b->amount;
 }
 
@@ -12,12 +12,12 @@ $disponible = $total - $vendido;
 <div class="row" style="margin-top: 22px;margin-left:0px;">
     @can('canBid', \App\Auction::class)
         <div class="">
-            @if ($disponible > 0 and $status != \App\Auction::FUTURE)
+            @if ($disponible > 0 and $status != \App\Constants::FUTURE)
                 <a href="#"
                    @if(Auth::user()->status != "approved")
                    data-target="#bid-Modal-danger-pending"
                    @else
-                   data-target="<? if (Auth::user()->type == \App\User::VENDEDOR){ ?> #bid-Modal-danger <? } else {?> #bid-Modal-{{ $a->id }} <? } ?>"
+                   data-target="<? if (Auth::user()->type == \App\Constants::VENDEDOR){ ?> #bid-Modal-danger <? } else {?> #bid-Modal-{{ $a->id }} <? } ?>"
                    @endif()
                    data-toggle="modal">
                     <img alt="image" width="150px" src="{{ asset('/landing/img/subastar.png') }}"/>

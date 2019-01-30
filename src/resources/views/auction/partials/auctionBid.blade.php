@@ -11,7 +11,7 @@
 <div class="row" style="margin-top: 22px;margin-left:10px;">
 		 @can('canBid', \App\Auction::class)
 		 <div class="">
-			@if ($a->available($a->id, $a->amount) > 0 and $status != \App\Auction::FUTURE)
+			@if ($a->available($a->id, $a->amount) > 0 and $status != \App\Constants::FUTURE)
 
 				<button type="submit" class="btn btn-primary bid-button-act "  data-target="#bid-Modal-{{ $a->id }}" data-toggle="modal">{{ trans('auction.action_bid') }}</button>
 				 <br><a href="#" data-toggle="modal" data-target="#odc-Modal-{{ $a->id }}">Opción de compra</a>

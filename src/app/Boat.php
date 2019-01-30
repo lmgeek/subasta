@@ -4,17 +4,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use App\Constants;
 
 class Boat extends Model
 {
-    const PENDIENTE = "pending";
-    const APROBADO = "approved";
-    const RECHAZADO = "rejected";
-    const USER_ID='user_id';
+
 
     protected $table = 'boats';
 
-    protected $fillable = ['name', 'matricula', 'status',self::USER_ID,'rebound', 'nickname'];
+    protected $fillable = ['name', 'matricula', 'status',Constants::USER_ID,'rebound', 'nickname'];
 
     public function arrive(){
         return $this->hasMany('App\Arrive');
@@ -41,7 +39,7 @@ class Boat extends Model
 	public static function filterAndPaginate($user = null,$status = null , $name = null)
 	{
 		$query = Boat::select('boats.*');
-		if (!is_null($user) && count($user) > 0){$query->whereIn(self::USER_ID,$user);}
+		if (!is_null($user) && count($user) > 0){$query->whereIn(Constants::USER_ID,$user);}
 		if (!is_null($status) && count($status) > 0){$query->whereIn('status',$status);}
 		if (!is_null($name)){$query->where('name', 'like', "%$name%");}
 		return $query->orderBy('created_at','desc')->get();
@@ -49,7 +47,7 @@ class Boat extends Model
 
 // funcion para traer el sellerNickname
     public static function filterForSellerNickname($id){
-        return Boat::select('boats.name')->where(self::USER_ID,'=',$id)->get();
+        return Boat::select('boats.name')->where(Constants::USER_ID,'=',$id)->get();
     }
     //Funcion para convertir numeros a numeros romanos
     public static function  RomanNumber($integer){
