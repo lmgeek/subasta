@@ -30,5 +30,8 @@ class Ports extends Model
 		return $query->orderBy('id','desc')->get();
 
 	}
-	
+    static public function getPortById($port_id){
+        return Ports::Select('name')->where('id','=',$port_id)->get()[0]['name'];
+
+    }
 }

@@ -28,6 +28,8 @@ class Constants{
     const DATE_FORMAT_INPUT= 'd/m/Y H:i';
     const INPUT_END_PRICE='endPrice';
     const INPUT_AUCTION_ID='auction_id';
+    const INPUT_CALIFICACION='calificacion';
+    const INPUT_COMENTARIOS_CALIFICACION='comentariosCalificacion';
     const MAKE_BID='makeBid';
     const AUCTION='auction';
     const AUCTIONS='auctions';
@@ -39,6 +41,7 @@ class Constants{
     const AUCTIONS_BATCH_ID='auctions.batch_id';
     const AUCTIONS_START='auctions.start';
     const AUCTIONS_END='auctions.end';
+    const AUCTIONS_ACTIVE='auctions.active';
     const AUCTIONS_INVITES='auctions_invites';
     const AUCTION_INV_AUCTION_ID='auctions_invites.auction_id';
     const AUCTION_PRICE_DECIMALS='AUCTION_PRICE_DECIMALS';
@@ -57,6 +60,9 @@ class Constants{
     const BIDS_DATE='bid_date';
     const BIDS_AUCTION_ID='bids.auction_id';
     const BIDS_USER_ID='bids.user_id';
+    const CALIBERS='calibers';
+    const PORT='port';
+    const PORTS='ports';
     const PRODUCT='product';
     const PRODUCTS='products';
     const SELLER='seller';
@@ -75,4 +81,5 @@ class Constants{
     const MAIL_ADDRESS_SYSTEM_NAME='MAIL_ADDRESS_SYSTEM_NAME';
     const MAIL_ADDRESS='sistema@subastas.com.ar';
     const MAIL_NAME='Subastas';
+    const CSS_SOLID='solid';
 }

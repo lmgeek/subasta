@@ -168,4 +168,7 @@ class User extends Model implements AuthenticatableContract,
     public function privateAuctions(){
         return $this->belongsToMany('App\Auction','auctions_invites');
     }
+    public static function getUserById($id){
+        return User::Select('nickname')->where('id','=',$id)->get()[0]['nickname'];
+    }
 }

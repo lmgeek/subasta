@@ -13,9 +13,11 @@ $price=\App\Http\Controllers\AuctionController::calculatePriceID($auction->id);
 $close=$price['Close'];
 $userRatings=\App\Http\Controllers\AuctionController::getUserRating($auction->batch->arrive->boat->user);
 $usercat=Auction::catUserByAuctions($userId);
+$calibre=\App\Auction::caliber($auction->batch->caliber);
+$port=\App\Ports::getPortById($auction->batch->arrive->port_id)
 ?>
 <div id="Auction_<?=$auction->id?>" class="task-listing <?=(empty($finished))?'auction':''?>" data-id="{{$auction->id}}" data-price="{{$price['CurrentPrice']}}" data-end="{{$auction->end}}" data-endOrder="{{date('YmdHi',strtotime($auction->end))}}" data-close="{{$close}}"data-userrating="{{$userRatings}}"
-<?='data-port="'.$ports[$auction->batch->arrive->port_id]['name'].'"
+<?='data-port="'.$auction->batch->arrive->port_id.'"
 data-product="'.$auction->batch->product->name.'"
 data-caliber="'.$auction->batch->caliber.'"
 data-quality="'.(($auction->batch->quality<1)?1:$auction->batch->quality).'"
@@ -23,7 +25,7 @@ data-user="'.$auction->batch->arrive->boat->user->nickname.'"'?>>
 <?php
 setlocale(LC_TIME,'es_ES');
 $fechafin=strftime('%d %b %Y', strtotime($auction->end));
-$calibre=\App\Auction::caliber($auction->batch->caliber);
+
 ?>
 <!-- Auction Listing Details -->
     <div class="task-listing-details">
@@ -46,7 +48,7 @@ $calibre=\App\Auction::caliber($auction->batch->caliber);
 
             <ul class="task-icons">
                 <li><em class="icon-material-outline-access-time <?=(empty($finished)?'primary':'')?>" id="BlueClock{{$auction->id}}"></em><strong class="primary" id="FriendlyDate{{$auction->id}}">{{$fechafin}}</strong></li>
-                <li><em class="icon-material-outline-location-on"></em> {{$ports[$auction->batch->arrive->port_id]['name']}}</li>
+                <li><em class="icon-material-outline-location-on"></em> {{$port}}</li>
                 <li style="display: none" id="HotAuction{{$auction->id}}"><em class="icon-line-awesome-fire red" ></em> <strong class="red">¡Subasta caliente!</strong></li>
             </ul>
             <p class="task-listing-text"> <?=(strlen($auction->description)>90)?substr($auction->description,0,90).'...':$auction->description?></p>

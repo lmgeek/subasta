@@ -1,4 +1,8 @@
-<?php $outsidehome=1;?>
+<?php $outsidehome=1;
+use App\Product;
+use App\Ports;
+use App\User;
+?>
 @extends('landing3/partials/layout')
 @section('title',' | Lista de subastas')
 @section('content')
@@ -24,8 +28,8 @@
 							<h3>Puertos</h3>
 							<div class="checkbox">
 								@foreach($ports as $key=>$valor)
-									<input type="checkbox" id="Port{{$key}}" onclick="auctionListFilter()" class="AuctionListFilter" data-field="port" data-value="{{$valor['name']}}">
-									<label for="Port{{$key}}"><span class="checkbox-icon"></span> {{$valor['name']}} ({{$valor['cant']}})</label>
+									<input type="checkbox" id="Port{{$key}}" onclick="auctionListFilter()" class="AuctionListFilter" data-field="port" data-value="{{$key}}"<?=($port_id==$key)?'checked':''?>>
+									<label for="Port{{$key}}"><span class="checkbox-icon"></span> {{Ports::getPortById($key)}} ({{$valor}})</label>
 								@endforeach
 							</div>
 						</div>
@@ -36,7 +40,7 @@
 							<div class="checkbox">
 								@foreach($products as $key=> $valor)
 								<input type="checkbox" id="Product{{$valor['id']}}"  onclick="auctionListFilter()" class="AuctionListFilter" data-field="product" data-value="{{$key}}">
-								<label for="Product{{$valor['id']}}"><span class="checkbox-icon"></span> {{$key}} ({{$valor['cant']}})</label>
+								<label for="Product{{$valor['id']}}"><span class="checkbox-icon"></span> {{Product::getProductFromId($key)}} ({{$valor}})</label>
 								@endforeach
 							</div>
 						</div>
@@ -46,14 +50,8 @@
 							<h3>Calibre</h3>
 							<div class="checkbox">
 								@foreach($caliber as $key=>$valor)
-									<?php
-									switch ($key){
-										case 'small':$calibre='Chico';break;
-										case 'medium':$calibre='Mediano';break;
-										case 'big':$calibre='Grande';break;
-									}?>
 								<input type="checkbox" id="Caliber{{$key}}" onclick="auctionListFilter()" class="AuctionListFilter" data-field="caliber" data-value="{{$key}}">
-								<label for="Caliber{{$key}}"><span class="checkbox-icon"></span> {{$calibre}} ({{$valor}})</label>
+								<label for="Caliber{{$key}}"><span class="checkbox-icon"></span> {{ucfirst(\App\Auction::caliber($key))}} ({{$valor}})</label>
 								@endforeach
 							</div>
 						</div>
@@ -111,7 +109,7 @@
 							<div class="checkbox">
 								@foreach($users as $key=>$val)
 								<input type="checkbox" id="Usuario{{$key}}" onclick="auctionListFilter()" class="AuctionListFilter" data-field="user" data-value="{{$val['nickname']}}">
-								<label for="Usuario{{$key}}"><span class="checkbox-icon"></span> {{$val['nickname']}} ({{$val['cant']}})</label>
+								<label for="Usuario{{$key}}"><span class="checkbox-icon"></span> {{User::getUserById($key)}} ({{$val}})</label>
 								@endforeach
 							</div>
 						</div>

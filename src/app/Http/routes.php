@@ -63,13 +63,6 @@ Route::get('auction/operations/{auction}', [
 Route::get('auction/offers/{auction}', [
     'as' => 'auction.offers', 'uses' => 'AuctionController@offersToBid'
 ]);
-Route::get('auction/autofersbid/{auction}', [
-    'as' => 'auction.offersToBid', 'uses' => 'AuctionController@autoOffersBid'
-]);
-Route::get('auction/offers/decline/{auction}', [
-    'as' => 'auction.offersDecline', 'uses' => 'AuctionController@declineOffers'
-]);
-Route::get('auction/offers/decline/{auction}/{offer}', 'AuctionController@declineOffers');
 
 Route::get('auction/deactivate/{auction}', [
     'as' => 'auction.deactivate', 'uses' => 'AuctionController@deactivate'
