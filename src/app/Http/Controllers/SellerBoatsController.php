@@ -12,6 +12,7 @@ use App\Http\Requests\CreateBoatRequest;
 use App\Http\Requests\PrivateSaleRequest;
 use App\Http\Requests\UpdateArriveRequest;
 use App\Product;
+use App\Constants;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -43,7 +44,7 @@ class SellerBoatsController extends Controller
     {
         $this->authorize('seeSellerBoats', new Boat());
 
-        $barcos = Boat::where('user_id',Auth::user()->id)->get();
+        $barcos = Boat::where(Constants::BOATS_USER_ID,Auth::user()->id)->get();
         return view('sellerBoats.index',compact('barcos','request'));
     }
 
@@ -130,11 +131,11 @@ class SellerBoatsController extends Controller
 
     public function arrive($boat_id)
     {
-        $boats = Boat::where('user_id',Auth::user()->id)
-            ->where('status',Boat::APROBADO)
+        $boats = Boat::where(Constants::BOATS_USER_ID,Auth::user()->id)
+            ->where(Constants::STATUS,Constants::APROBADO)
             ->get();
 
-        return view('sellerBoats.arrive',compact('boats','boat_id'));
+        return view('sellerBoats.arrive',compact(Constants::BOATS,'boat_id'));
     }
 
     public function editArrive($arrive_id)
@@ -144,13 +145,13 @@ class SellerBoatsController extends Controller
 
         $this->authorize('editArrive', $arrive);
 
-        $boats = Boat::where('user_id',Auth::user()->id)
-            ->where('status',Boat::APROBADO)
+        $boats = Boat::where(Constants::BOATS_USER_ID,Auth::user()->id)
+            ->where('status',Constants::APROBADO)
             ->get();
 
         $ports = Ports::get();
 
-        return view('sellerBoats.editArrive',compact('arrive','boats','ports'));
+        return view('sellerBoats.editArrive',compact('arrive',Constants::BOATS,'ports'));
     }
 
     public function updateArrive(UpdateArriveRequest $request)
@@ -162,7 +163,7 @@ class SellerBoatsController extends Controller
         $arrive->date = $request->input('date');
         $arrive->save();
 
-        return redirect('sellerbatch');
+        return redirect(Constants::URL_SELLER_BATCH);
     }
 
     public function storeArrive(CreateArriveRequest $request)
@@ -200,7 +201,7 @@ class SellerBoatsController extends Controller
         $products = $request->input('product');
         $caliber = $request->input('caliber');
         $quality = $request->input('quality');
-        $amount = $request->input('amount');
+        $amount = $request->input(Constants::AMOUNT);
 
         if(!empty($products)){
             foreach ($products as $k => $prod) {
@@ -223,7 +224,7 @@ class SellerBoatsController extends Controller
             }
         }
 
-        return redirect('sellerbatch');
+        return redirect(Constants::URL_SELLER_BATCH);
     }
 
     public function deleteBatch($id)
@@ -239,7 +240,7 @@ class SellerBoatsController extends Controller
 
     private function checkBatch($arrive_id){
         $authorize = DB::table('arrives')
-            ->join('boats','arrives.boat_id','=','boats.id')
+            ->join(Constants::BOATS,'arrives.boat_id','=','boats.id')
             ->where('arrives.id',$arrive_id)
             ->where('boats.user_id',Auth::user()->id)->count();
 
@@ -254,7 +255,7 @@ class SellerBoatsController extends Controller
 	public function editbatch(Request $request)
 	{
 		 $batch = Batch::findOrFail($request->input('hBatchId'));
-		 $newamount = $request->input('amount');
+		 $newamount = $request->input(Constants::AMOUNT);
 		 $this->authorize('isMyBatch',$batch);
 		 $assigned_auction = $batch->status->assigned_auction;
 		 $auction_sold = $batch->status->auction_sold;
@@ -275,7 +276,7 @@ class SellerBoatsController extends Controller
 		 }
 		 
 		 
-		 return redirect('sellerbatch');
+		 return redirect(Constants::URL_SELLER_BATCH);
 		 
 	}
 
@@ -293,12 +294,12 @@ class SellerBoatsController extends Controller
         $this->authorize('makeDirectBid', $batch);
 //        $importe = str_replace(',','.',$request->input('importe'));
         $importe = $request->input('importe');
-        $batch->makePrivateSale(  $request->input('amount'),
+        $batch->makePrivateSale(  $request->input(Constants::AMOUNT),
             $importe ,
             $request->input('comprador')
         );
 
-        return redirect('sellerbatch');
+        return redirect(Constants::URL_SELLER_BATCH);
 
     }
 
@@ -306,11 +307,11 @@ class SellerBoatsController extends Controller
     {
         $sales = Auth::user()->seller->myPrivateSales();
 
-        $buyersNames = $sales->select('buyer_name')->distinct('buyer_name')->where('buyer_name','<>','null  ')->get();
+        $buyersNames = $sales->select(Constants::BUYER_NAME)->distinct(Constants::BUYER_NAME)->where(Constants::BUYER_NAME,'<>','null  ')->get();
         $rtrn = [];
         if(Auth::user()->isSeller()){
             foreach($buyersNames as $name){
-                $rtrn[] = $name['buyer_name'];
+                $rtrn[] = $name[Constants::BUYER_NAME];
             }
         }
 //        dd(Auth::user()->isBuyer());

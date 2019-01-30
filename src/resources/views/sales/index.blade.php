@@ -49,10 +49,10 @@
                                             <td>{{ $sale->auction->batch->arrive->boat->name }}</td>
                                             <?php
                                                 switch ($sale->status){
-                                                    case \App\Bid::PENDIENTE:
+                                                    case \App\Constants::PENDIENTE:
                                                         $class = "warning";
                                                         break;
-                                                    case \App\Bid::NO_CONCRETADA:
+                                                    case \App\Constants::NO_CONCRETADA:
                                                         $class = "danger";
                                                         break;
                                                     default:
@@ -61,7 +61,7 @@
                                             ?>
                                             <td class="{{ $class }}">{{ trans('general.bid_status.'.$sale->status) }}</td>
                                             <td>
-                                                @if ($sale->status == \App\Bid::PENDIENTE)
+                                                @if ($sale->status == \App\Constants::PENDIENTE)
                                                     <a href="{{ route('auction.operations.process',$sale) }}" class="btn-action">{{ trans('auction.process') }}</a>
                                                 @endif
                                             </td>

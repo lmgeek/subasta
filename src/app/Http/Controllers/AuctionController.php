@@ -948,8 +948,8 @@ class AuctionController extends Controller
                 $product = $auction->batch->product->name;
                 $resp[Constants::IS_NOT_AVAILABLE] = 0;
                 $resp['unit'] = trans(Constants::TRANS_UNITS.$unit);
-                $resp['caliber'] = $caliber;
-                $resp['quality'] = $quality;
+                $resp[Constants::CALIBER] = $caliber;
+                $resp[Constants::QUALITY] = $quality;
                 $resp[Constants::PRODUCT] = $product;
                 $resp[Constants::AMOUNT] = $available[Constants::AVAILABLE];
                 $resp[Constants::PRICE] = $price;
@@ -1008,8 +1008,8 @@ class AuctionController extends Controller
                 $product = $auction->batch->product->name;
                 $resp[Constants::IS_NOT_AVAILABLE] = 0;
                 $resp['unit'] = trans(Constants::TRANS_UNITS.$unit);
-                $resp['caliber'] = $caliber;
-                $resp['quality'] = $quality;
+                $resp[Constants::CALIBER] = $caliber;
+                $resp[Constants::QUALITY] = $quality;
                 $resp[Constants::PRODUCT] = $product;
                 $resp[Constants::AMOUNT] = $available[Constants::AVAILABLE];
                 $resp[Constants::PRICE] = $price;
@@ -1065,37 +1065,39 @@ class AuctionController extends Controller
         $offers = $this->getOffers($auction_id);
         foreach ($offers as $offer) {
             // Verifico la fecha de la subasta
-            if ($auction->end >= date(Constants::DATE_FORMAT))
+            if ($auction->end >= date(Constants::DATE_FORMAT)){
                 return ('<h1 style="    text-align: center; margin-top: 300px; font-size: 5em">La subasta no ha culminado</h1>');
-
+            }
             //verifica que el precio ofertado sea mayor e igual al de la subasta terminada
             if ($offer->price >= $offer->end_price){
                 if ($offer->status == Offers::PENDIENTE){
                     //registramos la compra a la mejor opc de compra
                     $offerForSale = $this->offerForSale($auction, $offer);
-                    if ($offerForSale)
+                    if ($offerForSale){
                         return ('<h1 style="    text-align: center; margin-top: 300px; font-size: 5em">Se vendio todo</h1>');
+                    }
+
                 }
             }
         }
 
-        if ($available[Constants::AVAILABLE] == 0)
+        if ($available[Constants::AVAILABLE] == 0){
             return ('<h1 style="    text-align: center; margin-top: 300px; font-size: 5em">Se vendio todo</h1>');
+        }
 
-        if (count($offers)>0)
+
+        if (count($offers)>0){
             return $offers;
-        else
+        }else{
             return ('<h1 style="    text-align: center; margin-top: 300px; font-size: 5em">No hay ofertas realizadas<br>Disponibles: '. $available[Constants::AVAILABLE].'</h1>');
+        }
     }
 
     /*funcion que llama la vista de detalles de una subasta*/
     public function auctionDetails($auction_id){
-
         $auction = Auction::findOrFail($auction_id);
-
         //Creamos la instacia de AuctionController para usar el metodo de calculatePriceID
         $objAuct = new AuctionController();
-
         $price= $objAuct->calculatePriceID($auction_id)['CurrentPrice'];
         $availability=$this->getAvailable($auction_id,$auction->amount);
         return view('landing3.subasta', compact(Constants::AUCTION,Constants::PRICE,Constants::AVAILABILITY));
@@ -1109,7 +1111,6 @@ class AuctionController extends Controller
             ->where(Constants::STATUS,'<>',Constants::NO_CONCRETADA)
             ->where(Constants::BIDS_AUCTION_ID,$auction_id)
             ->get();
-
         foreach ($bids as $b) {
             $sold+= $b->amount;
         }
@@ -1118,8 +1119,6 @@ class AuctionController extends Controller
         $data['sold'] = count($bids);
         return $data;
     }
-
-
     public function offerForSale($auction, $offer)
     {
         $auction_id = $auction->id;
@@ -1129,8 +1128,10 @@ class AuctionController extends Controller
         $available = $this->getAvailable($auction_id, $auction->amount);
 
         if ($available[Constants::AVAILABLE] > 0){
-            if ($price <= $auction->end_price)
+            if ($price <= $auction->end_price){
                 return;
+            }
+
 
             //Datos de envio de correo
             $unit = $auction->batch->product->unit;
@@ -1139,8 +1140,8 @@ class AuctionController extends Controller
             $product = $auction->batch->product->name;
             $resp[Constants::IS_NOT_AVAILABLE] = 0;
             $resp['unit'] = trans(Constants::TRANS_UNITS.$unit);
-            $resp['caliber'] = $caliber;
-            $resp['quality'] = $quality;
+            $resp[Constants::CALIBER] = $caliber;
+            $resp[Constants::QUALITY] = $quality;
             $resp[Constants::PRODUCT] = $product;
             $resp[Constants::AMOUNT] = $available[Constants::AVAILABLE];
             $resp[Constants::PRICE] = $price;
@@ -1180,8 +1181,10 @@ class AuctionController extends Controller
                 $message->to($user->email);
             });
             return true;
-        } else
+        } else{
             return false;
+        }
+
     }
 
     public function getOffers($auction_id)

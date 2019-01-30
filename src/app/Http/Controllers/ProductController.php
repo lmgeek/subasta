@@ -6,7 +6,7 @@ use App\Http\Requests\DeleteProductRequest;
 use App\Http\Requests\EditProductRequest;
 use App\Product;
 use Illuminate\Http\Request;
-
+use App\Constants;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -48,18 +48,18 @@ class ProductController extends Controller
      */
     public function store(CreateProductRequest $request)
     {
-        $fileName = $request->file('imagen')->getClientOriginalName();
+        $fileName = $request->file(Constants::IMAGEN)->getClientOriginalName();
 
         if ( file_exists('img/products/'.$fileName) ){
 
-//            $fileExt = $request->file('imagen')->getClientOriginalExtension();
+//            $fileExt = $request->file(Constants::IMAGEN)->getClientOriginalExtension();
 //            $fileName =  $request->input('nombre') . "-" . $request->input('unidad') . "." . $fileExt;
-//            $request->file('imagen')->move( 'img/products',$fileName );
-//            $fileName = $request->file('imagen')->getClientOriginalName();
+//            $request->file(Constants::IMAGEN)->move( 'img/products',$fileName );
+//            $fileName = $request->file(Constants::IMAGEN)->getClientOriginalName();
 
         } else {
 
-            $request->file('imagen')->move( 'img/products',$fileName );
+            $request->file(Constants::IMAGEN)->move( 'img/products',$fileName );
 
         }
 
@@ -73,7 +73,7 @@ class ProductController extends Controller
         $prod->image_name = $fileName;
         $prod->save();
 
-        return redirect('/products');
+        return redirect(Constants::URL_PRODUCTS);
     }
 
     /**
@@ -112,13 +112,13 @@ class ProductController extends Controller
         $prod = Product::withTrashed()->findOrFail($id);
 
 
-        if(!is_null($request->file('imagen'))){
+        if(!is_null($request->file(Constants::IMAGEN))){
 //            if (!is_null($prod->image_name) and file_exists('img/products/'.$prod->image_name)){
 //                unlink('img/products/'.$prod->image_name);
 //            }
 
 
-            $fileName = $request->file('imagen')->getClientOriginalName();
+            $fileName = $request->file(Constants::IMAGEN)->getClientOriginalName();
 
             if ( file_exists('img/products/'.$fileName) ){
 
@@ -126,7 +126,7 @@ class ProductController extends Controller
 
             } else {
 
-                $request->file('imagen')->move( 'img/products',$fileName );
+                $request->file(Constants::IMAGEN)->move( 'img/products',$fileName );
                 $prod->image_name = $fileName;
 
             }
@@ -139,7 +139,7 @@ class ProductController extends Controller
         $prod->weigth_big = str_replace(",", ".", $request->input('weigth_big') );
         $prod->save();
 
-        return redirect('/products');
+        return redirect(Constants::URL_PRODUCTS);
     }
 
     /**
@@ -153,7 +153,7 @@ class ProductController extends Controller
         $prod = Product::findOrFail($id);
         $prod->forceDelete();
 
-        return redirect('/products');
+        return redirect(Constants::URL_PRODUCTS);
     }
 
     public function trash(DeleteProductRequest $request, $id)
@@ -161,7 +161,7 @@ class ProductController extends Controller
         $prod = Product::findOrFail($id);
         $prod->delete();
 
-        return redirect('/products');
+        return redirect(Constants::URL_PRODUCTS);
     }
 
     public function restore($id)
@@ -169,6 +169,6 @@ class ProductController extends Controller
         $prod = Product::withTrashed()->findOrFail($id);
         $prod->restore();
 
-        return redirect('/products');
+        return redirect(Constants::URL_PRODUCTS);
     }
 }

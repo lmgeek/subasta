@@ -127,10 +127,10 @@ class Auction extends Model{
                 $rtrn = $rtrn->where(Constants::START,'>',$now)->where(Constants::AUCTIONS_TYPE,Constants::EQUAL,$type)->orderBy(Constants::START,'DESC');
                 break;
             case Constants::MY_IN_CURSE:
-                $rtrn = Auction::select( Constants::AUCTIONS_SELECT_ALL)->join(Constants::BATCHES,Constants::AUCTIONS_BATCH_ID,Constants::EQUAL,Constants::BATCH_ID)->join(Constants::ARRIVES,Constants::BATCH_ARRIVE_ID,Constants::EQUAL,Constants::ARRIVES_ID)->join(Constants::BOATS,Constants::ARRIVES_BOAT_ID,Constants::EQUAL,Constants::BOATS_ID)->join(Constants::USERS,Constants::BOATS_USER_ID,Constants::EQUAL,Constants::USERS_ID)->where(Constants::USERS_ID,Auth::user()->id)->where(Constants::AUCTIONS_start,'<',$now)->where(Constants::AUCTIONS_END,'>',$now)->orderBy(Constants::AUCTIONS_END,'desc');
+                $rtrn = Auction::select( Constants::AUCTIONS_SELECT_ALL)->join(Constants::BATCHES,Constants::AUCTIONS_BATCH_ID,Constants::EQUAL,Constants::BATCH_ID)->join(Constants::ARRIVES,Constants::BATCH_ARRIVE_ID,Constants::EQUAL,Constants::ARRIVES_ID)->join(Constants::BOATS,Constants::ARRIVES_BOAT_ID,Constants::EQUAL,Constants::BOATS_ID)->join(Constants::USERS,Constants::BOATS_USER_ID,Constants::EQUAL,Constants::USERS_ID)->where(Constants::USERS_ID,Auth::user()->id)->where(Constants::AUCTIONS_START,'<',$now)->where(Constants::AUCTIONS_END,'>',$now)->orderBy(Constants::AUCTIONS_END,'desc');
                 break;
             case Constants::MY_FUTURE:
-                $rtrn = Auction::select( Constants::AUCTIONS_SELECT_ALL)->join(Constants::BATCHES,Constants::AUCTIONS_BATCH_ID,Constants::EQUAL,Constants::BATCH_ID)->join(Constants::ARRIVES,Constants::BATCH_ARRIVE_ID,Constants::EQUAL,Constants::ARRIVES_ID)->join(Constants::BOATS,Constants::ARRIVES_BOAT_ID,Constants::EQUAL,Constants::BOATS_ID)->join(Constants::USERS,Constants::BOATS_USER_ID,Constants::EQUAL,Constants::USERS_ID)->where(Constants::USERS_ID,Auth::user()->id)->where(Constants::AUCTIONS_start,'>',$now)->orderBy('auctions.created_at','desc');
+                $rtrn = Auction::select( Constants::AUCTIONS_SELECT_ALL)->join(Constants::BATCHES,Constants::AUCTIONS_BATCH_ID,Constants::EQUAL,Constants::BATCH_ID)->join(Constants::ARRIVES,Constants::BATCH_ARRIVE_ID,Constants::EQUAL,Constants::ARRIVES_ID)->join(Constants::BOATS,Constants::ARRIVES_BOAT_ID,Constants::EQUAL,Constants::BOATS_ID)->join(Constants::USERS,Constants::BOATS_USER_ID,Constants::EQUAL,Constants::USERS_ID)->where(Constants::USERS_ID,Auth::user()->id)->where(Constants::AUCTIONS_START,'>',$now)->orderBy('auctions.created_at','desc');
                 break;
             case Constants::MY_FINISHED:
                 $rtrn = Auction::select( Constants::AUCTIONS_SELECT_ALL)->join(Constants::BATCHES,Constants::AUCTIONS_BATCH_ID,Constants::EQUAL,Constants::BATCH_ID)->join(Constants::ARRIVES,Constants::BATCH_ARRIVE_ID,Constants::EQUAL,Constants::ARRIVES_ID)->join(Constants::BOATS,Constants::ARRIVES_BOAT_ID,Constants::EQUAL,Constants::BOATS_ID)->join(Constants::USERS,Constants::BOATS_USER_ID,Constants::EQUAL,Constants::USERS_ID)->where(Constants::USERS_ID,Auth::user()->id)->where(Constants::AUCTIONS_END,'<=',$now)->orderBy('auctions.created_at','desc');
@@ -149,7 +149,7 @@ class Auction extends Model{
                         $rtrn = $rtrn->whereIn(Constants::BOATS_ID,$boat);
                     }
                 }
-                $rtrn = $rtrn->where(Constants::START,'<',$now)->where('end','>',$now)->where(Constants::AUCTIONS_TYPE,Constants::EQUAL,$type)->where(Constant::ACTIVE_LIT,Constants::EQUAL,Constants::ACTIVE)->orderBy('end','asc');
+                $rtrn = $rtrn->where(Constants::START,'<',$now)->where('end','>',$now)->where(Constants::AUCTIONS_TYPE,Constants::EQUAL,$type)->where(Constants::ACTIVE_LIT,Constants::EQUAL,Constants::ACTIVE)->orderBy('end','asc');
                 break;
         }
         if ($withStock){
@@ -257,7 +257,7 @@ class Auction extends Model{
 
         return $rtrn->where(Constants::AUCTIONS_TYPE,Constants::EQUAL,Constants::AUCTION_PRIVATE)
             ->where('auctions_invites.user_id',Constants::EQUAL,$user_id)
-            ->where(Constant::ACTIVE_LIT,Constants::EQUAL,Constants::ACTIVE)
+            ->where(Constants::ACTIVE_LIT,Constants::EQUAL,Constants::ACTIVE)
             ->orderBy('end','DESC')
             ->paginate();
     }
@@ -371,8 +371,7 @@ class Auction extends Model{
 
     /* Funcion para validar el tamaño del producto*/
     public static function caliber($caliber){
-        $calibre=($caliber=='small')?'chico':(($caliber=='medium')?'mediano':'grande');
-        return $calibre;
+        return ($caliber=='small')?'chico':(($caliber=='medium')?'mediano':'grande');
     }
 
     //Funcion para darle formato a la fecha

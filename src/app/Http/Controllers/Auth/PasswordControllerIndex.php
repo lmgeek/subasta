@@ -30,12 +30,12 @@ class PasswordControllerIndex extends Controller
     {
         $this->validate($request, [
             'token' => 'required',
-            'email' => 'required|email',
+            Constants::EMAIL => 'required|email',
             'password'=>'required|confirmed|regex:(^\S*(?=\S{6,8})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$)',
         ]);
 
         $credentials = $request->only(
-            'email', 'password', 'password_confirmation', 'token'
+            Constants::EMAIL, 'password', 'password_confirmation', 'token'
         );
 
         $response = Password::reset($credentials, function ($user, $password) {
@@ -45,8 +45,8 @@ class PasswordControllerIndex extends Controller
             return redirect("home.php");
         }else{
             return redirect()->back()
-                ->withInput($request->only('email'))
-                ->withErrors(['email' => trans($response)]);
+                ->withInput($request->only(Constants::EMAIL))
+                ->withErrors([Constants::EMAIL => trans($response)]);
         }
     }
     

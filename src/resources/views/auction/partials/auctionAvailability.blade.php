@@ -11,7 +11,7 @@
 //        $disponible = $total-$vendido;
         ?>
 		@if ( $a->available($a->id, $a->amount) > 0 )
-				@if($status == \App\Auction::FUTURE)
+				@if($status == \App\Constants::FUTURE)
 					<strong>{{ trans('auction.aviability') }} {{ $a->amount }}</strong>
 					<div class="progress">
 						<div style="width: 100%;" class="progress-bar"></div>

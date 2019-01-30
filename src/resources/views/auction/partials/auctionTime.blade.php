@@ -5,13 +5,13 @@
     $fechaFinal = $a->end;
     $segundos = strtotime($fechaFinal) - strtotime($fechaActual);
     $segFinal = strtotime($fechaFinal) - strtotime($fechaInicial);?>
-    @if($status == \App\Auction::IN_CURSE or $status == \App\Auction::MY_IN_CURSE)
+    @if($status == \App\Constants::IN_CURSE or $status == \App\Constants::MY_IN_CURSE)
     <div class="col-md-6">
         <label for="">{{ trans('auction.completion') }}</label><br>
         <label for="">{{ Carbon::parse($a->end)->format('H:i:s d/m/Y') }}</label>
     </div>
     <div class="col-md-6 timerDiv text-left">
-        @if($status == \App\Auction::IN_CURSE or $status == \App\Auction::MY_IN_CURSE)
+        @if($status == \App\Constants::IN_CURSE or $status == \App\Constants::MY_IN_CURSE)
             @if ($a->getAuctionLeftTimeInMinutes() <= env('AUCTION_GRAPH_MAX_MINUTES',360))
             <input type="text"
                    class        = "dial dialLeft m-r"
@@ -36,7 +36,7 @@
             @endif
         @endif
     </div>
-    @elseif($status == \App\Auction::FINISHED or $status == \App\Auction::MY_FINISHED)
+    @elseif($status == \App\Constants::FINISHED or $status == \App\Constants::MY_FINISHED)
             <div class="col-md-6">
                 <label for="">{{ trans('auction.finished') }}</label><br>
                 <label for="">{{ Carbon::parse($a->end)->format('H:i:s d/m/Y') }}</label>

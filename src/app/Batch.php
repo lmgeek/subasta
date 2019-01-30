@@ -48,7 +48,7 @@ class Batch extends Model
         $this->privateSale->price = $price;
         $this->privateSale->weight = $weight;
         $this->privateSale->buyer_name = $buyer;
-        $this->privateSale->date = date('Y-m-d H:i:s');
+        $this->privateSale->date = date(Constants::DATE_FORMAT);
         $this->privateSale->save();
 
         $this->status->remainder -= $amount;

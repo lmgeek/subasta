@@ -5,6 +5,7 @@ namespace App;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use App\Constants;
 
 class Vendedor extends Model
 {
@@ -39,7 +40,7 @@ class Vendedor extends Model
 
     public function getTotalSales($start = null, $end = null)
     {
-        $sales = $this->mySales([Bid::CONCRETADA]);
+        $sales = $this->mySales([Constants::CONCRETADA]);
 
         if (!is_null($start)){
             $sales->where('bid_date','>=', $start );
