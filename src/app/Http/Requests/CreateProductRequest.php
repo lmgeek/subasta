@@ -7,6 +7,7 @@ use App\Http\Requests\Request;
 use App\Product;
 use App\User;
 use Auth;
+use App\Constants;
 
 class CreateProductRequest extends Request
 {
