@@ -174,6 +174,10 @@ function updateAuctionData($id,$price=null,$end=null,$endorder=null,$endfriendly
 function openPopupCompra($id){
     $('#PriceBid'+$id).val($('#Auction_'+$id).attr('data-price'));
     $('#PricePopUp' + $id).html("$" + $('#PriceBid'+$id).val() + " <small>x kg</small>");
+    gtag('event', 'OpenPopUpCompra', {
+        'event_category':'Auction',
+        'event_label':'Auction_'+$id
+    });
 }
 
 function getInfo($id,$firstrun=0) {
@@ -255,9 +259,23 @@ function makeBid($id){
             notifications(1,$result['product'],$result['price'],$result['amount']);
             modifyOffersCounter($id,$result['bidscounter'],$result['offerscounter']);
             updateAuctionData($id,$result['price'],null,null,null,null, $result['hot']);
+            gtag('event', 'purchase', {
+                'event_category':'Auction',
+                'event_label':'Auction_'+$id,
+                'value':$('#PriceBid'+$id).val()*$('#cantidad-'+$id).val(),
+                'transaction_id':$result['bidid'],
+                'items':[{
+                    'id':$result['productid'],
+                    'name':$result['product'],
+                    'variant':$result['caliber'],
+                    'quantity':$('#cantidad-'+$id).val(),
+                    'price':$('#PriceBid'+$id).val()
+                }]
+            });
         }else{
             notifications(0,null,null,null,$result['error']);
         }
+
     }).fail(function(){
         notifications(0,null,null,null,'No se pudo realizar la compra');
     });
@@ -297,19 +315,29 @@ function popupCompraDisableText($id) {
     }
 }
 function auctionListFilter(){
-    $('.auction').each(function(){
-        var $visible=0,$idsubasta=$(this).data('id'),$checked=0;
-        $('.AuctionListFilter').each(function() {
-            var $field = $(this).data('field'), $val = $(this).data('value');
-            if($(this).is(':checked')){
-                if ($('#Auction_' + $idsubasta).data($field) == $val) {
-                    $visible++;
-                }
-                $checked++;
+    var comparator=[],$checked=0;
+    $('.AuctionListFilter').each(function() {
+        var $field = $(this).data('field'), $val = $(this).data('value');
+        if($(this).is(':checked')){
+            $checked++;
+            if(comparator[$field]!=null){
+                comparator[$field]+=$val+"**";
+            }else{
+                comparator[$field]=$val+"**";
             }
+        }
+    });
 
-        });
-        if($visible<$checked){
+    $('.auction').each(function(){
+        var $visible=0,$idsubasta=$(this).data('id');
+        for(var index in comparator){
+            var $valauction=$(this).data(index);
+            if(comparator[index].includes($valauction)){
+                $visible++;
+            }
+        }
+        console.log($checked+' '+$visible)
+        if($checked>$visible){
             $(this).fadeOut();
         }else{
             $(this).fadeIn();

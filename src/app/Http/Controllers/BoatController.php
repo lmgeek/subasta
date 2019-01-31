@@ -147,7 +147,7 @@ class BoatController extends Controller
 
     public function reject(Request $request, $id)
     {
-        $this->boat->status = Boat::RECHAZADO;
+        $this->boat->status = Constants::RECHAZADO;
         $this->boat->rebound = $request->input('motivo');
         $this->boat->save();
 		

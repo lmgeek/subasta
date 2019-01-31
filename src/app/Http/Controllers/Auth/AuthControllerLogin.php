@@ -69,7 +69,7 @@ class AuthControllerLogin extends Controller
         $active_mail= Auth::user()->active_mail;
         // filtro para que no inicie seccion ante de verificar su correo 
         if ($active_mail == 1) {
-            return redirect('/');
+            return redirect('/?log=1');
         }else{
             // cerra seccion 
             Auth::logout();

@@ -14,12 +14,12 @@ $price=\App\Http\Controllers\AuctionController::calculatePriceID($auction->id);
 $close=$price['Close'];
 $userRatings=\App\Http\Controllers\AuctionController::getUserRating($auction->batch->arrive->boat->user);
 $usercat=Auction::catUserByAuctions($userId);
-$calibre=\App\Auction::caliber($auction->batch->caliber);
+$calibre=Constants::caliber($auction->batch->caliber);
 $port=\App\Ports::getPortById($auction->batch->arrive->port_id)
 ?>
 <div id="Auction_<?=$auction->id?>" class="task-listing <?=(empty($finished))?'auction':''?>" data-id="{{$auction->id}}" data-price="{{$price['CurrentPrice']}}" data-end="{{$auction->end}}" data-endOrder="{{date('YmdHi',strtotime($auction->end))}}" data-close="{{$close}}"data-userrating="{{$userRatings}}"
 <?='data-port="'.$auction->batch->arrive->port_id.'"
-data-product="'.$auction->batch->product->name.'"
+data-product="'.$auction->batch->product->id.'"
 data-caliber="'.$auction->batch->caliber.'"
 data-quality="'.(($auction->batch->quality<1)?1:$auction->batch->quality).'"
 data-user="'.$auction->batch->arrive->boat->user->nickname.'"'?>>

@@ -122,4 +122,16 @@ class Constants{
     const ICON_OFFERS_BIDS_GREEN='<em class="icon-material-outline-local-offer green"></em>';
     const OFERTA_DIRECTA=' Oferta Directa';
     const OFERTAS_DIRECTAS=' Ofertas Directas';
+
+
+    public function formatDate($fecha){
+        setlocale(LC_TIME,'es_ES');
+        return strftime('%d %b %Y', strtotime($fecha));
+    }
+
+    /* Funcion para validar el tamaño del producto*/
+    public static function caliber($caliber){
+        $mediumbigdifferencer=(($caliber=='medium')?'mediano':'grande');
+        return ($caliber=='small')?'chico':$mediumbigdifferencer;
+    }
 }
