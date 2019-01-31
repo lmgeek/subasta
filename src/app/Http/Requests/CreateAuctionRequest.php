@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Constants;
 use App\Http\Requests\Request;
 use App\Auction;
 use Illuminate\Support\Facades\App;
@@ -41,7 +42,7 @@ class CreateAuctionRequest extends Request
             'amount'     => 'required|numeric|min:1',
             'descri'   => 'required|min:120|max:1000',
             'intervalo'   => 'required|numeric|min:5',
-			'invitados'   => 'required_if:tipoSubasta,' . Auction::AUCTION_PRIVATE
+			'invitados'   => 'required_if:tipoSubasta,' . Constants::AUCTION_PRIVATE
         ];
     }
     public function messages()

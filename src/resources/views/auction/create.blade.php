@@ -95,7 +95,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Tipo de subasta</label>
-                                    {!! Form::select('tipoSubasta',["" => "Seleccione...",\App\Auction::AUCTION_PUBLIC => ucfirst(trans("auction.".\App\Auction::AUCTION_PUBLIC)), \App\Auction::AUCTION_PRIVATE => ucfirst(trans("auction.".\App\Auction::AUCTION_PRIVATE))], old('tipoSubasta'), ['class' => 'form-control m-b','id' => 'tipoSubasta']) !!}
+                                    {!! Form::select('tipoSubasta',["" => "Seleccione...",\App\Constants::AUCTION_PUBLIC => ucfirst(trans("auction.".\App\Constants::AUCTION_PUBLIC)), \App\Constants::AUCTION_PRIVATE => ucfirst(trans("auction.".\App\Constants::AUCTION_PRIVATE))], old('tipoSubasta'), ['class' => 'form-control m-b','id' => 'tipoSubasta']) !!}
                                 </div>
                             </div>
                             <div class="row">
@@ -255,7 +255,7 @@
 			$('.chosen-select').chosen({width:"100%"});
 
 			$("#tipoSubasta").change(function(){
-				var t = "{{ \App\Auction::AUCTION_PRIVATE }}";
+				var t = "{{ \App\Constants::AUCTION_PRIVATE }}";
 				
 				if ($(this).val() == t){
 					$(".buyers-auction").show();
@@ -317,10 +317,10 @@
                     $("#total").val(val1*val2).trigger('change');
             @endif
 
-			@if (old('tipoSubasta') == \App\Auction::AUCTION_PRIVATE)
+			@if (old('tipoSubasta') == \App\Constants::AUCTION_PRIVATE)
 					$(".buyers-auction").show();
 			@endif
-            @if (old('descri') == \App\Auction::AUCTION_PRIVATE)
+            @if (old('descri') == \App\Constants::AUCTION_PRIVATE)
                     $(".buyers-auction").show();
             @endif
             $('#datetimepickerStart').datetimepicker({
