@@ -36,7 +36,7 @@ class CreateArriveRequest extends Request
     {
         return [
             'barco' => 'El barco',
-            'puerto'=> 'Del puerto',
+            'puerto'=> 'del puerto',
             'date' => 'fecha de arribo'
         ];
     }

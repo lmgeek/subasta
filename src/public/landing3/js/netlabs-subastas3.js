@@ -315,32 +315,32 @@ function popupCompraDisableText($id) {
     }
 }
 function auctionListFilter(){
-    var $visible=[],$checked=0;
+    var $visible=[],$checked=[],$cantauctions=0,$checker=0;
+    $('.auction').show();
     $('.AuctionListFilter').each(function() {
-        var $field = $(this).data('field'), $val = $(this).data('value');
         if($(this).is(':checked')){
-            $cantauctions=0;
+            var $field = $(this).data('field'), $val = $(this).data('value');
+            $checked[$field]++;
             $('.auction').each(function(){
-                console.log($val==$(this).data($field));
+                console.log($field+' '+$val+' '+ $(this).data($field))
                 if($val==$(this).data($field)){
-                    console.log('#'+$(this).attr('id'))
-                    $visible[$cantauctions]='#'+$(this).attr('id');
+                    console.log('#'+$(this).attr('id'));
+                    $visible[$field]+='#'+$(this).attr('id')+'**';
                     $cantauctions++;
                 }
             });
-            $checked++;
+            $checker++;
         }
-    });
-    console.log($visible)
-    if($checked>0){
-        $('.auction').fadeOut();
-        for(var $z=0;$z<$visible.length;$z++){
-            $($visible[$z]).fadeIn();
+    })
+   if($checker>0){
+       $('.auction').hide();
+        for(var index in $checked){
+            $ids=$visible[index].toString().slice(0,-2).split('**');
+            for($z=0;$z<$ids.length;$z++){
+                $($ids[$z]).show();
+            }
         }
-    }
-
-
-
+   }
 }
 $(document).ready(function(){
     $('.timerauction').each(function(){
