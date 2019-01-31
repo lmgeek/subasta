@@ -54,6 +54,7 @@ services:
       - DB_USERNAME=root
       - DB_PASSWORD=sjkol343421xdsa!!
       - SUBJECT="qa deploy subastas"
+      - FLYWAY_LOCATIONS=filesystem:/deploy/sql,filesystem:/deploy/qa
     networks:
       - backend
     deploy:
