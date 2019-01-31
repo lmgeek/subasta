@@ -29,6 +29,7 @@ services:
       - backend
     volumes:
       - /c/Users/${USERNAME}/Desktop/docker/src/subastas/src:/var/www/html
+      - /c/Users/${USERNAME}/Desktop/docker/volumes/subastas/products:/var/www/html/public/img/products
     deploy:
       labels:
         traefik.frontend.rule: "Host:subastas.local.dev.netlabs.com.ar"

@@ -27,6 +27,8 @@ services:
     networks:
       - frontend 
       - backend
+    volumes:
+      - subastas_uploads:/var/www/html/public/img/products
     deploy:
       labels:
         traefik.frontend.rule: "Host:subastas.qa.netlabs.com.ar"
@@ -76,4 +78,6 @@ volumes:
     driver_opts:
       size: 8gb
 
-
+  subastas_uploads:
+    name: qa-subastas-uploads
+    driver: "rexray/s3fs-web"
