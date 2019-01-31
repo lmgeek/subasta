@@ -315,34 +315,32 @@ function popupCompraDisableText($id) {
     }
 }
 function auctionListFilter(){
-    var comparator=[],$checked=0;
+    var $visible=[],$checked=0;
     $('.AuctionListFilter').each(function() {
         var $field = $(this).data('field'), $val = $(this).data('value');
         if($(this).is(':checked')){
+            $cantauctions=0;
+            $('.auction').each(function(){
+                console.log($val==$(this).data($field));
+                if($val==$(this).data($field)){
+                    console.log('#'+$(this).attr('id'))
+                    $visible[$cantauctions]='#'+$(this).attr('id');
+                    $cantauctions++;
+                }
+            });
             $checked++;
-            if(comparator[$field]!=null){
-                comparator[$field]+=$val+"**";
-            }else{
-                comparator[$field]=$val+"**";
-            }
         }
     });
+    console.log($visible)
+    if($checked>0){
+        $('.auction').fadeOut();
+        for(var $z=0;$z<$visible.length;$z++){
+            $($visible[$z]).fadeIn();
+        }
+    }
 
-    $('.auction').each(function(){
-        var $visible=0,$idsubasta=$(this).data('id');
-        for(var index in comparator){
-            var $valauction=$(this).data(index);
-            if(comparator[index].includes($valauction)){
-                $visible++;
-            }
-        }
-        console.log($checked+' '+$visible)
-        if($checked>$visible){
-            $(this).fadeOut();
-        }else{
-            $(this).fadeIn();
-        }
-    });
+
+
 }
 $(document).ready(function(){
     $('.timerauction').each(function(){

@@ -126,7 +126,7 @@ class BoatController extends Controller
 	
 	public function approve(Request $request, $id)
     {
-        $this->boat->status = Boat::APROBADO;
+        $this->boat->status = Constants::APROBADO;
         $this->boat->save();
 		
 		$template = 'emails.boatapproved';
