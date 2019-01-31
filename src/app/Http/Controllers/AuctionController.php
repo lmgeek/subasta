@@ -319,7 +319,8 @@ class AuctionController extends Controller
 					$resp[Constants::IS_NOT_AVAILABLE] = 0;
                     $resp[Constants::AVAILABILITY] = $availability-$amount;
 					$resp['unit'] = trans(Constants::TRANS_UNITS.$unit);
-					$resp['bidid']=$lastbid[0]['id'];
+                    $resp['bidid']=$lastbid[0]['id'];
+                    $resp['productid']=$auction->batch->product->id;
 					$resp[Constants::PRODUCT] = $product;
 					$resp[Constants::AMOUNT] = $amount;
 					$resp[Constants::PRICE] = $price;
@@ -749,19 +750,7 @@ class AuctionController extends Controller
 
 		return redirect('auction?status='.Constants::FUTURE);
 	}
-
-
-
-
-
-
-
-
-
 /** NEEW **/
-
-
-
 	public function subastaHome(Request $request)
     {
         $status = $request->get(Constants::STATUS,Constants::IN_CURSE);
@@ -859,7 +848,7 @@ class AuctionController extends Controller
         }
 	    return $return;
     }
-    public function subastasDestacadasHome($return=2){
+    public function subastasDestacadasHome(Request $request,$return=2){
         $buyers = User::filter(null, array(User::COMPRADOR), array(User::APROBADO));
         $boats = Boat::Select()->get();
         $auctionhome=Auction::auctionHome();
@@ -889,16 +878,20 @@ class AuctionController extends Controller
              * Buyers y Boats para los contadores del header
              * Ports para el nombre del puerto(esto podria no estar, pero al necesitarse para lista de subastas, se usa)
              */
-            return view('/landing3/index')
+            $view=view('/landing3/index')
                 ->withAuctions($auctions1)
                 ->withAuctionsf($auctions2)
                 ->withPorts($port)
                 ->withBoats($boats)
                 ->withBuyers($buyers);
+            if($request->get('log')==1){
+                $view=$view->withLog('1');
+            }
+            return $view;
         }
     }
     public function listaSubastas(Request $request){
-	    $all=$this->subastasDestacadasHome(1);
+	    $all=$this->subastasDestacadasHome($request,1);
         return view('/landing3/subastas')
             ->withAuctions($all[Constants::AUCTIONS])
             ->withPorts($all[Constants::PORTS])
@@ -1013,6 +1006,7 @@ class AuctionController extends Controller
                 $resp[Constants::CALIBER] = $caliber;
                 $resp[Constants::QUALITY] = $quality;
                 $resp[Constants::PRODUCT] = $product;
+                $resp['productid']=$auction->batch->product->id;
                 $resp[Constants::AMOUNT] = $available[Constants::AVAILABLE];
                 $resp[Constants::PRICE] = $price;
                 $resp['offerscounter']=$this->getOffersCount($auction_id);
