@@ -41,7 +41,7 @@ class CreateAuctionRequest extends Request
             'endPrice'   => 'required|regex:/^\d{1,}(\,\d+)?$/|min:1',
             'amount'     => 'required|numeric|min:1',
             'descri'   => 'required|min:120|max:1000',
-            'intervalo'   => 'required|numeric|min:5',
+            'intervalo'   => 'required|numeric',
 			'invitados'   => 'required_if:tipoSubasta,' . Constants::AUCTION_PRIVATE
         ];
     }
