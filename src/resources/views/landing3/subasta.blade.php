@@ -28,7 +28,7 @@ $cantcompras=$availability['sold'];
                         <div class="left-side">
                             <div class="header-image"><img src="{{ asset('/img/products/'.$auction->batch->product->image_name) }}" alt="{{$auction->batch->product->name}}"></div>
                             <div class="header-details">
-                                <h3 class="margin-bottom-0">{{$auction->batch->product->name}} <?=$objtAuction->caliber($auction->batch->caliber);?> <div class="star-rating" data-rating="5.0"></div>
+                                <h3 class="margin-bottom-0">{{$auction->batch->product->name}} <?=Constants::caliber($auction->batch->caliber);?> <div class="star-rating" data-rating="5.0"></div>
                                     @if($auction->type!='public')
                                         <em class="t16 icon-feather-eye-off" data-tippy-placement="right" title="Subasta Privada" data-tippy-theme="dark"></em>
                                     @endif
@@ -36,7 +36,7 @@ $cantcompras=$availability['sold'];
 
 
                                 <ul>
-                                    <li><em class="icon-material-outline-access-time primary"></em><strong class="primary">{{$objtAuction->formatDate($auction->end)}}</strong></li>
+                                    <li><em class="icon-material-outline-access-time primary"></em><strong class="primary">{{\App\Constants::formatDate($auction->end)}}</strong></li>
                                     <li><em class="icon-material-outline-location-on"></em> {{\App\Http\Controllers\AuctionController::getPortById($auction->batch->arrive->port_id) }}</li>
                                     <li style="display: none" id="HotAuction{{$auction->id}}"><em class="icon-line-awesome-fire red" ></em> <strong class="red">¡Subasta caliente!</strong></li>
                                 </ul>

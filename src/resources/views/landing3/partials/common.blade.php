@@ -1,5 +1,3 @@
-<!-- Basic Page Needs
-================================================== -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="author" content="humans.txt">
@@ -15,15 +13,11 @@
 <link rel="apple-touch-icon" href="/landing3/images/apple-touch-icon-57x57.png">
 <link rel="apple-touch-icon" sizes="72x72" href="/landing3/images/apple-touch-icon-72x72.png">
 <link rel="apple-touch-icon" sizes="114x114" href="/landing3/images/apple-touch-icon-114x114.png">
-
-<!-- CSS
-================================================== -->
 <link rel="stylesheet" href="/landing3/css/style.css">
 <link rel="stylesheet" href="/landing3/css/color/blue.css">
 <link rel="stylesheet" href="/landing3/css/datetimepicker.css">
 <link rel="stylesheet" href="/landing3/css/filters.css">
 <link rel="stylesheet" href="/landing3/css/netlabs-subastas3.css">
-<!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-132702736-1"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -33,6 +27,11 @@
 gtag('set', {'user_id': '<?=Auth::user()->nickname?>'});
 <?php }?>
   gtag('config', 'UA-132702736-1');
+  gtag('set', {
+    'country': 'AR',
+    'currency': 'ARS'
+  });
+  <?php if(isset(Auth::user()->id) && isset($log) and $log==1){echo "gtag('event', 'login', { 'method': 'Local' });";}?>
 </script>
 
 <script>

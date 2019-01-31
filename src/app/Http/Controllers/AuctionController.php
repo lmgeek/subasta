@@ -310,6 +310,7 @@ class AuctionController extends Controller
 				{
 
 					$auction->makeBid($amount,$price);
+					$lastbid=Bid::Select('id')->orderBy('id','desc')->limit(1)->get();
 					$unit = $auction->batch->product->unit;
 					$product = $auction->batch->product->name;
                     $amounttotal=$auction->amount;
@@ -318,6 +319,7 @@ class AuctionController extends Controller
 					$resp[Constants::IS_NOT_AVAILABLE] = 0;
                     $resp[Constants::AVAILABILITY] = $availability-$amount;
 					$resp['unit'] = trans(Constants::TRANS_UNITS.$unit);
+					$resp['bidid']=$lastbid[0]['id'];
 					$resp[Constants::PRODUCT] = $product;
 					$resp[Constants::AMOUNT] = $amount;
 					$resp[Constants::PRICE] = $price;

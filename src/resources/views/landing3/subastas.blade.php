@@ -39,8 +39,8 @@ use App\User;
 							<h3>Productos</h3>
 							<div class="checkbox">
 								@foreach($products as $key=> $valor)
-								<input type="checkbox" id="Product{{$valor['id']}}"  onclick="auctionListFilter()" class="AuctionListFilter" data-field="product" data-value="{{$key}}">
-								<label for="Product{{$valor['id']}}"><span class="checkbox-icon"></span> {{Product::getProductFromId($key)}} ({{$valor}})</label>
+								<input type="checkbox" id="Product{{$key}}"  onclick="auctionListFilter()" class="AuctionListFilter" data-field="product" data-value="{{$key}}">
+								<label for="Product{{$key}}"><span class="checkbox-icon"></span> {{Product::getProductFromId($key)}} ({{$valor}})</label>
 								@endforeach
 							</div>
 						</div>
@@ -51,7 +51,7 @@ use App\User;
 							<div class="checkbox">
 								@foreach($caliber as $key=>$valor)
 								<input type="checkbox" id="Caliber{{$key}}" onclick="auctionListFilter()" class="AuctionListFilter" data-field="caliber" data-value="{{$key}}">
-								<label for="Caliber{{$key}}"><span class="checkbox-icon"></span> {{ucfirst(\App\Auction::caliber($key))}} ({{$valor}})</label>
+								<label for="Caliber{{$key}}"><span class="checkbox-icon"></span> {{ucfirst(\App\Constants::caliber($key))}} ({{$valor}})</label>
 								@endforeach
 							</div>
 						</div>
