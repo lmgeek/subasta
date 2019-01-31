@@ -99,7 +99,7 @@ volumes:
 
   subastas_uploads:
     name: subastas-uploads
-    driver: "rexray/s3fs-web"
+    driver: "vsan/minio-web"
 
   backup:
     driver: "nasbackup/minio"

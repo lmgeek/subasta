@@ -80,4 +80,4 @@ volumes:
 
   subastas_uploads:
     name: qa-subastas-uploads
-    driver: "rexray/s3fs-web"
+    driver: "vsan/minio-web"
