@@ -31,7 +31,7 @@ gtag('set', {'user_id': '<?=Auth::user()->nickname?>'});
     'country': 'AR',
     'currency': 'ARS'
   });
-  <?php if(isset(Auth::user()->id) && isset($log) and $log==1){echo "gtag('event', 'login', { 'method': 'Local' });";}?>
+  <?php if(isset($log)){?>gtag('event', 'login', { 'method': 'Local' });<?php }?>
 </script>
 
 <script>

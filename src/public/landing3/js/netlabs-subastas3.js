@@ -179,6 +179,12 @@ function openPopupCompra($id){
         'event_label':'Auction_'+$id
     });
 }
+function openPopupOferta($id){
+    gtag('event', 'OpenPopUpOferta', {
+        'event_category':'Auction',
+        'event_label':'Auction_'+$id
+    });
+}
 
 function getInfo($id,$firstrun=0) {
     var d = new Date();
@@ -296,6 +302,16 @@ function makeOffer($id){
         if($result['isnotavailability']==0){
             notifications(2,$result['product'],$result['price']);
             modifyOffersCounter($id,$result['bidscounter'],$result['offerscounter']);
+            gtag('event', 'Offer', {
+                'event_category':'Auction',
+                'event_label':'Offer from Auction '+$id,
+                'items':[{
+                    'id':$result['productid'],
+                    'name':$result['product'],
+                    'variant':$result['caliber'],
+                    'price':$('#OfferPrice'+$id).val()
+                }]
+            });
 
         }else{
             notifications(0,null,null,null,$result['error']);
@@ -315,32 +331,31 @@ function popupCompraDisableText($id) {
     }
 }
 function auctionListFilter(){
-    var $visible=[],$checked=[],$cantauctions=0,$checker=0;
-    $('.auction').show();
-    $('.AuctionListFilter').each(function() {
-        if($(this).is(':checked')){
-            var $field = $(this).data('field'), $val = $(this).data('value');
-            $checked[$field]++;
-            $('.auction').each(function(){
-                console.log($field+' '+$val+' '+ $(this).data($field))
-                if($val==$(this).data($field)){
-                    console.log('#'+$(this).attr('id'));
-                    $visible[$field]+='#'+$(this).attr('id')+'**';
-                    $cantauctions++;
+    $('.auction').show();var $filterstring='';
+    $('.auction').each(function(){
+        $filters=[];
+        $('.AuctionListFilter').each(function(){
+            if($(this).is(':checked')){
+                if($filters[$(this).data('field')]!=null){
+                    $filters[$(this).data('field')]+=$(this).data('value')+'**';
+                }else{
+                    $filters[$(this).data('field')]=$(this).data('value')+'**';
                 }
-            });
-            $checker++;
-        }
-    })
-   if($checker>0){
-       $('.auction').hide();
-        for(var index in $checked){
-            $ids=$visible[index].toString().slice(0,-2).split('**');
-            for($z=0;$z<$ids.length;$z++){
-                $($ids[$z]).show();
+            }
+        });
+
+        for(var $field in $filters){
+            if(!$filters[$field].includes($(this).data($field)+"**")){
+                $(this).hide();
+                $filterstring+='Filter '+$field+': '+$filters[$field].replace('**',' ')
             }
         }
-   }
+    });
+    gtag('event', 'FiltradoListaSubastas', {
+        'event_category':'Filter',
+        'event_label':'FilteredBy',
+        'event_value':$filterstring
+    });
 }
 $(document).ready(function(){
     $('.timerauction').each(function(){
