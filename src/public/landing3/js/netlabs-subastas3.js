@@ -287,7 +287,6 @@ function makeBid($id){
     });
 }
 function makeOffer($id){
-
     if($('#OfferPrice'+$id).val()==''){
         notifications(0,null,null,null,'Tienes que poner un precio');
         return;
@@ -304,12 +303,12 @@ function makeOffer($id){
             modifyOffersCounter($id,$result['bidscounter'],$result['offerscounter']);
             gtag('event', 'Offer', {
                 'event_category':'Auction',
-                'event_label':'Offer from Auction '+$id,
+                'event_label':'Auction'+$id+'',
                 'items':[{
                     'id':$result['productid'],
                     'name':$result['product'],
                     'variant':$result['caliber'],
-                    'price':$('#OfferPrice'+$id).val()
+                    'value':$('#OfferPrice'+$id).val()
                 }]
             });
 
@@ -333,7 +332,7 @@ function popupCompraDisableText($id) {
 function auctionListFilter(){
     $('.auction').show();var $filterstring='';
     $('.auction').each(function(){
-        $filters=[];
+        var $filters=[];
         $('.AuctionListFilter').each(function(){
             if($(this).is(':checked')){
                 if($filters[$(this).data('field')]!=null){
@@ -353,7 +352,7 @@ function auctionListFilter(){
     });
     gtag('event', 'FiltradoListaSubastas', {
         'event_category':'Filter',
-        'event_label':'FilteredBy',
+        'event_label':$filterstring,
         'event_value':$filterstring
     });
 }
