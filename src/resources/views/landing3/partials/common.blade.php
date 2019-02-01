@@ -25,55 +25,23 @@
   gtag('js', new Date());
 <?php if(Auth::user()){?>
 gtag('set', {'user_id': '<?=Auth::user()->nickname?>'});
-<?php }?>
-  gtag('config', 'UA-132702736-1');
+<?php }
+$urlactual = "$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+$urldev='subastas.local.dev.netlabs.com.ar';
+$urlprod='subastasdelmar.com';
+$urlqa='subastas.qa.netlabs.com.ar';
+if(substr($urlactual,0,strlen($urlqa))==$urlqa){
+$analytics='UA-132702736-1';
+}elseif(substr($urlactual,0,strlen($urldev))==$urldev){
+$analytics='UA-132702736-2';
+}elseif(substr($urlactual,0,strlen($urlprod))==$urlprod){
+$analytics='UA-132702736-3';
+}
+?>
+  gtag('config', '<?=$analytics?>');
   gtag('set', {
     'country': 'AR',
     'currency': 'ARS'
   });
   <?php if(isset($log)){?>gtag('event', 'login', { 'method': 'Local' });<?php }?>
-</script>
-
-<script>
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)}(window, document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', 'your-pixel-id-goes-here');
-  fbq('track', 'PageView');
-</script>
-<noscript>
-  <img height="1" width="1" style="display:none"
-       src="https://www.facebook.com/tr?id=your-pixel-id-goes-here&ev=PageView&noscript=1"/>
-</noscript>
-
-
-<script>
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '2005390536433596',
-      cookie     : true,
-      xfbml      : true,
-      version    : 'v3.2',
-      <?php if(Auth::user()){?>
-      uid: '<?=Auth::user()->nickname?>'
-      <?php }?>
-    });
-
-    FB.AppEvents.logPageView();
-
-  };
-
-fbq('init', '<pixel_id>', {uid: '<userID>'});
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "https://connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
 </script>

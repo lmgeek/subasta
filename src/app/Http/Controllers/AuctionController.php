@@ -321,7 +321,7 @@ class AuctionController extends Controller
 					$resp['unit'] = trans(Constants::TRANS_UNITS.$unit);
                     $resp['bidid']=$lastbid[0]['id'];
                     $resp['productid']=$auction->batch->product->id;
-					$resp[Constants::PRODUCT] = $product;
+					$resp[Constants::PRODUCT] = $product.' - '.Constants::caliber($auction->batch->caliber).' - '.$unit;
 					$resp[Constants::AMOUNT] = $amount;
 					$resp[Constants::PRICE] = $price;
 					$resp['totalAmount']=$amounttotal;

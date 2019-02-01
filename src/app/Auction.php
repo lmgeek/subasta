@@ -11,7 +11,6 @@ class Auction extends Model{
     use priceTrait;
     protected $table = 'auctions';
     protected $fillable = ['batch_id', 'start','start_price','end','end_price','interval','type','notification_status','description'];
-
     public function makeBid($amount , $price){
         $prices = str_replace(",","",$price);
         $this->bid = new Bid();
@@ -51,20 +50,16 @@ class Auction extends Model{
         $data = \DB::table('batch_statuses')->where('batch_id', Constants::EQUAL, $this->batch->id)->lockForUpdate()->get();
         return $data[0]->assigned_auction;
     }
-
     public function subscription(){
         return $this->hasMany('App\Subscription');
     }
-
     public function batch()
     {
         return $this->belongsTo('App\Batch');
     }
-
     public function bids(){
         return $this->hasMany('App\Bid');
     }
-
     public function getTimeToNextInterval()
     {
         $now = Carbon::now()->timestamp;
@@ -73,7 +68,6 @@ class Auction extends Model{
         return ($position == 0) ? $this->interval*60 : $segundosRestantes;
 
     }
-
     public function getAuctionDurationInMinutes()
     {
         return $this->getAuctionDuration(Constants::MINUTES);
@@ -82,7 +76,6 @@ class Auction extends Model{
     {
         return $this->getAuctionLeftTime(Constants::MINUTES);
     }
-
     public function getAuctionBids()
     {
         $sold = 0;
@@ -92,7 +85,6 @@ class Auction extends Model{
         }
         return $sold;
     }
-
     private function getAuctionLeftTime($type){
         return ($type== Constants::MINUTES)?(Carbon::now()->diffInMinutes(Carbon::createFromFormat(Constants::DATE_FORMAT,$this->end))):(Carbon::now()->diffInSeconds(Carbon::createFromFormat( Constants::DATE_FORMAT,$this->end)));
     }
@@ -158,24 +150,24 @@ class Auction extends Model{
             ->join(Constants::PORT,'arrives.port_id', Constants::EQUAL,'port.id')
             ->join(Constants::BOATS, Constants::ARRIVES_BOAT_ID, Constants::EQUAL, Constants::BOATS_ID)
             ->join(Constants::USERS, Constants::BOATS_USER_ID, Constants::EQUAL, Constants::USERS_ID);
-        if(isset($params['auctionid']) && $params['auctionid']!=null){
+        if(isset($params['auctionid'])){
             $auctions=$auctions->where(Constants::AUCTIONS_ID, Constants::EQUAL,$params['auctionid']);
-        }elseif(isset($params['idtoavoid']) && $params['idtoavoid']!=null){
+        }elseif(isset($params['idtoavoid'])){
             $auctions=$auctions->whereNotIn(Constants::AUCTIONS_ID,$params['idtoavoid']);
         }
-        if(isset($params['batchid']) && $params['batchid']!=null){
+        if(isset($params['batchid'])){
             $auctions=$auctions->where(Constants::AUCTIONS_BATCH_ID, Constants::EQUAL,$params['batchid']);
         }
-        if(isset($params['productid']) && $params['productid']!=null){
-            $auctions=$auctions->where('batches.product_id', Constants::EQUAL,$productid);
+        if(isset($params['productid'])){
+            $auctions=$auctions->where('batches.product_id', Constants::EQUAL,$params['productid']);
         }
-        if(isset($params['sellerid']) && $params['sellerid']!=null){
+        if(isset($params['sellerid'])){
             $auctions = $auctions->whereIn(Constants::USERS_ID,$params['sellerid']);
         }
-        if(isset($params['boatid']) && $params['boatid']!=null){
+        if(isset($params['boatid'])){
             $auctions=$auctions->whereIn(Constants::BOATS_ID,$params['boatid']);
         }
-        if(isset($params['portid']) && $params['portid']!=null){
+        if(isset($params['portid'])){
             $auctions=$auctions->whereIn('arrives.port_id',$params['portid']);
         }
         $orderby=(isset($params['orderby']))?$params['orderby']:'end';
@@ -228,11 +220,6 @@ class Auction extends Model{
             ->orderBy('end','DESC')
             ->paginate();
     }
-
-
-
-
-
     public function calculatePrice($bidDate)
     {
         $finalPrice = null;
@@ -284,7 +271,6 @@ class Auction extends Model{
 
         $bid->auction->batch->status->save();
     }
-
     public function subscribeUser(User $user)
     {
         $this->subscription = new Subscription();
@@ -293,9 +279,7 @@ class Auction extends Model{
         $this->subscription->status = Subscription::NO_NOTIFICADO;
         $this->subscription->save();
     }
-
     //Funcion para sacar la cantidad de ofertas directas
-
     public function amountSold($auction_id){
         $amount = Bid::Select()->where(Constants::STATUS,'<>',Bid::NO_CONCRETADA)
             ->where(Constants::BIDS_AUCTION_ID, Constants::EQUAL,$auction_id)
@@ -304,9 +288,6 @@ class Auction extends Model{
         echo count($amount);
 
     }
-
-
-
     public function isInCourse()
     {
         $now = date(Constants::DATE_FORMAT);
