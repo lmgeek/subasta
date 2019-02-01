@@ -124,7 +124,7 @@ class Constants{
     const OFERTAS_DIRECTAS=' Ofertas Directas';
 
 
-    public function formatDate($fecha){
+    public static function formatDate($fecha){
         setlocale(LC_TIME,'es_ES');
         return strftime('%d %b %Y', strtotime($fecha));
     }
