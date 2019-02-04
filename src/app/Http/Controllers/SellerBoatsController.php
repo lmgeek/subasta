@@ -79,9 +79,9 @@ class SellerBoatsController extends Controller
         $boat->status = Constants::PENDIENTE;
         $boat->user_id = Auth::user()->id;
         $boat->save();
-
+        $checker=Boat::select('id')->where('user_id','=',Auth::user()->id)->where('nickname','=',$request->input('alias'))->get();
         $request->session()->flash('confirm_msg', trans('sellerBoats.boat_added_msg'));
-        return redirect()->route('sellerboat.index');
+        return redirect()->route('sellerboat.index',['id'=>$checker[0]['id'],'e'=>'created','t'=>'boat']);
     }
 
     /**
