@@ -155,7 +155,7 @@ class AuctionController extends Controller
         
 		
 
-        return redirect('/sellerbatch');
+        return redirect('/sellerbatch?e=created&t=auction&id='.$auction->id.'&ex='.urlencode('Product ID: '.$batch->product_id.'. Quantity: '.$request->input(Constants::AMOUNT)));
     }
 
     public function calculatePrice(Request $request)

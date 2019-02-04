@@ -303,13 +303,7 @@ function makeOffer($id){
             modifyOffersCounter($id,$result['bidscounter'],$result['offerscounter']);
             gtag('event', 'Offer', {
                 'event_category':'Auction',
-                'event_label':'Auction'+$id+'',
-                'items':[{
-                    'id':$result['productid'],
-                    'name':$result['product'],
-                    'variant':$result['caliber'],
-                    'value':$('#OfferPrice'+$id).val()
-                }]
+                'event_label':'ID Auction: '+$id+'. Price: '+$('#OfferPrice'+$id).val()+'ARS. ID Product: '+$result['productid']+'. Product Name: '+$result['product']+' '+$result['caliber']+' - '+$result['unit']+'.'
             });
 
         }else{
