@@ -138,7 +138,7 @@ class AuctionController extends Controller
 				$template = 'emails.userinvited';
 				$seller = $auction->batch->arrive->boat->user ;
 				Mail::queue($template, ['user' => $user , Constants::SELLER=> $seller] , function ($message) use ($user) {
-					$message->from(
+					$message->from( 
 						env(Constants::MAIL_ADDRESS_SYSTEM,Constants::MAIL_ADDRESS),
 						env(Constants::MAIL_ADDRESS_SYSTEM_NAME,Constants::MAIL_NAME)
 					);
@@ -321,9 +321,10 @@ class AuctionController extends Controller
 					$resp['unit'] = trans(Constants::TRANS_UNITS.$unit);
                     $resp['bidid']=$lastbid[0]['id'];
                     $resp['productid']=$auction->batch->product->id;
-					$resp[Constants::PRODUCT] = $product.' - '.Constants::caliber($auction->batch->caliber).' - '.$unit;
+					$resp[Constants::PRODUCT] = ucfirst($product);
 					$resp[Constants::AMOUNT] = $amount;
 					$resp[Constants::PRICE] = $price;
+                    $resp[Constants::CALIBER] = Constants::caliber($auction->batch->caliber);
 					$resp['totalAmount']=$amounttotal;
                     $resp['bidscounter']=$bidscounter;
                     $resp['offerscounter']=$this->getOffersCount($auction_id);
@@ -817,7 +818,7 @@ class AuctionController extends Controller
     }
     public function getMoreAuctions(Request $request){
         $limit=(int)$request->input('limit');
-        $ids=explode("**",$request->input('ids'));
+        $ids=$request->input('ids');
         $auctions=Auction::auctionHome($ids)[Constants::IN_CURSE];
         $views=array();
         if(count($auctions)==0){

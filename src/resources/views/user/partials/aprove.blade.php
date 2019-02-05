@@ -1,5 +1,5 @@
 @can('evaluateUser',Auth::user())
-    @if ($user->status == \App\User::PENDIENTE)
+    @if ($user->status == \App\Constants::PENDIENTE)
         <div class="row">
             <div class="col-lg-12">
                 <div class="jumbotron alert-warning">
