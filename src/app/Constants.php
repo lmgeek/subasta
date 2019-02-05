@@ -101,7 +101,7 @@ class Constants{
     const CSS_SOLID='solid';
     const URL_PRODUCTS='/products';
     const URL_LOGIN='auth/login';
-    const URL_SELLER_BATCH='sellerbatch';
+    const URL_SELLER_BATCH='/sellerbatch';
     const REGISTER_MESSAGE='register_message';
     const BUYER_NAME='buyer_name';
     const APROBADO = "approved";
@@ -122,7 +122,10 @@ class Constants{
     const ICON_OFFERS_BIDS_GREEN='<em class="icon-material-outline-local-offer green"></em>';
     const OFERTA_DIRECTA=' Oferta Directa';
     const OFERTAS_DIRECTAS=' Ofertas Directas';
-
+    const INTERNAL = "internal";
+    const VENDEDOR = "seller";
+    const COMPRADOR = "buyer";
+    const BROKER = "broker";
 
     public static function formatDate($fecha){
         setlocale(LC_TIME,'es_ES');

@@ -561,7 +561,7 @@ class AuctionController extends Controller
 		$user_id = $bid->auction->batch->arrive->boat->user->id;
 		$this->incrementRatingUser($bid , $user_id);
 
-		if ($request->input(Constants::INPUT_CALIFICACION) == Bid::CALIFICACION_NEGATIVA)
+		if ($request->input(Constants::INPUT_CALIFICACION) == Constants::CALIFICACION_NEGATIVA)
 		{
 			$internals = User::getInternals(array(User::APROBADO));
 			foreach($internals as $i)
@@ -569,7 +569,7 @@ class AuctionController extends Controller
 				$user = User::findOrFail($bid->user_id);
 				$template = 'emails.userqualifynegative';
 				$seller = $bid->auction->batch->arrive->boat->user ;
-				Mail::queue($template, ['bid'=>$bid,'user' => $user , Constants::INPUT_COMENTARIOS_CALIFICACION=> $request->input(Constants::INPUT_COMENTARIOS_CALIFICACION) , Constants::SELLER=> $seller , 'type' => User::VENDEDOR ] , function ($message) use ($i) {
+				Mail::queue($template, ['bid'=>$bid,'user' => $user , Constants::INPUT_COMENTARIOS_CALIFICACION=> $request->input(Constants::INPUT_COMENTARIOS_CALIFICACION) , Constants::SELLER=> $seller , 'type' => Constants::VENDEDOR ] , function ($message) use ($i) {
 					$message->from(
 						env(Constants::MAIL_ADDRESS_SYSTEM,Constants::MAIL_ADDRESS),
 						env(Constants::MAIL_ADDRESS_SYSTEM_NAME,Constants::MAIL_NAME)
