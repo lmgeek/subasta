@@ -155,7 +155,7 @@ class AuctionController extends Controller
         
 		
 
-        return redirect('/sellerbatch?e=created&t=auction&id='.$auction->id.'&ex='.urlencode('Product ID: '.$batch->product_id.'. Quantity: '.$request->input(Constants::AMOUNT)));
+        return redirect('/sellerbatch?e=created&t=auction&id='.$auction->id.'&ex='.urlencode('Product ID: '.$batch->product_id.', Name: '.$auction->batch->product->name.' '.Constants::caliber($auction->batch->caliber).'.  Quantity: '.$request->input(Constants::AMOUNT)));
     }
 
     public function calculatePrice(Request $request)
@@ -181,7 +181,7 @@ class AuctionController extends Controller
             $data['end'] = $auction->end;
             $data[Constants::AVAILABILITY] = $available[Constants::AVAILABLE];
             $data['currenttime'] = $time;
-            $data[Constants::PRICE] = $price;
+            $data[Constants::PRICE] = number_format(str_replace(",","",$price),2,',','');;
             $data[Constants::AVAILABLE] = $available[Constants::AVAILABLE];
             $data[Constants::AMOUNT]=$amount;
             $data['hot']=$hot;
@@ -1003,7 +1003,7 @@ class AuctionController extends Controller
                 $product = $auction->batch->product->name;
                 $resp[Constants::IS_NOT_AVAILABLE] = 0;
                 $resp['unit'] = trans(Constants::TRANS_UNITS.$unit);
-                $resp[Constants::CALIBER] = $caliber;
+                $resp[Constants::CALIBER] = Constants::caliber($caliber);
                 $resp[Constants::QUALITY] = $quality;
                 $resp[Constants::PRODUCT] = $product;
                 $resp['productid']=$auction->batch->product->id;

@@ -73,7 +73,7 @@ $fechafin=strftime('%d %b %Y', strtotime($auction->end));
                 <?php
 
                 ?>
-                <p> <div id="auctionAvailability{{$auction->id}}" style="display: inline-block!important;font-weight: bold"><small style="font-weight: 400">Disponibilidad:</small> {{$disponible}} <small>de</small> {{$total}} {{$auction->batch->product->unit.(($total>1)?'s':'')}}</div> <br>
+                <p> <div id="auctionAvailability{{$auction->id}}" style="display: inline-block!important;font-weight: bold"><small style="font-weight: 400">Disponibilidad:</small> {{$disponible}} <small>de</small> {{$total}} {{$auction->batch->product->unit}}</div> <br>
                 @if(empty($finished))
                         <small class="green fw700" id="BidsCounter{{$auction->id}}">
                             <?=(($cantbids>0)?(Constants::ICON_OFFERS_BIDS_GREEN.$cantbids.(($cantbids>1)?' Compras Directas':' Compra Directa')):'')?>
