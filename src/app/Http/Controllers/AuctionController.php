@@ -1286,6 +1286,8 @@ class AuctionController extends Controller
      */
     public function declineOffers($auction_id,$offer_id = null,Request $request = null)
     {
+        $auction = Auction::findOrFail($auction_id);
+        $this->authorize('isMyAuction',$auction);
         $offers = $this->getOffers($auction_id);
         if ($offer_id == null){
             foreach ($offers as $o){
