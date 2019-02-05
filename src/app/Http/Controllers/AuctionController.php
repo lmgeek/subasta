@@ -210,11 +210,11 @@ class AuctionController extends Controller
 		// $weigth = $request->input('weigth');
 
 		// $auction = Auction::findOrFail($weigth);
-		
+
 		// $finalWeigth = 0;
 
 		// dd('hola');
-        
+
   //       $timeStart = $this->start;
   //       $timeEnd = $this->end;
   //       $priceStart = $this->start_price;
@@ -296,11 +296,11 @@ class AuctionController extends Controller
 
         //if($this->checkIfBuyercanBuy($amount*$price)==false){return json_encode(array('limited'=>1));}
 		$resp  =  array();
-		
+
 		if ($auction->active == 0 )
 		{
 			$resp[Constants::ACTIVE_LIT] = $auction->active ;
-			
+
 		}else{
             $availabilityboth=$this->getAvailable($auction_id,$auction->amount);
             $availability=$availabilityboth[Constants::AVAILABLE];
@@ -335,19 +335,19 @@ class AuctionController extends Controller
 					$product = $auction->batch->product->name;
 					$resp['unit'] = trans(Constants::TRANS_UNITS.$unit);
 					$resp[Constants::PRODUCT] = $product;
-				
+
 				}
-				
-			
+
+
 				$resp[Constants::ACTIVE_LIT] = $auction->active ;
 			DB::commit();
 		}
-		
+
 		return json_encode($resp);
 
 
 	 }
-	 
+
 
     /**
      * Display the specified resource.
@@ -451,42 +451,42 @@ class AuctionController extends Controller
 //            echo "<script>alert('No tiene acceso');</script>";
 			return redirect('home');
 		}
-			
+
 	 }
-	 
+
 	 public function deactivate($auction_id)
 	 {
 		 $now = strtotime(date("Y-m-d H:i:s"));
 		 $auction = Auction::findOrFail($auction_id);
 		 $this->authorize('isMyAuction',$auction);
 		 $auction->active = Constants::INACTIVE;
-		 
+
 		 $start = strtotime($auction->start);
 		 $end = strtotime($auction->end);
-		 
+
 		 $auction->save();
-		 
+
 		 if ( ($start  > $now) ||  ($start < $now && $end > $now) )
 		 {
-		
+
 			$notsold = $auction->amount -  $auction->getAuctionBids();
 			$auction->batch->status->assigned_auction -= $notsold ;
 			$auction->batch->status->remainder += $notsold;
 			$auction->batch->status->save();
 		 }
-		 
+
 		 if ( count($auction->bids) == 0 )
 		 {
-			$auction->delete();	
+			$auction->delete();
 		 }
-		 
-		 
+
+
 		 return redirect('sellerAuction');
-		 
-		  
+
+
 	 }
-	 
-	 
+
+
 
     public function process($bid_id)
     {
@@ -512,8 +512,8 @@ class AuctionController extends Controller
 
 		$user_id = $bid->user_id;
 		$this->incrementRatingUser($bid , $user_id);
-		
-		
+
+
 		if ($request->input(Constants::INPUT_CALIFICACION) == Constants::CALIFICACION_NEGATIVA)
 		{
 			$internals = User::getInternals(array(User::APROBADO));
@@ -531,13 +531,13 @@ class AuctionController extends Controller
 					$message->to($i->email);
 				});
 			}
-		
+
 		}
-		
-		
-		
-		
-		
+
+
+
+
+
         //Se utilizo este forma ya que el formulario puede ser llamado desde 2 listados distintos.
         // Y asi poder devolverlo al cual estaba
         return redirect()->intended('/sellerAuction');
@@ -556,10 +556,10 @@ class AuctionController extends Controller
         $bid->seller_calification = $request->input(Constants::INPUT_CALIFICACION);
         $bid->seller_calification_comments = $request->input(Constants::INPUT_COMENTARIOS_CALIFICACION);
         $bid->save();
-		
+
 		$user_id = $bid->auction->batch->arrive->boat->user->id;
 		$this->incrementRatingUser($bid , $user_id);
-		
+
 		if ($request->input(Constants::INPUT_CALIFICACION) == Bid::CALIFICACION_NEGATIVA)
 		{
 			$internals = User::getInternals(array(User::APROBADO));
@@ -577,18 +577,18 @@ class AuctionController extends Controller
 					$message->to($i->email);
 				});
 			}
-		
+
 		}
-		
+
 
         return redirect('/bids');
     }
-	
+
 	public function incrementRatingUser($bid , $user_id)
 	{
-		
+
 		$userRating = UserRating::where('user_id' , $user_id);
-		
+
 		if ($userRating->count() == 0)
 		{
 			$userRating = new UserRating();
@@ -598,7 +598,7 @@ class AuctionController extends Controller
 			$userRating->neutral  = 0;
 			$userRating->save();
 		}
-		
+
 		if ($bid->seller_calification == Constants::CALIFICACION_POSITIVA)
 		{
 			$userRating->increment('positive', 1);
@@ -762,8 +762,8 @@ class AuctionController extends Controller
 		$products = Product::Select()->get();
 		$sellers = User::filter(null, array(User::VENDEDOR), array(User::APROBADO));
 		$boats = Boat::Select()->get();
-		
-		$userRating =  array(); 
+
+		$userRating =  array();
 		foreach($auctions as $a)
 		{
 			$porc = 0;
@@ -1073,7 +1073,9 @@ class AuctionController extends Controller
                     //registramos la compra a la mejor opc de compra
                     $offerForSale = $this->offerForSale($auction, $offer);
                     if ($offerForSale){
-                        return ('<h1 style="    text-align: center; margin-top: 300px; font-size: 5em">Se vendio todo</h1>');
+                        $offers = $this->getOffers($auction_id);
+//                        return ('<h1 style="    text-align: center; margin-top: 300px; font-size: 5em">Se vendio todo</h1>');
+                        return $offers;
                     }
 
                 }
@@ -1081,11 +1083,13 @@ class AuctionController extends Controller
         }
 
         if ($available[Constants::AVAILABLE] == 0){
-            return ('<h1 style="    text-align: center; margin-top: 300px; font-size: 5em">Se vendio todo</h1>');
+            $offers = $this->getOffers($auction_id);
+            return $offers;
         }
 
 
         if ($count>0){
+            $offers = $this->getOffers($auction_id);
             return $offers;
         }else{
             return ('<h1 style="    text-align: center; margin-top: 300px; font-size: 5em">No hay ofertas realizadas<br>Disponibles: '. $available[Constants::AVAILABLE].'</h1>');
@@ -1229,7 +1233,8 @@ class AuctionController extends Controller
                 $message->subject(trans('users.offer_Bid'));
                 $message->to($user->email);
             });
-            return;
+            $offers = $this->getOffers($auction_id);
+            return $offers;
         } else {
             $offer = null;
             $this->declineOffers($auction_id,$offer,$request);
@@ -1284,25 +1289,31 @@ class AuctionController extends Controller
         if ($offer_id == null){
             foreach ($offers as $o){
                 $this->offers = Offers::findOrFail($o->id);
-                $this->offers->auction_id = $auction_id;
-                $this->offers->status = Offers::NO_ACEPTADA;
-                $this->offers->save();
+                if ($this->offers->status == Offers::PENDIENTE){
+                    $this->offers->auction_id = $auction_id;
+                    $this->offers->status = Offers::NO_ACEPTADA;
+                    $this->offers->save();
+                }
             }
         } else {
             if ($request == null){
                 foreach ($offers as $o){
                     $this->offers = Offers::findOrFail($o->id);
-                    $this->offers->auction_id = $auction_id;
-                    $this->offers->status = Offers::NO_ACEPTADA;
-                    $this->offers->save();
+                    if ($this->offers->status == Offers::PENDIENTE) {
+                        $this->offers->auction_id = $auction_id;
+                        $this->offers->status = Offers::NO_ACEPTADA;
+                        $this->offers->save();
+                    }
                 }
             } else {
                 foreach ($offers as $o){
                     if ($o->id != $offer_id) {
                         $this->offers = Offers::findOrFail($o->id);
-                        $this->offers->auction_id = $auction_id;
-                        $this->offers->status = Offers::NO_ACEPTADA;
-                        $this->offers->save();
+                        if ($this->offers->status == Offers::PENDIENTE) {
+                            $this->offers->auction_id = $auction_id;
+                            $this->offers->status = Offers::NO_ACEPTADA;
+                            $this->offers->save();
+                        }
                     } else {
                         $this->offers = Offers::findOrFail($o->id);
                         $this->offers->auction_id = $auction_id;

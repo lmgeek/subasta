@@ -56,7 +56,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="nombre">{{ trans('products.name') }}</label>
-                                        <input type="text" name="nombre" class="form-control" id="name" value="{{ old('nombre') }}" onkeypress="return validaName(event);">
+                                        <input type="text" name="nombre" class="form-control" id="name" value="{{ old('nombre') }}" >
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -176,7 +176,8 @@
             console.log(x);
 
 
-            str = str.replace(/[^\d|\s|^\w]/g,"");
+            str = str.replace(/[^a-zñáéíóúöü A-ZÑÁÉÍÓÚÖÜ0-9]/g,"");
+            // str = str.replace(/[^\d|\s|^\w]/g,"");
 
             $(this).val(str);
 
