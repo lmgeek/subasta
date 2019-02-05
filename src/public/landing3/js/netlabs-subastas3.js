@@ -400,9 +400,11 @@ $(document).ready(function(){
     $('.timerauction').each(function(){
         timer($(this).data('id'));
     });
-    $('.auction').each(function(){
-        getInfo($(this).data('id'),1);
-    });
+    setTimeout(function(){
+        $('.auction').each(function(){
+            getInfo($(this).data('id'),1);
+        });
+    },1000);
     if($('#MasterFilter').length>0){
         getPriceMaxAndMin();
         auctionListFilter();

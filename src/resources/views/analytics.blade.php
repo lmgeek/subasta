@@ -29,7 +29,7 @@
     if(isset($request->e)){?>
     gtag('event', '<?=ucfirst($request->e)?>', {
         'event_category':'<?=ucfirst($request->t)?>',
-        'event_label':'ID <?=ucfirst($request->t)?>: <?=$request->id?> Usuario: <?=ucfirst(Auth::user()->nickname).'.'.((isset($request->ex))?(' '.urldecode($request->ex).'.'):'')?>',
+        'event_label':'ID <?=ucfirst($request->t)?>: <?=$request->id?> Usuario: <?=ucfirst(Auth::user()->nickname).'. '.((isset($request->ex))?(' '.urldecode($request->ex).'.'):'')?>',
     });
     <?php }?>
     @yield('scriptsanalytics')

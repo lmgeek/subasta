@@ -7,12 +7,12 @@
             <div class="popup-tab-content" id="tab">
                 <div class="welcome-text">
                     <h3>&iexcl;Aprovecha y ll&eacute;vatelo ahora!</h3>
-                    <p class="padding-top-25">{{$auction->description}}</p>
+                    <p class="padding-top-25">{{(strlen($auction->description)>120)?(substr($auction->description,0,120).'...'):$auction->description}}</p>
                 </div>
                 <form method="post" id="compra-form{{$auction->id}}">
                     <div class="row margin-bottom-15">
                         <div class="col-md-5 bidding-widget">
-                            <p> <div id="auctionAvailabilitypopup{{$auction->id}}" style="display: inline-block!important;font-weight: bold"><small style="font-weight: 400">Disponibilidad:</small> {{$disponible}} <small>de</small> {{$total}} {{$auction->batch->product->unit.(($total>1)?'s':'')}}</div> <br>
+                            <p> <div id="auctionAvailabilitypopup{{$auction->id}}" style="display: inline-block!important;font-weight: bold"><small style="font-weight: 400">Disponibilidad:</small> {{$disponible}} <small>de</small> {{$total}} {{$auction->batch->product->unit}}</div> <br>
                             <div class="margin-top-15">
                                 <h4 class="price red" id="PricePopUp{{$auction->id}}">${{$price['CurrentPrice']}} <small>x Kg</small></h4>
                                 <small class="red">&Uacute;ltimo precio registrado</small>

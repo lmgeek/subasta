@@ -41,7 +41,7 @@
                  data-timefin="{{$a->end}}" data-id="{{$a->id}}" style="font-weight: bold">
                 <?=(isset($finished)) ? 'Finalizada!' : ''?></div>
         </div>
-    @elseif($status == \App\Auction::FINISHED or $status == \App\Auction::MY_FINISHED)
+    @elseif($status == \App\Constants::FINISHED or $status == \App\Constants::MY_FINISHED)
         <div class="col-md-6">
             <label for="">{{ trans('auction.finished') }}</label><br>
             <label for="">{{ Carbon::parse($a->end)->format('H:i:s d/m/Y') }}</label>
