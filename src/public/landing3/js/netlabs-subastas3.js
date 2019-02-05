@@ -32,14 +32,12 @@ function getMoreAuctions($limit=1,$limitcontainer=3){
     if ($cant >= $limitcontainer) {
         return;
     }
-    var $ids='', $cont = 0;
+    var $ids=[], $cont = 0;
     $('.auction').each(function () {
-        $ids+= $(this).data('id');
+        $ids[$cont]=$(this).data('id');
         $cont++;
-        if($cont<$('.auction').length){
-            $ids+='**'
-        }
     });
+    console.log($ids)
     $.get('/getMoreAuctions', {limit:$limit,ids: $ids}, function (result) {
         var $result=JSON.parse(result),$html='';
         if(result!=''){
@@ -118,13 +116,24 @@ function timer($id) {
 function orderAuction($type='Finished'){
     $('#' + $type + "Auctions").find('.task-listing').sort(function (a, b) {
         var $a = a.getAttribute('data-endorder'), $b = b.getAttribute('data-endorder');
-        if ($a < $b) {
-            return 1;
-        } else if($a>$b){
-            return -1;
+        if($type=='Featured'){
+            if ($a > $b) {
+                return 1;
+            } else if($a<$b){
+                return -1;
+            }else{
+                return 0;
+            }
         }else{
-            return 0;
+            if ($a < $b) {
+                return 1;
+            } else if($a>$b){
+                return -1;
+            }else{
+                return 0;
+            }
         }
+        
     }).appendTo($('#' + $type + "Auctions"));
 }
 function orderAuctions($type='Finished'){
@@ -276,7 +285,7 @@ function makeBid($id){
                 'transaction_id':$result['bidid'],
                 'items':[{
                     'id':$result['productid'],
-                    'name':$result['product'],
+                    'name':$result['product']+' '+$result['caliber']+' ('+$result['unit']+')',
                     'variant':$result['caliber'],
                     'quantity':$('#cantidad-'+$id).val(),
                     'price':$('#PriceBid'+$id).val()

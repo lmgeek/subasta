@@ -33,9 +33,9 @@
                                     <div class="form-group">
                                         <label class="font-noraml">Estado</label>
                                         <select data-placeholder="Seleccione una o varias opciones" name="status[]" class="chosen-select" multiple tabindex="4">
-                                            <option @if (!is_null($request->get('status')) and in_array(\App\User::PENDIENTE,$request->get('status'))) selected @endif value="{{ \App\User::PENDIENTE }}">{{ trans('general.status.'.\App\User::PENDIENTE) }}</option>
-                                            <option @if (!is_null($request->get('status')) and in_array(\App\User::APROBADO,$request->get('status'))) selected @endif value="{{ \App\User::APROBADO }}">{{ trans('general.status.'.\App\User::APROBADO) }}</option>
-                                            <option @if (!is_null($request->get('status')) and in_array(\App\User::RECHAZADO,$request->get('status'))) selected @endif value="{{ \App\User::RECHAZADO }}">{{ trans('general.status.'.\App\User::RECHAZADO) }}</option>
+                                            <option @if (!is_null($request->get('status')) and in_array(\App\Constants::PENDIENTE,$request->get('status'))) selected @endif value="{{ \App\Constants::PENDIENTE }}">{{ trans('general.status.'.\App\Constants::PENDIENTE) }}</option>
+                                            <option @if (!is_null($request->get('status')) and in_array(\App\Constants::APROBADO,$request->get('status'))) selected @endif value="{{ \App\Constants::APROBADO }}">{{ trans('general.status.'.\App\Constants::APROBADO) }}</option>
+                                            <option @if (!is_null($request->get('status')) and in_array(\App\Constants::RECHAZADO,$request->get('status'))) selected @endif value="{{ \App\Constants::RECHAZADO }}">{{ trans('general.status.'.\App\Constants::RECHAZADO) }}</option>
                                         </select>
                                     </div>
                                 </div>

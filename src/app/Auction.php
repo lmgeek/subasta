@@ -181,7 +181,7 @@ class Auction extends Model{
     }
     public static function auctionHome($ids=null){
         $now =date(Constants::DATE_FORMAT);
-        $auctions=self::AuctionsQueryBuilder(array('idstoavoid'=>$ids));
+        $auctions=self::AuctionsQueryBuilder(array('idtoavoid'=>$ids));
         $counter=0;$continue=1;
         $return=array(Constants::FINISHED=>array(), Constants::IN_CURSE=>array(), Constants::FUTURE=>array());
         while($continue==1){
