@@ -178,7 +178,8 @@
 			var now = new Date().toLocaleTimeString();
 			$.get('calculateprice?i=c&auction_id=' + auctionId, function (data) {
 				$data = JSON.parse(data);
-				var price = currency(parseFloat($data['price']),{separator: '.',decimal: ","}).format();
+				// var price = currency(parseFloat($data['price']),{separator: '.',decimal: ","}).format();
+				var price = $data['price'];
 				console.log(price);
 				$(".currentPrice-"+auctionId).html('$' + price);
 				$(".hid-currentPrice-"+auctionId).val($data['price']);
