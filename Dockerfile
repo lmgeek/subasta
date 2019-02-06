@@ -1,5 +1,7 @@
 FROM php:5.6.13-apache
 
+ARG STAGE
+
 MAINTAINER Diego Weinstein <diegow@netlabs.com.ar>
 
 ############ from netlabs/laravel dockerfile ##############
@@ -43,7 +45,16 @@ RUN chown -R www-data:www-data /var/www/html
 
 #RUN composer install
 
-RUN composer install --no-dev --no-interaction -o --no-ansi
+RUN bash -c "if [ \"$STAGE\" == \"production\" ] || [ \"$STAGE\" == \"\" ] || [ \"$STAGE\" == \"qa\" ]; \
+    then \
+      composer install --no-dev --no-interaction -o --no-ansi; \
+      rm -rf /var/www/html/tests; \
+    elif [ \"$STAGE\" == \"dev\" ] || [ \"$STAGE\" == \"test\" ]; \
+    then \
+      composer install --no-interaction -o --no-ansi; \
+    fi"
+      
+
 
 EXPOSE 80
 
