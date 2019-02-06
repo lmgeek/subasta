@@ -98,16 +98,6 @@ class AuthControllerLogin extends Controller
      *s
      * @return string
      */
-    protected function getVerify(Request $request)
-    {
-        dd($active_mail);
-        // return $request->$active_mail;
-    }
-    /**
-     * Get the failed login message.
-     *
-     * @return string
-     */
     protected function getFailedLoginMessage()
     {
         return Lang::has('auth.failed')
