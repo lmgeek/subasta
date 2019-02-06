@@ -66,7 +66,7 @@
 
                         <!-- Trigger -->
                         <div class="header-notifications-link">
-                            <a href="dash-nueva-subasta.php" data-tippy-placement="left" title="Nueva Subasta" data-tippy-theme="dark"><em class="icon-material-outline-gavel"></em></a>
+                            <a href="{{url('/sellerbatch')}}" data-tippy-placement="left" title="Nueva Subasta" data-tippy-theme="dark"><em class="icon-material-outline-gavel"></em></a>
                         </div>
 
 
@@ -186,7 +186,7 @@
                                         <li><a href="#"><em class="icon-feather-user"></em> Mi Cuenta</a></li>
                                         <li><a href="{{url('/sellerboat')}}"><em class="icon-line-awesome-ship"></em> Mis Barcos</a></li>
                                         <li><a href="{{url('/sellerbatch')}}"><em class="icon-feather-box"></em> Mis Lotes</a></li>
-                                        <li><a href="{{url('/sellerAuction')}}"><em class="icon-material-outline-gavel"></em>Mis Subastas</a></li>
+                                        <li><a href="{{url('/sellerAuction')}}"><em class="icon-material-outline-gavel"></em> Mis Subastas</a></li>
                                         <li><a href="{{url('/sales')}}"><em class="icon-material-outline-gavel"></em> Ventas de Subastas</a></li>
                                         <li><a href="{{ url('/privatesales') }}"><em class="icon-feather-eye-off"></em> Ventas privadas</a></li>
                                         <li><a href="{{url('auth/logout')}}"><em class="icon-material-outline-power-settings-new"></em> Logout</a></li>
