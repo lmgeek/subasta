@@ -784,17 +784,6 @@ class AuctionController extends Controller
         return view('landing',compact(Constants::AUCTIONS,Constants::STATUS,Constants::PRODUCTS,Constants::SELLERS,'request',Constants::BOATS,Constants::USER_RATING,'type'));
         //return view('/landing3/index',compact(Constants::AUCTIONS,Constants::STATUS,Constants::PRODUCTS,Constants::SELLERS,'request',Constants::BOATS,Constants::USER_RATING,'type'));
     }
-    public function orderAuctions($auctions){
-	    $cant=count($auctions);
-	    for($z=0;$z<$cant;$z++){
-	        if($z<($cant-1) && $auctions[$z]->end>$auctions[$z+1]->end){
-	            $temp=$auctions[$z];
-	            $auctions[$z]=$auctions[$z+1];
-	            $auctions[$z+1]=$temp;
-            }
-        }
-	    return $auctions;
-    }
     public static function getUserRating($userinfo){
         $ratings = $userinfo->rating;
         $total = ($ratings != null) ? ($ratings->positive + $ratings->negative + $ratings->neutral) : 0;
@@ -817,8 +806,8 @@ class AuctionController extends Controller
         );
     }
     public function getMoreAuctions(Request $request){
-        $limit=(int)$request->input('limit');
-        $ids=$request->input('ids');
+        $limit=(int)$request->limit;
+        $ids=$request->ids;
         $auctions=Auction::auctionHome($ids)[Constants::IN_CURSE];
         $views=array();
         if(count($auctions)==0){
@@ -835,21 +824,8 @@ class AuctionController extends Controller
         }
         return json_encode($views);
     }
-    public static function array_merge_join($arrayofarrays){
-	    $return=array();
-	    foreach($arrayofarrays as $array){
-	        foreach($array as $key=>$valor){
-	            if(isset($return[$key])){
-                    $return[$key]+=$valor;
-                }else{
-                    $return[$key]=1;
-                }
-
-            }
-        }
-	    return $return;
-    }
-    public function subastasDestacadasHome(Request $request,$return=2){
+    
+    public function subastasFront(Request $request,$return=2){
         $buyers = User::filter(null, array(User::COMPRADOR), array(User::APROBADO));
         $boats = Boat::Select()->get();
         $auctionhome=Auction::auctionHome();
@@ -871,9 +847,9 @@ class AuctionController extends Controller
                 Constants::CALIBERS=>$calibers,
                 Constants::SELLERS=>$sellers);
         }else{
-            $auctions2 = $auctionhome[Constants::FINISHED];
+            $auctions2 = array_reverse($auctionhome[Constants::FINISHED]);
             $auctiondetails2=$this->getAuctionsDataForHome($auctions2,$return);
-            $port=$this->array_merge_join(array($auctiondetails1[Constants::PORTS],$auctiondetails2[Constants::PORTS]));
+            $port=$auctiondetails1[Constants::PORTS];
             /*
              * Retornan tanto las subastas en curso como las finalizadas
              * Buyers y Boats para los contadores del header
@@ -892,7 +868,7 @@ class AuctionController extends Controller
         }
     }
     public function listaSubastas(Request $request){
-	    $all=$this->subastasDestacadasHome($request,1);
+	    $all=$this->subastasFront($request,1);
         return view('/landing3/subastas')
             ->withAuctions($all[Constants::AUCTIONS])
             ->withPorts($all[Constants::PORTS])

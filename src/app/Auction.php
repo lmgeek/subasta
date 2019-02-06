@@ -133,6 +133,9 @@ class Auction extends Model{
         return (count($auction)>0)? Constants::ACTIVE: Constants::INACTIVE;
     }
     /**
+     * AuctionsQueryBuilder: 
+     *      This function just builds the query to fit all the needs of information
+     *      for auctions
      * @param $params=array(
      *                  'auctionid'=>$valor, If a specific auction is needed
      *                  'idtoavoid'=>$valor, If in case of a load more, you can send the ids that you already have
@@ -162,13 +165,16 @@ class Auction extends Model{
             $auctions=$auctions->where('batches.product_id', Constants::EQUAL,$params['productid']);
         }
         if(isset($params['sellerid'])){
-            $auctions = $auctions->whereIn(Constants::USERS_ID,$params['sellerid']);
+            $auctions = $auctions->where(Constants::USERS_ID, Constants::EQUAL,$params['sellerid']);
         }
         if(isset($params['boatid'])){
-            $auctions=$auctions->whereIn(Constants::BOATS_ID,$params['boatid']);
+            $auctions=$auctions->where(Constants::BOATS_ID, Constants::EQUAL,$params['boatid']);
         }
         if(isset($params['portid'])){
-            $auctions=$auctions->whereIn('arrives.port_id',$params['portid']);
+            $auctions=$auctions->where('arrives.port_id', Constants::EQUAL,$params['portid']);
+        }
+        if(isset($params['type'])){
+            $auctions=$auctions->where('auctions.type', Constants::EQUAL,$params['type']);
         }
         $orderby=(isset($params['orderby']))?$params['orderby']:'end';
         $order=(isset($params['order']))?$params['order']:'asc';
@@ -179,14 +185,15 @@ class Auction extends Model{
             return $auctions->paginate();
         }
     }
-    public static function auctionHome($ids=null){
-        $now =date(Constants::DATE_FORMAT);
-        $auctions=self::AuctionsQueryBuilder(array('idtoavoid'=>$ids));
-        $counter=0;$continue=1;
+    public static function auctionTimeSplitter($auctions,$time=null){
+        $counter=0;$continue=1;$now =date(Constants::DATE_FORMAT);
         $return=array(Constants::FINISHED=>array(), Constants::IN_CURSE=>array(), Constants::FUTURE=>array());
         while($continue==1){
             if(!isset($auctions[$counter])){
-                return $return;
+                if($time==null){
+                    return $return;
+                }
+                return $return[$time];
             }
             $availability=self::getAvailable($auctions[$counter]->id,$auctions[$counter]->amount)['available'];
             $pastfuturedifferencer=(($auctions[$counter]->start<$now || $availability<=0)? Constants::FINISHED: Constants::FUTURE);
@@ -197,8 +204,25 @@ class Auction extends Model{
             $counter++;
         }
     }
+    public static function auctionHome($ids=null,$time=null){
+        $params=array();
+        if($ids!=null){
+            $params['idtoavoid']=$ids;
+        }
+        return self::auctionTimeSplitter(self::AuctionsQueryBuilder($params),$time);
+    }
 
-
+    public static function orderAuctions($auctions){
+	    $cant=count($auctions);
+	    for($z=0;$z<$cant;$z++){
+	        if($z<($cant-1) && $auctions[$z]->end>$auctions[$z+1]->end){
+	            $temp=$auctions[$z];
+	            $auctions[$z]=$auctions[$z+1];
+	            $auctions[$z+1]=$temp;
+            }
+        }
+	    return $auctions;
+    }
     public static function auctionPrivate($user_id , $status)
     {
         $now =date(Constants::DATE_FORMAT);

@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 
 use Illuminate\Support\Facades\Auth;
-
+use App\Constants;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 

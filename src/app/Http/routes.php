@@ -25,7 +25,7 @@
 //         return view('landing');
 // });
 
-Route::get('/', 'AuctionController@subastasDestacadasHome');
+Route::get('/', 'AuctionController@subastasFront');
 Route::get('/subastas', 'AuctionController@listaSubastas');
 Route::get('/landing2', 'AuctionController@subastaHome');
 
