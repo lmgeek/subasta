@@ -27,9 +27,12 @@ services:
       - MAIL_ENCRYPTION=null
       - MAIL_ADDRESS_SYSTEM=sistema@subastas.com.ar
       - MAIL_ADDRESS_SYSTEM_NAME=Subastas
+      - STAGE=production
     networks:
       - frontend
       - backend
+    volumes:
+      - subastas_uploads:/var/www/html/public/img/products
     deploy:
       labels:
         traefik.frontend.rule: "Host:subastas.netlabs.com.ar,subastasdelmar.com,www.subastasdelmar.com"
@@ -58,6 +61,7 @@ services:
       - DB_USERNAME=root
       - DB_PASSWORD=pfjwortij987235!!eas
       - SUBJECT="prod deploy subastas"
+      - FLYWAY_LOCATIONS=filesystem:/deploy/sql,filesystem:/deploy/production
     networks:
       - backend
     deploy:
@@ -92,6 +96,10 @@ volumes:
     driver: "vsphere"
     driver_opts:
       size: 8gb
+
+  subastas_uploads:
+    name: subastas-uploads
+    driver: "vsan/minio-web"
 
   backup:
     driver: "nasbackup/minio"

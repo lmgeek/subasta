@@ -17,9 +17,9 @@
                     <div class="form-group">
                         <label class="font-noraml">Estado</label>
                         <select data-placeholder="Seleccione una o varias opciones" name="status[]" class="chosen-select" multiple tabindex="4">
-                            <option @if (!is_null($request->get('status')) and in_array(\App\Bid::PENDIENTE,$request->get('status'))) selected @endif value="{{ \App\Bid::PENDIENTE }}"    >{{ trans('general.bid_status.'.\App\Bid::PENDIENTE) }}</option>
-                            <option @if (!is_null($request->get('status')) and in_array(\App\Bid::CONCRETADA,$request->get('status'))) selected @endif value="{{ \App\Bid::CONCRETADA }}"   >{{ trans('general.bid_status.'.\App\Bid::CONCRETADA) }}</option>
-                            <option @if (!is_null($request->get('status')) and in_array(\App\Bid::NO_CONCRETADA,$request->get('status'))) selected @endif value="{{ \App\Bid::NO_CONCRETADA }}">{{ trans('general.bid_status.'.\App\Bid::NO_CONCRETADA) }}</option>
+                            <option @if (!is_null($request->get('status')) and in_array(\App\Constants::PENDIENTE,$request->get('status'))) selected @endif value="{{ \App\Constants::PENDIENTE }}"    >{{ trans('general.bid_status.'.\App\Constants::PENDIENTE) }}</option>
+                            <option @if (!is_null($request->get('status')) and in_array(\App\Constants::CONCRETADA,$request->get('status'))) selected @endif value="{{ \App\Constants::CONCRETADA }}"   >{{ trans('general.bid_status.'.\App\Constants::CONCRETADA) }}</option>
+                            <option @if (!is_null($request->get('status')) and in_array(\App\Constants::NO_CONCRETADA,$request->get('status'))) selected @endif value="{{ \App\Constants::NO_CONCRETADA }}">{{ trans('general.bid_status.'.\App\Constants::NO_CONCRETADA) }}</option>
                         </select>
                     </div>
                 </div>

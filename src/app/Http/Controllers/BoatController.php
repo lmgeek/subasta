@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Batch;
+use App\Constants;
 use App\User;
 use Illuminate\Http\Request;
 use App\Boat;
@@ -24,7 +25,7 @@ class BoatController extends Controller
 	
 	public function findBoat(Route $route)
     {
-        $this->boat = Boat::findOrFail($route->getParameter('boats'));
+        $this->boat = Boat::findOrFail($route->getParameter(Constants::BOATS));
     }
 
     public function checkEvaluatePermissions()
@@ -43,10 +44,10 @@ class BoatController extends Controller
     {
         if(Gate::allows('seeAllBoatsList')) {
 
-            $users = User::where('type',User::VENDEDOR)->where('status',User::APROBADO)->get();
+            $users = User::where('type',User::VENDEDOR)->where(Constants::STATUS,User::APROBADO)->get();
 
-            $boats = Boat::filterAndPaginate($request->input('users'),$request->input('status'),$request->input('name'));
-            return view('boat.index',compact('boats','request','users'));
+            $boats = Boat::filterAndPaginate($request->input(Constants::USERS),$request->input(Constants::STATUS),$request->input('name'));
+            return view('boat.index',compact(Constants::BOATS,'request',Constants::USERS));
 
 
         }else{
@@ -125,7 +126,7 @@ class BoatController extends Controller
 	
 	public function approve(Request $request, $id)
     {
-        $this->boat->status = Boat::APROBADO;
+        $this->boat->status = Constants::APROBADO;
         $this->boat->save();
 		
 		$template = 'emails.boatapproved';
@@ -146,7 +147,7 @@ class BoatController extends Controller
 
     public function reject(Request $request, $id)
     {
-        $this->boat->status = Boat::RECHAZADO;
+        $this->boat->status = Constants::RECHAZADO;
         $this->boat->rebound = $request->input('motivo');
         $this->boat->save();
 		
@@ -175,8 +176,8 @@ class BoatController extends Controller
 
             $boats = array();
 		
-			$boats = Boat::where('user_id',Auth::user()->id)->where('status',Boat::APROBADO)->paginate();
-            return view('boat.sellerbatch',compact('boats','request'));
+			$boats = Boat::where('user_id',Auth::user()->id)->where(Constants::STATUS,Constants::APROBADO)->paginate();
+            return view('boat.sellerbatch',compact(Constants::BOATS,'request'));
         } else {
             return redirect('/home');
             // return view('landing');

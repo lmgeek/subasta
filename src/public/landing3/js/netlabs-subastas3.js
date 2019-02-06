@@ -32,14 +32,12 @@ function getMoreAuctions($limit=1,$limitcontainer=3){
     if ($cant >= $limitcontainer) {
         return;
     }
-    var $ids='', $cont = 0;
+    var $ids=[], $cont = 0;
     $('.auction').each(function () {
-        $ids+= $(this).data('id');
+        $ids[$cont]=$(this).data('id');
         $cont++;
-        if($cont<$('.auction').length){
-            $ids+='**'
-        }
     });
+    console.log($ids)
     $.get('/getMoreAuctions', {limit:$limit,ids: $ids}, function (result) {
         var $result=JSON.parse(result),$html='';
         if(result!=''){
@@ -103,6 +101,10 @@ function timer($id) {
         string += seconds + 's';
         $('#timer'+$id).html(string);
         if (distance < 0) {
+            var url = 'auction/offers/' + $id;
+            $.get(url, function (data) {
+            })
+
             endAuction($id);
         } else {
             setTimeout(function () {
@@ -114,13 +116,24 @@ function timer($id) {
 function orderAuction($type='Finished'){
     $('#' + $type + "Auctions").find('.task-listing').sort(function (a, b) {
         var $a = a.getAttribute('data-endorder'), $b = b.getAttribute('data-endorder');
-        if ($a < $b) {
-            return 1;
-        } else if($a>$b){
-            return -1;
+        if($type=='Featured'){
+            if ($a > $b) {
+                return 1;
+            } else if($a<$b){
+                return -1;
+            }else{
+                return 0;
+            }
         }else{
-            return 0;
+            if ($a < $b) {
+                return 1;
+            } else if($a>$b){
+                return -1;
+            }else{
+                return 0;
+            }
         }
+        
     }).appendTo($('#' + $type + "Auctions"));
 }
 function orderAuctions($type='Finished'){
@@ -174,6 +187,16 @@ function updateAuctionData($id,$price=null,$end=null,$endorder=null,$endfriendly
 function openPopupCompra($id){
     $('#PriceBid'+$id).val($('#Auction_'+$id).attr('data-price'));
     $('#PricePopUp' + $id).html("$" + $('#PriceBid'+$id).val() + " <small>x kg</small>");
+    gtag('event', 'OpenPopUpCompra', {
+        'event_category':'Auction',
+        'event_label':'Auction_'+$id
+    });
+}
+function openPopupOferta($id){
+    gtag('event', 'OpenPopUpOferta', {
+        'event_category':'Auction',
+        'event_label':'Auction_'+$id
+    });
 }
 
 function getInfo($id,$firstrun=0) {
@@ -255,15 +278,28 @@ function makeBid($id){
             notifications(1,$result['product'],$result['price'],$result['amount']);
             modifyOffersCounter($id,$result['bidscounter'],$result['offerscounter']);
             updateAuctionData($id,$result['price'],null,null,null,null, $result['hot']);
+            gtag('event', 'purchase', {
+                'event_category':'Auction',
+                'event_label':'Auction_'+$id,
+                'value':$('#PriceBid'+$id).val()*$('#cantidad-'+$id).val(),
+                'transaction_id':$result['bidid'],
+                'items':[{
+                    'id':$result['productid'],
+                    'name':$result['product']+' '+$result['caliber']+' ('+$result['unit']+')',
+                    'variant':$result['caliber'],
+                    'quantity':$('#cantidad-'+$id).val(),
+                    'price':$('#PriceBid'+$id).val()
+                }]
+            });
         }else{
             notifications(0,null,null,null,$result['error']);
         }
+
     }).fail(function(){
         notifications(0,null,null,null,'No se pudo realizar la compra');
     });
 }
 function makeOffer($id){
-
     if($('#OfferPrice'+$id).val()==''){
         notifications(0,null,null,null,'Tienes que poner un precio');
         return;
@@ -278,6 +314,10 @@ function makeOffer($id){
         if($result['isnotavailability']==0){
             notifications(2,$result['product'],$result['price']);
             modifyOffersCounter($id,$result['bidscounter'],$result['offerscounter']);
+            gtag('event', 'Offer', {
+                'event_category':'Auction',
+                'event_label':'ID Auction: '+$id+'. Price: '+$('#OfferPrice'+$id).val()+'ARS. ID Product: '+$result['productid']+'. Product Name: '+$result['product']+' '+$result['caliber']+' - '+$result['unit']+'.'
+            });
 
         }else{
             notifications(0,null,null,null,$result['error']);
@@ -296,34 +336,86 @@ function popupCompraDisableText($id) {
         $('#cantidad-'+$id).removeAttr('disabled');
     }
 }
-function auctionListFilter(){
+function ThousandSeparator(nStr) {
+    nStr += '';
+    var x = nStr.split('.');
+    var x1 = x[0];
+    var x2 = x.length > 1 ? '.' + x[1] : '';
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+        x1 = x1.replace(rgx, '$1' + ',' + '$2');
+    }
+    return x1 + x2;
+}
+function getPriceMaxAndMin(){
+    var $min=9999999,$max=0;
     $('.auction').each(function(){
-        var $visible=0,$idsubasta=$(this).data('id'),$checked=0;
-        $('.AuctionListFilter').each(function() {
-            var $field = $(this).data('field'), $val = $(this).data('value');
-            if($(this).is(':checked')){
-                if ($('#Auction_' + $idsubasta).data($field) == $val) {
-                    $visible++;
-                }
-                $checked++;
-            }
-
-        });
-        if($visible<$checked){
-            $(this).fadeOut();
-        }else{
-            $(this).fadeIn();
+        var $price=parseInt($(this).data('price'));
+        if($price>$max){
+            $max=$price;
         }
+        if($price<$min){
+            $min=$price;
+        }
+    });
+    var $pricetext='['+$min+','+$max+']';
+    $('#PriceFilter').attr('data-slider-value',$pricetext);
+    $('#PriceFilter').attr('data-slider-max',$max);
+    $('#PriceFilter').attr('data-slider-min',$min);
+    $('#PriceFilter').attr('data-value',$min+','+$max);
+    $('#PriceFilter').val($min+','+$max);
+    var currencyAttr = $(".range-slider").attr('data-slider-currency');
+    $(".range-slider").slider({
+        formatter: function(value) {
+            return currencyAttr + ThousandSeparator(parseInt(value[0])) + " - " + currencyAttr + ThousandSeparator(parseInt(value[1]));
+        },
+    });
+    $(".range-slider").slider().on('slideStop', auctionListFilter);
+}
+function auctionListFilter(){
+    $('.auction').show();
+    var $filters=[],$priceval=$('#PriceFilter').val().toString().split(','),$filterstring='Filter Price: Min='+$priceval[0]+'ARS. Max='+$priceval[1]+'ARS. ';
+    $('.AuctionListFilter').each(function(){
+        if($(this).is(':checked')) {
+            $fieldtemp=$(this).data('field');
+            if ($filters[$fieldtemp] != null) {
+                $filters[$fieldtemp] += $(this).data('value') + '**';
+                $filterstring+='Field '+$fieldtemp+': '+$(this).data('value')+'. ';
+            } else {
+                $filters[$fieldtemp] = $(this).data('value') + '**';
+                $filterstring+='Field '+$fieldtemp+': '+$(this).data('value')+'. ';
+            }
+        }
+    });
+    $('.auction').each(function(){
+        for(var $field in $filters){
+            if(!$filters[$field].toString().includes($(this).data($field)+"**")){
+                $(this).hide();
+            }
+        }
+        var $price=parseInt($(this).data('price'));
+        if($price<$priceval[0] || $price>$priceval[1]){
+            $(this).hide();
+        }
+
+    });
+    gtag('event', 'FiltradoListaSubastas', {
+        'event_category':'Filter',
+        'event_label':$filterstring,
+        'event_value':$filterstring
     });
 }
 $(document).ready(function(){
     $('.timerauction').each(function(){
         timer($(this).data('id'));
     });
-    $('.auction').each(function(){
-        getInfo($(this).data('id'),1);
-    });
+    setTimeout(function(){
+        $('.auction').each(function(){
+            getInfo($(this).data('id'),1);
+        });
+    },1000);
     if($('#MasterFilter').length>0){
+        getPriceMaxAndMin();
         auctionListFilter();
     }
     orderAuctions();

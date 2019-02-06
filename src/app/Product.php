@@ -10,14 +10,7 @@ class Product extends Model
 {
     use SoftDeletes;
 
-    const CAJAS     = "Cajas";
-    const CAJONES   = "Cajones";
-    const PASTILLAS = "Pastillas";
-    const UNIDADES  = "Unidades";
 
-    const CHICO     = "small";
-    const MEDIANO   = "medium";
-    const GRANDE    = "big";
 
     protected $table = 'products';
 
@@ -27,19 +20,19 @@ class Product extends Model
     public static function units()
     {
         return [
-            self::CAJAS,
-            self::CAJONES,
-            self::PASTILLAS,
-            self::UNIDADES
+            Constants::CAJAS,
+            Constants::CAJONES,
+            Constants::PASTILLAS,
+            Constants::UNIDADES
         ];
     }
 
     public static function caliber()
     {
         return [
-            self::CHICO,
-            self::GRANDE,
-            self::MEDIANO
+            Constants::CHICO,
+            Constants::GRANDE,
+            Constants::MEDIANO
         ];
     }
 
@@ -67,5 +60,8 @@ class Product extends Model
         }
 
         return (($total == $total_amount));
+    }
+    public static function getProductFromId($id){
+        return self::select()->where('products.id','=',$id)->get()[0]['name'];
     }
 }

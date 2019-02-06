@@ -30,10 +30,10 @@
                                     <td>{{ $sale->auction->batch->arrive->boat->name }}</td>
                                     <?php
                                         switch ($sale->status){
-                                            case \App\Bid::PENDIENTE:
+                                            case \App\Constants::PENDIENTE:
                                                 $class = "warning";
                                                 break;
-                                            case \App\Bid::NO_CONCRETADA:
+                                            case \App\Constants::NO_CONCRETADA:
                                                 $class = "danger";
                                                 break;
                                             default:
@@ -43,25 +43,25 @@
                                     <td class="{{ $class }}">{{ trans('general.bid_status.'.$sale->status) }}</td>
                                     <td>
 										<div class="text-center">
-											@if ($sale->seller_calification == \App\Bid::CALIFICACION_POSITIVA)
+											@if ($sale->seller_calification == \App\Constants::CALIFICACION_POSITIVA)
 												<span class="text-navy" data-toggle="tooltip" data-placement="top" title="{{ $sale->seller_calification_comments }}"  style="font-size:18px;"><em class="fa fa-plus-circle"></em> </span>
 											@endif
-											@if ($sale->seller_calification == \App\Bid::CALIFICACION_NEGATIVA)
+											@if ($sale->seller_calification == \App\Constants::CALIFICACION_NEGATIVA)
 												<span class="text-danger" data-toggle="tooltip" data-placement="top" title="{{ $sale->seller_calification_comments }}"  style="font-size:18px;"><em class="fa fa-minus-circle"></em> </span>
 											@endif
-											@if ($sale->seller_calification == \App\Bid::CALIFICACION_NEUTRAL)
+											@if ($sale->seller_calification == \App\Constants::CALIFICACION_NEUTRAL)
 												<span data-toggle="tooltip" data-placement="top" title="{{ $sale->seller_calification_comments }}"  style="color:#BABABA;font-size:18px;"><em class="fa fa-dot-circle-o"></em> </span>
 											@endif
 										</div>
 									</td>
 									<td><div class="text-center">
-											@if ($sale->user_calification == \App\Bid::CALIFICACION_POSITIVA)
+											@if ($sale->user_calification == \App\Constants::CALIFICACION_POSITIVA)
 												<span class="text-navy" data-toggle="tooltip" data-placement="top" title="{{ $sale->user_calification_comments }}"  style="font-size:18px;"><em class="fa fa-plus-circle"></em> </span>
 											@endif
-											@if ($sale->user_calification == \App\Bid::CALIFICACION_NEGATIVA)
+											@if ($sale->user_calification == \App\Constants::CALIFICACION_NEGATIVA)
 												<span class="text-danger" data-toggle="tooltip" data-placement="top" title="{{ $sale->user_calification_comments }}"  style="font-size:18px;"><em class="fa fa-minus-circle"></em> </span>
 											@endif
-											@if ($sale->user_calification == \App\Bid::CALIFICACION_NEUTRAL)
+											@if ($sale->user_calification == \App\Constants::CALIFICACION_NEUTRAL)
 												<span data-toggle="tooltip" data-placement="top" title="{{ $sale->user_calification_comments }}"  style="color:#BABABA;font-size:18px;"><em class="fa fa-dot-circle-o"></em> </span>
 											@endif
 											</div>

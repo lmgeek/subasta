@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
+use App\Constants;
 
 class AuthControllerLogin extends Controller
 {
@@ -27,7 +28,7 @@ class AuthControllerLogin extends Controller
         }
 
         $credentials = $this->getCredentials($request);
-        if (Auth::attempt($credentials, $request->has('remember'))) {
+        if (Auth::attempt($credentials, $request->has(Constants::REMEMBER))) {
            
           
             return $this->handleUserWasAuthenticated($request, $throttles);
@@ -42,7 +43,7 @@ class AuthControllerLogin extends Controller
         }
 
         return redirect($this->loginPath())
-            ->withInput($request->only($this->loginUsername(), 'remember'))
+            ->withInput($request->only($this->loginUsername(), Constants::REMEMBER))
             ->withErrors([
                 $this->loginUsername() => $this->getFailedLoginMessage(),
             ]);
@@ -67,14 +68,14 @@ class AuthControllerLogin extends Controller
 
         $active_mail= Auth::user()->active_mail;
         // filtro para que no inicie seccion ante de verificar su correo 
-        if ($active_mail == 1)
-            return redirect("home");
-        else{
+        if ($active_mail == 1) {
+            return redirect('/?log=1');
+        }else{
             // cerra seccion 
             Auth::logout();
             // mostrar mensaje en la plantalla 
             return redirect($this->loginPath())
-            ->withInput($request->only($this->loginUsername(), 'remember'))
+            ->withInput($request->only($this->loginUsername(), Constants::REMEMBER))
             ->withErrors([
                 $this->loginUsername() => $this->getMessageMailValidated(),
             ]);

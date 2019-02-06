@@ -2,7 +2,7 @@
         <?php
 
         $vendido = 0;
-        foreach ($a->bids()->where('status','<>',\App\Bid::NO_CONCRETADA)->get() as $b) {
+        foreach ($a->bids()->where('status','<>',\App\Constants::NO_CONCRETADA)->get() as $b) {
             $vendido+= $b->amount;
         }
 
@@ -10,7 +10,7 @@
         $disponible = $total-$vendido;
         ?>
 		@if ($disponible > 0)
-				@if($status == \App\Auction::FUTURE)
+				@if($status == \App\Constants::FUTURE)
 					<div class="progress">
 						<div style="width: 100%;" class="progress-bar"></div>
 					</div>

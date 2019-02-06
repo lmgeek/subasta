@@ -1,6 +1,19 @@
 <?php
 namespace App;
 class Constants{
+    const CANT_MAX_BRONZE=500;
+    const CANT_MAX_SILVER=1000;
+    const MAIL_ADDRESS='sistema@subastas.com.ar';
+    const MAIL_NAME='Subastas';
+    const MIDDLEWARE='middleware';
+    const EMAIL='email';
+    const PASSWORD='password';
+    const NOMBRE='nombre';
+    const UNIDAD='unidad';
+    const REMEMBER='remember';
+    const IMAGE='image';
+    const IMAGEN='imagen';
+    const VERIFY='verify';
     const IN_CURSE = 'incourse';
     const FINISHED = 'finished';
     const FUTURE = 'future';
@@ -8,6 +21,7 @@ class Constants{
     const ASC='asc';
     const DESC='desc';
     const STATUS='status';
+    const NICKNAME='nickname';
     const MY_IN_CURSE = 'my_incurse';
     const MY_FINISHED = 'my_finished';
     const MY_FUTURE = 'my_future';
@@ -20,6 +34,7 @@ class Constants{
     const AVAILABLE='available';
     const AVAILABILITY='availability';
     const IS_NOT_AVAILABLE='isnotavailability';
+    const QUALITY='quality';
     const TRANS_UNITS='general.product_units.';
     const CLOSE='close';
     const PRICE='price';
@@ -28,6 +43,8 @@ class Constants{
     const DATE_FORMAT_INPUT= 'd/m/Y H:i';
     const INPUT_END_PRICE='endPrice';
     const INPUT_AUCTION_ID='auction_id';
+    const INPUT_CALIFICACION='calificacion';
+    const INPUT_COMENTARIOS_CALIFICACION='comentariosCalificacion';
     const MAKE_BID='makeBid';
     const AUCTION='auction';
     const AUCTIONS='auctions';
@@ -39,6 +56,7 @@ class Constants{
     const AUCTIONS_BATCH_ID='auctions.batch_id';
     const AUCTIONS_START='auctions.start';
     const AUCTIONS_END='auctions.end';
+    const AUCTIONS_ACTIVE='auctions.active';
     const AUCTIONS_INVITES='auctions_invites';
     const AUCTION_INV_AUCTION_ID='auctions_invites.auction_id';
     const AUCTION_PRICE_DECIMALS='AUCTION_PRICE_DECIMALS';
@@ -52,11 +70,16 @@ class Constants{
     const BOATS='boats';
     const BOATS_ID='boats.id';
     const BOATS_USER_ID='boats.user_id';
+    const USER='user';
     const USERS='users';
     const USERS_ID='users.id';
     const BIDS_DATE='bid_date';
     const BIDS_AUCTION_ID='bids.auction_id';
     const BIDS_USER_ID='bids.user_id';
+    const CALIBER='caliber';
+    const CALIBERS='calibers';
+    const PORT='port';
+    const PORTS='ports';
     const PRODUCT='product';
     const PRODUCTS='products';
     const SELLER='seller';
@@ -73,6 +96,45 @@ class Constants{
     const CALIFICACION_NEGATIVA = 'negative';
     const MAIL_ADDRESS_SYSTEM='MAIL_ADDRESS_SYSTEM';
     const MAIL_ADDRESS_SYSTEM_NAME='MAIL_ADDRESS_SYSTEM_NAME';
-    const MAIL_ADDRESS='sistema@subastas.com.ar';
-    const MAIL_NAME='Subastas';
+    const MAIL_SUBJECT_WELCOME='users.email_welcome_title';
+    const MAIL_TEMPLATE_START='emails.';
+    const CSS_SOLID='solid';
+    const URL_PRODUCTS='/products';
+    const URL_LOGIN='auth/login';
+    const URL_SELLER_BATCH='/sellerbatch';
+    const REGISTER_MESSAGE='register_message';
+    const BUYER_NAME='buyer_name';
+    const APROBADO = "approved";
+    const RECHAZADO = "rejected";
+    const USER_ID='user_id';
+    const CAJAS     = "Cajas";
+    const CAJONES   = "Cajones";
+    const PASTILLAS = "Pastillas";
+    const UNIDADES  = "Unidades";
+    const CHICO     = "small";
+    const MEDIANO   = "medium";
+    const GRANDE    = "big";
+    const WEIGHT_SMALL='weight_small';
+    const WEIGHT_MEDIUM='weight_medium';
+    const WEIGHT_BIG='weight_big';
+    const VALIDATION_RULES_PRODUCT_WEIGHT='required|regex:/^\d{1,}(\,\d+)?$/|greater_weight_than:';
+    const REQUIRED='required';
+    const ICON_OFFERS_BIDS_GREEN='<em class="icon-material-outline-local-offer green"></em>';
+    const OFERTA_DIRECTA=' Oferta Directa';
+    const OFERTAS_DIRECTAS=' Ofertas Directas';
+    const INTERNAL = "internal";
+    const VENDEDOR = "seller";
+    const COMPRADOR = "buyer";
+    const BROKER = "broker";
+
+    public static function formatDate($fecha){
+        setlocale(LC_TIME,'es_ES');
+        return strftime('%d %b %Y', strtotime($fecha));
+    }
+
+    /* Funcion para validar el tamaño del producto*/
+    public static function caliber($caliber){
+        $mediumbigdifferencer=(($caliber=='medium')?'mediano':'grande');
+        return ($caliber=='small')?'chico':$mediumbigdifferencer;
+    }
 }

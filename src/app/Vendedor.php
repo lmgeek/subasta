@@ -5,6 +5,7 @@ namespace App;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use App\Constants;
 
 class Vendedor extends Model
 {
@@ -28,18 +29,18 @@ class Vendedor extends Model
             ->join('boats','arrives.boat_id','=','boats.id')
             ->where('boats.user_id',$this->user->id);
 
-        if(!is_null($status) && count($status) > 0) $bids->whereIn('bids.status',$status);
-        if(!is_null($buyer) && count($buyer) > 0) $bids->whereIn('bids.user_id',$buyer);
-        if(!is_null($batches) && count($batches) > 0) $bids->whereIn('batches.id',$batches);
-        if(!is_null($arrives) && count($arrives) > 0) $bids->whereIn('arrives.id',$arrives);
-        if(!is_null($boats) && count($boats) > 0) $bids->whereIn('boats.id',$boats);
+        if(!is_null($status) && count($status) > 0){$bids->whereIn('bids.status',$status);}
+        if(!is_null($buyer) && count($buyer) > 0) {$bids->whereIn('bids.user_id',$buyer);}
+        if(!is_null($batches) && count($batches) > 0) {$bids->whereIn('batches.id',$batches);}
+        if(!is_null($arrives) && count($arrives) > 0) {$bids->whereIn('arrives.id',$arrives);}
+        if(!is_null($boats) && count($boats) > 0) {$bids->whereIn('boats.id',$boats);}
 
         return $bids;
     }
 
     public function getTotalSales($start = null, $end = null)
     {
-        $sales = $this->mySales([Bid::CONCRETADA]);
+        $sales = $this->mySales([Constants::CONCRETADA]);
 
         if (!is_null($start)){
             $sales->where('bid_date','>=', $start );
@@ -82,7 +83,7 @@ class Vendedor extends Model
     public function myPrivateSales($buyer = null)
     {
         $sales = PrivateSale::where('user_id',$this->user->id);
-		if(!is_null($buyer) && count($buyer) > 0) $sales->where('buyer_name', 'like', "%$buyer%");
+		if(!is_null($buyer) && count($buyer) > 0) {$sales->where('buyer_name', 'like', "%$buyer%");}
         return $sales;
 
     }

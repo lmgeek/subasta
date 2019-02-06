@@ -133,7 +133,7 @@
                 $('#cal').html(cal);
 
 
-                if(cal == '{{ trans('general.seller_qualification.'.\App\Bid::CALIFICACION_POSITIVA) }}' && com == "" ) {
+                if(cal == '<?=trans('general.seller_qualification.'.\App\Constants::CALIFICACION_POSITIVA)?>' && com == "" ) {
                     $("#comments").hide();
                 }
                 $('#calcom').html(com);

@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Bid;
 use App\Http\Requests\Request;
+use App\Constants;
 
 class SellerQualifyRequest extends Request
 {
@@ -26,7 +27,7 @@ class SellerQualifyRequest extends Request
     {
         return [
             'calificacion' => 'required',
-            'comentariosCalificacion' => 'required_if:calificacion,'.Bid::CALIFICACION_NEGATIVA.'|required_if:calificacion,'.Bid::CALIFICACION_NEUTRAL
+            'comentariosCalificacion' => 'required_if:calificacion,'.Constants::CALIFICACION_NEGATIVA.'|required_if:calificacion,'.Constants::CALIFICACION_NEUTRAL
         ];
     }
 }

@@ -130,5 +130,13 @@ use App\Boat;
         //neww
     </script>
 @endsection
+@section('scriptsanalytics')
+    @if(isset($request))
+    gtag('event', '<?=$request->e?>', {
+    'event_category':'<?=$request->t?>',
+    'event_label':'ID Barco: <?=$request->id?> Usuario: <?=Auth::user()->nickname?>',
+    });
+    @endif
+@endsection
 
 {{--strVal.replace(/([\ \t]+(?=[\ \t])|^\s+|\s+$)/g, '');--}}

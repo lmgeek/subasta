@@ -1,5 +1,5 @@
 @can('evaluateBoat',$boat)
-    @if ($boat->status == \App\Boat::PENDIENTE)
+    @if ($boat->status == \App\Constants::PENDIENTE)
         <div class="row">
             <div class="col-lg-12">
                 <div class="jumbotron alert-warning">

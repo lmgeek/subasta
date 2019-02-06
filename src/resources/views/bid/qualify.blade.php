@@ -34,9 +34,9 @@
                                 </div>
                                 <div class="col-md-12 text-center">
                                     <div class="btn-group" data-toggle="buttons">
-                                        <label class="btn btn-white btn_positivo"><input type="radio" value="{{ \App\Bid::CALIFICACION_POSITIVA }}" name="calificacion" id="calificacionPositiva">Calificacion Positiva</label>
-                                        <label class="btn btn-white btn_neutro"><input type="radio"  value="{{ \App\Bid::CALIFICACION_NEUTRAL }}" name="calificacion" id="calificacionNeutra">Calificacion Neutra</label>
-                                        <label class="btn btn-white btn_negativa"><input type="radio"  value="{{ \App\Bid::CALIFICACION_NEGATIVA}}" name="calificacion" id="calificacionNegativa">Calificacion Negativa</label>
+                                        <label class="btn btn-white btn_positivo"><input type="radio" value="{{ \App\Constants::CALIFICACION_POSITIVA }}" name="calificacion" id="calificacionPositiva">Calificacion Positiva</label>
+                                        <label class="btn btn-white btn_neutro"><input type="radio"  value="{{ \App\Constants::CALIFICACION_NEUTRAL }}" name="calificacion" id="calificacionNeutra">Calificacion Neutra</label>
+                                        <label class="btn btn-white btn_negativa"><input type="radio"  value="{{ \App\Constants::CALIFICACION_NEGATIVA}}" name="calificacion" id="calificacionNegativa">Calificacion Negativa</label>
                                     </div>
                                 </div>
                                 <div class="col-md-12 text-center">
@@ -64,7 +64,7 @@
     <script>
         $(document).ready(function () {
             $('input[name="concretada"]').bind('change',function(){
-                var showOrHide = ($(this).val() == '{{ \App\Bid::NO_CONCRETADA }}') ? true : false;
+                var showOrHide = ($(this).val() == '{{ \App\Constants::NO_CONCRETADA }}') ? true : false;
                 $('.motivoNoConcretada').toggle(showOrHide);
             });
         });

@@ -56,7 +56,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="nombre">{{ trans('products.name') }}</label>
-                                        <input type="text" name="nombre" class="form-control" id="name" value="{{ old('nombre') }}" onkeypress="return validaName(event);">
+                                        <input type="text" name="nombre" class="form-control" id="name" value="{{ old('nombre') }}" >
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -73,15 +73,15 @@
                                         <br>
                                         <div class="col-md-4">
                                             <label for="weigth_small">Chico</label>
-                                            <input type="text" name="weigth_small" class="form-control number" id="weigth_small" value="{{ old('weigth_small') }}">
+                                            <input type="text" name="weight_small" class="form-control number" id="weigth_small" value="{{ old('weight_small') }}">
                                         </div>
                                         <div class="col-md-4">
                                             <label for="weigth_medium">Mediano</label>
-                                            <input type="text" name="weigth_medium" class="form-control number" id="weigth_medium" value="{{ old('weigth_medium') }}">
+                                            <input type="text" name="weight_medium" class="form-control number" id="weigth_medium" value="{{ old('weight_medium') }}">
                                         </div>
                                         <div class="col-md-4">
                                             <label for="weigth_big">Grande</label>
-                                            <input type="text" name="weigth_big" class="form-control number" id="weigth_big" value="{{ old('weigth_big') }}">
+                                            <input type="text" name="weight_big" class="form-control number" id="weigth_big" value="{{ old('weight_big') }}">
                                         </div>
                                         <small><p style="color: gray; font-style: italic;">   Sólo permite 2 decimales</p></small>
                                     </div>
@@ -176,7 +176,8 @@
             console.log(x);
 
 
-            str = str.replace(/[^\d|\s|^\w]/g,"");
+            str = str.replace(/[^a-zñáéíóúöü A-ZÑÁÉÍÓÚÖÜ0-9]/g,"");
+            // str = str.replace(/[^\d|\s|^\w]/g,"");
 
             $(this).val(str);
 

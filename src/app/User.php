@@ -38,7 +38,7 @@ class User extends Model implements AuthenticatableContract,
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'nickname', 'password','phone','type','status','rebound'];
+    protected $fillable = ['name', 'email', Constants::NICKNAME, 'password','phone','type',Constants::STATUS,'rebound'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -101,18 +101,16 @@ class User extends Model implements AuthenticatableContract,
     public static function filter($name = null, $type = null, $status = null)
     {
         $rtrn = User::where('type','<>',User::INTERNAL);
-        if(!is_null($name) && $name != '') $rtrn->where('name','like',"%$name%");
-        if(!is_null($type) && count($type) > 0) $rtrn->whereIn('type',$type);
-        if(!is_null($status) && count($status) > 0) $rtrn->whereIn('status',$status);
-
+        if(!is_null($name) && $name != ''){$rtrn->where('name','like',"%$name%");}
+        if(!is_null($type) && count($type) > 0){$rtrn->whereIn('type',$type);}
+        if(!is_null($status) && count($status) > 0){$rtrn->whereIn(Constants::STATUS,$status);}
         return $rtrn->orderBy('name','ASC')->get();
     }
 	
 	public static function getInternals($status = null)
     {
         $rtrn = User::where('type','=',User::INTERNAL);
-        if(!is_null($status) && count($status) > 0) $rtrn->whereIn('status',$status);
-
+        if(!is_null($status) && count($status) > 0){$rtrn->whereIn(Constants::STATUS,$status);}
         return $rtrn->orderBy('created_at','desc')->get();
     }
 
@@ -167,5 +165,8 @@ class User extends Model implements AuthenticatableContract,
     }
     public function privateAuctions(){
         return $this->belongsToMany('App\Auction','auctions_invites');
+    }
+    public static function getUserById($id){
+        return User::Select(Constants::NICKNAME)->where('id','=',$id)->get()[0][Constants::NICKNAME];
     }
 }

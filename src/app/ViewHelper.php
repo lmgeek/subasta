@@ -2,19 +2,19 @@
 
 namespace App;
 
-
+use App\Constants;
 class ViewHelper
 {
     static function userStatusClass($status)
     {
         switch ($status){
-            case User::PENDIENTE:
+            case Constants::PENDIENTE:
                 $rtrn = 'warning';
                 break;
-            case User::APROBADO:
+            case Constants::APROBADO:
                 $rtrn = 'primary';
                 break;
-            case User::RECHAZADO:
+            case Constants::RECHAZADO:
                 $rtrn = 'danger';
                 break;
             default:
@@ -58,13 +58,13 @@ class ViewHelper
 	static function boatStatusClass($status)
     {
         switch ($status){
-            case Boat::PENDIENTE:
+            case Constants::PENDIENTE:
                 $rtrn = 'warning';
                 break;
-            case Boat::APROBADO:
+            case Constants::APROBADO:
                 $rtrn = 'primary';
                 break;
-            case Boat::RECHAZADO:
+            case Constants::RECHAZADO:
                 $rtrn = 'danger';
                 break;
             default:

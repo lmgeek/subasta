@@ -1,4 +1,4 @@
-@if ( $type != \App\Auction::AUCTION_PRIVATE )
+@if ( $type != \App\Constants::AUCTION_PRIVATE )
 <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <form>
@@ -53,12 +53,12 @@
 <div class="col-lg-12 text-center">
 	
 	
-	@if ($type == \App\Auction::AUCTION_PRIVATE)
-		<a href="{{ url('auction?status='.\App\Auction::IN_CURSE  . '&type=' . \App\Auction::AUCTION_PRIVATE) }}" class="btn @if($status == \App\Auction::IN_CURSE) btn-success @endif">{{ trans('auction.auction_in_curse') }}</a>
-		<a href="{{ url('auction?status='.\App\Auction::FUTURE . '&type=' . \App\Auction::AUCTION_PRIVATE ) }}" class="btn @if($status == \App\Auction::FUTURE) btn-success @endif">{{ trans('auction.auction_future') }}</a>
+	@if ($type == \App\Constants::AUCTION_PRIVATE)
+		<a href="{{ url('auction?status='.\App\Constants::IN_CURSE  . '&type=' . \App\Constants::AUCTION_PRIVATE) }}" class="btn @if($status == \App\Constants::IN_CURSE) btn-success @endif">{{ trans('auction.auction_in_curse') }}</a>
+		<a href="{{ url('auction?status='.\App\Constants::FUTURE . '&type=' . \App\Constants::AUCTION_PRIVATE ) }}" class="btn @if($status == \App\Constants::FUTURE) btn-success @endif">{{ trans('auction.auction_future') }}</a>
 	@else
-		<a href="{{ url('auction?status='.\App\Auction::IN_CURSE  ) }}" class="btn @if($status == \App\Auction::IN_CURSE) btn-success @endif">{{ trans('auction.auction_in_curse') }}</a>
-		<a href="{{ url('auction?status='.\App\Auction::FUTURE) }}" class="btn @if($status == \App\Auction::FUTURE) btn-success @endif">{{ trans('auction.auction_future') }}</a>
+		<a href="{{ url('auction?status='.\App\Constants::IN_CURSE  ) }}" class="btn @if($status == \App\Constants::IN_CURSE) btn-success @endif">{{ trans('auction.auction_in_curse') }}</a>
+		<a href="{{ url('auction?status='.\App\Constants::FUTURE) }}" class="btn @if($status == \App\Constants::FUTURE) btn-success @endif">{{ trans('auction.auction_future') }}</a>
 	@endif
 	
 	
