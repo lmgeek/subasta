@@ -54,7 +54,7 @@
                                             </tr>
                                         </table>
                                         <br><br><br>
-                                        Se será notificado si fue el ganador de la subasta.
+                                        Será notificado si fue el ganador de la subasta.
 									  
                                     </td>
                                 </tr>

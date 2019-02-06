@@ -126,19 +126,19 @@ class AuctionController extends Controller
 		if ($request->input('tipoSubasta') == Constants::AUCTION_PRIVATE )
 		{
 			$sInvited  = $request->input('invitados');
-			
+
 			foreach($sInvited as $i)
 			{
 				$auctionInvited = new AuctionInvited();
 				$auctionInvited->auction_id = $auction->id;
 				$auctionInvited->user_id = $i;
 				$auctionInvited->save();
-				
+
 				$user = User::findOrFail($i);
 				$template = 'emails.userinvited';
 				$seller = $auction->batch->arrive->boat->user ;
 				Mail::queue($template, ['user' => $user , Constants::SELLER=> $seller] , function ($message) use ($user) {
-					$message->from( 
+					$message->from(
 						env(Constants::MAIL_ADDRESS_SYSTEM,Constants::MAIL_ADDRESS),
 						env(Constants::MAIL_ADDRESS_SYSTEM_NAME,Constants::MAIL_NAME)
 					);
@@ -147,13 +147,13 @@ class AuctionController extends Controller
 				});
 
 			}
-			
-			
-			
+
+
+
 		}
-		
-        
-		
+
+
+
 
         return redirect('/sellerbatch?e=created&t=auction&id='.$auction->id.'&ex='.urlencode('Product ID: '.$batch->product_id.', Name: '.$auction->batch->product->name.' '.Constants::caliber($auction->batch->caliber).'.  Quantity: '.$request->input(Constants::AMOUNT)));
     }
@@ -1111,7 +1111,7 @@ class AuctionController extends Controller
             // Verifico la fecha de la subasta
             if ($auction->end >= date('Y-m-d H:i:s'))
                 return;
-
+dd("hola");
             //verifica que el precio ofertado sea mayor e igual al de la subasta terminada
             if ($offer->price >= $offer->end_price){
                 if ($offer->status == Offers::PENDIENTE){
@@ -1179,21 +1179,6 @@ class AuctionController extends Controller
                 return;
             }
 
-
-            //Datos de envio de correo
-            $unit = $auction->batch->product->unit;
-            $caliber = $auction->batch->caliber;
-            $quality = $auction->batch->quality;
-            $product = $auction->batch->product->name;
-            $resp[Constants::IS_NOT_AVAILABLE] = 0;
-            $resp['unit'] = trans(Constants::TRANS_UNITS.$unit);
-            $resp[Constants::CALIBER] = $caliber;
-            $resp[Constants::QUALITY] = $quality;
-            $resp[Constants::PRODUCT] = $product;
-            $resp[Constants::AMOUNT] = $available[Constants::AVAILABLE];
-            $resp[Constants::PRICE] = $price;
-            $resp[Constants::ACTIVE_LIT] = $auction->active;
-
 //Guardo la venta
             $this->bid = new Bid();
             $this->bid->user_id = $offer->user_id;
@@ -1223,17 +1208,7 @@ class AuctionController extends Controller
 //        $this->status->auction_sold += $available[Constants::AVAILABLE];
 //        $this->status->save();
 
-            $user = User::findOrFail(Auth::user()->id);
-            $template = 'emails.offerForBid';
-            $seller = $auction->batch->arrive->boat->user ;
-            Mail::queue($template, ['user' => $user , Constants::SELLER=> $seller, Constants::PRODUCT=> $resp] , function ($message) use ($user) {
-                $message->from(
-                    env(Constants::MAIL_ADDRESS_SYSTEM,Constants::MAIL_ADDRESS),
-                    env(Constants::MAIL_ADDRESS_SYSTEM_NAME,Constants::MAIL_NAME)
-                );
-                $message->subject(trans('users.offer_Bid'));
-                $message->to($user->email);
-            });
+            $this->emailOfferBid($auction,$available,$offer);
             $offers = $this->getOffers($auction_id);
             return $offers;
         } else {
@@ -1289,6 +1264,10 @@ class AuctionController extends Controller
         $auction = Auction::findOrFail($auction_id);
         $this->authorize('isMyAuction',$auction);
         $offers = $this->getOffers($auction_id);
+        $available = $this->getAvailable($auction_id, $auction->amount);
+//        if (isset($_GET['opc']) && $_GET['opc']==1){
+//            $this->autoOffersBid($request, $auction_id);
+//        }
         if ($offer_id == null){
             foreach ($offers as $o){
                 $this->offers = Offers::findOrFail($o->id);
@@ -1318,15 +1297,70 @@ class AuctionController extends Controller
                             $this->offers->save();
                         }
                     } else {
-                        $this->offers = Offers::findOrFail($o->id);
-                        $this->offers->auction_id = $auction_id;
-                        $this->offers->status = Offers::ACEPTADA;
-                        $this->offers->save();
+                        if ($available[Constants::AVAILABLE] > 0){
+                            $this->offers = Offers::findOrFail($o->id);
+                            $this->offers->auction_id = $auction_id;
+                            $this->offers->status = Offers::ACEPTADA;
+                            $this->offers->save();
+
+                            //guardo la venta
+
+                            $this->bid = new Bid();
+                            $this->bid->user_id = $o->user_id;
+                            $this->bid->auction_id = $auction_id;
+                            $this->bid->amount = $available[Constants::AVAILABLE];
+                            $this->bid->price = $o->price;
+                            $this->bid->status = Constants::PENDIENTE;
+                            $this->bid->bid_date = date(Constants::DATE_FORMAT);
+                            $this->bid->save();
+
+                            //send email
+                            $this->emailOfferBid($auction,$available,$o);
+                        } else {
+                            $this->offers = Offers::findOrFail($o->id);
+                            if ($this->offers->status == Offers::PENDIENTE) {
+                                $this->offers->auction_id = $auction_id;
+                                $this->offers->status = Offers::NO_ACEPTADA;
+                                $this->offers->save();
+                            }
+                        }
                     }
                 }
             }
         }
-        return;
+        $offers = $this->getOffers($auction_id);
+//        return redirect('home');
+        return $offers;
+    }
+
+
+    public function emailOfferBid($auction,$available,$offer)
+    {
+        //Datos de envio de correo
+        $unit = $auction->batch->product->unit;
+        $caliber = $auction->batch->caliber;
+        $quality = $auction->batch->quality;
+        $product = $auction->batch->product->name;
+        $resp[Constants::IS_NOT_AVAILABLE] = 0;
+        $resp['unit'] = trans(Constants::TRANS_UNITS.$unit);
+        $resp[Constants::CALIBER] = $caliber;
+        $resp[Constants::QUALITY] = $quality;
+        $resp[Constants::PRODUCT] = $product;
+        $resp[Constants::AMOUNT] = $available[Constants::AVAILABLE];
+        $resp[Constants::PRICE] = $offer->price;
+        $resp[Constants::ACTIVE_LIT] = $auction->active;
+
+        $user = User::findOrFail($offer->user_id);
+        $template = 'emails.offerForBid';
+        $seller = $auction->batch->arrive->boat->user ;
+        Mail::queue($template, ['user' => $user , Constants::SELLER=> $seller, Constants::PRODUCT=> $resp] , function ($message) use ($user) {
+            $message->from(
+                env(Constants::MAIL_ADDRESS_SYSTEM,Constants::MAIL_ADDRESS),
+                env(Constants::MAIL_ADDRESS_SYSTEM_NAME,Constants::MAIL_NAME)
+            );
+            $message->subject(trans('users.offer_Bid'));
+            $message->to($user->email);
+        });
     }
 
 
