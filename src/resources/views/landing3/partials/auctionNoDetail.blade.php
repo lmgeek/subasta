@@ -29,7 +29,7 @@ $fechafin=strftime('%d %b %Y', strtotime($auction->end));
 
 ?>
 <!-- Auction Listing Details -->
-    <div class="task-listing-details">
+<div class="task-listing-details" id="AuctionLeft<?=$auction->id?>">
         <!-- Photo -->
         @if(!isset($nopic))
             <div class="task-listing-photo">
@@ -39,7 +39,7 @@ $fechafin=strftime('%d %b %Y', strtotime($auction->end));
     <!-- Details -->
         <div class="task-listing-description">
             <h3 class="task-listing-title">
-                <a href="{{(empty($finished))?'/auction/details/'.$auction->id:'#'}}">{{$auction->batch->product->name}} {{$calibre}}</a>
+                <a href="{{(empty($finished))?'/auction/details/'.$auction->id:'#'}}" id="LinkSubasta{{$auction->id}}">{{$auction->batch->product->name}} {{$calibre}}</a>
                 <div class="star-rating" data-rating="{{$auction->batch->quality}}"></div>
                 @if($auction->type!='public')
                     <em class="t16 icon-feather-eye-off" data-tippy-placement="right" title="Subasta Privada" data-tippy-theme="dark"></em></h3>
@@ -82,9 +82,9 @@ $fechafin=strftime('%d %b %Y', strtotime($auction->end));
                     </p>
 
                     <div class="pricing-plan-label billed-monthly-label <?=(empty($finished)?'red':'')?>" id="PriceContainer{{$auction->id}}"><strong class="red" id="Price{{$auction->id}}">${{$price['CurrentPrice']}}</strong>/ Kg<br>
-                        <small class="red fw500" id="ClosePrice{{$auction->id}}"style="display:none"><?=(empty($finished))?'&iexcl;Cerca del precio l&iacute;mite!':'Precio Final'?></small></div>
+                        <small class="red fw500" id="ClosePrice{{$auction->id}}"<?=(empty($finished))?'style="display:none"':''?>><?=(empty($finished))?'&iexcl;Cerca del precio l&iacute;mite!':'Precio Final'?></small></div>
                     <div id="timer<?=$auction->id?>" class="countdown margin-bottom-0 margin-top-20 blink_me <?=(empty($finished))?'timerauction':''?>" data-timefin="{{$auction->end}}" data-id="{{$auction->id}}">
-                        <?=(isset($finished))?'Finalizada!':''?></div>
+                        <?=(isset($finished))?'&iexcl;Finalizada!':''?></div>
             </div>
             @if(empty($finished))
                 <div  id="OpenerPopUpCompra{{$auction->id}}">

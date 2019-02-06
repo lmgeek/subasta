@@ -137,4 +137,18 @@ class Constants{
         $mediumbigdifferencer=(($caliber=='medium')?'mediano':'grande');
         return ($caliber=='small')?'chico':$mediumbigdifferencer;
     }
+    public static function array_merge_join($arrayofarrays){
+	    $return=array();
+	    foreach($arrayofarrays as $array){
+	        foreach($array as $key=>$valor){
+	            if(isset($return[$key])){
+                    $return[$key]+=$valor;
+                }else{
+                    $return[$key]=1;
+                }
+
+            }
+        }
+	    return $return;
+    }
 }

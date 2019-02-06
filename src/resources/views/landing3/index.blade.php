@@ -2,7 +2,7 @@
 use App\Auction;
 //Creamos un objeto de la clase para usar sus funciones
 $objtAuction = new Auction();
-$portsall=\App\Ports::Select()->get();
+$portsall= App\Ports::select()->get();
 ?>
 @extends('landing3/partials/layout')
 @section('title',' | Home')
@@ -37,8 +37,8 @@ $portsall=\App\Ports::Select()->get();
                             <label for="where-input" class="field-title ripple-effect bg-secondary-light">&iquest;Qu&eacute; puerto prefieres?</label>
                             <div class="input-with-icon">
                                 <select class="selectpicker" multiple title="Escoge una opción...">
-                                    @foreach($portsall as $port)
-                                        <option value="{{$port->id}}">{{$port->name}}</option>
+                                    @foreach($ports as $key=>$value)
+                                        <option value="{{$key}}">{{\App\Http\Controllers\AuctionController::getPortById($key)}}</option>
                                     @endforeach
                                 </select>
 

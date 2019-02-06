@@ -16,6 +16,7 @@ $userId = $auction->batch->arrive->boat->user->id;
 $outsidehome=1;
 $cantofertas=\App\Http\Controllers\AuctionController::getOffersCount($auction->id);
 $cantcompras=$availability['sold'];
+
 ?>
 @extends('landing3/partials/layout')
 @section('title',' | Lista de subastas')
@@ -93,10 +94,14 @@ $cantcompras=$availability['sold'];
             <!-- Sidebar -->
             <div class="col-xl-4 col-lg-4">
                 <br class="sidebar-container">
-                <div id="timer<?=$auction->id?>" class="countdown margin-bottom-0 margin-top-20 blink_me timerauction" data-timefin="{{$auction->end}}" data-id="{{$auction->id}}"></div>
+                <?php if($auction->end>date(Constants::DATE_FORMAT) && $availability['available']>0){?>
+                <div id="timer<?=$auction->id?>" class="margin-bottom-0 margin-top-20 blink_me countdown timerauction" data-timefin="{{$auction->end}}" data-id="{{$auction->id}}"></div>
+                <?php }else{?>
+                <div id="timer<?=$auction->id?>" class="margin-bottom-0 margin-top-20 blink_me countdown" data-timefin="{{$auction->end}}" data-id="{{$auction->id}}">&iexcl;Finalizada!</div>    
+                <?php }?>
                 <br>
                 {{--<div class="countdown primary margin-bottom-25 t24" id="timer_1"></div>--}}
-
+                <?php if($auction->end>date(Constants::DATE_FORMAT) && $availability['available']>0){?>
                 <div class="sidebar-widget">
                     <div class="bidding-widget">
                         <div class="bidding-headline bg-primary"><h3 class="white">&iexcl;Realiza tu compra ahora!</h3></div>
@@ -104,7 +109,7 @@ $cantcompras=$availability['sold'];
 
                             <!-- Headline -->
                             <span class="bidding-detail t18 bd-bt-1 padding-bottom-10"  id="auctionAvailabilitypopup{{$auction->id}}" >
-                                <small style="font-weight: 400">Disponibilidad:</small> {{$objtAuction->available($auction->id,$auction->amount)}} <small>de</small> {{$auction->amount}} {{$auction->batch->product->unit.(($auction->amount>1)?'s':'')}}
+                                <small style="font-weight: 400">Disponibilidad:</small> {{$objtAuction->available($auction->id,$auction->amount)}} <small>de</small> {{$auction->amount}} {{$auction->batch->product->unit}}
                             </span>
 
                             <!-- Headline -->
@@ -175,7 +180,7 @@ $cantcompras=$availability['sold'];
 
                     </div>
                 </div>
-
+                <?php }?>
             </div>
         </div>
 

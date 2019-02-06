@@ -2,11 +2,11 @@ function endAuction($id) {
     $('#timer' + $id).html("¡Finalizada!");
     if (!$('#Auction_' + $id).hasClass('nodelete')){
         $('#OpenerPopUpCompra' + $id).remove();
-        $('#Auction_' + $id).addClass('bg-disabled');
         $('#ClosePrice' + $id).html('Precio Final');
+        $('#ClosePrice' + $id).fadeIn();
         $("#timer" + $id).removeAttr('data-timefin');
         $("#timer" + $id).removeClass('data-timerauction');
-        var $html = '<div id="Auction_' + $id + '" data-close="' + $('#Auction_' + $id).data('close') + '" data-endorder="' + $('#Auction_' + $id).data('endorder') + '" data-end="' + $('#Auction_' + $id).data('end') + '" data-price="' + $('#Auction_' + $id).data('price') + '" class="task-listing auction bg-disabled" style="display:none"data-id="' + $id + '">' + $('#Auction_' + $id).html() + '</div>' + $('#FinishedAuctions').html();
+        var $html = '<div id="Auction_' + $id + '" data-close="' + $('#Auction_' + $id).data('close') + '" data-endorder="' + $('#Auction_' + $id).data('endorder') + '" data-end="' + $('#Auction_' + $id).data('end') + '" data-price="' + $('#Auction_' + $id).data('price') + '" class="task-listing bg-disabled" style="display:none"data-id="' + $id + '">' + $('#Auction_' + $id).html() + '</div>' + $('#FinishedAuctions').html();
         $('#Auction_' + $id).fadeOut();
         $('#Auction_' + $id).remove();
         $('#FinishedAuctions').html($html);
@@ -15,6 +15,8 @@ function endAuction($id) {
         $('#OffersCounter' + $id).remove();
         $('#BidsCounter' + $id).remove();
         $('#HotAuction' + $id).remove();
+        $('#AuctionLeft'+$id).css('background-color','#fff');
+        $('#LinkSubasta'+$id).attr('href','#');
         setTimeout(function () {
             $('#Auction_' + $id).fadeIn();
         }, 400);
@@ -26,6 +28,23 @@ function avoidSending(){
     if($key==13){
         e.preventDefault();
     }
+}
+function inicializePopups(){
+    $('.popup-with-zoom-anim').magnificPopup({
+        type: 'inline',
+
+        fixedContentPos: false,
+        fixedBgPos: true,
+
+        overflowY: 'auto',
+
+        closeBtnInside: true,
+        preloader: false,
+
+        midClick: true,
+        removalDelay: 300,
+        mainClass: 'my-mfp-zoom-in'
+    });
 }
 function getMoreAuctions($limit=1,$limitcontainer=3){
     var $cant=$('#FeaturedAuctions').children('.auction').length;
@@ -50,21 +69,7 @@ function getMoreAuctions($limit=1,$limitcontainer=3){
                     getInfo($(this).data('id'),1);timer($(this).data('id'));
                 }
             });
-            $('.popup-with-zoom-anim').magnificPopup({
-                type: 'inline',
-
-                fixedContentPos: false,
-                fixedBgPos: true,
-
-                overflowY: 'auto',
-
-                closeBtnInside: true,
-                preloader: false,
-
-                midClick: true,
-                removalDelay: 300,
-                mainClass: 'my-mfp-zoom-in'
-            });
+            inicializePopups();
             starRating('.star-rating');
             orderAuctions('Featured');
         }else{
@@ -225,7 +230,7 @@ function notifications($type,$product=null,$price=null,$quantity=null,$text=null
             '<div class="fieldtitle">Producto</div><div class="fieldvalue">'+$product+'</div>'+
             '<div class="fieldtitle">Precio</div><div class="fieldvalue">'+$price+'</div>'+
             '<div class="fieldtitle">Cantidad</div><div class="fieldvalue">'+$quantity+'</div>'+
-            '<div class="total">Total<div class="totalvalue">'+($price*$quantity)+'</div></div>'+
+            '<div class="total">Total<div class="totalvalue">'+(parseFloat($price)*$quantity)+'</div></div>'+
             '</div></div>'
     }else if($type==2){
         $html='<div class="notificationauction success" id="notificationauction'+$idnotification+'" onclick="notifications_close('+$idnotification+')"><div class="notificationicon"><i class="icon-line-awesome-check"></i></div><div class="notificationcontent">' +
@@ -418,7 +423,7 @@ $(document).ready(function(){
         getPriceMaxAndMin();
         auctionListFilter();
     }
-    orderAuctions();
+    //orderAuctions();
 });
 
 

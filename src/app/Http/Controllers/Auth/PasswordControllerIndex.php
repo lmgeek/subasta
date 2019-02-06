@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Message;
 use App\User;
+use App\Constants;
 
 
 class PasswordControllerIndex extends Controller

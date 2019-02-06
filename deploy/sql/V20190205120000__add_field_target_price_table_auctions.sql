@@ -20,6 +20,6 @@ END $$
 
 CALL upgrade_database_20190205120000() $$
 
-DROP PROCEDURE upgrade_database_20190205120000() $$
+DROP PROCEDURE upgrade_database_20190205120000 $$
 
 DELIMITER ;
