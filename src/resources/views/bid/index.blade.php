@@ -24,7 +24,7 @@
                             @foreach ($bids as $a)
                                 <div class="auction row">
                                     <div class="col-md-2">
-                                         @include('bid.partials.auctionInfo')
+                                         {{--@include('bid.partials.auctionInfo')--}}
                                     </div>
                                     <div class="col-md-1 text-center">
                                        <div style="margin-top:22px;">
@@ -114,13 +114,13 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('/js/plugins/moment/moment.js') }}"></script>
+{{--    <script src="{{ asset('/js/plugins/moment/moment.js') }}"></script>
     <script src="{{ asset('/js/plugins/datetimepicker/bootstrap-datetimepicker.js') }}"></script>
     <script src="{{ asset('/js/plugins/ionRangeSlider/ion.rangeSlider.min.js') }}"></script>
     <script src="{{ asset('/js/plugins/star_rating/jquery.raty.js') }}"></script>
     <script src="{{ asset('/js/plugins/jasny/jasny-bootstrap.min.js') }}"></script>
      <script src="{{ asset('/js/plugins/toastr/toastr.min.js') }}"></script>
-	<script src="{{ asset('/js/plugins/jsKnob/jquery.knob.js') }}"></script>
+	<script src="{{ asset('/js/plugins/jsKnob/jquery.knob.js') }}"></script>--}}
 	<script>
 
         $(document).ready(function(){
@@ -133,7 +133,7 @@
                 $('#cal').html(cal);
 
 
-                if(cal == '{{ trans('general.seller_qualification.'.\App\Bid::CALIFICACION_POSITIVA) }}' && com == "" ) {
+                if(cal == '<?=trans('general.seller_qualification.'.\App\Constants::CALIFICACION_POSITIVA)?>' && com == "" ) {
                     $("#comments").hide();
                 }
                 $('#calcom').html(com);

@@ -425,3 +425,30 @@ function blankSpace(e) {
     var tecla_final = String.fromCharCode(tecla);
     return patron.test(tecla_final);
 }
+
+/* G.B fucion para limitar la cantidad de caracteres en un input*/
+function inputseMaxLength(Event, Object, MaxLen)
+{
+    return (Object.value.length <= MaxLen)||(Event.keyCode == 8 ||Event.keyCode==46||(Event.keyCode>=35&&Event.keyCode<=40))
+}
+
+
+/*G.B funcion para no permitir acentos, se debe pasar
+como parametro el id de la tag html*/
+function doesNotAllowAccents(idTag){
+
+    $(document).on('keydown keyup',idTag,function(e){
+        var evt = e || window.event;
+        var x = evt.key;
+        var str = this.value;
+        var index = str.indexOf(',');
+        var check = x == 0 ? 0: (parseInt(x) || -1);
+        console.log(x);
+
+        str = str.replace(/[^\d|\s|^\w]/g,"");
+
+        $(this).val(str);
+
+    });
+
+}
