@@ -134,8 +134,8 @@ class SellerBoatsController extends Controller
         $boats = Boat::where(Constants::BOATS_USER_ID,Auth::user()->id)
             ->where(Constants::STATUS,Constants::APROBADO)
             ->get();
-
-        return view('sellerBoats.arrive',compact(Constants::BOATS,'boat_id'));
+        $ports = Ports::get();
+        return view('sellerBoats.arrive',compact('arrive','boats','boat_id','ports'));
     }
 
     public function editArrive($arrive_id)

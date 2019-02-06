@@ -1,20 +1,59 @@
 <?php
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\ResetsPasswords;
-
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Password;
-
-use Illuminate\Support\Facades\Auth;
-
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-
+use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Mail\Message;
+use App\User;
 
 
 class PasswordControllerIndex extends Controller
 {
+    public function postEmail(Request $request)
+    {
+        $this->validate($request, ['email' => 'required|email']);
+        $email=$request->input('email');
+        $statu  = User::Select('status')->where('email','=',$email)->get()->toArray();
+
+
+
+            $response = Password::sendResetLink($request->only('email'),
+                function (Message $message) {
+                    $message->subject($this->getEmailSubject());
+                });
+        if ($response== "passwords.sent" && $statu[0]["status"] == "rejected"){
+            $response = "passwords.user";
+        }
+
+        switch ($response) {
+            case Password::RESET_LINK_SENT:
+                return redirect()->back()->with('status', trans($response));
+            case Password::INVALID_USER:
+                return redirect()->back()->withErrors(['email' => trans($response)]);
+;
+        }
+    }
+
+    /**
+     * Get the e-mail subject line to be used for the reset link email.
+     *
+     * @return string
+     */
+    protected function getEmailSubject()
+    {
+        return property_exists($this, 'subject') ? $this->subject : 'Your Password Reset Link';
+    }
+
+    /**
+     * Display the password reset view for the given token.
+     *
+     * @param  string  $token
+     * @return \Illuminate\Http\Response
+     */
     /*
     |--------------------------------------------------------------------------
     | Password Reset Controller
@@ -42,7 +81,7 @@ class PasswordControllerIndex extends Controller
             $this->resetPassword($user, $password);
         });
         if($response==Password::PASSWORD_RESET){
-            return redirect("home.php");
+            return redirect("home");
         }else{
             return redirect()->back()
                 ->withInput($request->only(Constants::EMAIL))
