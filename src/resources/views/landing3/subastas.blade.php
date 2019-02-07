@@ -114,7 +114,7 @@ use App\User;
 							</div>
 						</div>
 					</div><div class="tasks-list-container margin-top-35"  id="Auctions">
-
+                        
 					@if(count($auctions)>0)
 
 						@foreach($auctions as $auction)
