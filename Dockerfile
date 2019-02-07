@@ -27,7 +27,7 @@ RUN a2enmod rewrite
 # activate php error logs
 RUN echo php_flag log_errors On > /etc/apache2/conf-enabled/php-log-errors.conf
 
-RUN  bash -c "[ \"$STAGE\" == \"dev\" ] || [ \"$STAGE\" == \"test\" ]; \
+RUN  bash -c "if [ \"$STAGE\" == \"dev\" ] || [ \"$STAGE\" == \"test\" ]; \
      then \
        apt-get install -y php5-xdebug; \
      fi"
