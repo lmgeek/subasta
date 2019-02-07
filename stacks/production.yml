@@ -28,6 +28,7 @@ services:
       - MAIL_ADDRESS_SYSTEM=sistema@subastas.com.ar
       - MAIL_ADDRESS_SYSTEM_NAME=Subastas
       - STAGE=production
+      - GOOGLE_ANALYTICS_ID=UA-132702736-3
     networks:
       - frontend
       - backend
