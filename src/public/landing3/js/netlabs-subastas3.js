@@ -46,24 +46,23 @@ function inicializePopups(){
         mainClass: 'my-mfp-zoom-in'
     });
 }
-function getMoreAuctions($limit=1,$limitcontainer=3){
-    var $cant=$('#FeaturedAuctions').children('.auction').length;
-    if ($cant >= $limitcontainer) {
-        return;
-    }
+function getMoreAuctions($limit=1,$filters=null,$idTarget='#FeaturedAuctions'){
     var $ids=[], $cont = 0;
     $('.auction').each(function () {
         $ids[$cont]=$(this).data('id');
         $cont++;
     });
-    console.log($ids)
-    $.get('/getMoreAuctions', {limit:$limit,ids: $ids}, function (result) {
+    $('#Loader').fadeIn();
+    if($('#MasterFilter').length>0){
+        $filters=getFilters()[0];
+    }
+    $.get('/getMoreAuctions', {limit:$limit,ids: $ids,filters:$filters}, function (result) {
         var $result=JSON.parse(result),$html='';
         if(result!=''){
             for(var $z=0;$z<$result.length;$z++){
                 $html+=$result[$z];
             }
-            $('#FeaturedAuctions').html($('#FeaturedAuctions').html()+$html);
+            $($idTarget).html($($idTarget).html()+$html);
             $('.auction').each(function () {
                 if(!$ids.includes($(this).data('id'))){
                     getInfo($(this).data('id'),1);timer($(this).data('id'));
@@ -71,13 +70,15 @@ function getMoreAuctions($limit=1,$limitcontainer=3){
             });
             inicializePopups();
             starRating('.star-rating');
-            orderAuctions('Featured');
+            if($idTarget=='#FeaturedAuctions'){
+                orderAuctions('Featured');
+            }
         }else{
-            if($('#FeaturedAuctions').children('.auction').length==0){
-                $('#FeaturedAuctions').html('<h1 class="text-center">No hay Subastas para mostrar</h1>');
+            if($($idTarget).children('.auction').length==0){
+                $($idTarget).html('<h1 class="text-center">No hay Subastas para mostrar</h1>');
             }
         }
-    });
+    }).always(function(){$('#Loader').fadeOut();});
 }
 function deleteExcessAuctionsFinished(){
     if($('#FinishedAuctions > .task-listing').length>3){
@@ -89,6 +90,7 @@ function timer($id) {
     if ($("#timer" + $id).attr('data-timefin') != null) {
         var $end = new Date($("#timer" + $id).attr('data-timefin'));
         window['now'] = new Date().getTime();
+        $('#Loader').attr('data-datelocal',window['now']);
         var distance = $end - window['now'], string = '';
         var days = Math.floor(distance / (1000 * 60 * 60 * 24));
         var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -203,13 +205,25 @@ function openPopupOferta($id){
         'event_label':'Auction_'+$id
     });
 }
-
+function modifyQuantity($id,$direction){
+    var $input=$('#cantidad-'+$id);$cant=parseInt($input.val()),$max=parseInt($input.attr('max')),$min=parseInt($input.attr('min'));
+    if(!$('#checkbox'+$id).is(':checked')){
+        if($direction==0 && $cant>$min){
+            $input.val($cant-1);
+        }else if($direction==1 && $cant<$max){
+            $input.val($cant+1);
+        }
+    }
+    
+}
 function getInfo($id,$firstrun=0) {
     var d = new Date();
     var n = d.getSeconds();
     if ((n == 0 || $firstrun==1) && !$('#Auction_'+$id).hasClass('bg-disabled')) {
         $.get('/calculateprice?i=c&auction_id=' + $id, function (result) {
             var $result = JSON.parse(result);
+            $('#Loader').attr('data-lastrequest',window['now']);
+            $('#Loader').attr('data-server',$result['currenttime']);
             updateAuctionData($id,$result['price'],$result['end'],$result['endorder'],$result['endfriendly'],$result['close'],$result['hot']);
             modifyAvailability($id,$result['availability'],$result['amount']);
             modifyOffersCounter($id,$result['bidscounter'],$result['offerscounter']);
@@ -246,7 +260,7 @@ function notifications($type,$product=null,$price=null,$quantity=null,$text=null
     }
     $('#notificationsauction').html($html+$('#notificationsauction').html());
 
-    window['timeoutNotification'+$idnotification]=setTimeout(function(){notifications_close($idnotification)},10000);
+    window['timeoutNotification'+$idnotification]=setTimeout(function(){notifications_close($idnotification)},15000);
 }
 function modifyOffersCounter($id,$bids=null,$offers=null){
     if($bids!=null && $bids==1){
@@ -297,7 +311,7 @@ function makeBid($id){
                 }]
             });
         }else{
-            notifications(0,null,null,null,$result['error']);
+            notifications(0,null,null,null,'No hay disponibilidad en esta subasta');
         }
 
     }).fail(function(){
@@ -377,12 +391,11 @@ function getPriceMaxAndMin(){
     });
     $(".range-slider").slider().on('slideStop', auctionListFilter);
 }
-function auctionListFilter(){
-    $('.auction').show();
-    var $filters=[],$priceval=$('#PriceFilter').val().toString().split(','),$filterstring='Filter Price: Min='+$priceval[0]+'ARS. Max='+$priceval[1]+'ARS. ';
+function getFilters(){
+    var $filters=[],$filterstring='';
     $('.AuctionListFilter').each(function(){
         if($(this).is(':checked')) {
-            $fieldtemp=$(this).data('field');
+            var $fieldtemp=$(this).data('field');
             if ($filters[$fieldtemp] != null) {
                 $filters[$fieldtemp] += $(this).data('value') + '**';
                 $filterstring+='Field '+$fieldtemp+': '+$(this).data('value')+'. ';
@@ -392,6 +405,12 @@ function auctionListFilter(){
             }
         }
     });
+    return [$filters,$filterstring];
+}
+function auctionListFilter(){
+    $('.auction').show();
+    var $filtergetter=getFilters(),$priceval=$('#PriceFilter').val().toString().split(',');
+    var $filters=$filtergetter[0],$filterstring='Filter Price: Min='+$priceval[0]+'ARS. Max='+$priceval[1]+'ARS. '+$filtergetter[1];
     $('.auction').each(function(){
         for(var $field in $filters){
             if(!$filters[$field].toString().includes($(this).data($field)+"**")){

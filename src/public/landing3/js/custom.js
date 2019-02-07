@@ -910,47 +910,6 @@ $(document).ready(function(){
 	});
 
 
-	/*--------------------------------------------------*/
-	/*  Quantity Buttons
-	/*--------------------------------------------------*/
-	function qtySum(){
-	    var arr = document.getElementsByName('qtyInput');
-	    var tot=0;
-	    for(var i=0;i<arr.length;i++){
-	        if(parseInt(arr[i].value))
-	            tot += parseInt(arr[i].value);
-	    }
-	} 
-	qtySum();
-
-   $(".qtyDec, .qtyInc").on("click", function() {
-   		var $id=$(this).data('id');
-	   if(!$('#checkbox'+$id).is(':checked')) {
-
-		   var $button = $(this);
-		   var oldValue = $button.parent().find("input").val();
-
-		   if ($button.hasClass('qtyInc')) {
-			   var $act = $button.parent().find("input");
-			   if ($act.val() < $act.attr('max')) {
-				   $act.val(parseFloat(oldValue) + 1);
-			   }
-
-		   } else {
-			   if (oldValue > 1) {
-				   $button.parent().find("input").val(parseFloat(oldValue) - 1);
-			   } else {
-				   $button.parent().find("input").val(1);
-			   }
-		   }
-
-		   qtySum();
-		   $(".qtyTotal").addClass("rotate-x");
-	   }
-
-   });
-
-
 	/*----------------------------------------------------*/
 	/*  Inline CSS replacement for backgrounds
 	/*----------------------------------------------------*/

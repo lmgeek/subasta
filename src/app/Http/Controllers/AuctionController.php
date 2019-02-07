@@ -175,7 +175,6 @@ class AuctionController extends Controller
             $targetprice=$auction->target_price;
             $close=($price<$targetprice)?1:0;
             $time = round(microtime(true) * 1000);
-
             $data['id'] = $auction_id;
             $data[Constants::CLOSE] = $close;
             $data['end'] = $auction->end;
