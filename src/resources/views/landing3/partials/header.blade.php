@@ -342,8 +342,8 @@
         <div class="header-widget">
             <div class=" user-menu">
                 <div class="header-notifications-trigger">
-                    <a href="{{ url('auth/login') }}" class="option-login" rel="nofollow">
-                        <img alt="image" width="20" height="20" src="{{ asset('/landing/img/header_usuario.png') }}" /> Ingresá</a>
+                    <a href="/auth/login" class="option-login" rel="nofollow">
+                        <img alt="image" width="20" height="20" src="/landing/img/header_usuario.png" /> Ingresá</a>
                 </div>
             </div>
 

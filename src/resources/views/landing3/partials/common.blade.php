@@ -18,4 +18,5 @@
 <link rel="stylesheet" href="/landing3/css/datetimepicker.css">
 <link rel="stylesheet" href="/landing3/css/filters.css">
 <link rel="stylesheet" href="/landing3/css/netlabs-subastas3.css">
+<link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
 @include('analytics')
