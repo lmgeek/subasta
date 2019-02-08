@@ -25,7 +25,7 @@ mkdir ${DEST_DIR}
   --log-junit ${DEST_DIR}/log-junit.xml \
   --testdox-html ${DEST_DIR}/agile.html || true
 
-tar czvvf ${DEST_DIR}/coverage-html.tgz
+tar czvvf ${DEST_DIR}/coverage-html.tgz ${DEST_DIR}/coverage-html
 
 touch ${DEST_DIR}/fin
 
