@@ -27,17 +27,19 @@ RUN a2enmod rewrite
 # activate php error logs
 RUN echo php_flag log_errors On > /etc/apache2/conf-enabled/php-log-errors.conf
 
+ADD scripts/* /
+
 RUN  bash -c "if [ \"$STAGE\" == \"dev\" ] || [ \"$STAGE\" == \"test\" ]; \
      then \
        apt-get install -y php5-xdebug; \
        docker-php-ext-enable /usr/lib/php5/20131226/xdebug.so; \
+     else \
+       rm /start_test.sh /wait_for.php \
      fi"
 
 #clean up
 RUN apt-get clean && \
         rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-ADD scripts/* /
 
 COPY configs/apache2/apache2.conf /etc/apache2/apache2.conf
 
