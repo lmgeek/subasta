@@ -1,4 +1,4 @@
-FROM registry.netlabs.com.ar/netlabs/deploy:9
+FROM registry.netlabs.com.ar/netlabs/deploy:10
 
 MAINTAINER Diego Weinstein <diegow@netlabs.com.ar>
 

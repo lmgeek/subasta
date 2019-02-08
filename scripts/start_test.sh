@@ -26,3 +26,7 @@ mkdir ${DEST_DIR}
   --testdox-html ${DEST_DIR}/agile.html || true
 
 touch ${DEST_DIR}/fin
+
+killall -9 apache2
+
+/start.sh
