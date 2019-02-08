@@ -21,9 +21,11 @@ mkdir ${DEST_DIR}
 
 /var/www/html/vendor/bin/phpunit /var/www/html/tests \
   --coverage-clover ${DEST_DIR}/coverage-clover.xml \
-  --coverage-html ${DEST_DIR}/coverage-htm \
+  --coverage-html ${DEST_DIR}/coverage-html \
   --log-junit ${DEST_DIR}/log-junit.xml \
   --testdox-html ${DEST_DIR}/agile.html || true
+
+tar czvvf ${DEST_DIR}/coverage-html.tgz
 
 touch ${DEST_DIR}/fin
 
