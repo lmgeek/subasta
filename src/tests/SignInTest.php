@@ -20,57 +20,53 @@ class SignInTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->usuarioSeller = "pruebastest@test.com";
-        $this->usuarioBuyer = "buyerTest@test.com";
-        $this->password = "N3tl4bs!";
+        $this->usuarioSeller = "guaidopresidente@netlabs.com.ar";
+        $this->usuarioBuyer = "Robertkiyosaki@netlabs.com.ar";
+        $this->password = "G3rm@n";
     }
 
-    public function testSingInSuccessfulySeller()
+    /** @test */
+    function singInSuccessfulySeller()
     {
-
-        $this->visit('/auth/login')
-            ->type($this->usuarioSeller, 'email')
-            ->type($this->password, 'password')
-            ->press('Entrar')
-            ->visit("/home")
-            ->see("Ventas");
+        $this->unit(null,'visit','/auth/login');
+        $this->unit(null,'type','',$this->usuarioSeller,'email');
+        $this->unit(null,'type','',$this->password,'password');
+        $this->unit(null,'press','','','Entrar');
+        $this->unit(null,'see','','Correo no verificado');
     }
 
-    public function testSingInNotSuccessfulySeller()
+
+    /** @test */
+    function singInNotSuccessfulySeller()
     {
-
-        $this->visit('/auth/login')
-            ->type("alejandro", 'email')
-            ->type("1234", 'password')
-            ->press('Entrar')
-            ->visit("/auth/login")
-            ->see("Error");
+        $this->unit(null,'visit','/auth/login');
+        $this->unit(null,'type','','guaidopresidente','email');
+        $this->unit(null,'type','','1234','password');
+        $this->unit(null,'press','','','Entrar');
+        $this->unit(null,'see','','Error');
     }
 
-    public function SingInSuccessfulyBuyer()
+
+    /** @test */
+    function SingInSuccessfulyBuyer()
     {
-        $this->visit('/auth/login')
-            ->type($this->usuarioSeller, 'email')
-            ->type($this->password, 'password')
-            ->press('Entrar')
-            ->visit("/home")
-            ->see("Compras");
+        $this->unit(null,'visit','/auth/login');
+        $this->unit(null,'type','',$this->usuarioBuyer,'email');
+        $this->unit(null,'type','',$this->password,'password');
+        $this->unit(null,'press','','','Entrar');
+        $this->unit(null,'see','','Correo no verificado');
     }
 
-    public function SingInNotSuccessfulyBuyer()
+    /** @test */
+    function singInNotSuccessfulyBuyer()
     {
-        $this->visit('/auth/login')
-            ->type("alejandro", 'email')
-            ->type("1234", 'password')
-            ->press('Entrar')
-            ->visit("/auth/login")
-            ->see("Error");
+        $this->unit(null,'visit','/auth/login');
+        $this->unit(null,'type','','Robertkiyosaki','email');
+        $this->unit(null,'type','','1234','password');
+        $this->unit(null,'press','','','Entrar');
+        $this->unit(null,'see','','Error');
+
     }
 
-    public function SingInNotPassingEmailInput()
-    {
-        $this->visit('/auth/login')
-            ->type("", '')
-            ->see("Completa este campo");
-    }
+
 }
