@@ -30,6 +30,7 @@ RUN echo php_flag log_errors On > /etc/apache2/conf-enabled/php-log-errors.conf
 RUN  bash -c "if [ \"$STAGE\" == \"dev\" ] || [ \"$STAGE\" == \"test\" ]; \
      then \
        apt-get install -y php5-xdebug; \
+       docker-php-ext-enable /usr/lib/php5/20131226/xdebug.so; \
      fi"
 
 #clean up
