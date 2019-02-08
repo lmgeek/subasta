@@ -1,57 +1,37 @@
 <?php
 
-use App\User;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Support\Facades\Auth;
-
+use App\Boat;
 class CreateNewBoatTest extends TestCase
 {
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
 
-    public function setUp()
+    /** @test*/
+    function successfullRegisterBoatWithAlias()
     {
-        parent::setUp();
-        $this->rules = (new \App\Http\Requests\CreateBoatRequest())->rules();
-        $this->validator = $this->app['validator'];
+        $this->unit(2,'visit','/sellerboat/create');
+        $this->unit(2,'see','','Barco III');
+        $this->unit(2,'type','','Barco III','alias');
+        $this->unit(2,'press','','Guardar');
+        $this->unit(2,'visit','/sellerboa');
+        $this->unit(2,'seePageis','/sellerboat/');
+        $this->unit(2,'responseOk');
     }
 
-    public function getFieldValidator($field, $value)
-    {
-        return $this->validator->make(
-            [$field => $value],
-            [$field => $this->rules[$field]]
-        );
+    /** @test */
+    function saveANewBoat(){
+        $boat = new Boat();
+        $response = $this->instanceClassBoat($boat,118,'Barco III');
+        $this->unitAssert('assertTrue',$response);
     }
 
-    public function ValidateField($field, $value)
+    /** @test */
+    function cancelBottonWhenCreatingBoat()
     {
-        return $this->getFieldValidator($field, $value)->passes();
+        $this->unit(2,'visit','/sellerboat/create');
+        $this->unit('2','click','','','Cancelar');
+        $this->unit(2,'see','','Mis Barcos');
+        $this->unit(2,'responseOK');
     }
-
-    /**
-     *
-     * Test Input Nombre Barco
-     *
-     */
-
-
-    /**
-     * A test Register Successfully.
-     *
-     * @return void
-     */
-    public function testSuccessfulRegisterBoatWithCorrectName()
-    {
-        $response = $this->validateField('name', "Walrus Nro 3");
-        $this->assertTrue($response);
-    }
-
-
-
 }

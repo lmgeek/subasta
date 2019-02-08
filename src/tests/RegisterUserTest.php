@@ -3,9 +3,13 @@
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\User;
+use App\Vendedor;
+use App\Comprador;
 
 class RegisterUserTest extends TestCase
 {
+
     /**
      * A basic test example.
      *
@@ -17,19 +21,6 @@ class RegisterUserTest extends TestCase
         parent::setUp();
         $this->rules = (new \App\Http\Requests\RegisterNewUserRequest())->rules();
         $this->validator = $this->app['validator'];
-    }
-
-    public function getFieldValidator($field, $value)
-    {
-        return $this->validator->make(
-            [$field => $value],
-            [$field => $this->rules[$field]]
-        );
-    }
-
-    public function ValidateField($field, $value)
-    {
-        return $this->getFieldValidator($field, $value)->passes();
     }
 
     /**
@@ -111,6 +102,44 @@ class RegisterUserTest extends TestCase
         $this->assertFalse($response);
     }
 
+
+    /**         Validacion del input alias
+     *
+     * @test */
+     function validateThatAliasFieldIsRequired()
+    {
+        $response = $this->validateField('alias', "");
+        $this->unitAssert('assertFalse',$response);
+    }
+
+    /** @test */
+    function validateThatTheAliasFieldAcceptsAlphanumeric()
+    {
+        $response = $this->validateField('alias', "german2906");
+        $this->unitAssert('assertTrue',$response);
+    }
+
+    /** @test */
+    function validateThatAliasFieldDoesNotAcceptSpaces()
+    {
+        $response = $this->validateField('alias', "    ");
+        $this->unitAssert('assertFalse',$response);
+    }
+
+    /** @test*/
+    function validateThatTheAliasFieldAcceptsSpecialCharacters(){
+        $response = $this->validateField('alias', '\|@\|@#€~¬#~,-€¬.');
+        $this->unitAssert('assertFalse',$response);
+    }
+
+    /** @test*/
+    function validateThatTheAliasFieldDoesNotAcceptMoreThan10Characters(){
+        $response = $this->validateField('alias', 'En venezuela tambien hay nieve y desierto');
+        $this->unitAssert('assertFalse',$response);
+    }
+
+
+
     /**
      * Email Field Validations
      */
@@ -166,4 +195,40 @@ class RegisterUserTest extends TestCase
         $response = $this->validateField('email', 'ª!"·$%&/()*/-+-.,ç´`+^¨Ç^[]{}');
         $this->assertFalse($response);
     }
+
+
+
+    /**         Prueba de registrar usuario vendedor en base de datos
+     *
+     * @test */
+    function validateThatASellerRegistersCorrectly(){
+
+    $user = new User();
+    $vendedor = new Vendedor();
+
+    $response = $this->instanceClassUserSeller($user, $vendedor, "Guaido", "Venezuela", "Guiaido29", "32-32322332-3",
+                "guaidopresidente@netlabs.com.ar", "G3rm@n");
+    $this->unitAssert('assertTrue', $response);
+
+    }
+
+
+
+    /**        Prueba de registrar usuario Comprador en base de datos
+     *
+     * @test */
+    function validateThatABuyerRegistersCorrectly(){
+
+        $user = new User();
+        $comprador = new Comprador();
+
+        $response = $this->instanceClassUserBuyer($user,$comprador,"Robert","kiyosaki","rober29","123123123",
+            "Robertkiyosaki@netlabs.com.ar","G3rm@n") ;
+        $this->unitAssert('assertTrue',$response);
+    }
+
+
+
+
+
 }
