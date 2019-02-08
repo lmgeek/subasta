@@ -34,7 +34,7 @@ RUN  bash -c "if [ \"$STAGE\" == \"dev\" ] || [ \"$STAGE\" == \"test\" ]; \
        apt-get install -y php5-xdebug; \
        docker-php-ext-enable /usr/lib/php5/20131226/xdebug.so; \
      else \
-       rm /start_test.sh /wait_for.php \
+       rm /start_test.sh /wait_for.php; \
      fi"
 
 #clean up
