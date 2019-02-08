@@ -4,6 +4,7 @@ services:
 
   web:
     image: registry.netlabs.com.ar/netlabs/subastas_test
+    command: /start_test.sh
     environment:
       - DB_HOST=test-subastas_db
       - DB_DATABASE=subastas

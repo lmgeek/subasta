@@ -23,6 +23,6 @@ mkdir ${DEST_DIR}
   --coverage-clover ${DEST_DIR}/coverage-clover.xml \
   --coverage-html ${DEST_DIR}/coverage-htm \
   --log-junit ${DEST_DIR}/log-junit.xml \
-  --testdox-html ${DEST_DIR}/agile.html
+  --testdox-html ${DEST_DIR}/agile.html || true
 
 touch ${DEST_DIR}/fin
