@@ -1,17 +1,16 @@
 <?php
 namespace App\Http\Controllers\Auth;
-
+use App\Http\Controllers\Auth\PasswordController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Message;
 use App\User;
+use App\Constants;
 
-
-class PasswordControllerIndex extends Controller
+class PasswordControllerIndex extends PasswordController
 {
     public function postEmail(Request $request)
     {
@@ -43,28 +42,6 @@ class PasswordControllerIndex extends Controller
      *
      * @return string
      */
-    protected function getEmailSubject()
-    {
-        return property_exists($this, 'subject') ? $this->subject : 'Your Password Reset Link';
-    }
-
-    /**
-     * Display the password reset view for the given token.
-     *
-     * @param  string  $token
-     * @return \Illuminate\Http\Response
-     */
-    /*
-    |--------------------------------------------------------------------------
-    | Password Reset Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller is responsible for handling password reset requests
-    | and uses a simple trait to include this behavior. You're free to
-    | explore this trait and override any methods you wish to tweak.
-    |
-    */
-
     public function postReset(Request $request)
     {
         $this->validate($request, [
@@ -97,20 +74,4 @@ class PasswordControllerIndex extends Controller
      * @param  string  $password
      * @return void
      */
-    protected function resetPassword($user, $password)
-    {
-        $user->password = bcrypt($password);
-
-        $user->save();
-
-        Auth::login($user);
-    }
-
-    /**
-     * Create a new password controller instance.
-     *
-     * @return void
-     */
- 
-
 }
