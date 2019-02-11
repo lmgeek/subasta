@@ -13,10 +13,8 @@ INSERT INTO vendedor (`user_id`,`cuit`) VALUES ( 1, '20-95756293-1'), ( 2, '20-9
 
 INSERT INTO comprador (`user_id`,`dni`,`bid_limit`) VALUES ( 5, '12345678', '10000'), ( 6, '14567823', '1000'), ( 7, '12783456', '20000'), ( 8, '45678123', '100');
 
-
 INSERT INTO boats (`user_id`, `name`, `matricula`, `status`, `nickname`) VALUES ( 1, 'titanic','WS-10-4-A','approved','Barco I'), ( 1, 'magallanes','VE-10-4-A','rejected','Barco II'),
 ( 1, 'la perla','BO-10-4-A','pending','Barco III'), ( 1, 'caribe','AR-10-4-A','approved','Barco IV');
-
 
 INSERT INTO products (`name`,`unit`,`weigth_small`,`weigth_medium`,`weigth_big`)  VALUES ('Pulpo','Cajones',10,20,30),('Camarón','Cajones',15,20,25),('Tiburón','Unidad',5,10,15);
 
@@ -31,8 +29,8 @@ VALUES (1, 90,1,0,99910,'2019-01-24 10:30:00','2019-01-24 10:30:00'), (2, 90,1,0
 
 INSERT INTO auctions (`batch_id`, `start`, `start_price`, `end`, `end_price`, `interval`, `amount`, `active`, `notification_status`, `type`, `description`, `target_price`)
 VALUES (1, '2019-01-24 10:30:00', 10000, '2019-01-30 10:30:00', 5000, 1, 90,  1, 0, 'public','producto a la mejor calidad' ,5050),
-(2, '2019-01-30 10:30:00', 1000, '2019-02-06 10:30:00', 500, 1, 10,  90, 1, 0,'public','producto de alta calidad' ,510),
-(3, '2019-01-31 10:30:00', 100, '2019-02-03 10:30:00', 50, 1, 1, 90, 1, 0,'public','producto de calidad' ,52);
+(2, '2019-01-30 10:30:00', 1000, '2019-02-06 10:30:00', 500, 1, 90, 1, 0,'public','producto de alta calidad' ,510),
+(3, '2019-01-31 10:30:00', 100, '2019-02-03 10:30:00', 50, 1, 90, 1, 0,'public','producto de calidad' ,52);
 
 INSERT INTO bids (`auction_id`, `user_id`, `amount`, `price`, `bid_date`, `status`, `user_calification`, `user_calification_comments`, `seller_calification_comments`, `reason`)
 VALUES (3, 5, 90, 100, '2019-02-06 10:32:00', 'concretized', 'positive',  'positive', 'positive','positive');
