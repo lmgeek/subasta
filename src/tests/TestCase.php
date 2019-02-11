@@ -159,6 +159,12 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
     }
 
+
+    public function getTheLastIdInsertedInTheSeller(){
+        $idLast = User::all()->last();
+        return $idLast['id'];
+    }
+
     public function getFieldValidator($field, $value)
     {
         return $this->validator->make(
