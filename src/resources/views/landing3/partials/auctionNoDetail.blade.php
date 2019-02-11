@@ -14,7 +14,6 @@ $price=\App\Http\Controllers\AuctionController::calculatePriceID($auction->id);
 $close=$price['Close'];
 $userRatings=\App\Http\Controllers\AuctionController::getUserRating($auction->batch->arrive->boat->user);
 $usercat=Auction::catUserByAuctions($userId);
-$calibre=Constants::caliber($auction->batch->caliber);
 $port=\App\Ports::getPortById($auction->batch->arrive->port_id)
 ?>
 <div id="Auction_<?=$auction->id?>" class="task-listing <?=(empty($finished))?'auction':''?>" data-id="{{$auction->id}}" data-price="{{$price['CurrentPrice']}}" data-end="{{$auction->end}}" data-endOrder="{{date('YmdHi',strtotime($auction->end))}}" data-close="{{$close}}"data-userrating="{{$userRatings}}"
@@ -39,7 +38,7 @@ $fechafin=strftime('%d %b %Y', strtotime($auction->end));
     <!-- Details -->
         <div class="task-listing-description">
             <h3 class="task-listing-title">
-                <a href="{{(empty($finished))?'/auction/details/'.$auction->id:'#'}}" id="LinkSubasta{{$auction->id}}">{{$auction->batch->product->name}} {{$calibre}}</a>
+                <a href="{{(empty($finished))?'/auction/details/'.$auction->id:'#'}}" id="LinkSubasta{{$auction->id}}">{{$auction->batch->product->name}} {{trans('auction.'.$auction->batch->caliber)}}</a>
                 <div class="star-rating" data-rating="{{$auction->batch->quality}}"></div>
                 @if($auction->type!='public')
                     <em class="t16 icon-feather-eye-off" data-tippy-placement="right" title="Subasta Privada" data-tippy-theme="dark"></em></h3>
