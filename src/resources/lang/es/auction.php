@@ -74,7 +74,10 @@ return [
     'no_bids' => 'No hay compras registradas',
     'drawers' => 'CAJONES',
     'private' => 'privada',
-    'public' => 'p&uacute;blica'
+    'public' => 'p&uacute;blica',
+    'big' => 'grande',
+    'medium' => 'mediano',
+    'small' => 'chico'
 
 
 
