@@ -197,6 +197,19 @@ class RegisterUserTest extends TestCase
     }
 
 
+    /**        Prueba de registrar usuario Comprador en base de datos
+     *
+     * @test */
+    function validateThatABuyerRegistersCorrectly(){
+
+        $user = new User();
+        $comprador = new Comprador();
+
+        $response = $this->instanceClassUserBuyer($user,$comprador,"Robert","kiyosaki","rober29","123123123",
+            "Robertkiyosaki@netlabs.com.ar","G3rm@n") ;
+        $this->unitAssert('assertTrue',$response);
+    }
+
 
     /**         Prueba de registrar usuario vendedor en base de datos
      *
@@ -211,22 +224,6 @@ class RegisterUserTest extends TestCase
     $this->unitAssert('assertTrue', $response);
 
     }
-
-
-
-    /**        Prueba de registrar usuario Comprador en base de datos
-     *
-     * @test */
-    function validateThatABuyerRegistersCorrectly(){
-
-        $user = new User();
-        $comprador = new Comprador();
-
-        $response = $this->instanceClassUserBuyer($user,$comprador,"Robert","kiyosaki","rober29","123123123",
-            "Robertkiyosaki@netlabs.com.ar","G3rm@n") ;
-        $this->unitAssert('assertTrue',$response);
-    }
-
 
 
 
