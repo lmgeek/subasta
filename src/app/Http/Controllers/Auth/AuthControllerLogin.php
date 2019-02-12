@@ -22,8 +22,19 @@ class AuthControllerLogin extends AuthController
         }
 
         $active_mail= Auth::user()->active_mail;
+        $status= Auth::user()->status;
         // filtro para que no inicie seccion ante de verificar su correo
-        if ($active_mail == 1) {
+        if ($status == 'rejected') {
+            // cerra seccion
+            Auth::logout();
+            // mostrar mensaje en la plantalla
+            return redirect($this->loginPath())
+                ->withInput($request->only($this->loginUsername(), Constants::REMEMBER))
+                ->withErrors([
+                    $this->loginUsername() => $this->getMessageRejected(),
+                ]);
+        }
+        elseif ($active_mail == 1) {
             return redirect('/?log=1');
         }else{
             // cerra seccion
@@ -42,5 +53,11 @@ class AuthControllerLogin extends AuthController
         return Lang::has('auth.emailValidated')
             ? Lang::get('auth.emailValidated')
             : 'Correo no verificado. Haga clic en el enlace enviado a su correo.';
+    }
+    protected function getMessageRejected()
+    {
+        return Lang::has('auth.rejected')
+            ? Lang::get('auth.rejected')
+            : 'Usuario rechazado, comunicarse con los administradores de este sitio.';
     }
 }
