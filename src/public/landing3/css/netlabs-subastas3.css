@@ -106,6 +106,36 @@
     color:#fff
 }
 .slider.slider-horizontal{width:calc(100% - 31px)!important;}
+.pagination > li{
+    list-style: none;
+    display: inline-block;
+    padding:3px 10px;
+    margin:0px 5px;
+    border:1px solid rgb(14,108,146);
+    border-radius: 5px;
+    cursor: pointer;
+    color: rgb(14,108,146);
+}
+.pagination > li:hover{
+    background-color: rgba(14,108,146,0.7);
+    border-color: rgba(14,108,146,0.7);
+    color:#fff
+}
+.pagination > li.active{
+    background-color: rgb(14,108,146);
+    border-color: rgb(14,108,146);
+    color:#fff!important;
+}
+.pagination > li.disabled{
+    background-color: #666;
+    border-color: #666;
+    color:#fff
+}
+.pagination > li.disabled:hover{
+    background-color: #333;
+    border-color: #333;
+    cursor: not-allowed
+}
 @media screen and (max-width:768px){
     #notificationsauction{
         width: calc(100% - 20px);

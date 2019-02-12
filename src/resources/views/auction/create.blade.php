@@ -205,13 +205,13 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('/js/plugins/moment/moment.js') }}"></script>
-    <script src="{{ asset('/js/plugins/datetimepicker/bootstrap-datetimepicker.js') }}"></script>
-    <script src="{{ asset('/js/plugins/ionRangeSlider/ion.rangeSlider_2.1.1.js') }}"></script>
-    <script src="{{ asset('/js/plugins/star_rating/jquery.raty.js') }}"></script>
-    <script src="{{ asset('/js/plugins/jasny/jasny-bootstrap.min.js') }}"></script>
-    <script src="{{ asset('/js/plugins/jsKnob/jquery.knob.js') }}"></script>
-	<script src="{{ asset('/js/plugins/chosen/chosen.jquery.js') }}"></script>
+    <script src="/js/plugins/moment/moment.js"></script>
+    <script src="/js/plugins/datetimepicker/bootstrap-datetimepicker.js"></script>
+    <script src="/js/plugins/ionRangeSlider/ion.rangeSlider_2.1.1.js"></script>
+    <script src="/js/plugins/star_rating/jquery.raty.js"></script>
+    <script src="/js/plugins/jasny/jasny-bootstrap.min.js"></script>
+    <script src="/js/plugins/jsKnob/jquery.knob.js"></script>
+	<script src="/js/plugins/chosen/chosen.jquery.js"></script>
     
 	<script type="text/javascript">
 
@@ -367,11 +367,11 @@
 @endsection
 
 @section('stylesheets')
-    <link rel="stylesheet" href="{{ asset('/css/plugins/star_rating/jquery.raty.css') }}">
-    <link rel="stylesheet" href="{{ asset('/css/plugins/datetimepicker/bootstrap-datetimepicker.css') }}">
-    <link rel="stylesheet" href="{{ asset('/css/plugins/ionRangeSlider/ion.rangeSlider.css') }}">
-    <link rel="stylesheet" href="{{ asset('/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css') }}">
-    <link rel="stylesheet" href="{{ asset('/css/plugins/jasny/jasny-bootstrap.min.css') }}">
-	<link rel="stylesheet" href="{{ asset('/css/plugins/chosen/chosen.css') }}" >
+    <link rel="stylesheet" href="/css/plugins/star_rating/jquery.raty.css">
+    <link rel="stylesheet" href="/css/plugins/datetimepicker/bootstrap-datetimepicker.css">
+    <link rel="stylesheet" href="/css/plugins/ionRangeSlider/ion.rangeSlider.css">
+    <link rel="stylesheet" href="/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css">
+    <link rel="stylesheet" href="/css/plugins/jasny/jasny-bootstrap.min.css">
+	<link rel="stylesheet" href="/css/plugins/chosen/chosen.css" >
 
 @endsection

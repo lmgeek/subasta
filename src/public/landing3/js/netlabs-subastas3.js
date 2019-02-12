@@ -1,3 +1,5 @@
+window['notificationCounter']=0;
+window['now'] = new Date().getTime();
 function endAuction($id) {
     $('#timer' + $id).html("¡Finalizada!");
     if (!$('#Auction_' + $id).hasClass('nodelete')){
@@ -20,7 +22,7 @@ function endAuction($id) {
         setTimeout(function () {
             $('#Auction_' + $id).fadeIn();
         }, 400);
-        getMoreAuctions(1);
+        getMoreAuctions();
     }
 }
 function avoidSending(){
@@ -29,25 +31,8 @@ function avoidSending(){
         e.preventDefault();
     }
 }
-function inicializePopups(){
-    $('.popup-with-zoom-anim').magnificPopup({
-        type: 'inline',
-
-        fixedContentPos: false,
-        fixedBgPos: true,
-
-        overflowY: 'auto',
-
-        closeBtnInside: true,
-        preloader: false,
-
-        midClick: true,
-        removalDelay: 300,
-        mainClass: 'my-mfp-zoom-in'
-    });
-}
-function getMoreAuctions($limit=1,$filters=null,$idTarget='#FeaturedAuctions'){
-    var $ids=[], $cont = 0;
+function getMoreAuctions($limit=1,$idTarget='#FeaturedAuctions',$currentpage=1){
+    var $ids=[], $filters=[],$cont = 0;
     $('.auction').each(function () {
         $ids[$cont]=$(this).data('id');
         $cont++;
@@ -55,24 +40,18 @@ function getMoreAuctions($limit=1,$filters=null,$idTarget='#FeaturedAuctions'){
     $('#Loader').fadeIn();
     if($('#MasterFilter').length>0){
         $filters=getFilters()[0];
+        $($idTarget).html('');
     }
-    $.get('/getMoreAuctions', {limit:$limit,ids: $ids,filters:$filters}, function (result) {
-        var $result=JSON.parse(result),$html='';
+    $.post('/getauctions', {limit:$limit,current:$currentpage,ids:$ids,filters:$filters,_token:$('#csrf').attr('content')}, function (result) {
+        var $html=result;
         if(result!=''){
-            for(var $z=0;$z<$result.length;$z++){
-                $html+=$result[$z];
-            }
-            $($idTarget).html($($idTarget).html()+$html);
-            $('.auction').each(function () {
-                if(!$ids.includes($(this).data('id'))){
-                    getInfo($(this).data('id'),1);timer($(this).data('id'));
-                }
-            });
-            inicializePopups();
-            starRating('.star-rating');
-            if($idTarget=='#FeaturedAuctions'){
+            if($idTarget=='#Auctions'){
+                $($idTarget).html($html);
+            }else{
+                $($idTarget).html($($idTarget).html()+$html);
                 orderAuctions('Featured');
             }
+            inicializeEverything();
         }else{
             if($($idTarget).children('.auction').length==0){
                 $($idTarget).html('<h1 class="text-center">No hay Subastas para mostrar</h1>');
@@ -88,10 +67,11 @@ function deleteExcessAuctionsFinished(){
 }
 function timer($id) {
     if ($("#timer" + $id).attr('data-timefin') != null) {
+        $("#timer" + $id).attr('started','1');
         var $end = new Date($("#timer" + $id).attr('data-timefin'));
         window['now'] = new Date().getTime();
-        $('#Loader').attr('data-datelocal',window['now']);
-        var distance = $end - window['now'], string = '';
+        var $difservloc=$('#Loader').data('local') - $('#Loader').data('server');
+        var distance = $end - window['now'] - $difservloc, string = '';
         var days = Math.floor(distance / (1000 * 60 * 60 * 24));
         var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
@@ -114,7 +94,7 @@ function timer($id) {
 
             endAuction($id);
         } else {
-            setTimeout(function () {
+            window['timer'+$id]=setTimeout(function () {
                 timer($id);
             }, 1000);
         }
@@ -222,16 +202,23 @@ function getInfo($id,$firstrun=0) {
     if ((n == 0 || $firstrun==1) && !$('#Auction_'+$id).hasClass('bg-disabled')) {
         $.get('/calculateprice?i=c&auction_id=' + $id, function (result) {
             var $result = JSON.parse(result);
-            $('#Loader').attr('data-lastrequest',window['now']);
+            $('#Loader').attr('data-local',window['now']);
             $('#Loader').attr('data-server',$result['currenttime']);
             updateAuctionData($id,$result['price'],$result['end'],$result['endorder'],$result['endfriendly'],$result['close'],$result['hot']);
             modifyAvailability($id,$result['availability'],$result['amount']);
             modifyOffersCounter($id,$result['bidscounter'],$result['offerscounter']);
+        }).done(function(){
+             $('.timerauction').each(function(){
+                var $id=$(this).data('id');
+                if(!$("#timer" + $id).attr('started')){
+                    $("#timer" + $id).attr('started','1')
+                    timer($id);
+                }
+            });
         });
     }
     setTimeout(function(){getInfo($id)},1000);
 }
-window['notificationCounter']=0;
 function notifications_close($id){
     $('#notificationauction'+$id).remove();
 }
@@ -274,7 +261,6 @@ function modifyOffersCounter($id,$bids=null,$offers=null){
         $('#OffersCounter'+$id).html('<i class="icon-material-outline-local-offer green"></i>'+$offers+' Ofertas Directas');
     }
 }
-
 function makeBid($id){
     if($('#cantidad-'+$id).val()==''){
         notifications(0,null,null,null,'Tienes que poner una cantidad');
@@ -366,33 +352,11 @@ function ThousandSeparator(nStr) {
     }
     return x1 + x2;
 }
-function getPriceMaxAndMin(){
-    var $min=9999999,$max=0;
-    $('.auction').each(function(){
-        var $price=parseInt($(this).data('price'));
-        if($price>$max){
-            $max=$price;
-        }
-        if($price<$min){
-            $min=$price;
-        }
-    });
-    var $pricetext='['+$min+','+$max+']';
-    $('#PriceFilter').attr('data-slider-value',$pricetext);
-    $('#PriceFilter').attr('data-slider-max',$max);
-    $('#PriceFilter').attr('data-slider-min',$min);
-    $('#PriceFilter').attr('data-value',$min+','+$max);
-    $('#PriceFilter').val($min+','+$max);
-    var currencyAttr = $(".range-slider").attr('data-slider-currency');
-    $(".range-slider").slider({
-        formatter: function(value) {
-            return currencyAttr + ThousandSeparator(parseInt(value[0])) + " - " + currencyAttr + ThousandSeparator(parseInt(value[1]));
-        },
-    });
-    $(".range-slider").slider().on('slideStop', auctionListFilter);
-}
 function getFilters(){
-    var $filters=[],$filterstring='';
+    var $filters={};
+    var $prices=$priceval=$('#PriceFilter').val().toString().split(',');
+    $filters['pricemin']=$prices[0]+'**';$filters['pricemax']=$prices[1]+'**';
+    var $filterstring='Filter Price: Min='+$priceval[0]+'ARS. Max='+$priceval[1]+'ARS. ';
     $('.AuctionListFilter').each(function(){
         if($(this).is(':checked')) {
             var $fieldtemp=$(this).data('field');
@@ -405,44 +369,54 @@ function getFilters(){
             }
         }
     });
+    
     return [$filters,$filterstring];
 }
 function auctionListFilter(){
     $('.auction').show();
-    var $filtergetter=getFilters(),$priceval=$('#PriceFilter').val().toString().split(',');
-    var $filters=$filtergetter[0],$filterstring='Filter Price: Min='+$priceval[0]+'ARS. Max='+$priceval[1]+'ARS. '+$filtergetter[1];
-    $('.auction').each(function(){
-        for(var $field in $filters){
-            if(!$filters[$field].toString().includes($(this).data($field)+"**")){
-                $(this).hide();
-            }
-        }
-        var $price=parseInt($(this).data('price'));
-        if($price<$priceval[0] || $price>$priceval[1]){
-            $(this).hide();
-        }
-
-    });
+    var $filtergetter=getFilters();
+    var $filterstring=$filtergetter[1];
+    getMoreAuctions(100,'#Auctions')
     gtag('event', 'FiltradoListaSubastas', {
         'event_category':'Filter',
         'event_label':$filterstring,
         'event_value':$filterstring
     });
 }
-$(document).ready(function(){
-    $('.timerauction').each(function(){
-        timer($(this).data('id'));
-    });
+function inicializeEverything(){
     setTimeout(function(){
         $('.auction').each(function(){
             getInfo($(this).data('id'),1);
         });
     },1000);
     if($('#MasterFilter').length>0){
-        getPriceMaxAndMin();
-        auctionListFilter();
+        var currencyAttr = $(".range-slider").attr('data-slider-currency');
+        $(".range-slider").slider({
+            formatter: function(value) {
+                return currencyAttr + ThousandSeparator(parseInt(value[0])) + " - " + currencyAttr + ThousandSeparator(parseInt(value[1]));
+            },
+        });
+        $(".range-slider").slider().on('slideStop', auctionListFilter);
     }
-    //orderAuctions();
+    $('.popup-with-zoom-anim').magnificPopup({
+        type: 'inline',
+
+        fixedContentPos: false,
+        fixedBgPos: true,
+
+        overflowY: 'auto',
+
+        closeBtnInside: true,
+        preloader: false,
+
+        midClick: true,
+        removalDelay: 300,
+        mainClass: 'my-mfp-zoom-in'
+    });
+    starRating('.star-rating');
+}
+$(document).ready(function(){
+    inicializeEverything();
 });
 
 
@@ -485,5 +459,23 @@ function doesNotAllowAccents(idTag){
         $(this).val(str);
 
     });
-
+}
+function homeFilterBuilder(){
+    var $query='',$cantselected=$("#port option:selected").length,$text=$('#query').val();
+    if($cantselected>0){
+        $query+='Ports: ';var $cont=0;
+        $("#port option:selected").each(function(){
+            $query+=$(this).text();
+            $cont++
+            if($cont<$cantselected){
+                $query+=', '
+            }else{
+                $query+='. '
+            }
+        });
+    }
+    if($text!=''){
+        $query+='Query: '+$text+'.'
+    }
+    $('#ExtraParamsAnalytics').val($query);
 }

@@ -146,11 +146,21 @@ class Auction extends Model{
      *                  );
      * @return The auction(s) with all the information associated with it
      */
+    public static function getRealQuery($query, $dumpIt = false)
+{
+    $params = array_map(function ($item) {
+        return "'{$item}'";
+    }, $query->getBindings());
+    $result = str_replace_array('\?', $params, $query->toSql());
+    if ($dumpIt) {
+        dd($result);
+    }
+    return $result;
+}
     public static function AuctionsQueryBuilder($params=null){
-        $auctions = Auction::select( Constants::AUCTIONS_SELECT_ALL)
+        $auctions = Auction::select('auctions.*')
             ->join(Constants::BATCHES, Constants::AUCTIONS_BATCH_ID, Constants::EQUAL, Constants::BATCH_ID)
             ->join(Constants::ARRIVES, Constants::BATCH_ARRIVE_ID, Constants::EQUAL, Constants::ARRIVES_ID)
-            ->join(Constants::PORT,'arrives.port_id', Constants::EQUAL,'port.id')
             ->join(Constants::BOATS, Constants::ARRIVES_BOAT_ID, Constants::EQUAL, Constants::BOATS_ID)
             ->join(Constants::USERS, Constants::BOATS_USER_ID, Constants::EQUAL, Constants::USERS_ID);
         if(isset($params['auctionid'])){
@@ -161,55 +171,97 @@ class Auction extends Model{
         if(isset($params['batchid'])){
             $auctions=$auctions->where(Constants::AUCTIONS_BATCH_ID, Constants::EQUAL,$params['batchid']);
         }
-        if(isset($params['productid'])){
-            $auctions=$auctions->where('batches.product_id', Constants::EQUAL,$params['productid']);
-        }
-        if(isset($params['sellerid'])){
-            $auctions = $auctions->where(Constants::USERS_ID, Constants::EQUAL,$params['sellerid']);
-        }
         if(isset($params['boatid'])){
             $auctions=$auctions->where(Constants::BOATS_ID, Constants::EQUAL,$params['boatid']);
         }
+        if(isset($params['sellerid'])){
+            $ports=$params['sellerid'];
+            if(is_array($ports)){
+                $auctions=$auctions->whereIn('users.id',$params['sellerid']);
+            }else{
+                $auctions=$auctions->where('users.id', Constants::EQUAL,$params['sellerid']);
+            }
+        }
+        if(isset($params['productid'])){
+            $ports=$params['productid'];
+            if(is_array($ports)){
+                $auctions=$auctions->whereIn('batches.product_id',$params['productid']);
+            }else{
+                $auctions=$auctions->where('batches.product_id', Constants::EQUAL,$params['productid']);
+            }
+        }
+        if(isset($params['quality'])){
+            $ports=$params['quality'];
+            if(is_array($ports)){
+                $auctions=$auctions->whereIn('batches.quality',$params['quality']);
+            }else{
+                $auctions=$auctions->where('batches.quality', Constants::EQUAL,$params['quality']);
+            }
+        }
         if(isset($params['portid'])){
-            $auctions=$auctions->where('arrives.port_id', Constants::EQUAL,$params['portid']);
+            $ports=$params['portid'];
+            if(is_array($ports)){
+                $auctions=$auctions->whereIn('arrives.port_id',$params['portid']);
+            }else{
+                $auctions=$auctions->where('arrives.port_id', Constants::EQUAL,$params['portid']);
+            }
+        }
+        if(isset($params['caliber'])){
+            $ports=$params['caliber'];
+            if(is_array($ports)){
+                $auctions=$auctions->whereIn('batches.caliber',$params['caliber']);
+            }else{
+                $auctions=$auctions->where('batches.caliber', Constants::EQUAL,$params['caliber']);
+            }
         }
         if(isset($params['type'])){
             $auctions=$auctions->where('auctions.type', Constants::EQUAL,$params['type']);
         }
         $orderby=(isset($params['orderby']))?$params['orderby']:'end';
         $order=(isset($params['order']))?$params['order']:'asc';
-        $auctions=$auctions->where(Constants::ACTIVE_LIT, Constants::EQUAL, Constants::ACTIVE)->orderBy($orderby,$order);
+        $auctions=$auctions->where(Constants::ACTIVE_LIT, Constants::EQUAL, Constants::ACTIVE)
+                ->orderBy($orderby,$order);
         if(empty($params['paginate'])){
             return $auctions->get();
         }else{
-            return $auctions->paginate();
+            return $auctions->paginate($params['paginate']);
         }
     }
-    public static function auctionTimeSplitter($auctions,$time=null){
+    public static function auctionTimeSplitter($auctions){
         $counter=0;$continue=1;$now =date(Constants::DATE_FORMAT);
         $return=array(Constants::FINISHED=>array(), Constants::IN_CURSE=>array(), Constants::FUTURE=>array());
         while($continue==1){
             if(!isset($auctions[$counter])){
-                if($time==null){
-                    return $return;
-                }
-                return $return[$time];
+                return $return;
             }
             $availability=self::getAvailable($auctions[$counter]->id,$auctions[$counter]->amount)['available'];
-            $pastfuturedifferencer=(($auctions[$counter]->start<$now || $availability<=0)? Constants::FINISHED: Constants::FUTURE);
-            $timeline=($auctions[$counter]->end>$now && $availability>0)? Constants::IN_CURSE:$pastfuturedifferencer;
+            if($auctions[$counter]->end<$now || $availability<=0){
+                $timeline= Constants::FINISHED;
+            }elseif($auctions[$counter]->start<$now && $availability>0){
+                $timeline=Constants::IN_CURSE;
+                
+            }elseif($auctions[$counter]->start>$now){
+                $timeline= Constants::FUTURE;
+            }
             if($auctions[$counter]->type== Constants::AUCTION_PUBLIC || ($auctions[$counter]->type== Constants::AUCTION_PRIVATE && self::checkifUserInvited($auctions[$counter]->id)== Constants::ACTIVE)){
                 $return[$timeline][]=$auctions[$counter];
             }
             $counter++;
         }
     }
-    public static function auctionHome($ids=null,$time=null){
+    public static function auctionHome($ids=null,$filters=null){
         $params=array();
         if($ids!=null){
             $params['idtoavoid']=$ids;
         }
-        return self::auctionTimeSplitter(self::AuctionsQueryBuilder($params),$time);
+        if($filters!=null){
+            foreach($filters as $filter=>$val){
+                $params[$filter]=$val;
+            }
+        }
+        //return self::AuctionsQueryBuilder($params);
+        return self::auctionTimeSplitter(self::AuctionsQueryBuilder($params));
+        
     }
 
     public static function orderAuctions($auctions){
