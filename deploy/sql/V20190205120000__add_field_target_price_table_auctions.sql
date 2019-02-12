@@ -11,7 +11,6 @@ WHERE
   TABLE_SCHEMA='subastas'
   AND table_name='auctions'
   AND column_name='target_price'
-  AND COLUMN_TYPE='float(8,0)'
   AND COLUMN_DEFAULT='0'
   AND DATA_TYPE='float'
 ) THEN
