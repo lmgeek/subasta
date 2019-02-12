@@ -1,1 +1,0 @@
-Alter TABLE users ADD nickname VARCHAR(255) not NULL DEFAULT '';
