@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Pagination\LengthAwarePaginator;
 use App\Http\Requests\CreateAuctionRequest;
 use App\Http\Requests\SellerQualifyRequest;
 use App\Http\Requests\UpdateAuctionRequest;
@@ -788,7 +788,7 @@ class AuctionController extends Controller
         $total = ($ratings != null) ? ($ratings->positive + $ratings->negative + $ratings->neutral) : 0;
 	    return ($ratings != null && $total > 0) ? (round(($ratings->positive * 100) / $total/20, 0,PHP_ROUND_HALF_UP)) : 1;
     }
-    public function getAuctionsDataForHome($auctions){
+    public static function getAuctionsDataForHome($auctions){
         $port=array();$products=array();$calibers=array();$users=array();
         foreach($auctions as $a) {
             $calibers[$a->batch->caliber]=(isset($calibers[$a->batch->caliber]))?$calibers[$a->batch->caliber]+1:1;
@@ -804,78 +804,97 @@ class AuctionController extends Controller
             Constants::USERS=>$users
         );
     }
-    public function getMoreAuctions(Request $request){
+    public static function convertFilterSubastas($filters){
+        if(count($filters)==0){
+            return;
+        }
+        $params=array();
+        $paramskeys=array('port'=>'portid','product'=>'productid','caliber'=>'caliber','quality'=>'quality','user'=>'sellerid','pricemin'=>'pricemin','pricemax'=>'pricemax','close'=>'close','userrating'=>'userrating');
+        foreach($filters as $key=>$val){
+            $valtrimmed=substr($val,0,-2);
+            $params[$paramskeys[$key]]=(substr_count($valtrimmed,'**')>0)?explode('**',$valtrimmed):$valtrimmed;
+        }
+        return $params;
+    }
+    public static function getMaxMinPrice($auctions){
+        $min=99999999;$max=0;
+        foreach($auctions as $a){
+            $price=(float)self::calculatePriceID($a->id)['CurrentPrice'];
+            if($price>$max){
+                $max=$price;
+            }
+            if($price<$min){
+                $min=$price;
+            }
+        }
+        return array('min'=>$min,'max'=>$max);
+    }
+    public static function getauctions(Request $request){
         $limit=(int)$request->limit;
-        $ids=$request->ids;
-        $auctions=Auction::auctionHome($ids)[Constants::IN_CURSE];
-        $views=array();
-        if(count($auctions)==0){
-            return json_encode($views);
+        $ids=($limit==1)?$request->ids:null;
+        
+        $filters=self::convertFilterSubastas($request->filters);
+        $auctions=Auction::auctionHome($ids,$filters)[Constants::IN_CURSE];
+        if($limit>1){
+            for($z=0;$z<count($auctions);$z++){
+                $price=(float)self::calculatePriceID($auctions[$z]->id)['CurrentPrice'];
+                $userrating=self::getUserRating($auctions[$z]->batch->arrive->boat->user);
+                if($price<$filters['pricemin'] || $price>$filters['pricemax'] || (isset($filters['close']) && $price>$auctions[$z]->target_price) || (isset($filters['userrating']) && $userrating!=$filters['userrating']) ){
+                    unset($auctions[$z]);
+                }
+            }
+            return view('/landing3/partials/ListaSubastas')
+                ->withAuctions(Constants::manualPaginate($auctions,$request->url(),$request->current))
+                ->with('request',$request)->with('limit',$limit);
+        }else{
+            return view('/landing3/partials/auctionNoDetail')
+                ->withAuction($auctions[0]);
         }
-        $cantreturn=(count($auctions)>$limit)?$limit:count($auctions);
-        $auctioninfo=$this->getAuctionsDataForHome($auctions);
-        for($z=0;$z<$cantreturn;$z++){
-            $view= view('/landing3/partials/auctionNoDetail')
-                ->withAuction($auctions[$z])
-                ->withPorts($auctioninfo[Constants::PORTS])
-                ->withProducts($auctioninfo[Constants::PRODUCTS]);
-            $views[]=(string)$view;
-        }
-        return json_encode($views);
+        
     }
     
-    public function subastasFront(Request $request,$return=2){
+    public function subastasFront(Request $request){
         $buyers = User::filter(null, array(User::COMPRADOR), array(User::APROBADO));
         $boats = Boat::Select()->get();
         $auctionhome=Auction::auctionHome();
-
         $auctions1 = $auctionhome[Constants::IN_CURSE];
-        $auctiondetails1=$this->getAuctionsDataForHome($auctions1,$return);
-        if($return==1){
-            $sellers = User::filter(null, array(User::VENDEDOR), array(User::APROBADO));
-            $port=$auctiondetails1[Constants::PORTS];
-            $products=$auctiondetails1[Constants::PRODUCTS];
-            $users=$auctiondetails1[Constants::USERS];
-            $calibers=$auctiondetails1[Constants::CALIBERS];
-            return array(
-                Constants::AUCTIONS=>$auctions1,
-                Constants::PORTS=>$port,
-                Constants::BOATS=>$boats,
-                Constants::PRODUCTS=>$products,
-                Constants::USERS=>$users,
-                Constants::CALIBERS=>$calibers,
-                Constants::SELLERS=>$sellers);
-        }else{
-            $auctions2 = array_reverse($auctionhome[Constants::FINISHED]);
-            $auctiondetails2=$this->getAuctionsDataForHome($auctions2,$return);
-            $port=$auctiondetails1[Constants::PORTS];
-            /*
-             * Retornan tanto las subastas en curso como las finalizadas
-             * Buyers y Boats para los contadores del header
-             * Ports para el nombre del puerto(esto podria no estar, pero al necesitarse para lista de subastas, se usa)
-             */
-            $view=view('/landing3/index')
-                ->withAuctions($auctions1)
-                ->withAuctionsf($auctions2)
-                ->withPorts($port)
-                ->withBoats($boats)
-                ->withBuyers($buyers);
-            if($request->get('log')==1){
-                $view=$view->withLog('1');
-            }
-            return $view;
+        $auctions2 = array_reverse($auctionhome[Constants::FINISHED]);
+        //dd($auctions1);
+        $auctiondetails1=$this->getAuctionsDataForHome($auctions1);
+        
+        $auctiondetails2=$this->getAuctionsDataForHome($auctions2);
+        $port=$auctiondetails1[Constants::PORTS];
+        /*
+         * Retornan tanto las subastas en curso como las finalizadas
+         * Buyers y Boats para los contadores del header
+         * Ports para el nombre del puerto y la cantidad de subastas por puerto
+         */
+        $view=view('/landing3/index')
+            ->withAuctions($auctions1)
+            ->withAuctionsf($auctions2)
+            ->withPorts($port)
+            ->withBoats($boats)
+            ->withBuyers($buyers);
+        if($request->get('log')==1){
+            $view=$view->withLog('1');
         }
+        return $view;
     }
     public function listaSubastas(Request $request){
-	    $all=$this->subastasFront($request,1);
+        $boats = Boat::Select()->get();
+        $auctions=Auction::auctionHome()[Constants::IN_CURSE];
+        $auctiondetails1=$this->getAuctionsDataForHome($auctions);
         return view('/landing3/subastas')
-            ->withAuctions($all[Constants::AUCTIONS])
-            ->withPorts($all[Constants::PORTS])
-            ->withBoats($all[Constants::BOATS])
-            ->withusers($all[Constants::USERS])
-            ->withCaliber($all[Constants::CALIBERS])
-            ->withProducts($all[Constants::PRODUCTS])
+            ->withAuctions(Constants::manualPaginate($auctions,$request->url()))
+            ->withPorts($auctiondetails1[Constants::PORTS])
+            ->withBoats($boats)
+            ->withusers($auctiondetails1[Constants::USERS])
+            ->withCaliber($auctiondetails1[Constants::CALIBERS])
+            ->withProducts($auctiondetails1[Constants::PRODUCTS])
             ->withPortId($request->input('port_id'))
+            ->withRequest($request)
+            ->withLimit(Constants::PAGINATE_NUMBER)
+            ->withPrices(self::getMaxMinPrice($auctions))
             ;
     }
     public function getParticipantes(Request $request){

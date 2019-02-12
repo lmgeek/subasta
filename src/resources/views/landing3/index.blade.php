@@ -30,13 +30,15 @@ $portsall= App\Ports::select()->get();
             <!-- Search Bar -->
             <div class="row">
                 <div class="col-md-12">
-                    <div class="intro-banner-search-form margin-top-60">
-
+                    <form method="get" action="/subastas" class="intro-banner-search-form margin-top-60">
+                        <input type="hidden" name="e" value="FilterHome">
+                        <input type="hidden" name="t" value="Filter">
+                        <input type="hidden" name="ex" value="" id="ExtraParamsAnalytics">
                         <!-- Search Field -->
                         <div class="intro-search-field">
                             <label for="where-input" class="field-title ripple-effect bg-secondary-light">&iquest;Qu&eacute; puerto prefieres?</label>
                             <div class="input-with-icon">
-                                <select class="selectpicker" multiple title="Escoge una opción...">
+                                <select class="selectpicker" id="port" name="port_id" multiple title="Escoge una opción..." onchange="homeFilterBuilder()">
                                     @foreach($ports as $key=>$value)
                                         <option value="{{$key}}">{{\App\Http\Controllers\AuctionController::getPortById($key)}}</option>
                                     @endforeach
@@ -47,16 +49,16 @@ $portsall= App\Ports::select()->get();
 
                         <!-- Search Field -->
                         <div class="intro-search-field">
-                            <label for ="intro-keywords" class="field-title ripple-effect bg-secondary-light">&iquest;Qu&eacute; est&aacute;s buscando?</label>
-                            <input id="intro-keywords" type="text" placeholder="ej. Subasta, Vendedor o Producto">
+                            <label for ="query" class="field-title ripple-effect bg-secondary-light">&iquest;Qu&eacute; est&aacute;s buscando?</label>
+                            <input id="query" name="q" type="text" placeholder="ej. Subasta, Vendedor o Producto" onkeyup="homeFilterBuilder()">
                         </div>
 
                         <!-- Button -->
                         <div class="intro-search-button">
-                            <button class="button ripple-effect" {{--onclick="#"--}}>Buscar</button>
+                            <button type="submit" class="button ripple-effect">Buscar</button>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
 
             <!-- Stats -->

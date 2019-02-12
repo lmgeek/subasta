@@ -1,8 +1,13 @@
 <?php
 namespace App;
+use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use App\Paginator;
 class Constants{
     const CANT_MAX_BRONZE=500;
     const CANT_MAX_SILVER=1000;
+    const PAGINATE_NUMBER=3;
+    const PAGINATE_MAX_LINKS=6;
     const MAIL_ADDRESS='sistema@subastas.com.ar';
     const MAIL_NAME='Subastas';
     const MIDDLEWARE='middleware';
@@ -150,5 +155,19 @@ class Constants{
             }
         }
 	    return $return;
+    }
+    public static function checkSearchQuery($valuetocheck,$query){
+        $querymin= strtolower($query);
+        $valuemin= strtolower($valuetocheck);
+        return (substr_count($querymin, $valuemin)>0)?'checked':'';
+    }
+    public static function manualPaginate($array,$url,$currentpage=1){
+        $itemCollection = collect($array);
+        $perPage = self::PAGINATE_NUMBER;
+        $currentPageItems = $itemCollection->slice(($currentpage * $perPage) - $perPage, $perPage)->all();
+        $paginatedItems= new LengthAwarePaginator($currentPageItems , count($itemCollection), $perPage);
+        //$paginatedItems->setPath($url);
+        return $paginatedItems;
+        
     }
 }

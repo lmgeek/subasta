@@ -1,4 +1,4 @@
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-132702736-1"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=<?=env('GOOGLE_ANALYTICS_ID')?>"></script>
 <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
@@ -17,7 +17,7 @@
     if(isset($request->e)){?>
     gtag('event', '<?=ucfirst($request->e)?>', {
         'event_category':'<?=ucfirst($request->t)?>',
-        'event_label':'ID <?=ucfirst($request->t)?>: <?=$request->id?> Usuario: <?=ucfirst(Auth::user()->nickname).'. '.((isset($request->ex))?(' '.urldecode($request->ex).'.'):'')?>',
+        'event_label':'<?=(isset($request->id))?('ID '.ucfirst($request->t).': '.$request->id.'. '):''?>Usuario: <?=ucfirst(Auth::user()->nickname).'. '.((isset($request->ex))?(' '.urldecode($request->ex).'.'):'')?>',
     });
     <?php }?>
     @yield('scriptsanalytics')
