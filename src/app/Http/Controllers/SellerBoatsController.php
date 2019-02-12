@@ -21,6 +21,7 @@ use Auth;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Exception;
 
 class SellerBoatsController extends Controller
 {
@@ -239,17 +240,24 @@ class SellerBoatsController extends Controller
     }
 
     private function checkBatch($arrive_id){
-        $authorize = DB::table('arrives')
-            ->join(Constants::BOATS,'arrives.boat_id','=','boats.id')
-            ->where('arrives.id',$arrive_id)
-            ->where('boats.user_id',Auth::user()->id)->count();
+        try{
 
-        if(!$authorize){
-            throw new \Exception('El arribo no corresponde a un barco del usuario');
+            $authorize = DB::table('arrives')
+                ->join(Constants::BOATS,'arrives.boat_id','=','boats.id')
+                ->where('arrives.id',$arrive_id)
+                ->where('boats.user_id',Auth::user()->id)->count();
+
+        if ($authorize){
+            return true;
         }
 
-        return true;
+        }catch(Exception $e ){
+            return 'El arribo no corresponde a un barco del usuario'.$e->getMessage();
+        }
     }
+
+
+
 	
 	
 	public function editbatch(Request $request)
