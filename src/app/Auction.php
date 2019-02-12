@@ -146,17 +146,7 @@ class Auction extends Model{
      *                  );
      * @return The auction(s) with all the information associated with it
      */
-    public static function getRealQuery($query, $dumpIt = false)
-{
-    $params = array_map(function ($item) {
-        return "'{$item}'";
-    }, $query->getBindings());
-    $result = str_replace_array('\?', $params, $query->toSql());
-    if ($dumpIt) {
-        dd($result);
-    }
-    return $result;
-}
+   
     public static function AuctionsQueryBuilder($params=null){
         $auctions = Auction::select('auctions.*')
             ->join(Constants::BATCHES, Constants::AUCTIONS_BATCH_ID, Constants::EQUAL, Constants::BATCH_ID)
@@ -259,21 +249,8 @@ class Auction extends Model{
                 $params[$filter]=$val;
             }
         }
-        //return self::AuctionsQueryBuilder($params);
         return self::auctionTimeSplitter(self::AuctionsQueryBuilder($params));
         
-    }
-
-    public static function orderAuctions($auctions){
-	    $cant=count($auctions);
-	    for($z=0;$z<$cant;$z++){
-	        if($z<($cant-1) && $auctions[$z]->end>$auctions[$z+1]->end){
-	            $temp=$auctions[$z];
-	            $auctions[$z]=$auctions[$z+1];
-	            $auctions[$z+1]=$temp;
-            }
-        }
-	    return $auctions;
     }
     public static function auctionPrivate($user_id , $status)
     {
