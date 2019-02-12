@@ -78,7 +78,7 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('/js/plugins/chosen/chosen.jquery.js') }}"></script>
+    <script src="/js/plugins/chosen/chosen.jquery.js"></script>
     <script>
         $(document).ready(function(){
             $('.chosen-select').chosen({width:"100%"});
@@ -87,5 +87,5 @@
 @endsection
 
 @section('stylesheets')
-    <link href="{{ asset('/css/plugins/chosen/chosen.css') }}" rel="stylesheet">
+    <link href="/css/plugins/chosen/chosen.css" rel="stylesheet">
 @endsection

@@ -30,7 +30,7 @@
     <div>
         <div>
             {{--<h1 class="logo-name">IN+</h1>--}}
-            <img alt="image"  src="{{ asset('/landing/img/logo_subastas.png') }}" width="100%" style="padding: 50px 0px;" />
+            <img alt="image"  src="/landing/img/logo_subastas.png" width="100%" style="padding: 50px 0px;" />
         </div>
         <h3>Bienvenido a Subastas del Mar</h3>
         <p>

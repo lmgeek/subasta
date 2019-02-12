@@ -46,7 +46,7 @@
                                     <tr>
                                         <td style="width: 160px;" class="text-center">
                                             @if (!is_null($p->image_name) and file_exists('img/products/'.$p->image_name) )
-                                                <img src="{{ asset('/img/products/'.$p->image_name) }}" style="max-width: 150px;max-height: 150px" alt="">
+                                                <img src="/img/products/{{$p->image_name}}" style="max-width: 150px;max-height: 150px" alt="">
                                             @endif
                                         </td>
                                         <td>{{ $p->name }}</td>
@@ -121,7 +121,7 @@
 @endsection
 
 @section('stylesheets')
-    <link href="{{ asset('/css/plugins/dataTables/dataTables.responsive.css') }}" rel="stylesheet">
-    {{--<link href="{{ asset('/css/plugins/dataTables/dataTables.tableTools.min.css') }}" rel="stylesheet">--}}
-    <link href="{{ asset('/css/plugins/chosen/chosen.css') }}" rel="stylesheet">
+    <link href="/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+    {{--<link href="/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">--}}
+    <link href="/css/plugins/chosen/chosen.css" rel="stylesheet">
 @endsection

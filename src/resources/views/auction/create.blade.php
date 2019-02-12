@@ -195,7 +195,7 @@
                         </div>
                         <div class="ibox-footer text-right">
                             <button type="submit" class="btn btn-primary noDblClick" data-loading-text="Creando...">{{ trans('auction.create_auction') }}</button>
-                            <a href="{{ url('/sellerbatch') }}" class="btn btn-danger">Cancelar</a>
+                            <a href="/sellerbatch" class="btn btn-danger">Cancelar</a>
                         </div>
                     </form>
                 </div>

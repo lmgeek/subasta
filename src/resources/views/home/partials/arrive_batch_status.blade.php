@@ -1,7 +1,7 @@
 <?php $batches =  $lastArrive->batch  ?>
 @if(count($batches) > 0)
-	<script src="{{ asset('/js/plugins/star_rating/jquery.raty.js') }}"></script>
-	<link rel="stylesheet" href="{{ asset('/css/plugins/star_rating/jquery.raty.css') }}">
+	<script src="/js/plugins/star_rating/jquery.raty.js"></script>
+	<link rel="stylesheet" href="/css/plugins/star_rating/jquery.raty.css">
 	<table class="table table-hover">
 	  <tbody>	
 			<thead>

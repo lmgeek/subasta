@@ -134,10 +134,10 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('/js/plugins/dataTables/jquery.dataTables.js') }}"></script>
-    <script src="{{ asset('/js/plugins/dataTables/dataTables.bootstrap.js') }}"></script>
-    <script src="{{ asset('/js/plugins/dataTables/dataTables.responsive.js') }}"></script>
-    <script src="{{ asset('/js/plugins/dataTables/dataTables.tableTools.min.js') }}"></script>
+    <script src="/js/plugins/dataTables/jquery.dataTables.js"></script>
+    <script src="/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+    <script src="/js/plugins/dataTables/dataTables.responsive.js"></script>
+    <script src="/js/plugins/dataTables/dataTables.tableTools.min.js"></script>
 
     <script>
         $(document).ready(function () {

@@ -21,7 +21,7 @@
 				@if( Auth::user()->isSuscribe($a) )
 					<label class="btn btn-primary">Subscripto</label>
 				@else
-					<a href="{{ url('subscribe/'.$a->id) }}" class="btn btn-action">Suscribirse</a>
+					<a href="subscribe/{{$a->id}}" class="btn btn-action">Suscribirse</a>
 				@endif
 
 			
@@ -101,7 +101,7 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<form action="{{ url('/offersAuction') }}" method="post" style="display: inline-block;">
+			<form action="/offersAuction" method="post" style="display: inline-block;">
 				{{ csrf_field() }}
 				<div class="modal-body">
 					<label for="">Precio a ofertar</label>

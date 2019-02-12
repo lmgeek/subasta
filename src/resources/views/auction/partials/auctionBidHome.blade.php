@@ -20,7 +20,7 @@ $disponible = $total - $vendido;
                    data-target="<? if (Auth::user()->type == \App\Constants::VENDEDOR){ ?> #bid-Modal-danger <? } else {?> #bid-Modal-{{ $a->id }} <? } ?>"
                    @endif()
                    data-toggle="modal">
-                    <img alt="image" width="150px" src="{{ asset('/landing/img/subastar.png') }}"/>
+                    <img alt="image" width="150px" src="/landing/img/subastar.png"/>
                 </a>
             @endif
         </div>
@@ -33,11 +33,11 @@ $disponible = $total - $vendido;
            data-target="<? if (Auth::user()->type == \App\User::VENDEDOR){ ?> #bid-Modal-danger <? } else {?> #bid-Modal-warning <? } ?>"
            @endif()
            data-toggle="modal">
-            <img alt="image" width="150px" src="{{ asset('/landing/img/subastar.png') }}"/>
+            <img alt="image" width="150px" src="/landing/img/subastar.png"/>
         </a>
         <? } else { ?>
-        <a href="{{ url('/auction') }}">
-            <img alt="image" width="150px" src="{{ asset('/landing/img/subastar.png') }}"/>
+        <a href="/auction">
+            <img alt="image" width="150px" src="/landing/img/subastar.png"/>
         </a>
         <? } ?>
     @endcan

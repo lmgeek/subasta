@@ -2,7 +2,7 @@
 
     <div class="row">
         <div class="col-lg-12 wow fadeInDown terminated">
-            <img alt="image"  src="{{ asset('/landing/img/terminando.png') }}" />
+            <img alt="image"  src="/landing/img/terminando.png" />
         </div>
     </div>
              {{--  Resolucion de pantalla
@@ -41,7 +41,7 @@
                 <div class="col-md-2 col-lg-2 col-sm-6 ">
                     <div>
                         <input type="hidden" class="auctionIds" value="{{ $a->id }}" />
-                        <img class="img-pez img-responsive" alt="image" src="{{ asset('/img/products/'.$a->batch->product->image_name) }}" alt="">
+                        <img class="img-pez img-responsive" alt="image" src="/img/products/'.$a->batch->product->image_name" alt="">
                     </div>
                     <div data-score="{{ $a->batch->quality }}" class="quality text-stars" data-toggle="tooltip" data-placement="bottom" data-original-title="Calidad de {{ $a->batch->quality }} Estrellas">
                         <input name="score" type="hidden" value="5" readonly="">
@@ -55,10 +55,10 @@
                         </tr>
                         <tr >
                             <td rowspan="4" width="15%">
-                                <img alt="image" class="user-faro" src="{{ asset('/landing/img/faro.png') }}"/>
+                                <img alt="image" class="user-faro" src="/landing/img/faro.png"/>
                             </td>
                             <td width="10%">
-                                <img alt="image" class="user-data"  src="{{ asset('/landing/img/usuario.png') }}"/>
+                                <img alt="image" class="user-data"  src="/landing/img/usuario.png"/>
                             </td>
                             <td>
                                 <span class="user-title">USUARIO</span>
@@ -107,7 +107,7 @@
 
                 </div>
                 <div class="col-md-2 col-lg-2 col-sm-6 barco-details" >
-                    <img alt="image" width="35px"  src="{{ asset('/landing/img/barco.png') }}"  />
+                    <img alt="image" width="35px"  src="/landing/img/barco.png"  />
                     <br>
 
                     <?php

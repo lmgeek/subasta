@@ -73,8 +73,8 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('/js/plugins/moment/moment.js') }}"></script>
-    <script src="{{ asset('/js/plugins/datetimepicker/bootstrap-datetimepicker.js') }}"></script>
+    <script src="/js/plugins/moment/moment.js"></script>
+    <script src="/js/plugins/datetimepicker/bootstrap-datetimepicker.js"></script>
 
     <script type="text/javascript">
         var dp;
@@ -97,5 +97,5 @@
 @endsection
 
 @section('stylesheets')
-    <link rel="stylesheet" href="{{ asset('/css/plugins/datetimepicker/bootstrap-datetimepicker.css') }}">
+    <link rel="stylesheet" href="/css/plugins/datetimepicker/bootstrap-datetimepicker.css">
 @endsection
