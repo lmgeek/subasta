@@ -3,7 +3,7 @@
 @section('content')
 <?php use Carbon\Carbon;?>
 <br>
-<script src="{{ asset('/js/plugins/sparkline/jquery.sparkline.min.js') }} "></script>
+<script src="/js/plugins/sparkline/jquery.sparkline.min.js"></script>
 
 
 	<div class="ibox float-e-margins">

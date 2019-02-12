@@ -126,8 +126,8 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('/js/jquery.mask.js') }}"></script>
-    <script src="{{ asset('/js/plugins/star_rating/jquery.raty.js') }}"></script>
+    <script src="/js/jquery.mask.js"></script>
+    <script src="/js/plugins/star_rating/jquery.raty.js"></script>
     <script>
 
         function decodeEntities(encodedString) {
@@ -268,7 +268,7 @@
 @endsection
 
 @section('stylesheets')
-    <link rel="stylesheet" href="{{ asset('/css/plugins/star_rating/jquery.raty.css') }}">
+    <link rel="stylesheet" href="/css/plugins/star_rating/jquery.raty.css">
     <style>
         .border-bottom{
             margin-bottom: 5px;

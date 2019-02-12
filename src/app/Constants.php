@@ -168,6 +168,15 @@ class Constants{
         $paginatedItems= new LengthAwarePaginator($currentPageItems , count($itemCollection), $perPage);
         //$paginatedItems->setPath($url);
         return $paginatedItems;
-        
+    }
+     public static function getRealQuery($query, $dumpIt = false){
+        $params = array_map(function ($item) {
+            return "'{$item}'";
+        }, $query->getBindings());
+        $result = str_replace_array('\?', $params, $query->toSql());
+        if ($dumpIt) {
+            dd($result);
+        }
+        return $result;
     }
 }
