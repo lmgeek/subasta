@@ -58,8 +58,8 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('/js/plugins/chosen/chosen.jquery.js') }}"></script>
-	<script src="{{ asset('/js/plugins/typeahead/bootstrap3-typeahead.min.js') }}"></script>
+    <script src="/js/plugins/chosen/chosen.jquery.js"></script>
+	<script src="/js/plugins/typeahead/bootstrap3-typeahead.min.js"></script>
     <script>
         $(document).ready(function(){
 			
@@ -73,5 +73,5 @@
 @endsection
 
 @section('stylesheets')
-    <link href="{{ asset('/css/plugins/chosen/chosen.css') }}" rel="stylesheet">
+    <link href="/css/plugins/chosen/chosen.css" rel="stylesheet">
 @endsection

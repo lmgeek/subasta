@@ -3,7 +3,7 @@
         <div class="row">
 			<div class="col-md-12 ">
 				@if (!is_null($a->batch->product->image_name) and file_exists('img/products/'.$a->batch->product->image_name) )
-					<img src="{{ asset('/img/products/'.$a->batch->product->image_name) }}" style="max-width: 80px;max-height: 80px" alt="">
+					<img src="/img/products/{{$a->batch->product->image_name}}" style="max-width: 80px;max-height: 80px" alt="">
 				@endif
 			</div>
 		</div>

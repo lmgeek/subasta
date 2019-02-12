@@ -21,13 +21,13 @@ $cantcompras=$availability['sold'];
 @extends('landing3/partials/layout')
 @section('title',' | Lista de subastas')
 @section('content')
-    <div class="single-page-header bd-bt-1 margin-top-35 auction nodelete" id="Auction_{{$auction->id}}" data-id="{{$auction->id}}" data-background-image="{{asset('landing3/images/single-auction.jpg')}}">
+    <div class="single-page-header bd-bt-1 margin-top-35 auction nodelete" id="Auction_{{$auction->id}}" data-id="{{$auction->id}}" data-background-image="/landing3/images/single-auction.jpg">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
                     <div class="single-page-header-inner">
                         <div class="left-side">
-                            <div class="header-image"><img src="{{ asset('/img/products/'.$auction->batch->product->image_name) }}" alt="{{$auction->batch->product->name}}"></div>
+                            <div class="header-image"><img src="/img/products/{{$auction->batch->product->image_name}}" alt="{{$auction->batch->product->name}}"></div>
                             <div class="header-details">
                                 <h3 class="margin-bottom-0">{{$auction->batch->product->name}} {{trans('auction.'.$auction->batch->caliber)}} <div class="star-rating" data-rating="5.0"></div>
                                     @if($auction->type!='public') 

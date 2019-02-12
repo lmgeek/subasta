@@ -75,7 +75,7 @@
     </div>
 @endsection
 
-<script src="{{ asset('js/jquery-2.1.1.js') }}"></script>
+<script src="js/jquery-2.1.1.js"></script>
 <script>
     $(document).ready(function () {
 
@@ -144,8 +144,8 @@
     });
 </script>
 @section('scripts')
-    <script src="{{ asset('/js/plugins/jsKnob/jquery.knob.js') }}"></script>
-    <script src="{{ asset('/js/plugins/typeahead/bootstrap3-typeahead.min.js') }}"></script>
+    <script src="/js/plugins/jsKnob/jquery.knob.js"></script>
+    <script src="/js/plugins/typeahead/bootstrap3-typeahead.min.js"></script>
 
     <script>
         $(document).ready(function () {

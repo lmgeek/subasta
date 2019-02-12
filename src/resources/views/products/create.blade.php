@@ -114,10 +114,10 @@
             </div>
         </div>
     </div>
-    <script src="{{ asset('/js/jquery-2.1.1.js') }}"></script>
-    <script src="{{ asset('/js/jquery.mask.js') }}"></script>
-    <script src="{{ asset('/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('/js/plugins/iCheck/icheck.min.js') }}"></script>
+    <script src="/js/jquery-2.1.1.js"></script>
+    <script src="/js/jquery.mask.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/plugins/iCheck/icheck.min.js"></script>
     <script>
 
         $(document).on('keydown keyup',".number",onlyNumberWithComma);

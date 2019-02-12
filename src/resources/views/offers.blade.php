@@ -1,6 +1,6 @@
 <div class="row">
         <div class="col-lg-12 wow fadeInDown offers">
-            <img alt="image"  src="{{ asset('/landing/img/ofertas_tituloseccion.png') }}" />
+            <img alt="image"  src="/landing/img/ofertas_tituloseccion.png" />
         </div>
     </div>
 <!--
@@ -8,7 +8,7 @@
         <div class="row text-center wow fadeInDown offers-items">
            <div class="col-md-2 col-lg-2 col-sm-6 ">
                 <div>
-                    <img class="img-pez" alt="image" src="{{ asset('/img/products/2.png') }}" alt="">
+                    <img class="img-pez" alt="image" src="/img/products/2.png" alt="">
                 </div>
                 <div data-score="5" class="quality text-stars" data-toggle="tooltip" data-placement="bottom" data-original-title="Calidad de 5 Estrellas">
                     <input name="score" type="hidden" value="5" readonly="">
@@ -22,10 +22,10 @@
                     </tr>
                     <tr >
                         <td rowspan="4" width="15%">
-                            <img alt="image" class="user-faro" src="{{ asset('/landing/img/faro.png') }}"/>
+                            <img alt="image" class="user-faro" src="/landing/img/faro.png"/>
                         </td>
                         <td width="10%">
-                            <img alt="image" class="user-data"  src="{{ asset('/landing/img/usuario.png') }}"/>
+                            <img alt="image" class="user-data"  src="/landing/img/usuario.png"/>
                         </td>
                         <td>
                             <span class="user-title">USUARIO</span>
@@ -75,7 +75,7 @@
                  </div>
             {{-- <button class="btn btn-success"><i class="fa fa-gavel"></i> IR SUBASTA</button> --}}
             <a href="#">
-                <img alt="image" width="124px"  src="{{ asset('/landing/img/ofertar.png') }}" />
+                <img alt="image" width="124px"  src="/landing/img/ofertar.png" />
             </a><br>
                 <div class="showdetail">
                     <a href="#" >VER DETALLE</a>
@@ -88,7 +88,7 @@
         <div class="row text-center wow fadeInDown offers-items">
            <div class="col-md-2 col-lg-2 col-sm-6 ">
                 <div>
-                    <img class="img-pez" alt="image" src="{{ asset('/img/products/2.png') }}" alt="">
+                    <img class="img-pez" alt="image" src="/img/products/2.png" alt="">
                 </div>
                 <div data-score="5" class="quality text-stars" data-toggle="tooltip" data-placement="bottom" data-original-title="Calidad de 5 Estrellas">
                     <input name="score" type="hidden" value="5" readonly="">
@@ -102,10 +102,10 @@
                     </tr>
                     <tr >
                         <td rowspan="4" width="15%">
-                            <img alt="image" class="user-faro" src="{{ asset('/landing/img/faro.png') }}"/>
+                            <img alt="image" class="user-faro" src="/landing/img/faro.png"/>
                         </td>
                         <td width="10%">
-                            <img alt="image" class="user-data"  src="{{ asset('/landing/img/usuario.png') }}"/>
+                            <img alt="image" class="user-data"  src="/landing/img/usuario.png"/>
                         </td>
                         <td>
                             <span class="user-title">USUARIO</span>
@@ -158,7 +158,7 @@
                  </div>
             {{-- <button class="btn btn-success"><i class="fa fa-gavel"></i> IR SUBASTA</button> --}}
             <a href="#">
-                <img alt="image" width="124px"  src="{{ asset('/landing/img/ofertar.png') }}" />
+                <img alt="image" width="124px"  src="/landing/img/ofertar.png" />
             </a><br>
                 <div class="showdetail">
                     <a href="#" >VER DETALLE</a>
@@ -170,7 +170,7 @@
         <div class="row text-center wow fadeInDown offers-items">
             <div class="col-md-2 col-lg-2 col-sm-6 ">
                 <div>
-                    <img class="img-pez" alt="image" src="{{ asset('/img/products/2.png') }}" alt="">
+                    <img class="img-pez" alt="image" src="/img/products/2.png" alt="">
                 </div>
                 <div data-score="5" class="quality text-stars" data-toggle="tooltip" data-placement="bottom" data-original-title="Calidad de 5 Estrellas">
                     <input name="score" type="hidden" value="5" readonly="">
@@ -184,10 +184,10 @@
                     </tr>
                     <tr >
                         <td rowspan="4" width="15%">
-                            <img alt="image" class="user-faro" src="{{ asset('/landing/img/faro.png') }}"/>
+                            <img alt="image" class="user-faro" src="/landing/img/faro.png"/>
                         </td>
                         <td width="10%">
-                            <img alt="image" class="user-data"  src="{{ asset('/landing/img/usuario.png') }}"/>
+                            <img alt="image" class="user-data"  src="/landing/img/usuario.png"/>
                         </td>
                         <td>
                             <span class="user-title">USUARIO</span>
@@ -240,7 +240,7 @@
                  </div>
             {{-- <button class="btn btn-success"><i class="fa fa-gavel"></i> IR SUBASTA</button> --}}
             <a href="#">
-                <img alt="image" width="124px"  src="{{ asset('/landing/img/ofertar.png') }}" />
+                <img alt="image" width="124px"  src="/landing/img/ofertar.png" />
             </a><br>
                 <div class="showdetail">
                     <a href="#" >VER DETALLE</a>

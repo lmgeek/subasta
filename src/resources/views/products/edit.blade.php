@@ -99,7 +99,7 @@
                                         <p class="help-block">{{ trans('products.image_upload_help') }}</p>
                                     </div>
                                     @if (!is_null($product->image_name) and file_exists('img/products/'.$product->image_name) )
-                                        <img src="{{ asset('/img/products/'.$product->image_name) }}" class="img-responsive" alt="" id="actual_img">
+                                        <img src="/img/products/{{$product->image_name}}" class="img-responsive" alt="" id="actual_img">
                                     @endif
                                     <div id="preview"></div>
                                     <a href="#" onclick="resetFile()" id="trash">
