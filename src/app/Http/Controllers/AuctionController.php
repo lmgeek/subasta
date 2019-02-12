@@ -838,8 +838,11 @@ class AuctionController extends Controller
         if($limit>1){
             for($z=0;$z<count($auctions);$z++){
                 $price=(float)self::calculatePriceID($auctions[$z]->id)['CurrentPrice'];
+                $targetprice=(float)$auctions[$z]->target_price;
+                $preciomin=(float)$filters['pricemin'];
+                $preciomax=(float)$filters['pricemax'];
                 $userrating=self::getUserRating($auctions[$z]->batch->arrive->boat->user);
-                if($price<$filters['pricemin'] || $price>$filters['pricemax'] || (isset($filters['close']) && $price>$auctions[$z]->target_price) || (isset($filters['userrating']) && $userrating!=$filters['userrating']) ){
+                if($price<$preciomin || $price>$preciomax || (isset($filters['close']) && $price>$targetprice) || (isset($filters['userrating']) && $userrating!=$filters['userrating']) ){
                     unset($auctions[$z]);
                 }
             }

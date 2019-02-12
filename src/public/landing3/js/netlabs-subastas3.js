@@ -42,6 +42,7 @@ function getMoreAuctions($limit=1,$idTarget='#FeaturedAuctions',$currentpage=1){
         $filters=getFilters()[0];
         $($idTarget).html('');
     }
+    console.log($filters);
     $.post('/getauctions', {limit:$limit,current:$currentpage,ids:$ids,filters:$filters,_token:$('#csrf').attr('content')}, function (result) {
         var $html=result;
         if(result!=''){
