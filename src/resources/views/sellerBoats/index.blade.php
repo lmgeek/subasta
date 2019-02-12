@@ -87,7 +87,7 @@
                 {{--"aaSorting": [],--}}
                 {{--language:--}}
                 {{--{--}}
-                    {{--url: "http://cdn.datatables.net/plug-ins/1.10.7/i18n/Spanish.json"--}}
+                    {{--url: "https://cdn.datatables.net/plug-ins/1.10.7/i18n/Spanish.json"--}}
                 {{--},--}}
                 {{--responsive: true,--}}
                 {{--"aoColumnDefs": [--}}
