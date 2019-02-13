@@ -43,16 +43,10 @@ use Illuminate\Pagination\LengthAwarePaginator;
 <div class="sidebar-widget">
     <h3>Calidad</h3>
     <div class="checkbox">
-        <input type="checkbox" id="chekcbox9"  onclick="auctionListFilter()" class="AuctionListFilter" data-field="quality" data-value="1" >
-        <label for="chekcbox9"><span class="checkbox-icon"></span> <div class="star-rating" data-rating="1"></div></label>
-        <input type="checkbox" id="chekcbox10" onclick="auctionListFilter()" class="AuctionListFilter" data-field="quality" data-value="2">
-        <label for="chekcbox10"><span class="checkbox-icon"></span> <div class="star-rating" data-rating="2"></div></label>
-        <input type="checkbox" id="chekcbox11" onclick="auctionListFilter()" class="AuctionListFilter" data-field="quality" data-value="3">
-        <label for="chekcbox11"><span class="checkbox-icon"></span> <div class="star-rating" data-rating="3"></div></label>
-        <input type="checkbox" id="chekcbox12" onclick="auctionListFilter()" class="AuctionListFilter" data-field="quality" data-value="4">
-        <label for="chekcbox12"><span class="checkbox-icon"></span> <div class="star-rating" data-rating="4"></div></label>
-        <input type="checkbox" id="chekcbox13" onclick="auctionListFilter()" class="AuctionListFilter" data-field="quality" data-value="5">
-        <label for="chekcbox13"><span class="checkbox-icon"></span> <div class="star-rating" data-rating="5"></div></label>
+        @for($z=1;$z<=5;$z++)
+        <input type="checkbox" id="quality<?=$z?>"  onclick="auctionListFilter()" class="AuctionListFilter" data-field="quality" data-value="<?=$z?>" >
+        <label for="quality<?=$z?>"><span class="checkbox-icon"></span> <div class="star-rating" data-rating="<?=$z?>">&nbsp;&nbsp;<?=($quality[$z]>0)?"($quality[$z])":''?></div></label>
+        @endfor
     </div>
 </div>
 
@@ -65,7 +59,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
     <input class="range-slider"  type="text" value="" data-slider-currency="$" data-slider-min="<?=$prices['min']?>" data-slider-max="<?=$prices['max']?>" data-slider-step="25" data-slider-value="[<?=$prices['min']?>,<?=$prices['max']?>]" id="PriceFilter"/>
     <div class="checkbox margin-top-15">
         <input type="checkbox" id="CloseLimitPrice" onclick="auctionListFilter()" class="AuctionListFilter" data-field="close" data-value="1">
-        <label for="CloseLimitPrice" class="red"><span class="checkbox-icon"></span><em class="icon-line-awesome-exclamation-circle red"></em> Cerca de precio l&iacute;mite</label>
+        <label for="CloseLimitPrice" class="red"><span class="checkbox-icon"></span><em class="icon-line-awesome-exclamation-circle red"></em> Cerca de precio l&iacute;mite <div id="CloseFilter" class="FilterNumber"><?=($close>0)?"($close)":''?></div></label>
     </div>
 </div>
 
@@ -73,16 +67,10 @@ use Illuminate\Pagination\LengthAwarePaginator;
 <div class="sidebar-widget">
     <h3>Barco</h3>
     <div class="checkbox">
-        <input type="checkbox" id="UserRating1" onclick="auctionListFilter()" class="AuctionListFilter" data-field="userrating" data-value="1">
-        <label for="UserRating1"><span class="checkbox-icon"></span> <div class="star-rating" data-rating="1"></div></label>
-        <input type="checkbox" id="UserRating2" onclick="auctionListFilter()" class="AuctionListFilter" data-field="userrating" data-value="2">
-        <label for="UserRating2"><span class="checkbox-icon"></span> <div class="star-rating" data-rating="2"></div></label>
-        <input type="checkbox" id="UserRating3" onclick="auctionListFilter()" class="AuctionListFilter" data-field="userrating" data-value="3">
-        <label for="UserRating3"><span class="checkbox-icon"></span> <div class="star-rating" data-rating="3"></div></label>
-        <input type="checkbox" id="UserRating4" onclick="auctionListFilter()" class="AuctionListFilter" data-field="userrating" data-value="4">
-        <label for="UserRating4"><span class="checkbox-icon"></span> <div class="star-rating" data-rating="4"></div></label>
-        <input type="checkbox" id="UserRating5" onclick="auctionListFilter()" class="AuctionListFilter" data-field="userrating" data-value="5">
-        <label for="UserRating5"><span class="checkbox-icon"></span> <div class="star-rating" data-rating="5"></div></label>
+        @for($z=1;$z<=5;$z++)
+        <input type="checkbox" id="UserRating<?=$z?>" onclick="auctionListFilter()" class="AuctionListFilter" data-field="userrating" data-value="<?=$z?>">
+        <label for="UserRating<?=$z?>"><span class="checkbox-icon"></span> <div class="star-rating" data-rating="<?=$z?>">&nbsp;&nbsp;<?=($ratings[$z]>0)?"($ratings[$z])":''?></div></label>
+        @endfor
     </div>
 </div>
 <!-- Usuarios -->
