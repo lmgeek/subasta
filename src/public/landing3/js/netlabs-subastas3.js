@@ -42,9 +42,13 @@ function getMoreAuctions($limit=1,$idTarget='#FeaturedAuctions',$currentpage=1){
         $filters=getFilters()[0];
         $($idTarget).html('');
     }
-    console.log($filters);
     $.post('/getauctions', {limit:$limit,current:$currentpage,ids:$ids,filters:$filters,_token:$('#csrf').attr('content')}, function (result) {
         var $html=result;
+        if(result.includes('#MasterFilter')==true){
+            $('#Loader').fadeOut();
+            notifications(0,null,null,null,'Tu sesion ha expirado');
+            return;
+        }
         if(result!=''){
             if($idTarget=='#Auctions'){
                 $($idTarget).html($html);
@@ -200,7 +204,8 @@ function modifyQuantity($id,$direction){
 function getInfo($id,$firstrun=0) {
     var d = new Date();
     var n = d.getSeconds();
-    if ((n == 0 || $firstrun==1) && !$('#Auction_'+$id).hasClass('bg-disabled')) {
+    if ((n == 0 || $firstrun==1) && !$('#Auction_'+$id).hasClass('bg-disabled') && $('#Auction_'+$id).length>0) {
+        console.log('Timeout '+$id+': '+window['Timeout'+$id]);
         $.get('/calculateprice?i=c&auction_id=' + $id, function (result) {
             var $result = JSON.parse(result);
             $('#Loader').attr('data-local',window['now']);
@@ -218,7 +223,10 @@ function getInfo($id,$firstrun=0) {
             });
         });
     }
-    setTimeout(function(){getInfo($id)},1000);
+    if($('#Auction_'+$id).length>0){
+        window['Timeout'+$id]='';
+        window['Timeout'+$id]=setTimeout(function(){getInfo($id)},1000);
+    }
 }
 function notifications_close($id){
     $('#notificationauction'+$id).remove();
@@ -384,20 +392,28 @@ function auctionListFilter(){
         'event_value':$filterstring
     });
 }
-function inicializeEverything(){
-    setTimeout(function(){
-        $('.auction').each(function(){
-            getInfo($(this).data('id'),1);
-        });
-    },1000);
+function inicializeEverything($firstrun=0){
+    $('.auction').each(function(){
+        var $id=$(this).data('id');
+        window['Timeout'+$id]=setTimeout(function(){getInfo($id,1)},1000);
+    });
     if($('#MasterFilter').length>0){
         var currencyAttr = $(".range-slider").attr('data-slider-currency');
         $(".range-slider").slider({
             formatter: function(value) {
                 return currencyAttr + ThousandSeparator(parseInt(value[0])) + " - " + currencyAttr + ThousandSeparator(parseInt(value[1]));
             },
-        });
-        $(".range-slider").slider().on('slideStop', auctionListFilter);
+        }).on('slideStop', auctionListFilter);
+        var $cant=0;
+        $('.AuctionListFilter').each(function(){
+            if($(this).is(':checked')){
+                $cant++;
+            }
+        })
+        if($cant>0 && $firstrun==1){
+            
+            getMoreAuctions(100,'#Auctions');
+        }
     }
     $('.popup-with-zoom-anim').magnificPopup({
         type: 'inline',
@@ -417,7 +433,7 @@ function inicializeEverything(){
     starRating('.star-rating');
 }
 $(document).ready(function(){
-    inicializeEverything();
+    inicializeEverything(1);
 });
 
 
