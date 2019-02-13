@@ -5,7 +5,6 @@ use App\User;
 use App\Constants;
 use Illuminate\Pagination\LengthAwarePaginator;
 $query=(isset($request->q))?$request->q:null;
-var_dump($prices)
 ?>
 @extends('landing3/partials/layout')
 @section('title',' | Lista de subastas')
