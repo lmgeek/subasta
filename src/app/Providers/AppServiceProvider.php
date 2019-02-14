@@ -18,12 +18,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Validator::extend('auction_price_greater_than', function($attribute, $value, $parameters) {
+        Validator::extend('auction_price_greater_than', function($value, $parameters) {
             $request = Request::capture();
             $parameterValue = $request->input($parameters[0]);
             return intval($value) > intval($parameterValue);
         });
-        Validator::extend('batch_is_mine', function($attribute, $value, $parameters) {
+        Validator::extend('batch_is_mine', function($value) {
             return DB::table('batches')
                 ->join('arrives','batches.arrive_id','=','arrives.id')
                 ->join('boats','arrives.boat_id','=','boats.id')
@@ -31,8 +31,7 @@ class AppServiceProvider extends ServiceProvider
                 ->where('boats.user_id',Auth::user()->id)->count();
         });
 
-//        new
-        Validator::extend('unique_name_unit', function ($attribute, $value, $parameters) {
+        Validator::extend('unique_name_unit', function ($value, $parameters) {
             $count = DB::table('products')
                 ->where('name', $value)
                 ->where('unit', $parameters[0])
@@ -41,10 +40,9 @@ class AppServiceProvider extends ServiceProvider
             return $count === 0;
         });
 
-        Validator::extend('greater_weight_than', function($attribute, $value, $parameters) {
+        Validator::extend('greater_weight_than', function($value) {
             return $value > "0,00";
         });
-//        new
 
     }
 
