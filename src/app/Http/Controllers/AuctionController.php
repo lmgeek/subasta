@@ -180,7 +180,7 @@ class AuctionController extends Controller
             $data['end'] = $auction->end;
             $data[Constants::AVAILABILITY] = $available[Constants::AVAILABLE];
             $data['currenttime'] = $time;
-            $data[Constants::PRICE] = number_format(str_replace(",","",$price),2,',','');;
+            $data[Constants::PRICE] = number_format(str_replace(",","",$price),2,',','');
             $data[Constants::AVAILABLE] = $available[Constants::AVAILABLE];
             $data[Constants::AMOUNT]=$amount;
             $data['hot']=$hot;
@@ -202,38 +202,6 @@ class AuctionController extends Controller
         $price=number_format(str_replace(",","",$prices),2,',','');
         return array('CurrentPrice'=>$price,'Close'=>($price<$targetprice)?1:0);
     }
-	 public function calculatePeso(Request $request)
-	 {
-		// dd($product_id);
-		return $request->input('product_id');
-		// $weigth = $request->input('weigth');
-
-		// $auction = Auction::findOrFail($weigth);
-
-		// $finalWeigth = 0;
-
-		// dd('hola');
-
-  //       $timeStart = $this->start;
-  //       $timeEnd = $this->end;
-  //       $priceStart = $this->start_price;
-  //       $priceEnd = $this->end_price;
-
-
-  //       if ($weigth != 0) {
-
-  //           $finalWeigth = ($intervalBuy * $weigth);
-
-  //       }else{
-  //           return number_format($finalWeigth, env('AUCTION_PRICE_DECIMALS', 2));
-  //       }
-
-
-
-
-
-
-	 }
 
     public static function getOffersCount($id){
         $offers=Offers::Select()->where(Constants::INPUT_AUCTION_ID,'=',$id)->get();
@@ -442,13 +410,10 @@ class AuctionController extends Controller
 	 {
 		$user = Auth::user();
 		if (Auth::user()->type == \App\User::COMPRADOR){
-//		if (Auth::user()->type == "buyer"){
             $this->authorize('seeMyBids', Bid::class);
 			$bids = Bid::where('user_id' , $user->id )->orderBy('bid_date', 'desc')->paginate();
-//	dd(Auth::user()->type == \App\User::COMPRADOR);
 			return view('bid.index',compact('bids'));
 		} else {
-//            echo "<script>alert('No tiene acceso');</script>";
 			return redirect('home');
 		}
 
@@ -789,38 +754,19 @@ class AuctionController extends Controller
 	    return ($ratings != null && $total > 0) ? (round(($ratings->positive * 100) / $total/20, 0,PHP_ROUND_HALF_UP)) : 1;
     }
     public static function getAuctionsDataForHome($auctions){
-        $port=array();$products=array();$calibers=array();$users=array();$close=0;$min=99999999;$max=0;
-        $quality=array(1=>0,2=>0,3=>0,4=>0,5=>0);$ratings=array(1=>0,2=>0,3=>0,4=>0,5=>0);
+        $port=array();$products=array();$calibers=array();$users=array();
         foreach($auctions as $a) {
             $calibers[$a->batch->caliber]=(isset($calibers[$a->batch->caliber]))?$calibers[$a->batch->caliber]+1:1;
             $user = $a->batch->arrive->boat->user;
             $users[$user->id]=(isset($users[$user->id]))?$users[$user->id]+1:1;
             $port[$a->batch->arrive->port_id]=(isset($port[$a->batch->arrive->port_id]))?$port[$a->batch->arrive->port_id]+1:1;
             $products[$a->batch->product->id]=(isset($products[$a->batch->product->id]))?$products[$a->batch->product->id]+1:1;
-            $priceall=self::calculatePriceID($a->id,$a->target_price);
-            $rating=self::getUserRating($user);
-            $ratings[$rating]++;
-            $quality[$a->batch->quality]++;
-            $price=(int)$priceall['CurrentPrice'];
-            if($price>$max){
-                $max=$price;
-            }
-            if($price<$min){
-                $min=$price;
-            }
-            
-            $close+=$priceall['Close'];
         }
         return array(
             Constants::PRODUCTS=>$products,
             Constants::PORTS=>$port,
             Constants::CALIBERS=>$calibers,
-            Constants::USERS=>$users,
-            Constants::CLOSE=>$close,
-            'min'=>$min,
-            'max'=>$max,
-            'ratings'=>$ratings,
-            'quality'=>$quality
+            Constants::USERS=>$users
         );
     }
     public static function convertFilterSubastas($filters){
@@ -835,6 +781,19 @@ class AuctionController extends Controller
         }
         return $params;
     }
+    public static function getMaxMinPrice($auctions){
+        $min=99999999;$max=0;
+        foreach($auctions as $a){
+            $price=(float)self::calculatePriceID($a->id)['CurrentPrice'];
+            if($price>$max){
+                $max=$price;
+            }
+            if($price<$min){
+                $min=$price;
+            }
+        }
+        return array('min'=>$min,'max'=>$max);
+    }
     public static function getauctions(Request $request){
         $limit=(int)$request->limit;
         $ids=($limit==1)?$request->ids:null;
@@ -842,18 +801,14 @@ class AuctionController extends Controller
         $filters=self::convertFilterSubastas($request->filters);
         $auctions=Auction::auctionHome($ids,$filters)[Constants::IN_CURSE];
         if($limit>1){
-            $preciomin=(float)$filters['pricemin'];
-            $preciomax=(float)$filters['pricemax'];
-            $close=(isset($filters['close']))?1:0;
-            $rating=(isset($filters['userrating']))?1:0;
-            foreach($auctions as $index=>$auction){
-                
-                $priceall=  self::calculatePriceID($auction->id,$auction->target_price);
-                $price=(float)str_replace(',','.',$priceall['CurrentPrice']);
-                $target=$priceall['Close'];
-                $userrating=self::getUserRating($auction->batch->arrive->boat->user);
-                if($price<$preciomin || $price>$preciomax || ($close==1 && $target!=1) || ($rating==1 && $userrating!=$filters['userrating']) ){
-                    unset($auctions[$index]);
+            for($z=0;$z<count($auctions);$z++){
+                $price=(float)self::calculatePriceID($auctions[$z]->id)['CurrentPrice'];
+                $targetprice=(float)$auctions[$z]->target_price;
+                $preciomin=(float)$filters['pricemin'];
+                $preciomax=(float)$filters['pricemax'];
+                $userrating=self::getUserRating($auctions[$z]->batch->arrive->boat->user);
+                if($price<$preciomin || $price>$preciomax || (isset($filters['close']) && $price>$targetprice) || (isset($filters['userrating']) && $userrating!=$filters['userrating']) ){
+                    unset($auctions[$z]);
                 }
             }
             return view('/landing3/partials/ListaSubastas')
@@ -904,14 +859,10 @@ class AuctionController extends Controller
             ->withusers($auctiondetails1[Constants::USERS])
             ->withCaliber($auctiondetails1[Constants::CALIBERS])
             ->withProducts($auctiondetails1[Constants::PRODUCTS])
-            ->withClose($auctiondetails1[Constants::CLOSE])
             ->withPortId($request->input('port_id'))
             ->withRequest($request)
             ->withLimit(Constants::PAGINATE_NUMBER)
-            ->withClose($auctiondetails1[Constants::CLOSE])
-            ->withRatings($auctiondetails1['ratings'])
-            ->withQuality($auctiondetails1['quality'])
-            ->withPrices(array('min'=> round($auctiondetails1['min'],0,PHP_ROUND_HALF_DOWN),'max'=>(int)$auctiondetails1['max']))
+            ->withPrices(self::getMaxMinPrice($auctions))
             ;
     }
     public function getParticipantes(Request $request){
@@ -1117,19 +1068,19 @@ class AuctionController extends Controller
         $request->session()->put('url.intended', '/auction/offers/'.$auction_id);
         $available = $this->getAvailable($auction_id, $auction->amount);
         $offers = $this->getOffers($auction_id);
-        $count = count($offers);
+
         foreach ($offers as $offer) {
+
             // Verifico la fecha de la subasta
-            if ($auction->end >= date('Y-m-d H:i:s'))
+            if ($auction->end >= date('Y-m-d H:i:s')){
                 return;
+            }
+
 dd("hola");
             //verifica que el precio ofertado sea mayor e igual al de la subasta terminada
-            if ($offer->price >= $offer->end_price){
-                if ($offer->status == Offers::PENDIENTE){
+            if ($offer->price >= $offer->end_price && $offer->status == Offers::PENDIENTE){
                     //registramos la compra a la mejor opc de compra
-                    $offerForSale = $this->offerForSale($auction, $offer);
-                    return $offerForSale;
-                }
+                    return $this->offerForSale($auction, $offer);
             }
         }
 
@@ -1339,9 +1290,9 @@ dd("hola");
                 }
             }
         }
-        $offers = $this->getOffers($auction_id);
+        return $this->getOffers($auction_id);
 //        return redirect('home');
-        return $offers;
+
     }
 
 

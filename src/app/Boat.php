@@ -26,14 +26,7 @@ class Boat extends Model
 	public function getLastArrive()
 	{
 		return $this->arrive()->orderBy('date','desc')->get();
-//		if (null != $hasArrive)
-//		{
-//			return Carbon::parse($hasArrive->date)->format('H:i:s d/m/Y') ;
-//		}else000
-//		{
-//			return trans('boats.boats_no_arrive');
-//		}
-//
+
 	}
 
 	public static function filterAndPaginate($user = null,$status = null , $name = null)

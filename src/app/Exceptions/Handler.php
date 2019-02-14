@@ -40,14 +40,6 @@ class Handler extends ExceptionHandler
      * @param  \Exception  $e
      * @return \Illuminate\Http\Response
      */
-//    public function render($request, Exception $e)
-//    {
-//        if ($e instanceof ModelNotFoundException) {
-//            $e = new NotFoundHttpException($e->getMessage(), $e);
-//        }
-//
-//        return parent::render($request, $e);
-//    }
 
     public function render($request, Exception $e)
     {
@@ -62,11 +54,6 @@ class Handler extends ExceptionHandler
 //            return response()->view('errors/503', [], 404);
             return redirect('/home');
         }
-
-        // Valida crsf_token
-//        if ($e instanceof \Illuminate\Session\TokenMismatchException) {
-//            return redirect('/')->with('message', 'Sorry, your session seems to have expired. Please login again.');
-//        }
 
         if ($e instanceof \Illuminate\Session\TokenMismatchException) {
             return redirect()->back()->withInput()->with('token', csrf_token());
