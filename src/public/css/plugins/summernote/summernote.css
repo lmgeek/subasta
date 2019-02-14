@@ -361,7 +361,7 @@
 .note-editor .note-dialog .note-help-dialog .note-shortcut td:first-child {
     min-width: 110px;
     padding-right: 10px;
-    font-family: "Courier New";
+    font-family: "Courier New",Times, serif;
     color: #dd0;
     text-align: right
 }
