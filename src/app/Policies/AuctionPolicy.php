@@ -38,7 +38,7 @@ class AuctionPolicy
         return ($user->isBuyer());
     }
 
-    public function makeBid($user,Auction $auction)
+    public function makeBid($user)
     {
         return ($user->isBuyer() );
     }

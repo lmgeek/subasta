@@ -45,7 +45,7 @@ class BoatPolicy
         return ($boat->user->id == $user->id);
     }
 
-    public function isAproved($user,Boat $boat)
+    public function isAproved(Boat $boat)
     {
         return ($boat->status == Constants::APROBADO);
     }
