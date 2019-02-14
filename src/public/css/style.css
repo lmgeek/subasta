@@ -1519,17 +1519,17 @@ table.dataTable thead .sorting_desc_disabled {
 }
 table.dataTable thead .sorting_asc:after {
   float: right;
-  font-family: fontawesome;
+  font-family: fontawesome, Arial, Verdana, Tahoma, sans-serif;
 }
 table.dataTable thead .sorting_desc:after {
   content: "\f0dd";
   float: right;
-  font-family: fontawesome;
+  font-family: fontawesome, Arial, Verdana, Tahoma, sans-serif;
 }
 table.dataTable thead .sorting:after {
   content: "\f0dc";
   float: right;
-  font-family: fontawesome;
+  font-family: fontawesome, Arial, Verdana, Tahoma, sans-serif;
   color: rgba(50, 50, 50, 0.5);
 }
 .dataTables_wrapper {
@@ -2319,7 +2319,7 @@ label.error {
 }
 #toast-container > .toast:before {
   position: fixed;
-  font-family: FontAwesome;
+  font-family: FontAwesome,Arial, Verdana, Tahoma, sans-serif;
   font-size: 24px;
   line-height: 24px;
   float: left;
@@ -4424,7 +4424,7 @@ dd.project-people {
   height: 90px !important;
 }
 .chat-avatar {
-  white: 36px;
+  width: 36px;
   height: 36px;
   float: left;
   margin-right: 10px;
