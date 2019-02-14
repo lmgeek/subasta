@@ -515,7 +515,6 @@
             el.setAttribute(eventName, 'return;');
             isSupported = typeof el[eventName] === 'function';
         }
-        el = null;
 
         return isSupported;
     };
