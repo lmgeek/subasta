@@ -16,7 +16,7 @@ BEGIN
   END IF;
   END $$
 
-CALL upgrade_database_201901101300001() $$
+CALL upgrade_database_20190110130000() $$
 
 DROP PROCEDURE upgrade_database_20190110130000() $$
 
