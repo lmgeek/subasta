@@ -180,7 +180,7 @@ class AuctionController extends Controller
             $data['end'] = $auction->end;
             $data[Constants::AVAILABILITY] = $available[Constants::AVAILABLE];
             $data['currenttime'] = $time;
-            $data[Constants::PRICE] = number_format(str_replace(",","",$price),2,',','');;
+            $data[Constants::PRICE] = number_format(str_replace(",","",$price),2,',','');
             $data[Constants::AVAILABLE] = $available[Constants::AVAILABLE];
             $data[Constants::AMOUNT]=$amount;
             $data['hot']=$hot;
@@ -202,38 +202,6 @@ class AuctionController extends Controller
         $price=number_format(str_replace(",","",$prices),2,',','');
         return array('CurrentPrice'=>$price,'Close'=>($price<$targetprice)?1:0);
     }
-	 public function calculatePeso(Request $request)
-	 {
-		// dd($product_id);
-		return $request->input('product_id');
-		// $weigth = $request->input('weigth');
-
-		// $auction = Auction::findOrFail($weigth);
-
-		// $finalWeigth = 0;
-
-		// dd('hola');
-
-  //       $timeStart = $this->start;
-  //       $timeEnd = $this->end;
-  //       $priceStart = $this->start_price;
-  //       $priceEnd = $this->end_price;
-
-
-  //       if ($weigth != 0) {
-
-  //           $finalWeigth = ($intervalBuy * $weigth);
-
-  //       }else{
-  //           return number_format($finalWeigth, env('AUCTION_PRICE_DECIMALS', 2));
-  //       }
-
-
-
-
-
-
-	 }
 
     public static function getOffersCount($id){
         $offers=Offers::Select()->where(Constants::INPUT_AUCTION_ID,'=',$id)->get();
@@ -442,13 +410,10 @@ class AuctionController extends Controller
 	 {
 		$user = Auth::user();
 		if (Auth::user()->type == \App\User::COMPRADOR){
-//		if (Auth::user()->type == "buyer"){
             $this->authorize('seeMyBids', Bid::class);
 			$bids = Bid::where('user_id' , $user->id )->orderBy('bid_date', 'desc')->paginate();
-//	dd(Auth::user()->type == \App\User::COMPRADOR);
 			return view('bid.index',compact('bids'));
 		} else {
-//            echo "<script>alert('No tiene acceso');</script>";
 			return redirect('home');
 		}
 
@@ -1103,19 +1068,19 @@ class AuctionController extends Controller
         $request->session()->put('url.intended', '/auction/offers/'.$auction_id);
         $available = $this->getAvailable($auction_id, $auction->amount);
         $offers = $this->getOffers($auction_id);
-        $count = count($offers);
+
         foreach ($offers as $offer) {
+
             // Verifico la fecha de la subasta
-            if ($auction->end >= date('Y-m-d H:i:s'))
+            if ($auction->end >= date('Y-m-d H:i:s')){
                 return;
+            }
+
 dd("hola");
             //verifica que el precio ofertado sea mayor e igual al de la subasta terminada
-            if ($offer->price >= $offer->end_price){
-                if ($offer->status == Offers::PENDIENTE){
+            if ($offer->price >= $offer->end_price && $offer->status == Offers::PENDIENTE){
                     //registramos la compra a la mejor opc de compra
-                    $offerForSale = $this->offerForSale($auction, $offer);
-                    return $offerForSale;
-                }
+                    return $this->offerForSale($auction, $offer);
             }
         }
 
@@ -1325,9 +1290,9 @@ dd("hola");
                 }
             }
         }
-        $offers = $this->getOffers($auction_id);
+        return $this->getOffers($auction_id);
 //        return redirect('home');
-        return $offers;
+
     }
 
 

@@ -172,7 +172,6 @@ Route::get('sales', [
 Route::get('privatesales', 'SellerAuctionController@privatesales');
 
 Route::get('calculateprice', 'AuctionController@calculatePrice');
-Route::get('calculatepeso', 'AuctionController@calculatePeso');
 Route::get('makeBid', 'AuctionController@makeBid');
 Route::post('offersAuction', 'AuctionController@offersAuction');
 Route::get('offersAuctionFront', 'AuctionController@offersAuctionFront');

@@ -33,7 +33,8 @@ class PasswordControllerIndex extends PasswordController
                 return redirect()->back()->with('status', trans($response));
             case Password::INVALID_USER:
                 return redirect()->back()->withErrors(['email' => trans($response)]);
-;
+            default:
+                break;
         }
     }
 
