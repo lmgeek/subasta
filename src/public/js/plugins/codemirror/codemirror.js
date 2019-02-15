@@ -104,7 +104,6 @@
       setTimeout(bind(onFocus, this), 20);
     else
       onBlur(this);
-
     for (var opt in optionHandlers) if (optionHandlers.hasOwnProperty(opt))
       optionHandlers[opt](this, options[opt], Init);
     maybeUpdateLineNumberWidth(this);
@@ -724,8 +723,12 @@
   // Read and store the height of line widgets associated with the
   // given line.
   function updateWidgetHeight(line) {
-    if (line.widgets) for (var i = 0; i < line.widgets.length; ++i)
-      line.widgets[i].height = line.widgets[i].node.offsetHeight;
+    if (line.widgets)
+    {
+      for (var i = 0; i < line.widgets.length; ++i){
+        line.widgets[i].height = line.widgets[i].node.offsetHeight;
+      }
+    }
   }
 
   // Do a bulk-read of the DOM positions and sizes needed to draw the
@@ -1734,8 +1737,11 @@
     if (lineView.measure) {
       lineView.measure.cache = {};
       lineView.measure.heights = null;
-      if (lineView.rest) for (var i = 0; i < lineView.rest.length; i++)
-        lineView.measure.caches[i] = {};
+      if (lineView.rest){
+        for (var i = 0; i < lineView.rest.length; i++){
+          lineView.measure.caches[i] = {};
+        }
+      }
     }
   }
 
@@ -4444,14 +4450,15 @@
       function interpret(val) {
         return typeof val == "number" || /^\d+$/.test(String(val)) ? val + "px" : val;
       }
-      if (width != null) cm.display.wrapper.style.width = interpret(width);
-      if (height != null) cm.display.wrapper.style.height = interpret(height);
+      if (width != null){ cm.display.wrapper.style.width = interpret(width);}
+      if (height != null) {cm.display.wrapper.style.height = interpret(height);}
       if (cm.options.lineWrapping) clearLineMeasurementCache(this);
       var lineNo = cm.display.viewFrom;
       cm.doc.iter(lineNo, cm.display.viewTo, function(line) {
-        if (line.widgets) for (var i = 0; i < line.widgets.length; i++)
+        if (line.widgets) for (var i = 0; i < line.widgets.length; i++){
           if (line.widgets[i].noHScroll) { regLineChange(cm, lineNo, "widget"); break; }
-        ++lineNo;
+          ++lineNo;
+        }
       });
       cm.curOp.forceUpdate = true;
       signal(cm, "refresh", this);
@@ -4641,9 +4648,11 @@
     if (modeExtensions.hasOwnProperty(spec.name)) {
       var exts = modeExtensions[spec.name];
       for (var prop in exts) {
-        if (!exts.hasOwnProperty(prop)) continue;
-        if (modeObj.hasOwnProperty(prop)) modeObj["_" + prop] = modeObj[prop];
-        modeObj[prop] = exts[prop];
+        if (!exts.hasOwnProperty(prop)){continue;}
+        if (modeObj.hasOwnProperty(prop)) {
+          modeObj["_" + prop] = modeObj[prop];
+          modeObj[prop] = exts[prop];
+        }
       }
     }
     modeObj.name = spec.name;
@@ -5701,7 +5710,7 @@
       if (sp.marker.collapsed && !sp.marker.widgetNode && sp.from == span.to &&
           (sp.to == null || sp.to != span.from) &&
           (sp.marker.inclusiveLeft || span.marker.inclusiveRight) &&
-          lineIsHiddenInner(doc, line, sp)) return true;
+          lineIsHiddenInner(doc, line, sp)) {return true;}
     }
   }
 
@@ -6131,15 +6140,18 @@
           } else if (sp.from > pos && nextChange > sp.from) {
             nextChange = sp.from;
           }
-          if (m.type == "bookmark" && sp.from == pos && m.widgetNode) foundBookmarks.push(m);
+          if (m.type == "bookmark" && sp.from == pos && m.widgetNode) {foundBookmarks.push(m);}
         }
         if (collapsed && (collapsed.from || 0) == pos) {
           buildCollapsedSpan(builder, (collapsed.to == null ? len + 1 : collapsed.to) - pos,
                              collapsed.marker, collapsed.from == null);
           if (collapsed.to == null) return;
         }
-        if (!collapsed && foundBookmarks.length) for (var j = 0; j < foundBookmarks.length; ++j)
-          buildCollapsedSpan(builder, 0, foundBookmarks[j]);
+        if (!collapsed && foundBookmarks.length){
+          for (var j = 0; j < foundBookmarks.length; ++j){
+            buildCollapsedSpan(builder, 0, foundBookmarks[j]);
+          }
+        }
       }
       if (pos >= len) break;
 
@@ -6621,8 +6633,9 @@
           if (!(lineNo == from.line && from.ch > span.to ||
                 span.from == null && lineNo != from.line||
                 lineNo == to.line && span.from > to.ch) &&
-              (!filter || filter(span.marker)))
+              (!filter || filter(span.marker))){
             found.push(span.marker.parent || span.marker);
+          }
         }
         ++lineNo;
       });
@@ -7208,8 +7221,11 @@
     var arr = cm._handlers && cm._handlers.cursorActivity;
     if (!arr) return;
     var set = cm.curOp.cursorActivityHandlers || (cm.curOp.cursorActivityHandlers = []);
-    for (var i = 0; i < arr.length; ++i) if (indexOf(set, arr[i]) == -1)
-      set.push(arr[i]);
+    for (var i = 0; i < arr.length; ++i){
+      if (indexOf(set, arr[i]) == -1){
+        set.push(arr[i]);
+      }
+    }
   }
 
   function hasHandler(emitter, type) {
