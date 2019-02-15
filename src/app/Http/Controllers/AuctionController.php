@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Pagination\LengthAwarePaginator;
 use App\Http\Requests\CreateAuctionRequest;
 use App\Http\Requests\SellerQualifyRequest;
 use App\Http\Requests\UpdateAuctionRequest;
@@ -1031,17 +1030,16 @@ class AuctionController extends Controller
                 return ('<h1 style="    text-align: center; margin-top: 300px; font-size: 5em">La subasta no ha culminado</h1>');
             }
             //verifica que el precio ofertado sea mayor e igual al de la subasta terminada
-            if ($offer->price >= $offer->end_price){
-                if ($offer->status == Constants::PENDIENTE){
-                    //registramos la compra a la mejor opc de compra
-                    $offerForSale = $this->offerForSale($auction, $offer);
-                    if ($offerForSale){
-                        $offers = $this->getOffers($auction_id);
-//                        return ('<h1 style="    text-align: center; margin-top: 300px; font-size: 5em">Se vendio todo</h1>');
-                        return $offers;
-                    }
+            if ($offer->price >= $offer->end_price && $offer->status == Constants::PENDIENTE){
 
+                //registramos la compra a la mejor opc de compra
+                $offerForSale = $this->offerForSale($auction, $offer);
+                if ($offerForSale){
+                    $offers = $this->getOffers($auction_id);
+//                        return ('<h1 style="    text-align: center; margin-top: 300px; font-size: 5em">Se vendio todo</h1>');
+                    return $offers;
                 }
+
             }
         }
 

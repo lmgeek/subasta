@@ -176,7 +176,7 @@ $(function() {
         return res;
     }
 
-    series = [{
+    let series = [{
         data: getRandomData(),
         lines: {
             fill: true

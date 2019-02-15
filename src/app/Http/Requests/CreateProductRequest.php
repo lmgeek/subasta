@@ -1,7 +1,5 @@
 <?php
 
-namespace App\Http\Requests;
-
 use Illuminate\Support\Facades\App;
 use App\Http\Requests\Request;
 use App\Product;
@@ -34,7 +32,7 @@ class CreateProductRequest extends Request
      */
     public function rules()
     {
-//        dd($this->weigth_small);
+
         $prod = Product::withTrashed()
             ->where('name', $this->nombre)
             ->Where('unit', $this->unidad)
