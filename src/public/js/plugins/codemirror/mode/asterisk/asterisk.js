@@ -170,7 +170,6 @@ CodeMirror.defineMode("asterisk", function() {
       } else if(state.extenPriority) {
         state.extenPriority = false;
         state.extenApplication = true;
-        ch = stream.next(); // get comma
         if(state.extenSame) return null;
         stream.eatWhile(/[^,]/);
         return "number";

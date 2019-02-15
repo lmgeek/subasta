@@ -163,7 +163,6 @@ CodeMirror.defineMode("apl", function() {
         return "function jot-dot";
       }
       stream.eatWhile(/[\w\$_]/);
-      word = stream.current();
       state.prev = true;
       return "keyword";
     }
