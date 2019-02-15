@@ -2228,7 +2228,7 @@ fieldset[disabled] .note-editor .btn-link:focus {
   position: relative;
   top: 1px;
   display: inline-block;
-  font-family: 'Glyphicons Halflings';
+  font-family: "Glyphicons Halflings",Helvetica, Arial, Verdana, Tahoma, sans-serif;
   font-style: normal;
   font-weight: normal;
   line-height: 1;
