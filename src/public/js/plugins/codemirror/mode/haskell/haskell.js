@@ -237,8 +237,13 @@ CodeMirror.defineMode("haskell", function(_config, modeConfig) {
       "zip3", "zipWith", "zipWith3");
 
     var override = modeConfig.overrideKeywords;
-    if (override) for (var word in override) if (override.hasOwnProperty(word))
-      wkw[word] = override[word];
+    if (override) {
+      for (var word in override){
+        if (override.hasOwnProperty(word)){
+          wkw[word] = override[word];
+        }
+      }
+    }
 
     return wkw;
   })();

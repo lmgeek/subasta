@@ -259,8 +259,11 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
     if (typeof mimes == "string") mimes = [mimes];
     var words = [];
     function add(obj) {
-      if (obj) for (var prop in obj) if (obj.hasOwnProperty(prop))
-        words.push(prop);
+      if (obj){
+        for (var prop in obj) if (obj.hasOwnProperty(prop)){
+          words.push(prop);
+        }
+      }
     }
     add(mode.keywords);
     add(mode.builtin);

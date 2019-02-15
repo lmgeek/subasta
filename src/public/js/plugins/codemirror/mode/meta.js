@@ -129,16 +129,22 @@
     for (var i = 0; i < CodeMirror.modeInfo.length; i++) {
       var info = CodeMirror.modeInfo[i];
       if (info.mime == mime) return info;
-      if (info.mimes) for (var j = 0; j < info.mimes.length; j++)
-        if (info.mimes[j] == mime) return info;
+      if (info.mimes){
+        for (var j = 0; j < info.mimes.length; j++){
+          if (info.mimes[j] == mime){return info;}
+        }
+      }
     }
   };
 
   CodeMirror.findModeByExtension = function(ext) {
     for (var i = 0; i < CodeMirror.modeInfo.length; i++) {
       var info = CodeMirror.modeInfo[i];
-      if (info.ext) for (var j = 0; j < info.ext.length; j++)
-        if (info.ext[j] == ext) return info;
+      if (info.ext){
+        for (var j = 0; j < info.ext.length; j++){
+          if (info.ext[j] == ext) {return info;}
+        }
+      }
     }
   };
 });
