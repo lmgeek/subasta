@@ -10,7 +10,7 @@ BEGIN
                   WHERE
                       TABLE_SCHEMA='subastas'
                     AND table_name='products'
-                    AND column_name='weigth'
+                    AND column_name='weigth_small'
     ) THEN
     ALTER TABLE `products` CHANGE COLUMN `weigth` `weigth_small` float(10,2) NOT NULL AFTER `unit`;
 
