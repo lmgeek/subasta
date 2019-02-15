@@ -7,11 +7,8 @@ CREATE PROCEDURE upgrade_database_20190110130000()
 BEGIN
 
 IF NOT EXISTS ( SELECT * FROM information_schema.`COLUMNS`
-WHERE
-  TABLE_SCHEMA='subastas'
-  AND table_name='arrives'
-  AND column_name='port_id') THEN
-  ALTER TABLE arrives ADD COLUMN port_id int(10)  not NULL DEFAULT '';
+WHERE TABLE_SCHEMA='subastas' AND table_name='arrives' AND column_name='port_id')
+THEN ALTER TABLE arrives ADD COLUMN port_id int(10)  not NULL;
 END IF;
 
 END $$
