@@ -1,13 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
-
 use App\Comprador;
 use App\User;
 use App\Bid;
 use App\ViewHelper;
 use Illuminate\Http\Request;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Routing\Route;
 use Auth;

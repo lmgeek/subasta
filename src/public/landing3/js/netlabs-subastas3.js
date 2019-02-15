@@ -187,7 +187,10 @@ function openPopupOferta($id){
     });
 }
 function modifyQuantity($id,$direction){
-    var $input=$('#cantidad-'+$id);$cant=parseInt($input.val()),$max=parseInt($input.attr('max')),$min=parseInt($input.attr('min'));
+    let $input=$('#cantidad-'+$id);
+    let $cant=parseInt($input.val());
+    let $max=parseInt($input.attr('max'));
+    let $min=parseInt($input.attr('min'));
     if(!$('#checkbox'+$id).is(':checked')){
         if($direction==0 && $cant>$min){
             $input.val($cant-1);

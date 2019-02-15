@@ -11,19 +11,6 @@
 |
 */
 
-// Route::get('/', function () {
-//     if(is_null(Auth::user())){
-//         return view('landing');
-//     }else{
-//         // return redirect('/home');
-//         return view('landing');
-//     }
-// });
-
-/*HOME*/
-// Route::get('/', function () {
-//         return view('landing');
-// });
 
 Route::get('/', 'AuctionController@subastasFront');
 Route::get('/subastas', 'AuctionController@listaSubastas');
@@ -181,7 +168,6 @@ Route::group(['middleware' => ['auth']],function(){
     Route:resource('sellerbatch', 'BoatController@sellerbatch');
 });
 
-// Route::get('sellerbatch', 'BoatController@sellerbatch');
 Route::post('editbatch', 'SellerBoatsController@editbatch');
 
 Route::get('registro/comprador', 'RegisterController@getRegisterBuyer');
