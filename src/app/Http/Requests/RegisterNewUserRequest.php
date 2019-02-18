@@ -33,7 +33,7 @@ class RegisterNewUserRequest extends Request
             'password'=>'required|confirmed|regex:(^\S*(?=\S{6,8})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$)',
 			'email' => 'required|min:7|unique:users,email|email',
 //            'phone' => 'numeric',
-            'phone' => 'regex:(^[()0-9-]+$)',
+            'phone' => 'required|regex:(^[()0-9-]+$)',
         ];
     }
 
@@ -41,6 +41,7 @@ class RegisterNewUserRequest extends Request
     {
         return [
             'name.required' => 'El nombre es obligatorio',
+            'phone.required' => 'El teléfono es obligatorio',
             'name.regex' => 'El nombre sólo permite caracteres alfabéticos',
             'lastname.required' => 'El apellido es obligatorio',
             'lastname.regex' => 'El apellido sólo permite caracteres alfabéticos',
