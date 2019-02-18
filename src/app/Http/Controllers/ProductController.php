@@ -1,8 +1,8 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateProductRequest;
 use App\Http\Requests\DeleteProductRequest;
+use App\Http\Requests\CreateProductRequest;
 use App\Http\Requests\EditProductRequest;
 use App\Product;
 use Illuminate\Http\Request;
@@ -66,6 +66,7 @@ class ProductController extends Controller
 //        dd($request->all());
         $prod = new Product();
         $prod->name = $request->input('nombre');
+        $prod->fishing_code = $request->input('codigo');
         $prod->unit = $request->input('unidad');
         $prod->weigth_small = str_replace(",", ".", $request->input('weight_small') );
         $prod->weigth_medium = str_replace(",", ".", $request->input('weight_medium') );
@@ -131,7 +132,7 @@ class ProductController extends Controller
 
             }
         }
-//        dd($prod);
+        $prod->fishing_code = $request->input('codigo');
         $prod->name = $request->input('nombre');
         $prod->unit = $request->input('unidad');
         $prod->weigth_small = str_replace(",", ".", $request->input('weight_small') );
