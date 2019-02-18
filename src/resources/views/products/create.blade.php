@@ -55,6 +55,12 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        <label for="nombre">codigo Pesquero</label>
+                                        <input type="text" name="codigo" class="form-control" id="name" value="{{ old('codigo') }}" >
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
                                         <label for="nombre">{{ trans('products.name') }}</label>
                                         <input type="text" name="nombre" class="form-control" id="name" value="{{ old('nombre') }}" >
                                     </div>

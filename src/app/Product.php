@@ -15,7 +15,7 @@ class Product extends Model
     protected $table = 'products';
 
     protected $dates    = ['deleted_at'];
-    protected $fillable = ['name', 'unit', 'weigth_small', 'weigth_medium', 'weigth_big', 'image_name'];
+    protected $fillable = ['name', 'unit', 'weigth_small', 'weigth_medium', 'weigth_big', 'image_name', 'fishing_code'];
 
     public static function units()
     {

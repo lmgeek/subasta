@@ -35,6 +35,7 @@
                             <thead>
                             <tr>
                                 <th>Imagen</th>
+                                <th>Código</th>
                                 <th>Producto</th>
                                 <th>Unidad</th>
                                 <th>Estado</th>
@@ -49,6 +50,7 @@
                                                 <img src="/img/products/{{$p->image_name}}" style="max-width: 150px;max-height: 150px" alt="">
                                             @endif
                                         </td>
+                                        <td>{{ $p->fishing_code }}</td>
                                         <td>{{ $p->name }}</td>
                                         <td>{{ trans('general.product_units.'.$p->unit) }}</td>
                                         <td>

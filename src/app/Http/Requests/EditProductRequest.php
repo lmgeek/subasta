@@ -36,6 +36,7 @@ class EditProductRequest extends Request
         $cero = "0,00";
         if ($prod == null){
             return [
+                'codigo'=> 'required|regex:(^([a-z]+[0-9]{0,2}){5,12}$)|max:10 ',
                 Constants::NOMBRE        => 'required|regex:(^[a-zA-Zá-úÁ-Ú\s]+$)',
                 Constants::UNIDAD        => Constants::REQUIRED,
                 Constants::WEIGHT_SMALL  => Constants::REQUIRED,
@@ -71,6 +72,7 @@ class EditProductRequest extends Request
     public function messages()
     {
         return [
+            'codigo.regex'                         => 'El código pesquero es alfanumerico maximo 10 caracteres',
             'nombre.unique_name_unit'                 => 'La relación nombre unidad ya se encuentra registrada',
             'nombre.required'                         => 'El nombre es obligatorio',
             'nombre.regex'                            => 'El nombre sólo permite caracteres alfabéticos',
