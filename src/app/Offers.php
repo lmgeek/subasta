@@ -27,17 +27,5 @@ class Offers extends Model
 	{
 		return $this->belongsTo('App\User');
 	}
-	
-//	public function getTotalByUser($user)
-//	{
-//		$sum = Offers::where('user_id' , $user->id )->orderBy('bid_date', 'desc')->where('status',Offers::CONCRETADA)->sum('price');
-//		return $sum;
-//	}
-//
-//	public function getTotalPendienteByUser($user)
-//	{
-//		$count = Offers::where('user_id' , $user->id )->orderBy('bid_date', 'desc')->where('status',Offers::PENDIENTE)->count('id');
-//		return $count;
-//	}
-	
+
 }

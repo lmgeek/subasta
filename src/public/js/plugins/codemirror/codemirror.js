@@ -104,7 +104,6 @@
       setTimeout(bind(onFocus, this), 20);
     else
       onBlur(this);
-
     for (var opt in optionHandlers) if (optionHandlers.hasOwnProperty(opt))
       optionHandlers[opt](this, options[opt], Init);
     maybeUpdateLineNumberWidth(this);
@@ -499,14 +498,20 @@
     var comp = compensateForHScroll(display) - display.scroller.scrollLeft + cm.doc.scrollLeft;
     var gutterW = display.gutters.offsetWidth, left = comp + "px";
     for (var i = 0; i < view.length; i++) if (!view[i].hidden) {
-      if (cm.options.fixedGutter && view[i].gutter)
-        view[i].gutter.style.left = left;
+      if (cm.options.fixedGutter && view[i].gutter){
+         view[i].gutter.style.left = left;
+      }
+
       var align = view[i].alignable;
-      if (align) for (var j = 0; j < align.length; j++)
+
+      if (align) for (var j = 0; j < align.length; j++){
         align[j].style.left = left;
+      }
     }
-    if (cm.options.fixedGutter)
+    if (cm.options.fixedGutter){
       display.gutters.style.left = (comp + gutterW) + "px";
+    }
+
   }
 
   // Used to ensure that the line number gutter is still the right
@@ -701,12 +706,16 @@
         height = box.bottom - box.top;
       }
       var diff = cur.line.height - height;
-      if (height < 2) height = textHeight(display);
+      if (height < 2) {
+        height = textHeight(display);
+      }
       if (diff > .001 || diff < -.001) {
         updateLineHeight(cur.line, height);
         updateWidgetHeight(cur.line);
-        if (cur.rest) for (var j = 0; j < cur.rest.length; j++)
+        if (cur.rest) for (var j = 0; j < cur.rest.length; j++){
           updateWidgetHeight(cur.rest[j]);
+        }
+
       }
     }
   }
@@ -714,8 +723,12 @@
   // Read and store the height of line widgets associated with the
   // given line.
   function updateWidgetHeight(line) {
-    if (line.widgets) for (var i = 0; i < line.widgets.length; ++i)
-      line.widgets[i].height = line.widgets[i].node.offsetHeight;
+    if (line.widgets)
+    {
+      for (var i = 0; i < line.widgets.length; ++i){
+        line.widgets[i].height = line.widgets[i].node.offsetHeight;
+      }
+    }
   }
 
   // Do a bulk-read of the DOM positions and sizes needed to draw the
@@ -900,8 +913,13 @@
   function buildLineElement(cm, lineView, lineN, dims) {
     var built = getLineContent(cm, lineView);
     lineView.text = lineView.node = built.pre;
-    if (built.bgClass) lineView.bgClass = built.bgClass;
-    if (built.textClass) lineView.textClass = built.textClass;
+    if (built.bgClass){
+      lineView.bgClass = built.bgClass;
+    }
+
+    if (built.textClass){
+      lineView.textClass = built.textClass;
+    }
 
     updateLineClasses(lineView);
     updateLineGutter(cm, lineView, lineN, dims);
@@ -913,8 +931,12 @@
   // collapsed spans). The widgets for all of them need to be drawn.
   function insertLineWidgets(lineView, dims) {
     insertLineWidgetsFor(lineView.line, lineView, dims, true);
-    if (lineView.rest) for (var i = 0; i < lineView.rest.length; i++)
-      insertLineWidgetsFor(lineView.rest[i], lineView, dims, false);
+    if (lineView.rest) {
+      for (var i = 0; i < lineView.rest.length; i++){
+        insertLineWidgetsFor(lineView.rest[i], lineView, dims, false);
+      }
+    }
+
   }
 
   function insertLineWidgetsFor(line, lineView, dims, allowAbove) {
@@ -924,11 +946,13 @@
       var widget = ws[i], node = elt("div", [widget.node], "CodeMirror-linewidget");
       if (!widget.handleMouseEvents) node.ignoreEvents = true;
       positionLineWidget(widget, node, lineView, dims);
-      if (allowAbove && widget.above)
+      if (allowAbove && widget.above){
         wrap.insertBefore(node, lineView.gutter || lineView.text);
-      else
+      }
+      else{
         wrap.appendChild(node);
-      signalLater(widget, "redraw");
+        signalLater(widget, "redraw");
+      }
     }
   }
 
@@ -1691,7 +1715,7 @@
     var result = {left: (collapse == "right" ? rect.right : rect.left) - prepared.rect.left,
                   right: (collapse == "left" ? rect.left : rect.right) - prepared.rect.left,
                   top: top, bottom: bot};
-    if (!rect.left && !rect.right) result.bogus = true;
+    if (!rect.left && !rect.right){result.bogus = true;}
     if (!cm.options.singleCursorHeightPerLine) { result.rtop = rtop; result.rbottom = rbot; }
 
     return result;
@@ -1713,8 +1737,11 @@
     if (lineView.measure) {
       lineView.measure.cache = {};
       lineView.measure.heights = null;
-      if (lineView.rest) for (var i = 0; i < lineView.rest.length; i++)
-        lineView.measure.caches[i] = {};
+      if (lineView.rest){
+        for (var i = 0; i < lineView.rest.length; i++){
+          lineView.measure.caches[i] = {};
+        }
+      }
     }
   }
 
@@ -2085,8 +2112,9 @@
     if (op.updatedDisplay) postUpdateDisplay(cm, op.update);
 
     // Abort mouse wheel delta measurement, when scrolling explicitly
-    if (display.wheelStartX != null && (op.scrollTop != null || op.scrollLeft != null || op.scrollToPos))
+    if (display.wheelStartX != null && (op.scrollTop != null || op.scrollLeft != null || op.scrollToPos)){
       display.wheelStartX = display.wheelStartY = null;
+    }
 
     // Propagate the scroll position to the actual DOM scroller
     if (op.scrollTop != null && (display.scroller.scrollTop != op.scrollTop || op.forceScroll)) {
@@ -2102,19 +2130,28 @@
     if (op.scrollToPos) {
       var coords = scrollPosIntoView(cm, clipPos(doc, op.scrollToPos.from),
                                      clipPos(doc, op.scrollToPos.to), op.scrollToPos.margin);
-      if (op.scrollToPos.isCursor && cm.state.focused) maybeScrollWindow(cm, coords);
+      if (op.scrollToPos.isCursor && cm.state.focused) {maybeScrollWindow(cm, coords);}
     }
 
     // Fire events for markers that are hidden/unidden by editing or
     // undoing
     var hidden = op.maybeHiddenMarkers, unhidden = op.maybeUnhiddenMarkers;
-    if (hidden) for (var i = 0; i < hidden.length; ++i)
-      if (!hidden[i].lines.length) signal(hidden[i], "hide");
-    if (unhidden) for (var i = 0; i < unhidden.length; ++i)
-      if (unhidden[i].lines.length) signal(unhidden[i], "unhide");
 
-    if (display.wrapper.offsetHeight)
-      doc.scrollTop = cm.display.scroller.scrollTop;
+    if (hidden) {
+        for (var i = 0; i < hidden.length; ++i) {
+          if (!hidden[i].lines.length) signal(hidden[i], "hide");
+        }
+    }
+
+    if (unhidden){
+      for (var i = 0; i < unhidden.length; ++i) {
+        if (unhidden[i].lines.length) signal(unhidden[i], "unhide");
+      }
+    }
+
+    if (display.wrapper.offsetHeight){
+        doc.scrollTop = cm.display.scroller.scrollTop;
+    }
 
     // Apply workaround for two webkit bugs
     if (op.updatedDisplay && webkit) {
@@ -2127,8 +2164,10 @@
     }
 
     // Fire change events, and delayed event handlers
-    if (op.changeObjs)
-      signal(cm, "changes", cm, op.changeObjs);
+    if (op.changeObjs){
+       signal(cm, "changes", cm, op.changeObjs);
+    }
+
   }
 
   // Run the given function in an operation
@@ -2962,7 +3001,7 @@
     e_preventDefault(e);
     if (ie) lastDrop = +new Date;
     var pos = posFromMouse(cm, e, true), files = e.dataTransfer.files;
-    if (!pos || isReadOnly(cm)) return;
+    if (!pos || isReadOnly(cm)){return;}
     // Might be a file drop, in which case we simply extract the text
     // and insert it.
     if (files && files.length && window.FileReader && window.File) {
@@ -4299,13 +4338,15 @@
 
     deleteH: methodOp(function(dir, unit) {
       var sel = this.doc.sel, doc = this.doc;
-      if (sel.somethingSelected())
+      if (sel.somethingSelected()){
         doc.replaceSelection("", null, "+delete");
-      else
+      }
+      else{
         deleteNearSelection(this, function(range) {
           var other = findPosH(doc, range.head, dir, unit, false);
           return dir < 0 ? {from: other, to: range.head} : {from: range.head, to: other};
         });
+      }
     }),
 
     findPosV: function(from, amount, unit, goalColumn) {
@@ -4409,14 +4450,15 @@
       function interpret(val) {
         return typeof val == "number" || /^\d+$/.test(String(val)) ? val + "px" : val;
       }
-      if (width != null) cm.display.wrapper.style.width = interpret(width);
-      if (height != null) cm.display.wrapper.style.height = interpret(height);
+      if (width != null){ cm.display.wrapper.style.width = interpret(width);}
+      if (height != null) {cm.display.wrapper.style.height = interpret(height);}
       if (cm.options.lineWrapping) clearLineMeasurementCache(this);
       var lineNo = cm.display.viewFrom;
       cm.doc.iter(lineNo, cm.display.viewTo, function(line) {
-        if (line.widgets) for (var i = 0; i < line.widgets.length; i++)
+        if (line.widgets) for (var i = 0; i < line.widgets.length; i++){
           if (line.widgets[i].noHScroll) { regLineChange(cm, lineNo, "widget"); break; }
-        ++lineNo;
+          ++lineNo;
+        }
       });
       cm.curOp.forceUpdate = true;
       signal(cm, "refresh", this);
@@ -4606,9 +4648,11 @@
     if (modeExtensions.hasOwnProperty(spec.name)) {
       var exts = modeExtensions[spec.name];
       for (var prop in exts) {
-        if (!exts.hasOwnProperty(prop)) continue;
-        if (modeObj.hasOwnProperty(prop)) modeObj["_" + prop] = modeObj[prop];
-        modeObj[prop] = exts[prop];
+        if (!exts.hasOwnProperty(prop)){continue;}
+        if (modeObj.hasOwnProperty(prop)) {
+          modeObj["_" + prop] = modeObj[prop];
+          modeObj[prop] = exts[prop];
+        }
       }
     }
     modeObj.name = spec.name;
@@ -5666,7 +5710,7 @@
       if (sp.marker.collapsed && !sp.marker.widgetNode && sp.from == span.to &&
           (sp.to == null || sp.to != span.from) &&
           (sp.marker.inclusiveLeft || span.marker.inclusiveRight) &&
-          lineIsHiddenInner(doc, line, sp)) return true;
+          lineIsHiddenInner(doc, line, sp)) {return true;}
     }
   }
 
@@ -6096,15 +6140,18 @@
           } else if (sp.from > pos && nextChange > sp.from) {
             nextChange = sp.from;
           }
-          if (m.type == "bookmark" && sp.from == pos && m.widgetNode) foundBookmarks.push(m);
+          if (m.type == "bookmark" && sp.from == pos && m.widgetNode) {foundBookmarks.push(m);}
         }
         if (collapsed && (collapsed.from || 0) == pos) {
           buildCollapsedSpan(builder, (collapsed.to == null ? len + 1 : collapsed.to) - pos,
                              collapsed.marker, collapsed.from == null);
           if (collapsed.to == null) return;
         }
-        if (!collapsed && foundBookmarks.length) for (var j = 0; j < foundBookmarks.length; ++j)
-          buildCollapsedSpan(builder, 0, foundBookmarks[j]);
+        if (!collapsed && foundBookmarks.length){
+          for (var j = 0; j < foundBookmarks.length; ++j){
+            buildCollapsedSpan(builder, 0, foundBookmarks[j]);
+          }
+        }
       }
       if (pos >= len) break;
 
@@ -6586,8 +6633,9 @@
           if (!(lineNo == from.line && from.ch > span.to ||
                 span.from == null && lineNo != from.line||
                 lineNo == to.line && span.from > to.ch) &&
-              (!filter || filter(span.marker)))
+              (!filter || filter(span.marker))){
             found.push(span.marker.parent || span.marker);
+          }
         }
         ++lineNo;
       });
@@ -7173,8 +7221,11 @@
     var arr = cm._handlers && cm._handlers.cursorActivity;
     if (!arr) return;
     var set = cm.curOp.cursorActivityHandlers || (cm.curOp.cursorActivityHandlers = []);
-    for (var i = 0; i < arr.length; ++i) if (indexOf(set, arr[i]) == -1)
-      set.push(arr[i]);
+    for (var i = 0; i < arr.length; ++i){
+      if (indexOf(set, arr[i]) == -1){
+        set.push(arr[i]);
+      }
+    }
   }
 
   function hasHandler(emitter, type) {

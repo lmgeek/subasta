@@ -180,7 +180,6 @@ class BoatController extends Controller
             return view('boat.sellerbatch',compact(Constants::BOATS,'request'));
         } else {
             return redirect('/home');
-            // return view('landing');
         }
 	}
     public function boatList(Request $request){

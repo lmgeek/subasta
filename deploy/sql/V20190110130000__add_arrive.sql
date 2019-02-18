@@ -6,18 +6,15 @@ CREATE PROCEDURE upgrade_database_20190110130000()
 
 BEGIN
 
-  IF NOT EXISTS ( SELECT * FROM information_schema.`COLUMNS`
-    WHERE
-        TABLE_SCHEMA='subastas'
-        AND table_name='arrives'
-        AND column_name='port_id'
-    ) THEN
-    ALTER TABLE `arrives` ADD COLUMN `port_id` int(10) NOT NULL;
-  END IF;
-  END $$
+IF NOT EXISTS ( SELECT * FROM information_schema.`COLUMNS`
+WHERE TABLE_SCHEMA='subastas' AND table_name='arrives' AND column_name='port_id')
+THEN ALTER TABLE arrives ADD COLUMN port_id int(10)  not NULL;
+END IF;
 
-CALL upgrade_database_201901101300001() $$
+END $$
 
-DROP PROCEDURE upgrade_database_20190110130000() $$
+CALL upgrade_database_20190110130000() $$
+
+DROP PROCEDURE upgrade_database_20190110130000 $$
 
 DELIMITER ;

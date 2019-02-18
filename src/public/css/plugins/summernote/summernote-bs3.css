@@ -2228,7 +2228,7 @@ fieldset[disabled] .note-editor .btn-link:focus {
   position: relative;
   top: 1px;
   display: inline-block;
-  font-family: 'Glyphicons Halflings';
+  font-family: "Glyphicons Halflings",Helvetica, Arial, Verdana, Tahoma, sans-serif;
   font-style: normal;
   font-weight: normal;
   line-height: 1;
@@ -3082,7 +3082,6 @@ fieldset[disabled] .note-editor .btn-link:focus {
   outline: 0;
 }
 .note-editor .btn-group-xs > .btn {
-  padding: 5px 10px;
   font-size: 12px;
   line-height: 1.5;
   border-radius: 3px;
@@ -4411,7 +4410,6 @@ textarea.note-editor .input-group-sm > .input-group-btn > .btn {
   border-radius: 4px;
   -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
-  display: inline-block;
   max-width: 100%;
   height: auto;
   display: block;
@@ -5544,7 +5542,7 @@ button.note-editor .close {
   visibility: hidden;
 }
 .text-hide {
-  font: 0/0 a;
+  font-size: 0px;
   color: transparent;
   text-shadow: none;
   background-color: transparent;

@@ -980,7 +980,7 @@ button.dim:active:before {
 .label {
   background-color: #d1dade;
   color: #5e5e5e;
-  font-family: 'Open Sans';
+  font-family: "Open Sans",Times, serif;
   font-size: 10px;
   font-weight: 600;
   padding: 3px 8px;
@@ -989,7 +989,7 @@ button.dim:active:before {
 .badge {
   background-color: #d1dade;
   color: #5e5e5e;
-  font-family: 'Open Sans';
+  font-family: "Open Sans",Times, serif;
   font-size: 11px;
   font-weight: 600;
   padding-bottom: 4px;
@@ -1519,17 +1519,17 @@ table.dataTable thead .sorting_desc_disabled {
 }
 table.dataTable thead .sorting_asc:after {
   float: right;
-  font-family: fontawesome;
+  font-family: fontawesome, Arial, Verdana, Tahoma, sans-serif;
 }
 table.dataTable thead .sorting_desc:after {
   content: "\f0dd";
   float: right;
-  font-family: fontawesome;
+  font-family: fontawesome, Arial, Verdana, Tahoma, sans-serif;
 }
 table.dataTable thead .sorting:after {
   content: "\f0dc";
   float: right;
-  font-family: fontawesome;
+  font-family: fontawesome, Arial, Verdana, Tahoma, sans-serif;
   color: rgba(50, 50, 50, 0.5);
 }
 .dataTables_wrapper {
@@ -1725,7 +1725,7 @@ table.dataTable thead .sorting:after {
   margin-bottom: 0;
 }
 .glyphicon.fa {
-  font-family: "FontAwesome";
+  font-family: "FontAwesome",Helvetica, Arial, Verdana, Tahoma, sans-serif;
 }
 /* INPUTS */
 .inline {
@@ -2167,7 +2167,7 @@ table.dataTable thead .sorting:after {
   content: '-';
 }
 #nestable2 .dd-item > button {
-  font-family: FontAwesome;
+  font-family: FontAwesome,Helvetica, Arial, Verdana, Tahoma, sans-serif;
   height: 34px;
   width: 33px;
   color: #c1c1c1;
@@ -2319,7 +2319,7 @@ label.error {
 }
 #toast-container > .toast:before {
   position: fixed;
-  font-family: FontAwesome;
+  font-family: FontAwesome,Arial, Verdana, Tahoma, sans-serif;
   font-size: 24px;
   line-height: 24px;
   float: left;
@@ -4424,7 +4424,7 @@ dd.project-people {
   height: 90px !important;
 }
 .chat-avatar {
-  white: 36px;
+  width: 36px;
   height: 36px;
   float: left;
   margin-right: 10px;
