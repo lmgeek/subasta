@@ -1,6 +1,10 @@
 <?php
-use App\Boat;
+use App\Ports;
 
+/** G.B Con la variable port podras listar los
+ * puertos que estan en base de datos
+ */
+$ports = Ports::get();
 ?>
 
 @extends('admin')
@@ -31,20 +35,30 @@ use App\Boat;
                     <form action="{{ route('sellerboat.store') }}" method="POST">
                         {{ csrf_field() }}
                         <div class="ibox-content">
-                          {{--  <div class="form-group">
+                            <div class="form-group">
                                 <label for="name">{{ trans('sellerBoats.name') }}</label>
                                 <input type="text" name="name" class="form-control" id="name" placeholder="{{ trans('sellerBoats.name') }}" value="{{ old('name') }}" required minlength="6"  onkeypress="return validaName(event);"  onKeyUp="this.value = this.value.toUpperCase();">
                             </div>
                             <div class="form-group">
                                 <label for="matricula">{{ trans('sellerBoats.matricula') }}</label>
                                 <input type="text" name="matricula" class="form-control" id="matricula" placeholder="{{ trans('sellerBoats.matricula') }}"  value="{{ old('matricula') }}" required minlength="4"  onkeypress="return validaMatricula(event);"  onKeyUp="this.value = this.value.toUpperCase();">
-                            </div>--}}
+                            </div>
 
                             <div class="form-group">
+                                <label for="arrival_id">Puerto</label>
+                                <select class="form-control" id="arrival_id" name="port">
+                                    <option disabled selected>Seleccione...</option>
+                                    @foreach($ports as $port)
+                                        <option value="{{ $port->id }}">{{ $port->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            {{--<div class="form-group">
                                 <label for="alias">Alias</label>
                                 <input type="text" name="alias1" class="form-control" id="alias1" placeholder="Alias" value = "{{"Barco ".Boat::RomanNumber(count(Boat::filterForSellerNickname(Auth::user()->id))+1)}}" required minlength="10" disabled="true" >
                                 <input type="hidden" name="alias" class="form-control" id="alias" placeholder="Alias" value = "{{"Barco ".Boat::RomanNumber(count(Boat::filterForSellerNickname(Auth::user()->id))+1)}}" required minlength="10" >
-                            </div>
+                            </div>--}}
 
                         </div>
                         <div class="ibox-footer text-right">
