@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use App\Constants;
+use Illuminate\Support\Facades\Auth;
 
 class Boat extends Model
 {
@@ -12,7 +13,7 @@ class Boat extends Model
 
     protected $table = 'boats';
 
-    protected $fillable = ['name', 'matricula', 'status',Constants::USER_ID,'rebound', 'nickname'];
+    protected $fillable = ['name', 'matricula', 'status',Constants::USER_ID,'rebound', 'reference_port'];
 
     public function arrive(){
         return $this->hasMany('App\Arrive');
@@ -40,7 +41,7 @@ class Boat extends Model
 
 // funcion para traer el sellerNickname
     public static function filterForSellerNickname($id){
-        return Boat::select('boats.name')->where(Constants::USER_ID,'=',$id)->get();
+        return Boat::select()->where(Constants::USER_ID,'=',$id)->get();
     }
     //Funcion para convertir numeros a numeros romanos
     public static function  RomanNumber($integer){
@@ -58,5 +59,15 @@ class Boat extends Model
             }
         }
         return $return;
+    }
+
+    //G.B creamo una funcion para traer los puertos de referencias asociados a los barcos
+    public function referencePort($idBarcoReference)
+    {
+        $port = Ports::select('name')->where('id', '=', $idBarcoReference)->get();
+
+        foreach ($port as $key => $value) {
+           echo  $value['name'];
+        }
     }
 }
