@@ -33,11 +33,11 @@
 
                         <li><a href="/subastas">Subastas</a>
                             <ul class="dropdown-nav">
-                                <li><a href="subastas-list.php">Todas</a></li>
-                                <li><a href="subastas-list.php">Finalizando</a></li>
-                                <li><a href="subastas-list.php">Pr&oacute;ximas</a></li>
-                                <li><a href="subastas-list.php">Finalizadas</a></li>
-                                <li><a href="subastas-list.php">Privadas</a></li>
+                                <li><a href="/subastas?time=all">Todas</a></li>
+                                <li><a href="/subastas?time=incourse">Finalizando</a></li>
+                                <li><a href="/subastas?time=future">Pr&oacute;ximas</a></li>
+                                <li><a href="/subastas?time=finished">Finalizadas</a></li>
+                                <li><a href="/subastas?type=private">Privadas</a></li>
                             </ul>
                         </li>
 

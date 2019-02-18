@@ -14,7 +14,17 @@ $price=\App\Http\Controllers\AuctionController::calculatePriceID($auction->id);
 $close=$price['Close'];
 $userRatings=\App\Http\Controllers\AuctionController::getUserRating($auction->batch->arrive->boat->user);
 $usercat=Auction::catUserByAuctions($userId);
-$port=\App\Ports::getPortById($auction->batch->arrive->port_id)
+$port=\App\Ports::getPortById($auction->batch->arrive->port_id);
+if(isset($request->time) and $request->time!= Constants::IN_CURSE){
+    if($auction->timeline== Constants::FINISHED){
+        $finished='&iexcl;Finalizada!';
+    }elseif($auction->timeline== Constants::FUTURE){
+        $finished='&iexcl;Proximamente!';
+    }else{
+        unset($finished);
+    }
+}
+
 ?>
 <div id="Auction_<?=$auction->id?>" class="task-listing <?=(empty($finished))?'auction':''?>" data-id="{{$auction->id}}" data-price="{{$price['CurrentPrice']}}" data-end="{{$auction->end}}" data-endOrder="{{date('YmdHi',strtotime($auction->end))}}" data-close="{{$close}}"data-userrating="{{$userRatings}}"
 <?='data-port="'.$auction->batch->arrive->port_id.'"
@@ -69,9 +79,6 @@ $fechafin=strftime('%d %b %Y', strtotime($auction->end));
     <div class="task-listing-bid">
         <div class="task-listing-bid-inner">
             <div class="task-offers">
-                <?php
-
-                ?>
                 <p> <div id="auctionAvailability{{$auction->id}}" style="display: inline-block!important;font-weight: bold"><small style="font-weight: 400">Disponibilidad:</small> {{$disponible}} <small>de</small> {{$total}} {{$auction->batch->product->unit}}</div> <br>
                 @if(empty($finished))
                         <small class="green fw700" id="BidsCounter{{$auction->id}}">
@@ -81,9 +88,9 @@ $fechafin=strftime('%d %b %Y', strtotime($auction->end));
                     </p>
 
                     <div class="pricing-plan-label billed-monthly-label <?=(empty($finished)?'red':'')?>" id="PriceContainer{{$auction->id}}"><strong class="red" id="Price{{$auction->id}}">${{$price['CurrentPrice']}}</strong>/ Kg<br>
-                        <small class="red fw500" id="ClosePrice{{$auction->id}}"<?=(empty($finished))?'style="display:none"':''?>><?=(empty($finished))?'&iexcl;Cerca del precio l&iacute;mite!':'Precio Final'?></small></div>
-                    <div id="timer<?=$auction->id?>" class="countdown margin-bottom-0 margin-top-20 blink_me <?=(empty($finished))?'timerauction':''?>" data-timefin="{{$auction->end}}" data-id="{{$auction->id}}">
-                        <?=(isset($finished))?'&iexcl;Finalizada!':''?></div>
+                        <small class="red fw500" id="ClosePrice{{$auction->id}}"<?=(empty($finished) || $finished!='&iexcl;Finalizada!')?'style="display:none"':''?>><?=(empty($finished))?'&iexcl;Cerca del precio l&iacute;mite!':'Precio Final'?></small></div>
+                    <div id="timer<?=$auction->id?>" class="countdown <?=(isset($finished) && $finished=='&iexcl;Proximamente!')?'green ':''?>margin-bottom-0 margin-top-20 blink_me <?=(empty($finished))?'timerauction':''?>" data-timefin="{{$auction->end}}" data-id="{{$auction->id}}">
+                        <?=(isset($finished))?$finished:''?></div>
             </div>
             @if(empty($finished))
                 <div  id="OpenerPopUpCompra{{$auction->id}}">

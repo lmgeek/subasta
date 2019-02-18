@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Pagination\LengthAwarePaginator;
 use App\Http\Requests\CreateAuctionRequest;
 use App\Http\Requests\SellerQualifyRequest;
 use App\Http\Requests\UpdateAuctionRequest;
@@ -113,12 +112,13 @@ class AuctionController extends Controller
         $rand=rand(1,7)/100;
         $targetprice=$endprice+(($startprice-$endprice)*$rand);
         $auction->batch_id = $request->input(Constants::BATCH);
+        $auction->correlative=self::calculateAuctionCode();
         $auction->start = $startDate->format(Constants::DATE_FORMAT);
         $auction->start_price = $startprice;
         $auction->end = $endDate->format(Constants::DATE_FORMAT);
         $auction->end_price = $endprice;
         $auction->target_price = $targetprice;
-        $auction->interval = $request->input('intervalo');
+        $auction->interval = 1;
         $auction->amount = $request->input(Constants::AMOUNT);
 		$auction->type = $request->input('tipoSubasta');
 		$auction->description = $request->input('descri');
@@ -157,7 +157,16 @@ class AuctionController extends Controller
 
         return redirect('/sellerbatch?e=created&t=auction&id='.$auction->id.'&ex='.urlencode('Product ID: '.$batch->product_id.', Name: '.$auction->batch->product->name.' '.Constants::caliber($auction->batch->caliber).'.  Quantity: '.$request->input(Constants::AMOUNT)));
     }
-
+    public function storeAuction(Request $request){
+        if(empty($request->id)){
+            $request->request->add(['id'=>SellerBoatsController::storeArrive($request)]);
+        }
+        if(empty($request->batchid)){
+            $request->request->add(['batch'=>SellerBoatsController::storeBatch($request)]);
+        }
+        
+        self::store($request);
+    }
     public function calculatePrice(Request $request)
     {
         $data = array();
@@ -373,7 +382,26 @@ class AuctionController extends Controller
 
         return view('auction.edit')->with(Constants::AUCTION,$auction);
     }
-
+    public static function calculateAuctionCode(){
+        $auctions=Auction::AuctionsQueryBuilder(array('sellerid'=>Auth::user()->id));
+        $counter=1;$highest=0;
+        foreach($auctions as $auction){
+            $dateformatted=date('md',strtotime($auction->created_at));
+            if($dateformatted==date('md')){
+                $counter++;
+                $highest=$auction->correlative;
+            }
+        }
+        return ($highest>$counter)?$highest:$counter;
+    }
+    public static function getAuctionCode($correlative,$created_at){
+        if($correlative<10){
+            $correlative=(string)"00$correlative";
+        }elseif($correlative<100){
+            $correlative=(string)"0$correlative";
+        }
+        return 'SU-'.date('ym',strtotime($created_at)).$correlative;
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -399,7 +427,6 @@ class AuctionController extends Controller
             $auction->target_price=$targetprice;
         }
         $auction->end_price = $endprice;
-
         $auction->interval = $request->input('intervalo');
         $auction->description = $request->input('descri');
         $oldAmount = $auction->amount;
@@ -791,6 +818,9 @@ class AuctionController extends Controller
     public static function getAuctionsDataForHome($auctions){
         $port=array();$products=array();$calibers=array();$users=array();$close=0;$min=99999999;$max=0;
         $quality=array(1=>0,2=>0,3=>0,4=>0,5=>0);$ratings=array(1=>0,2=>0,3=>0,4=>0,5=>0);
+        if(count($auctions)==0){
+            return;
+        }
         foreach($auctions as $a) {
             $calibers[$a->batch->caliber]=(isset($calibers[$a->batch->caliber]))?$calibers[$a->batch->caliber]+1:1;
             $user = $a->batch->arrive->boat->user;
@@ -838,16 +868,15 @@ class AuctionController extends Controller
     public static function getauctions(Request $request){
         $limit=(int)$request->limit;
         $ids=($limit==1)?$request->ids:null;
-        
+        $time=$request->time;
         $filters=self::convertFilterSubastas($request->filters);
-        $auctions=Auction::auctionHome($ids,$filters)[Constants::IN_CURSE];
+        $auctions=Auction::auctionHome($ids,$filters,$time);
         if($limit>1){
             $preciomin=(float)$filters['pricemin'];
             $preciomax=(float)$filters['pricemax'];
             $close=(isset($filters['close']))?1:0;
             $rating=(isset($filters['userrating']))?1:0;
             foreach($auctions as $index=>$auction){
-                
                 $priceall=  self::calculatePriceID($auction->id,$auction->target_price);
                 $price=(float)str_replace(',','.',$priceall['CurrentPrice']);
                 $target=$priceall['Close'];
@@ -895,8 +924,14 @@ class AuctionController extends Controller
     }
     public function listaSubastas(Request $request){
         $boats = Boat::Select()->get();
-        $auctions=Auction::auctionHome()[Constants::IN_CURSE];
+        $timeline=(isset($request->time))?$request->time:Constants::IN_CURSE;
+        $params=null;
+        if(isset($request->type)){
+            $params['type']=Constants::AUCTION_PRIVATE;
+        }
+        $auctions=Auction::auctionHome(null,$params,$timeline);
         $auctiondetails1=$this->getAuctionsDataForHome($auctions);
+        
         return view('/landing3/subastas')
             ->withAuctions(Constants::manualPaginate($auctions,$request->url()))
             ->withPorts($auctiondetails1[Constants::PORTS])
@@ -912,7 +947,33 @@ class AuctionController extends Controller
             ->withRatings($auctiondetails1['ratings'])
             ->withQuality($auctiondetails1['quality'])
             ->withPrices(array('min'=> round($auctiondetails1['min'],0,PHP_ROUND_HALF_DOWN),'max'=>(int)$auctiondetails1['max']))
+            ->withTimeline($timeline)
             ;
+    }
+    public function addAuction(Request $request){
+        if(empty(Auth::user()->id)){
+            return redirect('auth/login');
+        }
+        $boats=Boat::select('id','name')
+            ->where('user_id', Constants::EQUAL,Auth::user()->id)->get();
+        $ports=Ports::select()->get();
+        $products= Product::select('id','name')->get();
+        return view('/landing3/auction-add-edit')
+            ->with('boats',$boats)
+            ->with('ports',$ports)
+            ->with('products',$products);
+    }
+    public function offerList(Request $request){
+        $auctions=Auction::AuctionsQueryBuilder(array(
+            'sellerid'=>Auth::user()->id
+        ));
+        $offers=array();
+        foreach($auctions as $auction){
+            $auction->code=self::getAuctionCode($auction->correlative,$auction->created_at);
+            $offers[$auction->id]= self::getOffers($auction->id);
+        }
+        return view('landing3/offers')
+            ->with('auctions',$auctions)->with('offers',$offers);
     }
     public function getParticipantes(Request $request){
 
@@ -1230,7 +1291,7 @@ dd("hola");
 
     }
 
-    public function getOffers($auction_id)
+    public static function getOffers($auction_id)
     {
         return Offers::Select(
             'auctions_offers.id',

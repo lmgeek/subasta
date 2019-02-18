@@ -167,7 +167,7 @@ class SellerBoatsController extends Controller
         return redirect(Constants::URL_SELLER_BATCH);
     }
 
-    public function storeArrive(CreateArriveRequest $request)
+    public function storeArrive(CreateArriveRequest $request,$return=null)
     {
         $boat = Boat::findOrFail($request->input('barco'));
         $this->authorize('addBoatArrive', $boat);
@@ -177,8 +177,11 @@ class SellerBoatsController extends Controller
         $arrive->port_id = $request->input('puerto');
         $arrive->date = $request->input('date');
         $arrive->save();
-
-        return redirect('home');
+        if($return==null){
+            return redirect('home');
+        }else{
+            return $arrive->id;
+        }
     }
 
     public function batch($arrive_id)
@@ -193,7 +196,7 @@ class SellerBoatsController extends Controller
         return view('sellerBoats.batch',compact('boat','products','calibers','arrive_id'));
     }
 
-    public function storeBatch(Request $request)
+    public function storeBatch(Request $request,$return=null)
     {
         $this->checkBatch($request->input('id'));
         $boat = Arrive::findOrFail($request->input('id'))->boat;
@@ -224,8 +227,12 @@ class SellerBoatsController extends Controller
 				
             }
         }
-
-        return redirect(Constants::URL_SELLER_BATCH);
+        if($return==null){
+            return redirect(Constants::URL_SELLER_BATCH);
+        }else{
+            return $batch->id;
+        }
+        
     }
 
     public function deleteBatch($id)

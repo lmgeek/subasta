@@ -10,7 +10,7 @@ use App\Constants as ConstantsAlias;
 class Auction extends Model{
     use priceTrait;
     protected $table = 'auctions';
-    protected $fillable = ['batch_id', 'start','start_price','end','end_price','interval','type','notification_status','description'];
+    protected $fillable = ['batch_id', 'start','start_price','end','end_price','interval','type','notification_status','description','timeline'];
     public function makeBid($amount , $price){
         $prices = str_replace(",","",$price);
         $this->bid = new Bid();
@@ -204,9 +204,6 @@ class Auction extends Model{
                 $auctions=$auctions->where('batches.caliber', Constants::EQUAL,$params['caliber']);
             }
         }
-        if(isset($params['type'])){
-            $auctions=$auctions->where('auctions.type', Constants::EQUAL,$params['type']);
-        }
         $orderby=(isset($params['orderby']))?$params['orderby']:'end';
         $order=(isset($params['order']))?$params['order']:'asc';
         $auctions=$auctions->where(Constants::ACTIVE_LIT, Constants::EQUAL, Constants::ACTIVE)
@@ -219,27 +216,36 @@ class Auction extends Model{
     }
     public static function auctionTimeSplitter($auctions){
         $counter=0;$continue=1;$now =date(Constants::DATE_FORMAT);
-        $return=array(Constants::FINISHED=>array(), Constants::IN_CURSE=>array(), Constants::FUTURE=>array());
-        while($continue==1){
-            if(!isset($auctions[$counter])){
-                return $return;
-            }
-            $availability=self::getAvailable($auctions[$counter]->id,$auctions[$counter]->amount)['available'];
-            if($auctions[$counter]->end<$now || $availability<=0){
+        $return=array('all'=>array(),Constants::FINISHED=>array(), Constants::IN_CURSE=>array(), Constants::FUTURE=>array());
+        foreach($auctions as $auction){
+            $availability=self::getAvailable($auction->id,$auction->amount)['available'];
+            $invitation=self::checkifUserInvited($auction->id);
+            if($auction->end<$now || $availability<=0){
                 $timeline= Constants::FINISHED;
-            }elseif($auctions[$counter]->start<$now && $availability>0){
+            }elseif($auction->start<$now && $availability>0){
                 $timeline=Constants::IN_CURSE;
                 
-            }elseif($auctions[$counter]->start>$now){
+            }elseif($auction->start>$now){
                 $timeline= Constants::FUTURE;
             }
-            if($auctions[$counter]->type== Constants::AUCTION_PUBLIC || ($auctions[$counter]->type== Constants::AUCTION_PRIVATE && self::checkifUserInvited($auctions[$counter]->id)== Constants::ACTIVE)){
-                $return[$timeline][]=$auctions[$counter];
+            if($auction->batch->arrive->boat->user->id==Auth::user()->id){
+                $return['mine'][]=$auction;
             }
-            $counter++;
+            if($auction->type==Constants::AUCTION_PUBLIC){
+                $auction->timeline=$timeline;
+                $return[$timeline][]=$auction;
+                $return['all'][]=$auction;
+            }elseif($auction->type==Constants::AUCTION_PRIVATE && $invitation==Constants::ACTIVE){
+                $return[Constants::AUCTION_PRIVATE][$timeline][]=$auction;
+                $return[Constants::AUCTION_PRIVATE]['all'][]=$auction;
+                $auction->timeline=$timeline;
+                $return[$timeline][]=$auction;
+                $return['all'][]=$auction;
+            }
         }
+        return $return;
     }
-    public static function auctionHome($ids=null,$filters=null){
+    public static function auctionHome($ids=null,$filters=null,$time=null){
         $params=array();
         if($ids!=null){
             $params['idtoavoid']=$ids;
@@ -249,7 +255,15 @@ class Auction extends Model{
                 $params[$filter]=$val;
             }
         }
-        return self::auctionTimeSplitter(self::AuctionsQueryBuilder($params));
+        $return=self::auctionTimeSplitter(self::AuctionsQueryBuilder($params));
+        if($time==null){
+            return $return;
+        }elseif(isset ($params['type'])){
+            return $return[$params['type']][$time];
+        }else{
+            return $return[$time];
+        }
+        
         
     }
     public static function auctionPrivate($user_id , $status)

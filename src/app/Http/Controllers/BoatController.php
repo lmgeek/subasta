@@ -182,10 +182,10 @@ class BoatController extends Controller
             return redirect('/home');
             // return view('landing');
         }
-		
-			
-		
-		 
 	}
-	
+    public function boatList(Request $request){
+        $boats= Boat::select()->where('user_id', Constants::EQUAL,Auth::user()->id)->get();
+        return view('landing3/boats')
+            ->with('boats',$boats);
+    }
 }

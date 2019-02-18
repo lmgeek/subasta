@@ -4,6 +4,9 @@ use App\Ports;
 use App\User;
 use App\Constants;
 use Illuminate\Pagination\LengthAwarePaginator;
+if(count($auctions)==0){
+    $ports=array();$products=array();$caliber=array();$users=array();$prices=array('min'=>0,'max'=>1000);
+}
 ?>
 <div class="sidebar-widget">
     <h3>Puertos</h3>
@@ -84,3 +87,4 @@ use Illuminate\Pagination\LengthAwarePaginator;
         @endforeach
     </div>
 </div>
+<input type="hidden" name="timeline" value="<?=$timeline?>" id="timeline">

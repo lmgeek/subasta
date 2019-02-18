@@ -27,6 +27,15 @@
 
 Route::get('/', 'AuctionController@subastasFront');
 Route::get('/subastas', 'AuctionController@listaSubastas');
+Route::get('/auction/add','AuctionController@addAuction');
+Route::get('/offers','AuctionController@offerList');
+Route::get('/boatslist','BoatController@boatList');
+Route::post('/auctionStore','AuctionController@storeAuction');
+
+
+
+
+
 Route::get('/landing2', 'AuctionController@subastaHome');
 
 // Authentication routes...
