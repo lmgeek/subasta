@@ -42,7 +42,8 @@ function getMoreAuctions($limit=1,$idTarget='#FeaturedAuctions',$currentpage=1){
         $filters=getFilters()[0];
         $($idTarget).html('');
     }
-    $.post('/getauctions', {limit:$limit,current:$currentpage,ids:$ids,filters:$filters,_token:$('#csrf').attr('content')}, function (result) {
+    $.post('/getauctions', {limit:$limit,current:$currentpage,ids:$ids,time:$('input[name=timeline]').val(),filters:$filters,_token:$('#csrf').attr('content')}, function (result) {
+        
         var $html=result;
         if(result.includes('#MasterFilter')==true){
             $('#Loader').fadeOut();

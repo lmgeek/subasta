@@ -132,7 +132,7 @@ $portsall= App\Ports::select()->get();
                     <div class="tasks-list-container margin-top-35 bg-disabled" id="FinishedAuctions">
 
                         @if(count($auctionsf)>0)
-                            <?php $contadorsubastasdestacadas=0;$finished=1;
+                            <?php $contadorsubastasdestacadas=0;$finished='&iexcl;Finalizada!';
                             ?>
                             @foreach($auctionsf as $auction)
                                 @if($contadorsubastasdestacadas<3)
