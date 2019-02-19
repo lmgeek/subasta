@@ -82,7 +82,7 @@ $fechafin=strftime('%d %b %Y', strtotime($auction->end));
                 <a href="/" class="button dark ripple-effect ico" title="Editar" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
                 <?php }?>
                 <a href="" class="button  ripple-effect ico" title="Pausar" data-tippy-placement="top"><i class="icon-feather-pause"></i></a>
-                <a href="#" class="button ripple-effect ico" data-tippy-placement="top" data-tippy="" data-original-title="Replicar"><i class="icon-material-outline-filter-none"></i></a>
+                <a href="#" class="button ripple-effect ico" data-tippy-placement="top" data-tippy="" title="Replicar"><i class="icon-material-outline-filter-none"></i></a>
                 <?php if(($cantbids+$cantofertas)==0){?>
                 <a href="#" class="button dark ripple-effect ico" title="Eliminar" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
                 <?php }?>
