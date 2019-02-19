@@ -1,22 +1,24 @@
 DELIMITER $$
 
-DROP PROCEDURE IF EXISTS upgrade_database_20190124105021 $$
+DROP PROCEDURE IF EXISTS upgrade_database_20190218101620 $$
 
-CREATE PROCEDURE upgrade_database_20190124105021()
+CREATE PROCEDURE upgrade_database_20190218101620()
 
 BEGIN
 
-      IF NOT EXISTS ( SELECT * FROM information_schema.`COLUMNS`
-        WHERE
-          TABLE_SCHEMA='subastas'
-          AND table_name='auctions'
-          AND column_name='description'
-        ) THEN
-            ALTER TABLE `auctions` ADD COLUMN `description` varchar(1000) NOT NULL;
-      END IF;
-      END $$
-CALL upgrade_database_20190124105021() $$
+IF NOT EXISTS ( SELECT * FROM information_schema.`COLUMNS`
+WHERE
+  TABLE_SCHEMA='subastas'
+  AND table_name='boats'
+  AND column_name='reference_port'
+) THEN
+  alter table boats add reference_port varchar(255) not null default '';
+END IF;
 
-DROP PROCEDURE upgrade_database_20190124105021() $$
+END $$
+
+CALL upgrade_database_20190218101620() $$
+
+DROP PROCEDURE upgrade_database_20190218101620 $$
 
 DELIMITER ;
