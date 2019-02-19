@@ -13,6 +13,10 @@ return [
 	'boats_new_arrive'=> 'Nuevo Arribo',
 	'boats_load_lote'=> 'Cargar lote',
     'matricula' => 'Matrícula',
+    'port'=>
+        [
+            'title' => 'Puerto'
+        ],
     'status' => 'Estado',
     'actions' => [
         'title' => 'Acciones',

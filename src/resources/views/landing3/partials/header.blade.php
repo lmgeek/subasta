@@ -1,6 +1,6 @@
 
 
-<header id="header-container" class="fullwidth transparent-header" <?=(isset($outsidehome))?'style="background-color: #0e6c92"':''?>>
+<header id="header-container" class="fullwidth transparent-header" <?=(isset($outsidehome) || isset($layoutadmin))?'style="background-color: #0e6c92"':''?>>
 
     <!-- Header -->
     <div id="header">
@@ -186,7 +186,7 @@
                                         <li><a href="#"><em class="icon-feather-user"></em> Mi Cuenta</a></li>
                                         <li><a href="{{url('/sellerboat')}}"><em class="icon-line-awesome-ship"></em> Mis Barcos</a></li>
                                         <li><a href="{{url('/sellerbatch')}}"><em class="icon-feather-box"></em> Mis Lotes</a></li>
-                                        <li><a href="{{url('/sellerAuction')}}"><em class="icon-material-outline-gavel"></em> Mis Subastas</a></li>
+                                        <li><a href="/subastas?time=all&type=mine"><em class="icon-material-outline-gavel"></em> Mis Subastas</a></li>
                                         <li><a href="{{url('/sales')}}"><em class="icon-material-outline-gavel"></em> Ventas de Subastas</a></li>
                                         <li><a href="{{ url('/privatesales') }}"><em class="icon-feather-eye-off"></em> Ventas privadas</a></li>
                                         <li><a href="{{url('auth/logout')}}"><em class="icon-material-outline-power-settings-new"></em> Logout</a></li>
@@ -245,8 +245,8 @@
                     <ul class="user-menu-small-nav">
                         <li><a href="{{url('/home')}}"><em class="icon-material-outline-dashboard"></em> Dashboard</a></li>
                         <li><a href="#"><em class="icon-feather-user"></em> Mi Cuenta</a></li>
-                        <li><a href="{{url('/auction')}}"><em class="icon-material-outline-gavel"></em> Subastas</a></li>
-                        <li><a href="{{url('/auction?type=private')}}"><em class="icon-feather-eye-off"></em> Subastas Privadas</a></li>
+                        <li><a href="/subastas"><em class="icon-material-outline-gavel"></em> Subastas</a></li>
+                        <li><a href="/subastas?type=private"><em class="icon-feather-eye-off"></em> Subastas Privadas</a></li>
                         <li><a href="{{url('/bids')}}"><em class="icon-material-outline-shopping-cart"></em> Compra</a></li>
                         <li><a href="{{url('auth/logout')}}"><em class="icon-material-outline-power-settings-new"></em> Logout</a></li>
                     </ul>

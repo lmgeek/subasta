@@ -160,8 +160,8 @@
 					<ul class="user-menu-small-nav">
 						<li><a href="{{url('/home')}}"><em class="icon-material-outline-dashboard"></em> Dashboard</a></li>
 						<li><a href="#"><em class="icon-feather-user"></em> Mi Cuenta</a></li>
-						<li><a href="{{url('/auction')}}"><em class="icon-material-outline-gavel"></em> Subastas</a></li>
-						<li><a href="{{url('/auction?type=private')}}"><em class="icon-feather-eye-off"></em> Subastas Privadas</a></li>
+						<li><a href="/subastas"><em class="icon-material-outline-gavel"></em> Subastas</a></li>
+						<li><a href="/subastas?type=private"><em class="icon-feather-eye-off"></em> Subastas Privadas</a></li>
 						<li><a href="{{url('/bids')}}"><em class="icon-material-outline-shopping-cart"></em> Compra</a></li>
 						<li><a href="{{url('auth/logout')}}"><em class="icon-material-outline-power-settings-new"></em> Logout</a></li>
 					</ul>

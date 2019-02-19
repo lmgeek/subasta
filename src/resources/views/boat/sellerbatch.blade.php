@@ -1,7 +1,9 @@
 @extends('admin')
 
 @section('content')
-<?php use Carbon\Carbon;?>
+<?php use Carbon\Carbon;
+
+?>
 <br>
 <script src="/js/plugins/sparkline/jquery.sparkline.min.js"></script>
 
@@ -34,11 +36,11 @@
                         </div>
                     </div>
 			<div class="ibox-content">
-			<div>
+
 				<div class="feed-activity-list">
 				@if(count($boats) == 0)
 					{{ trans('boats.no_boats') }}
-				@endif
+				@endif <div><?php die("sasalk")?>
 				@foreach($boats as $boat)
 					<?php $lastArrives = $boat->getLastArrive() ?>
 					@foreach($lastArrives as $lastArrive)

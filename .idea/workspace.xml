@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/deploy/sql/V20190218112115__Modify_index_in_the_table_boats_for_user_matricula.sql" line="17" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="e1d2b753-3ac4-4a51-b1b0-a0f71163d320" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
@@ -92,7 +95,6 @@
         <option value="$PROJECT_DIR$/src/resources/views/auction/partials/auctionDetail.blade.php" />
         <option value="$PROJECT_DIR$/src/resources/views/emails/offerForBid.blade.php" />
         <option value="$PROJECT_DIR$/src/storage/framework/views/92799675b44743b1ce979343c185aa5f" />
-        <option value="$PROJECT_DIR$/src/resources/views/landing3/index.blade.php" />
         <option value="$PROJECT_DIR$/src/resources/views/auction/partials/auctionTime.blade.php" />
         <option value="$PROJECT_DIR$/src/resources/views/auction/index.blade.php" />
         <option value="$PROJECT_DIR$/src/resources/views/landing3/partials/header.blade.php" />
@@ -213,7 +215,7 @@
     <option name="x" value="-8" />
     <option name="y" value="-8" />
     <option name="width" value="1936" />
-    <option name="height" value="1066" />
+    <option name="height" value="1096" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -221,6 +223,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -243,7 +246,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">

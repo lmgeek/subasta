@@ -68,19 +68,20 @@ class SellerBoatsController extends Controller
      * @return \Illuminate\Http\Response
      */
 //    public function store(CreateBoatRequest $request)
-    public function store(Request $request)
+    public function store(CreateBoatRequest $request)
     {
 
         $this->authorize('addBoat', new Boat());
 
         $boat = new Boat();
-        /*$boat->name = $request->input('name');
-        $boat->matricula = $request->input('matricula');*/
-        $boat->nickname = $request->input('alias');
+        $boat->name = $request->input('name');
+        $boat->matricula = $request->input('matricula');
+        /*$boat->nickname = $request->input('alias');*/
+        $boat->reference_port = $request->input('port');
         $boat->status = Constants::PENDIENTE;
         $boat->user_id = Auth::user()->id;
         $boat->save();
-        $checker=Boat::select('id')->where('user_id','=',Auth::user()->id)->where('nickname','=',$request->input('alias'))->get();
+        $checker=Boat::select('id')->where('user_id','=',Auth::user()->id)->where('name','=',$request->input('name'))->get();
         $request->session()->flash('confirm_msg', trans('sellerBoats.boat_added_msg'));
         return redirect()->route('sellerboat.index',['id'=>$checker[0]['id'],'e'=>'created','t'=>'boat']);
     }
