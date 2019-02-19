@@ -46,7 +46,7 @@
                         <div class="modal-body text-center">
                             <h3>{{ trans('boats.reject_boat_confirm_msg') }}</h3>
                         </div>
-                        <textarea class="form-control" style="margin 5px" name="motivo" id="" cols="30" rows="10" required placeholder="Motivo del rechazo"></textarea>
+                        <textarea class="form-control" style="margin:5px" name="motivo" id="" cols="30" rows="10" required placeholder="Motivo del rechazo"></textarea>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary noDblClick" data-loading-text="Rechazando..." >{{ trans('general.reject') }}</button>
                             <button type="button" class="btn btn-danger" data-dismiss="modal">{{ trans('general.cancel') }}</button>
