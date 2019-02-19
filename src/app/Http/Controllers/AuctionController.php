@@ -892,8 +892,9 @@ class AuctionController extends Controller
         $boats=Boat::select('id','name')
             ->where('user_id', Constants::EQUAL,Auth::user()->id)->get();
         $ports=Ports::select()->get();
-        $products= Product::select('id','name')->get();
-        return view('/landing3/auction-add-edit')
+        $products= Product::select('id','name')->get(); 
+        return view('/landing3/auction-add-edit-temp')
+            ->with('title','| Agregar Subasta')
             ->with('boats',$boats)
             ->with('ports',$ports)
             ->with('products',$products);
@@ -906,7 +907,7 @@ class AuctionController extends Controller
             ->where('user_id', Constants::EQUAL,Auth::user()->id)->get();
         $ports=Ports::select()->get();
         $products= Product::select('id','name')->get();
-        return view('/landing3/auction-add-edit')
+        return view('/landing3/auction-add-edit-temp')
             ->with('boats',$boats)
             ->with('ports',$ports)
             ->with('products',$products);
@@ -919,7 +920,7 @@ class AuctionController extends Controller
             ->where('user_id', Constants::EQUAL,Auth::user()->id)->get();
         $ports=Ports::select()->get();
         $products= Product::select('id','name')->get();
-        return view('/landing3/auction-add-edit')
+        return view('/landing3/auction-add-edit-temp')
             ->with('boats',$boats)
             ->with('ports',$ports)
             ->with('products',$products);
