@@ -40,7 +40,7 @@
 				<div class="feed-activity-list">
 				@if(count($boats) == 0)
 					{{ trans('boats.no_boats') }}
-				@endif <div><?php die("sasalk")?>
+				@endif <div>
 				@foreach($boats as $boat)
 					<?php $lastArrives = $boat->getLastArrive() ?>
 					@foreach($lastArrives as $lastArrive)

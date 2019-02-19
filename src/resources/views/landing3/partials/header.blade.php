@@ -68,8 +68,6 @@
                         <div class="header-notifications-link">
                             <a href="{{url('/sellerbatch')}}" data-tippy-placement="left" title="Nueva Subasta" data-tippy-theme="dark"><em class="icon-material-outline-gavel"></em></a>
                         </div>
-
-
                     </div>
 
                 </div>
