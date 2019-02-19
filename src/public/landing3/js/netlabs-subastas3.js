@@ -42,7 +42,8 @@ function getMoreAuctions($limit=1,$idTarget='#FeaturedAuctions',$currentpage=1){
         $filters=getFilters()[0];
         $($idTarget).html('');
     }
-    $.post('/getauctions', {limit:$limit,current:$currentpage,ids:$ids,time:$('input[name=timeline]').val(),filters:$filters,_token:$('#csrf').attr('content')}, function (result) {
+    $filters['type']=$('#type').val();
+    $.post('/getauctions', {limit:$limit,current:$currentpage,ids:$ids,time:$('#timeline').val(),filters:$filters,_token:$('#csrf').attr('content')}, function (result) {
         
         var $html=result;
         if(result.includes('#MasterFilter')==true){
@@ -385,6 +386,10 @@ function getFilters(){
     
     return [$filters,$filterstring];
 }
+function filterByStatus(){
+    $('#timeline').val($('#selectStatus').val());
+    auctionListFilter();
+}
 function auctionListFilter(){
     $('.auction').show();
     var $filtergetter=getFilters();
@@ -418,6 +423,7 @@ function inicializeEverything($firstrun=0){
             
             getMoreAuctions(100,'#Auctions');
         }
+        $('#selectStatus').selectpicker();
     }
     $('.popup-with-zoom-anim').magnificPopup({
         type: 'inline',

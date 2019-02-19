@@ -2,13 +2,10 @@
 use App\Auction;
 use App\Constants;
 $userId = $auction->batch->arrive->boat->user->id;
-$vendido = 0;
-foreach ($auction->bids()->where('status','<>',\App\Constants::NO_CONCRETADA)->get() as $b) {
-    $vendido+= $b->amount;
-}
-$total = $auction->amount;
-$disponible = ($total-$vendido);
-$cantbids=count($auction->bids);
+$total=$auction->amount;
+$availability=Auction::getAvailable($auction->id,$total);
+$disponible = $availability['available'];
+$cantbids=$availability['sold'];
 $cantofertas=\App\Http\Controllers\AuctionController::getOffersCount($auction->id);
 $price=\App\Http\Controllers\AuctionController::calculatePriceID($auction->id);
 $close=$price['Close'];
@@ -24,7 +21,6 @@ if(isset($request->time) and $request->time!= Constants::IN_CURSE){
         unset($finished);
     }
 }
-
 ?>
 <div id="Auction_<?=$auction->id?>" class="task-listing <?=(empty($finished))?'auction':''?>" data-id="{{$auction->id}}" data-price="{{$price['CurrentPrice']}}" data-end="{{$auction->end}}" data-endOrder="{{date('YmdHi',strtotime($auction->end))}}" data-close="{{$close}}"data-userrating="{{$userRatings}}"
 <?='data-port="'.$auction->batch->arrive->port_id.'"
@@ -35,7 +31,6 @@ data-user="'.$auction->batch->arrive->boat->user->nickname.'"'?>>
 <?php
 setlocale(LC_TIME,'es_ES');
 $fechafin=strftime('%d %b %Y', strtotime($auction->end));
-
 ?>
 <!-- Auction Listing Details -->
 <div class="task-listing-details" id="AuctionLeft<?=$auction->id?>">
@@ -57,6 +52,9 @@ $fechafin=strftime('%d %b %Y', strtotime($auction->end));
 
 
             <ul class="task-icons">
+                @if(isset(Auth::user()->id) and Auth::user()->id==$auction->batch->arrive->boat->user_id)
+                <li><em class="icon-material-outline-gavel <?=(empty($finished)?'primary':'')?>"></em> {{$auction->code}}</li>
+                @endif
                 <li><em class="icon-material-outline-access-time <?=(empty($finished)?'primary':'')?>" id="BlueClock{{$auction->id}}"></em><strong class="primary" id="FriendlyDate{{$auction->id}}">{{$fechafin}}</strong></li>
                 <li><em class="icon-material-outline-location-on"></em> {{$port}}</li>
                 <li style="display: none" id="HotAuction{{$auction->id}}"><em class="icon-line-awesome-fire red" ></em> <strong class="red">¡Subasta caliente!</strong></li>
@@ -74,6 +72,23 @@ $fechafin=strftime('%d %b %Y', strtotime($auction->end));
                 <li><small>Barco</small><br><strong><em class="icon-line-awesome-ship"></em> {{$auction->batch->arrive->boat->nickname}}</strong><br>
                     <div class="star-rating" data-rating="<?=$userRatings?>"></div></li>
             </ul>
+            @if(isset(Auth::user()->id) && $userId==Auth::user()->id)
+            <div class="bd-tp-1">
+                <?php if($auction->timeline==Constants::FINISHED){?>
+                <a href="/auction/offers/<?=$auction->id?>" class="button ripple-effect" data-tippy-placement="top" data-tippy="" title="Ver Ofertas Directas"><i class="icon-material-outline-local-offer"></i> <span class="button-info"><?=($cantofertas>0)?('<span class="button-info">'.$cantofertas.'</span>'):''?></span></a>
+                <?php }?>
+                <a href="/auction/operations/<?=$auction->id?>" class="button ripple-effect ico" title="Ver Ventas" data-tippy-placement="top"><i class="icon-feather-dollar-sign"></i> <?=($cantbids>0)?('<span class="button-info">'.$cantbids.'</span>'):''?></a>
+                <?php if($auction->timeline==Constants::FUTURE){?>
+                <a href="/" class="button dark ripple-effect ico" title="Editar" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
+                <?php }?>
+                <a href="" class="button  ripple-effect ico" title="Pausar" data-tippy-placement="top"><i class="icon-feather-pause"></i></a>
+                <a href="#" class="button ripple-effect ico" data-tippy-placement="top" data-tippy="" data-original-title="Replicar"><i class="icon-material-outline-filter-none"></i></a>
+                <?php if(($cantbids+$cantofertas)==0){?>
+                <a href="#" class="button dark ripple-effect ico" title="Eliminar" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
+                <?php }?>
+                <a href="/auction/export/{{$auction->id}}" class="button dark ripple-effect ico" title="Exportar" data-tippy-placement="top"><i class="icon-material-outline-save-alt"></i></a>
+            </div>
+            @endif
         </div>
     </div>
     <div class="task-listing-bid">

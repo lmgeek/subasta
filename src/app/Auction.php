@@ -207,6 +207,7 @@ class Auction extends Model{
         $orderby=(isset($params['orderby']))?$params['orderby']:'end';
         $order=(isset($params['order']))?$params['order']:'asc';
         $auctions=$auctions->where(Constants::ACTIVE_LIT, Constants::EQUAL, Constants::ACTIVE)
+                ->where('deleted_at','=',NULL)
                 ->orderBy($orderby,$order);
         if(empty($params['paginate'])){
             return $auctions->get();
@@ -228,17 +229,18 @@ class Auction extends Model{
             }elseif($auction->start>$now){
                 $timeline= Constants::FUTURE;
             }
-            if($auction->batch->arrive->boat->user->id==Auth::user()->id){
-                $return['mine'][]=$auction;
+            if(isset(Auth::user()->id) && $auction->batch->arrive->boat->user->id==Auth::user()->id){
+                $return['mine'][$timeline][]=$auction;
+                $return['mine']['all'][]=$auction;
             }
+            $auction->code= Http\Controllers\AuctionController::getAuctionCode($auction->correlative, $auction->created_at);
+            $auction->timeline=$timeline;
             if($auction->type==Constants::AUCTION_PUBLIC){
-                $auction->timeline=$timeline;
                 $return[$timeline][]=$auction;
                 $return['all'][]=$auction;
             }elseif($auction->type==Constants::AUCTION_PRIVATE && $invitation==Constants::ACTIVE){
                 $return[Constants::AUCTION_PRIVATE][$timeline][]=$auction;
                 $return[Constants::AUCTION_PRIVATE]['all'][]=$auction;
-                $auction->timeline=$timeline;
                 $return[$timeline][]=$auction;
                 $return['all'][]=$auction;
             }
@@ -258,8 +260,10 @@ class Auction extends Model{
         $return=self::auctionTimeSplitter(self::AuctionsQueryBuilder($params));
         if($time==null){
             return $return;
-        }elseif(isset ($params['type'])){
+        }elseif(isset ($params['type']) && Auth::user()->type==Constants::COMPRADOR){
             return $return[$params['type']][$time];
+        }elseif(isset ($params['type']) && Auth::user()->type==Constants::VENDEDOR){
+            return $return['mine'][$time];
         }else{
             return $return[$time];
         }
