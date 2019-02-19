@@ -10,7 +10,7 @@ use App\Constants as ConstantsAlias;
 class Auction extends Model{
     use priceTrait;
     protected $table = 'auctions';
-    protected $fillable = ['batch_id', 'start','start_price','end','end_price','interval','type','notification_status','description','timeline'];
+    protected $fillable = ['batch_id', 'start','start_price','end','end_price','interval','type','notification_status','description','timeline','tentative_date'];
     public function makeBid($amount , $price){
         $prices = str_replace(",","",$price);
         $this->bid = new Bid();

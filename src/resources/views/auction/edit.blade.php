@@ -82,6 +82,14 @@
                                         />
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Fecha Tentativa</label>
+                                        <input type='text' class="form-control"  name="fechaTentativa" id="datetimepickerEnd"
+                                               value="{{ old('fechaTentativa',Carbon::parse($auction->tentative_date)->format('d/m/Y H:i')) }}"
+                                        />
+                                    </div>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
