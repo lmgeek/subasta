@@ -800,7 +800,7 @@ class AuctionController extends Controller
     public static function getMaxMinPrice(){
         $max=Auction::select('*')->orderBy('start_price','desc')->limit(1)->get();
         $min=Auction::select('end_price')->orderBy('end_price','asc')->limit(1)->get();
-        return array('min'=>$min[0]->end_price,'max'=>$max[0]->start_price);
+        return array('min'=>(count($min)>0)?$min[0]->end_price:0,'max'=>(count($max)>0)?$max[0]->start_price:1000);
     }
     public static function getauctions(Request $request){
         $limit=(int)$request->limit;
@@ -840,7 +840,7 @@ class AuctionController extends Controller
         $auctions2 = array_reverse($auctionhome[Constants::FINISHED]);
         $auctiondetails1=$this->getAuctionsDataForHome($auctions1);
         $auctiondetails2=$this->getAuctionsDataForHome($auctions2);
-        $port=$auctiondetails1[Constants::PORTS];
+        $port=(isset($auctiondetails1[Constants::PORTS]))?$auctiondetails1[Constants::PORTS]:array();
         /*
          * Retornan tanto las subastas en curso como las finalizadas
          * Buyers y Boats para los contadores del header

@@ -217,7 +217,7 @@ class Auction extends Model{
     }
     public static function auctionTimeSplitter($auctions){
         $counter=0;$continue=1;$now =date(Constants::DATE_FORMAT);
-        $return=array('all'=>array(),Constants::FINISHED=>array(), Constants::IN_CURSE=>array(), Constants::FUTURE=>array());
+        $return=array('all'=>array(),Constants::FINISHED=>array(), Constants::IN_CURSE=>array(), Constants::FUTURE=>array(),'mine'=>array('all'=>array(),Constants::FINISHED=>array(), Constants::IN_CURSE=>array(), Constants::FUTURE=>array()));
         foreach($auctions as $auction){
             $availability=self::getAvailable($auction->id,$auction->amount)['available'];
             $invitation=self::checkifUserInvited($auction->id);
@@ -260,7 +260,7 @@ class Auction extends Model{
         $return=self::auctionTimeSplitter(self::AuctionsQueryBuilder($params));
         if($time==null){
             return $return;
-        }elseif(isset ($params['type']) && Auth::user()->type==Constants::VENDEDOR){
+        }elseif(isset ($params['type']) && isset(Auth::user()->type) && Auth::user()->type==Constants::VENDEDOR){
             return $return['mine'][$time];
         }else{
             return $return[$time];
