@@ -182,9 +182,8 @@ class BoatController extends Controller
             return redirect('/home');
         }
 	}
-    public function boatList(Request $request){
-        $boats= Boat::select()->where('user_id', Constants::EQUAL,Auth::user()->id)->get();
-        return view('landing3/boats')
-            ->with('boats',$boats);
+    public function boatList(){
+        $boats= Boat::select()->where('user_id', Constants::EQUAL,Auth::user()->id)->paginate(2);
+        return view('landing3/boats',compact('boats'));
     }
 }
