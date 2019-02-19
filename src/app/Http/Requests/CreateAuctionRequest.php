@@ -34,10 +34,11 @@ class CreateAuctionRequest extends Request
     {
         return [
             'tipoSubasta' => 'required',
-            'batch'      => 'required|batch_is_mine',
+            'batch'      => 'required',
             'fechaInicio'  => 'required|date_format:d/m/Y H:i|after:'.date('d/m/Y H:i'),
+            'fechaTentativa'  => 'required|date_format:d/m/Y H:i|after:'.date('d/m/Y H:i'),
             'fechaFin'    => 'required|date_format:d/m/Y H:i|after:fechaInicio',
-            'startPrice' => 'required|regex:/^\d{1,}(\,\d+)?$/|min:1|auction_price_greater_than:endPrice',
+            'startPrice' => 'required|regex:/^\d{1,}(\,\d+)?$/|min:1||auction_price_greater_than:endPrice',
             'endPrice'   => 'required|regex:/^\d{1,}(\,\d+)?$/|min:1',
             'amount'     => 'required|numeric|min:1',
             'descri'   => 'required|min:120|max:1000',
@@ -62,6 +63,7 @@ class CreateAuctionRequest extends Request
             return [
                 "startPrice" => "precio inicial",
                 "endPrice" => "precio final",
+                "fechaTentativa" => "fecha tentativa",
                 "descri" => "descripción",
                 "amount" => "cantidad"
             ];

@@ -106,6 +106,7 @@ class AuctionController extends Controller
 
         $startDate = Carbon::createFromFormat(Constants::DATE_FORMAT_INPUT, $request->input('fechaInicio'));
         $endDate = Carbon::createFromFormat(Constants::DATE_FORMAT_INPUT, $request->input('fechaFin'));
+        $Date = Carbon::createFromFormat(Constants::DATE_FORMAT_INPUT, $request->input('fechaTentativa'));
         $startprice=$request->input("startPrice");
         $endprice=$request->input(Constants::INPUT_END_PRICE);
         $auction  = new Auction();
@@ -122,6 +123,7 @@ class AuctionController extends Controller
         $auction->amount = $request->input(Constants::AMOUNT);
 		$auction->type = $request->input('tipoSubasta');
 		$auction->description = $request->input('descri');
+        $auction->tentative_date = $Date->format(Constants::DATE_FORMAT);
 		$auction->save();
 		if ($request->input('tipoSubasta') == Constants::AUCTION_PRIVATE )
 		{
@@ -384,9 +386,11 @@ class AuctionController extends Controller
 
         $startDate = Carbon::createFromFormat(Constants::DATE_FORMAT_INPUT, $request->input('fechaInicio'));
         $endDate = Carbon::createFromFormat(Constants::DATE_FORMAT_INPUT, $request->input('fechaFin'));
+        $tentativaDate = Carbon::createFromFormat(Constants::DATE_FORMAT_INPUT, $request->input('fechaTentativa'));
 
         $auction->start = $startDate;
         $auction->end = $endDate;
+        $auction->tentative_date = $tentativaDate;
         $auction->start_price = $request->input('startPrice');
         $endprice=$request->input('endPrice');
         if($endprice!=$auction->end_price){
@@ -477,9 +481,6 @@ class AuctionController extends Controller
 
 
 	 }
-
-
-
     public function process($bid_id)
     {
         $bid = Bid::findOrFail($bid_id);

@@ -50,6 +50,7 @@
 
 								<div style="float:left;margin-right:10px;"><strong>{{ $boat->name }}</strong></div>
 								<div><p class="text-navy text-muted "> {{ trans("boats.boats_date_arrive") }}
+
 									@if (is_null($lastArrive))
 										{{ trans('boats.boats_no_arrive') }}
 									@endif
@@ -64,11 +65,11 @@
 									@include("boat.partials.arrive_batch_status")
 								@endif
 								<div class="actions">
-									@can('createBatch',$boat)
+
 										@if(!is_null($lastArrive))
-											<a href="{{ url('sellerboat/batch',$lastArrive) }}" class="btn btn-action"><em class="fa "></em>{{ trans('boats.boats_load_lote') }} </a>
+											<a href="{{ url('sellerboat/batch',$lastArrive) }}" class="btn btn-action"><em class="fa"></em>{{ trans('boats.boats_load_lote') }} </a>
 										@endif
-									@endcan
+
 									<!-- <a class="btn btn-xs btn-white"><i class="fa "></i> Love</a> -->
 								</div>
 							</div>
