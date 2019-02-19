@@ -260,8 +260,6 @@ class Auction extends Model{
         $return=self::auctionTimeSplitter(self::AuctionsQueryBuilder($params));
         if($time==null){
             return $return;
-        }elseif(isset ($params['type']) && Auth::user()->type==Constants::COMPRADOR){
-            return $return[$params['type']][$time];
         }elseif(isset ($params['type']) && Auth::user()->type==Constants::VENDEDOR){
             return $return['mine'][$time];
         }else{
