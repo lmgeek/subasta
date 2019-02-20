@@ -8,6 +8,7 @@
 			<a href="{{ route('auction.operations',$a) }}" class="btn btn-info">{{ trans('auction.view_operations') }}</a>
 			<a href="{{ route('auction.offers',$a) }}" class="btn btn-info">ofertas</a>
 			<a href="{{ route('auction.offersDecline',$a) }}" class="btn btn-danger">Decline ofertas</a>
+			<a href="{{ route('auction.sele',$a) }}" class="btn btn-info">Ver ventas</a>
 			@if($a->type == App\Constants::AUCTION_PRIVATE)
 				<a href="#" data-target="#ver_participantes" auction="{{ $a->id }}" class="btn btn-success ver_participantes">Ver invitados</a>
 			@endif

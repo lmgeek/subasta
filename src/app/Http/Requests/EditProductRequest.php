@@ -36,7 +36,7 @@ class EditProductRequest extends Request
         $cero = "0,00";
         if ($prod == null){
             return [
-                'codigo'=> 'required|regex:(^([a-z]+[0-9]{0,2}){5,12}$)|max:10 ',
+                Constants::CODIGO        => 'required|regex:(^[0-9a-zA-Z]+$)|max:10',
                 Constants::NOMBRE        => 'required|regex:(^[a-zA-Zá-úÁ-Ú\s]+$)',
                 Constants::UNIDAD        => Constants::REQUIRED,
                 Constants::WEIGHT_SMALL  => Constants::REQUIRED,
@@ -48,6 +48,7 @@ class EditProductRequest extends Request
            if ($product_id != $prod->id) {
 
                 return [
+                    Constants::CODIGO        => 'required|regex:(^[0-9a-zA-Z]+$)|max:10',
                     Constants::NOMBRE        => 'required|unique_name_unit:'.$this->unidad,
                     Constants::UNIDAD        => Constants::REQUIRED,
                     Constants::WEIGHT_SMALL  => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
@@ -57,7 +58,8 @@ class EditProductRequest extends Request
                 ];
             } else {
                 return [
-                    Constants::NOMBRE        => Constants::REQUIRED,
+                    Constants::CODIGO        => 'required|regex:(^[0-9a-zA-Z]+$)|max:10',
+                    Constants::NOMBRE        => 'required|unique_name_unit:'.$this->unidad,
                     Constants::UNIDAD        => Constants::REQUIRED,
                     Constants::WEIGHT_SMALL  => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
                     Constants::WEIGHT_MEDIUM => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
