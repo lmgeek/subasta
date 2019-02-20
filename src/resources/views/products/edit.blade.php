@@ -51,7 +51,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="nombre">codigo Pesquero</label>
-                                        <input type="text" name="codigo" class="form-control" id="codigo" value="@if (is_null(old('codigo'))){{ $product->fishing_code }}@else{{ old('codigo') }}@endif">
+                                        <input type="text" name="codigo" class="form-control" id="codigo" max="10" value="@if (is_null(old('codigo'))){{ $product->fishing_code }}@else{{ old('codigo') }}@endif">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -70,6 +70,16 @@
                                             ?>
                                             @foreach(\App\Product::units() as $u)
                                                 <option @if( $unidad == $u) selected @endif value="{{ $u }}">{{ trans('general.product_units.'.$u) }}</option>
+                                            @endforeach
+                                        </select>
+                                        <label for="unit">Unida de venta</label>
+                                        <select class="form-control" name="presen" id="presen">
+                                            <option value="">Seleccione...</option>
+                                            <?php
+                                            $uni = (is_null(old('presen'))) ? $product->presentation_unit : old('presen');
+                                            ?>
+                                            @foreach(\App\Product::SALE() as $a)
+                                                <option @if( $uni == $a) selected @endif value="{{ $a }}">{{ trans($a) }}</option>
                                             @endforeach
                                         </select>
                                     </div>

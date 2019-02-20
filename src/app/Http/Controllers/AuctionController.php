@@ -356,6 +356,19 @@ class AuctionController extends Controller
         $request->session()->put('url.intended', '/auction/operations/'.$auction_id);
         return view('auction.operations',compact(Constants::AUCTION));
     }
+    public function sele(Request $request, $auction_id)
+    {
+        setlocale(LC_MONETARY, 'en_US');
+
+        $auction = Auction::findOrFail($auction_id);
+        $this->authorize('viewOperations', $auction);
+        $request->session()->put('url.intended', '/auction/sele/'.$auction_id);
+//        echo "<pre>";
+//        print_r($auction);
+//        echo "</pre>";
+//        dd();
+        return view('auction.sele',compact(Constants::AUCTION));
+    }
 	 public function buyerBid(Request $request)
 	 {
 		$user = Auth::user();
@@ -1396,3 +1409,4 @@ dd("hola");
 
 
 }
+                                           

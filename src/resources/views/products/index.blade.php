@@ -37,7 +37,8 @@
                                 <th>Imagen</th>
                                 <th>Código</th>
                                 <th>Producto</th>
-                                <th>Unidad</th>
+                                <th>Unidad Presentación</th>
+                                <th>Unidad Venta</th>
                                 <th>Estado</th>
                                 <th>Acciones</th>
                             </tr>
@@ -53,6 +54,7 @@
                                         <td>{{ $p->fishing_code }}</td>
                                         <td>{{ $p->name }}</td>
                                         <td>{{ trans('general.product_units.'.$p->unit) }}</td>
+                                        <td>{{ trans('general.product_units.'.$p->presentation_unit) }}</td>
                                         <td>
                                             @if($p->trashed())
 

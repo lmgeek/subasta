@@ -77,7 +77,10 @@ return [
     'public' => 'p&uacute;blica',
     'big' => 'grande',
     'medium' => 'mediano',
-    'small' => 'chico'
+    'small' => 'chico',
+    'offerDirect' => 'Oferta',
+    'auction' => 'Subasta',
+    'privateSold' => 'Venta Privada'
 
 
 
