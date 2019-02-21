@@ -88,3 +88,4 @@ if(count($auctions)==0){
     </div>
 </div>
 <input type="hidden" name="timeline" value="<?=$timeline?>" id="timeline">
+<input type="hidden" name="type" value="<?=(isset($request->type))?$request->type:'all'?>" id="type">

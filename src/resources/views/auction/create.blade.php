@@ -111,6 +111,12 @@
                                         <input type='text' class="form-control"  name="fechaFin" id="datetimepickerEnd" value=""/>
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">fecha tentativa de entrega</label>
+                                        <input type='text' class="form-control" name="fechaTentativa" id="fechaTentativa" value="" />
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="row" style="margin-top: 20px;">
@@ -352,6 +358,19 @@
                     $('#datetimepickerEnd').data('DateTimePicker').date(date);
                 }
             });
+
+
+            $('#fechaTentativa').datetimepicker({
+                locale: '{{ Config::get('app.locale') }}',
+                sideBySide: true,
+                useCurrent:false,
+                format: 'DD/MM/YYYY HH:mm',
+                minDate: moment('{{ old('fechaTentativa',date('d/m/Y H:i:s')) }}','DD/MM/YYYY HH:mm'),
+                defaultDate: moment('{{ old('fechaTentativa',date('d/m/Y H:i:s')) }}','DD/MM/YYYY HH:mm')
+            });
+
+
+
 
             $("#texto1").keyup(function () {
                 var value = $(this).val();

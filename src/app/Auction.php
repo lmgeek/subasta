@@ -8,7 +8,7 @@ use Nexmo\Call\Collection;
 class Auction extends Model{
     use priceTrait;
     protected $table = 'auctions';
-    protected $fillable = ['batch_id', 'start','start_price','end','end_price','interval','type','notification_status','description','timeline'];
+    protected $fillable = ['batch_id', 'start','start_price','end','end_price','interval','type','notification_status','description','timeline','tentative_date'];
     public function makeBid($amount , $price){
         $prices = str_replace(",","",$price);
         $this->bid = new Bid();
@@ -150,10 +150,12 @@ class Auction extends Model{
             ->join(Constants::BATCHES, Constants::AUCTIONS_BATCH_ID, Constants::EQUAL, Constants::BATCH_ID)
             ->join(Constants::ARRIVES, Constants::BATCH_ARRIVE_ID, Constants::EQUAL, Constants::ARRIVES_ID)
             ->join(Constants::BOATS, Constants::ARRIVES_BOAT_ID, Constants::EQUAL, Constants::BOATS_ID)
-            ->join(Constants::USERS, Constants::BOATS_USER_ID, Constants::EQUAL, Constants::USERS_ID);
+            ->join(Constants::USERS, Constants::BOATS_USER_ID, Constants::EQUAL, Constants::USERS_ID)
+            ;
         if(isset($params['auctionid'])){
             $auctions=$auctions->where(Constants::AUCTIONS_ID, Constants::EQUAL,$params['auctionid']);
-        }elseif(isset($params['idtoavoid'])){
+        }
+        if(isset($params['idtoavoid'])){
             $auctions=$auctions->whereNotIn(Constants::AUCTIONS_ID,$params['idtoavoid']);
         }
         if(isset($params['batchid'])){
@@ -205,7 +207,9 @@ class Auction extends Model{
         $orderby=(isset($params['orderby']))?$params['orderby']:'end';
         $order=(isset($params['order']))?$params['order']:'asc';
         $auctions=$auctions->where(Constants::ACTIVE_LIT, Constants::EQUAL, Constants::ACTIVE)
+                ->where('auctions.deleted_at','=',NULL)
                 ->orderBy($orderby,$order);
+        //echo Constants::getRealQuery($auctions);die();
         if(empty($params['paginate'])){
             return $auctions->get();
         }else{
@@ -214,7 +218,7 @@ class Auction extends Model{
     }
     public static function auctionTimeSplitter($auctions){
         $counter=0;$continue=1;$now =date(Constants::DATE_FORMAT);
-        $return=array('all'=>array(),Constants::FINISHED=>array(), Constants::IN_CURSE=>array(), Constants::FUTURE=>array());
+        $return=array('all'=>array(),Constants::FINISHED=>array(), Constants::IN_CURSE=>array(), Constants::FUTURE=>array(),'mine'=>array('all'=>array(),Constants::FINISHED=>array(), Constants::IN_CURSE=>array(), Constants::FUTURE=>array()));
         foreach($auctions as $auction){
             $availability=self::getAvailable($auction->id,$auction->amount)['available'];
             $invitation=self::checkifUserInvited($auction->id);
@@ -226,17 +230,18 @@ class Auction extends Model{
             }elseif($auction->start>$now){
                 $timeline= Constants::FUTURE;
             }
-            if($auction->batch->arrive->boat->user->id==Auth::user()->id){
-                $return['mine'][]=$auction;
+            if(isset(Auth::user()->id) && $auction->batch->arrive->boat->user->id==Auth::user()->id){
+                $return['mine'][$timeline][]=$auction;
+                $return['mine']['all'][]=$auction;
             }
+            $auction->code= Http\Controllers\AuctionController::getAuctionCode($auction->correlative, $auction->created_at);
+            $auction->timeline=$timeline;
             if($auction->type==Constants::AUCTION_PUBLIC){
-                $auction->timeline=$timeline;
                 $return[$timeline][]=$auction;
                 $return['all'][]=$auction;
             }elseif($auction->type==Constants::AUCTION_PRIVATE && $invitation==Constants::ACTIVE){
                 $return[Constants::AUCTION_PRIVATE][$timeline][]=$auction;
                 $return[Constants::AUCTION_PRIVATE]['all'][]=$auction;
-                $auction->timeline=$timeline;
                 $return[$timeline][]=$auction;
                 $return['all'][]=$auction;
             }
@@ -244,22 +249,17 @@ class Auction extends Model{
         return $return;
     }
     public static function auctionHome($ids=null,$filters=null,$time=null){
-        $params=array();
         if($ids!=null){
-            $params['idtoavoid']=$ids;
+            $filters['idtoavoid']=$ids;
         }
-        if($filters!=null){
-            foreach($filters as $filter=>$val){
-                $params[$filter]=$val;
-            }
-        }
-        $return=self::auctionTimeSplitter(self::AuctionsQueryBuilder($params));
+        $return=self::auctionTimeSplitter(self::AuctionsQueryBuilder($filters));
         if($time==null){
             return $return;
-        }elseif(isset ($params['type'])){
-            return $return[$params['type']][$time];
+        }elseif(isset ($filters['type']) && isset(Auth::user()->type) && Auth::user()->type==Constants::VENDEDOR){
+            return (count($return['mine'][$time])>1)?$return['mine'][$time]:$return['mine'][$time][0];
         }else{
-            return $return[$time];
+            dd($return);
+            return (count($return[$time])>1)?$return[$time]:$return[$time][0];
         }
         
         

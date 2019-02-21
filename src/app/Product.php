@@ -15,7 +15,7 @@ class Product extends Model
     protected $table = 'products';
 
     protected $dates    = ['deleted_at'];
-    protected $fillable = ['name', 'unit', 'weigth_small', 'weigth_medium', 'weigth_big', 'image_name', 'fishing_code'];
+    protected $fillable = ['name', 'unit', 'presentation_unit', 'weigth_small', 'weigth_medium', 'weigth_big', 'image_name', 'fishing_code','presentation_unit'];
 
     public static function units()
     {
@@ -23,6 +23,14 @@ class Product extends Model
             Constants::CAJAS,
             Constants::CAJONES,
             Constants::PASTILLAS,
+            Constants::UNIDADES
+        ];
+    }
+    public static function sale()
+    {
+        return [
+            Constants::KG,
+            Constants::CAJONES,
             Constants::UNIDADES
         ];
     }

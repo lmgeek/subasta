@@ -18,7 +18,7 @@ if ($lastpage - $currentpage < $half_total_links) {
         <li class="{{($currentpage==1)?' disabled':''}}" onclick="getMoreAuctions(100,'#Auctions',1)"><em class="fa fa-angle-double-left"></em></li>
         @for ($z = 1; $z <= $lastpage; $z++)
             @if ($from < $z && $z < $to)
-        <li class="{{($currentpage==$z)?' active':''}}" onclick="getMoreAuctions(100,'#Auctions',{{$z}})">{{$z}}</li>
+        <li class="{{($currentpage==$z)?' active':''}}" <?=($currentpage!=$z)?'onclick="getMoreAuctions(100,\'#Auctions\','.$z.')"':''?>>{{$z}}</li>
             @endif
         @endfor
         <li class="{{($currentpage==$lastpage)?' disabled':''}}" onclick="getMoreAuctions(100,'#Auctions',{{$lastpage}})"><em class="fa fa-angle-double-right"></em></li>

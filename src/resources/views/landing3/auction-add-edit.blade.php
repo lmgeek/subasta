@@ -29,17 +29,18 @@
 $code='SU-'.date('ym').'XXX';
 ?>
 @extends('landing3/partials/layout-admin')
-@section('title',' | Ofertas Recibidas')
+@section('title',$title)
 @section('content')
 
 {{csrf_field()}}
 
-
-<select class="selectpicker with-border" name="barco" data-size="7" title="Selecciona..." onchange="cambiaValores()">
+<div style="height:50px">
+<select class="selectpicker" name="barco" title="Selecciona..." onchange="cambiaValores()" >
 @foreach($boats as $boat)
     <option value="{{$boat->id}}">{{$boat->name}}</option>
 @endforeach    
 </select>
+</div>
 
 
 

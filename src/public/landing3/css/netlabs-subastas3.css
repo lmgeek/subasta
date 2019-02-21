@@ -79,7 +79,7 @@
     display:inline-block;
     vertical-align: top;
 }
-#Auctions{
+#AuctionsContainer{
     width:70%;
     display:inline-block;
     vertical-align: top;
@@ -139,6 +139,9 @@
 .FilterNumber{
     display:inline-block;
 }
+#AuctionsContainer > div.headline{
+    height:50px
+}
 @media screen and (max-width:768px){
     #notificationsauction{
         width: calc(100% - 20px);
@@ -151,7 +154,7 @@
         width:100%;
         display:none;
     }
-    #Auctions{
+    #AuctionsContainer{
         width:100%;
         vertical-align: top;
     }
