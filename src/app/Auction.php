@@ -152,10 +152,12 @@ class Auction extends Model{
             ->join(Constants::BATCHES, Constants::AUCTIONS_BATCH_ID, Constants::EQUAL, Constants::BATCH_ID)
             ->join(Constants::ARRIVES, Constants::BATCH_ARRIVE_ID, Constants::EQUAL, Constants::ARRIVES_ID)
             ->join(Constants::BOATS, Constants::ARRIVES_BOAT_ID, Constants::EQUAL, Constants::BOATS_ID)
-            ->join(Constants::USERS, Constants::BOATS_USER_ID, Constants::EQUAL, Constants::USERS_ID);
+            ->join(Constants::USERS, Constants::BOATS_USER_ID, Constants::EQUAL, Constants::USERS_ID)
+            ;
         if(isset($params['auctionid'])){
             $auctions=$auctions->where(Constants::AUCTIONS_ID, Constants::EQUAL,$params['auctionid']);
-        }elseif(isset($params['idtoavoid'])){
+        }
+        if(isset($params['idtoavoid'])){
             $auctions=$auctions->whereNotIn(Constants::AUCTIONS_ID,$params['idtoavoid']);
         }
         if(isset($params['batchid'])){
@@ -207,8 +209,9 @@ class Auction extends Model{
         $orderby=(isset($params['orderby']))?$params['orderby']:'end';
         $order=(isset($params['order']))?$params['order']:'asc';
         $auctions=$auctions->where(Constants::ACTIVE_LIT, Constants::EQUAL, Constants::ACTIVE)
-                ->where('deleted_at','=',NULL)
+                ->where('auctions.deleted_at','=',NULL)
                 ->orderBy($orderby,$order);
+        //echo Constants::getRealQuery($auctions);die();
         if(empty($params['paginate'])){
             return $auctions->get();
         }else{
@@ -248,22 +251,17 @@ class Auction extends Model{
         return $return;
     }
     public static function auctionHome($ids=null,$filters=null,$time=null){
-        $params=array();
         if($ids!=null){
-            $params['idtoavoid']=$ids;
+            $filters['idtoavoid']=$ids;
         }
-        if($filters!=null){
-            foreach($filters as $filter=>$val){
-                $params[$filter]=$val;
-            }
-        }
-        $return=self::auctionTimeSplitter(self::AuctionsQueryBuilder($params));
+        $return=self::auctionTimeSplitter(self::AuctionsQueryBuilder($filters));
         if($time==null){
             return $return;
-        }elseif(isset ($params['type']) && isset(Auth::user()->type) && Auth::user()->type==Constants::VENDEDOR){
-            return $return['mine'][$time];
+        }elseif(isset ($filters['type']) && isset(Auth::user()->type) && Auth::user()->type==Constants::VENDEDOR){
+            return (count($return['mine'][$time])>1)?$return['mine'][$time]:$return['mine'][$time][0];
         }else{
-            return $return[$time];
+            dd($return);
+            return (count($return[$time])>1)?$return[$time]:$return[$time][0];
         }
         
         
