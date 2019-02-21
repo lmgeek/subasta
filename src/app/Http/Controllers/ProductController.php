@@ -23,7 +23,6 @@ class ProductController extends Controller
 
         return view('products.index',compact('request','products'));
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -37,17 +36,14 @@ class ProductController extends Controller
             $array_unit[$unit] = $unit;
         }
         $units = $array_unit;
-
-        $SALE = Product::SALE();
+        $SALE = Product::sale();
         $array_sele = [""=>"Seleccione..."];
         foreach ($SALE as $sale){
             $array_sele[$sale] = $sale;
         }
         $sale = $array_sele;
-
         return view('products.create',compact('request','units', 'sale'));
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -57,21 +53,14 @@ class ProductController extends Controller
     public function store(CreateProductRequest $request)
     {
         $fileName = $request->file(Constants::IMAGEN)->getClientOriginalName();
-
         if ( file_exists('img/products/'.$fileName) ){
-
 //            $fileExt = $request->file(Constants::IMAGEN)->getClientOriginalExtension();
 //            $fileName =  $request->input('nombre') . "-" . $request->input('unidad') . "." . $fileExt;
 //            $request->file(Constants::IMAGEN)->move( 'img/products',$fileName );
 //            $fileName = $request->file(Constants::IMAGEN)->getClientOriginalName();
-
         } else {
-
             $request->file(Constants::IMAGEN)->move( 'img/products',$fileName );
-
         }
-
-//        dd($request->all());
         $prod = new Product();
         $prod->name = $request->input('nombre');
         $prod->fishing_code = $request->input('codigo');
@@ -82,10 +71,8 @@ class ProductController extends Controller
         $prod->weigth_big = str_replace(",", ".", $request->input('weight_big') );
         $prod->image_name = $fileName;
         $prod->save();
-
         return redirect(Constants::URL_PRODUCTS);
     }
-
     /**
      * Display the specified resource.
      *
@@ -96,7 +83,6 @@ class ProductController extends Controller
     {
         //
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -106,10 +92,8 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::withTrashed()->findOrFail($id);
-
         return view('products.edit',compact('product'));
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -120,25 +104,16 @@ class ProductController extends Controller
     public function update(EditProductRequest $request, $id)
     {
         $prod = Product::withTrashed()->findOrFail($id);
-
-
         if(!is_null($request->file(Constants::IMAGEN))){
 //            if (!is_null($prod->image_name) and file_exists('img/products/'.$prod->image_name)){
 //                unlink('img/products/'.$prod->image_name);
 //            }
-
-
             $fileName = $request->file(Constants::IMAGEN)->getClientOriginalName();
-
             if ( file_exists('img/products/'.$fileName) ){
-
                 $prod->image_name = $fileName;
-
             } else {
-
                 $request->file(Constants::IMAGEN)->move( 'img/products',$fileName );
                 $prod->image_name = $fileName;
-
             }
         }
         $prod->fishing_code = $request->input('codigo');
@@ -149,10 +124,8 @@ class ProductController extends Controller
         $prod->weigth_medium = str_replace(",", ".", $request->input('weight_medium') );
         $prod->weigth_big = str_replace(",", ".", $request->input('weight_big') );
         $prod->save();
-
         return redirect(Constants::URL_PRODUCTS);
     }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -163,23 +136,18 @@ class ProductController extends Controller
     {
         $prod = Product::findOrFail($id);
         $prod->forceDelete();
-
         return redirect(Constants::URL_PRODUCTS);
     }
-
     public function trash(DeleteProductRequest $request, $id)
     {
         $prod = Product::findOrFail($id);
         $prod->delete();
-
         return redirect(Constants::URL_PRODUCTS);
     }
-
     public function restore($id)
     {
         $prod = Product::withTrashed()->findOrFail($id);
         $prod->restore();
-
         return redirect(Constants::URL_PRODUCTS);
     }
 }

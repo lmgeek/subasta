@@ -26,7 +26,7 @@ class Product extends Model
             Constants::UNIDADES
         ];
     }
-    public static function SALE()
+    public static function sale()
     {
         return [
             Constants::KG,
