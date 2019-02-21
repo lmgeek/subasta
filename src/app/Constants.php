@@ -14,6 +14,7 @@ class Constants{
     const EMAIL='email';
     const PASSWORD='password';
     const NOMBRE='nombre';
+    const CODIGO='codigo';
     const UNIDAD='unidad';
     const REMEMBER='remember';
     const IMAGE='image';
@@ -116,6 +117,7 @@ class Constants{
     const CAJONES   = "Cajones";
     const PASTILLAS = "Pastillas";
     const UNIDADES  = "Unidades";
+    const KG = "Kg";
     const CHICO     = "small";
     const MEDIANO   = "medium";
     const GRANDE    = "big";

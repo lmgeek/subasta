@@ -67,8 +67,15 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="unit">{{ trans('products.unit') }}</label>
+                                        <label for="unit">Unidad de Presentacion</label>
                                         {!! Form::select('unidad',$units, old('unidad'), ['class' => 'required form-control']) !!}
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="unit">Unidad de Venta </label>
+                                        {!! Form::select('presen',$sale, old('presen'), ['class' => 'required form-control']) !!}
 
                                     </div>
                                 </div>

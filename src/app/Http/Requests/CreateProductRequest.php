@@ -41,9 +41,10 @@ class CreateProductRequest extends Request
 $cero = "0,00";
         if ($prod == null){
             return [
-                'codigo'=> 'required|regex:(^([a-z]+[0-9]{0,2}){5,12}$)|max:10 ',
-                'nombre'=> 'required|regex:(^[a-zA-Zá-úÁ-Ú\s]+$)',
                 'unidad'=> 'required',
+                'presen'=> 'required',
+                Constants::CODIGO        => 'required|regex:(^[0-9a-zA-Z]+$)|max:10',
+                Constants::NOMBRE        => 'required|regex:(^[a-zA-Zá-úÁ-Ú\s]+$)',
                 Constants::WEIGHT_SMALL  => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
                 Constants::WEIGHT_MEDIUM => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
                 Constants::WEIGHT_BIG    => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
@@ -52,8 +53,10 @@ $cero = "0,00";
         } else{
             return [
 //                'firstName' => "uniqueFirstAndLastName:{$request->lastName}"
-                'nombre'        => 'required|unique_name_unit:'.$this->unidad,
                 'unidad'        => 'required',
+                'presen'        => 'required',
+                Constants::CODIGO        => 'required|regex:(^[0-9a-zA-Z]+$)|max:10',
+                Constants::NOMBRE        => 'required|unique_name_unit:'.$this->unidad,
                 Constants::WEIGHT_SMALL  => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
                 Constants::WEIGHT_MEDIUM => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
                 Constants::WEIGHT_BIG    => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
