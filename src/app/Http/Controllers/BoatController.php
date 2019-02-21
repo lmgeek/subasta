@@ -7,8 +7,6 @@ use App\Constants;
 use App\User;
 use Illuminate\Http\Request;
 use App\Boat;
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
 use Illuminate\Routing\Route;
 use Auth;
 use Illuminate\Support\Facades\Gate;

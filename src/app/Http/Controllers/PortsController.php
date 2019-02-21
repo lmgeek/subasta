@@ -41,17 +41,12 @@ class PortsController extends Controller
      */
     public function index(Request $request)
     {
-        // if(Gate::allows('seeAllBoatsList')) {
 
-            $users = User::where('type',User::VENDEDOR)->where('status',User::APROBADO)->get();
+        $users = User::where('type',User::VENDEDOR)->where('status',User::APROBADO)->get();
 
-            $port = Ports::filterAndPaginate();
-            return view('boat.index',compact('port','request','users'));
+        $port = Ports::filterAndPaginate();
+        return view('boat.index',compact('port','request','users'));
 
-
-        // }else{
-        //     abort(404);
-        // }
     }
 
     /**

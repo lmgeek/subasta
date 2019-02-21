@@ -61,6 +61,7 @@ class ProductController extends Controller
         } else {
             $request->file(Constants::IMAGEN)->move( 'img/products',$fileName );
         }
+
         $prod = new Product();
         $prod->name = $request->input('nombre');
         $prod->fishing_code = $request->input('codigo');

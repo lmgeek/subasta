@@ -42,9 +42,8 @@ Route::post('auth/register', 'Auth\AuthController@postRegister');
 Route::get('/home', 'HomeController@index');
 
 Route::get('/auction/details/{auction}', 'AuctionController@auctionDetails');
-//Route::get('/home/subastas', function (){
-//    return view('landing3.subasta');
-//});
+
+
 
 //---------------------------------------------------------------------------
 // Auctions

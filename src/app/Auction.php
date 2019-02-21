@@ -4,9 +4,7 @@ use App\Http\Traits\priceTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Auth;
-use App\Bid;
 use Nexmo\Call\Collection;
-use App\Constants as ConstantsAlias;
 class Auction extends Model{
     use priceTrait;
     protected $table = 'auctions';
