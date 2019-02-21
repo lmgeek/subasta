@@ -133,6 +133,9 @@ class Constants{
     const VENDEDOR = "seller";
     const COMPRADOR = "buyer";
     const BROKER = "broker";
+    const AUCTION_ORIGIN = "auction";
+    const OFFER_DIRECT_ORIGIN = "offerDirect";
+    const PRIVATE_SOLD_ORIGIN = "privateSold";
 
     public static function formatDate($fecha){
         setlocale(LC_TIME,'es_ES');

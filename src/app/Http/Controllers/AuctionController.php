@@ -351,6 +351,8 @@ class AuctionController extends Controller
     {
         setlocale(LC_MONETARY, 'en_US');
 
+        $this->autoOffersBid($request, $auction_id);
+
         $auction = Auction::findOrFail($auction_id);
         $this->authorize('viewOperations', $auction);
         $request->session()->put('url.intended', '/auction/operations/'.$auction_id);
@@ -698,7 +700,6 @@ class AuctionController extends Controller
 		}
         return view('landing',compact(Constants::AUCTIONS,Constants::STATUS,Constants::PRODUCTS,Constants::SELLERS,'request',Constants::BOATS,Constants::USER_RATING,'type'));
     }
-
     
     
     
@@ -803,6 +804,7 @@ class AuctionController extends Controller
                 ->whereRaw((($ids!='')?'`id` NOT IN ('.$ids.') AND ':'').'`status`="approved" AND `type`="buyer" AND (`nickname` like "%'.$request->val.'%" OR `name` like "%'.$request->val.'%" OR `lastname` like "%'.$request->val.'%")')
                 ->get();
         return json_encode($users);
+
     }
     public static function calculatePriceID($id,$targetprice=null){
         $bidDate = date(Constants::DATE_FORMAT);
@@ -1006,47 +1008,32 @@ class AuctionController extends Controller
             ->with('title','| Agregar Subasta')
             ->with('boats',$boats)
             ->with('ports',$ports)
-            ->with('batchedit',1)
-            ->with('arriveedit',1)
-            ->with('auctionedit',1)
+
             ->with('products',$products);
     }
-    
-    public function editAuction($auction_id){
+    public function editAuction(Request $request){
         if(empty(Auth::user()->id)){
             return redirect('auth/login');
         }
-        $auction=Auction::auctionHome(null,array('auctionid'=>$auction_id,'type'=>'mine'),'all');
         $boats=Boat::select('id','name')
             ->where('user_id', Constants::EQUAL,Auth::user()->id)->get();
         $ports=Ports::select()->get();
-        $products= Product::select('id','name','unit')->get();
-        $contbatch=count(Auction::select()->where('batch_id',Constants::EQUAL,$auction->batch_id)->get());
-        $contarrive=count(Batch::select()->where('arrive_id',Constants::EQUAL,$auction->batch->arrive_id)->get());
+        $products= Product::select('id','name')->get();
         return view('/landing3/auction-add-edit-temp')
-            ->with('auction',$auction)
-            ->with('batchedit',(($contbatch>1)?0:1))
-            ->with('arriveedit',((($contarrive+$contbatch)>1)?0:1))
-            ->with('auctionedit',(($auction->timeline==Constants::FUTURE)?1:0))
             ->with('boats',$boats)
             ->with('ports',$ports)
             ->with('products',$products);
     }
-    public function replicateAuction($auction_id){
+    
+    public function replicateAuction(Request $request){
         if(empty(Auth::user()->id)){
             return redirect('auth/login');
         }
-        $auction=Auction::auctionHome(null,array('auctionid'=>$auction_id,'type'=>'mine'),'all');
         $boats=Boat::select('id','name')
             ->where('user_id', Constants::EQUAL,Auth::user()->id)->get();
         $ports=Ports::select()->get();
-        $products= Product::select('id','name','unit')->get();
+        $products= Product::select('id','name')->get();
         return view('/landing3/auction-add-edit-temp')
-            ->with('auction',$auction)
-            ->with('batchedit',0)
-            ->with('arriveedit',0)
-            ->with('auctionedit','1')
-            ->with('replicate','1')
             ->with('boats',$boats)
             ->with('ports',$ports)
             ->with('products',$products);
@@ -1255,8 +1242,8 @@ class AuctionController extends Controller
 
         setlocale(LC_MONETARY, 'en_US');
         $auction = Auction::findOrFail($auction_id);
-        $this->authorize('viewOperations', $auction);
-        $request->session()->put('url.intended', '/auction/offers/'.$auction_id);
+//        $this->authorize('viewOperations', $auction);
+//        $request->session()->put('url.intended', '/auction/offers/'.$auction_id);
         $available = $this->getAvailable($auction_id, $auction->amount);
         $offers = $this->getOffers($auction_id);
 
@@ -1266,8 +1253,6 @@ class AuctionController extends Controller
             if ($auction->end >= date('Y-m-d H:i:s')){
                 return;
             }
-
-dd("hola");
             //verifica que el precio ofertado sea mayor e igual al de la subasta terminada
             if ($offer->price >= $offer->end_price && $offer->status == Offers::PENDIENTE){
                     //registramos la compra a la mejor opc de compra
@@ -1340,6 +1325,7 @@ dd("hola");
             $this->bid->price = $prices;
             $this->bid->status = Constants::PENDIENTE;
             $this->bid->bid_date = date(Constants::DATE_FORMAT);
+            $this->bid->bid_origin = Constants::OFFER_DIRECT_ORIGIN;
             $this->bid->save();
 
             $offers = $this->getOffers($auction_id);
@@ -1465,6 +1451,7 @@ dd("hola");
                             $this->bid->price = $o->price;
                             $this->bid->status = Constants::PENDIENTE;
                             $this->bid->bid_date = date(Constants::DATE_FORMAT);
+                            $this->bid->bid_origin = Constants::OFFER_DIRECT_ORIGIN;
                             $this->bid->save();
 
                             //send email
@@ -1518,3 +1505,4 @@ dd("hola");
 
 
 }
+
