@@ -29,9 +29,12 @@ use App\Constants;
  */
 //die(json_encode($auction,true));
 $code='SU-'.date('ym').'XXX';
-$description='';$tentativedate=date(Constants::DATE_FORMAT);
+$description='Curabitur turpis. Morbi nec metus. Etiam ut purus mattis mauris sodales aliquam. Ut tincidunt tincidunt erat. In hac habitasse platea dictumst.';
 $portid=0;$boatid=0;$productid=0;$caliber='';$quality=0;$activehours=1;$privacy=Constants::AUCTION_PUBLIC;
-$startdate=date(Constants::DATE_FORMAT);$startprice=2;$endprice=1;$quantity=1;
+$startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d/m/Y H:i');
+$tentativedate=$startdate;
+
+$startprice=2;$endprice=1;$quantity=1;
 if(isset($auction)){
     $boatid=$auction->batch->arrive->boat->id;
     $portid=$auction->batch->arrive->port_id;
@@ -133,10 +136,10 @@ if(Auth::user()->type==Constants::VENDEDOR){
     Precio Fin: <input type="number"value="<?=$endprice?>" name="endPrice"min="1" placeholder="end price"<?=($auctionedit==0)?'disabled':''?>><br>
     Privacidad: 
     <select name="tipoSubasta" onchange="changePrivacy()"<?=($auctionedit==0)?'disabled':''?> id="tipoSubasta">
-        <option value="public"<?=($privacy== Constants::AUCTION_PUBLIC)?'selected':''?>>P&uacute;blica</option>
-        <option value="private"<?=($privacy== Constants::AUCTION_PRIVATE)?'selected':''?>>Privada</option>
+        <option value="public"<?=($privacy== Constants::AUCTION_PUBLIC || old('tipoSubasta')==Constants::AUCTION_PUBLIC)?'selected':''?>>P&uacute;blica</option>
+        <option value="private"<?=($privacy== Constants::AUCTION_PRIVATE || old('tipoSubasta')==Constants::AUCTION_PRIVATE)?'selected':''?>>Privada</option>
     </select><br><br>
-    <input type="text" name="guests" placeholder="Escribe un nombre y selecciona" style="<?=($privacy== Constants::AUCTION_PUBLIC)?'display:none;':''?>width:100%" id="guests" onkeypress="getUsers()"<?=($auctionedit==0)?'disabled':''?>>
+    <input type="text" name="guests" placeholder="Escribe un nombre y selecciona" style="<?=($privacy== Constants::AUCTION_PUBLIC || old('tipoSubasta')==Constants::AUCTION_PUBLIC)?'display:none;':''?>width:100%" id="guests" onkeypress="getUsers()"<?=($auctionedit==0)?'disabled':''?>>
     <div id="UsersShowTemp"></div>
     <div id="UsersShow">
         @if(isset($guests))
@@ -169,9 +172,11 @@ if(Auth::user()->type==Constants::VENDEDOR){
         });
     }
     function changePrivacy(){
-        $('#guests').fadeToggle();
         if($('#tipoSubasta').val()=='public'){
+            $('#guests').fadeOut();
             $('#UsersShow').html('');$('#UsersShowTemp').html('');$('#guests').val('');
+        }else{
+            $('#guests').fadeIn();
         }
     }
     function getUsers(){
@@ -202,6 +207,9 @@ if(Auth::user()->type==Constants::VENDEDOR){
         $('#TagUser'+$id).remove();
         $('#InputUser'+$id).remove();
     }
+    $(document).ready(function(){
+        changePrivacy()
+    });
 </script>
 <?php }else{
     echo '<h1>Solo pueden crear subastas los usuarios de tipo vendedor</h1>';

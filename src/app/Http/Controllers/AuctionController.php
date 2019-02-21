@@ -754,11 +754,13 @@ class AuctionController extends Controller
         $arrive->save();
         return $arrive->id;
     }
-    //CreateAuctionRequest
-    public function storeAuction(Request $request){
+    //
+    public function storeAuction(CreateAuctionRequest $request){
         $products = $request->product;$caliber = $request->input('caliber');$quality = $request->input('quality');
         $amount = $request->input(Constants::AMOUNT);$privacy=$request->input('tipoSubasta');
-        $startDate =$request->input('fechaInicio');$tentativeDate = $request->fechaTentativa;$arrivedate=null;
+        $startDate =date('Y-m-d H:i-s',strtotime($request->fechaInicio));
+        $tentativeDate =date('Y-m-d H:i-s',strtotime($request->fechaTentativa));
+        $arrivedate=null;
         $endDate=date_add(date_create($startDate),date_interval_create_from_date_string("+$request->ActiveHours hours"))->format('Y-m-d H:i:s');
         $startprice=$request->startPrice;$endprice=$request->endPrice;$targetprice=$endprice+(($startprice-$endprice)*rand(1,7)/100);
         $replicate=(isset($request->type) && $request->type=='replication')?1:0;

@@ -70,6 +70,4 @@ class CreateAuctionRequest extends Request
         }
         return [];
     }
-
-
 }
