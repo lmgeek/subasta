@@ -40,12 +40,13 @@ if(isset($auction)){
     $portid=$auction->batch->arrive->port_id;
     $productid=$auction->batch->product_id;
     $caliber=$auction->batch->caliber;
-    $tentativedate=$auction->tentative_date;
+    $tentativedate=date('d/m/Y H:i', strtotime($auction->tentative_date));
     $description=$auction->description;
     $quality=$auction->batch->quality;
     $quantity=$auction->amount;
     $startdate=$auction->start;
     $activehours=(int)((strtotime($auction->end)-strtotime($startdate))/3600);
+    $startdate=date('d/m/Y H:i', strtotime($auction->start));
     $startprice=$auction->start_price;
     $endprice=$auction->end_price;
     $code=$auction->code;
