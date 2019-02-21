@@ -17,58 +17,55 @@
                     <div class="ibox-content">
                         <table class="table table-bordered table-hover dataTables-example">
                             <thead>
-                                <tr>
-									<th></th>
-                                    <th>{{ trans('auction.buyer') }}</th>
-                                    <th>{{ trans('auction.amount') }}</th>
-                                    <th>{{ trans('auction.unity_price') }}</th>
-                                    <th>{{ trans('auction.price') }}</th>
-                                    <th>{{ trans('auction.date') }}</th>
-                                    <th>{{ trans('auction.status') }}</th>
-                                    <th>{{ trans('auction.actions') }}</th>
-                                </tr>
+                            <tr>
+                                <th></th>
+                                <th>Fecha</th>
+                                <th>{{ trans('auction.buyer') }}</th>
+                                <th>{{ trans('auction.amount') }}</th>
+                                <th>{{ trans('auction.unity_price') }}</th>
+
+                                <th>{{ trans('auction.date') }}</th>
+                                <th>{{ trans('auction.status') }}</th>
+                                <th>Tipo</th>
+                            </tr>
                             </thead>
                             <tbody>
-                                @foreach($auction->bids as $b)
-                                    <tr>
-										<td>
-											@if ($b->seller_calification == \App\Constants::CALIFICACION_POSITIVA)
-												<span class="text-navy" data-toggle="tooltip" data-placement="top" title="{{ $b->seller_calification_comments }}"  style="font-size:18px;"><em class="fa fa-plus-circle"></em> </span>
-											@endif
-											@if ($b->seller_calification == \App\Constants::CALIFICACION_NEGATIVA)
-												<span class="text-danger" data-toggle="tooltip" data-placement="top" title="{{ $b->seller_calification_comments }}"  style="font-size:18px;"><em class="fa fa-minus-circle"></em> </span>
-											@endif
-											@if ($b->seller_calification == \App\Constants::CALIFICACION_NEUTRAL)
-												<span data-toggle="tooltip" data-placement="top" title="{{ $b->seller_calification_comments }}"  style="color:#BABABA;font-size:18px;"><em class="fa fa-dot-circle-o"></em> </span>
-											@endif
-										</td>
-                                        <td>
-                                            <a href="#" class="showUserInfo" data-name="{{ $b->user->name }}" data-phone="{{ $b->user->phone }}" data-email="{{ $b->user->email }}">
-                                                {{ $b->user->name }}
-                                            </a>
-                                        </td>
-                                        <td>{{ $b->amount }} {{ trans('general.product_units.'.$auction->batch->product->unit) }}</td>
-                                        <td style="text-align: right">$ {{ number_format($b->price,2,',','.') }}</td>
-                                        <td style="text-align: right">$ {{ number_format($b->price * $b->amount,2,',','.') }}</td>
-                                        <td style="text-align: right">{{ Carbon::parse($b->bid_date)->format('H:i:s d/m/Y') }}</td>
-                                        <td>
-                                            @if ($b->status == \App\Constants::PENDIENTE)
+                            @foreach($auction->bids as $b)
+                                <tr>
+
+                                    <td>
+                                        @if ($b->seller_calification == \App\Constants::CALIFICACION_POSITIVA)
+                                            <span class="text-navy" data-toggle="tooltip" data-placement="top" title="{{ $b->seller_calification_comments }}"  style="font-size:18px;"><em class="fa fa-plus-circle"></em> </span>
+                                        @endif
+                                        @if ($b->seller_calification == \App\Constants::CALIFICACION_NEGATIVA)
+                                            <span class="text-danger" data-toggle="tooltip" data-placement="top" title="{{ $b->seller_calification_comments }}"  style="font-size:18px;"><em class="fa fa-minus-circle"></em> </span>
+                                        @endif
+                                        @if ($b->seller_calification == \App\Constants::CALIFICACION_NEUTRAL)
+                                            <span data-toggle="tooltip" data-placement="top" title="{{ $b->seller_calification_comments }}"  style="color:#BABABA;font-size:18px;"><em class="fa fa-dot-circle-o"></em> </span>
+                                        @endif
+                                    </td>
+                                    <td>{{ Carbon::parse($b->created_at)->format('d/m/Y H:i:s') }}</td>
+                                    <td>
+                                        <a href="#" class="showUserInfo" data-name="{{ $b->user->name }} {{ $b->user->lastname }}" data-phone="{{ $b->user->phone }}" data-email="{{ $b->user->email }}">
+                                            {{ $b->user->name }} {{ $b->user->lastname }}
+                                        </a>
+                                    </td>
+                                    <td>{{ $b->amount }} {{ $auction->batch->product->unit }}</td>
+                                    <td style="text-align: right">$ {{ number_format($b->price,2,',','.') }}</td>
+
+                                    <td style="text-align: right">{{ Carbon::parse($b->bid_date)->format('H:i:s d/m/Y') }}</td>
+                                    <td>
+                                        @if ($b->status == \App\Constants::PENDIENTE)
+                                            {{ trans('general.bid_status.'.$b->status) }}
+                                        @else
+                                            <a href="#" class="showStatusInfo" data-status="{{ trans('general.bid_status.'.$b->status) }}"  data-userCal="{{ trans('general.buyer_qualification.'.$b->user_calification) }}" data-UserCalCom="{{ $b->user_calification_comments }}" data-reason="{{ $b->reason }}">
                                                 {{ trans('general.bid_status.'.$b->status) }}
-                                            @else
-                                                <a href="#" class="showStatusInfo" data-status="{{ trans('general.bid_status.'.$b->status) }}"  data-userCal="{{ trans('general.buyer_qualification.'.$b->user_calification) }}" data-UserCalCom="{{ $b->user_calification_comments }}" data-reason="{{ $b->reason }}">
-                                                    {{ trans('general.bid_status.'.$b->status) }}
-                                                </a>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @can('qualifyBid',$b)
-                                                @if ($b->status == \App\Constants::PENDIENTE)
-                                                    <a href="{{ route('auction.operations.process',$b) }}" class="btn-action">{{ trans('auction.process') }}</a>
-                                                @endif
-                                            @endcan
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                            </a>
+                                        @endif
+                                    </td>
+                                    <td>{{ trans('auction.'.$b->bid_origin) }}</td>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -141,10 +138,10 @@
 
     <script>
         $(document).ready(function () {
-		
-			
-			$('[data-toggle="tooltip"]').tooltip()
-			
+
+
+            $('[data-toggle="tooltip"]').tooltip()
+
 
             $('.showStatusInfo').click(function(){
 
@@ -190,9 +187,9 @@
                 "bFilter": false,
                 "aaSorting": [],
                 language:
-                {
-                    url: "https://cdn.datatables.net/plug-ins/1.10.7/i18n/Spanish.json"
-                },
+                    {
+                        url: "https://cdn.datatables.net/plug-ins/1.10.7/i18n/Spanish.json"
+                    },
                 responsive: true,
                 "aoColumnDefs": [
                     { 'bSortable': false, 'aTargets': [ -1 ] }
@@ -217,4 +214,3 @@
 @section('stylesheets')
 
 @endsection
-
