@@ -23,6 +23,7 @@ return [
 	'auction_private' => 'Subastas Privadas',
     'auctions' => 'Subastas',
 	'bids' => 'Compras',
+    'Unidad' => 'Unidades',
 	'bid_date' => 'Fecha de compra',
 	'bid_date_arrive' => 'Fecha de Retiro',
 	'auction_cancel'=> 'Subasta cancelada',
