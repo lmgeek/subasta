@@ -223,3 +223,8 @@ Route::get('subscribe/{auction}','AuctionController@subscribeUser');
 Route::get('current-time', 'AuctionController@getCurrentTime');
 
 
+//G.B eliminar rutas despues de que el diseñador integra las nuevas vistas
+Route::get('addbarco','SellerBoatsController@addBoat');
+Route::post('addbarco','SellerBoatsController@saveboat');
+
+

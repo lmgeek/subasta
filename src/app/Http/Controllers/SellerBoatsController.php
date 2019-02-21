@@ -70,7 +70,6 @@ class SellerBoatsController extends Controller
 //    public function store(CreateBoatRequest $request)
     public function store(CreateBoatRequest $request)
     {
-
         $this->authorize('addBoat', new Boat());
 
         $boat = new Boat();
@@ -84,6 +83,25 @@ class SellerBoatsController extends Controller
         $request->session()->flash('confirm_msg', trans('sellerBoats.boat_added_msg'));
         return redirect()->route('sellerboat.index',['id'=>$checker[0]['id'],'e'=>'created','t'=>'boat']);
     }
+
+//G.B eliminar rutas despues de que el diseñador integra las nuevas vistas
+    public function saveboat(Request $request)
+    {
+        $this->authorize('addBoat', new Boat());
+
+        $boat = new Boat();
+        $boat->name = $request->input('name');
+        $boat->matricula = $request->input('matricula');
+        $boat->reference_port = $request->input('port');
+        $boat->status = Constants::PENDIENTE;
+        $boat->user_id = Auth::user()->id;
+        $boat->save();
+
+        $boats = Boat::all();
+        return $boats;
+    }
+
+
 
     /**
      * Display the specified resource.
@@ -330,6 +348,10 @@ class SellerBoatsController extends Controller
         }
         return json_encode($rtrn);
 
+    }
+
+    public function addBoat(){
+        return view('landing3/partials/pop-up-barco');
     }
 	
 }
