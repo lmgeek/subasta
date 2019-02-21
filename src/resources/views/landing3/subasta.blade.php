@@ -29,7 +29,7 @@ $cantcompras=$availability['sold'];
                         <div class="left-side">
                             <div class="header-image"><img src="/img/products/{{$auction->batch->product->image_name}}" alt="{{$auction->batch->product->name}}"></div>
                             <div class="header-details">
-                                <h3 class="margin-bottom-0">{{$auction->batch->product->name}} {{trans('auction.'.$auction->batch->caliber)}} <div class="star-rating" data-rating="5.0"></div>
+                                <h3 class="margin-bottom-0">{{$auction->batch->product->name}} {{trans('auction.'.$auction->batch->caliber)}} <div class="star-rating" data-rating="{{$auction->batch->quality}}"></div>
                                     @if($auction->type!='public') 
                                         <em class="t16 icon-feather-eye-off" data-tippy-placement="right" title="Subasta Privada" data-tippy-theme="dark"></em>
                                     @endif

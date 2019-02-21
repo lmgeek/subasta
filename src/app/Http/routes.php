@@ -15,13 +15,17 @@
 Route::get('/', 'AuctionController@subastasFront');
 Route::get('/subastas', 'AuctionController@listaSubastas');
 Route::get('/auction/add','AuctionController@addAuction');
-Route::get('/auction/edit','AuctionController@editAuction');
 Route::get('/offers','AuctionController@offerList');
 Route::get('/boatslist','BoatController@boatList');
-Route::post('/auctionStore','AuctionController@storeAuction');
-
-
-
+Route::post('/auctionstore','AuctionController@storeAuction');
+Route::get('/getpreferredport','BoatController@getPreferredPort');
+Route::get('/getusersauctionprivate','AuctionController@getUsersAuctionPrivate');
+Route::get('auction/edit/{auction}', [
+    'as' => 'auction.edit', 'uses' => 'AuctionController@editAuction'
+]);
+Route::get('auction/replicate/{auction}', [
+    'as' => 'auction.replicate', 'uses' => 'AuctionController@replicateAuction'
+]);
 
 
 Route::get('/landing2', 'AuctionController@subastaHome');

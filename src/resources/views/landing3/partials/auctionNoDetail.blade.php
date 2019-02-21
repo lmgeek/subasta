@@ -75,14 +75,14 @@ $fechafin=strftime('%d %b %Y', strtotime($auction->end));
             @if(isset(Auth::user()->id) && $userId==Auth::user()->id)
             <div class="bd-tp-1">
                 <?php if($auction->timeline==Constants::FINISHED){?>
-                <a href="/auction/offers/<?=$auction->id?>" class="button ripple-effect" data-tippy-placement="top" data-tippy="" title="Ver Ofertas Directas"><i class="icon-material-outline-local-offer"></i> <span class="button-info"><?=($cantofertas>0)?('<span class="button-info">'.$cantofertas.'</span>'):''?></span></a>
+                <a href="/auction/offers/<?=$auction->id?>" class="button ripple-effect" data-tippy-placement="top" data-tippy="" title="Ver Ofertas Directas"><i class="icon-material-outline-local-offer"></i> <?=($cantofertas>0)?('<span class="button-info">'.$cantofertas.'</span>'):''?></a>
                 <?php }?>
                 <a href="/auction/operations/<?=$auction->id?>" class="button ripple-effect ico" title="Ver Ventas" data-tippy-placement="top"><i class="icon-feather-dollar-sign"></i> <?=($cantbids>0)?('<span class="button-info">'.$cantbids.'</span>'):''?></a>
                 <?php if($auction->timeline==Constants::FUTURE){?>
-                <a href="/" class="button dark ripple-effect ico" title="Editar" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
+                <a href="/auction/edit/<?=$auction->id?>" class="button dark ripple-effect ico" title="Editar" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
                 <?php }?>
-                <a href="" class="button  ripple-effect ico" title="Pausar" data-tippy-placement="top"><i class="icon-feather-pause"></i></a>
-                <a href="#" class="button ripple-effect ico" data-tippy-placement="top" data-tippy="" title="Replicar"><i class="icon-material-outline-filter-none"></i></a>
+                <a href="#" class="button  ripple-effect ico" title="Pausar" data-tippy-placement="top"><i class="icon-feather-pause"></i></a>
+                <a href="/auction/replicate/<?=$auction->id?>" class="button ripple-effect ico" data-tippy-placement="top" data-tippy="" title="Replicar"><i class="icon-material-outline-filter-none"></i></a>
                 <?php if(($cantbids+$cantofertas)==0){?>
                 <a href="#" class="button dark ripple-effect ico" title="Eliminar" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
                 <?php }?>

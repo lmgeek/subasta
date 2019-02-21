@@ -1,4 +1,5 @@
 <?php
+use App\Constants;
 /*
  * In @section('content') goes all that's inside
  * .dashboard-content-container
@@ -26,223 +27,158 @@
  *      privacy:    tipoSubasta
  *      guests:     invitados[]
  */
+//die(json_encode($auction,true));
 $code='SU-'.date('ym').'XXX';
+$description='';$tentativedate=date(Constants::DATE_FORMAT);
+$portid=0;$boatid=0;$productid=0;$caliber='';$quality=0;$activehours=1;$privacy=Constants::AUCTION_PUBLIC;
+$startdate=date(Constants::DATE_FORMAT);$startprice=2;$endprice=1;$quantity=1;
+if(isset($auction)){
+    $boatid=$auction->batch->arrive->boat->id;
+    $portid=$auction->batch->arrive->port_id;
+    $productid=$auction->batch->product_id;
+    $caliber=$auction->batch->caliber;
+    $tentativedate=$auction->tentative_date;
+    $description=$auction->description;
+    $quality=$auction->batch->quality;
+    $quantity=$auction->amount;
+    $startdate=$auction->start;
+    $activehours=(int)((strtotime($auction->end)-strtotime($startdate))/3600);
+    $startprice=$auction->start_price;
+    $endprice=$auction->end_price;
+    $code=$auction->code;
+    $privacy=$auction->type;
+    if($privacy=='private'){
+        $guests= App\AuctionInvited::select('user_id')->where('auction_id',Constants::EQUAL,$auction->id)->get();
+    }
+}
 ?>
-@extends('landing3/partials/layout-admin')
-@section('title',$title)
-@section('content')
-
-{{csrf_field()}}
-
-
-
-
-
-
-
-
-
-
-<div class="dashboard-content-container" data-simplebar>
-		<div class="dashboard-content-inner" >
-			
-			<!-- Dashboard Headline -->
-			<div class="dashboard-headline">
-				<h3>Nueva Subasta</h3>
-			</div>
-	
-			<!-- Row -->
-			<div class="row">
-
-				<!-- Dashboard Box -->
-				<div class="col-xl-12">
-					<div class="dashboard-box margin-top-0">
-						
-						<!-- Headline -->
-						<div class="headline">
-							<h3><i class="icon-feather-package"></i> Informaci&oacute;n del Lote</h3>
-						</div>
-						
-						<div class="content with-padding padding-bottom-10">
-							<div class="row">
-								
-								<div class="col-xl-4">
-									<div class="submit-field">
-										<h5>Barco</h5>
-										<select name="barco" title="Selecciona..." onchange="cambiaValores()" >
-@foreach($boats as $boat)
-    <option value="{{$boat->id}}">{{$boat->name}}</option>
-@endforeach    
-</select>
-										<small>&iquest;No encuentras tu barco? <a href="#small-dialog-barco" class="popup-with-zoom-anim">Crear nuevo barco.</a></small>
-									</div>
-								</div>
-
-								<div class="col-xl-4">
-									<div class="submit-field">
-										<h5>Puerto</h5>
-										<div class="input-with-icon">
-											<select id="puerto" name="puerto" title="Selecciona..."> 
-                                                <option>asd</option>
-                                            @foreach($ports as $port)
-                                                <option value ="{{$port->id}}">{{$port->name}}</option>
-                                            @endforeach
-                                            </select>
-										</div>
-									</div>
-								</div>
-								
-								<div class="col-xl-4">
-									<div class="submit-field">
-										<h5>Fecha Tentativa de Entrega</h5>
-											<input type="text" data-field="datetime" class="with-border" placeholder="Ingresa la fecha..." readonly>
-											<div id="dtBox"></div>
-									</div>
-								</div>
-																
-								<div class="col-xl-3">
-									<div class="submit-field">
-										<h5>Producto <i class="help-icon" data-tippy-placement="right" title="Especie a subastar"></i></h5>
-										<select  name="product" data-live-search="true" title="Selecciona...">
-                                        @foreach($products as $product)
-                                            <option value="{{$product->id}}">{{$product->name}}</option>
-                                        @endforeach
-                                        </select>
-									</div>
-								</div>
-								
-								<div class="col-xl-3">
-									<div class="submit-field">
-										<h5>Calibre <i class="help-icon" data-tippy-placement="right" title="Tamaño del producto"></i></h5>
-										<select  title="Selecciona...">
-											<option>Chico/a</option>
-											<option>Mediano/a</option>
-											<option>Grande</option>
-										</select>
-									</div>
-								</div>
-								
-								<div class="col-xl-3">
-									<div class="submit-field">
-										<h5>Unidad de venta</h5>
-										<select  title="Selecciona...">
-											<option>Caj&oacute;n</option>
-											<option>Kilogramo</option>
-											<option>Unidad</option>
-										</select>
-									</div>
-								</div>
-								<div class="col-xl-3">
-									<div class="submit-field disabled">
-										<h5>Calidad</h5>
-										<div class="leave-rating margin-top-10">
-											<input type="radio" name="rating" id="rating-1" value="1" />
-											<label for="rating-1" class="icon-material-outline-star"></label>
-											<input type="radio" name="rating" id="rating-2" value="2"/>
-											<label for="rating-2" class="icon-material-outline-star"></label>
-											<input type="radio" name="rating" id="rating-3" value="3"/>
-											<label for="rating-3" class="icon-material-outline-star"></label>
-											<input type="radio" name="rating" id="rating-4" value="4"/>
-											<label for="rating-4" class="icon-material-outline-star"></label>
-										<input type="radio" name="rating" id="rating-5" value="5"/>
-										<label for="rating-5" class="icon-material-outline-star"></label>
-										</div>
-										</div>
-								</div>
-								
-							</div>
-						</div>
-						
-						<!-- Headline -->
-						<div class="headline">
-							<h3><i class="icon-material-outline-gavel"></i> Informaci&oacute;n de la Subasta</h3>
-						</div>
-						
-						<div class="content with-padding padding-bottom-10">
-							<div class="row">
-								
-								<div class="col-xl-4">								
-									<div class="submit-field">
-										<h5>ID Subasta <i class="help-icon" data-tippy-placement="right" title="Identificador Unico"></i></h5>
-										<input type="text" class="with-border" value="SU-18000001" disabled>
-									</div>
-								</div>
-								
-								<div class="col-xl-4">								
-									<div class="submit-field">
-										<h5>Fecha de Inicio</h5>
-										<input type="text" data-field="datetime" class="with-border" placeholder="Ingresa la fecha..." readonly>
-										<div id="dtBox"></div>
-									</div>
-								</div>
-								
-								<div class="col-xl-4">								
-									<div class="submit-field">
-										<h5>Horas Activa <i class="help-icon" data-tippy-placement="right" title="Duración de la subasta"></i></h5>
-										<div class="qtyButtons">
-											<div class="qtyDec"></div>
-											<input type="text" name="qtyInput" value="4" id="cantidad">
-											<div class="qtyInc"></div>
-										</div>
-									</div>
-								</div>
-								
-								<div class="col-xl-4">
-									<div class="submit-field">
-										<h5>Cantidad de Cajones <i class="help-icon" data-tippy-placement="right" title="Cantidad disponible para esta subasta"></i></h5>
-										<input class="with-border" id="cant_disp" type="text" placeholder="Ingresa la cantidad" >
-									</div>
-								</div>
-								
-								<div class="col-xl-4">
-									<div class="submit-field">
-										<h5>Precio Inicial <i class="help-icon" data-tippy-placement="right" title="El costo inicial de la unidad de venta"></i></h5>
-										<div class="input-with-icon">
-											<input class="with-border" type="text" placeholder="Ingresa el monto">
-											<i class="currency">AR$</i>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-xl-4">
-									<div class="submit-field">
-										<h5>Precio de Retiro <i class="help-icon" data-tippy-placement="right" title="Costo mínimo de la unidad de venta"></i></h5>
-										<div class="input-with-icon">
-											<input class="with-border" type="text" placeholder="Ingresa el monto">
-											<i class="currency">AR$</i>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-xl-12">
-									<div class="submit-field">
-										<h5>Descripci&oacute;n de la Subasta</h5>
-										<textarea cols="30" rows="5" class="with-border"></textarea>
-										<div class="uploadButton margin-top-30">
-											<input class="uploadButton-input" type="file" accept="image/*, application/pdf" id="upload" multiple/>
-											<label class="uploadButton-button ripple-effect" for="upload">Adjuntar</label>
-											<span class="uploadButton-file-name">Im&aacute;genes reales del producto pueden ser &uacute;tiles para destacar tu subasta.</span>
-										</div>
-									</div>
-								</div>
-
-							</div>
-						</div>
-						
-						
-					</div>
-				</div>
-
-				<div class="col-xl-12 text-right">
-					<a href="#" class="button ripple-effect big margin-top-30">Subastar</a>
-					<a href="#" class="button dark ripple-effect big margin-top-30">Cancelar</a>
-				</div>
-
-			</div>
-		</div>
-	</div>
-@include('/landing3/partials/pop-up-barco')
-
-@endsection
+<form method="post" action="/auctionstore">
+    {{csrf_field()}}
+    @if(isset($auction))
+        @if(isset($replicate))
+    <input type="hidden" name="type" value="replication">
+        @endif
+    <input type="hidden" name="auctionid" value="{{$auction->id}}">
+    <input type="hidden" name="batchid" value="{{$auction->batch_id}}">
+    <input type="hidden" name="arriveid" value="{{$auction->batch->arrive_id}}">
+    @endif
+<div>
+    <select name="barco" id="Boat" onchange="getPreferredPort()" <?=($arriveedit==0)?'disabled':''?>>
+    @foreach($boats as $boat)
+        <option value="{{$boat->id}}" <?=($boatid==$boat->id)?'selected':''?>>{{$boat->name}}</option>
+    @endforeach    
+    </select>
+     <select id="puerto" name="puerto" <?=($arriveedit==0)?'disabled':''?>>
+    @foreach($ports as $port)
+        <option value ="{{$port->id}}" <?=($portid==$port->id)?'selected':''?>>{{$port->name}}</option>
+    @endforeach
+    </select>
+    @if($arriveedit==0)
+    <input type="text" value="<?=$tentativedate?>" placeholder="Fecha Tentativa"disabled>
+    <input type="hidden" name="fechaTentativa" value="<?=$tentativedate?>">
+    @else
+    <input type="text" value="<?=$tentativedate?>" placeholder="Fecha Tentativa" name="fechaTentativa">
+    @endif
+</div>
+<div>
+    <select name="product" <?=($batchedit==0)?'disabled':''?>>
+        <option disabled>Producto</option>
+    @foreach($products as $product)
+        <option value="{{$product->id}}" <?=($productid==$product->id)?'selected':''?>>{{$product->name}}</option>
+    @endforeach
+    </select>
+    <select name="caliber" <?=($batchedit==0)?'disabled':''?>>
+        <option disabled>Calibre</option>
+        <option value="small"<?=($caliber=='small')?'selected':''?>>Pequeño</option>
+        <option value="medium"<?=($caliber=='medium')?'selected':''?>>Mediano</option>
+        <option value="big"<?=($caliber=='big')?'selected':''?>>Grande</option>
+    </select>
+    <select name="unidad" <?=($batchedit==0)?'disabled':''?>>
+        <option disabled >Unidad</option>
+        <option value="Cajones"selected>Caj&oacute;n</option>
+        <option value="Kg">Kilogramo</option>
+        <option value="Unidad">Unidad</option>
+    </select>
+    <select name="quality" <?=($batchedit==0)?'disabled':''?>>
+        @for($z=1;$z<=5;$z++)
+        <option value="<?=$z?>" <?=($quality==$z)?'selected':''?>><?=$z?></option>
+        @endfor
+    </select>
+</div>
+<div>
+    <input type="text" value="<?=$startdate?>" name="fechaInicio" placeholder="startdate"<?=($auctionedit==0)?'disabled':''?>>
+    <input type="number" value="<?=$activehours?>" min="1" name="ActiveHours" placeholder="activehours"<?=($auctionedit==0)?'disabled':''?>>
+    <input type="number"value="<?=$quantity?>" min="1" name="amount" placeholder="cantidad"<?=($auctionedit==0)?'disabled':''?>>
+    <input type="number"value="<?=$startprice?>" name="startPrice" min="2" placeholder="start price"<?=($auctionedit==0)?'disabled':''?>>
+    <input type="number"value="<?=$endprice?>" name="endPrice"min="1" placeholder="end price"<?=($auctionedit==0)?'disabled':''?>>
+    <select name="tipoSubasta" onchange="changePrivacy()"<?=($auctionedit==0)?'disabled':''?> id="tipoSubasta">
+        <option value="public"<?=($privacy== Constants::AUCTION_PUBLIC)?'selected':''?>>P&uacute;blica</option>
+        <option value="private"<?=($privacy== Constants::AUCTION_PRIVATE)?'selected':''?>>Privada</option>
+    </select><br>
+    <input type="text" name="guests" placeholder="Escribe un nombre y selecciona" style="<?=($privacy== Constants::AUCTION_PUBLIC)?'display:none;':''?>width:100%" id="guests" onkeypress="getUsers()"<?=($auctionedit==0)?'disabled':''?>>
+    <div id="UsersShowTemp"></div>
+    <div id="UsersShow">
+        @if(isset($guests))
+            @foreach($guests as $guest)
+                <?php $user= \App\User::select('name','nickname')->where('id',Constants::EQUAL,$guest->user_id)->get()[0];?>
+                <div id="TagUser<?=$guest->user_id?>"><?=$user->name.' '.$user->lastname.'('.$user->nickname.')'?> <?php if($auctionedit==1){?><div class="fa fa-close" onclick="removeGuest(<?=$guest->user_id?>)"></div><?php }?><div>
+            @endforeach
+        @endif
+    </div>
+    <div id="UsersInputs">
+        @if(isset($guests))
+            @foreach($guests as $guest)
+                <input type="hidden" class="UserInput" name="invitados[]" value="<?=$guest->user_id?>" id="InputUser<?=$guest->user_id?>">
+            @endforeach
+        @endif
+    </div>
+    
+</div>
+<textarea name="descri" placeholder="description"<?=($auctionedit==0)?'disabled':''?>><?=$description?></textarea>
+<input type="submit"<?=(($auctionedit+$arriveedit+$batchedit)==0)?'disabled':''?>>
+</form>
 
 
+<link href="/landing/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+<script src="/landing3/js/jquery-3.3.1.min.js" type="text/javascript"></script>
+<script>
+    function getPreferredPort(){
+        $.get('/getpreferredport',{idboat:$('#Boat').val()},function(result){
+            $('#puerto').val(result);
+        });
+    }
+    function changePrivacy(){
+        $('#guests').fadeToggle();
+        if($('#tipoSubasta').val()=='public'){
+            $('#UsersShow').html('');$('#UsersShowTemp').html('');$('#guests').val('');
+        }
+    }
+    function getUsers(){
+        var $ids=[],$cont=0,$val=$('#guests').val();
+        if($val==''){
+            $('#UsersShowTemp').html('');
+            return;
+        }
+        $('.UserInput').each(function(){
+            $ids[$cont]=$(this).val();
+            $cont++;
+        });
+        
+        $.get('/getusersauctionprivate',{val:$val,ids:$ids},function(result){
+            var $result=JSON.parse(result),$html='',$inputs='';
+            for(var $z=0;$z<$result.length;$z++){
+                $html+='<div onclick="addGuest('+$result[$z]['id']+',\''+$result[$z]['name']+' '+$result[$z]['lastname']+'\',\''+$result[$z]['nickname']+'\')">'+$result[$z]['name']+' '+$result[$z]['lastname']+' ('+$result[$z]['nickname']+')'+'</div>';
+            }
+            $('#UsersShowTemp').html($html);
+        })
+    }
+    function addGuest($id,$name,$username){
+        $('#UsersShowTemp').html('');$('#guests').val('');
+        $('#UsersShow').html($('#UsersShow').html()+'<div id="TagUser'+$id+'">'+$name+' ('+$username+') <div class="fa fa-close" onclick="removeGuest('+$id+')"></div><div>');
+        $('#UsersInputs').html($('#UsersInputs').html()+'<input type="hidden" class="UserInput" name="invitados[]" value="'+$id+'" id="InputUser'+$id+'">');
+    }
+    function removeGuest($id){
+        $('#TagUser'+$id).remove();
+        $('#InputUser'+$id).remove();
+    }
+</script>
