@@ -8,4 +8,6 @@ $nopic=($limit==1)?0:1;
     @if(isset($limit) && $limit>1)
         @include('/landing3/partials/paginator', ['paginator' => $auctions,'request'=>$request])
     @endif
+@else
+<h1>No hay subastas para mostrar</h1>
 @endif

@@ -91,21 +91,6 @@ class Auction extends Model{
     {
         return ($type== Constants::MINUTES)?(Carbon::createFromFormat( Constants::DATE_FORMAT,$this->start)->diffInMinutes(Carbon::createFromFormat( Constants::DATE_FORMAT,$this->end))):(Carbon::createFromFormat( Constants::DATE_FORMAT,$this->start)->diffInSeconds(Carbon::createFromFormat( Constants::DATE_FORMAT,$this->end)));
     }
-
-    public static function catUserByAuctions($iduser){
-        $cant=count(Auction::select( Constants::AUCTIONS_SELECT_ALL)
-            ->join(Constants::BATCHES, Constants::AUCTIONS_BATCH_ID, Constants::EQUAL, Constants::BATCH_ID)
-            ->join(Constants::ARRIVES, Constants::BATCH_ARRIVE_ID, Constants::EQUAL,Constants::ARRIVES_ID)
-            ->join(Constants::BOATS, Constants::ARRIVES_BOAT_ID, Constants::EQUAL,Constants::BOATS_ID)
-            ->where('boats.user_id', Constants::EQUAL,$iduser)->get());
-        if($cant<Constants::CANT_MAX_BRONZE){
-            return 'Bronze';
-        }elseif($cant>=Constants::CANT_MAX_BRONZE && $cant<Constants::CANT_MAX_SILVER){
-            return 'Silver';
-        }else{
-            return 'Gold';
-        }
-    }
     public static function getAvailable($auction_id, $amountTotal){
         $sold = 0;
         $data = array();
@@ -122,6 +107,10 @@ class Auction extends Model{
         $data['sold'] = count($bids);
         return $data;
     }
+    
+    
+    
+    /* INI Rodolfo*/
     public static function checkifUserInvited($id){
         if(!isset(Auth::user()->id)){
             return 0;
@@ -130,6 +119,21 @@ class Auction extends Model{
             ->where(Constants::AUCTION_INV_AUCTION_ID, Constants::EQUAL,$id)
             ->where('user_id', Constants::EQUAL,Auth::user()->id)->get();
         return (count($auction)>0)? Constants::ACTIVE: Constants::INACTIVE;
+    }
+
+    public static function catUserByAuctions($iduser){
+        $cant=count(Auction::select( Constants::AUCTIONS_SELECT_ALL)
+            ->join(Constants::BATCHES, Constants::AUCTIONS_BATCH_ID, Constants::EQUAL, Constants::BATCH_ID)
+            ->join(Constants::ARRIVES, Constants::BATCH_ARRIVE_ID, Constants::EQUAL,Constants::ARRIVES_ID)
+            ->join(Constants::BOATS, Constants::ARRIVES_BOAT_ID, Constants::EQUAL,Constants::BOATS_ID)
+            ->where('boats.user_id', Constants::EQUAL,$iduser)->get());
+        if($cant<Constants::CANT_MAX_BRONZE){
+            return 'Bronze';
+        }elseif($cant>=Constants::CANT_MAX_BRONZE && $cant<Constants::CANT_MAX_SILVER){
+            return 'Silver';
+        }else{
+            return 'Gold';
+        }
     }
     /**
      * AuctionsQueryBuilder: 
@@ -146,7 +150,7 @@ class Auction extends Model{
      * @return The auction(s) with all the information associated with it
      */
    
-    public static function AuctionsQueryBuilder($params=null){
+    public static function AuctionsQueryBuilder($params=null,$dump=false){
         $auctions = Auction::select('auctions.*')
             ->join(Constants::BATCHES, Constants::AUCTIONS_BATCH_ID, Constants::EQUAL, Constants::BATCH_ID)
             ->join(Constants::ARRIVES, Constants::BATCH_ARRIVE_ID, Constants::EQUAL, Constants::ARRIVES_ID)
@@ -210,7 +214,9 @@ class Auction extends Model{
         $auctions=$auctions->where(Constants::ACTIVE_LIT, Constants::EQUAL, Constants::ACTIVE)
                 ->where('auctions.deleted_at','=',NULL)
                 ->orderBy($orderby,$order);
-        //echo Constants::getRealQuery($auctions);die();
+        if($dump==true){
+            echo Constants::getRealQuery($auctions);die();
+        }
         if(empty($params['paginate'])){
             return $auctions->get();
         }else{
@@ -240,7 +246,7 @@ class Auction extends Model{
             if($auction->type==Constants::AUCTION_PUBLIC){
                 $return[$timeline][]=$auction;
                 $return['all'][]=$auction;
-            }elseif($auction->type==Constants::AUCTION_PRIVATE && $invitation==Constants::ACTIVE){
+            }elseif($auction->type==Constants::AUCTION_PRIVATE && ($invitation==Constants::ACTIVE || (isset(Auth::user()->id) && $auction->batch->arrive->boat->user->id==Auth::user()->id))){
                 $return[Constants::AUCTION_PRIVATE][$timeline][]=$auction;
                 $return[Constants::AUCTION_PRIVATE]['all'][]=$auction;
                 $return[$timeline][]=$auction;
@@ -257,14 +263,15 @@ class Auction extends Model{
         if($time==null){
             return $return;
         }elseif(isset ($filters['type']) && isset(Auth::user()->type) && Auth::user()->type==Constants::VENDEDOR){
-            return (count($return['mine'][$time])>1)?$return['mine'][$time]:$return['mine'][$time][0];
+            return $return['mine'][$time];
         }else{
-            dd($return);
-            return (count($return[$time])>1)?$return[$time]:$return[$time][0];
+            return $return[$time];
         }
         
         
     }
+    
+    /* FIN Rodolfo*/
     public static function auctionPrivate($user_id , $status)
     {
         $now =date(Constants::DATE_FORMAT);

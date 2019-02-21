@@ -79,7 +79,7 @@ $fechafin=strftime('%d %b %Y', strtotime($auction->end));
                 <?php }?>
                 <a href="/auction/operations/<?=$auction->id?>" class="button ripple-effect ico" title="Ver Ventas" data-tippy-placement="top"><i class="icon-feather-dollar-sign"></i> <?=($cantbids>0)?('<span class="button-info">'.$cantbids.'</span>'):''?></a>
                 <?php if($auction->timeline==Constants::FUTURE){?>
-                <a href="/auction/edit/<?=$auction->id?>" class="button dark ripple-effect ico" title="Editar" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
+                <a href="/auction/edit/<?=$auction->id?>" class="button ripple-effect ico" title="Editar" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
                 <?php }?>
                 <a href="#" class="button  ripple-effect ico" title="Pausar" data-tippy-placement="top"><i class="icon-feather-pause"></i></a>
                 <a href="/auction/replicate/<?=$auction->id?>" class="button ripple-effect ico" data-tippy-placement="top" data-tippy="" title="Replicar"><i class="icon-material-outline-filter-none"></i></a>
