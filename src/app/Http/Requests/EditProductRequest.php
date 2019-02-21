@@ -45,8 +45,6 @@ class EditProductRequest extends Request
                 Constants::IMAGEN        => Constants::IMAGE,
             ];
         } else{
-           if ($product_id != $prod->id) {
-
                 return [
                     Constants::NOMBRE        => 'required|unique_name_unit:'.$this->unidad,
                     Constants::UNIDAD        => Constants::REQUIRED,
@@ -55,17 +53,6 @@ class EditProductRequest extends Request
                     Constants::WEIGHT_BIG    => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
                     Constants::IMAGEN        => Constants::IMAGE,
                 ];
-            } else {
-                return [
-                    Constants::NOMBRE        => Constants::REQUIRED,
-                    Constants::UNIDAD        => Constants::REQUIRED,
-                    Constants::WEIGHT_SMALL  => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
-                    Constants::WEIGHT_MEDIUM => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
-                    Constants::WEIGHT_BIG    => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
-                    Constants::IMAGEN        => Constants::IMAGE,
-                ];
-
-            }
         }
 
     }

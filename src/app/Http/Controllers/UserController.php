@@ -1,6 +1,5 @@
 <?php
 
-use App\Comprador;
 use App\User;
 use App\Bid;
 use App\ViewHelper;

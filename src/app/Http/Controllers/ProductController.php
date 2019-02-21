@@ -63,7 +63,6 @@ class ProductController extends Controller
 
         }
 
-//        dd($request->all());
         $prod = new Product();
         $prod->name = $request->input('nombre');
         $prod->fishing_code = $request->input('codigo');

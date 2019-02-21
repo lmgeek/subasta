@@ -76,7 +76,6 @@ class SellerBoatsController extends Controller
         $boat = new Boat();
         $boat->name = $request->input('name');
         $boat->matricula = $request->input('matricula');
-        /*$boat->nickname = $request->input('alias');*/
         $boat->reference_port = $request->input('port');
         $boat->status = Constants::PENDIENTE;
         $boat->user_id = Auth::user()->id;
@@ -308,7 +307,6 @@ class SellerBoatsController extends Controller
     {
         $batch = Batch::findOrFail($request->input('id'));
         $this->authorize('makeDirectBid', $batch);
-//        $importe = str_replace(',','.',$request->input('importe'));
         $importe = $request->input('importe');
         $batch->makePrivateSale(  $request->input(Constants::AMOUNT),
             $importe ,
@@ -330,8 +328,6 @@ class SellerBoatsController extends Controller
                 $rtrn[] = $name[Constants::BUYER_NAME];
             }
         }
-//        dd(Auth::user()->isBuyer());
-
         return json_encode($rtrn);
 
     }
