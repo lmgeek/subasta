@@ -39,9 +39,9 @@ $portsall= App\Ports::select()->get();
                             <label for="where-input" class="field-title ripple-effect bg-secondary-light">&iquest;Qu&eacute; puerto prefieres?</label>
                             <div class="input-with-icon">
                                 <select class="selectpicker" id="port" name="port_id" multiple title="Escoge una opción..." onchange="homeFilterBuilder()">
-                                    {{--@foreach($ports as $key=>$value)
+                                    @foreach($ports as $key=>$value)
                                         <option value="{{$key}}">{{\App\Http\Controllers\AuctionController::getPortById($key)}}</option>
-                                    @endforeach--}}
+                                    @endforeach
                                 </select>
 
                             </div>

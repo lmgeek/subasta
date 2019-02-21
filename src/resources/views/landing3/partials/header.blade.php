@@ -37,7 +37,11 @@
                                 <li><a href="/subastas?time=incourse">Finalizando</a></li>
                                 <li><a href="/subastas?time=future">Pr&oacute;ximas</a></li>
                                 <li><a href="/subastas?time=finished">Finalizadas</a></li>
+                                @if(isset(Auth::user()->type))
                                 <li><a href="/subastas?type=private">Privadas</a></li>
+                                @else
+                                <li><a href="/auth/login">Privadas</a></li>
+                                @endif
                             </ul>
                         </li>
 
@@ -66,7 +70,7 @@
 
                         <!-- Trigger -->
                         <div class="header-notifications-link">
-                            <a href="{{url('/sellerbatch')}}" data-tippy-placement="left" title="Nueva Subasta" data-tippy-theme="dark"><em class="icon-material-outline-gavel"></em></a>
+                            <a href="/auction/add" data-tippy-placement="left" title="Nueva Subasta" data-tippy-theme="dark"><em class="icon-material-outline-gavel"></em></a>
                         </div>
                     </div>
 
