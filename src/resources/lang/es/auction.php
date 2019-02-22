@@ -74,6 +74,7 @@ return [
 	'qualification_negative' => 'Puntaje negativo para usuario',
     'no_bids' => 'No hay compras registradas',
     'drawers' => 'CAJONES',
+    'Cajones' => 'Cajones',
     'private' => 'privada',
     'public' => 'p&uacute;blica',
     'big' => 'grande',
