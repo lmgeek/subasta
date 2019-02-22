@@ -21,7 +21,8 @@ INSERT INTO boats (`user_id`, `name`, `matricula`, `status`, `nickname`) VALUES 
 ( 1, 'la perla','BO-10-4-A','pending','Barco III'), ( 1, 'caribe','AR-10-4-A','approved','Barco IV');
 
 # Insertar todo los producto
-INSERT INTO products (`name`,`unit`,`weigth_small`,`weigth_medium`,`weigth_big`)  VALUES ('Pulpo','Cajones',10,20,30),('Camarón','Cajones',15,20,25),('Tiburón','Unidad',5,10,15);
+INSERT INTO products (`name`,`unit`,`weigth_small`,`weigth_medium`,`weigth_big`,`fishing_code`,`presentation_unit`)
+VALUES ('Pulpo','Cajones',10,20,30,'PRO-001','Cajones'),('Camarón','Cajones',15,20,25,'PRO-002','Kg'),('Tiburón','Unidad',5,10,15,'PRO-003','Unidades');
 
 # Insertar todo los arribo
 INSERT INTO arrives (`boat_id`, `date`, `port_id`) VALUES (1, '2019-01-24 10:30:00', '3'), (1, '2019-01-30 10:35:00', '3'),
@@ -32,22 +33,33 @@ INSERT INTO batches (`arrive_id`, `product_id`, `caliber`, `quality`, `amount`) 
 
 # Insertar todo los status de los lotes
 INSERT INTO batch_statuses (`batch_id`, `assigned_auction`, `auction_sold`, `private_sold`, `remainder`, `created_at`, `updated_at`)
-VALUES (1, 90,1,0,99910,'2019-01-24 10:30:00','2019-01-24 10:30:00'), (2, 90,1,0,9910,'2019-01-24 10:30:00','2019-01-24 10:30:00'),
-(3, 90,1,0,99910,'2019-01-24 10:30:00','2019-01-24 10:30:00');
+VALUES (1, 40,50,2000,97910,'2019-01-24 10:30:00','2019-02-20 10:45:0'), (2, 40,50,0,9910,'2019-01-24 10:30:00','2019-01-24 10:30:00'),
+(3, 0,90,0,99910,'2019-01-24 10:30:00','2019-02-03 10:32:00'), (2,0,60,0,9910,'2019-01-24 10:30:00','2019-01-24 10:30:00');
 
 # Insertar todo las subastas
-INSERT INTO auctions (`batch_id`, `start`, `start_price`, `end`, `end_price`, `interval`, `amount`, `active`, `notification_status`, `type`, `description`, `target_price`)
-VALUES (1, '2019-01-24 10:30:00', 10000, '2019-01-30 10:30:00', 5000, 1, 90,  1, 0, 'public','producto a la mejor calidad' ,5050),
-(2, '2019-01-30 10:30:00', 1000, '2019-02-06 10:30:00', 500, 1, 90, 1, 0,'public','producto de alta calidad' ,510),
-(3, '2019-01-31 10:30:00', 100, '2019-02-03 10:30:00', 50, 1, 90, 1, 0,'public','producto de calidad' ,52);
+INSERT INTO auctions (`batch_id`, `correlative`, `start`, `start_price`, `end`, `end_price`, `interval`, `amount`, `active`, `notification_status`, `type`, `description`, `target_price`,`tentative_date`)
+VALUES (1, 152, '2019-01-24 10:30:00', 10000, '2019-01-30 10:30:00', 5000, 1, 90,  1, 0, 'public','producto a la mejor calidad', 5050, '2019-01-30 10:30:00'),
+(2, 155, '2019-01-30 10:30:00', 1000, '2019-02-06 10:30:00', 500, 1, 90, 1, 0,'public','producto de alta calidad' ,510, '2019-02-06 10:30:00'),
+(3, 150, '2019-01-31 10:30:00', 100, '2019-02-03 10:30:00', 50, 1, 90, 1, 0,'public','producto de calidad' ,52, '2019-02-03 10:30:00'),
+(2, 154, '2019-01-30 10:34:00', 1000, '2019-02-06 10:35:00', 500, 2, 90, 1, 0,'private','el mejor producto de alta calidad' ,510, '2019-02-06 10:38:00');
+
+# Insertar invitaciones a subasta
+INSERT INTO auctions_invites (`auction_id`, `user_id`)
+VALUES (4, 5), (4, 6);
+
+# Insertar todo las ventas privadas
+INSERT INTO private_sales (`user_id`, `batch_id`, `amount`, `price`, `weight`, `date`, `buyer_name`)
+VALUES (1, 1, 1000, 100, 0, '2019-02-02 10:35:00', 'rafael'), (1, 1, 500, 1000, 0, '2019-02-02 10:40:00', 'alex'), (1, 1, 500, 1000, 0, '2019-02-02 10:45:00', 'carlos');
+
+# Insertar evaluacion
+INSERT INTO users_ratings (`user_id`, `positive`, `negative`, `neutral`) VALUES (1,2,1,1);
 
 # Insertar todo las compras
-INSERT INTO bids (`auction_id`, `user_id`, `amount`, `price`, `bid_date`, `status`, `user_calification`, `user_calification_comments`, `seller_calification_comments`, `reason`)
-VALUES (3, 5, 90, 100, '2019-02-06 10:32:00', 'concretized', 'positive',  'positive', 'positive','positive');
-
-# Insertar todo los status de los lotes
-INSERT INTO batch_statuses (`batch_id`, `assigned_auction`, `auction_sold`, `private_sold`, `remainder`, `created_at`, `updated_at`)
-VALUES (3, 0,90,0,0,'2019-02-02 10:32:00','2019-02-03 10:32:00');
+INSERT INTO bids (`auction_id`, `user_id`, `amount`, `price`, `bid_date`, `status`, `user_calification`, `user_calification_comments`, `seller_calification_comments`, `reason`,`bid_origin`,`seller_calification`)
+VALUES (3, 5, 90, 100, '2019-02-06 10:32:00','concretized', 'positive','Reponsable','Buen producto','positive','offerDirect','positive'),
+(2, 5, 50, 1000, '2019-02-06 10:31:00','concretized','positive','Producto alta calidad','alta calidad','positive','offerDirect','positive'),
+(1, 5, 50, 10000, '2019-01-30 10:31:00','concretized','positive','trato agradable','muy responsable','positive','offerDirect','positive'),
+(4, 5, 60, 1000, '2019-01-30 10:35:00','concretized','positive','muy atento','confiable','positive','privateSold','positive');
 
 # Dejar esto al final ya que lo uso para verificar que termino el deploy
 INSERT INTO users (id,`name`,`lastname`,`email`,`password`,`type`,`status`,`hash`,`active_mail`,`nickname`)
