@@ -811,8 +811,16 @@ class AuctionController extends Controller
             foreach($request->ids as $id){$ids.=$id.',';}$ids=substr($ids,0,-1);
         }
         $users=User::select('id','name','lastname','nickname')
-                ->whereRaw((($ids!='')?'`id` NOT IN ('.$ids.') AND ':'').'`status`="approved" AND `type`="buyer" AND (`nickname` like "%'.$request->val.'%" OR `name` like "%'.$request->val.'%" OR `lastname` like "%'.$request->val.'%")')
+                ->whereRaw(
+                        (($ids!='')?'`id` NOT IN ('.$ids.') AND ':'').
+                        '`status`="approved" AND '
+                        . '`type`="buyer" AND '
+                            . '(`nickname` like "%'.$request->val.'%" OR '
+                            . '`name` like "%'.$request->val.'%" OR '
+                            . '`lastname` like "%'.$request->val.'%" OR '
+                            . ' CONCAT_WS(" ",`name`,`lastname`) LIKE "%'.$request->val.'%")')
                 ->get();
+        //die(Constants::getRealQuery($users));
         return json_encode($users);
 
     }
