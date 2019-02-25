@@ -63,6 +63,9 @@ Route::get('auction/operations/{auction}', [
 //Route::get('auction/sele/{auction}', [
 //    'as' => 'auction.sele', 'uses' => 'AuctionController@sele'
 //]);
+//Route::get('offers', [
+//    'as' => 'offer.index', 'uses' => 'OfferController@index'
+//]);
 Route::get('auction/offers/{auction}', [
     'as' => 'auction.offers', 'uses' => 'AuctionController@offersToBid'
 ]);

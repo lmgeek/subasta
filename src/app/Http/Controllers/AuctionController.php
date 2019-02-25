@@ -1122,14 +1122,17 @@ class AuctionController extends Controller
     
     
     public function offerList(Request $request){
-        $auctions=Auction::AuctionsQueryBuilder(array(
-            'sellerid'=>Auth::user()->id
-        ));
+//        $auctions=Auction::AuctionsQueryBuilder(array(
+//            'sellerid'=>Auth::user()->id
+//        ));
+//        $this->authorize('seeAuctions', Auction::class);
+        $auctions=Auction::auctionHome(null,array('type'=>'mine'),Constants::FINISHED);
         $offers=array();
         foreach($auctions as $auction){
             $auction->code=self::getAuctionCode($auction->correlative,$auction->created_at);
             $offers[$auction->id]= self::getOffers($auction->id);
         }
+
         return view('landing3/offers')
             ->with('auctions',$auctions)->with('offers',$offers);
     }
@@ -1229,8 +1232,6 @@ class AuctionController extends Controller
         $available = $this->getAvailable($auction_id, $auction->amount);
         $offers = $this->getOffers($auction_id);
         $count = count($offers);
-//        $declineoffer = 'auction/offers/decline/'.$auction_id;
-//        dd($declineoffer);
         foreach ($offers as $offer) {
             // Verifico la fecha de la subasta
             if ($auction->end >= date(Constants::DATE_FORMAT)){
@@ -1243,7 +1244,6 @@ class AuctionController extends Controller
                 $offerForSale = $this->offerForSale($auction, $offer);
                 if ($offerForSale){
                     $offers = $this->getOffers($auction_id);
-//                        return ('<h1 style="    text-align: center; margin-top: 300px; font-size: 5em">Se vendio todo</h1>');
                     return $offers;
                 }
 
@@ -1269,8 +1269,6 @@ class AuctionController extends Controller
 
         setlocale(LC_MONETARY, 'en_US');
         $auction = Auction::findOrFail($auction_id);
-//        $this->authorize('viewOperations', $auction);
-//        $request->session()->put('url.intended', '/auction/offers/'.$auction_id);
         $available = $this->getAvailable($auction_id, $auction->amount);
         $offers = $this->getOffers($auction_id);
 
