@@ -32,7 +32,6 @@ class EditProductRequest extends Request
             ->where('name', Request::get(Constants::NOMBRE))
             ->Where('unit', Request::get(Constants::UNIDAD))
             ->first();
-        $product_id = Request::get('id');
         $cero = "0,00";
         if ($prod == null){
             return [

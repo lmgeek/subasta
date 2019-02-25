@@ -66,7 +66,7 @@ class Boat extends Model
     {
         $port = Ports::select('name')->where('id', '=', $idBarcoReference)->get();
 
-        foreach ($port as $key => $value) {
+        foreach ($port => $value) {
            echo  $value['name'];
         }
     }
