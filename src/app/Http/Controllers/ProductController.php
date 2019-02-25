@@ -106,9 +106,6 @@ class ProductController extends Controller
     {
         $prod = Product::withTrashed()->findOrFail($id);
         if(!is_null($request->file(Constants::IMAGEN))){
-//            if (!is_null($prod->image_name) and file_exists('img/products/'.$prod->image_name)){
-//                unlink('img/products/'.$prod->image_name);
-//            }
             $fileName = $request->file(Constants::IMAGEN)->getClientOriginalName();
             if ( file_exists('img/products/'.$fileName) ){
                 $prod->image_name = $fileName;

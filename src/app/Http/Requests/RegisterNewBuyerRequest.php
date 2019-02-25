@@ -28,11 +28,7 @@ class RegisterNewBuyerRequest extends Request
             'dni'=>"required|min:7|regex:(^[0-9]+$)",
             'cuit'=>"required|min:13|regex:(^[0-9-]+$)",
             'password'=>'required|confirmed|regex:(^\S*(?=\S{6,8})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$)',
-//            'password'=>'required|confirmed|regex:(^\S*(?=\S{6,8})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$)',
 			'email' => 'required|min:7|unique:users,email|email',
-            'password'=>'required|confirmed|regex:(^\S*(?=\S{6,8})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$)',
-			'email' => 'required|min:7|unique:users,email|email',
-//            'phone' => 'numeric',
             'phone' => 'regex:(^[()0-9-]+$)',
         ];
     }
