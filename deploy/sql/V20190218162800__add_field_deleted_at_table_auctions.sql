@@ -1,25 +1,25 @@
 DELIMITER $$
 
-DROP PROCEDURE IF EXISTS upgrade_database_20190219152000 $$
+DROP PROCEDURE IF EXISTS upgrade_database_20190218162800 $$
 
-CREATE PROCEDURE upgrade_database_20190219152000()
+CREATE PROCEDURE upgrade_database_20190218162800()
 
 BEGIN
 
 IF NOT EXISTS ( SELECT * FROM information_schema.`COLUMNS`
 WHERE
   TABLE_SCHEMA='subastas'
-  AND table_name='bids'
-  AND column_name='bid_origin'
+  AND table_name='auctions'
+  AND column_name='deleted_at'
 ) THEN
-   ALTER TABLE `bids` ADD COLUMN `bid_origin` enum('auction','offerDirect','privateSold') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'auction' AFTER `bid_date`;
+   ALTER TABLE `auctions` ADD COLUMN `deleted_at`  timestamp NULL DEFAULT NULL AFTER `updated_at`;
 END IF;
 
 
 END $$
 
-CALL upgrade_database_20190219152000() $$
+CALL upgrade_database_20190218162800() $$
 
-DROP PROCEDURE upgrade_database_20190219152000 $$
+DROP PROCEDURE upgrade_database_20190218162800 $$
 
 DELIMITER ;
