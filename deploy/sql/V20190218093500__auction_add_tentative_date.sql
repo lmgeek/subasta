@@ -7,7 +7,7 @@ BEGIN
 
 IF NOT EXISTS ( SELECT * FROM information_schema.`COLUMNS`
 WHERE TABLE_SCHEMA='subastas' AND table_name='auctions' AND column_name='tentative_date')
-THEN ALTER TABLE auctions ADD COLUMN tentative_date datetime NOT NULL;
+THEN ALTER TABLE auctions ADD COLUMN tentative_date datetime NULL;
 END IF;
 
 END $$
