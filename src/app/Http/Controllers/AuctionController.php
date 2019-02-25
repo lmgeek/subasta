@@ -367,10 +367,6 @@ class AuctionController extends Controller
         $auction = Auction::findOrFail($auction_id);
         $this->authorize('viewOperations', $auction);
         $request->session()->put('url.intended', '/auction/sele/'.$auction_id);
-//        echo "<pre>";
-//        print_r($auction);
-//        echo "</pre>";
-//        dd();
         return view('auction.sele',compact(Constants::AUCTION));
     }
 	 public function buyerBid(Request $request)
@@ -820,7 +816,6 @@ class AuctionController extends Controller
                             . '`lastname` like "%'.$request->val.'%" OR '
                             . ' CONCAT_WS(" ",`name`,`lastname`) LIKE "%'.$request->val.'%")')
                 ->get();
-        //die(Constants::getRealQuery($users));
         return json_encode($users);
 
     }
@@ -968,7 +963,6 @@ class AuctionController extends Controller
         $auctions1 = $auctionhome[Constants::IN_CURSE];
         $auctions2 = array_reverse($auctionhome[Constants::FINISHED]);
         $auctiondetails1=$this->getAuctionsDataForHome($auctions1);
-        $auctiondetails2=$this->getAuctionsDataForHome($auctions2);
         $port=(isset($auctiondetails1[Constants::PORTS]))?$auctiondetails1[Constants::PORTS]:array();
         /*
          * Retornan tanto las subastas en curso como las finalizadas
@@ -1419,8 +1413,6 @@ class AuctionController extends Controller
 
     public function getCurrentTime()
     {
-//        $date = date('D M d Y H:m:i \G\M\TO');
-//        return date(Constants::DATE_FORMAT);
         return gmdate('D, M d Y H:i:s T\-0300', time());
     }
 
