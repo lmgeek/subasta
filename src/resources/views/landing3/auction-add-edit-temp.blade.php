@@ -192,6 +192,7 @@ if(Auth::user()->type==Constants::VENDEDOR){
         });
         
         $.get('/getusersauctionprivate',{val:$val,ids:$ids},function(result){
+            console.log(result)
             var $result=JSON.parse(result),$html='',$inputs='';
             for(var $z=0;$z<$result.length;$z++){
                 $html+='<div onclick="addGuest('+$result[$z]['id']+',\''+$result[$z]['name']+' '+$result[$z]['lastname']+'\',\''+$result[$z]['nickname']+'\')">'+$result[$z]['name']+' '+$result[$z]['lastname']+' ('+$result[$z]['nickname']+')'+'</div>';
