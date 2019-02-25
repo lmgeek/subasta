@@ -1,0 +1,16 @@
+TRUNCATE TABLE auctions;
+TRUNCATE TABLE arrives;
+TRUNCATE TABLE auctions_invites;
+TRUNCATE TABLE auctions_offers;
+TRUNCATE TABLE batches;
+TRUNCATE TABLE batch_statuses;
+TRUNCATE TABLE bids;
+TRUNCATE TABLE boats;
+TRUNCATE TABLE comprador;
+TRUNCATE TABLE password_resets;
+TRUNCATE TABLE `port`;
+TRUNCATE TABLE private_sales;
+TRUNCATE TABLE products;
+TRUNCATE TABLE users_ratings;
+TRUNCATE TABLE vendedor;
+TRUNCATE TABLE users;
