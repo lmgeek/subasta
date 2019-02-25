@@ -6,7 +6,7 @@ use App\Boat;
 
     Se instancia la clase barco pora usar la funcion referencePort()
     esta funcion permite bucar el puerto de referencia asociado a un
-    barco, todo lo que se debe hacer  es llamar la funcion y pasar como
+    barco, lo que se debe hacer  es llamar la funcion y pasar como
     parametro "$barco->reference_port" ejemplo:
 
     {{$objt->referencePort($barco->reference_port)}}
