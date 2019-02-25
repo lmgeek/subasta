@@ -1,25 +1,36 @@
-<?php
-
-/*
- * In @section('content') goes all that's inside
- * .dashboard-content-container
- * (Lines 33->608 dash-list-ofertas.php)
- * In the foreach goes each ship container with all the actions and data
- * 
- */
-?>
 @extends('landing3/partials/layout-admin')
 @section('title',' | Ofertas Recibidas')
 @section('content')
 
 @foreach($auctions as $auction)
-    <?php echo 'Auction <br>';var_dump($auction);echo '<br>'?>
-
-
-
-
+    <h4>Subasta </h4><br>
+    Producto: {{ $auction->batch->product->name }}
+    <br>
+    {{ $auction->code }}
+    <br>
+    Fecha Fin: {{ $auction->end }}
+    <br>
+    Precio Limite: {{ $auction->end_price }}
+    <br>
     @foreach($offers[$auction->id] as $offer)
-    <?php echo '&nbsp;&nbsp;&nbsp;Offer<br>';var_dump($offer);echo '<br>'?>
+        Mejor Oferta: <?=max(array($offer->price))?>
+        <br>
+        Status: <?=max(array($offer->status))?>
+        <br>
+        <h4>Ofertas</h4>
+        <br>
+        Comprador: {{ $offer->user->nickname }}
+        <br>
+        Precio Ofrecido: {{ $offer->price }}
+        <br>
+        Calidad Producto: {{ $offer->quality }}
+        <?php
+        /*
+        echo "<pre>";
+        //print_r($offer->user->rating);
+        echo "<pre>";
+        */
+        ?>
     @endforeach
 @endforeach
 
