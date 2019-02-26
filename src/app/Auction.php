@@ -157,52 +157,52 @@ class Auction extends Model{
             ->join(Constants::BOATS, Constants::ARRIVES_BOAT_ID, Constants::EQUAL, Constants::BOATS_ID)
             ->join(Constants::USERS, Constants::BOATS_USER_ID, Constants::EQUAL, Constants::USERS_ID)
             ;
-        if(isset($params['auctionid'])){
+        if(isset($params[Constants::AUCTIONID])){
             $auctions=$auctions->where(Constants::AUCTIONS_ID, Constants::EQUAL,$params['auctionid']);
         }
-        if(isset($params['idtoavoid'])){
+        if(isset($params[Constants::IDTOAVOID])){
             $auctions=$auctions->whereNotIn(Constants::AUCTIONS_ID,$params['idtoavoid']);
         }
-        if(isset($params['batchid'])){
+        if(isset($params[Constants::BATCHID])){
             $auctions=$auctions->where(Constants::AUCTIONS_BATCH_ID, Constants::EQUAL,$params['batchid']);
         }
-        if(isset($params['boatid'])){
+        if(isset($params[Constants::BOATID])){
             $auctions=$auctions->where(Constants::BOATS_ID, Constants::EQUAL,$params['boatid']);
         }
-        if(isset($params['sellerid'])){
-            $ports=$params['sellerid'];
+        if(isset($params[Constants::SELLERID])){
+            $ports=$params[Constants::SELLERID];
             if(is_array($ports)){
                 $auctions=$auctions->whereIn('users.id',$params['sellerid']);
             }else{
                 $auctions=$auctions->where('users.id', Constants::EQUAL,$params['sellerid']);
             }
         }
-        if(isset($params['productid'])){
-            $ports=$params['productid'];
+        if(isset($params[Constants::PRODUCTID])){
+            $ports=$params[Constants::PRODUCTID];
             if(is_array($ports)){
                 $auctions=$auctions->whereIn('batches.product_id',$params['productid']);
             }else{
                 $auctions=$auctions->where('batches.product_id', Constants::EQUAL,$params['productid']);
             }
         }
-        if(isset($params['quality'])){
-            $ports=$params['quality'];
+        if(isset($params[Constants::QUALITY])){
+            $ports=$params[Constants::QUALITY];
             if(is_array($ports)){
                 $auctions=$auctions->whereIn('batches.quality',$params['quality']);
             }else{
                 $auctions=$auctions->where('batches.quality', Constants::EQUAL,$params['quality']);
             }
         }
-        if(isset($params['portid'])){
-            $ports=$params['portid'];
+        if(isset($params[Constants::PORTID])){
+            $ports=$params[Constants::PORTID];
             if(is_array($ports)){
                 $auctions=$auctions->whereIn('arrives.port_id',$params['portid']);
             }else{
                 $auctions=$auctions->where('arrives.port_id', Constants::EQUAL,$params['portid']);
             }
         }
-        if(isset($params['caliber'])){
-            $ports=$params['caliber'];
+        if(isset($params[Constants::CALIBER])){
+            $ports=$params[Constants::CALIBER];
             if(is_array($ports)){
                 $auctions=$auctions->whereIn('batches.caliber',$params['caliber']);
             }else{
