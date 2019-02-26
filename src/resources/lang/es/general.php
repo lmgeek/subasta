@@ -21,7 +21,8 @@ return [
         'Cajas' => 'Cajas',
         'Cajones' => 'Cajones',
         'Pastillas' => 'Pastillas',
-        'Unidades' => 'Unidades'
+        'Unidades' => 'Unidades',
+        'Kg'       => 'Kg'
     ],
     'product_caliber' => [
         'small' => 'Chico',
