@@ -75,6 +75,19 @@ class Constants{
     const ARRIVES_ID='arrives.id';
     const ARRIVES_BOAT_ID='arrives.boat_id';
     const BOATS='boats';
+    const AUCTIONEDIT='auctionedit';
+    const ARRIVEEDIT='arriveedit';
+    const BATCHEDIT='batchedit';
+    const PRODUCTID='productid';
+    const TIPOSUBASTA='tipoSubasta';
+    const DESCRI='descri';
+    const PRICEMAX='pricemax';
+    const PRICEMIN='pricemin';
+    const EN_US='en_US';
+    const VIEWOPERATIONS='viewOperations';
+    const BATCH_I='batch_id';
+    const CURRENTPRICE='CurrentPrice';
+
     const BOATS_ID='boats.id';
     const BOATS_USER_ID='boats.user_id';
     const USER='user';
@@ -172,7 +185,7 @@ class Constants{
         $perPage = self::PAGINATE_NUMBER;
         $currentPageItems = $itemCollection->slice(($currentpage * $perPage) - $perPage, $perPage)->all();
         $paginatedItems= new LengthAwarePaginator($currentPageItems , count($itemCollection), $perPage);
-        //$paginatedItems->setPath($url);
+
         return $paginatedItems;
     }
      public static function getRealQuery($query, $dumpIt = false){
