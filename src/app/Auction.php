@@ -214,7 +214,7 @@ class Auction extends Model{
         $auctions=$auctions->where(Constants::ACTIVE_LIT, Constants::EQUAL, Constants::ACTIVE)
                 ->where('auctions.deleted_at','=',NULL)
                 ->orderBy($orderby,$order);
-        if($dump==true){
+        if($dump){
             echo Constants::getRealQuery($auctions);die();
         }
         if(empty($params['paginate'])){
@@ -224,7 +224,7 @@ class Auction extends Model{
         }
     }
     public static function auctionTimeSplitter($auctions){
-        $counter=0;$continue=1;$now =date(Constants::DATE_FORMAT);
+        $now =date(Constants::DATE_FORMAT);
         $return=array('all'=>array(),Constants::FINISHED=>array(), Constants::IN_CURSE=>array(), Constants::FUTURE=>array(),'mine'=>array('all'=>array(),Constants::FINISHED=>array(), Constants::IN_CURSE=>array(), Constants::FUTURE=>array()));
         foreach($auctions as $auction){
             $availability=self::getAvailable($auction->id,$auction->amount)['available'];

@@ -16,6 +16,7 @@ class Constants{
     const NOMBRE='nombre';
     const CODIGO='codigo';
     const UNIDAD='unidad';
+    const PRESEN='presen';
     const REMEMBER='remember';
     const IMAGE='image';
     const IMAGEN='imagen';

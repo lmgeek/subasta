@@ -26,19 +26,14 @@ class OfferController extends Controller
      */
     public function index()
     {
-//        $status = Constants::FINISHED;
         $status = Constants::MY_IN_CURSE;
         $auctions = Auction::filterAndPaginate($status,null,null,null);
         $offers = array();
         foreach($auctions as $a){
-//            $offers
             $offers[$a->id] = $this->getOffers($a->id);
-//            echo "<pre>";
-//            print_r($a);
-//            echo "</pre>";
         }
 
-//        dd();
+
         return response()->json($a);
     }
 

@@ -38,31 +38,17 @@ class CreateProductRequest extends Request
             ->Where('unit', $this->unidad)
             ->first();
 
-$cero = "0,00";
-        if ($prod == null){
+            $cero = "0,00";
             return [
-                'unidad'=> 'required',
-                'presen'=> 'required',
+                Constants::UNIDAD        => 'required',
+                Constants::PRESEN        =>  'required',
                 Constants::CODIGO        => 'required|regex:(^[0-9a-zA-Z]+$)|max:10',
                 Constants::NOMBRE        => 'required|regex:(^[a-zA-Zá-úÁ-Ú\s]+$)',
                 Constants::WEIGHT_SMALL  => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
                 Constants::WEIGHT_MEDIUM => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
                 Constants::WEIGHT_BIG    => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
-                'imagen'        => 'required|image',
+                Constants::IMAGEN        => 'required|image',
             ];
-        } else{
-            return [
-//                'firstName' => "uniqueFirstAndLastName:{$request->lastName}"
-                'unidad'        => 'required',
-                'presen'        => 'required',
-                Constants::CODIGO        => 'required|regex:(^[0-9a-zA-Z]+$)|max:10',
-                Constants::NOMBRE        => 'required|unique_name_unit:'.$this->unidad,
-                Constants::WEIGHT_SMALL  => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
-                Constants::WEIGHT_MEDIUM => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
-                Constants::WEIGHT_BIG    => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
-                'imagen'        => 'required|image',
-            ];
-        }
     }
 
     public function attributes()
