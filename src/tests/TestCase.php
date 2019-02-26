@@ -70,6 +70,10 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
                 $userAuth->assertResponseOk();
                 break;
 
+            case 'select':
+                $userAuth->select($text,$element);
+                break;
+
             //Recuerda que funcion Click() recibe como parametro el text0 que se encuentra entre las etiquetas <a>
             case 'click':
                 $userAuth->click($element);
@@ -105,9 +109,11 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
 
     /*    G.B Resgitrar barco*/
-    public function instanceClassBoat($class,$id,$nickname ){
+    public function instanceClassBoat($class,$id,$nombre,$matricula,$reference_port ){
         $class->user_id = $id;
-        $class->nickname = $nickname;
+        $class->name = $nombre;
+        $class->matricula = $matricula;
+        $class->reference_port = $reference_port;
         $class->save();
         return true;
     }
@@ -159,11 +165,12 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
     }
 
-
+    //G.B funcion para obtener el id del ultimo registro insertado en la BD
     public function getTheLastIdInsertedInTheSeller(){
         $idLast = User::all()->last();
         return $idLast['id'];
     }
+
 
     public function getFieldValidator($field, $value)
     {
@@ -177,7 +184,5 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     {
         return $this->getFieldValidator($field, $value)->passes();
     }
-
-
 
 }
