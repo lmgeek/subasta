@@ -178,7 +178,7 @@ class AuctionController extends Controller
             $close=($price<$targetprice)?1:0;
             $time = round(microtime(true) * 1000);
             $data['id'] = $auction_id;
-            $data[Constants::CLOSE] = $close;
+            $data['CLOSE'] = $close;
             $data['end'] = $auction->end;
             $data[Constants::AVAILABILITY] = $available[Constants::AVAILABLE];
             $data['currenttime'] = $time;
@@ -1083,7 +1083,7 @@ class AuctionController extends Controller
                 $resp[Constants::CALIBER] = Constants::caliber($caliber);
                 $resp[Constants::QUALITY] = $quality;
                 $resp[Constants::PRODUCT] = $product;
-                $resp['productid']=$auction->batch->product->id;
+                $resp[Constants::PRODUCTID]=$auction->batch->product->id;
                 $resp[Constants::AMOUNT] = $available[Constants::AVAILABLE];
                 $resp[Constants::PRICE] = $price;
                 $resp['offerscounter']=$this->getOffersCount($auction_id);

@@ -87,6 +87,12 @@ class Constants{
     const VIEWOPERATIONS='viewOperations';
     const BATCH_I='batch_id';
     const CURRENTPRICE='CurrentPrice';
+    const SELLERID='sellerid';
+    const BATCHID='batchid';
+    const BOATID='boatid';
+    const PORTID='portid';
+    const IDTOAVOID='idtoavoid';
+    const AUCTIONID='auctionid';
 
     const BOATS_ID='boats.id';
     const BOATS_USER_ID='boats.user_id';
