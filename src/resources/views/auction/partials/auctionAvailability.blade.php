@@ -1,15 +1,6 @@
 <div class="row">
     <div class="col-md-12 text-center" style="margin-top:15px">
-        <?php
-//
-//        $vendido = 0;
-//        foreach ($a->bids()->where('status','<>',\App\Bid::NO_CONCRETADA)->get() as $b) {
-//            $vendido+= $b->amount;
-//        }
-//
-//        $total = $a->amount;
-//        $disponible = $total-$vendido;
-        ?>
+
 		@if ( $a->available($a->id, $a->amount) > 0 )
 				@if($status == \App\Constants::FUTURE)
 					<strong>{{ trans('auction.aviability') }} {{ $a->amount }}</strong>
