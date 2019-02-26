@@ -219,7 +219,6 @@ class AuctionController extends Controller
              $price=$request->input(Constants::PRICE);
          }
 
-        //if($this->checkIfBuyercanBuy($amount*$price)==false){return json_encode(array('limited'=>1));}
 		$resp  =  array();
 
 		if ($auction->active == 0 )
@@ -1124,10 +1123,6 @@ class AuctionController extends Controller
     
     
     public function offerList(Request $request){
-//        $auctions=Auction::AuctionsQueryBuilder(array(
-//            'sellerid'=>Auth::user()->id
-//        ));
-//        $this->authorize('seeAuctions', Auction::class);
         $auctions=Auction::auctionHome(null,array('type'=>'mine'),Constants::FINISHED);
         $offers=array();
         foreach($auctions as $auction){
@@ -1368,12 +1363,6 @@ class AuctionController extends Controller
                 }
 
             }
-//Update batch_statuses
-//        $this->status = Batch::findOrFail($auction->batch_id)->status;
-//        $this->status->assigned_auction -= $available[Constants::AVAILABLE];
-//        $this->status->auction_sold += $available[Constants::AVAILABLE];
-//        $this->status->save();
-
             $this->emailOfferBid($auction,$available,$offer);
             $offers = $this->getOffers($auction_id);
             return $offers;
@@ -1398,8 +1387,7 @@ class AuctionController extends Controller
             'batches.caliber',
             'batches.quality',
             'products.name AS Producto',
-            'auctions_offers.user_id'/*,
-            'users.name AS Comprador'*/
+            'auctions_offers.user_id'
         )
             ->join(Constants::AUCTIONS,Constants::AUCTIONS_ID,'=',Constants::INPUT_AUCTION_ID)
             ->join(Constants::BATCHES,'batches.id','=',Constants::AUCTIONS_BATCH_ID)
@@ -1429,9 +1417,6 @@ class AuctionController extends Controller
         $this->authorize('isMyAuction',$auction);
         $offers = $this->getOffers($auction_id);
         $available = $this->getAvailable($auction_id, $auction->amount);
-//        if (isset($_GET['opc']) && $_GET['opc']==1){
-//            $this->autoOffersBid($request, $auction_id);
-//        }
         if ($offer_id == null){
             foreach ($offers as $o){
                 $this->offers = Offers::findOrFail($o->id);
@@ -1494,7 +1479,6 @@ class AuctionController extends Controller
             }
         }
         return $this->getOffers($auction_id);
-//        return redirect('home');
 
     }
 

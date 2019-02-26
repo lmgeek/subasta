@@ -14,13 +14,11 @@ class PasswordControllerIndex extends PasswordController
 {
     public function postEmail(Request $request)
     {
-        $this->validate($request, ['email' => 'required|email']);
-        $email=$request->input('email');
-        $statu  = User::Select('status')->where('email','=',$email)->get()->toArray();
+        $this->validate($request, [Constants::EMAIL => 'required|email']);
+        $email=$request->input(Constants::EMAIL);
+        $statu  = User::Select(Constants::STATUS)->where('email','=',$email)->get()->toArray();
 
-
-
-            $response = Password::sendResetLink($request->only('email'),
+            $response = Password::sendResetLink($request->only(Constants::EMAIL),
                 function (Message $message) {
                     $message->subject($this->getEmailSubject());
                 });
