@@ -14,7 +14,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class SignInTest extends TestCase
+class SignInTest extends \Testcase
 {
 
     public function setUp()

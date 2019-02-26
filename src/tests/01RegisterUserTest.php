@@ -1,13 +1,17 @@
 <?php
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use App\User;
 use App\Vendedor;
 use App\Comprador;
 
-class RegisterUserTest extends TestCase
+
+
+class RegisterUserTest extends \TestCase
 {
 
     /**
@@ -140,6 +144,36 @@ class RegisterUserTest extends TestCase
 
 
 
+    /**        Prueba de registrar usuario Comprador en base de datos
+     *
+     * @test */
+    function validateThatABuyerRegistersCorrectly(){
+
+        $user = new User();
+        $comprador = new Comprador();
+
+        $response = $this->instanceClassUserBuyer($user,$comprador,"Robert","kiyosaki","rober29","123123123",
+            "Robertkiyosaki@netlabs.com.ar","G3rm@n") ;
+        $this->unitAssert('assertTrue',$response);
+
+    }
+
+
+    /**         Prueba de registrar usuario vendedor en base de datos
+     *
+     * @test */
+    function validateThatASellerRegistersCorrectly(){
+
+        $user = new User();
+        $vendedor = new Vendedor();
+
+        $response = $this->instanceClassUserSeller($user, $vendedor, "Guaido", "Venezuela", "Guiaido29", "32-32322332-3",
+            "guaidopresidente@netlabs.com.ar", "G3rm@n");
+        $this->unitAssert('assertTrue', $response);
+
+    }
+
+
     /**
      * Email Field Validations
      */
@@ -151,7 +185,7 @@ class RegisterUserTest extends TestCase
 
     public function testSendingDuplicateInfoIsNotAcceptedIntoEmailInput()
     {
-        $response = $this->validateField('email', 'alejandroj@netlabs.com.ar');
+        $response = $this->validateField('email', 'Robertkiyosaki@netlabs.com.ar');
         $this->assertFalse($response);
     }
 
@@ -197,33 +231,6 @@ class RegisterUserTest extends TestCase
     }
 
 
-    /**        Prueba de registrar usuario Comprador en base de datos
-     *
-     * @test */
-    function validateThatABuyerRegistersCorrectly(){
-
-        $user = new User();
-        $comprador = new Comprador();
-
-        $response = $this->instanceClassUserBuyer($user,$comprador,"Robert","kiyosaki","rober29","123123123",
-            "Robertkiyosaki@netlabs.com.ar","G3rm@n") ;
-        $this->unitAssert('assertTrue',$response);
-    }
-
-
-    /**         Prueba de registrar usuario vendedor en base de datos
-     *
-     * @test */
-    function validateThatASellerRegistersCorrectly(){
-
-    $user = new User();
-    $vendedor = new Vendedor();
-
-    $response = $this->instanceClassUserSeller($user, $vendedor, "Guaido", "Venezuela", "Guiaido29", "32-32322332-3",
-                "guaidopresidente@netlabs.com.ar", "G3rm@n");
-    $this->unitAssert('assertTrue', $response);
-
-    }
 
 
 
