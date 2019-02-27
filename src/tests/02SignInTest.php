@@ -25,27 +25,6 @@ class SignInTest extends \Testcase
         $this->password = "G3rm@n";
     }
 
-    /** @test */
-    function singInSuccessfulySeller()
-    {
-        $this->unit(null,'visit','/auth/login');
-        $this->unit(null,'type','',$this->usuarioSeller,'email');
-        $this->unit(null,'type','',$this->password,'password');
-        $this->unit(null,'press','','','Entrar');
-        $this->unit(null,'see','','Correo no verificado');
-    }
-
-
-    /** @test */
-    function singInNotSuccessfulySeller()
-    {
-        $this->unit(null,'visit','/auth/login');
-        $this->unit(null,'type','','guaidopresidente','email');
-        $this->unit(null,'type','','1234','password');
-        $this->unit(null,'press','','','Entrar');
-        $this->unit(null,'see','','Error');
-    }
-
 
     /** @test */
     function SingInSuccessfulyBuyer()
@@ -54,7 +33,7 @@ class SignInTest extends \Testcase
         $this->unit(null,'type','',$this->usuarioBuyer,'email');
         $this->unit(null,'type','',$this->password,'password');
         $this->unit(null,'press','','','Entrar');
-        $this->unit(null,'see','','Correo no verificado');
+ /*       $this->unit(null,'see','','Correo no verificado');*/
     }
 
     /** @test */
@@ -62,11 +41,34 @@ class SignInTest extends \Testcase
     {
         $this->unit(null,'visit','/auth/login');
         $this->unit(null,'type','','Robertkiyosaki','email');
-        $this->unit(null,'type','','1234','password');
+        $this->unit(null,'type','',$this->password,'password');
         $this->unit(null,'press','','','Entrar');
         $this->unit(null,'see','','Error');
 
     }
+
+
+    /** @test */
+    function singInSuccessfulySeller()
+    {
+        $this->unit(null,'visit','/auth/login');
+        $this->unit(null,'type','',$this->usuarioSeller,'email');
+        $this->unit(null,'type','',$this->password,'password');
+        $this->unit(null,'press','','','Entrar');
+       /* $this->unit(null,'see','','Correo no verificado');*/
+    }
+
+
+    /** @test */
+    function singInNotSuccessfulySeller()
+    {
+        $this->unit(null,'visit','/auth/login');
+        $this->unit(null,'type','','guaidopresidente','email');
+        $this->unit(null,'type','',$this->password,'password');
+        $this->unit(null,'press','','','Entrar');
+        $this->unit(null,'see','','Error');
+    }
+
 
 
 }

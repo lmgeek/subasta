@@ -6,4 +6,5 @@
 .idea
 .idea/workspace.xml
 *.iml
-
+deploy/sql/beforeMigrate.sql
+deploy/sql/afterMigrate.sql
