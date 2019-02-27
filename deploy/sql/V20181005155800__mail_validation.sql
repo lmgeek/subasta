@@ -25,7 +25,7 @@ WHERE
   AND data_type='tinyint'
   AND IS_NULLABLE='NO'
 ) THEN
-   ALTER TABLE users ADD COLUMN active_mail BOOLEAN NOT NULL DEFAULT 1 AFTER `email`;
+   ALTER TABLE users ADD COLUMN active_mail BOOLEAN NOT NULL DEFAULT 0 AFTER `email`;
 END IF;
 
 END $$
