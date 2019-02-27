@@ -27,7 +27,7 @@ class SignInTest extends \Testcase
 
 
     /** @test */
-    function SingInSuccessfulyBuyer()
+    function signInSuccessfulySeller()
     {
         $this->unit(null,'visit','/auth/login');
         $this->unit(null,'type','',$this->usuarioBuyer,'email');
@@ -37,7 +37,7 @@ class SignInTest extends \Testcase
     }
 
     /** @test */
-    function singInNotSuccessfulyBuyer()
+    function signInNotSuccessfulySeller()
     {
         $this->unit(null,'visit','/auth/login');
         $this->unit(null,'type','','Robertkiyosaki','email');
@@ -49,7 +49,7 @@ class SignInTest extends \Testcase
 
 
     /** @test */
-    function singInSuccessfulySeller()
+    function SignInSuccessfulyBuyer()
     {
         $this->unit(null,'visit','/auth/login');
         $this->unit(null,'type','',$this->usuarioSeller,'email');
@@ -60,7 +60,7 @@ class SignInTest extends \Testcase
 
 
     /** @test */
-    function singInNotSuccessfulySeller()
+    function signInNotSuccessfulyBuyer()
     {
         $this->unit(null,'visit','/auth/login');
         $this->unit(null,'type','','guaidopresidente','email');

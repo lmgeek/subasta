@@ -169,7 +169,9 @@ if(Auth::user()->type==Constants::VENDEDOR){
 <script>
     function getPreferredPort(){
         $.get('/getpreferredport',{idboat:$('#Boat').val()},function(result){
-            $('#puerto').val(result);
+            $result=JSON.parse(result);
+            console.log($result)
+            $('#puerto').val($result['preferred']);
         });
     }
     function changePrivacy(){
@@ -190,7 +192,7 @@ if(Auth::user()->type==Constants::VENDEDOR){
             $ids[$cont]=$(this).val();
             $cont++;
         });
-        
+        console.log($ids)
         $.get('/getusersauctionprivate',{val:$val,ids:$ids},function(result){
             console.log(result)
             var $result=JSON.parse(result),$html='',$inputs='';
