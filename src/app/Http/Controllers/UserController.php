@@ -1,12 +1,11 @@
 <?php
-
+namespace App\Http\Controllers;
 use App\User;
 use App\Bid;
 use App\ViewHelper;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Routing\Route;
-use Auth;
 use Illuminate\Support\Facades\Mail;
 
 
@@ -30,7 +29,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('seeUsersList', Auth::user());
+        //$this->authorize('seeUsersList', Auth::user());
         $users = User::filter($request->get('name'),$request->get('type'),$request->get('status'));
 		
 		$userRating =  array();
