@@ -8,10 +8,13 @@ class Constants{
     const CANT_MAX_SILVER=1000;
     const PAGINATE_NUMBER=3;
     const PAGINATE_MAX_LINKS=6;
+    const NAME='name';
     const MAIL_ADDRESS='sistema@subastas.com.ar';
     const MAIL_NAME='Subastas';
     const MIDDLEWARE='middleware';
     const EMAIL='email';
+    const ARRIVE_ID='arrive_id';
+    const ADDBOAT='addBoat';
     const PASSWORD='password';
     const NOMBRE='nombre';
     const CODIGO='codigo';
@@ -54,6 +57,7 @@ class Constants{
     const INPUT_COMENTARIOS_CALIFICACION='comentariosCalificacion';
     const MAKE_BID='makeBid';
     const AUCTION='auction';
+    const BATCHES_PRODUCT_ID='batches.product_id';
     const AUCTIONS='auctions';
     const AUCTIONS_SELECT_ALL= 'auctions.*';
     const AUCTIONS_ID='auctions.id';
@@ -93,7 +97,16 @@ class Constants{
     const PORTID='portid';
     const IDTOAVOID='idtoavoid';
     const AUCTIONID='auctionid';
-
+    const REQUEST='request';
+    const URL_AUCTION_TEMP='/landing3/auction-add-edit-temp';
+    const RATINGS='ratings';
+    const PORT_ID='port_id';
+    const REPLICATE='replicate';
+    const UNIT='unit';
+    const OFFERSCOUNTER='offerscounter';
+    const BIDSCOUNTER='bidscounter';
+    const LANDING3_OFFERS='landing3/offers';
+    const EMAILS_OFFERAUCTION='emails.offerauction';
     const BOATS_ID='boats.id';
     const BOATS_USER_ID='boats.user_id';
     const USER='user';
@@ -138,6 +151,9 @@ class Constants{
     const PASTILLAS = "Pastillas";
     const UNIDADES  = "Unidades";
     const KG = "Kg";
+    const EMAIL_OFFERAUCTION = 'emails.offerauction';
+    const USERS_OFFERAUCTION = 'users.offer_auction';
+
     const CHICO     = "small";
     const MEDIANO   = "medium";
     const GRANDE    = "big";

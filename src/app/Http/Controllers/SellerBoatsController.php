@@ -56,7 +56,7 @@ class SellerBoatsController extends Controller
      */
     public function create()
     {
-        $this->authorize('addBoat', new Boat());
+        $this->authorize(Constants::ADDBOAT, new Boat());
 
         return view('sellerBoats.create');
     }
@@ -70,7 +70,7 @@ class SellerBoatsController extends Controller
 //    public function store(CreateBoatRequest $request)
     public function store(CreateBoatRequest $request)
     {
-        $this->authorize('addBoat', new Boat());
+        $this->authorize(Constants::ADDBOAT, new Boat());
 
         $boat = new Boat();
         $boat->name = $request->input('name');
@@ -87,7 +87,7 @@ class SellerBoatsController extends Controller
 //G.B eliminar rutas despues de que el diseñador integra las nuevas vistas
     public function saveboat(Request $request)
     {
-        $this->authorize('addBoat', new Boat());
+        $this->authorize(Constants::ADDBOAT, new Boat());
 
         $boat = new Boat();
         $boat->name = $request->input('name');
