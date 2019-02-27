@@ -34,15 +34,15 @@ class CreateAuctionRequest extends Request
     {
         return [
             'tipoSubasta' => 'required',
-            'batch'      => 'required',
             'fechaInicio'  => 'required|date_format:d/m/Y H:i|after:'.date('d/m/Y H:i'),
             'fechaTentativa'  => 'required|date_format:d/m/Y H:i|after:'.date('d/m/Y H:i'),
-            'fechaFin'    => 'required|date_format:d/m/Y H:i|after:fechaInicio',
-            'startPrice' => 'required|regex:/^\d{1,}(\,\d+)?$/|min:1||auction_price_greater_than:endPrice',
+            'fechaFin'    => 'date_format:d/m/Y H:i|after:fechaInicio',
+            'ActiveHours'=>'required|numeric',
+            'startPrice' => 'required|regex:/^\d{1,}(\,\d+)?$/|min:1|auction_price_greater_than:endPrice',
             'endPrice'   => 'required|regex:/^\d{1,}(\,\d+)?$/|min:1',
             'amount'     => 'required|numeric|min:1',
             'descri'   => 'required|min:120|max:1000',
-            'intervalo'   => 'required|numeric',
+            'intervalo'   => 'numeric',
 			'invitados'   => 'required_if:tipoSubasta,' . Constants::AUCTION_PRIVATE
         ];
     }
@@ -70,6 +70,4 @@ class CreateAuctionRequest extends Request
         }
         return [];
     }
-
-
 }

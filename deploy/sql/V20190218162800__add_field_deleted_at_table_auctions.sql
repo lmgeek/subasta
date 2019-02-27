@@ -12,7 +12,7 @@ WHERE
   AND table_name='auctions'
   AND column_name='deleted_at'
 ) THEN
-   ALTER TABLE `auctions` ADD COLUMN `deleted_at`  timestamp NULL AFTER `updated_at`;
+   ALTER TABLE `auctions` ADD COLUMN `deleted_at`  timestamp NULL DEFAULT NULL AFTER `updated_at`;
 END IF;
 
 

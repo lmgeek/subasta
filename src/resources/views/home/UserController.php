@@ -213,11 +213,4 @@ class UserController extends Controller
         $request->session()->flash('confirm_msg', trans('users.reject_user_msg'));
         return redirect()->route('users.index');
     }
-    public  function getUsersAuctionPrivate(Request $request){
-        $users=User::select()
-                ->where('name','like','%'.$request->val.'%')
-                          ->orWhere('lastname','like','%'.$request->val.'%')
-                          ->orWhere('nickname','like','%'.$request->val.'%')->get();
-        return json_encode($users);
-    }
 }

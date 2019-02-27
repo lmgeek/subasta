@@ -16,6 +16,7 @@ class Constants{
     const NOMBRE='nombre';
     const CODIGO='codigo';
     const UNIDAD='unidad';
+    const PRESEN='presen';
     const REMEMBER='remember';
     const IMAGE='image';
     const IMAGEN='imagen';
@@ -74,6 +75,25 @@ class Constants{
     const ARRIVES_ID='arrives.id';
     const ARRIVES_BOAT_ID='arrives.boat_id';
     const BOATS='boats';
+    const AUCTIONEDIT='auctionedit';
+    const ARRIVEEDIT='arriveedit';
+    const BATCHEDIT='batchedit';
+    const PRODUCTID='productid';
+    const TIPOSUBASTA='tipoSubasta';
+    const DESCRI='descri';
+    const PRICEMAX='pricemax';
+    const PRICEMIN='pricemin';
+    const EN_US='en_US';
+    const VIEWOPERATIONS='viewOperations';
+    const BATCH_I='batch_id';
+    const CURRENTPRICE='CurrentPrice';
+    const SELLERID='sellerid';
+    const BATCHID='batchid';
+    const BOATID='boatid';
+    const PORTID='portid';
+    const IDTOAVOID='idtoavoid';
+    const AUCTIONID='auctionid';
+
     const BOATS_ID='boats.id';
     const BOATS_USER_ID='boats.user_id';
     const USER='user';
@@ -133,6 +153,9 @@ class Constants{
     const VENDEDOR = "seller";
     const COMPRADOR = "buyer";
     const BROKER = "broker";
+    const AUCTION_ORIGIN = "auction";
+    const OFFER_DIRECT_ORIGIN = "offerDirect";
+    const PRIVATE_SOLD_ORIGIN = "privateSold";
 
     public static function formatDate($fecha){
         setlocale(LC_TIME,'es_ES');
@@ -168,7 +191,7 @@ class Constants{
         $perPage = self::PAGINATE_NUMBER;
         $currentPageItems = $itemCollection->slice(($currentpage * $perPage) - $perPage, $perPage)->all();
         $paginatedItems= new LengthAwarePaginator($currentPageItems , count($itemCollection), $perPage);
-        //$paginatedItems->setPath($url);
+
         return $paginatedItems;
     }
      public static function getRealQuery($query, $dumpIt = false){

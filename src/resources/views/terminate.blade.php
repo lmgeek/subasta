@@ -235,7 +235,6 @@
                         ?>
                         </span><br>
                         <?
-//                            dd( $a->batch->caliber);
                         if ( $a->batch->caliber == 'small' ) {
                             $weigth = $a->batch->product->weigth_small;
                         }
@@ -245,7 +244,6 @@
                         if ( $a->batch->caliber == 'big' ) {
                             $weigth = $a->batch->product->weigth_big;
                         }
-//                        $weigth = $a->batch->product->weigth;
                         $vendido = 0;
                         foreach ($a->bids()->where('status','<>',\App\Bid::NO_CONCRETADA)->get() as $b) {
                             $vendido+= $b->amount;

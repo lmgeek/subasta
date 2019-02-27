@@ -10,11 +10,13 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\AuctionInvited;
+use App\BatchStatus;
 use App\UserRating;
 use App\Constants;
 use Carbon\Carbon;
 use App\Auction;
 use App\Product;
+use App\Arrive;
 use App\Offers;
 use App\Batch;
 use App\Ports;
@@ -119,11 +121,11 @@ class AuctionController extends Controller
         $auction->target_price = $targetprice;
         $auction->interval = 1;
         $auction->amount = $request->input(Constants::AMOUNT);
-		$auction->type = $request->input('tipoSubasta');
-		$auction->description = $request->input('descri');
+		$auction->type = $request->input(Constants::TIPOSUBASTA);
+		$auction->description = $request->input(Constants::DESCRI);
         $auction->tentative_date = $Date->format(Constants::DATE_FORMAT);
 		$auction->save();
-		if ($request->input('tipoSubasta') == Constants::AUCTION_PRIVATE )
+		if ($request->input('Constants::TIPOSUBASTA') == Constants::AUCTION_PRIVATE )
 		{
 			$sInvited  = $request->input('invitados');
 
@@ -176,7 +178,7 @@ class AuctionController extends Controller
             $close=($price<$targetprice)?1:0;
             $time = round(microtime(true) * 1000);
             $data['id'] = $auction_id;
-            $data[Constants::CLOSE] = $close;
+            $data['CLOSE'] = $close;
             $data['end'] = $auction->end;
             $data[Constants::AVAILABILITY] = $available[Constants::AVAILABLE];
             $data['currenttime'] = $time;
@@ -217,7 +219,6 @@ class AuctionController extends Controller
              $price=$request->input(Constants::PRICE);
          }
 
-        //if($this->checkIfBuyercanBuy($amount*$price)==false){return json_encode(array('limited'=>1));}
 		$resp  =  array();
 
 		if ($auction->active == 0 )
@@ -243,7 +244,7 @@ class AuctionController extends Controller
                     $resp[Constants::AVAILABILITY] = $availability-$amount;
 					$resp['unit'] = trans(Constants::TRANS_UNITS.$unit);
                     $resp['bidid']=$lastbid[0]['id'];
-                    $resp['productid']=$auction->batch->product->id;
+                    $resp[Constants::PRODUCTID]=$auction->batch->product->id;
 					$resp[Constants::PRODUCT] = ucfirst($product);
 					$resp[Constants::AMOUNT] = $amount;
 					$resp[Constants::PRICE] = $price;
@@ -349,32 +350,21 @@ class AuctionController extends Controller
     }
     public function operations(Request $request, $auction_id)
     {
-        setlocale(LC_MONETARY, 'en_US');
+        setlocale(LC_MONETARY, Constants::EN_US);
+
+        $this->autoOffersBid($request, $auction_id);
 
         $auction = Auction::findOrFail($auction_id);
-        $this->authorize('viewOperations', $auction);
+        $this->authorize(Constants::VIEWOPERATIONS, $auction);
         $request->session()->put('url.intended', '/auction/operations/'.$auction_id);
         return view('auction.operations',compact(Constants::AUCTION));
-    }
-    public function sele(Request $request, $auction_id)
-    {
-        setlocale(LC_MONETARY, 'en_US');
-
-        $auction = Auction::findOrFail($auction_id);
-        $this->authorize('viewOperations', $auction);
-        $request->session()->put('url.intended', '/auction/sele/'.$auction_id);
-//        echo "<pre>";
-//        print_r($auction);
-//        echo "</pre>";
-//        dd();
-        return view('auction.sele',compact(Constants::AUCTION));
     }
 	 public function buyerBid(Request $request)
 	 {
 		$user = Auth::user();
 		if (Auth::user()->type == \App\User::COMPRADOR){
             $this->authorize('seeMyBids', Bid::class);
-			$bids = Bid::where('user_id' , $user->id )->orderBy('bid_date', 'desc')->paginate();
+			$bids = Bid::where(Constants::USER_ID , $user->id )->orderBy('bid_date', 'desc')->paginate();
 			return view('bid.index',compact('bids'));
 		} else {
 			return redirect('home');
@@ -507,7 +497,7 @@ class AuctionController extends Controller
 	public function incrementRatingUser($bid , $user_id)
 	{
 
-		$userRating = UserRating::where('user_id' , $user_id);
+		$userRating = UserRating::where(Constants::USER_ID , $user_id);
 
 		if ($userRating->count() == 0)
 		{
@@ -698,7 +688,6 @@ class AuctionController extends Controller
 		}
         return view('landing',compact(Constants::AUCTIONS,Constants::STATUS,Constants::PRODUCTS,Constants::SELLERS,'request',Constants::BOATS,Constants::USER_RATING,'type'));
     }
-
     
     
     
@@ -708,7 +697,7 @@ class AuctionController extends Controller
             $batch = new Batch();
             $batchStatus = new BatchStatus();
         }else{
-            if(count(Auction::select()->where('batch_id',Constants::EQUAL,$batchid)->get())>1 || $replicate>0){
+            if(count(Auction::select()->where(Constants::BATCH_I,Constants::EQUAL,$batchid)->get())>1 || $replicate>0){
                 return $batchid;
             }
             $batch= Batch::findOrFail($batchid);
@@ -733,7 +722,12 @@ class AuctionController extends Controller
         if($arriveid==null){
             $arrive=new Arrive();
         }else{
-            if(count(Batch::select()->where('arrive_id',Constants::EQUAL,$arriveid)->get())>1 || $replicate>0){
+            $batches=Batch::select()->where('arrive_id',Constants::EQUAL,$arriveid)->get();
+            $contauctions=0;
+            foreach($batches as $batch){
+                $contauctions+=count(Auction::select()->where('batch_id',Constants::EQUAL,$batch->id)->get());
+            }
+            if($contauctions>1 || $replicate>0){
                 return $arriveid;
             }
             $arrive= Arrive::findOrFail($arriveid);
@@ -746,22 +740,25 @@ class AuctionController extends Controller
         $arrive->save();
         return $arrive->id;
     }
-    public function storeAuction(Request $request){
-        $products = $request->product;$caliber = $request->input('caliber');$quality = $request->input('quality');
+    //
+    public function storeAuction(CreateAuctionRequest $request){
+        $products = $request->product;$caliber = $request->input(Constants::CALIBER);$quality = $request->input(Constants::QUALITY);
         $amount = $request->input(Constants::AMOUNT);$privacy=$request->input('tipoSubasta');
-        $startDate =$request->input('fechaInicio');$tentativeDate = $request->fechaTentativa;$arrivedate=null;
+        $startDate =date('Y-m-d H:i:s',strtotime(str_replace('/','-',$request->fechaInicio)));
+        $tentativeDate =date('Y-m-d H:i:s',strtotime(str_replace('/','-',$request->fechaTentativa)));
+        $arrivedate=null;
         $endDate=date_add(date_create($startDate),date_interval_create_from_date_string("+$request->ActiveHours hours"))->format('Y-m-d H:i:s');
         $startprice=$request->startPrice;$endprice=$request->endPrice;$targetprice=$endprice+(($startprice-$endprice)*rand(1,7)/100);
         $replicate=(isset($request->type) && $request->type=='replication')?1:0;
         $arriveid=self::storeArrive($request->barco, $request->puerto, $arrivedate,$replicate,((isset($request->arriveid))?$request->arriveid:null));
-        $batchid=self::storeBatch($arriveid, $products, $caliber, $quality, $amount, $replicate, ((isset($request->batchid))?$request->batchid:''));
+        $batchid=self::storeBatch($arriveid, $products, $caliber, $quality, $amount, $replicate, ((isset($request->batchid))?$request->batchid:null));
         if(isset($request->auctionid) && $replicate==0){
             $auction = Auction::findOrFail($request->auctionid);
         }else{
             $auction  = new Auction();
+            $auction->correlative=self::calculateAuctionCode();
         }
         $auction->batch_id = $batchid;
-        $auction->correlative=self::calculateAuctionCode();
         $auction->start = $startDate;
         $auction->start_price = $startprice;
         $auction->end = $endDate;
@@ -775,7 +772,7 @@ class AuctionController extends Controller
 		$auction->save();
 		if ($privacy == Constants::AUCTION_PRIVATE ){
 			$guests  = $request->invitados;
-            $seller=$auction->batch->arrive->boat->user ;
+            $seller=Auth::user() ;
 			foreach($guests as $guest){
 				$auctionInvited = new AuctionInvited();
 				$auctionInvited->auction_id = $auction->id;
@@ -800,16 +797,24 @@ class AuctionController extends Controller
             foreach($request->ids as $id){$ids.=$id.',';}$ids=substr($ids,0,-1);
         }
         $users=User::select('id','name','lastname','nickname')
-                ->whereRaw((($ids!='')?'`id` NOT IN ('.$ids.') AND ':'').'`status`="approved" AND `type`="buyer" AND (`nickname` like "%'.$request->val.'%" OR `name` like "%'.$request->val.'%" OR `lastname` like "%'.$request->val.'%")')
+                ->whereRaw(
+                        (($ids!='')?'`id` NOT IN ('.$ids.') AND ':'').
+                        '`status`="approved" AND '
+                        . '`type`="buyer" AND '
+                            . '(`nickname` like "%'.$request->val.'%" OR '
+                            . '`name` like "%'.$request->val.'%" OR '
+                            . '`lastname` like "%'.$request->val.'%" OR '
+                            . ' CONCAT_WS(" ",`name`,`lastname`) LIKE "%'.$request->val.'%")')
                 ->get();
         return json_encode($users);
+
     }
     public static function calculatePriceID($id,$targetprice=null){
         $bidDate = date(Constants::DATE_FORMAT);
         $auction = Auction::findOrFail($id);
         $prices = $auction->calculatePrice($bidDate);
         $price=number_format(str_replace(",","",$prices),2,',','');
-        return array('CurrentPrice'=>$price,'Close'=>($price<$targetprice)?1:0);
+        return array(Constants::CURRENTPRICE=>$price,Constants::CLOSE=>($price<$targetprice)?1:0);
     }
     public function checkIfBuyerCanBuy($id,$amount,$type="bid",$privacy='public'){
         if(empty(Auth::user()->id)){
@@ -871,6 +876,7 @@ class AuctionController extends Controller
 	    return ($ratings != null && $total > 0) ? (round(($ratings->positive * 100) / $total/20, 0,PHP_ROUND_HALF_UP)) : 1;
     }
     public static function getAuctionsDataForHome($auctions){
+        
         $port=array();$products=array();$calibers=array();$users=array();
         $close=0;$min=99999999;$max=0;
         $quality=array(1=>0,2=>0,3=>0,4=>0,5=>0);$ratings=array(1=>0,2=>0,3=>0,4=>0,5=>0);
@@ -917,11 +923,10 @@ class AuctionController extends Controller
         $time=(isset($request->time))?$request->time:Constants::IN_CURSE;
         $filters=self::convertFilterSubastas($request->filters);
         $auctions=Auction::auctionHome($ids,$filters,$time);
-        
         if($limit>1){
-            $preciomin=(float)$filters['pricemin'];
-            $preciomax=(float)$filters['pricemax'];
-            $close=(isset($filters['close']))?1:0;
+            $preciomin=(float)$filters[Constants::PRICEMIN];
+            $preciomax=(float)$filters[Constants::PRICEMAX];
+            $close=(isset($filters[Constants::CLOSE]))?1:0;
             $rating=(isset($filters['userrating']))?1:0;
             foreach($auctions as $index=>$auction){
                 $priceall=  self::calculatePriceID($auction->id,$auction->target_price);
@@ -948,7 +953,6 @@ class AuctionController extends Controller
         $auctions1 = $auctionhome[Constants::IN_CURSE];
         $auctions2 = array_reverse($auctionhome[Constants::FINISHED]);
         $auctiondetails1=$this->getAuctionsDataForHome($auctions1);
-        $auctiondetails2=$this->getAuctionsDataForHome($auctions2);
         $port=(isset($auctiondetails1[Constants::PORTS]))?$auctiondetails1[Constants::PORTS]:array();
         /*
          * Retornan tanto las subastas en curso como las finalizadas
@@ -1004,30 +1008,31 @@ class AuctionController extends Controller
         $products= Product::select('id','name')->get(); 
         return view('/landing3/auction-add-edit-temp')
             ->with('title','| Agregar Subasta')
-            ->with('boats',$boats)
-            ->with('ports',$ports)
-            ->with('batchedit',1)
-            ->with('arriveedit',1)
-            ->with('auctionedit',1)
-            ->with('products',$products);
+            ->with(Constants::BOATS,$boats)
+            ->with(Constants::PORTS,$ports)
+            ->with(Constants::BATCHEDIT,1)
+            ->with(Constants::ARRIVEEDIT,1)
+            ->with(Constants::AUCTIONEDIT,1)
+            ->with(Constants::PRODUCTS,$products);
     }
     
     public function editAuction($auction_id){
         if(empty(Auth::user()->id)){
             return redirect('auth/login');
         }
-        $auction=Auction::auctionHome(null,array('auctionid'=>$auction_id,'type'=>'mine'),'all');
         $boats=Boat::select('id','name')
             ->where('user_id', Constants::EQUAL,Auth::user()->id)->get();
         $ports=Ports::select()->get();
         $products= Product::select('id','name','unit')->get();
+        $auction=Auction::auctionHome(null,array('auctionid'=>$auction_id),'all')[0];
         $contbatch=count(Auction::select()->where('batch_id',Constants::EQUAL,$auction->batch_id)->get());
         $contarrive=count(Batch::select()->where('arrive_id',Constants::EQUAL,$auction->batch->arrive_id)->get());
+        $auctiontime=($auction->timeline==Constants::FUTURE)?1:0;
         return view('/landing3/auction-add-edit-temp')
             ->with('auction',$auction)
-            ->with('batchedit',(($contbatch>1)?0:1))
-            ->with('arriveedit',((($contarrive+$contbatch)>1)?0:1))
-            ->with('auctionedit',(($auction->timeline==Constants::FUTURE)?1:0))
+            ->with('batchedit',(($contbatch>1 || $auctiontime==0)?0:1))
+            ->with('arriveedit',(($contbatch>1 || $contarrive>1 || $auctiontime==0)?0:1))
+            ->with('auctionedit',$auctiontime)
             ->with('boats',$boats)
             ->with('ports',$ports)
             ->with('products',$products);
@@ -1036,7 +1041,7 @@ class AuctionController extends Controller
         if(empty(Auth::user()->id)){
             return redirect('auth/login');
         }
-        $auction=Auction::auctionHome(null,array('auctionid'=>$auction_id,'type'=>'mine'),'all');
+        $auction=Auction::auctionHome(null,array('auctionid'=>$auction_id),'all')[0];
         $boats=Boat::select('id','name')
             ->where('user_id', Constants::EQUAL,Auth::user()->id)->get();
         $ports=Ports::select()->get();
@@ -1051,6 +1056,7 @@ class AuctionController extends Controller
             ->with('ports',$ports)
             ->with('products',$products);
     }
+
     public function offersAuctionFront(Request $request){
         $auction_id = $request->input(Constants::INPUT_AUCTION_ID);
         $prices = $request->input('prices');
@@ -1077,7 +1083,7 @@ class AuctionController extends Controller
                 $resp[Constants::CALIBER] = Constants::caliber($caliber);
                 $resp[Constants::QUALITY] = $quality;
                 $resp[Constants::PRODUCT] = $product;
-                $resp['productid']=$auction->batch->product->id;
+                $resp[Constants::PRODUCTID]=$auction->batch->product->id;
                 $resp[Constants::AMOUNT] = $available[Constants::AVAILABLE];
                 $resp[Constants::PRICE] = $price;
                 $resp['offerscounter']=$this->getOffersCount($auction_id);
@@ -1108,14 +1114,13 @@ class AuctionController extends Controller
     
     
     public function offerList(Request $request){
-        $auctions=Auction::AuctionsQueryBuilder(array(
-            'sellerid'=>Auth::user()->id
-        ));
+        $auctions=Auction::auctionHome(null,array('type'=>'mine'),Constants::FINISHED);
         $offers=array();
         foreach($auctions as $auction){
             $auction->code=self::getAuctionCode($auction->correlative,$auction->created_at);
             $offers[$auction->id]= self::getOffers($auction->id);
         }
+
         return view('landing3/offers')
             ->with('auctions',$auctions)->with('offers',$offers);
     }
@@ -1215,8 +1220,6 @@ class AuctionController extends Controller
         $available = $this->getAvailable($auction_id, $auction->amount);
         $offers = $this->getOffers($auction_id);
         $count = count($offers);
-//        $declineoffer = 'auction/offers/decline/'.$auction_id;
-//        dd($declineoffer);
         foreach ($offers as $offer) {
             // Verifico la fecha de la subasta
             if ($auction->end >= date(Constants::DATE_FORMAT)){
@@ -1229,7 +1232,6 @@ class AuctionController extends Controller
                 $offerForSale = $this->offerForSale($auction, $offer);
                 if ($offerForSale){
                     $offers = $this->getOffers($auction_id);
-//                        return ('<h1 style="    text-align: center; margin-top: 300px; font-size: 5em">Se vendio todo</h1>');
                     return $offers;
                 }
 
@@ -1255,8 +1257,6 @@ class AuctionController extends Controller
 
         setlocale(LC_MONETARY, 'en_US');
         $auction = Auction::findOrFail($auction_id);
-        $this->authorize('viewOperations', $auction);
-        $request->session()->put('url.intended', '/auction/offers/'.$auction_id);
         $available = $this->getAvailable($auction_id, $auction->amount);
         $offers = $this->getOffers($auction_id);
 
@@ -1266,8 +1266,6 @@ class AuctionController extends Controller
             if ($auction->end >= date('Y-m-d H:i:s')){
                 return;
             }
-
-dd("hola");
             //verifica que el precio ofertado sea mayor e igual al de la subasta terminada
             if ($offer->price >= $offer->end_price && $offer->status == Offers::PENDIENTE){
                     //registramos la compra a la mejor opc de compra
@@ -1281,7 +1279,7 @@ dd("hola");
             return;
         }
 
-        if (count($offers)>0)
+        if (count($offers) != 0)
             return;
         else
             return;
@@ -1340,6 +1338,7 @@ dd("hola");
             $this->bid->price = $prices;
             $this->bid->status = Constants::PENDIENTE;
             $this->bid->bid_date = date(Constants::DATE_FORMAT);
+            $this->bid->bid_origin = Constants::OFFER_DIRECT_ORIGIN;
             $this->bid->save();
 
             $offers = $this->getOffers($auction_id);
@@ -1355,12 +1354,6 @@ dd("hola");
                 }
 
             }
-//Update batch_statuses
-//        $this->status = Batch::findOrFail($auction->batch_id)->status;
-//        $this->status->assigned_auction -= $available[Constants::AVAILABLE];
-//        $this->status->auction_sold += $available[Constants::AVAILABLE];
-//        $this->status->save();
-
             $this->emailOfferBid($auction,$available,$offer);
             $offers = $this->getOffers($auction_id);
             return $offers;
@@ -1385,8 +1378,7 @@ dd("hola");
             'batches.caliber',
             'batches.quality',
             'products.name AS Producto',
-            'auctions_offers.user_id'/*,
-            'users.name AS Comprador'*/
+            'auctions_offers.user_id'
         )
             ->join(Constants::AUCTIONS,Constants::AUCTIONS_ID,'=',Constants::INPUT_AUCTION_ID)
             ->join(Constants::BATCHES,'batches.id','=',Constants::AUCTIONS_BATCH_ID)
@@ -1400,8 +1392,6 @@ dd("hola");
 
     public function getCurrentTime()
     {
-//        $date = date('D M d Y H:m:i \G\M\TO');
-//        return date(Constants::DATE_FORMAT);
         return gmdate('D, M d Y H:i:s T\-0300', time());
     }
 
@@ -1418,9 +1408,6 @@ dd("hola");
         $this->authorize('isMyAuction',$auction);
         $offers = $this->getOffers($auction_id);
         $available = $this->getAvailable($auction_id, $auction->amount);
-//        if (isset($_GET['opc']) && $_GET['opc']==1){
-//            $this->autoOffersBid($request, $auction_id);
-//        }
         if ($offer_id == null){
             foreach ($offers as $o){
                 $this->offers = Offers::findOrFail($o->id);
@@ -1465,6 +1452,7 @@ dd("hola");
                             $this->bid->price = $o->price;
                             $this->bid->status = Constants::PENDIENTE;
                             $this->bid->bid_date = date(Constants::DATE_FORMAT);
+                            $this->bid->bid_origin = Constants::OFFER_DIRECT_ORIGIN;
                             $this->bid->save();
 
                             //send email
@@ -1482,7 +1470,6 @@ dd("hola");
             }
         }
         return $this->getOffers($auction_id);
-//        return redirect('home');
 
     }
 
@@ -1518,3 +1505,4 @@ dd("hola");
 
 
 }
+

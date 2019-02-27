@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Comprador;
-use App\Http\Requests\RegisterNewBuyerRequest;
 use App\Http\Requests\RegisterNewUserRequest;
+use App\Http\Requests\RegisterNewBuyerRequest;
 use App\Jobs\SendEmail;
 use App\User;
 use App\Vendedor;

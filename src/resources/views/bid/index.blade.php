@@ -30,7 +30,7 @@
                                        <div style="margin-top:22px;">
 										   <label>
 											   {{ $a->amount  }}
-											   {{ trans('general.product_units.'.$a->auction->batch->product->unit) }}
+											   {{ trans('auction.'.$a->auction->batch->product->unit) }}
 										  </label>
 									  </div>
                                     </div>

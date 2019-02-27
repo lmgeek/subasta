@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
+namespace App\Http\Requests;
 
 class RegisterNewUserRequest extends Request
 {
@@ -29,12 +29,8 @@ class RegisterNewUserRequest extends Request
             'dni'=>"required|min:7|regex:(^[0-9]+$)",
             'cuit'=>"required|min:13|regex:(^[0-9-]+$)",
             'password'=>'required|confirmed|regex:(^\S*(?=\S{6,8})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$)',
-//            'password'=>'required|confirmed|regex:(^\S*(?=\S{6,8})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$)',
 			'email' => 'required|min:7|unique:users,email|email',
-            'password'=>'required|confirmed|regex:(^\S*(?=\S{6,8})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$)',
-			'email' => 'required|min:7|unique:users,email|email',
-//            'phone' => 'numeric',
-            'phone' => 'required|regex:(^[()0-9-]+$)',
+            'phone' => 'required|regex:(^[()0-9-]+$)'
         ];
     }
 
