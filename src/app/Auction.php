@@ -180,9 +180,9 @@ class Auction extends Model{
         if(isset($params[Constants::PRODUCTID])){
             $ports=$params[Constants::PRODUCTID];
             if(is_array($ports)){
-                $auctions=$auctions->whereIn('batches.product_id',$params['productid']);
+                $auctions=$auctions->whereIn(Constants::BATCHES_PRODUCT_ID,$params['productid']);
             }else{
-                $auctions=$auctions->where('batches.product_id', Constants::EQUAL,$params['productid']);
+                $auctions=$auctions->where(Constants::BATCHES_PRODUCT_ID, Constants::EQUAL,$params['productid']);
             }
         }
         if(isset($params[Constants::QUALITY])){
@@ -408,7 +408,7 @@ class Auction extends Model{
             case Constants::FUTURE:
                 $rtrn = Auction::select( Constants::AUCTIONS_SELECT_ALL)->join(Constants::BATCHES, Constants::AUCTIONS_BATCH_ID, Constants::EQUAL, Constants::BATCH_ID);
                 if ( null != $product  ) {
-                    $rtrn = $rtrn->whereIn('batches.product_id',$product);
+                    $rtrn = $rtrn->whereIn(Constants::BATCHES_PRODUCT_ID,$product);
                 }
                 if ( null != $seller || null != $boat ) {
                     $rtrn = $rtrn->join(Constants::ARRIVES, Constants::BATCH_ARRIVE_ID, Constants::EQUAL, Constants::ARRIVES_ID)->join(Constants::BOATS, Constants::ARRIVES_BOAT_ID, Constants::EQUAL, Constants::BOATS_ID)->join(Constants::USERS, Constants::BOATS_USER_ID, Constants::EQUAL, Constants::USERS_ID);
@@ -434,7 +434,7 @@ class Auction extends Model{
             default:
                 $rtrn = Auction::select( Constants::AUCTIONS_SELECT_ALL)->join(Constants::BATCHES, Constants::AUCTIONS_BATCH_ID, Constants::EQUAL, Constants::BATCH_ID);
                 if ( null != $product  ) {
-                    $rtrn = $rtrn->whereIn('batches.product_id',$product);
+                    $rtrn = $rtrn->whereIn(Constants::BATCHES_PRODUCT_ID,$product);
                 }
                 if ( null != $seller || null != $boat ) {
                     $rtrn = $rtrn->join(Constants::ARRIVES, Constants::BATCH_ARRIVE_ID, Constants::EQUAL, Constants::ARRIVES_ID)->join(Constants::BOATS, Constants::ARRIVES_BOAT_ID, Constants::EQUAL, Constants::BOATS_ID)->join(Constants::USERS, Constants::BOATS_USER_ID, Constants::EQUAL, Constants::USERS_ID);
