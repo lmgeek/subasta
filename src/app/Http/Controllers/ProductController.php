@@ -53,15 +53,9 @@ class ProductController extends Controller
     public function store(CreateProductRequest $request)
     {
         $fileName = $request->file(Constants::IMAGEN)->getClientOriginalName();
-        if ( file_exists('img/products/'.$fileName) ){
-//            $fileExt = $request->file(Constants::IMAGEN)->getClientOriginalExtension();
-//            $fileName =  $request->input('nombre') . "-" . $request->input('unidad') . "." . $fileExt;
-//            $request->file(Constants::IMAGEN)->move( 'img/products',$fileName );
-//            $fileName = $request->file(Constants::IMAGEN)->getClientOriginalName();
-        } else {
+        if ( !empty('img/products/'.$fileName) ){
             $request->file(Constants::IMAGEN)->move( 'img/products',$fileName );
         }
-
         $prod = new Product();
         $prod->name = $request->input('nombre');
         $prod->fishing_code = $request->input('codigo');
@@ -106,9 +100,6 @@ class ProductController extends Controller
     {
         $prod = Product::withTrashed()->findOrFail($id);
         if(!is_null($request->file(Constants::IMAGEN))){
-//            if (!is_null($prod->image_name) and file_exists('img/products/'.$prod->image_name)){
-//                unlink('img/products/'.$prod->image_name);
-//            }
             $fileName = $request->file(Constants::IMAGEN)->getClientOriginalName();
             if ( file_exists('img/products/'.$fileName) ){
                 $prod->image_name = $fileName;

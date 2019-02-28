@@ -7,3 +7,5 @@ Homestead.json
 /.idea/workspace.xml
 nbproject
 public/img/products
+deploy/sql/afterMigrate.sql
+deploy/sql/beforeMigrate.sql

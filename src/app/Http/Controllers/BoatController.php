@@ -184,8 +184,10 @@ class BoatController extends Controller
         $boats= Boat::select()->where('user_id', Constants::EQUAL,Auth::user()->id)->paginate(2);
         return view('landing3/boats',compact('boats'));
     }
+    /* INI Rodolfo*/
     public static function getPreferredPort(Request $request){
         $boat=Boat::select()->where('id',Constants::EQUAL,$request->idboat)->get();
-        return $boat[0]->reference_port;
+        return json_encode(array('preferred'=>$boat[0]->reference_port));
     }
+    /* FIN Rodolfo*/
 }

@@ -6,10 +6,9 @@ use App\Boat;
 
     Se instancia la clase barco pora usar la funcion referencePort()
     esta funcion permite bucar el puerto de referencia asociado a un
-    barco, todo lo que se debe hacer  es llamar la funcion y pasar como
-    parametro "$barco->reference_port" ejemplo:
+    barco, lo que se debe hacer  es llamar la funcion y pasar como
+    parametro "$barco->reference_port"
 
-    {{$objt->referencePort($barco->reference_port)}}
 
     La variable "$CantidadBarco" tiene la contidad de barco que un usurio
     pose, solo debes colocarla en el lugar que va, ejemplo:

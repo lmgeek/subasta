@@ -8,14 +8,18 @@ class Constants{
     const CANT_MAX_SILVER=1000;
     const PAGINATE_NUMBER=3;
     const PAGINATE_MAX_LINKS=6;
+    const NAME='name';
     const MAIL_ADDRESS='sistema@subastas.com.ar';
     const MAIL_NAME='Subastas';
     const MIDDLEWARE='middleware';
     const EMAIL='email';
+    const ARRIVE_ID='arrive_id';
+    const ADDBOAT='addBoat';
     const PASSWORD='password';
     const NOMBRE='nombre';
     const CODIGO='codigo';
     const UNIDAD='unidad';
+    const PRESEN='presen';
     const REMEMBER='remember';
     const IMAGE='image';
     const IMAGEN='imagen';
@@ -53,6 +57,7 @@ class Constants{
     const INPUT_COMENTARIOS_CALIFICACION='comentariosCalificacion';
     const MAKE_BID='makeBid';
     const AUCTION='auction';
+    const BATCHES_PRODUCT_ID='batches.product_id';
     const AUCTIONS='auctions';
     const AUCTIONS_SELECT_ALL= 'auctions.*';
     const AUCTIONS_ID='auctions.id';
@@ -74,6 +79,34 @@ class Constants{
     const ARRIVES_ID='arrives.id';
     const ARRIVES_BOAT_ID='arrives.boat_id';
     const BOATS='boats';
+    const AUCTIONEDIT='auctionedit';
+    const ARRIVEEDIT='arriveedit';
+    const BATCHEDIT='batchedit';
+    const PRODUCTID='productid';
+    const TIPOSUBASTA='tipoSubasta';
+    const DESCRI='descri';
+    const PRICEMAX='pricemax';
+    const PRICEMIN='pricemin';
+    const EN_US='en_US';
+    const VIEWOPERATIONS='viewOperations';
+    const BATCH_I='batch_id';
+    const CURRENTPRICE='CurrentPrice';
+    const SELLERID='sellerid';
+    const BATCHID='batchid';
+    const BOATID='boatid';
+    const PORTID='portid';
+    const IDTOAVOID='idtoavoid';
+    const AUCTIONID='auctionid';
+    const REQUEST='request';
+    const URL_AUCTION_TEMP='/landing3/auction-add-edit-temp';
+    const RATINGS='ratings';
+    const PORT_ID='port_id';
+    const REPLICATE='replicate';
+    const UNIT='unit';
+    const OFFERSCOUNTER='offerscounter';
+    const BIDSCOUNTER='bidscounter';
+    const LANDING3_OFFERS='landing3/offers';
+    const EMAILS_OFFERAUCTION='emails.offerauction';
     const BOATS_ID='boats.id';
     const BOATS_USER_ID='boats.user_id';
     const USER='user';
@@ -118,6 +151,9 @@ class Constants{
     const PASTILLAS = "Pastillas";
     const UNIDADES  = "Unidades";
     const KG = "Kg";
+    const EMAIL_OFFERAUCTION = 'emails.offerauction';
+    const USERS_OFFERAUCTION = 'users.offer_auction';
+
     const CHICO     = "small";
     const MEDIANO   = "medium";
     const GRANDE    = "big";
@@ -133,6 +169,9 @@ class Constants{
     const VENDEDOR = "seller";
     const COMPRADOR = "buyer";
     const BROKER = "broker";
+    const AUCTION_ORIGIN = "auction";
+    const OFFER_DIRECT_ORIGIN = "offerDirect";
+    const PRIVATE_SOLD_ORIGIN = "privateSold";
 
     public static function formatDate($fecha){
         setlocale(LC_TIME,'es_ES');
@@ -168,7 +207,7 @@ class Constants{
         $perPage = self::PAGINATE_NUMBER;
         $currentPageItems = $itemCollection->slice(($currentpage * $perPage) - $perPage, $perPage)->all();
         $paginatedItems= new LengthAwarePaginator($currentPageItems , count($itemCollection), $perPage);
-        //$paginatedItems->setPath($url);
+
         return $paginatedItems;
     }
      public static function getRealQuery($query, $dumpIt = false){

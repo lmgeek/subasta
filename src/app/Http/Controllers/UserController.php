@@ -1,12 +1,11 @@
 <?php
-
+namespace App\Http\Controllers;
 use App\User;
 use App\Bid;
 use App\ViewHelper;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Routing\Route;
-use Auth;
 use Illuminate\Support\Facades\Mail;
 
 
@@ -30,7 +29,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('seeUsersList', Auth::user());
+        //$this->authorize('seeUsersList', Auth::user());
         $users = User::filter($request->get('name'),$request->get('type'),$request->get('status'));
 		
 		$userRating =  array();
@@ -212,12 +211,5 @@ class UserController extends Controller
 
         $request->session()->flash('confirm_msg', trans('users.reject_user_msg'));
         return redirect()->route('users.index');
-    }
-    public  function getUsersAuctionPrivate(Request $request){
-        $users=User::select()
-                ->where('name','like','%'.$request->val.'%')
-                          ->orWhere('lastname','like','%'.$request->val.'%')
-                          ->orWhere('nickname','like','%'.$request->val.'%')->get();
-        return json_encode($users);
     }
 }
