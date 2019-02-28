@@ -52,6 +52,15 @@ class ProductController extends Controller
      */
     public function store(CreateProductRequest $request)
     {
+        $unidadess =$request->input('unidad');
+        $names =$request->input('nombre');
+        $productos  = Product::Select('name')->where('name','=',$names)->where('unit','=',$unidadess)->get()->toArray();
+       if ( $productos <> null) {
+           return redirect("/products/create")
+               ->withInput($request->only('name'))
+               ->withErrors(["El productoo ya existe",
+               ]);
+       }
         $fileName = $request->file(Constants::IMAGEN)->getClientOriginalName();
         if ( !empty('img/products/'.$fileName) ){
             $request->file(Constants::IMAGEN)->move( 'img/products',$fileName );
