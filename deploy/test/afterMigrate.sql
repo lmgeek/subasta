@@ -55,11 +55,11 @@ VALUES (1, 1, 1000, 100, 0, '2019-02-02 10:35:00', 'rafael'), (1, 1, 500, 1000, 
 INSERT INTO users_ratings (`user_id`, `positive`, `negative`, `neutral`) VALUES (1,2,1,1);
 
 # Insertar todo las compras
-INSERT INTO bids (`auction_id`, `user_id`, `amount`, `price`, `bid_date`, `status`, `user_calification`, `user_calification_comments`, `seller_calification_comments`, `reason`,`bid_origin`,`seller_calification`)
-VALUES (3, 5, 90, 100, '2019-02-06 10:32:00','concretized', 'positive','Reponsable','Buen producto','positive','offerDirect','positive'),
-(2, 5, 50, 1000, '2019-02-06 10:31:00','concretized','positive','Producto alta calidad','alta calidad','positive','offerDirect','positive'),
-(1, 5, 50, 10000, '2019-01-30 10:31:00','concretized','positive','trato agradable','muy responsable','positive','offerDirect','positive'),
-(4, 5, 60, 1000, '2019-01-30 10:35:00','concretized','positive','muy atento','confiable','positive','privateSold','positive');
+INSERT INTO bids (`auction_id`, `user_id`, `amount`, `price`, `bid_date`, `status`, `user_calification`, `user_calification_comments`, `seller_calification_comments`, `reason`,`seller_calification`)
+VALUES (3, 5, 90, 100, '2019-02-06 10:32:00','concretized', 'positive','Reponsable','Buen producto','positive','positive'),
+(2, 5, 50, 1000, '2019-02-06 10:31:00','concretized','positive','Producto alta calidad','alta calidad','positive','positive'),
+(1, 5, 50, 10000, '2019-01-30 10:31:00','concretized','positive','trato agradable','muy responsable','positive','positive'),
+(4, 5, 60, 1000, '2019-01-30 10:35:00','concretized','positive','muy atento','confiable','positive','positive');
 
 # Dejar esto al final ya que lo uso para verificar que termino el deploy
 INSERT INTO users (id,`name`,`lastname`,`email`,`password`,`type`,`status`,`hash`,`active_mail`,`nickname`)
