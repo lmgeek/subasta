@@ -33,24 +33,21 @@ class CreateProductRequest extends Request
     public function rules()
     {
 
-        $prod = Product::withTrashed()
-            ->where('name', $this->nombre)
-            ->Where('unit', $this->unidad)
-            ->first();
-
+            $unidadess =$this->input('unidad');
             $cero = "0,00";
             return [
-                Constants::UNIDAD        => 'required',
+                'unidad'       => 'required',
                 Constants::PRESEN        =>  'required',
                 Constants::CODIGO        => 'required|regex:(^[0-9a-zA-Z]+$)|max:10',
-                Constants::NOMBRE        => 'required|regex:(^[a-zA-Zá-úÁ-Ú\s]+$)',
+                Constants::NOMBRE        => 'required|regex:(^[a-zA-Zá-úÁ-Ú\s]+$)|unique_name_unit:'.$unidadess,
                 Constants::WEIGHT_SMALL  => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
                 Constants::WEIGHT_MEDIUM => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
                 Constants::WEIGHT_BIG    => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
                 Constants::IMAGEN        => 'required|image',
             ];
-    }
 
+    }
+    
     public function attributes()
     {
         if ($this->locale == "es"){

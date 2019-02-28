@@ -1273,11 +1273,12 @@ class AuctionController extends Controller
             return;
         }
 
-        if (count($offers) != 0)
+        if (count($offers) > 0) {
             return;
-        else
+        }else {
             return;
-    }
+        }
+        }
 
 
     /**

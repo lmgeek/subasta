@@ -51,7 +51,6 @@ class Handler extends ExceptionHandler
         if ($this->isHttpException($e))
         {
 //            return response()->view('errors/503', [], 404);
-//            return response()->view('errors/503', [], 404);
             return redirect('/home');
         }
 
