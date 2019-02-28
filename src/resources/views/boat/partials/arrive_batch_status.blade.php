@@ -206,8 +206,8 @@
                                                                        value="{{ $batch->id  }}">
                                                                 <input type="number" min="1"
                                                                       @if ($assigned_auction  != 0 || $private_sold != 0)
-                                                                      disabled 
-                                                                      @endif  
+                                                                      disabled
+                                                                      @endif
                                                                        value="{{ $total_sold_unsold  }}" name="amount"
                                                                        class="form-control bfh-number" required/>
                                                                 <small>{{ trans('general.product_units.'.$batch->product->unit) }}</small>
@@ -225,7 +225,7 @@
                                                 {{ csrf_field() }}
                                                 <button type="submit"
                                                         @if ($assigned_auction  != 0 || $private_sold != 0)
-                                                            disabled 
+                                                            disabled
                                                         @endif
                                                         class="btn btn-primary">{{ trans('general.accept') }}</button>
 

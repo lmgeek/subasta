@@ -30,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
                 ->where('batches.id',$value)
                 ->where('boats.user_id',Auth::user()->id)->count();
         });
-        Validator::extend('unique_name_unit', function ($value, $parameters) {
+        Validator::extend('unique_name_unit', function ($attribute,$value, $parameters) {
             $count = DB::table('products')
                 ->where('name', $value)
                 ->where('unit', $parameters[0])
