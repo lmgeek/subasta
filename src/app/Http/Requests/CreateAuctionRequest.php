@@ -37,8 +37,8 @@ class CreateAuctionRequest extends Request
             'fechaInicio'  => 'required|date_format:d/m/Y H:i|after:'.date('d/m/Y H:i'),
             'fechaTentativa'  => 'required|date_format:d/m/Y H:i|after:'.date('d/m/Y H:i'),
             'fechaFin'    => 'date_format:d/m/Y H:i|after:fechaInicio',
-            'ActiveHours'=>'required|numeric',
-            'startPrice' => 'required|regex:/^\d{1,}(\,\d+)?$/|min:1|auction_price_greater_than:endPrice',
+            'ActiveHours'=>'required|numeric|min:1',
+            'startPrice' => 'required|regex:/^\d{1,}(\,\d+)?$/|min:2|auction_price_greater_than:endPrice,startPrice',
             'endPrice'   => 'required|regex:/^\d{1,}(\,\d+)?$/|min:1',
             'amount'     => 'required|numeric|min:1',
             'descri'   => 'required|min:120|max:1000',
@@ -52,7 +52,9 @@ class CreateAuctionRequest extends Request
             return [
                 "invitados.required_if" => "El campo :attribute es obligatorio cuando :other es privada",
                 "descri.min" => "El campo :attribute debe ser de al menos :min carateres",
-                "amount.min" => "La :attribute debe ser de al menos :min"
+                "amount.min" => "La :attribute debe ser de al menos :min",
+                'ActiveHours.required'=>'El campo horas activas es obligatorio',
+                'ActiveHours.min'=>'La cantidad de horas activas debe ser al menos :min'
             ];
         }
         return [];

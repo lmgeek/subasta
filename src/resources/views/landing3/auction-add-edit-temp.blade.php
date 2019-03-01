@@ -96,7 +96,7 @@ if(Auth::user()->type==Constants::VENDEDOR){
     <input type="text" value="<?=$tentativedate?>" placeholder="Fecha Tentativa"disabled>
     <input type="hidden" name="fechaTentativa" value="<?=$tentativedate?>">
     @else
-    <input type="text" value="<?=$tentativedate?>" placeholder="Fecha Tentativa" name="fechaTentativa">
+    <input type="text" value="<?=$tentativedate?>" placeholder="Fecha Tentativa" name="fechaTentativa" id="fechaTentativa">
     @endif
     <br>
 </div>
@@ -140,13 +140,13 @@ if(Auth::user()->type==Constants::VENDEDOR){
         <option value="public"<?=($privacy== Constants::AUCTION_PUBLIC || old('tipoSubasta')==Constants::AUCTION_PUBLIC)?'selected':''?>>P&uacute;blica</option>
         <option value="private"<?=($privacy== Constants::AUCTION_PRIVATE || old('tipoSubasta')==Constants::AUCTION_PRIVATE)?'selected':''?>>Privada</option>
     </select><br><br>
-    <input type="text" name="guests" placeholder="Escribe un nombre y selecciona" style="<?=($privacy== Constants::AUCTION_PUBLIC || old('tipoSubasta')==Constants::AUCTION_PUBLIC)?'display:none;':''?>width:100%" id="guests" onkeypress="getUsers()"<?=($auctionedit==0)?'disabled':''?>>
+    <input type="text" name="guests" placeholder="Escribe un nombre y selecciona" style="<?=($privacy== Constants::AUCTION_PUBLIC || old('tipoSubasta')==Constants::AUCTION_PUBLIC)?'display:none;':''?>width:100%" id="guests" onkeypress="getUsers()" onclick="getUsers()"<?=($auctionedit==0)?'disabled':''?>>
     <div id="UsersShowTemp"></div>
     <div id="UsersShow">
         @if(isset($guests))
             @foreach($guests as $guest)
-                <?php $user= \App\User::select('name','nickname')->where('id',Constants::EQUAL,$guest->user_id)->get()[0];?>
-                <div id="TagUser<?=$guest->user_id?>"><?=$user->name.' '.$user->lastname.'('.$user->nickname.')'?> <?php if($auctionedit==1){?><div class="fa fa-close" onclick="removeGuest(<?=$guest->user_id?>)"></div><?php }?><div>
+                <?php $user= \App\User::select('name','lastname','nickname')->where('id',Constants::EQUAL,$guest->user_id)->get()[0];?>
+                <div id="TagUser<?=$guest->user_id?>"><?=$user->name.' '.$user->lastname.' ('.$user->nickname.')'?> <?php if($auctionedit==1){?><div class="fa fa-close" onclick="removeGuest(<?=$guest->user_id?>)"></div><?php }?><div>
             @endforeach
         @endif
     </div>
@@ -160,7 +160,7 @@ if(Auth::user()->type==Constants::VENDEDOR){
     
 </div>
             <textarea name="descri" placeholder="description"<?=($auctionedit==0)?'disabled':''?> style="width: 100%"><?=$description?></textarea><br>
-<input type="submit"<?=(($auctionedit+$arriveedit+$batchedit)==0)?'disabled':''?>>
+            <input type="submit"<?=(($auctionedit+$arriveedit+$batchedit)==0)?'disabled':''?> value="Enviar">
 </form>
 
 
@@ -197,7 +197,7 @@ if(Auth::user()->type==Constants::VENDEDOR){
             console.log(result)
             var $result=JSON.parse(result),$html='',$inputs='';
             for(var $z=0;$z<$result.length;$z++){
-                $html+='<div onclick="addGuest('+$result[$z]['id']+',\''+$result[$z]['name']+' '+$result[$z]['lastname']+'\',\''+$result[$z]['nickname']+'\')">'+$result[$z]['name']+' '+$result[$z]['lastname']+' ('+$result[$z]['nickname']+')'+'</div>';
+                $html+='<button id="guest'+$result[$z]['id']+'" onclick="addGuest('+$result[$z]['id']+',\''+$result[$z]['name']+' '+$result[$z]['lastname']+'\',\''+$result[$z]['nickname']+'\')">'+$result[$z]['name']+' '+$result[$z]['lastname']+' ('+$result[$z]['nickname']+')'+'</button>';
             }
             $('#UsersShowTemp').html($html);
         })
