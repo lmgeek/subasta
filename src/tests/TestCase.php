@@ -2,6 +2,8 @@
 use App\User;
 use App\Vendedor;
 Use App\Http\Controllers\RegisterController;
+Use App\Constants;
+use App\Auction;
 class TestCase extends Illuminate\Foundation\Testing\TestCase
 {
     /**
@@ -65,7 +67,8 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
             case 'dontSee':
                 $userAuth->dontSee($text);
                 break;
-
+            case 'seePageIs':
+                $userAuth->seePageIs($uri);
             case 'responseOK':
                 $userAuth->assertResponseOk();
                 break;
@@ -184,5 +187,15 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     {
         return $this->getFieldValidator($field, $value)->passes();
     }
-
+    /* INI Rodolfo*/
+    public function getAValidUser($type){
+        return User::select()
+            ->where('type','=',$type)
+            ->where('status',Constants::EQUAL,Constants::APROBADO)
+            ->limit(1)->get()[0];
+    }
+    public function getLastAuction(){
+        return Auction::auctionHome(null,array('orderby'=>'created_at','order','desc'), Constants::FUTURE)[0];
+    }
+    /* FIN Rodolfo*/
 }

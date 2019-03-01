@@ -1,4 +1,6 @@
-@extends('admin')
+<?php 
+use \App\Http\Controllers\UserController;
+?>@extends('admin')
 
 @section('content')
     <div class="row wrapper border-bottom white-bg page-heading">
@@ -42,9 +44,13 @@
                             </thead>
                             <tbody>
                                 @foreach($boats as $boat)
+                                <?php 
+                                
+                                $user=UserController::getUserFullName($boat->user_id);
+                                echo $user;?>
                                     <tr>
                                         <td class="">
-                                            {{ $boat->user->fullname }}
+                                            
                                         </td>
                                         <td>{{ $boat->name }}</td>
                                         <td>{{ $boat->matricula }}</td>
@@ -58,12 +64,14 @@
 
                                         </td>
                                         <td>
+                                            
                                             @can('seeBoatDetail',$boat)
                                                 <a href="{{ route('boats.show',$boat) }}" class="btn-action">{{ trans('boats.actions.view') }}</a>
                                             @endcan
                                         </td>
                                     </tr>
                                 @endforeach
+                                
                             </tbody>
                         </table>
 

@@ -740,15 +740,22 @@ class AuctionController extends Controller
         $arrive->save();
         return $arrive->id;
     }
-    //
+    //CreateAuctionRequest
     public function storeAuction(CreateAuctionRequest $request){
+        $startprice=$request->startPrice;
+        $endprice=$request->endPrice;
+        if($endprice>=$startprice){
+            return Redirect::back()->withErrors(['El precio final no puede ser mayor al precio inicial.']);
+        }
         $products = $request->product;$caliber = $request->input(Constants::CALIBER);$quality = $request->input(Constants::QUALITY);
         $amount = $request->input(Constants::AMOUNT);$privacy=$request->input('tipoSubasta');
         $startDate =date(Constants::DATE_FORMAT,strtotime(str_replace('/','-',$request->fechaInicio)));
         $tentativeDate =date(Constants::DATE_FORMAT,strtotime(str_replace('/','-',$request->fechaTentativa)));
         $arrivedate=null;
         $endDate=date_add(date_create($startDate),date_interval_create_from_date_string("+$request->ActiveHours hours"))->format(Constants::DATE_FORMAT);
-        $startprice=$request->startPrice;$endprice=$request->endPrice;$targetprice=$endprice+(($startprice-$endprice)*rand(1,7)/100);
+        
+        
+        $targetprice=$endprice+(($startprice-$endprice)*rand(1,7)/100);
         $replicate=(isset($request->type) && $request->type=='replication')?1:0;
         $arriveid=self::storeArrive($request->barco, $request->puerto, $arrivedate,$replicate,((isset($request->arriveid))?$request->arriveid:null));
         $batchid=self::storeBatch($arriveid, $products, $caliber, $quality, $amount, $replicate, ((isset($request->batchid))?$request->batchid:null));
@@ -789,7 +796,12 @@ class AuctionController extends Controller
 				});
 			}
 		}
-        return redirect('auction/edit/'.$auction->id);
+        if(empty($request->testing)){
+            return redirect('auction/edit/'.$auction->id);
+        }else{
+            $auction->tested=true;
+            return json_encode($auction);
+        }
     }
     public  function getUsersAuctionPrivate(Request $request){
         $ids='';
