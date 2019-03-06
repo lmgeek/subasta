@@ -3,6 +3,7 @@
 use App\Auction;
 use App\UserRating;
 use App\Constants;
+use App\AuctionQuery;
 //use Illuminate\Auth;
 
 //Creamos un objeto de ña clase para usar sus funciones
@@ -45,8 +46,8 @@ $cantcompras=$availability['sold'];
                                     <li>
                                         <small>Vendedor</small><br>
                                         <strong><em class="icon-feather-user"></em> {{$auction->batch->arrive->boat->user->nickname}}</strong><br>
-                                        <div class="medal-rating {{strtolower(\App\Auction::catUserByAuctions($userId))}}" data-rating="{{\App\Auction::catUserByAuctions($userId)}}">
-                                            <span class="medal {{\App\Auction::catUserByAuctions($userId)}}"></span>
+                                        <div class="medal-rating {{strtolower(\App\AuctionQuery::catUserByAuctions($userId))}}" data-rating="{{\App\AuctionQuery::catUserByAuctions($userId)}}">
+                                            <span class="medal {{\App\Auction::catUserByAuctionsQuery($userId)}}"></span>
                                         </div>
                                     </li>
                                     <li><small>Barco</small><br>

@@ -220,4 +220,15 @@ class Constants{
         }
         return $result;
     }
+    public static function getTimeline($start,$end,$availability){
+        $now =date(self::DATE_FORMAT);
+        if($end<$now || $availability<=0){
+            $timeline= Constants::FINISHED;
+        }elseif($start<$now && $availability>0){
+            $timeline=Constants::IN_CURSE;
+        }elseif($start>$now){
+            $timeline= Constants::FUTURE;
+        }
+        return $timeline;
+    }
 }

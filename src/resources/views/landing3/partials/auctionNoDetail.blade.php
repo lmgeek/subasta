@@ -1,6 +1,7 @@
 <?php
 use App\Auction;
 use App\Constants;
+use App\AuctionQuery;
 $userId = $auction->batch->arrive->boat->user->id;
 $total=$auction->amount;
 $availability=Auction::getAvailable($auction->id,$total);
@@ -10,7 +11,7 @@ $cantofertas=\App\Http\Controllers\AuctionController::getOffersCount($auction->i
 $price=\App\Http\Controllers\AuctionController::calculatePriceID($auction->id);
 $close=$price['close'];
 $userRatings=\App\Http\Controllers\AuctionController::getUserRating($auction->batch->arrive->boat->user);
-$usercat=Auction::catUserByAuctions($userId);
+$usercat=AuctionQuery::catUserByAuctions($userId);
 $port=\App\Ports::getPortById($auction->batch->arrive->port_id);
 if(isset($request->time) and $request->time!= Constants::IN_CURSE){
     if($auction->timeline== Constants::FINISHED){

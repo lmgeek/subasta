@@ -368,9 +368,9 @@ function ThousandSeparator(nStr) {
 }
 function getFilters(){
     var $filters={};
-    var $prices=$priceval=$('#PriceFilter').val().toString().split(',');
+    var $prices=$('#PriceFilter').val().toString().split(',');
     $filters['pricemin']=$prices[0]+'**';$filters['pricemax']=$prices[1]+'**';
-    var $filterstring='Filter Price: Min='+$priceval[0]+'ARS. Max='+$priceval[1]+'ARS. ';
+    var $filterstring='Filter Price: Min='+$prices[0]+'ARS. Max='+$prices[1]+'ARS. ';
     $('.AuctionListFilter').each(function(){
         if($(this).is(':checked')) {
             var $fieldtemp=$(this).data('field');

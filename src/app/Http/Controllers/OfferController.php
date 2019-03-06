@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
+use App\AuctionQuery;
 use App\Constants;
 use App\Auction;
 use App\Offers;
@@ -27,7 +28,7 @@ class OfferController extends Controller
     public function index()
     {
         $status = Constants::MY_IN_CURSE;
-        $auctions = Auction::filterAndPaginate($status,null,null,null);
+        $auctions = AuctionQuery::filterAndPaginate($status,null,null,null);
         $offers = array();
         foreach($auctions as $a){
             $offers[$a->id] = $this->getOffers($a->id);

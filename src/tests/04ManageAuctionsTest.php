@@ -19,7 +19,6 @@ class CreateAuctionTest extends TestCase
 //    var $descriptiongood='NetLabs nace de la unión de jóvenes emprendedores y profesionales con 12 años de experiencia en el mercado informático nacional e internacional. En Netlabs desarrollamos aplicaciones según las necesidades de nuestros clientes y del mercado. Contamos con un equipo de profesionales experimentados en desarrollo de software, servicios de consultoría y asesoría en tecnologías de información.';
     /**  @test 
      * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
-     * @covers AuctionController::addAuction
      */
     function getToAuctionAdd(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
@@ -29,7 +28,6 @@ class CreateAuctionTest extends TestCase
     }
     /**  @test 
      * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
-     * @covers BoatController::getPreferredPort
      */
     function selectPreferredPortOnSelectingBoat(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
@@ -41,7 +39,6 @@ class CreateAuctionTest extends TestCase
     }
     /**  @test 
      * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
-     * @covers AuctionController::getUsersAuctionPrivate
      */
     function getValidUsersForPrivateAuctionWithNoneSelected(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
@@ -58,7 +55,6 @@ class CreateAuctionTest extends TestCase
     }
     /**  @test 
      * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
-     * @covers AuctionController::getUsersAuctionPrivate
      */
     function getNoUsersForPrivateAuctionWithOneSelected(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
@@ -69,7 +65,6 @@ class CreateAuctionTest extends TestCase
     }
     /**  @test 
      * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
-     * @covers AuctionController::getUsersAuctionPrivate
      */
     function tryToGetPendingUserForPrivateAuction(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
@@ -80,7 +75,6 @@ class CreateAuctionTest extends TestCase
     }
     /**  @test 
      * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
-     * @covers AuctionController::getUsersAuctionPrivate
      */
     function tryToGetRejectedUserForPrivateAuction(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
@@ -102,7 +96,6 @@ class CreateAuctionTest extends TestCase
     }
     /**  @test 
      * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
-     * @covers AuctionController::getUsersAuctionPrivate
      */
     function tryToGetAdminForPrivateAuction(){
         $id = $this->getTheLastIdInsertedInTheSeller();
@@ -134,7 +127,6 @@ class CreateAuctionTest extends TestCase
     }
     /**  @test 
      * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
-     * @covers Auction::storeAuction
      */
     function tryToAddPublicAuctionWithTentativeDatePast(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
@@ -155,7 +147,6 @@ class CreateAuctionTest extends TestCase
     }
     /**  @test 
      * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
-     * @covers Auction::storeAuction
      */
     function tryToAddPublicAuctionWithoutStartDate(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
@@ -176,7 +167,6 @@ class CreateAuctionTest extends TestCase
     }
     /**  @test 
      * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
-     * @covers Auction::storeAuction
      */
     function tryToAddPublicAuctionWithStartDatePast(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
@@ -197,7 +187,6 @@ class CreateAuctionTest extends TestCase
     }
     /**  @test 
      * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
-     * @covers Auction::storeAuction
      */
     function tryToAddPublicAuctionWithoutActiveHours(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
@@ -218,7 +207,6 @@ class CreateAuctionTest extends TestCase
     }
     /**  @test 
      * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
-     * @covers Auction::storeAuction
      */
     function tryToAddPublicAuctionWithLessThanOneActiveHours(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
@@ -239,7 +227,6 @@ class CreateAuctionTest extends TestCase
     }
     /**  @test 
      * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
-     * @covers Auction::storeAuction
      */
     function tryToAddPublicAuctionWithoutAmount(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
@@ -260,7 +247,6 @@ class CreateAuctionTest extends TestCase
     }
     /**  @test 
      * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
-     * @covers Auction::storeAuction
      */
     function tryToAddPublicAuctionWithLessThanOneAmount(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
@@ -281,7 +267,6 @@ class CreateAuctionTest extends TestCase
     }
     /**  @test 
      * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
-     * @covers Auction::storeAuction
      */
     function tryToAddPublicAuctionWithoutStartPrice(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
@@ -302,7 +287,6 @@ class CreateAuctionTest extends TestCase
     }
     /**  @test 
      * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
-     * @covers Auction::storeAuction
      */
     function tryToAddPublicAuctionWithoutEndPrice(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
@@ -323,7 +307,6 @@ class CreateAuctionTest extends TestCase
     }
     /**  @test 
      * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
-     * @covers Auction::storeAuction
      */
     function tryToAddPublicAuctionWithStartPriceLowerEndPrice(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
@@ -344,7 +327,6 @@ class CreateAuctionTest extends TestCase
     }
     /**  @test 
      * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
-     * @covers Auction::storeAuction
      */
     function tryToAddPublicAuctionWithoutDescription(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
@@ -365,7 +347,6 @@ class CreateAuctionTest extends TestCase
     }
     /**  @test 
      * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
-     * @covers Auction::storeAuction
      */
     function tryToAddPublicAuctionWithShortDescription(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
@@ -390,7 +371,6 @@ class CreateAuctionTest extends TestCase
     }
     /**  @test 
      * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
-     * @covers Auction::storeAuction
      */
     function tryToAddPublicAuctionWithLongDescription(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
@@ -415,7 +395,6 @@ class CreateAuctionTest extends TestCase
     }
     /**  @test
      * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
-     * @covers Auction::storeAuction
      */
     function AddPublicAuction(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
@@ -436,7 +415,6 @@ class CreateAuctionTest extends TestCase
     }
     /**  @test
      * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
-     * @covers Auction::storeAuction
      */
     function EditLastAuctionAllowingArriveAndBatchEdit(){
         $this->withoutMiddleware();
@@ -475,7 +453,6 @@ class CreateAuctionTest extends TestCase
     }
     /**  @test
      * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
-     * @covers Auction::storeAuction
      */
     function ReplicateLastAuction(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
@@ -496,7 +473,6 @@ class CreateAuctionTest extends TestCase
     }
     /**  @test
      * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
-     * @covers Auction::storeAuction
      */
     function AddPrivateAuction(){
         $this->withoutMiddleware();
