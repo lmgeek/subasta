@@ -85,7 +85,6 @@ class CreateAuctionTest extends TestCase
     }
     /**  @test 
      * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
-     * @covers AuctionController::getUsersAuctionPrivate
      */
     function tryToGetSellerForPrivateAuction(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
@@ -106,7 +105,6 @@ class CreateAuctionTest extends TestCase
     }
     /**  @test 
      * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
-     * @covers Auction::storeAuction
      */
     function tryToAddPublicAuctionWithoutTentativeDate(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
