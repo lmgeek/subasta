@@ -15,7 +15,7 @@ $userRating = new UserRating();
 //Id del usuario
 $userId = $auction->batch->arrive->boat->user->id;
 $outsidehome=1;
-$cantofertas=\App\Http\Controllers\AuctionController::getOffersCount($auction->id);
+$cantofertas=\App\Http\Controllers\AuctionBackController::getOffersCount($auction->id);
 $cantcompras=$availability['sold'];
 
 ?>
@@ -46,8 +46,8 @@ $cantcompras=$availability['sold'];
                                     <li>
                                         <small>Vendedor</small><br>
                                         <strong><em class="icon-feather-user"></em> {{$auction->batch->arrive->boat->user->nickname}}</strong><br>
-                                        <div class="medal-rating {{strtolower(\App\AuctionQuery::catUserByAuctions($userId))}}" data-rating="{{\App\AuctionQuery::catUserByAuctions($userId)}}">
-                                            <span class="medal {{\App\Auction::catUserByAuctionsQuery($userId)}}"></span>
+                                        <div class="medal-rating {{strtolower(\App\AuctionQuery::catUserByAuctions($userId))}}" data-rating="{{AuctionQuery::catUserByAuctions($userId)}}">
+                                            <span class="medal {{AuctionQuery::catUserByAuctions($userId)}}"></span>
                                         </div>
                                     </li>
                                     <li><small>Barco</small><br>

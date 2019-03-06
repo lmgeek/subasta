@@ -209,6 +209,10 @@ class Auction extends Model{
         return ($position == 0) ? $this->interval*60 : $segundosRestantes;
 
     }
+    public function bids(){
+        return $this->hasMany('App\Bid');
+    }
+
     public function batch()
     {
         return $this->belongsTo('App\Batch');
