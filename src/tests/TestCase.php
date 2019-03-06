@@ -3,7 +3,7 @@ use App\User;
 use App\Vendedor;
 Use App\Http\Controllers\RegisterController;
 Use App\Constants;
-use App\Auction;
+use App\AuctionQuery;
 class TestCase extends Illuminate\Foundation\Testing\TestCase
 {
     /**
@@ -195,7 +195,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
             ->limit(1)->get()[0];
     }
     public function getLastAuction(){
-        return Auction::auctionHome(null,array('orderby'=>'created_at','order','desc'), Constants::FUTURE)[0];
+        return AuctionQuery::auctionHome(null,array('orderby'=>'created_at','order','desc'), Constants::FUTURE)[0];
     }
     /* FIN Rodolfo*/
 }

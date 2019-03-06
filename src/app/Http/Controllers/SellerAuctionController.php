@@ -6,6 +6,7 @@ use App\Auction;
 use App\Bid;
 use App\Constants;
 use App\Vendedor;
+use App\AuctionQuery;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -24,7 +25,7 @@ class SellerAuctionController extends Controller
 
         $this->authorize('seeSellerAuction', Auction::class);
         $status = $request->get(Constants::STATUS,Constants::MY_IN_CURSE);
-        $auctions = Auction::filterAndPaginate($status);
+        $auctions = AuctionQuery::filterAndPaginate($status);
         $sellerAuction = true;
         return view('auction.index',compact(Constants::AUCTIONS,'sellerAuction',Constants::STATUS));
     }
