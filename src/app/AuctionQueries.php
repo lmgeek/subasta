@@ -1,8 +1,11 @@
 <?php
 namespace App;
 use Auth;
+use App\Auction;
 class AuctionQuery extends Auction{
    /* INI Rodolfo*/
+    protected $table = 'auctions';
+    protected $fillable = ['batch_id', 'start','start_price','end','end_price','interval','type','notification_status','description','timeline','tentative_date'];
     public static function checkifUserInvited($id){
         if(!isset(Auth::user()->id)){
             return 0;
@@ -112,6 +115,17 @@ class AuctionQuery extends Auction{
             return $auctions->paginate($params['paginate']);
         }
     }
+    public function offerList(Request $request){
+        $auctions=AuctionQuery::auctionHome(null,array('type'=>'mine'),Constants::FINISHED);
+        $offers=array();
+        foreach($auctions as $auction){
+            $auction->code=self::getAuctionCode($auction->correlative,$auction->created_at);
+            $offers[$auction->id]= self::getOffers($auction->id);
+        }
+
+        return view(Constants::LANDING3_OFFERS)
+            ->with('auctions',$auctions)->with('offers',$offers);
+    }
     public static function auctionTimeSplitter($auctions){
         
         $return=array('all'=>array(),Constants::FINISHED=>array(), Constants::IN_CURSE=>array(), Constants::FUTURE=>array(),'mine'=>array('all'=>array(),Constants::FINISHED=>array(), Constants::IN_CURSE=>array(), Constants::FUTURE=>array()));
@@ -123,7 +137,7 @@ class AuctionQuery extends Auction{
                 $return['mine'][$timeline][]=$auction;
                 $return['mine']['all'][]=$auction;
             }
-            $auction->code= Http\Controllers\AuctionController::getAuctionCode($auction->correlative, $auction->created_at);
+            $auction->code= Http\Controllers\AuctionFrontController::getAuctionCode($auction->correlative, $auction->created_at);
             $auction->timeline=$timeline;
             if($auction->type==Constants::AUCTION_PUBLIC){
                 $return[$timeline][]=$auction;

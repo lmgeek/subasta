@@ -12,19 +12,20 @@
 */
 
 
-Route::get('/', 'AuctionController@subastasFront');
-Route::get('/subastas', 'AuctionController@listaSubastas');
-Route::get('/auction/add','AuctionController@addAuction');
-Route::get('/offers','AuctionController@offerList');
+Route::get('/', 'AuctionFrontController@subastasFront');
+Route::get('/subastas', 'AuctionFrontController@listaSubastas');
+Route::get('/auction/add','AuctionFrontController@addAuction');
+Route::get('/offers','AuctionFrontController@offerList');
 Route::get('/boatslist','BoatController@boatList');
-Route::post('/auctionstore','AuctionController@storeAuction');
+Route::post('/auctionstore','AuctionFrontController@storeAuction');
 Route::get('/getpreferredport','BoatController@getPreferredPort');
-Route::get('/getusersauctionprivate','AuctionController@getUsersAuctionPrivate');
+Route::get('/getusersauctionprivate','AuctionFrontController@getUsersAuctionPrivate');
+Route::get('offersAuctionFront', 'AuctionFrontController@offersAuctionFront');
 Route::get('auction/edit/{auction}', [
-    'as' => 'auction.edit', 'uses' => 'AuctionController@editAuction'
+    'as' => 'auction.edit', 'uses' => 'AuctionFrontController@editAuction'
 ]);
 Route::get('auction/replicate/{auction}', [
-    'as' => 'auction.replicate', 'uses' => 'AuctionController@replicateAuction'
+    'as' => 'auction.replicate', 'uses' => 'AuctionFrontController@replicateAuction'
 ]);
 
 
@@ -41,7 +42,7 @@ Route::post('auth/register', 'Auth\AuthController@postRegister');
 
 Route::get('/home', 'HomeController@index');
 
-Route::get('/auction/details/{auction}', 'AuctionController@auctionDetails');
+Route::get('/auction/details/{auction}', 'AuctionFrontController@auctionDetails');
 
 
 
@@ -49,7 +50,7 @@ Route::get('/auction/details/{auction}', 'AuctionController@auctionDetails');
 // Auctions
 //---------------------------------------------------------------------------
 Route::get('auction/export/{auction}', [
-    'as' => 'auction.export', 'uses' => 'AuctionController@export'
+    'as' => 'auction.export', 'uses' => 'AuctionBackController@export'
 ]);
 Route::get('auction/operations/process/{auction}', [
     'as' => 'auction.operations.process', 'uses' => 'AuctionController@process'
@@ -73,7 +74,7 @@ Route::get('auction/offers/decline/{auction}/{offer}', 'AuctionController@declin
 
 
 Route::get('auction/deactivate/{auction}', [
-    'as' => 'auction.deactivate', 'uses' => 'AuctionController@deactivate'
+    'as' => 'auction.deactivate', 'uses' => 'AuctionBackController@deactivate'
 ]);
 
 
@@ -139,7 +140,7 @@ Route::get('sellerboat/batch/delete/{batch}', [
 
 Route::group(['middleware' => ['auth']],function(){
     Route::resource('sellerboat','SellerBoatsController');
-    Route::post("/get/participantes","AuctionController@getParticipantes");
+    Route::post("/get/participantes","AuctionBackController@getParticipantes");
 });
 Route::group(['middleware' => ['auth']],function(){
     Route:resource('sellerAuction','SellerAuctionController');
@@ -174,8 +175,8 @@ Route::get('privatesales', 'SellerAuctionController@privatesales');
 Route::get('calculateprice', 'AuctionController@calculatePrice');
 Route::get('makeBid', 'AuctionController@makeBid');
 Route::post('offersAuction', 'AuctionController@offersAuction');
-Route::get('offersAuctionFront', 'AuctionController@offersAuctionFront');
-Route::post('getauctions', 'AuctionController@getauctions');
+
+Route::post('getauctions', 'AuctionFrontController@getauctions');
 
 Route::group(['middleware' => ['auth']],function(){
     Route:resource('sellerbatch', 'BoatController@sellerbatch');
@@ -194,12 +195,12 @@ Route::post('registro/vendedor', 'RegisterController@postRegisterSeller');
 Route::get('priavatesale/{batch}', 'SellerBoatsController@priavateSale');
 Route::post('savePrivateSale', 'SellerBoatsController@savePrivateSale');
 Route::group(['middleware' => ['auth']],function(){
-    Route:resource('bids', 'AuctionController@buyerBid');
+    Route:resource('bids', 'AuctionBackController@buyerBid');
 });
 
 
 Route::get('bids/qualify/{bid}', [
-    'as' => 'bid.qualify', 'uses' => 'AuctionController@qualifyBid'
+    'as' => 'bid.qualify', 'uses' => 'AuctionBackController@qualifyBid'
 ]);
 
 
@@ -212,7 +213,7 @@ Route::post('bids/qualify/{bid}', [
     'as' => 'bid.saveQualify', 'uses' => 'AuctionController@saveQualifyBid'
 ]);
 
-Route::get('subscribe/{auction}','AuctionController@subscribeUser');
+Route::get('subscribe/{auction}','AuctionBackController@subscribeUser');
 
 //---------------------------------------------------------------------------
 //Get Fecha actual routhes

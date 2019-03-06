@@ -248,7 +248,7 @@
 					url: "/get/participantes",
 					data:{auction:auction, _token: "{{ csrf_token() }}"},
 					success: function (data) {
-						// console.log(data);
+                        console.log(data);
 						$.each(data,function(i,val){
 							lista_participantes.append(
 									`<li class="list-group-item">${val.name} ${val.lastname}</li>`
