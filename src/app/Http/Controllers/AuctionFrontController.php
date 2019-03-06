@@ -157,24 +157,8 @@ class AuctionFrontController extends AuctionController
         }
     }
     public static function checkIfBuyerCanBuy($id,$amount,$type="bid",$privacy='public'){
-        if(empty(Auth::user()->id)){
+        if(empty(Auth::user()->id) || Auth::user()->type!='buyer' || Auth::user()->status!='approved' || AuctionQuery::checkifUserInvited(Auth::user()->id)== Constants::INACTIVE){
             return 0;
-        }
-        if(Auth::user()->type!='buyer'){
-            return 0;
-        }
-        if(Auth::user()->status!='approved'){
-            return 0;
-        }
-        if($privacy=='private'){
-            $auction = Auction::select('*')
-                ->join('auctions_invites', Constants::AUCTIONS_ID, '=', 'auctions_invites.auction_id')
-                ->where('auctions.type', '=', 'private')
-                ->where('auctions_invites.user_id', '=', Auth::user()->id)
-                ->where(Constants::AUCTIONS_ID,'=', $id);
-            if(count($auction)==0){
-                return 0;
-            }
         }
         if($type!='bid'){
             return 1;
