@@ -33,6 +33,7 @@ RUN  bash -c "if [ \"$STAGE\" == \"dev\" ] || [ \"$STAGE\" == \"test\" ]; \
      then \
        apt-get install -y php5-xdebug; \
        docker-php-ext-enable /usr/lib/php5/20131226/xdebug.so; \
+       echo xdebug.max_nesting_level=500 >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
      else \
        rm /start_test.sh /wait_for.php; \
      fi"
