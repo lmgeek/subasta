@@ -9,14 +9,15 @@ MAINTAINER Diego Weinstein <diegow@netlabs.com.ar>
 # point default site to public directory
 RUN sed -i 's/www\/html/www\/html\/public/g' /etc/apache2/apache2.conf
 
+# install missing extensions (and locales)
+RUN apt-get update && \
+        apt-get install -y zlib1g-dev libicu-dev locales git
+RUN docker-php-ext-install mbstring zip pdo_mysql
+
 # install composer
 RUN php -r "readfile('https://getcomposer.org/installer');" | php -- --filename=composer --install-dir=/usr/local/bin && \
     composer global require hirak/prestissimo --no-plugins --no-scripts
 
-# install missing extensions (and locales)
-RUN apt-get update && \
-        apt-get install -y zlib1g-dev libicu-dev locales
-RUN docker-php-ext-install mbstring zip pdo_mysql
 
 # Generate locale for es_AR
 RUN echo "es_AR.UTF-8 UTF-8" >> /etc/locale.gen 
