@@ -53,6 +53,7 @@ class CreateProductRequest extends Request
         if ($this->locale == "es"){
             return [
                 "codigo"  => "código pesquero",
+                "sale"  => "unidad de venta",
                 "weigth_small"  => "peso por calibre chico",
                 "weigth_medium" => "peso por calibre mediano",
                 "weigth_bis"    => "peso por calibre grande",
