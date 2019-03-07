@@ -19,14 +19,14 @@
                             <thead>
                             <tr>
                                 <th></th>
-                                <th>Fecha</th>
+
                                 <th>{{ trans('auction.buyer') }}</th>
                                 <th>{{ trans('auction.amount') }}</th>
                                 <th>{{ trans('auction.unity_price') }}</th>
-
+                                <th>Unidad de Venta</th>
                                 <th>{{ trans('auction.date') }}</th>
                                 <th>{{ trans('auction.status') }}</th>
-                                <th>Tipo</th>
+                                <th>Origen</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -44,16 +44,16 @@
                                             <span data-toggle="tooltip" data-placement="top" title="{{ $b->seller_calification_comments }}"  style="color:#BABABA;font-size:18px;"><em class="fa fa-dot-circle-o"></em> </span>
                                         @endif
                                     </td>
-                                    <td>{{ Carbon::parse($b->created_at)->format('d/m/Y H:i:s') }}</td>
                                     <td>
-                                        <a href="#" class="showUserInfo" data-name="{{ $b->user->name }} {{ $b->user->lastname }}" data-phone="{{ $b->user->phone }}" data-email="{{ $b->user->email }}">
-                                            {{ $b->user->name }} {{ $b->user->lastname }}
+                                        <a href="#" class="showUserInfo" data-name="{{ $b->user->nickname }}" data-phone="{{ $b->user->phone }}" data-email="{{ $b->user->email }}">
+                                            {{ $b->user->nickname }}
                                         </a>
                                     </td>
                                     <td>{{ $b->amount }} {{ $auction->batch->product->unit }}</td>
                                     <td style="text-align: right">$ {{ number_format($b->price,2,',','.') }}</td>
-
+                                    <td>{{ $auction->batch->product->sale_unit }}</td>
                                     <td style="text-align: right">{{ Carbon::parse($b->bid_date)->format('H:i:s d/m/Y') }}</td>
+
                                     <td>
                                         @if ($b->status == \App\Constants::PENDIENTE)
                                             {{ trans('general.bid_status.'.$b->status) }}
