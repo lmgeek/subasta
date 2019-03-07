@@ -202,7 +202,7 @@ class Constants{
         $valuemin= strtolower($valuetocheck);
         return (substr_count($querymin, $valuemin)>0)?'checked':'';
     }
-    public static function manualPaginate($array,$url,$currentpage=1){
+    public static function manualPaginate($array,$currentpage=1){
         $itemCollection = collect($array);
         $perPage = self::PAGINATE_NUMBER;
         $currentPageItems = $itemCollection->slice(($currentpage * $perPage) - $perPage, $perPage)->all();

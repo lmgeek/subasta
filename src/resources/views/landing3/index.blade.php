@@ -40,7 +40,7 @@ $portsall= App\Ports::select()->get();
                             <div class="input-with-icon">
                                 <select class="selectpicker" id="port" name="port_id" multiple title="Escoge una opción..." onchange="homeFilterBuilder()">
                                     @foreach($ports as $key=>$value)
-                                        <option value="{{$key}}">{{\App\Http\Controllers\AuctionController::getPortById($key)}}</option>
+                                        <option value="{{$key}}">{{\App\Ports::getPortById($key)}}</option>
                                     @endforeach
                                 </select>
 
