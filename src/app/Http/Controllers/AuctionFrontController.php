@@ -157,7 +157,7 @@ class AuctionFrontController extends AuctionController
         }
     }
     public static function checkIfBuyerCanBuy($id,$amount,$type="bid",$privacy='public'){
-        if(empty(Auth::user()->id) || Auth::user()->type!='buyer' || Auth::user()->status!='approved' || AuctionQuery::checkifUserInvited(Auth::user()->id)== Constants::INACTIVE){
+        if(empty(Auth::user()->id) || Auth::user()->type!='buyer' || Auth::user()->status!='approved' || ($privacy==Constants::AUCTION_PRIVATE && AuctionQuery::checkifUserInvited(Auth::user()->id)== Constants::INACTIVE)){
             return 0;
         }
         if($type!='bid'){
@@ -273,7 +273,7 @@ class AuctionFrontController extends AuctionController
                 }
             }
             return view('/landing3/partials/ListaSubastas')
-                ->withAuctions(Constants::manualPaginate($auctions,$request->url(),$request->current))
+                ->withAuctions(Constants::manualPaginate($auctions,$request->current))
                 ->with('request',$request)->with('limit',$limit)->with('timeline',$time);
         }else{
             return view('/landing3/partials/auctionNoDetail')
@@ -386,7 +386,7 @@ class AuctionFrontController extends AuctionController
         $auctiondetails1=$this->getAuctionsDataForHome($auctions);
         $prices=self::getMaxMinPrice();
         return view('/landing3/subastas')
-            ->withAuctions(Constants::manualPaginate($auctions,$request->url()))
+            ->withAuctions(Constants::manualPaginate($auctions))
             ->withAuctioncounter(count($auctions))
             ->withPorts($auctiondetails1[Constants::PORTS])
             ->withBoats($boats)

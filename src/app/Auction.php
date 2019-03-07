@@ -158,6 +158,14 @@ class Auction extends Model{
         $this->subscription->status = Subscription::NO_NOTIFICADO;
         $this->subscription->save();
     }
+    public function bids(){
+        return $this->hasMany('App\Bid');
+    }
+
+    public function batch()
+    {
+        return $this->belongsTo('App\Batch');
+    }
     
     
     
@@ -208,14 +216,6 @@ class Auction extends Model{
         $segundosRestantes = ($this->interval * 60) - $position;
         return ($position == 0) ? $this->interval*60 : $segundosRestantes;
 
-    }
-    public function bids(){
-        return $this->hasMany('App\Bid');
-    }
-
-    public function batch()
-    {
-        return $this->belongsTo('App\Batch');
     }
     private function getAuctionLeftTime($type){
         return ($type== Constants::MINUTES)?(Carbon::now()->diffInMinutes(Carbon::createFromFormat(Constants::DATE_FORMAT,$this->end))):(Carbon::now()->diffInSeconds(Carbon::createFromFormat( Constants::DATE_FORMAT,$this->end)));

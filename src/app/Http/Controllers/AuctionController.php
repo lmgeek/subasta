@@ -658,7 +658,7 @@ class AuctionController extends Controller
                 }
 
             }
-            $this->emailOfferBid($auction,$available,$offer);
+            AuctionBackController::emailOfferBid($auction,$available,$offer);
             $offers = $this->getOffers($auction_id);
             return $offers;
         } else {
@@ -694,10 +694,7 @@ class AuctionController extends Controller
             ->get();
     }
 
-    public function getCurrentTime()
-    {
-        return gmdate('D, M d Y H:i:s T\-0300', time());
-    }
+    
 
 
     //Declinar de forma masiva las ofertas
@@ -760,7 +757,7 @@ class AuctionController extends Controller
                             $this->bid->save();
 
                             //send email
-                            $this->emailOfferBid($auction,$available,$o);
+                            AuctionBackController::emailOfferBid($auction,$available,$o);
                         } else {
                             $this->offers = Offers::findOrFail($o->id);
                             if ($this->offers->status == Offers::PENDIENTE) {
@@ -778,46 +775,12 @@ class AuctionController extends Controller
     }
 
 
-    public function emailOfferBid($auction,$available,$offer)
-    {
-        //Datos de envio de correo
-        $unit = $auction->batch->product->unit;
-        $caliber = $auction->batch->caliber;
-        $quality = $auction->batch->quality;
-        $product = $auction->batch->product->name;
-        $resp[Constants::IS_NOT_AVAILABLE] = 0;
-        $resp['unit'] = trans(Constants::TRANS_UNITS.$unit);
-        $resp[Constants::CALIBER] = $caliber;
-        $resp[Constants::QUALITY] = $quality;
-        $resp[Constants::PRODUCT] = $product;
-        $resp[Constants::AMOUNT] = $available[Constants::AVAILABLE];
-        $resp[Constants::PRICE] = $offer->price;
-        $resp[Constants::ACTIVE_LIT] = $auction->active;
-
-        $user = User::findOrFail($offer->user_id);
-        $template = 'emails.offerForBid';
-        $seller = $auction->batch->arrive->boat->user ;
-        Mail::queue($template, ['user' => $user , Constants::SELLER=> $seller, Constants::PRODUCT=> $resp] , function ($message) use ($user) {
-            $message->from(
-                env(Constants::MAIL_ADDRESS_SYSTEM,Constants::MAIL_ADDRESS),
-                env(Constants::MAIL_ADDRESS_SYSTEM_NAME,Constants::MAIL_NAME)
-            );
-            $message->subject(trans('users.offer_Bid'));
-            $message->to($user->email);
-        });
-    }
+    
 
     
     
     
     /* Lo que quizas se puede ir */
-    //Obtener el puerto por id
-    static public function getPortById($port_id){
-
-        $ports = Ports::Select(Constants::NAME)->where('id','=',$port_id)->get();
-        echo $ports[0][Constants::NAME];
-
-    }
     
 
     /**
