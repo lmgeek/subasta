@@ -14,7 +14,7 @@ class RegisterProduct extends TestCase
         $this->type('PRO-0089','codigo');
         $this->type('Langostino','nombre');
         $this->type('Cajones','unidad');
-        $this->type('Kg','presen');
+        $this->type('Kg','sale');
         $this->type('10','weight_small');
         $this->type('20','weight_medium');
         $this->type('30','weight_big');
@@ -33,7 +33,7 @@ class RegisterProduct extends TestCase
         $this->type('PRO- 008 9','codigo');
         $this->type('Langostino','nombre');
         $this->type('Cajones','unidad');
-        $this->type('Kg','presen');
+        $this->type('Kg','sale');
         $this->type('10','weight_small');
         $this->type('20','weight_medium');
         $this->type('30','weight_big');
@@ -48,7 +48,7 @@ class RegisterProduct extends TestCase
         $this->type('PRO-0089','codigo');
         $this->type('Camaron','nombre');
         $this->type('Cajones','unidad');
-        $this->type('Kg','presen');
+        $this->type('Kg','sale');
         $this->type('10','weight_small');
         $this->type('20','weight_medium');
         $this->type('30','weight_big');
@@ -64,7 +64,7 @@ class RegisterProduct extends TestCase
         $this->type(' ','codigo');
         $this->type('Langostino','nombre');
         $this->type('Cajones','unidad');
-        $this->type('Kg','presen');
+        $this->type('Kg','sale');
         $this->type('10','weight_small');
         $this->type('20','weight_medium');
         $this->type('30','weight_big');
@@ -80,7 +80,7 @@ class RegisterProduct extends TestCase
         $this->type('PRO-0089','codigo');
         $this->type(' ','nombre');
         $this->type('Cajones','unidad');
-        $this->type('Kg','presen');
+        $this->type('Kg','sale');
         $this->type('10','weight_small');
         $this->type('20','weight_medium');
         $this->type('30','weight_big');
@@ -96,7 +96,7 @@ class RegisterProduct extends TestCase
         $this->type('PRO-0089','codigo');
         $this->type('Langostino','nombre');
         $this->type('','unidad');
-        $this->type('Kg','presen');
+        $this->type('Kg','sale');
         $this->type('10','weight_small');
         $this->type('20','weight_medium');
         $this->type('30','weight_big');
@@ -112,14 +112,14 @@ class RegisterProduct extends TestCase
         $this->type('PRO-0089','codigo');
         $this->type('Langostino','nombre');
         $this->type('Cajones','unidad');
-        $this->type('','presen');
+        $this->type('','sale');
         $this->type('10','weight_small');
         $this->type('20','weight_medium');
         $this->type('30','weight_big');
         $this->attach('langostinos-de-estero-cocidos.jpg','imagen');
         $this->press('Guardar');
         $this->seePageIs('/products/create');
-        $this->see('El campo unidad de presentacion es obligatorio');
+        $this->see('El campo unidad de saletacion es obligatorio');
         $this->assertResponseOk();
     }
     function testCaliberSmallObligatory(){
@@ -128,7 +128,7 @@ class RegisterProduct extends TestCase
         $this->type('PRO-0089','codigo');
         $this->type('Langostino','nombre');
         $this->type('Cajones','unidad');
-        $this->type('Kg','presen');
+        $this->type('Kg','sale');
         $this->type(' ','weight_small');
         $this->type('20','weight_medium');
         $this->type('30','weight_big');
@@ -144,7 +144,7 @@ class RegisterProduct extends TestCase
         $this->type('PRO-0089','codigo');
         $this->type('Langostino','nombre');
         $this->type('Cajones','unidad');
-        $this->type('Kg','presen');
+        $this->type('Kg','sale');
         $this->type('10','weight_small');
         $this->type(' ','weight_medium');
         $this->type('30','weight_big');
@@ -160,7 +160,7 @@ class RegisterProduct extends TestCase
         $this->type('PRO-0089','codigo');
         $this->type('Langostino','nombre');
         $this->type('Cajones','unidad');
-        $this->type('Kg','presen');
+        $this->type('Kg','sale');
         $this->type('10','weight_small');
         $this->type('20','weight_medium');
         $this->type(' ','weight_big');
@@ -176,7 +176,7 @@ class RegisterProduct extends TestCase
         $this->type('PRO-0089','codigo');
         $this->type('Langostino','nombre');
         $this->type('Cajones','unidad');
-        $this->type('Kg','presen');
+        $this->type('Kg','sale');
         $this->type('10','weight_small');
         $this->type('20','weight_medium');
         $this->type('30','weight_big');
@@ -192,7 +192,7 @@ class RegisterProduct extends TestCase
         $this->type('PRO-1002','codigo');
         $this->type('Langostino','nombre');
         $this->type('Cajones','unidad');
-        $this->type('Kg','presen');
+        $this->type('Kg','sale');
         $this->type('10','weight_small');
         $this->type('20','weight_medium');
         $this->type('30','weight_big');

@@ -12,7 +12,6 @@ truncate flyway_schema_history;
 truncate jobs;
 truncate migrations;
 truncate password_resets;
-truncate port;
 truncate private_sales;
 truncate products;
 truncate subscriptions;
@@ -43,7 +42,7 @@ INSERT INTO boats (`user_id`, `name`, `matricula`, `status`, `nickname`, `refere
 ( 1, 'la perla','BO-10-4-A','pending','Barco III', 3), ( 1, 'caribe','AR-10-4-A','approved','Barco IV', 4);
 
 # Insertar todo los producto
-INSERT INTO products (`name`,`unit`,`weigth_small`,`weigth_medium`,`weigth_big`,`fishing_code`,`presentation_unit`)
+INSERT INTO products (`name`,`unit`,`weigth_small`,`weigth_medium`,`weigth_big`,`fishing_code`,`sale_unit`)
 VALUES ('Pulpo','Cajones',10,20,30,'PRO-001','Cajones'),('Camarón','Cajones',15,20,25,'PRO-002','Kg'),('Tiburón','Unidad',5,10,15,'PRO-003','Unidades');
 
 # Insertar todo los arribo

@@ -120,6 +120,18 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
         $class->save();
         return true;
     }
+    public function instanceClassProduct($class,$nombre,$unidad,$pequeno,$mediano,$grande,$imagen,$codigo,$unit_sale ){
+        $class->name = $nombre;
+        $class->unit = $unidad;
+        $class->weigth_small = $pequeno;
+        $class->weigth_medium = $mediano;
+        $class->weigth_big = $grande;
+        $class->image_name = $imagen;
+        $class->fishing_code = $codigo;
+        $class->sale_unit = $unit_sale;
+        $class->save();
+        return true;
+    }
 
     /*    G.B Resgitro vendedor*/
     public function instanceClassUserSeller($classUser,$classVendedor,$name,$lastname,$nickname,$cuit,$email,$password,$phone = ""){
