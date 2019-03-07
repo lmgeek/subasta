@@ -56,8 +56,8 @@ $ports = Ports::get();
 
                             {{--<div class="form-group">
                                 <label for="alias">Alias</label>
-                                <input type="text" name="alias1" class="form-control" id="alias1" placeholder="Alias" value = "{{"Barco ".Boat::RomanNumber(count(Boat::filterForSellerNickname(Auth::user()->id))+1)}}" required minlength="10" disabled="true" >
-                                <input type="hidden" name="alias" class="form-control" id="alias" placeholder="Alias" value = "{{"Barco ".Boat::RomanNumber(count(Boat::filterForSellerNickname(Auth::user()->id))+1)}}" required minlength="10" >
+                                <input type="text" name="alias1" class="form-control" id="alias1" placeholder="Alias" value = "{{"Barco ".Boat::RomanNumber(count(Boat::getInfoBoat(Auth::user()->id))+1)}}" required minlength="10" disabled="true" >
+                                <input type="hidden" name="alias" class="form-control" id="alias" placeholder="Alias" value = "{{"Barco ".Boat::RomanNumber(count(Boat::getInfoBoat(Auth::user()->id))+1)}}" required minlength="10" >
                             </div>--}}
 
                         </div>

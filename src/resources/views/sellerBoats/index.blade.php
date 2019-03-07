@@ -22,9 +22,9 @@ use App\Boat;
 
 $objt = new Boat();
 
-$CantidadBarco = count($objt->filterForSellerNickname(Auth::user()->id));
+$CantidadBarco = count($objt->getInfoBoat(Auth::user()->id));
 
-$infoBarco = $objt->filterForSellerNickname(Auth::user()->id);
+$infoBarco = $objt->getInfoBoat(Auth::user()->id);
 
 ?>
 
