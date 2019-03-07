@@ -73,7 +73,7 @@
                                             @endforeach
                                         </select>
                                         <label for="unit">Unida de venta</label>
-                                        <select class="form-control" name="presen" id="presen">
+                                        <select class="form-control" name="sale" id="sale">
                                             <option value="">Seleccione...</option>
                                             <?php
                                             $uni = (is_null(old('presen'))) ? $product->presentation_unit : old('presen');

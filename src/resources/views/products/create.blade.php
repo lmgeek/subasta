@@ -55,8 +55,8 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="nombre">codigo Pesquero</label>
-                                        <input type="text" name="codigo" class="form-control" id="name" value="{{ old('codigo') }}" >
+                                        <label for="nombre">Código Pesquero</label>
+                                        <input type="text" name="codigo" maxlength="10"   class="form-control" value="{{ old('codigo') }}" onkeypress="return codigopesquero(event);" >
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -75,7 +75,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="unit">Unidad de Venta </label>
-                                        {!! Form::select('presen',$sale, old('presen'), ['class' => 'required form-control']) !!}
+                                        {!! Form::select('sale',$sale, old('sale'), ['class' => 'required form-control']) !!}
 
                                     </div>
                                 </div>
@@ -132,6 +132,25 @@
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/plugins/iCheck/icheck.min.js"></script>
     <script>
+        function codigopesquero(e) {
+            key = e.keyCode || e.which;
+            tecla = String.fromCharCode(key).toString();
+            //Se define todo lo que se quiere que se muestre
+            caracter = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ0123456789 ";
+            especiales = [6, 8, 39, 45, 127, 176];
+
+            tecla_especial = false;
+            for (var i in especiales) {
+                if (key == especiales[i]) {
+                    tecla_especial = true;
+                    break;
+                }
+            }
+            if (caracter.indexOf(tecla) == -1 && !tecla_especial) {
+                // alert('Tecla no aceptada');
+                return false;
+            }
+        }
 
         $(document).on('keydown keyup',".number",onlyNumberWithComma);
 
