@@ -19,7 +19,7 @@ class Constants{
     const NOMBRE='nombre';
     const CODIGO='codigo';
     const UNIDAD='unidad';
-    const PRESEN='presen';
+    const SALE='sale';
     const REMEMBER='remember';
     const IMAGE='image';
     const IMAGEN='imagen';
