@@ -12,7 +12,6 @@ truncate flyway_schema_history;
 truncate jobs;
 truncate migrations;
 truncate password_resets;
-truncate port;
 truncate private_sales;
 truncate products;
 truncate subscriptions;
