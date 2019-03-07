@@ -460,5 +460,19 @@ class AuctionFrontController extends AuctionController
             ->with(Constants::PORTS,$ports)
             ->with(Constants::PRODUCTS,$products);
     }
+    
+    
+    public function offerList(Request $request){
+        $auctions=AuctionQuery::auctionHome(null,array('type'=>'mine'),Constants::FINISHED);
+        $offers=array();
+        foreach($auctions as $auction){
+            $auction->code=self::getAuctionCode($auction->correlative,$auction->created_at);
+            $offers[$auction->id]= self::getOffers($auction->id);
+        }
+
+        return view(Constants::LANDING3_OFFERS)
+            ->with('auctions',$auctions)->with('offers',$offers);
+    }
+
 }
 
