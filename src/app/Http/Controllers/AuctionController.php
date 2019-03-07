@@ -467,7 +467,17 @@ class AuctionController extends Controller
         }else {
             return;
         }*/
+
+    }
+
+    public function autoOffersToBid(Request $request){
+        setlocale(LC_MONETARY, Constants::EN_US);
+        $auctions = Auction::get();
+        foreach ($auctions as $auction){
+            $this->autoOffersBid($request,$auction->id);
         }
+//        return Redirect::to('/');
+    }
 
 
     
@@ -556,7 +566,7 @@ class AuctionController extends Controller
     public function declineOffers($auction_id,$offer_id = null,Request $request = null)
     {
         $auction = Auction::findOrFail($auction_id);
-        $this->authorize('isMyAuction',$auction);
+//        $this->authorize('isMyAuction',$auction);
         $offers = $this->getOffers($auction_id);
         $available = AuctionBackController::getAvailable($auction_id, $auction->amount);
         if ($offer_id == null){
