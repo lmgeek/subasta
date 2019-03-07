@@ -30,7 +30,7 @@
 use App\Boat;
 
 $objt = new Boat();
-$CantidadBarco = count($objt->filterForSellerNickname(Auth::user()->id));
+$CantidadBarco = count($objt->getInfoBoat(Auth::user()->id));
 ?>
 
 {{--@extends('landing3/partials/layout-admin')--}}
@@ -48,7 +48,7 @@ $CantidadBarco = count($objt->filterForSellerNickname(Auth::user()->id));
         @foreach($boats as $boat)
 
             <tr>
-                <td><?php echo 'Boat <br>';var_dump($boat['name'],$boat['matricula'],$boat['status']);echo '<br>'?></td>
+                <td><?php echo 'Boat <br>';var_dump("<b>Nombre: </b>".$boat['name'],"<b>Matricula:</b> ".$boat['matricula'],"<b>Status:</b> ".$boat['status']);echo '<br>'?></td>
             </tr>
         @endforeach
         </tbody>

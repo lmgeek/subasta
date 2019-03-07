@@ -39,8 +39,8 @@ class Boat extends Model
 		return $query->orderBy('created_at','desc')->get();
 	}
 
-// funcion para traer el sellerNickname
-    public static function filterForSellerNickname($id){
+// funcion para traer la informacion del barco
+    public static function getInfoBoat($id){
         return Boat::select()->where(Constants::USER_ID,'=',$id)->get();
     }
     //Funcion para convertir numeros a numeros romanos

@@ -181,7 +181,7 @@ class BoatController extends Controller
         }
 	}
     public function boatList(){
-        $boats= Boat::select()->where('user_id', Constants::EQUAL,Auth::user()->id)->paginate(5);
+        $boats= Boat::select()->where('user_id', Constants::EQUAL,Auth::user()->id)->orderby('name', 'asc')->paginate(2);
         return view('landing3/boats',compact('boats'));
     }
     /* INI Rodolfo*/
