@@ -24,7 +24,7 @@ class Constants{
     const IMAGE='image';
     const IMAGEN='imagen';
     const VERIFY='verify';
-    const IN_CURSE = 'incourse';
+    const IN_COURSE = 'incourse';
     const FINISHED = 'finished';
     const FUTURE = 'future';
     const EQUAL='=';
@@ -153,7 +153,8 @@ class Constants{
     const KG = "Kg";
     const EMAIL_OFFERAUCTION = 'emails.offerauction';
     const USERS_OFFERAUCTION = 'users.offer_auction';
-
+    const DISABLED='disabled';
+    const SELECTED='selected';
     const CHICO     = "small";
     const MEDIANO   = "medium";
     const GRANDE    = "big";
@@ -206,9 +207,7 @@ class Constants{
         $itemCollection = collect($array);
         $perPage = self::PAGINATE_NUMBER;
         $currentPageItems = $itemCollection->slice(($currentpage * $perPage) - $perPage, $perPage)->all();
-        $paginatedItems= new LengthAwarePaginator($currentPageItems , count($itemCollection), $perPage);
-
-        return $paginatedItems;
+        return new LengthAwarePaginator($currentPageItems , count($itemCollection), $perPage);
     }
      public static function getRealQuery($query, $dumpIt = false){
         $params = array_map(function ($item) {
@@ -225,7 +224,7 @@ class Constants{
         if($end<$now || $availability<=0){
             $timeline= Constants::FINISHED;
         }elseif($start<$now && $availability>0){
-            $timeline=Constants::IN_CURSE;
+            $timeline=Constants::IN_COURSE;
         }elseif($start>$now){
             $timeline= Constants::FUTURE;
         }

@@ -54,10 +54,10 @@
 	
 	
 	@if ($type == \App\Constants::AUCTION_PRIVATE)
-		<a href="auction?status='{{\App\Constants::IN_CURSE  . '&type=' . \App\Constants::AUCTION_PRIVATE}}" class="btn @if($status == \App\Constants::IN_CURSE) btn-success @endif">{{ trans('auction.auction_in_curse') }}</a>
+		<a href="auction?status='{{\App\Constants::IN_COURSE  . '&type=' . \App\Constants::AUCTION_PRIVATE}}" class="btn @if($status == \App\Constants::IN_COURSE) btn-success @endif">{{ trans('auction.auction_in_curse') }}</a>
 		<a href="auction?status='{{\App\Constants::FUTURE . '&type=' . \App\Constants::AUCTION_PRIVATE}}" class="btn @if($status == \App\Constants::FUTURE) btn-success @endif">{{ trans('auction.auction_future') }}</a>
 	@else
-		<a href="auction?status='{{\App\Constants::IN_CURSE}}" class="btn @if($status == \App\Constants::IN_CURSE) btn-success @endif">{{ trans('auction.auction_in_curse') }}</a>
+		<a href="auction?status='{{\App\Constants::IN_COURSE}}" class="btn @if($status == \App\Constants::IN_COURSE) btn-success @endif">{{ trans('auction.auction_in_curse') }}</a>
 		<a href="auction?status='{{\App\Constants::FUTURE}}" class="btn @if($status == \App\Constants::FUTURE) btn-success @endif">{{ trans('auction.auction_future') }}</a>
 	@endif
 	

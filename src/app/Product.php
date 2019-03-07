@@ -67,9 +67,11 @@ class Product extends Model
             $total_amount = $total_amount + $c->amount;
         }
 
-        return (($total == $total_amount));
+        return ($total == $total_amount);
     }
+    /* INI Rodolfo*/
     public static function getProductFromId($id){
         return self::select()->where('products.id','=',$id)->get()[0]['name'];
     }
+    /* FIN Rodolfo*/
 }

@@ -30,7 +30,8 @@ use App\Constants;
 //die(json_encode($auction,true));
 $code='SU-'.date('ym').'XXX';
 $description='Curabitur turpis. Morbi nec metus. Etiam ut purus mattis mauris sodales aliquam. Ut tincidunt tincidunt erat. In hac habitasse platea dictumst.';
-$portid=0;$boatid=0;$productid=0;$caliber='';$quality=0;$activehours=1;$privacy=Constants::AUCTION_PUBLIC;
+$portid=0;$boatid=0;$productid=0;$caliber='';$quality=0;$activehours=1;
+$privacy=Constants::AUCTION_PUBLIC;
 $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d/m/Y H:i');
 $tentativedate=$startdate;
 
@@ -80,15 +81,15 @@ if(Auth::user()->type==Constants::VENDEDOR){
 <div>
     <h3>Arribo</h3>
     Bote:
-    <select name="barco" id="Boat" onchange="getPreferredPort()" <?=($arriveedit==0)?'disabled':''?>>
+    <select name="barco" id="Boat" onchange="getPreferredPort()" <?=($arriveedit==0)?Constants::DISABLED:''?>>
     @foreach($boats as $boat)
-        <option value="{{$boat->id}}" <?=($boatid==$boat->id)?'selected':''?>>{{$boat->name}}</option>
+        <option value="{{$boat->id}}" <?=($boatid==$boat->id)?Constants::SELECTED:''?>>{{$boat->name}}</option>
     @endforeach    
     </select><br>
     Puerto:
-     <select id="puerto" name="puerto" <?=($arriveedit==0)?'disabled':''?>>
+     <select id="puerto" name="puerto" <?=($arriveedit==0)?Constants::DISABLED:''?>>
     @foreach($ports as $port)
-        <option value ="{{$port->id}}" <?=($portid==$port->id)?'selected':''?>>{{$port->name}}</option>
+        <option value ="{{$port->id}}" <?=($portid==$port->id)?Constants::SELECTED:''?>>{{$port->name}}</option>
     @endforeach
      </select><br>
      Fecha Tentativa:
@@ -103,44 +104,44 @@ if(Auth::user()->type==Constants::VENDEDOR){
 <div>
     <h3>Lote</h3>
     Producto:
-    <select name="product" <?=($batchedit==0)?'disabled':''?>>
+    <select name="product" <?=($batchedit==0)?Constants::DISABLED:''?>>
     @foreach($products as $product)
-        <option value="{{$product->id}}" <?=($productid==$product->id)?'selected':''?>>{{$product->name}}</option>
+        <option value="{{$product->id}}" <?=($productid==$product->id)?Constants::SELECTED:''?>>{{$product->name}}</option>
     @endforeach
     </select><br>
     Calibre:
-    <select name="caliber" <?=($batchedit==0)?'disabled':''?>>
-        <option value="small"<?=($caliber=='small')?'selected':''?>>Pequeño</option>
-        <option value="medium"<?=($caliber=='medium')?'selected':''?>>Mediano</option>
-        <option value="big"<?=($caliber=='big')?'selected':''?>>Grande</option>
+    <select name="caliber" <?=($batchedit==0)?Constants::DISABLED:''?>>
+        <option value="small"<?=($caliber=='small')?Constants::SELECTED:''?>>Pequeño</option>
+        <option value="medium"<?=($caliber=='medium')?Constants::SELECTED:''?>>Mediano</option>
+        <option value="big"<?=($caliber=='big')?Constants::SELECTED:''?>>Grande</option>
     </select><br>
     Unidad:
-    <select name="unidad" <?=($batchedit==0)?'disabled':''?>>
+    <select name="unidad" <?=($batchedit==0)?Constants::DISABLED:''?>>
         <option value="Cajones"selected>Caj&oacute;n</option>
         <option value="Kg">Kilogramo</option>
         <option value="Unidad">Unidad</option>
     </select><br>
     Calidad:
-    <select name="quality" <?=($batchedit==0)?'disabled':''?>>
+    <select name="quality" <?=($batchedit==0)?Constants::DISABLED:''?>>
         @for($z=1;$z<=5;$z++)
-        <option value="<?=$z?>" <?=($quality==$z)?'selected':''?>><?=$z?></option>
+        <option value="<?=$z?>" <?=($quality==$z)?Constants::SELECTED:''?>><?=$z?></option>
         @endfor
     </select><br>
 </div>
 <div>
     <h3>Subasta</h3>
     Fecha de inicio:
-    <input type="text" value="<?=$startdate?>" name="fechaInicio" placeholder="startdate"<?=($auctionedit==0)?'disabled':''?>><br>
-    Horas activa:<input type="number" value="<?=$activehours?>" min="1" name="ActiveHours" placeholder="activehours"<?=($auctionedit==0)?'disabled':''?>><br>
-    Cantidad:<input type="number"value="<?=$quantity?>" min="1" name="amount" placeholder="cantidad"<?=($auctionedit==0)?'disabled':''?>><br>
-    Precio Inicio:<input type="number"value="<?=$startprice?>" name="startPrice" min="2" placeholder="start price"<?=($auctionedit==0)?'disabled':''?>><br>
-    Precio Fin: <input type="number"value="<?=$endprice?>" name="endPrice"min="1" placeholder="end price"<?=($auctionedit==0)?'disabled':''?>><br>
+    <input type="text" value="<?=$startdate?>" name="fechaInicio" placeholder="startdate"<?=($auctionedit==0)?Constants::DISABLED:''?>><br>
+    Horas activa:<input type="number" value="<?=$activehours?>" min="1" name="ActiveHours" placeholder="activehours"<?=($auctionedit==0)?Constants::DISABLED:''?>><br>
+    Cantidad:<input type="number"value="<?=$quantity?>" min="1" name="amount" placeholder="cantidad"<?=($auctionedit==0)?Constants::DISABLED:''?>><br>
+    Precio Inicio:<input type="number"value="<?=$startprice?>" name="startPrice" min="2" placeholder="start price"<?=($auctionedit==0)?Constants::DISABLED:''?>><br>
+    Precio Fin: <input type="number"value="<?=$endprice?>" name="endPrice"min="1" placeholder="end price"<?=($auctionedit==0)?Constants::DISABLED:''?>><br>
     Privacidad: 
-    <select name="tipoSubasta" onchange="changePrivacy()"<?=($auctionedit==0)?'disabled':''?> id="tipoSubasta">
-        <option value="public"<?=($privacy== Constants::AUCTION_PUBLIC || old('tipoSubasta')==Constants::AUCTION_PUBLIC)?'selected':''?>>P&uacute;blica</option>
-        <option value="private"<?=($privacy== Constants::AUCTION_PRIVATE || old('tipoSubasta')==Constants::AUCTION_PRIVATE)?'selected':''?>>Privada</option>
+    <select name="tipoSubasta" onchange="changePrivacy()"<?=($auctionedit==0)?Constants::DISABLED:''?> id="tipoSubasta">
+        <option value="public"<?=($privacy== Constants::AUCTION_PUBLIC || old('tipoSubasta')==Constants::AUCTION_PUBLIC)?Constants::SELECTED:''?>>P&uacute;blica</option>
+        <option value="private"<?=($privacy== Constants::AUCTION_PRIVATE || old('tipoSubasta')==Constants::AUCTION_PRIVATE)?Constants::SELECTED:''?>>Privada</option>
     </select><br><br>
-    <input type="text" name="guests" placeholder="Escribe un nombre y selecciona" style="<?=($privacy== Constants::AUCTION_PUBLIC || old('tipoSubasta')==Constants::AUCTION_PUBLIC)?'display:none;':''?>width:100%" id="guests" onkeypress="getUsers()" onclick="getUsers()"<?=($auctionedit==0)?'disabled':''?>>
+    <input type="text" name="guests" placeholder="Escribe un nombre y selecciona" style="<?=($privacy== Constants::AUCTION_PUBLIC || old('tipoSubasta')==Constants::AUCTION_PUBLIC)?'display:none;':''?>width:100%" id="guests" onkeypress="getUsers()" onclick="getUsers()"<?=($auctionedit==0)?Constants::DISABLED:''?>>
     <div id="UsersShowTemp"></div>
     <div id="UsersShow">
         @if(isset($guests))
@@ -159,8 +160,8 @@ if(Auth::user()->type==Constants::VENDEDOR){
     </div>
     
 </div>
-            <textarea name="descri" placeholder="description"<?=($auctionedit==0)?'disabled':''?> style="width: 100%"><?=$description?></textarea><br>
-            <input type="submit"<?=(($auctionedit+$arriveedit+$batchedit)==0)?'disabled':''?> value="Enviar">
+            <textarea name="descri" placeholder="description"<?=($auctionedit==0)?Constants::DISABLED:''?> style="width: 100%"><?=$description?></textarea><br>
+            <input type="submit"<?=(($auctionedit+$arriveedit+$batchedit)==0)?Constants::DISABLED:''?> value="Enviar">
 </form>
 
 
