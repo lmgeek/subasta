@@ -181,13 +181,13 @@ class BoatController extends Controller
         }
 	}
     public function boatList(){
-        $boats= Boat::select()->where('user_id', Constants::EQUAL,Auth::user()->id)->paginate(2);
+        $boats= Boat::select()->where('user_id', Constants::EQUAL,Auth::user()->id)->paginate(5);
         return view('landing3/boats',compact('boats'));
     }
     /* INI Rodolfo*/
     public static function getPreferredPort(Request $request){
         $boat=Boat::select()->where('id',Constants::EQUAL,$request->idboat)->get();
-        return json_encode(array('preferred'=>$boat[0]->reference_port));
+        return json_encode(array('preferred'=>$boat[0]->preference_port));
     }
     /* FIN Rodolfo*/
 }

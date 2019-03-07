@@ -13,7 +13,7 @@ class Boat extends Model
 
     protected $table = 'boats';
 
-    protected $fillable = ['name', 'matricula', 'status',Constants::USER_ID,'rebound', 'reference_port'];
+    protected $fillable = ['name', 'matricula', 'status',Constants::USER_ID,'rebound', 'preference_port'];
 
     public function arrive(){
         return $this->hasMany('App\Arrive');
@@ -61,8 +61,8 @@ class Boat extends Model
         return $return;
     }
 
-    //G.B creamo una funcion para traer los puertos de referencias asociados a los barcos
-    public function referencePort($idBarcoReference)
+    //G.B creamo una funcion para traer los puertos de preferencias asociados a los barcos
+    public function preferencePort($idBarcoReference)
     {
         $port = Ports::select('name')->where('id', '=', $idBarcoReference)->get();
 

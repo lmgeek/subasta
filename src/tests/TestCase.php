@@ -112,11 +112,11 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
 
     /*    G.B Resgitrar barco*/
-    public function instanceClassBoat($class,$id,$nombre,$matricula,$reference_port ){
+    public function instanceClassBoat($class,$id,$nombre,$matricula,$preference_port ){
         $class->user_id = $id;
         $class->name = $nombre;
         $class->matricula = $matricula;
-        $class->reference_port = $reference_port;
+        $class->preference_port = $preference_port;
         $class->save();
         return true;
     }

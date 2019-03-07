@@ -13,9 +13,9 @@
     Se instancia la clase barco pora usar la funcion referencePort()
     esta funcion permite bucar el puerto de referencia asociado a un
     barco, todo lo que se debe hacer  es llamar la funcion y pasar como
-    parametro "$barco->reference_port" ejemplo:
+    parametro "$barco->preference_port" ejemplo:
 
-    {{$objt->referencePort($barco->reference_port)}}
+    {{$objt->referencePort($barco->preference_port)}}
 
     La variable "$CantidadBarco" tiene la cantidad de barco que un usurio
     pose, solo debes colocarla en el lugar que va, ejemplo:
@@ -30,9 +30,7 @@
 use App\Boat;
 
 $objt = new Boat();
-
 $CantidadBarco = count($objt->filterForSellerNickname(Auth::user()->id));
-
 ?>
 
 {{--@extends('landing3/partials/layout-admin')--}}
@@ -48,8 +46,9 @@ $CantidadBarco = count($objt->filterForSellerNickname(Auth::user()->id));
         </thead>
         <tbody>
         @foreach($boats as $boat)
+
             <tr>
-                <td><?php echo 'Boat <br>';var_dump($boat['name']);echo '<br>'?></td>
+                <td><?php echo 'Boat <br>';var_dump($boat['name'],$boat['matricula'],$boat['status']);echo '<br>'?></td>
             </tr>
         @endforeach
         </tbody>
@@ -70,7 +69,7 @@ $CantidadBarco = count($objt->filterForSellerNickname(Auth::user()->id));
         <tbody>
         @foreach($boats as $barco)
             <tr>
-                <td>{{$objt->referencePort($barco->reference_port)}}</td>
+                <td>{{$objt->preferencePort($barco->preference_port)}}</td>
             </tr>
         @endforeach
         </tbody>
