@@ -39,11 +39,11 @@ $query=(isset($request->q))?$request->q:null;
                         <div class="headline">
                             <div class="sort-by">
                                 <select class="selectpicker" onchange="filterByStatus()" id="selectStatus">
-                                    <option value="all" <?=($timeline=='all')?'selected':''?>>Todas</option>
-                                    <option value="future" <?=($timeline=='future')?'selected':''?>>Pendientes</option>
-                                    <option value="incourse" <?=($timeline=='incourse')?'selected':''?>>En Curso</option>
+                                    <option value="all" <?=($timeline=='all')?Constants::SELECTED:''?>>Todas</option>
+                                    <option value="future" <?=($timeline=='future')?Constants::SELECTED:''?>>Pendientes</option>
+                                    <option value="incourse" <?=($timeline=='incourse')?Constants::SELECTED:''?>>En Curso</option>
 
-                                    <option value="finished"<?=($timeline=='finished')?'selected':''?>>Finalizadas</option>
+                                    <option value="finished"<?=($timeline=='finished')?Constants::SELECTED:''?>>Finalizadas</option>
                                 </select>
                             </div>
                         </div><div id="Auctions">

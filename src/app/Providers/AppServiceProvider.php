@@ -37,7 +37,7 @@ class AppServiceProvider extends ServiceProvider
                 ->count();
             return $count === 0;
         });
-        Validator::extend('greater_weight_than', function($value) {
+        Validator::extend('greater_weight_than', function($attribute,$value) {
             return $value > "0,00";
         });
     }

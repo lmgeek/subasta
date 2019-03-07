@@ -60,7 +60,7 @@
                     <input name="password_confirmation" id="password_confirmation" type="password" class="form-control"  placeholder="{{trans('register.confirm_password')}}" >
                 </div>
 				<div class="form-group">
-                    <input name="phone" id="phone" type="text" class="form-control" placeholder="{{trans('register.phone')}}" value="{{ old('phone') }}" >
+                    <input name="phone" id="phone" type="text" class="form-control number" placeholder="{{trans('register.phone')}}" value="{{ old('phone') }}" >
                 </div>
                 <div class="form-group">
                        <!-- <div class="checkbox i-checks"><label> <input type="checkbox"><i></i> Agree the terms and policy </label></div>-->
@@ -96,7 +96,44 @@
 /*        G.B funcion para no permitir acentos, solo debemos pasar el id del tag*/
     /*  doesNotAllowAccents("#name");
        doesNotAllowAccents("#lastname");*/
+        $(document).on('keydown keyup',".number",onlyNumberWithComma);
 
+        $(".number").blur(function(){
+            var insert = $(this).val().replace(',', '.');
+            var num = parseFloat(insert);
+            var cleanNum = num.toFixed(2).replace(".", ",");
+            var error = document.getElementById('error');
+            error.style.display = 'none';
+            $(this).val(cleanNum);
+            if(cleanNum == "NaN"){
+                $(this).val('');
+            }
+            if(num/cleanNum < 1){
+                $('#error').text('Please enter only 2 decimal places, we have truncated extra points');
+            }
+        });
+        function onlyNumberWithComma(e){
+            var evt = e || window.event;
+            var x = evt.key;
+            var str = this.value;
+            var index = str.indexOf(',');
+            var check = x == 0 ? 0: (parseInt(x) || -1);
+            if (index == 0){
+                str = "";
+            }
+            if ( index > -1) {
+                str = str.substr( 0, index + 1 ) +
+                    str.slice( index ).replace( /,/g, '' );
+            }
+
+            str = str.replace(/[^\d|\,]/g,"");
+
+            $(this).val(str);
+
+            if (check === -1 && x != "Backspace" && x != ','){
+                return false;
+            }
+        }
     </script>
 </body>
 

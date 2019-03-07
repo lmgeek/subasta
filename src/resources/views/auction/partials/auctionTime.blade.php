@@ -5,7 +5,7 @@
     $fechaFinal = $a->end;
     $segundos = strtotime($fechaFinal) - strtotime($fechaActual);
     $segFinal = strtotime($fechaFinal) - strtotime($fechaInicial);?>
-    @if($status == \App\Constants::IN_CURSE or $status == \App\Constants::MY_IN_CURSE)
+    @if($status == \App\Constants::IN_COURSE or $status == \App\Constants::MY_IN_CURSE)
         <div class="col-md-6">
             <label for="">{{ trans('auction.completion') }}</label><br>
             <label for="">{{ Carbon::parse($a->end)->format('H:i:s d/m/Y') }}</label>

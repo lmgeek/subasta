@@ -79,7 +79,7 @@ class SellerBoatsController extends Controller
         $boat->status = Constants::PENDIENTE;
         $boat->user_id = Auth::user()->id;
         $boat->save();
-        $checker=Boat::select('id')->where('user_id','=',Auth::user()->id)->where('name','=',$request->input('name'))->get();
+        $checker=Boat::select('id')->where('user_id','=',Auth::user()->id)->where('name','=',$request->name)->get();
         $request->session()->flash('confirm_msg', trans('sellerBoats.boat_added_msg'));
         return redirect()->route('sellerboat.index',['id'=>$checker[0]['id'],'e'=>'created','t'=>'boat']);
     }
@@ -103,76 +103,59 @@ class SellerBoatsController extends Controller
 
 
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    
+
+    
+
+    public function priavateSale($batch_id)
     {
-        //
+        $batch = Batch::findOrFail($batch_id);
+        $this->authorize('makeDirectBid', $batch);
+
+        return view('bid.direct',compact('batch'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function savePrivateSale(PrivateSaleRequest $request)
     {
-        //
+        $batch = Batch::findOrFail($request->input('id'));
+        $this->authorize('makeDirectBid', $batch);
+        $importe = $request->input('importe');
+        $batch->makePrivateSale(  $request->input(Constants::AMOUNT),
+            $importe ,
+            $request->input('comprador')
+        );
+
+        return redirect(Constants::URL_SELLER_BATCH);
+
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function buyersName()
     {
-        //
+        $sales = Auth::user()->seller->myPrivateSales();
+
+        $buyersNames = $sales->select(Constants::BUYER_NAME)->distinct(Constants::BUYER_NAME)->where(Constants::BUYER_NAME,'<>','null  ')->get();
+        $rtrn = [];
+        if(Auth::user()->isSeller()){
+            foreach($buyersNames as $name){
+                $rtrn[] = $name[Constants::BUYER_NAME];
+            }
+        }
+        return json_encode($rtrn);
+
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+    public function addBoat(){
+        return view('landing3/partials/pop-up-barco');
     }
-
-    public function arrive($boat_id)
-    {
-        $boats = Boat::where(Constants::BOATS_USER_ID,Auth::user()->id)
-            ->where(Constants::STATUS,Constants::APROBADO)
-            ->get();
-        $ports = Ports::get();
-        return view('sellerBoats.arrive',compact('arrive','boats','boat_id','ports'));
-    }
-
-    public function editArrive($arrive_id)
-    {
-        $arrive = Arrive::findOrFail($arrive_id);
-
-
-        $this->authorize('editArrive', $arrive);
-
-        $boats = Boat::where(Constants::BOATS_USER_ID,Auth::user()->id)
-            ->where('status',Constants::APROBADO)
-            ->get();
-
-        $ports = Ports::get();
-
-        return view('sellerBoats.editArrive',compact('arrive',Constants::BOATS,'ports'));
-    }
-
+	
+    
+    
+    
+    /* Lo que quizas se pueda ir */
+    
+    
+    
+    
     public function updateArrive(UpdateArriveRequest $request)
     {
         $arrive = Arrive::findOrFail($request->input('id'));
@@ -312,46 +295,73 @@ class SellerBoatsController extends Controller
 		 return redirect(Constants::URL_SELLER_BATCH);
 		 
 	}
-
-    public function priavateSale($batch_id)
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
     {
-        $batch = Batch::findOrFail($batch_id);
-        $this->authorize('makeDirectBid', $batch);
-
-        return view('bid.direct',compact('batch'));
+        //
     }
 
-    public function savePrivateSale(PrivateSaleRequest $request)
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
     {
-        $batch = Batch::findOrFail($request->input('id'));
-        $this->authorize('makeDirectBid', $batch);
-        $importe = $request->input('importe');
-        $batch->makePrivateSale(  $request->input(Constants::AMOUNT),
-            $importe ,
-            $request->input('comprador')
-        );
-
-        return redirect(Constants::URL_SELLER_BATCH);
-
+        //
     }
 
-    public function buyersName()
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
     {
-        $sales = Auth::user()->seller->myPrivateSales();
-
-        $buyersNames = $sales->select(Constants::BUYER_NAME)->distinct(Constants::BUYER_NAME)->where(Constants::BUYER_NAME,'<>','null  ')->get();
-        $rtrn = [];
-        if(Auth::user()->isSeller()){
-            foreach($buyersNames as $name){
-                $rtrn[] = $name[Constants::BUYER_NAME];
-            }
-        }
-        return json_encode($rtrn);
-
+        //
     }
 
-    public function addBoat(){
-        return view('landing3/partials/pop-up-barco');
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
     }
-	
+
+    public function arrive($boat_id)
+    {
+        $boats = Boat::where(Constants::BOATS_USER_ID,Auth::user()->id)
+            ->where(Constants::STATUS,Constants::APROBADO)
+            ->get();
+        $ports = Ports::get();
+        return view('sellerBoats.arrive',compact('arrive','boats','boat_id','ports'));
+    }
+
+    public function editArrive($arrive_id)
+    {
+        $arrive = Arrive::findOrFail($arrive_id);
+
+
+        $this->authorize('editArrive', $arrive);
+
+        $boats = Boat::where(Constants::BOATS_USER_ID,Auth::user()->id)
+            ->where('status',Constants::APROBADO)
+            ->get();
+
+        $ports = Ports::get();
+
+        return view('sellerBoats.editArrive',compact('arrive',Constants::BOATS,'ports'));
+    }
 }

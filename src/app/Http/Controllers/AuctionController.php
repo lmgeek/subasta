@@ -41,7 +41,7 @@ class AuctionController extends Controller
     {
         $this->authorize('seeAuctions', Auction::class);
 
-        $status = $request->get(Constants::STATUS,Constants::IN_CURSE);
+        $status = $request->get(Constants::STATUS,Constants::IN_COURSE);
 		$product = $request->get(Constants::PRODUCT,null);
 		$seller = $request->get(Constants::SELLER,null);
 		$boat = $request->get('boat',null);
@@ -76,91 +76,8 @@ class AuctionController extends Controller
 		}
         return view('auction.index',compact(Constants::AUCTIONS,Constants::STATUS,Constants::PRODUCTS,Constants::SELLERS,Constants::REQUEST,Constants::BOATS,Constants::USER_RATING,'type'));
     }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create($id)
-    {
-        $batch = Batch::findOrFail($id);
-        $this->authorize('createAuction', $batch);
-		$buyers = User::filter(null, array(User::COMPRADOR), array(User::APROBADO));
-		$array_buyers = [];
-		foreach ($buyers as $buyer){
-		    $array_buyers[$buyer->id] = $buyer->full_name;
-        }
-        $buyers = $array_buyers;
-        return view('auction.create',compact('buyers'))->with(Constants::BATCH,$batch);
-    }
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param CreateAuctionRequest|Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(CreateAuctionRequest $request)
-    {
-        $batch = Batch::findOrFail($request->input(Constants::BATCH));
-        $this->authorize('createAuction', $batch);
-
-        $batch->assignForAuction($request->input(Constants::AMOUNT));
-
-        $startDate = Carbon::createFromFormat(Constants::DATE_FORMAT_INPUT, $request->input('fechaInicio'));
-        $endDate = Carbon::createFromFormat(Constants::DATE_FORMAT_INPUT, $request->input('fechaFin'));
-        $Date = Carbon::createFromFormat(Constants::DATE_FORMAT_INPUT, $request->input('fechaTentativa'));
-        $startprice=$request->input("startPrice");
-        $endprice=$request->input(Constants::INPUT_END_PRICE);
-        $auction  = new Auction();
-        $rand=rand(1,7)/100;
-        $targetprice=$endprice+(($startprice-$endprice)*$rand);
-        $auction->batch_id = $request->input(Constants::BATCH);
-        $auction->correlative= \App\Http\Controllers\AuctionFrontController::calculateAuctionCode();
-        $auction->start = $startDate->format(Constants::DATE_FORMAT);
-        $auction->start_price = $startprice;
-        $auction->end = $endDate->format(Constants::DATE_FORMAT);
-        $auction->end_price = $endprice;
-        $auction->target_price = $targetprice;
-        $auction->interval = 1;
-        $auction->amount = $request->input(Constants::AMOUNT);
-		$auction->type = $request->input(Constants::TIPOSUBASTA);
-		$auction->description = $request->input(Constants::DESCRI);
-        $auction->tentative_date = $Date->format(Constants::DATE_FORMAT);
-		$auction->save();
-		if ($request->input('Constants::TIPOSUBASTA') == Constants::AUCTION_PRIVATE )
-		{
-			$sInvited  = $request->input('invitados');
-
-			foreach($sInvited as $i)
-			{
-				$auctionInvited = new AuctionInvited();
-				$auctionInvited->auction_id = $auction->id;
-				$auctionInvited->user_id = $i;
-				$auctionInvited->save();
-
-				$user = User::findOrFail($i);
-				$template = 'emails.userinvited';
-				$seller = $auction->batch->arrive->boat->user ;
-				Mail::queue($template, ['user' => $user , Constants::SELLER=> $seller] , function ($message) use ($user) {
-					$message->from(
-						env(Constants::MAIL_ADDRESS_SYSTEM,Constants::MAIL_ADDRESS),
-						env(Constants::MAIL_ADDRESS_SYSTEM_NAME,Constants::MAIL_NAME)
-					);
-					$message->subject(trans('users.private_auction'));
-					$message->to($user->email);
-				});
-
-			}
-
-
-
-		}
-
-
-
-
-        return redirect('/sellerbatch?e=created&t=auction&id='.$auction->id.'&ex='.urlencode('Product ID: '.$batch->product_id.', Name: '.$auction->batch->product->name.' '.Constants::caliber($auction->batch->caliber).'.  Quantity: '.$request->input(Constants::AMOUNT)));
-    }
+    
+    
     
     
 	public function makeBid(Request $request)
@@ -232,71 +149,9 @@ class AuctionController extends Controller
 
 
 	 }
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $auction = Auction::findOrFail($id);
-        $this->authorize('editAuction', $auction);
-
-        return view('auction.edit')->with(Constants::AUCTION,$auction);
-    }
     
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateAuctionRequest $request, $id)
-    {
-        $auction = Auction::findOrFail($request->input('id'));
-        $this->authorize('editAuction', $auction);
-
-        $startDate = Carbon::createFromFormat(Constants::DATE_FORMAT_INPUT, $request->input('fechaInicio'));
-        $endDate = Carbon::createFromFormat(Constants::DATE_FORMAT_INPUT, $request->input('fechaFin'));
-        $tentativaDate = Carbon::createFromFormat(Constants::DATE_FORMAT_INPUT, $request->input('fechaTentativa'));
-
-        $auction->start = $startDate;
-        $auction->end = $endDate;
-        $auction->tentative_date = $tentativaDate;
-        $auction->start_price = $request->input('startPrice');
-        $endprice=$request->input('endPrice');
-        if($endprice!=$auction->end_price){
-            $rand=rand(1,7)/100;
-            $targetprice=($endprice*$rand)+$endprice;
-            $auction->target_price=$targetprice;
-        }
-        $auction->end_price = $endprice;
-        $auction->interval = $request->input('intervalo');
-        $auction->description = $request->input('descri');
-        $oldAmount = $auction->amount;
-        $newAmount = $request->input(Constants::AMOUNT);
-        $auction->amount = $newAmount;
-
-        $auction->batch->status->remainder += ( $oldAmount -$newAmount );
-        $auction->batch->status->save();
-
-        $auction->save();
-
-        return redirect('/sellerAuction');
-
-    }
+    
+    
     public function calculatePrice(Request $request)
     {
         $data = array();
@@ -567,16 +422,14 @@ class AuctionController extends Controller
                 //registramos la compra a la mejor opc de compra
                 $offerForSale = $this->offerForSale($auction, $offer);
                 if ($offerForSale){
-                    $offers = $this->getOffers($auction_id);
-                    return $offers;
+                    return $this->getOffers($auction_id);
                 }
 
             }
         }
 
         if ($available[Constants::AVAILABLE] == 0 || $count>0){
-            $offers = $this->getOffers($auction_id);
-            return $offers;
+            return $this->getOffers($auction_id);
         }else{
             return ('<h1 style="    text-align: center; margin-top: 300px; font-size: 5em">No hay ofertas realizadas<br>Disponibles: '. $available[Constants::AVAILABLE].'</h1>');
         }
@@ -609,12 +462,22 @@ class AuctionController extends Controller
             return;
         }
 
-        if (count($offers) > 0) {
+        /*if (count($offers) > 0) {
             return;
         }else {
             return;
+        }*/
+
+    }
+
+    public function autoOffersToBid(Request $request){
+        setlocale(LC_MONETARY, Constants::EN_US);
+        $auctions = Auction::get();
+        foreach ($auctions as $auction){
+            $this->autoOffersBid($request,$auction->id);
         }
-        }
+//        return Redirect::to('/');
+    }
 
 
     
@@ -624,7 +487,6 @@ class AuctionController extends Controller
     {
         $auction_id = $auction->id;
         $prices = $offer->price;
-        $resp  =  array();
         $request = null;
         $price = str_replace(",","",$prices);
         $available = AuctionBackController::getAvailable($auction_id, $auction->amount);
@@ -658,13 +520,11 @@ class AuctionController extends Controller
                 }
 
             }
-            $this->emailOfferBid($auction,$available,$offer);
-            $offers = $this->getOffers($auction_id);
-            return $offers;
+            AuctionBackController::emailOfferBid($auction,$available,$offer);
+            return $this->getOffers($auction_id);
         } else {
             $offer = null;
             $this->declineOffers($auction_id,$offer,$request);
-            return;
         }
 
     }
@@ -694,10 +554,7 @@ class AuctionController extends Controller
             ->get();
     }
 
-    public function getCurrentTime()
-    {
-        return gmdate('D, M d Y H:i:s T\-0300', time());
-    }
+    
 
 
     //Declinar de forma masiva las ofertas
@@ -709,7 +566,7 @@ class AuctionController extends Controller
     public function declineOffers($auction_id,$offer_id = null,Request $request = null)
     {
         $auction = Auction::findOrFail($auction_id);
-        $this->authorize('isMyAuction',$auction);
+//        $this->authorize('isMyAuction',$auction);
         $offers = $this->getOffers($auction_id);
         $available = AuctionBackController::getAvailable($auction_id, $auction->amount);
         if ($offer_id == null){
@@ -760,7 +617,7 @@ class AuctionController extends Controller
                             $this->bid->save();
 
                             //send email
-                            $this->emailOfferBid($auction,$available,$o);
+                            AuctionBackController::emailOfferBid($auction,$available,$o);
                         } else {
                             $this->offers = Offers::findOrFail($o->id);
                             if ($this->offers->status == Offers::PENDIENTE) {
@@ -778,48 +635,162 @@ class AuctionController extends Controller
     }
 
 
-    public function emailOfferBid($auction,$available,$offer)
-    {
-        //Datos de envio de correo
-        $unit = $auction->batch->product->unit;
-        $caliber = $auction->batch->caliber;
-        $quality = $auction->batch->quality;
-        $product = $auction->batch->product->name;
-        $resp[Constants::IS_NOT_AVAILABLE] = 0;
-        $resp['unit'] = trans(Constants::TRANS_UNITS.$unit);
-        $resp[Constants::CALIBER] = $caliber;
-        $resp[Constants::QUALITY] = $quality;
-        $resp[Constants::PRODUCT] = $product;
-        $resp[Constants::AMOUNT] = $available[Constants::AVAILABLE];
-        $resp[Constants::PRICE] = $offer->price;
-        $resp[Constants::ACTIVE_LIT] = $auction->active;
-
-        $user = User::findOrFail($offer->user_id);
-        $template = 'emails.offerForBid';
-        $seller = $auction->batch->arrive->boat->user ;
-        Mail::queue($template, ['user' => $user , Constants::SELLER=> $seller, Constants::PRODUCT=> $resp] , function ($message) use ($user) {
-            $message->from(
-                env(Constants::MAIL_ADDRESS_SYSTEM,Constants::MAIL_ADDRESS),
-                env(Constants::MAIL_ADDRESS_SYSTEM_NAME,Constants::MAIL_NAME)
-            );
-            $message->subject(trans('users.offer_Bid'));
-            $message->to($user->email);
-        });
-    }
+    
 
     
     
     
     /* Lo que quizas se puede ir */
-    //Obtener el puerto por id
-    static public function getPortById($port_id){
+    
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create($id)
+    {
+        $batch = Batch::findOrFail($id);
+        $this->authorize('createAuction', $batch);
+		$buyers = User::filter(null, array(User::COMPRADOR), array(User::APROBADO));
+		$array_buyers = [];
+		foreach ($buyers as $buyer){
+		    $array_buyers[$buyer->id] = $buyer->full_name;
+        }
+        $buyers = $array_buyers;
+        return view('auction.create',compact('buyers'))->with(Constants::BATCH,$batch);
+    }
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $auction = Auction::findOrFail($id);
+        $this->authorize('editAuction', $auction);
 
-        $ports = Ports::Select(Constants::NAME)->where('id','=',$port_id)->get();
-        echo $ports[0][Constants::NAME];
+        return view('auction.edit')->with(Constants::AUCTION,$auction);
+    }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param CreateAuctionRequest|Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(CreateAuctionRequest $request)
+    {
+        $batch = Batch::findOrFail($request->input(Constants::BATCH));
+        $this->authorize('createAuction', $batch);
+
+        $batch->assignForAuction($request->input(Constants::AMOUNT));
+
+        $startDate = Carbon::createFromFormat(Constants::DATE_FORMAT_INPUT, $request->input('fechaInicio'));
+        $endDate = Carbon::createFromFormat(Constants::DATE_FORMAT_INPUT, $request->input('fechaFin'));
+        $Date = Carbon::createFromFormat(Constants::DATE_FORMAT_INPUT, $request->input('fechaTentativa'));
+        $startprice=$request->input("startPrice");
+        $endprice=$request->input(Constants::INPUT_END_PRICE);
+        $auction  = new Auction();
+        $rand=rand(1,7)/100;
+        $targetprice=$endprice+(($startprice-$endprice)*$rand);
+        $auction->batch_id = $request->input(Constants::BATCH);
+        $auction->correlative= \App\Http\Controllers\AuctionFrontController::calculateAuctionCode();
+        $auction->start = $startDate->format(Constants::DATE_FORMAT);
+        $auction->start_price = $startprice;
+        $auction->end = $endDate->format(Constants::DATE_FORMAT);
+        $auction->end_price = $endprice;
+        $auction->target_price = $targetprice;
+        $auction->interval = 1;
+        $auction->amount = $request->input(Constants::AMOUNT);
+		$auction->type = $request->input(Constants::TIPOSUBASTA);
+		$auction->description = $request->input(Constants::DESCRI);
+        $auction->tentative_date = $Date->format(Constants::DATE_FORMAT);
+		$auction->save();
+		if ($request->input('Constants::TIPOSUBASTA') == Constants::AUCTION_PRIVATE )
+		{
+			$sInvited  = $request->input('invitados');
+
+			foreach($sInvited as $i)
+			{
+				$auctionInvited = new AuctionInvited();
+				$auctionInvited->auction_id = $auction->id;
+				$auctionInvited->user_id = $i;
+				$auctionInvited->save();
+
+				$user = User::findOrFail($i);
+				$template = 'emails.userinvited';
+				$seller = $auction->batch->arrive->boat->user ;
+				Mail::queue($template, ['user' => $user , Constants::SELLER=> $seller] , function ($message) use ($user) {
+					$message->from(
+						env(Constants::MAIL_ADDRESS_SYSTEM,Constants::MAIL_ADDRESS),
+						env(Constants::MAIL_ADDRESS_SYSTEM_NAME,Constants::MAIL_NAME)
+					);
+					$message->subject(trans('users.private_auction'));
+					$message->to($user->email);
+				});
+
+			}
+
+
+
+		}
+
+
+
+
+        return redirect('/sellerbatch?e=created&t=auction&id='.$auction->id.'&ex='.urlencode('Product ID: '.$batch->product_id.', Name: '.$auction->batch->product->name.' '.Constants::caliber($auction->batch->caliber).'.  Quantity: '.$request->input(Constants::AMOUNT)));
+    }
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(UpdateAuctionRequest $request, $id)
+    {
+        $auction = Auction::findOrFail($request->input('id'));
+        $this->authorize('editAuction', $auction);
+
+        $startDate = Carbon::createFromFormat(Constants::DATE_FORMAT_INPUT, $request->input('fechaInicio'));
+        $endDate = Carbon::createFromFormat(Constants::DATE_FORMAT_INPUT, $request->input('fechaFin'));
+        $tentativaDate = Carbon::createFromFormat(Constants::DATE_FORMAT_INPUT, $request->input('fechaTentativa'));
+
+        $auction->start = $startDate;
+        $auction->end = $endDate;
+        $auction->tentative_date = $tentativaDate;
+        $auction->start_price = $request->input('startPrice');
+        $endprice=$request->input('endPrice');
+        if($endprice!=$auction->end_price){
+            $rand=rand(1,7)/100;
+            $targetprice=($endprice*$rand)+$endprice;
+            $auction->target_price=$targetprice;
+        }
+        $auction->end_price = $endprice;
+        $auction->interval = $request->input('intervalo');
+        $auction->description = $request->input('descri');
+        $oldAmount = $auction->amount;
+        $newAmount = $request->input(Constants::AMOUNT);
+        $auction->amount = $newAmount;
+
+        $auction->batch->status->remainder += ( $oldAmount -$newAmount );
+        $auction->batch->status->save();
+
+        $auction->save();
+
+        return redirect('/sellerAuction');
 
     }
-    
-
     /**
      * Remove the specified resource from storage.
      *

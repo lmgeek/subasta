@@ -128,7 +128,7 @@ class AuctionQuery extends Auction{
     }
     public static function auctionTimeSplitter($auctions){
         
-        $return=array('all'=>array(),Constants::FINISHED=>array(), Constants::IN_CURSE=>array(), Constants::FUTURE=>array(),'mine'=>array('all'=>array(),Constants::FINISHED=>array(), Constants::IN_CURSE=>array(), Constants::FUTURE=>array()));
+        $return=array('all'=>array(),Constants::FINISHED=>array(), Constants::IN_COURSE=>array(), Constants::FUTURE=>array(),'mine'=>array('all'=>array(),Constants::FINISHED=>array(), Constants::IN_COURSE=>array(), Constants::FUTURE=>array()));
         foreach($auctions as $auction){
             $availability=self::getAvailable($auction->id,$auction->amount)['available'];
             $invitation=self::checkifUserInvited($auction->id);

@@ -100,7 +100,8 @@ class AuctionFrontController extends AuctionController
         if($endprice>=$startprice){
             return Redirect::back()->withErrors(['El precio final no puede ser mayor al precio inicial.']);
         }
-        $products = $request->product;$caliber = $request->input(Constants::CALIBER);$quality = $request->input(Constants::QUALITY);
+        $products = $request->product;$caliber = $request->input(Constants::CALIBER);
+        $quality = $request->input(Constants::QUALITY);
         $amount = $request->input(Constants::AMOUNT);$privacy=$request->input('tipoSubasta');
         $startDate =date(Constants::DATE_FORMAT,strtotime(str_replace('/','-',$request->fechaInicio)));
         $tentativeDate =date(Constants::DATE_FORMAT,strtotime(str_replace('/','-',$request->fechaTentativa)));
@@ -112,10 +113,13 @@ class AuctionFrontController extends AuctionController
         $replicate=(isset($request->type) && $request->type=='replication')?1:0;
         $arriveid=self::storeArrive($request->barco, $request->puerto, $arrivedate,$replicate,((isset($request->arriveid))?$request->arriveid:null));
         $batchid=self::storeBatch($arriveid, $products, $caliber, $quality, $amount, $replicate, ((isset($request->batchid))?$request->batchid:null));
-        if(isset($request->auctionid) && $replicate==0){
+        $auctionid=(isset($request->auctionid))?$request->auctionid:null;
+        if($auctionid!=null && $replicate==0){
             $auction = Auction::findOrFail($request->auctionid);
+            $event='edited';
         }else{
             $auction  = new Auction();
+            $event=($replicate==1)?'replicated':'created';
             $auction->correlative=self::calculateAuctionCode();
         }
         $auction->batch_id = $batchid;
@@ -150,14 +154,14 @@ class AuctionFrontController extends AuctionController
 			}
 		}
         if(empty($request->testing)){
-            return redirect('auction/edit/'.$auction->id);
+            return redirect('auction/edit/'.$auction->id.'?e='.$event.'&t=auction&id='.$auction->id.(($event=='replicated')?('&ex='. urlencode('replicated from auction: '.$auctionid)):''));
         }else{
             $auction->tested=true;
             return json_encode($auction);
         }
     }
     public static function checkIfBuyerCanBuy($id,$amount,$type="bid",$privacy='public'){
-        if(empty(Auth::user()->id) || Auth::user()->type!='buyer' || Auth::user()->status!='approved' || AuctionQuery::checkifUserInvited(Auth::user()->id)== Constants::INACTIVE){
+        if(empty(Auth::user()->id) || Auth::user()->type!='buyer' || Auth::user()->status!='approved' || ($privacy==Constants::AUCTION_PRIVATE && AuctionQuery::checkifUserInvited(Auth::user()->id)== Constants::INACTIVE)){
             return 0;
         }
         if($type!='bid'){
@@ -206,7 +210,7 @@ class AuctionFrontController extends AuctionController
     public static function getAuctionsDataForHome($auctions){
         
         $port=array();$products=array();$calibers=array();$users=array();
-        $close=0;$min=99999999;$max=0;
+        $close=0;
         $quality=array(1=>0,2=>0,3=>0,4=>0,5=>0);$ratings=array(1=>0,2=>0,3=>0,4=>0,5=>0);
         foreach($auctions as $a) {
             $calibers[$a->batch->caliber]=(isset($calibers[$a->batch->caliber]))?$calibers[$a->batch->caliber]+1:1;
@@ -250,12 +254,12 @@ class AuctionFrontController extends AuctionController
         $auction = Auction::findOrFail($id);
         $prices = $auction->calculatePrice($bidDate);
         $price=number_format(str_replace(",","",$prices),2,',','');
-        return array(Constants::CURRENTPRICE=>$price,Constants::CLOSE=>($price<$targetprice)?1:0);
+        return array(Constants::CURRENTPRICE=>$price,Constants::CLOSE=>($price<$targetprice && strtotime('Y-m-d H:i:s',time())> strtotime($auction->end))?1:0);
     }
     public static function getauctions(Request $request){
         $limit=(int)$request->limit;
         $ids=($limit==1)?$request->ids:null;
-        $time=(isset($request->time))?$request->time:Constants::IN_CURSE;
+        $time=(isset($request->time))?$request->time:Constants::IN_COURSE;
         $filters=self::convertFilterSubastas($request->filters);
         $close=(isset($filters[Constants::CLOSE]))?1:0;
         $rating=(isset($filters[Constants::USER_RATING]))?1:0;
@@ -273,7 +277,7 @@ class AuctionFrontController extends AuctionController
                 }
             }
             return view('/landing3/partials/ListaSubastas')
-                ->withAuctions(Constants::manualPaginate($auctions,$request->url(),$request->current))
+                ->withAuctions(Constants::manualPaginate($auctions,$request->current))
                 ->with('request',$request)->with('limit',$limit)->with('timeline',$time);
         }else{
             return view('/landing3/partials/auctionNoDetail')
@@ -337,16 +341,12 @@ class AuctionFrontController extends AuctionController
         if($request->ids!=null){
             foreach($request->ids as $id){$ids.=$id.',';}$ids=substr($ids,0,-1);
         }
+        $ids=(($ids!='')?"`id` NOT IN ($ids) AND ":'');
+        $val=$request->val;
         $users=User::select('id',Constants::NAME,'lastname','nickname')
                 ->whereRaw(
-                        (($ids!='')?'`id` NOT IN ('.$ids.') AND ':'').
-                        '`status`="approved" AND '
-                        . '`type`="buyer" AND '
-                            . '(`nickname` like "%'.$request->val.'%" OR '
-                            . '`name` like "%'.$request->val.'%" OR '
-                            . '`lastname` like "%'.$request->val.'%" OR '
-                            . ' CONCAT_WS(" ",`name`,`lastname`) LIKE "%'.$request->val.'%")')
-                ->get();
+                    "$ids `status`='approved' AND `type`='buyer' AND (`nickname` like '%$val%' OR `name` like '%$val%' OR `lastname` like '%$val%' OR CONCAT_WS(' ',`name`,`lastname`) LIKE '%$val%')"
+                )->get();
         return json_encode($users);
 
     }
@@ -355,7 +355,7 @@ class AuctionFrontController extends AuctionController
         $buyers = User::filter(null, array(User::COMPRADOR), array(User::APROBADO));
         $boats = Boat::Select()->get();
         $auctionhome=AuctionQuery::auctionHome();
-        $auctions1 = $auctionhome[Constants::IN_CURSE];
+        $auctions1 = $auctionhome[Constants::IN_COURSE];
         $auctions2 = array_reverse($auctionhome[Constants::FINISHED]);
         $auctiondetails1=$this->getAuctionsDataForHome($auctions1);
         $port=(isset($auctiondetails1[Constants::PORTS]))?$auctiondetails1[Constants::PORTS]:array();
@@ -377,7 +377,7 @@ class AuctionFrontController extends AuctionController
     }
     public function listaSubastas(Request $request){
         $boats = Boat::Select()->get();
-        $timeline=(isset($request->time))?$request->time:Constants::IN_CURSE;
+        $timeline=(isset($request->time))?$request->time:Constants::IN_COURSE;
         $params=null;
         if(isset($request->type)){
             $params['type']=$request->type;
@@ -386,7 +386,7 @@ class AuctionFrontController extends AuctionController
         $auctiondetails1=$this->getAuctionsDataForHome($auctions);
         $prices=self::getMaxMinPrice();
         return view('/landing3/subastas')
-            ->withAuctions(Constants::manualPaginate($auctions,$request->url()))
+            ->withAuctions(Constants::manualPaginate($auctions))
             ->withAuctioncounter(count($auctions))
             ->withPorts($auctiondetails1[Constants::PORTS])
             ->withBoats($boats)
@@ -460,5 +460,19 @@ class AuctionFrontController extends AuctionController
             ->with(Constants::PORTS,$ports)
             ->with(Constants::PRODUCTS,$products);
     }
+    
+    
+    public function offerList(Request $request){
+        $auctions=AuctionQuery::auctionHome(null,array('type'=>'mine'),Constants::FINISHED);
+        $offers=array();
+        foreach($auctions as $auction){
+            $auction->code=self::getAuctionCode($auction->correlative,$auction->created_at);
+            $offers[$auction->id]= self::getOffers($auction->id);
+        }
+
+        return view(Constants::LANDING3_OFFERS)
+            ->with('auctions',$auctions)->with('offers',$offers);
+    }
+
 }
 

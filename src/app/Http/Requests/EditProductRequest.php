@@ -32,6 +32,7 @@ class EditProductRequest extends Request
         $cero = "0,00";
 
             return [
+                Constants::SALE        =>  'required',
                 Constants::CODIGO        => 'required|regex:(^[0-9a-zA-Z]+$)|max:10',
                 Constants::NOMBRE        => 'required|regex:(^[a-zA-Zá-úÁ-Ú\s]+$)|unique_name_unit:'.$unidadess,
                 Constants::UNIDAD        => Constants::REQUIRED,

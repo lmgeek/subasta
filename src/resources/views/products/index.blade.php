@@ -54,7 +54,7 @@
                                         <td>{{ $p->fishing_code }}</td>
                                         <td>{{ $p->name }}</td>
                                         <td>{{ trans('general.product_units.'.$p->unit) }}</td>
-                                        <td>{{ trans('general.product_units.'.$p->presentation_unit) }}</td>
+                                        <td>{{ trans('general.product_units.'.$p->sale_unit) }}</td>
                                         <td>
                                             @if($p->trashed())
 

@@ -71,6 +71,8 @@ Route::get('auction/offers/decline/{auction}', [
     'as' => 'auction.offersDecline', 'uses' => 'AuctionController@declineOffers'
 ]);
 Route::get('auction/offers/decline/{auction}/{offer}', 'AuctionController@declineOffers');
+//url para el cron job php + docker
+Route::get('auction/autoffers',  'AuctionController@autoOffersToBid');
 
 
 Route::get('auction/deactivate/{auction}', [
@@ -218,7 +220,7 @@ Route::get('subscribe/{auction}','AuctionBackController@subscribeUser');
 //---------------------------------------------------------------------------
 //Get Fecha actual routhes
 //---------------------------------------------------------------------------
-Route::get('current-time', 'AuctionController@getCurrentTime');
+Route::get('current-time', 'AuctionBackController@getCurrentTime');
 
 
 //G.B eliminar rutas despues de que el diseñador integra las nuevas vistas

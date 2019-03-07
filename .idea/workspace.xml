@@ -5,9 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e1d2b753-3ac4-4a51-b1b0-a0f71163d320" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/app/Http/Controllers/SellerBoatsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/Http/Controllers/SellerBoatsController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/subastas.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/subastas.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/Http/Controllers/AuctionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/Http/Controllers/AuctionController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/Http/routes.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/Http/routes.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resources/views/landing3/partials/pop-up-barco.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/views/landing3/partials/pop-up-barco.blade.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -23,7 +24,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/resources/views/seller.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
+            <state relative-caret-position="667">
               <caret line="29" column="36" selection-start-line="29" selection-start-column="36" selection-end-line="29" selection-end-column="36" />
             </state>
           </provider>
@@ -34,21 +35,38 @@
           <provider selected="true" editor-type-id="text-editor">
             <state>
               <caret column="5" selection-start-column="5" selection-end-column="5" />
-              <folding>
-                <element signature="e#6#203#0#PHP" expanded="true" />
-              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/Http/routes.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1459">
+              <caret line="73" selection-start-line="73" selection-end-line="73" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/app/Http/routes.php">
+        <entry file="file://$PROJECT_DIR$/src/app/Http/Controllers/AuctionController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="166">
-              <caret line="228" selection-start-line="228" selection-end-line="228" />
+            <state relative-caret-position="498">
+              <caret line="477" column="9" lean-forward="true" selection-start-line="477" selection-start-column="9" selection-end-line="477" selection-end-column="9" />
               <folding>
-                <element signature="e#7#392#0#PHP" expanded="true" />
+                <element signature="e#39#82#0#PHP" expanded="true" />
+                <element signature="n#style#0;n#h1#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#h1#0;n#!!top" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/Constants.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="437">
+              <caret line="174" column="29" selection-start-line="174" selection-start-column="29" selection-end-line="174" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -56,7 +74,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/resources/views/sellerBoats/create.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="421">
+            <state relative-caret-position="805">
               <caret line="35" column="42" selection-start-line="35" selection-start-column="24" selection-end-line="35" selection-end-column="42" />
             </state>
           </provider>
@@ -65,7 +83,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/Http/Controllers/SellerBoatsController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
+            <state relative-caret-position="1541">
               <caret line="86" column="74" selection-start-line="86" selection-start-column="74" selection-end-line="86" selection-end-column="74" />
             </state>
           </provider>
@@ -75,14 +93,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>auction/autofersbid/</find>
-      <find>tobid</find>
-      <find>auction_</find>
-      <find>diall</find>
-      <find>remove</find>
-      <find>auto</find>
-      <find>red</find>
-      <find>bid</find>
       <find>bids</find>
       <find>'/</find>
       <find>subastasdes</find>
@@ -105,6 +115,14 @@
       <find>$para</find>
       <find>$parameters</find>
       <find>dispo</find>
+      <find>offers</find>
+      <find>offerList</find>
+      <find>OFFER_DIRECT_ORIGIN</find>
+      <find>PRIVATE_SOLD_ORIGIN</find>
+      <find>private</find>
+      <find>auction/autofersbid/</find>
+      <find>autoOffersBid</find>
+      <find>offer</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -156,7 +174,6 @@
         <option value="$PROJECT_DIR$/deploy/sql/V20190110130000__add_arrive.sql" />
         <option value="$PROJECT_DIR$/deploy/sql/V20190218093500__auction_add_ tentative_date.sql" />
         <option value="$PROJECT_DIR$/deploy/sql/V20190124105021__add_field_description_auctions_table.sql" />
-        <option value="$PROJECT_DIR$/src/app/Http/Controllers/AuctionController.php" />
         <option value="$PROJECT_DIR$/src/app/Http/Requests/CreateAuctionRequest.php" />
         <option value="$PROJECT_DIR$/src/app/Product.php" />
         <option value="$PROJECT_DIR$/src/app/Http/Controllers/ProductController.php" />
@@ -164,6 +181,7 @@
         <option value="$PROJECT_DIR$/src/resources/views/auction/operations.blade.php" />
         <option value="$PROJECT_DIR$/src/resources/views/auction/partials/auctionDetail.blade.php" />
         <option value="$PROJECT_DIR$/src/app/Http/routes.php" />
+        <option value="$PROJECT_DIR$/src/app/Http/Controllers/AuctionController.php" />
       </list>
     </option>
   </component>
@@ -240,11 +258,9 @@
       <path value="" />
     </include_path>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="width" value="1936" />
-    <option name="height" value="1056" />
+    <option name="height" value="1066" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -252,6 +268,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -281,6 +298,14 @@
               <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
               <item name="subastas" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="Http" type="462c0819:PsiDirectoryNode" />
+              <item name="Controllers" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
+              <item name="subastas" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -289,6 +314,14 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
               <item name="views" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
+              <item name="subastas" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="auth" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
@@ -323,10 +356,10 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/vendor/bin/phpunit" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
@@ -375,18 +408,22 @@
       <workItem from="1550172984899" duration="2164000" />
       <workItem from="1550509689907" duration="23668000" />
       <workItem from="1550585769825" duration="2386000" />
+      <workItem from="1551898715238" duration="9565000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="152626000" />
+    <option name="totallyTimeSpent" value="162191000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1928" y="-8" width="1936" height="1096" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49949136" visible="true" weight="0.22974414" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49949136" visible="true" weight="0.23240939" />
       <window_info id="Structure" order="1" sideWeight="0.50050867" side_tool="true" weight="0.2553305" />
       <window_info id="Favorites" order="2" side_tool="true" weight="0.32995737" />
+      <window_info anchor="bottom" id="SonarQube" />
+      <window_info anchor="bottom" id="SonarLint" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32930845" />
@@ -413,51 +450,13 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/src/app/Http/Requests/CreateProductRequest.php</url>
-          <line>83</line>
+          <line>79</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/app/Http/Requests/CreateProductRequest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="349">
-          <caret line="68" column="16" selection-start-line="68" selection-start-column="16" selection-end-line="68" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/resources/views/boat/index.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1249" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/Http/Controllers/SellerAuctionController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" selection-start-line="3" selection-end-line="3" />
-          <folding>
-            <element signature="e#41#57#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/resources/views/boat/sellerbatch.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="54" column="76" lean-forward="true" selection-start-line="54" selection-start-column="76" selection-end-line="54" selection-end-column="76" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../V20190218090000__products_add_Fishing_code.sql" />
-    <entry file="file://$PROJECT_DIR$/../../../V20190218093500__auction_add_ tentative_date.sql" />
-    <entry file="file://$PROJECT_DIR$/src/app/AuctionInvited.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/Http/Requests/UpdateArriveRequest.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../V__prueba - copia.sql" />
     <entry file="file://$PROJECT_DIR$/deploy/sql/V20190215140800__add_field_correlative_table_auctions.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="425">
@@ -675,28 +674,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/Http/routes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="166">
-          <caret line="228" selection-start-line="228" selection-end-line="228" />
-          <folding>
-            <element signature="e#7#392#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/Http/Controllers/AuctionController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1190">
-          <caret line="56" column="32" lean-forward="true" selection-start-line="56" selection-start-column="32" selection-end-line="56" selection-end-column="32" />
-          <folding>
-            <element signature="e#39#82#0#PHP" expanded="true" />
-            <element signature="n#style#0;n#h1#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#h1#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/Http/Controllers/ProductController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
@@ -710,6 +687,90 @@
           <caret line="20" column="75" selection-start-line="20" selection-start-column="65" selection-end-line="20" selection-end-column="75" />
           <folding>
             <element signature="e#34#70#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/resources/views/seller.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="667">
+          <caret line="29" column="36" selection-start-line="29" selection-start-column="36" selection-end-line="29" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/resources/views/landing3/partials/pop-up-barco.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="5" selection-start-column="5" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/resources/views/sellerBoats/create.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="805">
+          <caret line="35" column="42" selection-start-line="35" selection-start-column="24" selection-end-line="35" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/Http/Controllers/SellerBoatsController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1541">
+          <caret line="86" column="74" selection-start-line="86" selection-start-column="74" selection-end-line="86" selection-end-column="74" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/.env.example">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/deploy/sql/V20190219152000__add_field_bid_origin_at_table_bids.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="15" column="7" lean-forward="true" selection-start-line="15" selection-start-column="7" selection-end-line="15" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/Constants.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="174" column="29" selection-start-line="174" selection-start-column="29" selection-end-line="174" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/resources/views/auth/login.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="39" column="29" lean-forward="true" selection-start-line="39" selection-start-column="29" selection-end-line="39" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/resources/views/auction/index.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1040">
+          <caret line="326" column="38" selection-start-line="326" selection-start-column="38" selection-end-line="326" selection-end-column="38" />
+          <folding>
+            <element signature="n#style#0;n#td#0;n#tr#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#0;n#!!top" expanded="true" />
+            <element signature="e#101#108#1" expanded="true" />
+            <element signature="e#101#108#1" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/Http/routes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1459">
+          <caret line="73" selection-start-line="73" selection-end-line="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/Http/Controllers/AuctionController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="498">
+          <caret line="477" column="9" lean-forward="true" selection-start-line="477" selection-start-column="9" selection-end-line="477" selection-end-column="9" />
+          <folding>
+            <element signature="e#39#82#0#PHP" expanded="true" />
+            <element signature="n#style#0;n#h1#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#h1#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>

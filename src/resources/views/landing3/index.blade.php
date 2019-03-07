@@ -40,7 +40,7 @@ $portsall= App\Ports::select()->get();
                             <div class="input-with-icon">
                                 <select class="selectpicker" id="port" name="port_id" multiple title="Escoge una opción..." onchange="homeFilterBuilder()">
                                     @foreach($ports as $key=>$value)
-                                        <option value="{{$key}}">{{\App\Http\Controllers\AuctionController::getPortById($key)}}</option>
+                                        <option value="{{$key}}">{{\App\Ports::getPortById($key)}}</option>
                                     @endforeach
                                 </select>
 
@@ -174,7 +174,7 @@ for($z=0;$z<count($portsall);$z++){
                     <a href="<?=($cantsubastas>0)?'/subastas?port_id='.$portsall[$z]['id']:'#'?>" class="photo-box" data-background-image="landing3/images/puertos/<?=$portsimg[$z]?>">
                         <div class="photo-box-content">
                             <h3><?=$portsall[$z]['name']?></h3>
-                            <span>{{$cantsubastas}} Subasta<?=(isset($ports[$portsall[$z]['id']]))?(($ports[$portsall[$z]['id']]!=1)?'s':''):'s'?></span>
+                            <span>{{$cantsubastas}} Subasta<?=($cantsubastas!=1)?'s':''?></span>
                         </div>
                     </a>
                 </div>

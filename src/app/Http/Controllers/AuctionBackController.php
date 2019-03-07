@@ -240,5 +240,37 @@ class AuctionBackController extends AuctionController
 		}
 
 	 }
+     public static function emailOfferBid($auction,$available,$offer)
+    {
+        //Datos de envio de correo
+        $unit = $auction->batch->product->unit;
+        $caliber = $auction->batch->caliber;
+        $quality = $auction->batch->quality;
+        $product = $auction->batch->product->name;
+        $resp[Constants::IS_NOT_AVAILABLE] = 0;
+        $resp['unit'] = trans(Constants::TRANS_UNITS.$unit);
+        $resp[Constants::CALIBER] = $caliber;
+        $resp[Constants::QUALITY] = $quality;
+        $resp[Constants::PRODUCT] = $product;
+        $resp[Constants::AMOUNT] = $available[Constants::AVAILABLE];
+        $resp[Constants::PRICE] = $offer->price;
+        $resp[Constants::ACTIVE_LIT] = $auction->active;
+
+        $user = User::findOrFail($offer->user_id);
+        $template = 'emails.offerForBid';
+        $seller = $auction->batch->arrive->boat->user ;
+        Mail::queue($template, ['user' => $user , Constants::SELLER=> $seller, Constants::PRODUCT=> $resp] , function ($message) use ($user) {
+            $message->from(
+                env(Constants::MAIL_ADDRESS_SYSTEM,Constants::MAIL_ADDRESS),
+                env(Constants::MAIL_ADDRESS_SYSTEM_NAME,Constants::MAIL_NAME)
+            );
+            $message->subject(trans('users.offer_Bid'));
+            $message->to($user->email);
+        });
+    }
+    public function getCurrentTime()
+    {
+        return gmdate('D, M d Y H:i:s T\-0300', time());
+    }
 }
 
