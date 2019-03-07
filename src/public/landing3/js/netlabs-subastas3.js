@@ -1,3 +1,4 @@
+/* INI Rodolfo */
 window['notificationCounter']=0;
 window['now'] = new Date().getTime();
 function endAuction($id) {
@@ -442,10 +443,29 @@ function inicializeEverything($firstrun=0){
     });
     starRating('.star-rating');
 }
+function homeFilterBuilder(){
+    var $query='',$cantselected=$("#port option:selected").length,$text=$('#query').val();
+    if($cantselected>0){
+        $query+='Ports: ';var $cont=0;
+        $("#port option:selected").each(function(){
+            $query+=$(this).text();
+            $cont++
+            if($cont<$cantselected){
+                $query+=', '
+            }else{
+                $query+='. '
+            }
+        });
+    }
+    if($text!=''){
+        $query+='Query: '+$text+'.'
+    }
+    $('#ExtraParamsAnalytics').val($query);
+}
 $(document).ready(function(){
     inicializeEverything(1);
 });
-
+/* FIN Rodolfo */
 
 //G.B Evitar escribir espacio
 function blankSpace(e) {
@@ -477,32 +497,8 @@ function doesNotAllowAccents(idTag){
         var evt = e || window.event;
         var x = evt.key;
         var str = this.value;
-        var index = str.indexOf(',');
-        var check = x == 0 ? 0: (parseInt(x) || -1);
-        console.log(x);
-
         str = str.replace(/[^\d|\s|^\w]/g,"");
-
         $(this).val(str);
-
     });
 }
-function homeFilterBuilder(){
-    var $query='',$cantselected=$("#port option:selected").length,$text=$('#query').val();
-    if($cantselected>0){
-        $query+='Ports: ';var $cont=0;
-        $("#port option:selected").each(function(){
-            $query+=$(this).text();
-            $cont++
-            if($cont<$cantselected){
-                $query+=', '
-            }else{
-                $query+='. '
-            }
-        });
-    }
-    if($text!=''){
-        $query+='Query: '+$text+'.'
-    }
-    $('#ExtraParamsAnalytics').val($query);
-}
+

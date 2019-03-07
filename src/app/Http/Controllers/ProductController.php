@@ -52,8 +52,8 @@ class ProductController extends Controller
      */
     public function store(CreateProductRequest $request)
     {
-        $unidadess =$request->input('unidad');
-        $names =$request->input('nombre');
+        $unidadess =$request->unidad;
+        $names =$request->nombre;
         $productos  = Product::Select('name')->where('name','=',$names)->where('unit','=',$unidadess)->get()->toArray();
        if ( $productos <> null) {
            return redirect("/products/create")
@@ -66,13 +66,13 @@ class ProductController extends Controller
             $request->file(Constants::IMAGEN)->move( 'img/products',$fileName );
         }
         $prod = new Product();
-        $prod->name = $request->input('nombre');
-        $prod->fishing_code = $request->input('codigo');
-        $prod->unit = $request->input('unidad');
-        $prod->sale_unit = $request->input('presen');
-        $prod->weigth_small = str_replace(",", ".", $request->input('weight_small') );
-        $prod->weigth_medium = str_replace(",", ".", $request->input('weight_medium') );
-        $prod->weigth_big = str_replace(",", ".", $request->input('weight_big') );
+        $prod->name = $request->nombre;
+        $prod->fishing_code = $request->codigo;
+        $prod->unit = $request->unidad;
+        $prod->sale_unit = $request->presen;
+        $prod->weigth_small = str_replace(",", ".", $request->weight_small);
+        $prod->weigth_medium = str_replace(",", ".", $request->weight_medium);
+        $prod->weigth_big = str_replace(",", ".", $request->weight_big);
         $prod->image_name = $fileName;
         $prod->save();
         return redirect(Constants::URL_PRODUCTS);
@@ -118,12 +118,12 @@ class ProductController extends Controller
             }
         }
         $prod->fishing_code = $request->input('codigo');
-        $prod->name = $request->input('nombre');
-        $prod->unit = $request->input('unidad');
+        $prod->name = $request->nombre;
+        $prod->unit = $request->unidad;
         $prod->sale_unit = $request->input('presen');
-        $prod->weigth_small = str_replace(",", ".", $request->input('weight_small') );
-        $prod->weigth_medium = str_replace(",", ".", $request->input('weight_medium') );
-        $prod->weigth_big = str_replace(",", ".", $request->input('weight_big') );
+        $prod->weigth_small = str_replace(",", ".", $request->weight_small);
+        $prod->weigth_medium = str_replace(",", ".", $request->weight_medium);
+        $prod->weigth_big = str_replace(",", ".", $request->weight_big);
         $prod->save();
         return redirect(Constants::URL_PRODUCTS);
     }

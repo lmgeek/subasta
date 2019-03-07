@@ -27,7 +27,7 @@
             <div class="priceText currentPrice-{{ $a->id }}">$ {{ $a->end_price }}</div>
         @endif
     </div>
-    @if( ($status == \App\Constants::IN_CURSE or $status == \App\Constants::MY_IN_CURSE) and $a->active == \App\Constants::ACTIVE)
+    @if( ($status == \App\Constants::IN_COURSE or $status == \App\Constants::MY_IN_CURSE) and $a->active == \App\Constants::ACTIVE)
         <div class="col-lg-6 col-xs-12" style="margin-top: 8px" title="{{ trans('auction.next_price_update') }}">
             <input type="text"
                    class="dial dialInterval m-r"
