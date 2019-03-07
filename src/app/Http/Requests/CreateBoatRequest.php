@@ -28,7 +28,8 @@ class CreateBoatRequest extends Request
         return [
             'name'      => 'required|regex:(^[0-9a-zA-Zá-úÁ-Ú\s\#\-]+$)',
 //            'alias'      => 'required|regex:(^[0-9a-zA-Zá-úÁ-Ú\s\#\-]+$)',
-            'matricula' => 'required|regex:(^[0-9a-zA-Zá-úÁ-Ú\-]+$)|unique:boats,matricula,NULL,id,user_id,'.Auth::user()->id
+            'matricula' => 'required|regex:(^[0-9a-zA-Zá-úÁ-Ú\-]+$)|unique:boats,matricula,NULL,id,user_id,'.Auth::user()->id,
+            'port' => 'required'
         ];
 
     }
@@ -43,6 +44,7 @@ class CreateBoatRequest extends Request
             'matricula.require'      => 'La Matrícula no puede estar vacío.',
             'matricula.unique'       => 'La Matrícula ya se encuentra registrada.',
             'matricula.regex'        => 'La Matrícula sólo permite caracteres alfanumericos y -',
+            'port.required'           => 'El campo Puerto es obligatorio'
         ];
     }
 

@@ -7,7 +7,7 @@ use App\Boat;
     Se instancia la clase barco pora usar la funcion referencePort()
     esta funcion permite bucar el puerto de referencia asociado a un
     barco, lo que se debe hacer  es llamar la funcion y pasar como
-    parametro "$barco->reference_port"
+    parametro "$barco->preference_port"
 
 
     La variable "$CantidadBarco" tiene la contidad de barco que un usurio
@@ -86,7 +86,7 @@ $infoBarco = $objt->filterForSellerNickname(Auth::user()->id);
                                         </td>
                                         <td>{{ $barco->matricula }}</td>
 
-                                        <td>{{$objt->referencePort($barco->reference_port)}}</td>
+                                        <td>{{$objt->preferencePort($barco->preference_port)}}</td>
 
                                         <td>
                                             <span class="label label-{{ $barco->status }}">{{ trans("general.status.$barco->status") }}</span>

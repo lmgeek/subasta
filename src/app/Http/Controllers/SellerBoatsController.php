@@ -75,7 +75,7 @@ class SellerBoatsController extends Controller
         $boat = new Boat();
         $boat->name = $request->input('name');
         $boat->matricula = $request->input('matricula');
-        $boat->reference_port = $request->input('port');
+        $boat->preference_port = $request->input('port');
         $boat->status = Constants::PENDIENTE;
         $boat->user_id = Auth::user()->id;
         $boat->save();
@@ -85,14 +85,14 @@ class SellerBoatsController extends Controller
     }
 
 //G.B eliminar rutas despues de que el diseñador integra las nuevas vistas
-    public function saveboat(Request $request)
+    public function saveboat(CreateBoatRequest $request)
     {
         $this->authorize(Constants::ADDBOAT, new Boat());
 
         $boat = new Boat();
         $boat->name = $request->input('name');
         $boat->matricula = $request->input('matricula');
-        $boat->reference_port = $request->input('port');
+        $boat->preference_port = $request->input('port');
         $boat->status = Constants::PENDIENTE;
         $boat->user_id = Auth::user()->id;
         $boat->save();
