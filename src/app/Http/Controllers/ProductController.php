@@ -69,7 +69,7 @@ class ProductController extends Controller
         $prod->name = $request->input('nombre');
         $prod->fishing_code = $request->input('codigo');
         $prod->unit = $request->input('unidad');
-        $prod->presentation_unit = $request->input('presen');
+        $prod->sale_unit = $request->input('presen');
         $prod->weigth_small = str_replace(",", ".", $request->input('weight_small') );
         $prod->weigth_medium = str_replace(",", ".", $request->input('weight_medium') );
         $prod->weigth_big = str_replace(",", ".", $request->input('weight_big') );
@@ -120,7 +120,7 @@ class ProductController extends Controller
         $prod->fishing_code = $request->input('codigo');
         $prod->name = $request->input('nombre');
         $prod->unit = $request->input('unidad');
-        $prod->presentation_unit = $request->input('presen');
+        $prod->sale_unit = $request->input('presen');
         $prod->weigth_small = str_replace(",", ".", $request->input('weight_small') );
         $prod->weigth_medium = str_replace(",", ".", $request->input('weight_medium') );
         $prod->weigth_big = str_replace(",", ".", $request->input('weight_big') );
