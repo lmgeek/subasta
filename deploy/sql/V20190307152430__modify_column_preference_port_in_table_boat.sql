@@ -6,7 +6,7 @@ CREATE PROCEDURE upgrade_database_20190307152430()
 
 BEGIN
 
-  IF NOT EXISTS ( SELECT * FROM information_schema.`COLUMNS`
+  IF EXISTS ( SELECT * FROM information_schema.`COLUMNS`
   WHERE
       TABLE_SCHEMA='subastas'
       AND table_name='boats'
