@@ -38,7 +38,7 @@ class CreateProductRequest extends Request
             return [
                 'unidad'       => 'required',
                 Constants::SALE        =>  'required',
-                Constants::CODIGO        => 'required|regex:(^[0-9a-zA-Zá-úÁ-Ú\-\s]+$)|max:10',
+                Constants::CODIGO        => 'required|regex:(^[0-9a-zA-Zá-úÁ-Ú\-\s]+$)|max:10|unique:products,fishing_code',
                 Constants::NOMBRE        => 'required|regex:(^[a-zA-Zá-úÁ-Ú\s]+$)|unique_name_unit:'.$unidadess,
                 Constants::WEIGHT_SMALL  => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
                 Constants::WEIGHT_MEDIUM => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
@@ -53,6 +53,7 @@ class CreateProductRequest extends Request
         if ($this->locale == "es"){
             return [
                 "codigo"  => "código pesquero",
+                "sale"  => "unidad de venta",
                 "weigth_small"  => "peso por calibre chico",
                 "weigth_medium" => "peso por calibre mediano",
                 "weigth_bis"    => "peso por calibre grande",
@@ -64,6 +65,7 @@ class CreateProductRequest extends Request
     {
         return [
             'codigo.regex'                         => 'El código pesquero es alfanumerico y "-" maximo 10 caracteres',
+            'codigo.unique'                         => 'El código pesquero ya existe',
             'nombre.unique_name_unit'                 => 'La relación nombre unidad ya se encuentra registrada',
             'nombre.required'                         => 'El nombre es obligatorio',
             'nombre.regex'                            => 'El nombre sólo permite caracteres alfabéticos',
