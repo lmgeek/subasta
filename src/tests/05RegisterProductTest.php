@@ -92,7 +92,7 @@ class RegisterProduct extends TestCase
     function testExisteNewProduct(){
         $this->actingAs($this->getAValidUser(Constants::INTERNAL));
         $this->visit('/products/create');
-        $this->type('PRO-0089','codigo');
+        $this->type('PRO-089','codigo');
         $this->type('Camaron','nombre');
         $this->type('Cajones','unidad');
         $this->type('Kg','sale');
