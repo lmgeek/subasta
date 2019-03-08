@@ -5,9 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e1d2b753-3ac4-4a51-b1b0-a0f71163d320" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/deploy/sql/V20190307152430__modify_column_preference_port_in_table_boat.sql" beforeDir="false" afterPath="$PROJECT_DIR$/deploy/sql/V20190307152430__modify_column_preference_port_in_table_boat.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/deploy/test/afterMigrate.sql" beforeDir="false" afterPath="$PROJECT_DIR$/deploy/test/afterMigrate.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/TestCase.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/TestCase.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deploy/sql/V20190307152430__modify_column_preference_port_in_table_boat.sql" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -54,10 +52,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/deploy/sql/V20190307152430__modify_column_preference_port_in_table_boat.sql">
+        <entry file="file://$PROJECT_DIR$/deploy/sql/V20190307152437__modify_column_preference_port_in_table_boat.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="168">
-              <caret line="8" column="56" selection-start-line="8" selection-start-column="56" selection-end-line="8" selection-end-column="56" />
+            <state relative-caret-position="373">
+              <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
             </state>
           </provider>
         </entry>
@@ -257,6 +255,12 @@
               <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
               <item name="subastas" type="462c0819:PsiDirectoryNode" />
               <item name="deploy" type="462c0819:PsiDirectoryNode" />
+              <item name="sql" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
+              <item name="subastas" type="462c0819:PsiDirectoryNode" />
+              <item name="deploy" type="462c0819:PsiDirectoryNode" />
               <item name="test" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -336,7 +340,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="162234000" />
+    <option name="totallyTimeSpent" value="162241000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1928" y="-8" width="1936" height="1056" extended-state="6" />
@@ -690,12 +694,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/deploy/sql/V20190307152430__modify_column_preference_port_in_table_boat.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="8" column="56" selection-start-line="8" selection-start-column="56" selection-end-line="8" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/deploy/sql/V20190307152430__modify_column_preference_port_in_table_boat.sql" />
   </component>
 </project>
