@@ -12,7 +12,7 @@ BEGIN
       AND table_name='boats'
       AND column_name='reference_port') THEN
       ALTER TABLE `boats`
-      CHANGE COLUMN `reference_port` `preference_port`  int(10) NOT NULL AFTER `nickname`;
+      CHANGE COLUMN `reference_port` `preference_port` int(10) NOT NULL default 1 AFTER `nickname`;
   END IF;
 
 END $$
