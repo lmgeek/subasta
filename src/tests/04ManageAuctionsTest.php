@@ -31,10 +31,13 @@ class CreateAuctionTest extends TestCase
      * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
      */
     function selectPreferredPortOnSelectingBoat(){
+        $boat=$this->getAValidBoat();
+        $boatport= Boat::select('preference_port')->where('id',Constants::EQUAL,$boat)
+                ->get()[0]['preference_port'];
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
-        $this->json('GET', '/getpreferredport', ['idboat' => '1'])
+        $this->json('GET', '/getpreferredport', ['idboat' => $boat])
              ->seeJsonEquals([
-                 'preferred' => '4'
+                 'preferred' => $boatport
              ]);
         $this->assertResponseOk();
     }
