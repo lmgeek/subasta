@@ -4,6 +4,7 @@ use App\Vendedor;
 Use App\Http\Controllers\RegisterController;
 Use App\Constants;
 use App\AuctionQuery;
+use \App\Product;
 class TestCase extends Illuminate\Foundation\Testing\TestCase
 {
     /**
@@ -203,8 +204,27 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     public function getAValidUser($type){
         return User::select()
             ->where('type','=',$type)
-            ->where('status',Constants::EQUAL,Constants::APROBADO)
+            ->where(Constants::STATUS,Constants::EQUAL,Constants::APROBADO)
             ->limit(1)->get()[0];
+    }
+    public function getAValidBoat(){
+        return App\Boat::select('id')
+                ->where(Constants::STATUS,Constants::EQUAL,Constants::APROBADO)
+                ->limit(1)->get()[0]['id'];
+    }
+    public function getAValidPort(){
+        return \App\Ports::select('id')
+                ->limit(1)->get()[0]['id'];
+    }
+    public function getAValidProduct(){
+        return Product::select('id')
+                ->limit(1)->get()[0]['id'];
+    }
+    public function getAValidCaliber(){
+        return Product::caliber()[0];
+    }
+    public function getAValidPresentationUnit(){
+        return Product::units()[0];
     }
     public function getLastAuction(){
         return AuctionQuery::auctionHome(null,array('orderby'=>'created_at','order','desc'), Constants::FUTURE)[0];
