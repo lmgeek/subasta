@@ -6,6 +6,7 @@ use App\Constants;
 use App\Http\Requests\Request;
 use App\Auction;
 use Illuminate\Support\Facades\App;
+use Illuminate\Validation\Rule;
 
 class CreateAuctionRequest extends Request
 {
@@ -33,7 +34,6 @@ class CreateAuctionRequest extends Request
     public function rules()
     {
         return [
-            'tipoSubasta' => 'required',
             'fechaInicio'  => 'required|date_format:d/m/Y H:i|after:'.date('d/m/Y H:i'),
             'fechaTentativa'  => 'required|date_format:d/m/Y H:i|after:'.date('d/m/Y H:i'),
             'fechaFin'    => 'date_format:d/m/Y H:i|after:fechaInicio',
@@ -42,8 +42,8 @@ class CreateAuctionRequest extends Request
             'endPrice'   => 'required|regex:/^\d{1,}(\,\d+)?$/|min:1',
             'amount'     => 'required|numeric|min:1',
             'descri'   => 'required|min:120|max:1000',
-            'intervalo'   => 'numeric',
-			'invitados'   => 'required_if:tipoSubasta,' . Constants::AUCTION_PRIVATE
+            //'tipoSubasta' => 'required',
+			//'invitados'   => 'required_if:tipoSubasta,' . Constants::AUCTION_PRIVATE
         ];
     }
     public function messages()
@@ -67,7 +67,8 @@ class CreateAuctionRequest extends Request
                 "endPrice" => "precio final",
                 "fechaTentativa" => "fecha tentativa",
                 "descri" => "descripción",
-                "amount" => "cantidad"
+                "amount" => "cantidad",
+                
             ];
         }
         return [];

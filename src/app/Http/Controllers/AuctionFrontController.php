@@ -49,27 +49,27 @@ class AuctionFrontController extends AuctionController
     public static function storeBatch($arriveid,$productid,$caliber,$quality,$amount,$replicate=0,$batchid=null){
         if($batchid==null){
             $batch = new Batch();
-            $batchStatus = new BatchStatus();
+//            $batchStatus = new BatchStatus();
         }else{
             if(count(Auction::select()->where(Constants::BATCH_I,Constants::EQUAL,$batchid)->get())>1 || $replicate>0){
                 return $batchid;
             }
             $batch= Batch::findOrFail($batchid);
-            $batchStatus= BatchStatus::findOrFail($batchid);
+//            $batchStatus= BatchStatus::findOrFail($batchid);
         }
         $batch->arrive_id = $arriveid;
         $batch->product_id = $productid;
         $batch->caliber = $caliber;
         $batch->quality = $quality;
-        $batch->amount = $amount;
+        $batch->amount = NULL;
         $batch->save();
         $batchid=$batch->id;
-        $batchStatus->batch_id = $batchid;
-        $batchStatus->assigned_auction = 0 ; 
-        $batchStatus->auction_sold = 0 ; 
-        $batchStatus->private_sold = 0 ; 
-        $batchStatus->remainder = $batch->amount ; 
-        $batchStatus->save();
+//        $batchStatus->batch_id = $batchid;
+//        $batchStatus->assigned_auction = 0 ; 
+//        $batchStatus->auction_sold = 0 ; 
+//        $batchStatus->private_sold = 0 ; 
+//        $batchStatus->remainder = $batch->amount ; 
+//        $batchStatus->save();
         return $batchid;
     }
     public static function storeArrive($boatid,$portid,$date=null,$replicate=0,$arriveid=null){
@@ -90,23 +90,43 @@ class AuctionFrontController extends AuctionController
         $arrive->port_id = $portid;
         if($date!=null){
             $arrive->date = $date;
+        }else{
+            $arrive->date = NULL;
         }
         $arrive->save();
         return $arrive->id;
     }
     public function storeAuction(CreateAuctionRequest $request){
+        $startDate =date(Constants::DATE_FORMAT,strtotime(str_replace('/','-',$request->fechaInicio)));
+        $endDate=date_add(date_create($startDate),date_interval_create_from_date_string("+$request->ActiveHours hours"))->format(Constants::DATE_FORMAT);
+        $tentativeDate =date(Constants::DATE_FORMAT,strtotime(str_replace('/','-',$request->fechaTentativa)));
         $startprice=$request->startPrice;
         $endprice=$request->endPrice;
-        if($endprice>=$startprice){
-            return Redirect::back()->withErrors(['El precio final no puede ser mayor al precio inicial.']);
-        }
-        $products = $request->product;$caliber = $request->input(Constants::CALIBER);
-        $quality = $request->input(Constants::QUALITY);
-        $amount = $request->input(Constants::AMOUNT);$privacy=$request->input('tipoSubasta');
-        $startDate =date(Constants::DATE_FORMAT,strtotime(str_replace('/','-',$request->fechaInicio)));
-        $tentativeDate =date(Constants::DATE_FORMAT,strtotime(str_replace('/','-',$request->fechaTentativa)));
         $arrivedate=null;
-        $endDate=date_add(date_create($startDate),date_interval_create_from_date_string("+$request->ActiveHours hours"))->format(Constants::DATE_FORMAT);
+        $errors=array();
+        if($request->type!='replication' && !in_array($request->caliber, Product::caliber())){
+            $errors[]='Debes seleccionar un calibre';
+        }
+        if($request->type!='replication' && !in_array($request->unidad, Product::units())){
+            $errors[]='Debes seleccionar una unidad de presentacion';
+        }
+        if($endprice>=$startprice){
+            $errors[]='El precio final no puede ser mayor al precio inicial.';
+        }
+        
+        if($tentativeDate<$endDate){
+            $errors[]='La fecha tentativa de entrega no puede ser antes del final de la subasta';
+        }
+        if(count($errors)>0){
+            return Redirect::back()->withErrors($errors);
+        }
+        $products = $request->product;
+        $caliber = $request->input(Constants::CALIBER);
+        $quality = $request->input(Constants::QUALITY);
+        $amount = $request->input(Constants::AMOUNT);
+        //$privacy=$request->input('tipoSubasta');
+        $privacy=Constants::AUCTION_PUBLIC;
+        
         
         
         $targetprice=$endprice+(($startprice-$endprice)*rand(1,7)/100);
@@ -116,10 +136,8 @@ class AuctionFrontController extends AuctionController
         $auctionid=(isset($request->auctionid))?$request->auctionid:null;
         if($auctionid!=null && $replicate==0){
             $auction = Auction::findOrFail($request->auctionid);
-            $event='edited';
         }else{
             $auction  = new Auction();
-            $event=($replicate==1)?'replicated':'created';
             $auction->correlative=self::calculateAuctionCode();
         }
         $auction->batch_id = $batchid;
@@ -154,7 +172,7 @@ class AuctionFrontController extends AuctionController
 			}
 		}
         if(empty($request->testing)){
-            return redirect('auction/edit/'.$auction->id.'?e='.$event.'&t=auction&id='.$auction->id.(($event=='replicated')?('&ex='. urlencode('replicated from auction: '.$auctionid)):''));
+            return redirect('subastas?type=mine&time=future&e='.$request->type.'&t=auction&id='.$auction->id.(($request->type=='replication')?('&ex='. urlencode('replicated from auction: '.$auctionid)):''));
         }else{
             $auction->tested=true;
             return json_encode($auction);
@@ -407,8 +425,9 @@ class AuctionFrontController extends AuctionController
         if(empty(Auth::user()->id)){
             return redirect(Constants::URL_LOGIN);
         }
-        $boats=Boat::select('id',Constants::NAME)
-            ->where(Constants::USER_ID, Constants::EQUAL,Auth::user()->id)->get();
+        $boats=Boat::select('id',Constants::NAME)->where(Constants::USER_ID, Constants::EQUAL,Auth::user()->id)
+                ->where('status', Constants::EQUAL,'approved')
+                ->orderBy('name','ASC')->get();
         $ports=Ports::select()->get();
         $products= Product::select('id',Constants::NAME)->get();
         return view(Constants::URL_AUCTION_TEMP)
@@ -425,6 +444,7 @@ class AuctionFrontController extends AuctionController
             return redirect(Constants::URL_LOGIN);
         }
         $boats=Boat::select('id',Constants::NAME)
+            ->where('status', Constants::EQUAL,'approved')
             ->where(Constants::USER_ID, Constants::EQUAL,Auth::user()->id)->get();
         $ports=Ports::select()->get();
         $products= Product::select('id',Constants::NAME,'unit')->get();
@@ -447,6 +467,7 @@ class AuctionFrontController extends AuctionController
         }
         $auction=AuctionQuery::auctionHome(null,array(Constants::AUCTIONID=>$auction_id),'all')[0];
         $boats=Boat::select('id',Constants::NAME)
+            ->where('status', Constants::EQUAL,'approved')
             ->where(Constants::USER_ID, Constants::EQUAL,Auth::user()->id)->get();
         $ports=Ports::select()->get();
         $products= Product::select('id',Constants::NAME,'unit')->get();
