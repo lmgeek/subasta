@@ -10,7 +10,7 @@ BEGIN
   WHERE
       TABLE_SCHEMA='subastas'
       AND table_name='boats'
-      AND column_name='preference_port') THEN
+      AND column_name='reference_port') THEN
       ALTER TABLE `boats`
       CHANGE COLUMN `reference_port` `preference_port`  int(10) NOT NULL AFTER `nickname`;
   END IF;
