@@ -24,8 +24,8 @@ use Illuminate\Routing\Controllers;
 
 <form action="/addbarco" method="POST">
     {{ csrf_field() }}
-<input type="text" name="name" placeholder="nombre">
-<input type="text" name="matricula" placeholder="Matricula">
+<input type="text" name="name" placeholder="nombre" value="{{ old('name') }}">
+<input type="text" name="matricula" placeholder="Matricula" value="{{ old('matricula') }}">
 
 <select name="port" class="selectpicker with-border">
     <option value="">Seleccione...</option>
