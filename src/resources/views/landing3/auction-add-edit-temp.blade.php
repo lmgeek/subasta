@@ -96,14 +96,14 @@ if(Auth::user()->type==Constants::VENDEDOR){
     <h3>Arribo</h3>
     Bote:
     <select name="barco" id="Boat" onchange="getPreferredPort()" <?=($arriveedit==0)?Constants::DISABLED:''?>>
-        <option>Selecciona un barco...</option>
+        <option>Seleccione...</option>
     @foreach($boats as $boat)
         <option value="{{$boat->id}}" <?=($boatid==$boat->id)?Constants::SELECTED:''?>>{{$boat->name}}</option>
     @endforeach    
     </select><br>
     Puerto:
      <select id="puerto" name="puerto" <?=($arriveedit==0)?Constants::DISABLED:''?>>
-         <option>Selecciona un puerto...</option>
+         <option>Seleccione...</option>
     @foreach($ports as $port)
         <option value ="{{$port->id}}" <?=($portid==$port->id)?Constants::SELECTED:''?>>{{$port->name}}</option>
     @endforeach
@@ -114,28 +114,28 @@ if(Auth::user()->type==Constants::VENDEDOR){
     <h3>Lote</h3>
     Producto:
     <select name="product" <?=($batchedit==0)?Constants::DISABLED:''?>>
-        <option>Selecciona un producto...</option>
+        <option>Seleccione...</option>
     @foreach($products as $product)
         <option value="{{$product->id}}" <?=($productid==$product->id)?Constants::SELECTED:''?>>{{$product->name}}</option>
     @endforeach
     </select><br>
     Calibre:
     <select name="caliber" <?=($batchedit==0)?Constants::DISABLED:''?> required>
-        <option value="0">Selecciona un calibre...</option>
+        <option value="0">Seleccione...</option>
         @foreach($calibers as $c)
             <option value="{{$c}}"<?=($caliber==$c)?Constants::SELECTED:''?>>{{ trans('general.product_caliber.'.$c) }}</option>
         @endforeach
     </select><br>
     Unidad de presentacion:
     <select name="unidad" <?=($batchedit==0)?Constants::DISABLED:''?>>
-        <option>Selecciona una unidad...</option>
+        <option>Seleccione...</option>
         @foreach($presunits as $unit)
         <option value="{{$unit}}" <?=($unit==$presunit)?'selected':''?>>{{$unit}}</option>
         @endforeach
     </select><br>
     Calidad:
     <select name="quality" <?=($batchedit==0)?Constants::DISABLED:''?>>
-        <option>Selecciona una calidad...</option>
+        <option>Seleccione...</option>
         @for($z=1;$z<=5;$z++)
         <option value="<?=$z?>" <?=($quality==$z)?Constants::SELECTED:''?>><?=$z?></option>
         @endfor

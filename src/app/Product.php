@@ -39,8 +39,9 @@ class Product extends Model
     {
         return [
             Constants::CHICO,
+            Constants::MEDIANO,
             Constants::GRANDE,
-            Constants::MEDIANO
+            
         ];
     }
 
