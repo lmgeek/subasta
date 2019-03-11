@@ -235,7 +235,7 @@ class AuctionFrontController extends AuctionController
             $user = $a->batch->arrive->boat->user;
             $users[$user->id]=(isset($users[$user->id]))?$users[$user->id]+1:1;
             $port[$a->batch->arrive->port_id]=(isset($port[$a->batch->arrive->port_id]))?$port[$a->batch->arrive->port_id]+1:1;
-            $products[$a->batch->product->id]=(isset($products[$a->batch->product->id]))?$products[$a->batch->product->id]+1:1;
+            $products[$a->batch->product_id]=(isset($products[$a->batch->product_id]))?$products[$a->batch->product_id]+1:1;
             $ratings[self::getUserRating($user)]++;
             $quality[$a->batch->quality]++;
             $close+=self::calculatePriceID($a->id,$a->target_price)[Constants::CLOSE];

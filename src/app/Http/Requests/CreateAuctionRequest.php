@@ -42,6 +42,11 @@ class CreateAuctionRequest extends Request
             'endPrice'   => 'required|regex:/^\d{1,}(\,\d+)?$/|min:1',
             'amount'     => 'required|numeric|min:1',
             'descri'   => 'required|min:120|max:1000',
+            'barco'   => 'required|numeric',
+            'puerto'=>'required|numeric',
+            'product'=>'required|numeric',
+            'quality'=>'required|numeric',
+            
             //'tipoSubasta' => 'required',
 			//'invitados'   => 'required_if:tipoSubasta,' . Constants::AUCTION_PRIVATE
         ];
@@ -54,7 +59,11 @@ class CreateAuctionRequest extends Request
                 "descri.min" => "El campo :attribute debe ser de al menos :min carateres",
                 "amount.min" => "La :attribute debe ser de al menos :min",
                 'ActiveHours.required'=>'El campo horas activas es obligatorio',
-                'ActiveHours.min'=>'La cantidad de horas activas debe ser al menos :min'
+                'ActiveHours.min'=>'La cantidad de horas activas debe ser al menos :min',
+                'barco.numeric'=>'Debes escoger un barco',
+                'puerto.numeric'=>'Debes escoger un puerto',
+                'product.numeric'=>'Debes escoger un producto',
+                'quality.numeric'=>'Debes escoger una calidad del lote',
             ];
         }
         return [];
@@ -68,7 +77,8 @@ class CreateAuctionRequest extends Request
                 "fechaTentativa" => "fecha tentativa",
                 "descri" => "descripción",
                 "amount" => "cantidad",
-                
+                'quality'=>'calidad',
+                'product'=>'producto',
             ];
         }
         return [];
