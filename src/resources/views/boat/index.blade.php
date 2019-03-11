@@ -44,23 +44,16 @@ use \App\Http\Controllers\UserController;
                             </thead>
                             <tbody>
                                 @foreach($boats as $boat)
-                                <?php 
-                                
-                                $user=UserController::getUserFullName($boat->user_id);
-                                echo $user;?>
                                     <tr>
-                                        <td class="">
-                                            
-                                        </td>
+                                        <td class="">{{$boat->User->name}}</td>
                                         <td>{{ $boat->name }}</td>
                                         <td>{{ $boat->matricula }}</td>
                                         <td>
+                                            <span class="label label-{{ $boat->status }}">{{ trans("general.status.$boat->status") }}</span>
 
-												<span class="label label-{{ $boat->status }}">{{ trans("general.status.$boat->status") }}</span>
-
-												@if ($boat->status == \App\Constants::RECHAZADO)
-													<em data-toggle="tooltip" data-placement="top" title="{{ $boat->rebound }}"  class="fa fa-info-circle"></em>
-												@endif
+                                            @if ($boat->status == \App\Constants::RECHAZADO)
+                                                <em data-toggle="tooltip" data-placement="top" title="{{ $boat->rebound }}"  class="fa fa-info-circle"></em>
+                                            @endif
 
                                         </td>
                                         <td>
