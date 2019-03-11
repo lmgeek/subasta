@@ -28,7 +28,7 @@ if(Auth::user()){
     if($userses->status!='approved'){
         $onclick1="notifications(0,null,null,null,'Usuario no aprobado')";
         $onclick2=$onclick1;
-    }elseif($userses->status!='approved' && $userses->type!= \App\User::COMPRADOR){
+    }elseif($userses->status=='approved' && $userses->type!= \App\User::COMPRADOR){
         $onclick1="notifications(0,null,null,null,'El tipo de usuario no permite comprar')";
         $onclick2="notifications(0,null,null,null,'El tipo de usuario no permite ofertar')";
     }else{

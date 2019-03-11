@@ -218,10 +218,12 @@ class AuctionFrontController extends AuctionController
         return ($highest>$counter)?$highest:$counter;
     }
     public static function getAuctionCode($correlative,$created_at){
-        if($correlative<10){
+        if($correlative==null){
+            $correlative=(string)"000";
+        }elseif($correlative<10){
             $correlative=(string)"00$correlative";
         }elseif($correlative<100){
-            $correlative=(string)"0$correlative";
+            $correlative="0$correlative";
         }
         return 'SU-'.date('ym',strtotime($created_at)).$correlative;
     }
