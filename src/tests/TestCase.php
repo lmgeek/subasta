@@ -227,7 +227,7 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
         return Product::units()[0];
     }
     public function getLastAuction(){
-        return AuctionQuery::auctionHome(null,array('orderby'=>'created_at','order','desc'), Constants::FUTURE)[0];
+        return AuctionQuery::auctionHome(null,array('orderby'=>'start','order'=>'desc'), Constants::FUTURE)[0];
     }
     /* FIN Rodolfo*/
 }

@@ -584,7 +584,7 @@ class CreateAuctionTest extends TestCase
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
         $comprador=$this->getAValidUser(Constants::COMPRADOR);
         $auction=$this->getLastAuction();
-        $description='Esta descripcion se edito. NetLabs nace de la unión de jóvenes emprendedores y profesionales con 12 años de experiencia en el mercado informático nacional e internacional. En Netlabs desarrollamos aplicaciones según las necesidades de nuestros clientes y del mercado. Contamos con un equipo de profesionales experimentados en desarrollo de software, servicios de consultoría y asesoría en tecnologías de información.';
+        $description='Auction'.$auction->id.'. Esta descripcion se edito. NetLabs nace de la unión de jóvenes emprendedores y profesionales con 12 años de experiencia en el mercado informático nacional e internacional. En Netlabs desarrollamos aplicaciones según las necesidades de nuestros clientes y del mercado. Contamos con un equipo de profesionales experimentados en desarrollo de software, servicios de consultoría y asesoría en tecnologías de información.';
         $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+24 hours"))->format('d/m/Y H:i');
         $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+72 hours"))->format('d/m/Y H:i');
         
@@ -623,7 +623,7 @@ class CreateAuctionTest extends TestCase
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
         $comprador=$this->getAValidUser(Constants::COMPRADOR);
         $auction=$this->getLastAuction();
-        $description='Esta descripcion se replico. NetLabs nace de la unión de jóvenes emprendedores y profesionales con 12 años de experiencia en el mercado informático nacional e internacional. En Netlabs desarrollamos aplicaciones según las necesidades de nuestros clientes y del mercado. Contamos con un equipo de profesionales experimentados en desarrollo de software, servicios de consultoría y asesoría en tecnologías de información.';
+        $description='Auction'.$auction->id.'. Esta descripcion se replico. NetLabs nace de la unión de jóvenes emprendedores y profesionales con 12 años de experiencia en el mercado informático nacional e internacional. En Netlabs desarrollamos aplicaciones según las necesidades de nuestros clientes y del mercado. Contamos con un equipo de profesionales experimentados en desarrollo de software, servicios de consultoría y asesoría en tecnologías de información.';
         $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+24 hours"))->format('d/m/Y H:i');
         $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+72 hours"))->format('d/m/Y H:i');
         
