@@ -41,72 +41,7 @@ class CreateAuctionTest extends TestCase
              ]);
         $this->assertResponseOk();
     }
-    /*  @test 
-     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
-     */
-    function getValidUsersForPrivateAuctionWithNoneSelected(){
-        $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
-        $this->json('GET', '/getusersauctionprivate', ['val' => 'rafael a'])
-             ->seeJsonEquals([
-                 0=>[
-                     'id' => 5,
-                    'name'=>'rafael',
-                    'lastname'=>'alvarez',
-                    'nickname'=>'rafa'
-                 ]
-             ]);
-        $this->assertResponseOk();
-    }
-    /*  @test 
-     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
-     */
-    function getNoUsersForPrivateAuctionWithOneSelected(){
-        $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
-        $this->json('GET', '/getusersauctionprivate', ['val' => 'rafael a','ids'=>array('5')])
-             ->seeJsonEquals([
-             ]);
-        $this->assertResponseOk();
-    }
-    /*  @test 
-     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
-     */
-    function tryToGetPendingUserForPrivateAuction(){
-        $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
-        $this->json('GET', '/getusersauctionprivate', ['val' => 'ezequiel bikiel'])
-             ->seeJsonEquals([
-             ]);
-        $this->assertResponseOk();
-    }
-    /*  @test 
-     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
-     */
-    function tryToGetRejectedUserForPrivateAuction(){
-        $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
-        $this->json('GET', '/getusersauctionprivate', ['val' => 'lorena perez'])
-             ->seeJsonEquals([
-             ]);
-        $this->assertResponseOk();
-    }
-    /*  @test 
-     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
-     */
-    function tryToGetSellerForPrivateAuction(){
-        $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
-        $this->json('GET', '/getusersauctionprivate', ['val' => 'Maria Crer'])
-             ->seeJsonEquals([
-             ]);
-        $this->assertResponseOk();
-    }
-    /*  @test 
-     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
-     */
-    function tryToGetAdminForPrivateAuction(){
-        $id = $this->getTheLastIdInsertedInTheSeller();
-        $this->json('GET', '/getusersauctionprivate', ['val' => 'diego weinstein'])
-             ->seeJsonEquals([
-             ]);
-        $this->assertResponseOk();
-    }
+    
     /**  @test 
      * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
      */
@@ -133,7 +68,136 @@ class CreateAuctionTest extends TestCase
         $this->see('El campo fecha tentativa es obligatorio');
         $this->assertResponseOk();
     }
-    
+    /**  @test 
+     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
+     */
+    function tryToAddPublicAuctionWithoutBoat(){
+        $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
+        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d/m/Y H:i');
+        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+27 hours"))->format('d/m/Y H:i');
+        $this->visit('auction/add');
+        //$this->select($this->getAValidBoat(),'barco');
+        $this->select($this->getAValidPort(),'puerto');
+        $this->select($this->getAValidProduct(),'product');
+        $this->select($this->getAValidCaliber(),'caliber');
+        $this->select($this->getAValidPresentationUnit(),'unidad');
+        $this->select('3','quality');
+        $this->type($tentativedate,'fechaTentativa');
+        $this->type($startdate,'fechaInicio');
+        $this->type('24','ActiveHours');
+        $this->type('10','amount');
+        $this->type('100','startPrice');
+        $this->type('10','endPrice');
+        $this->type('Curabitur turpis. Morbi nec metus. Etiam ut purus mattis mauris sodales aliquam. Ut tincidunt tincidunt erat. In hac habitasse platea dictumst.','descri');
+        $this->press('Enviar');
+        $this->seePageIs('/auction/add');
+        $this->see('Debes escoger un barco');
+        $this->assertResponseOk();
+    }
+    /**  @test 
+     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
+     */
+    function tryToAddPublicAuctionWithoutPort(){
+        $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
+        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d/m/Y H:i');
+        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+27 hours"))->format('d/m/Y H:i');
+        $this->visit('auction/add');
+        $this->select($this->getAValidBoat(),'barco');
+        //$this->select($this->getAValidPort(),'puerto');
+        $this->select($this->getAValidProduct(),'product');
+        $this->select($this->getAValidCaliber(),'caliber');
+        $this->select($this->getAValidPresentationUnit(),'unidad');
+        $this->select('3','quality');
+        $this->type($tentativedate,'fechaTentativa');
+        $this->type($startdate,'fechaInicio');
+        $this->type('24','ActiveHours');
+        $this->type('10','amount');
+        $this->type('100','startPrice');
+        $this->type('10','endPrice');
+        $this->type('Curabitur turpis. Morbi nec metus. Etiam ut purus mattis mauris sodales aliquam. Ut tincidunt tincidunt erat. In hac habitasse platea dictumst.','descri');
+        $this->press('Enviar');
+        $this->seePageIs('/auction/add');
+        $this->see('Debes escoger un puerto');
+        $this->assertResponseOk();
+    }
+    /**  @test 
+     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
+     */
+    function tryToAddPublicAuctionWithoutProduct(){
+        $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
+        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d/m/Y H:i');
+        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+27 hours"))->format('d/m/Y H:i');
+        $this->visit('auction/add');
+        $this->select($this->getAValidBoat(),'barco');
+        $this->select($this->getAValidPort(),'puerto');
+        //$this->select($this->getAValidProduct(),'product');
+        $this->select($this->getAValidCaliber(),'caliber');
+        $this->select($this->getAValidPresentationUnit(),'unidad');
+        $this->select('3','quality');
+        $this->type($tentativedate,'fechaTentativa');
+        $this->type($startdate,'fechaInicio');
+        $this->type('24','ActiveHours');
+        $this->type('10','amount');
+        $this->type('100','startPrice');
+        $this->type('10','endPrice');
+        $this->type('Curabitur turpis. Morbi nec metus. Etiam ut purus mattis mauris sodales aliquam. Ut tincidunt tincidunt erat. In hac habitasse platea dictumst.','descri');
+        $this->press('Enviar');
+        $this->seePageIs('/auction/add');
+        $this->see('Debes escoger un producto');
+        $this->assertResponseOk();
+    }
+    /**  @test 
+     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
+     */
+    function tryToAddPublicAuctionWithoutCaliber(){
+        $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
+        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d/m/Y H:i');
+        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+27 hours"))->format('d/m/Y H:i');
+        $this->visit('auction/add');
+        $this->select($this->getAValidBoat(),'barco');
+        $this->select($this->getAValidPort(),'puerto');
+        $this->select($this->getAValidProduct(),'product');
+        //$this->select($this->getAValidCaliber(),'caliber');
+        $this->select($this->getAValidPresentationUnit(),'unidad');
+        $this->select('3','quality');
+        $this->type($tentativedate,'fechaTentativa');
+        $this->type($startdate,'fechaInicio');
+        $this->type('24','ActiveHours');
+        $this->type('10','amount');
+        $this->type('100','startPrice');
+        $this->type('10','endPrice');
+        $this->type('Curabitur turpis. Morbi nec metus. Etiam ut purus mattis mauris sodales aliquam. Ut tincidunt tincidunt erat. In hac habitasse platea dictumst.','descri');
+        $this->press('Enviar');
+        $this->seePageIs('/auction/add');
+        $this->see('Debes seleccionar un calibre');
+        $this->assertResponseOk();
+    }
+    /**  @test 
+     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
+     */
+    function tryToAddPublicAuctionWithoutPresentationUnit(){
+        $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
+        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d/m/Y H:i');
+        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+27 hours"))->format('d/m/Y H:i');
+        $this->visit('auction/add');
+        $this->select($this->getAValidBoat(),'barco');
+        $this->select($this->getAValidPort(),'puerto');
+        $this->select($this->getAValidProduct(),'product');
+        $this->select($this->getAValidCaliber(),'caliber');
+        //$this->select($this->getAValidPresentationUnit(),'unidad');
+        $this->select('3','quality');
+        $this->type($tentativedate,'fechaTentativa');
+        $this->type($startdate,'fechaInicio');
+        $this->type('24','ActiveHours');
+        $this->type('10','amount');
+        $this->type('100','startPrice');
+        $this->type('10','endPrice');
+        $this->type('Curabitur turpis. Morbi nec metus. Etiam ut purus mattis mauris sodales aliquam. Ut tincidunt tincidunt erat. In hac habitasse platea dictumst.','descri');
+        $this->press('Enviar');
+        $this->seePageIs('/auction/add');
+        $this->see('Debes seleccionar una unidad de presentacion');
+        $this->assertResponseOk();
+    }
     /**  @test 
      * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
      */
@@ -501,9 +565,9 @@ class CreateAuctionTest extends TestCase
             'quality'=>'3',
             'fechaInicio'=>$startdate,
             'ActiveHours'=>'24',
-            'amount'=>'200',
-            'startPrice'=>'2000',
-            'endPrice'=>'1000',
+            'amount'=>'50',
+            'startPrice'=>'200',
+            'endPrice'=>'100',
             'tipoSubasta'=>'public',
             'descri'=>$description
         );
@@ -588,6 +652,78 @@ class CreateAuctionTest extends TestCase
         $this->post('/auctionstore',$data);
         $this->seeJson(['tested'=>true]);
         $this->seeJson(['description'=>$description]);
+        $this->assertResponseOk();
+    }
+    
+    /*
+     * PrivateAuctionsTests
+     */
+    
+    
+    /**  @test 
+     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
+     */
+    function getValidUsersForPrivateAuctionWithNoneSelected(){
+        $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
+        $this->json('GET', '/getusersauctionprivate', ['val' => 'rafael a'])
+             ->seeJsonEquals([
+                 0=>[
+                     'id' => 5,
+                    'name'=>'rafael',
+                    'lastname'=>'alvarez',
+                    'nickname'=>'rafa'
+                 ]
+             ]);
+        $this->assertResponseOk();
+    }
+    /**  @test 
+     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
+     */
+    function getNoUsersForPrivateAuctionWithOneSelected(){
+        $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
+        $this->json('GET', '/getusersauctionprivate', ['val' => 'rafael a','ids'=>array('5')])
+             ->seeJsonEquals([
+             ]);
+        $this->assertResponseOk();
+    }
+    /**  @test 
+     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
+     */
+    function tryToGetPendingUserForPrivateAuction(){
+        $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
+        $this->json('GET', '/getusersauctionprivate', ['val' => 'ezequiel bikiel'])
+             ->seeJsonEquals([
+             ]);
+        $this->assertResponseOk();
+    }
+    /**  @test 
+     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
+     */
+    function tryToGetRejectedUserForPrivateAuction(){
+        $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
+        $this->json('GET', '/getusersauctionprivate', ['val' => 'lorena perez'])
+             ->seeJsonEquals([
+             ]);
+        $this->assertResponseOk();
+    }
+    /**  @test 
+     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
+     */
+    function tryToGetSellerForPrivateAuction(){
+        $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
+        $this->json('GET', '/getusersauctionprivate', ['val' => 'Maria Crer'])
+             ->seeJsonEquals([
+             ]);
+        $this->assertResponseOk();
+    }
+    /**  @test 
+     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
+     */
+    function tryToGetAdminForPrivateAuction(){
+        $id = $this->getTheLastIdInsertedInTheSeller();
+        $this->json('GET', '/getusersauctionprivate', ['val' => 'diego weinstein'])
+             ->seeJsonEquals([
+             ]);
         $this->assertResponseOk();
     }
     /*  @test
