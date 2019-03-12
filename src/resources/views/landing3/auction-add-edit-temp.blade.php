@@ -1,42 +1,20 @@
 <?php
 use App\Constants;
-/*
- * In @section('content') goes all that's inside
- * .dashboard-content-container
- * (Lines 31->242 dash-nueva-subasta.php)
- * The content of the previously mentioned div in some point should transform to 
- * a form which action would be = /auctionStore
- * the rest of the content goes exactly as in the provided desing only changing
- * the selects of boats, ports and products
- * $code would be for the auction id field, it cant be shown because we need to 
- * avoid conflicts at saving in case of multiple sessions
- * In order to the form to work it needs the csrf_field
- * the names of the fields that are explitly declared should stay the same
- * Other name for inputs/selects
- *      Fecha Tentativa de entrega: date
- *      Calibre:    caliber
- *      Calidad:    quality
- *      Cantidad:   amount
- *      idbatch:    batch
- *      idarrive:   id
- *      datestart:  fechaInicio
- *      activehours:fechaFin
- *      startprice: startPrice
- *      endprice:   endPrice  
- *      description:descri
- *      privacy:    tipoSubasta
- *      guests:     invitados[]
- */
-//die(json_encode($auction,true));
+use App\Product;
 $code='SU-'.date('ym').'XXX';
 $description='Curabitur turpis. Morbi nec metus. Etiam ut purus mattis mauris sodales aliquam. Ut tincidunt tincidunt erat. In hac habitasse platea dictumst.';
-$portid=0;$boatid=0;$productid=0;$caliber='';$quality=0;$activehours=1;
+$portid=0;$boatid=0;$productid=0;$caliber='';$quality=0;$activehours=12;
 $privacy=Constants::AUCTION_PUBLIC;
 $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d/m/Y H:i');
-$tentativedate=$startdate;
-
-$startprice=2;$endprice=1;$quantity=1;
+$tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+48 hours"))->format('d/m/Y H:i');
+$calibers= Product::caliber();
+$saleunits=Product::sale();
+$presunits=Product::units();
+$startprice=20;$endprice=1;$quantity=100;
+$presunit='';$type='add';$title='Agregar';
 if(isset($auction)){
+    $type=(isset($replicate))?'replication':'edit';
+    $title=(isset($replicate))?'Replicar':'Editar';
     $boatid=$auction->batch->arrive->boat->id;
     $portid=$auction->batch->arrive->port_id;
     $productid=$auction->batch->product_id;
@@ -52,117 +30,111 @@ if(isset($auction)){
     $endprice=$auction->end_price;
     $code=$auction->code;
     $privacy=$auction->type;
+    $presunit=$presunits[0];
     if($privacy=='private'){
         $guests= App\AuctionInvited::select('user_id')->where('auction_id',Constants::EQUAL,$auction->id)->get();
     }
 }
 if(Auth::user()->type==Constants::VENDEDOR){
 ?>
-@if (count($errors) > 0)
-                    <div class="alert alert-danger">
-                        <strong>Error</strong><br><br>
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-<form method="post" action="/auctionstore">
-    {{csrf_field()}}
-    @if(isset($auction))
-        @if(isset($replicate))
-    <input type="hidden" name="type" value="replication">
-        @endif
-    <input type="hidden" name="auctionid" value="{{$auction->id}}">
-    <input type="hidden" name="batchid" value="{{$auction->batch_id}}">
-    <input type="hidden" name="arriveid" value="{{$auction->batch->arrive_id}}">
-    @endif
-<div>
-    <h3>Arribo</h3>
-    Bote:
-    <select name="barco" id="Boat" onchange="getPreferredPort()" <?=($arriveedit==0)?Constants::DISABLED:''?>>
-    @foreach($boats as $boat)
-        <option value="{{$boat->id}}" <?=($boatid==$boat->id)?Constants::SELECTED:''?>>{{$boat->name}}</option>
-    @endforeach    
-    </select><br>
-    Puerto:
-     <select id="puerto" name="puerto" <?=($arriveedit==0)?Constants::DISABLED:''?>>
-    @foreach($ports as $port)
-        <option value ="{{$port->id}}" <?=($portid==$port->id)?Constants::SELECTED:''?>>{{$port->name}}</option>
-    @endforeach
-     </select><br>
-     Fecha Tentativa:
-    @if($arriveedit==0)
-    <input type="text" value="<?=$tentativedate?>" placeholder="Fecha Tentativa"disabled>
-    <input type="hidden" name="fechaTentativa" value="<?=$tentativedate?>">
-    @else
-    <input type="text" value="<?=$tentativedate?>" placeholder="Fecha Tentativa" name="fechaTentativa" id="fechaTentativa">
-    @endif
-    <br>
-</div>
-<div>
-    <h3>Lote</h3>
-    Producto:
-    <select name="product" <?=($batchedit==0)?Constants::DISABLED:''?>>
-    @foreach($products as $product)
-        <option value="{{$product->id}}" <?=($productid==$product->id)?Constants::SELECTED:''?>>{{$product->name}}</option>
-    @endforeach
-    </select><br>
-    Calibre:
-    <select name="caliber" <?=($batchedit==0)?Constants::DISABLED:''?>>
-        <option value="small"<?=($caliber=='small')?Constants::SELECTED:''?>>Pequeño</option>
-        <option value="medium"<?=($caliber=='medium')?Constants::SELECTED:''?>>Mediano</option>
-        <option value="big"<?=($caliber=='big')?Constants::SELECTED:''?>>Grande</option>
-    </select><br>
-    Unidad:
-    <select name="unidad" <?=($batchedit==0)?Constants::DISABLED:''?>>
-        <option value="Cajones"selected>Caj&oacute;n</option>
-        <option value="Kg">Kilogramo</option>
-        <option value="Unidad">Unidad</option>
-    </select><br>
-    Calidad:
-    <select name="quality" <?=($batchedit==0)?Constants::DISABLED:''?>>
-        @for($z=1;$z<=5;$z++)
-        <option value="<?=$z?>" <?=($quality==$z)?Constants::SELECTED:''?>><?=$z?></option>
-        @endfor
-    </select><br>
-</div>
-<div>
-    <h3>Subasta</h3>
-    Fecha de inicio:
-    <input type="text" value="<?=$startdate?>" name="fechaInicio" placeholder="startdate"<?=($auctionedit==0)?Constants::DISABLED:''?>><br>
-    Horas activa:<input type="number" value="<?=$activehours?>" min="1" name="ActiveHours" placeholder="activehours"<?=($auctionedit==0)?Constants::DISABLED:''?>><br>
-    Cantidad:<input type="number"value="<?=$quantity?>" min="1" name="amount" placeholder="cantidad"<?=($auctionedit==0)?Constants::DISABLED:''?>><br>
-    Precio Inicio:<input type="number"value="<?=$startprice?>" name="startPrice" min="2" placeholder="start price"<?=($auctionedit==0)?Constants::DISABLED:''?>><br>
-    Precio Fin: <input type="number"value="<?=$endprice?>" name="endPrice"min="1" placeholder="end price"<?=($auctionedit==0)?Constants::DISABLED:''?>><br>
-    Privacidad: 
-    <select name="tipoSubasta" onchange="changePrivacy()"<?=($auctionedit==0)?Constants::DISABLED:''?> id="tipoSubasta">
-        <option value="public"<?=($privacy== Constants::AUCTION_PUBLIC || old('tipoSubasta')==Constants::AUCTION_PUBLIC)?Constants::SELECTED:''?>>P&uacute;blica</option>
-        <option value="private"<?=($privacy== Constants::AUCTION_PRIVATE || old('tipoSubasta')==Constants::AUCTION_PRIVATE)?Constants::SELECTED:''?>>Privada</option>
-    </select><br><br>
-    <input type="text" name="guests" placeholder="Escribe un nombre y selecciona" style="<?=($privacy== Constants::AUCTION_PUBLIC || old('tipoSubasta')==Constants::AUCTION_PUBLIC)?'display:none;':''?>width:100%" id="guests" onkeypress="getUsers()" onclick="getUsers()"<?=($auctionedit==0)?Constants::DISABLED:''?>>
-    <div id="UsersShowTemp"></div>
-    <div id="UsersShow">
-        @if(isset($guests))
-            @foreach($guests as $guest)
-                <?php $user= \App\User::select('name','lastname','nickname')->where('id',Constants::EQUAL,$guest->user_id)->get()[0];?>
-                <div id="TagUser<?=$guest->user_id?>"><?=$user->name.' '.$user->lastname.' ('.$user->nickname.')'?> <?php if($auctionedit==1){?><div class="fa fa-close" onclick="removeGuest(<?=$guest->user_id?>)"></div><?php }?><div>
+@extends('landing3/partials/layout-admin')
+@section('title',' | '.$title.' Subasta')
+@section('content')
+    @if (count($errors) > 0)
+    <div class="alert alert-danger">
+        <strong>Error<?=(count($errors)>1)?'es':''?></strong><br><br>
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
             @endforeach
-        @endif
+        </ul>
     </div>
-    <div id="UsersInputs">
-        @if(isset($guests))
-            @foreach($guests as $guest)
-                <input type="hidden" class="UserInput" name="invitados[]" value="<?=$guest->user_id?>" id="InputUser<?=$guest->user_id?>">
+    @endif
+    <form method="post" action="/auctionstore">
+        {{csrf_field()}}
+        <input type="hidden" name="type" value="<?=$type?>">
+        @if(isset($auction))
+        <input type="hidden" name="auctionid" value="{{$auction->id}}">
+        <input type="hidden" name="batchid" value="{{$auction->batch_id}}">
+        <input type="hidden" name="arriveid" value="{{$auction->batch->arrive_id}}">
+            @if($arriveedit==0)
+        <input type="hidden" name="barco" value="<?=$boatid?>">
+        <input type="hidden" name="puerto" value="<?=$portid?>">
+            @endif
+            @if($batchedit==0)
+        <input type="hidden" name="product" value="<?=$productid?>">
+        <input type="hidden" name="caliber" value="<?=$caliber?>">
+        <input type="hidden" name="unidad" value="<?=$presunit?>">
+        <input type="hidden" name="quality" value="<?=$quality?>">
+            @endif
+        @endif
+    <div>
+        <h3>Arribo</h3>
+        Bote:
+        <select name="barco" id="Boat" onchange="getPreferredPort()" <?=($arriveedit==0)?Constants::DISABLED:''?>>
+            <option>Seleccione...</option>
+        @foreach($boats as $boat)
+            <option value="{{$boat->id}}" <?=($boatid==$boat->id)?Constants::SELECTED:''?>>{{$boat->name}}</option>
+        @endforeach    
+        </select><br>
+        Puerto:
+         <select id="puerto" name="puerto" <?=($arriveedit==0)?Constants::DISABLED:''?>>
+             <option>Seleccione...</option>
+        @foreach($ports as $port)
+            <option value ="{{$port->id}}" <?=($portid==$port->id)?Constants::SELECTED:''?>>{{$port->name}}</option>
+        @endforeach
+         </select><br>
+
+    </div>
+    <div>
+        <h3>Lote</h3>
+        Producto:
+        <select name="product" <?=($batchedit==0)?Constants::DISABLED:''?>>
+            <option>Seleccione...</option>
+        @foreach($products as $product)
+            <option value="{{$product->id}}" <?=($productid==$product->id)?Constants::SELECTED:''?>>{{$product->name}}</option>
+        @endforeach
+        </select><br>
+        Calibre:
+        <select name="caliber" <?=($batchedit==0)?Constants::DISABLED:''?> required>
+            <option value="0">Seleccione...</option>
+            @foreach($calibers as $c)
+                <option value="{{$c}}"<?=($caliber==$c)?Constants::SELECTED:''?>>{{ trans('general.product_caliber.'.$c) }}</option>
             @endforeach
-        @endif
+        </select><br>
+        Unidad de presentacion:
+        <select name="unidad" <?=($batchedit==0)?Constants::DISABLED:''?>>
+            <option>Seleccione...</option>
+            @foreach($presunits as $unit)
+            <option value="{{$unit}}" <?=($unit==$presunit)?'selected':''?>>{{$unit}}</option>
+            @endforeach
+        </select><br>
+        Calidad:
+        <select name="quality" <?=($batchedit==0)?Constants::DISABLED:''?>>
+            <option>Seleccione...</option>
+            @for($z=1;$z<=5;$z++)
+            <option value="<?=$z?>" <?=($quality==$z)?Constants::SELECTED:''?>><?=$z?></option>
+            @endfor
+        </select><br>
     </div>
-    
-</div>
-            <textarea name="descri" placeholder="description"<?=($auctionedit==0)?Constants::DISABLED:''?> style="width: 100%"><?=$description?></textarea><br>
-            <input type="submit"<?=(($auctionedit+$arriveedit+$batchedit)==0)?Constants::DISABLED:''?> value="Enviar">
-</form>
+    <div>
+        <h3>Subasta</h3>
+        Fecha de inicio:
+        <input type="text" value="<?=$startdate?>" name="fechaInicio" placeholder="startdate"<?=($auctionedit==0)?Constants::DISABLED:''?>><br>
+        Horas activa:<input type="number" value="<?=$activehours?>" min="1" name="ActiveHours" placeholder="activehours"<?=($auctionedit==0)?Constants::DISABLED:''?>><br>
+        Fecha Tentativa:
+        <input type="text" value="<?=$tentativedate?>" name="fechaTentativa" placeholder="Fecha Tentativa"<?=($auctionedit==0)?Constants::DISABLED:''?>>
+        <br>
+        Cantidad:<input type="number"value="<?=$quantity?>" min="1" name="amount" placeholder="cantidad"<?=($auctionedit==0)?Constants::DISABLED:''?>><br>
+        Precio Inicio:<input type="number"value="<?=$startprice?>" name="startPrice" min="2" placeholder="start price"<?=($auctionedit==0)?Constants::DISABLED:''?>><br>
+        Precio Fin: <input type="number"value="<?=$endprice?>" name="endPrice"min="1" placeholder="end price"<?=($auctionedit==0)?Constants::DISABLED:''?>><br>
+
+
+    </div>
+                <textarea name="descri" placeholder="description"<?=($auctionedit==0)?Constants::DISABLED:''?> style="width: 100%"><?=$description?></textarea><br>
+                <input type="submit"<?=(($auctionedit+$arriveedit+$batchedit)==0)?Constants::DISABLED:''?> value="Enviar">
+    </form>
+
 
 
 <link href="/landing/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
@@ -175,47 +147,8 @@ if(Auth::user()->type==Constants::VENDEDOR){
             $('#puerto').val($result['preferred']);
         });
     }
-    function changePrivacy(){
-        if($('#tipoSubasta').val()=='public'){
-            $('#guests').fadeOut();
-            $('#UsersShow').html('');$('#UsersShowTemp').html('');$('#guests').val('');
-        }else{
-            $('#guests').fadeIn();
-        }
-    }
-    function getUsers(){
-        var $ids=[],$cont=0,$val=$('#guests').val();
-        if($val==''){
-            $('#UsersShowTemp').html('');
-            return;
-        }
-        $('.UserInput').each(function(){
-            $ids[$cont]=$(this).val();
-            $cont++;
-        });
-        console.log($ids)
-        $.get('/getusersauctionprivate',{val:$val,ids:$ids},function(result){
-            console.log(result)
-            var $result=JSON.parse(result),$html='',$inputs='';
-            for(var $z=0;$z<$result.length;$z++){
-                $html+='<button id="guest'+$result[$z]['id']+'" onclick="addGuest('+$result[$z]['id']+',\''+$result[$z]['name']+' '+$result[$z]['lastname']+'\',\''+$result[$z]['nickname']+'\')">'+$result[$z]['name']+' '+$result[$z]['lastname']+' ('+$result[$z]['nickname']+')'+'</button>';
-            }
-            $('#UsersShowTemp').html($html);
-        })
-    }
-    function addGuest($id,$name,$username){
-        $('#UsersShowTemp').html('');$('#guests').val('');
-        $('#UsersShow').html($('#UsersShow').html()+'<div id="TagUser'+$id+'">'+$name+' ('+$username+') <div class="fa fa-close" onclick="removeGuest('+$id+')"></div><div>');
-        $('#UsersInputs').html($('#UsersInputs').html()+'<input type="hidden" class="UserInput" name="invitados[]" value="'+$id+'" id="InputUser'+$id+'">');
-    }
-    function removeGuest($id){
-        $('#TagUser'+$id).remove();
-        $('#InputUser'+$id).remove();
-    }
-    $(document).ready(function(){
-        changePrivacy()
-    });
 </script>
 <?php }else{
     echo '<h1>Solo pueden crear subastas los usuarios de tipo vendedor</h1>';
-}
+}?>
+@endsection

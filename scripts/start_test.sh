@@ -20,9 +20,9 @@ php /wait_for.php findeploy 999
 mkdir ${DEST_DIR}
 
 /var/www/html/vendor/bin/phpunit /var/www/html/tests \
-  --coverage-clover ${DEST_DIR}/coverage-clover.xml \
+  --coverage-clover ${DEST_DIR}/phpunit.coverage.xml \
   --coverage-html ${DEST_DIR}/coverage-html \
-  --log-junit ${DEST_DIR}/log-junit.xml \
+  --log-junit ${DEST_DIR}/phpunit.xml \
   --testdox-html ${DEST_DIR}/agile.html || true
 
 tar czvvf ${DEST_DIR}/coverage-html.tgz ${DEST_DIR}/coverage-html

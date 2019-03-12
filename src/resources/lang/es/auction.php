@@ -80,9 +80,12 @@ return [
     'big' => 'grande',
     'medium' => 'mediano',
     'small' => 'chico',
-    'offerDirect' => 'Oferta',
+    'offer' => 'Oferta',
     'auction' => 'Subasta',
-    'privateSold' => 'Venta Privada'
+    'privateSold' => 'Venta Privada',
+    'accepted' => 'Aceptado',
+    'pending' => 'Pendiente',
+    'rejected' => 'Rechazado',
 
 
 

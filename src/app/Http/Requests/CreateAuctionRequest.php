@@ -6,6 +6,7 @@ use App\Constants;
 use App\Http\Requests\Request;
 use App\Auction;
 use Illuminate\Support\Facades\App;
+use Illuminate\Validation\Rule;
 
 class CreateAuctionRequest extends Request
 {
@@ -33,17 +34,21 @@ class CreateAuctionRequest extends Request
     public function rules()
     {
         return [
-            'tipoSubasta' => 'required',
-            'fechaInicio'  => 'required|date_format:d/m/Y H:i|after:'.date('d/m/Y H:i'),
-            'fechaTentativa'  => 'required|date_format:d/m/Y H:i|after:'.date('d/m/Y H:i'),
+            'fechaInicio'  => 'required|date_format:d-m-Y H:i|after:'.date('d-m-Y H:i'),
+            'fechaTentativa'  => 'required|date_format:d-m-Y H:i|after:'.date('d-m-Y H:i'),
             'fechaFin'    => 'date_format:d/m/Y H:i|after:fechaInicio',
             'ActiveHours'=>'required|numeric|min:1',
             'startPrice' => 'required|regex:/^\d{1,}(\,\d+)?$/|min:2|auction_price_greater_than:endPrice,startPrice',
             'endPrice'   => 'required|regex:/^\d{1,}(\,\d+)?$/|min:1',
             'amount'     => 'required|numeric|min:1',
             'descri'   => 'required|min:120|max:1000',
-            'intervalo'   => 'numeric',
-			'invitados'   => 'required_if:tipoSubasta,' . Constants::AUCTION_PRIVATE
+            'barco'   => 'required|numeric',
+            'puerto'=>'required|numeric',
+            'product'=>'required|numeric',
+            'quality'=>'required|numeric',
+            
+            //'tipoSubasta' => 'required',
+			//'invitados'   => 'required_if:tipoSubasta,' . Constants::AUCTION_PRIVATE
         ];
     }
     public function messages()
@@ -54,7 +59,11 @@ class CreateAuctionRequest extends Request
                 "descri.min" => "El campo :attribute debe ser de al menos :min carateres",
                 "amount.min" => "La :attribute debe ser de al menos :min",
                 'ActiveHours.required'=>'El campo horas activas es obligatorio',
-                'ActiveHours.min'=>'La cantidad de horas activas debe ser al menos :min'
+                'ActiveHours.min'=>'La cantidad de horas activas debe ser al menos :min',
+                'barco.numeric'=>'Debes escoger un barco',
+                'puerto.numeric'=>'Debes escoger un puerto',
+                'product.numeric'=>'Debes escoger un producto',
+                'quality.numeric'=>'Debes escoger una calidad del lote',
             ];
         }
         return [];
@@ -67,7 +76,9 @@ class CreateAuctionRequest extends Request
                 "endPrice" => "precio final",
                 "fechaTentativa" => "fecha tentativa",
                 "descri" => "descripción",
-                "amount" => "cantidad"
+                "amount" => "cantidad",
+                'quality'=>'calidad',
+                'product'=>'producto',
             ];
         }
         return [];

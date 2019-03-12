@@ -28,7 +28,7 @@ if(Auth::user()){
     if($userses->status!='approved'){
         $onclick1="notifications(0,null,null,null,'Usuario no aprobado')";
         $onclick2=$onclick1;
-    }elseif($userses->status!='approved' && $userses->type!= \App\User::COMPRADOR){
+    }elseif($userses->status=='approved' && $userses->type!= \App\User::COMPRADOR){
         $onclick1="notifications(0,null,null,null,'El tipo de usuario no permite comprar')";
         $onclick2="notifications(0,null,null,null,'El tipo de usuario no permite ofertar')";
     }else{
@@ -105,11 +105,9 @@ data-user="'.$auction->batch->arrive->boat->user->nickname.'"'?>>
                 <?php }
                 if($auction->timeline==Constants::IN_COURSE){?>
                 <a href="#" class="button  ripple-effect ico" title="Pausar" data-tippy-placement="top"><i class="icon-feather-pause"></i></a>
-                <?php }
-                if(strtotime($auction->tentative_date)>strtotime(date('Y-m-d H:i:s'))){?>
+                <?php }?>
                 <a href="/auction/replicate/<?=$auction->id?>" class="button ripple-effect ico" data-tippy-placement="top" data-tippy="" title="Replicar"><i class="icon-material-outline-filter-none"></i></a>
-                <?php }
-                if(($cantbids+$cantofertas)==0){?>
+                <?php if(($cantbids+$cantofertas)==0){?>
                 <a href="#" class="button dark ripple-effect ico" title="Eliminar" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
                 <?php }
                 if($auction->timeline!=Constants::FUTURE){?>
