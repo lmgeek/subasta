@@ -33,7 +33,7 @@
                                             </tr>
                                             <tr>
                                                 <td><strong>Calibre:</strong></td>
-                                                <td>{{ $product['caliber'] }}</td>
+                                                <td>{{ trans('auction.'.$product['caliber']) }}</td>
                                             </tr>
                                             <tr>
                                                 <td><strong>Calidad:</strong></td>
