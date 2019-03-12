@@ -1,80 +1,133 @@
-<?php
-/*
- * In @section('content') goes all that's inside
- * .dashboard-content-container
- * (Lines 30->166 dash-list-barcos)
- * In the foreach goes each ship container with all the actions and data
- * 
- */
-
-/*
-    NOTA:
-
-    Se instancia la clase barco pora usar la funcion referencePort()
-    esta funcion permite bucar el puerto de referencia asociado a un
-    barco, todo lo que se debe hacer  es llamar la funcion y pasar como
-    parametro "$barco->preference_port" ejemplo:
-
-    {{$objt->referencePort($barco->preference_port)}}
-
-    La variable "$CantidadBarco" tiene la cantidad de barco que un usurio
-    pose, solo debes colocarla en el lugar que va, ejemplo:
-
-    <td>{{$CantidadBarco}}</td>
-
-
-    La funcion "render()" permite paginar
-
-*/
-
-use App\Boat;
-
-$objt = new Boat();
-$CantidadBarco = count($objt->getInfoBoat(Auth::user()->id));
-?>
-
-{{--@extends('landing3/partials/layout-admin')--}}
-@section('title',' | Mis Barcos')
+@extends('landing3/partials/layout-admin')
+@section('title', '| Lista de Barcos')
 @section('content')
-    <table class="table table-bordered table-hover dataTables-example">
-        <thead>
-        <tr role="row">
-            <th>
-                Barcos
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach($boats as $boat)
+    <div class="dashboard-content-container" data-simplebar>
+        <div class="dashboard-content-inner" >
 
-            <tr>
-                <td><?php echo 'Boat <br>';var_dump("<b>Nombre: </b>".$boat['name'],"<b>Matricula:</b> ".$boat['matricula'],"<b>Status:</b> ".$boat['status']);echo '<br>'?></td>
-            </tr>
-        @endforeach
-        </tbody>
-    </table>
+            <!-- Dashboard Headline -->
+            <div class="dashboard-headline">
+                <h3>Mis Barcos</h3>
+            </div>
 
-    //Paginacion
-    <?php echo $boats->render(); ?>
+            <!-- Row -->
+            <div class="row">
 
+                <!-- Dashboard Box -->
+                <div class="col-xl-12">
 
-    <table class="table table-bordered table-hover dataTables-example">
-        <thead>
-        <tr role="row">
-            <th>
-                {{ trans('boats.port.title') }}
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach($boats as $barco)
-            <tr>
-                <td>{{$objt->preferencePort($barco->preference_port)}}</td>
-            </tr>
-        @endforeach
-        </tbody>
-    </table>
+                    <div class="content text-right">
+                        <a href="#small-dialog-barco" class="popup-with-zoom-anim button ripple-effect big margin-bottom-10"><i class="icon-feather-plus"></i> Nuevo Barco</a>
+                    </div>
 
-    <h1>cantidad de barcos: {{$CantidadBarco}}</h1><br>
+                    <div class="dashboard-box margin-top-0">
 
+                        <!-- Headline -->
+                        <div class="headline">
+                            <h3 class="fw500"><i class="icon-line-awesome-ship"></i> 3 Barcos</h3>
+                            <div class="sort-by">
+                                <select class="selectpicker hide-tick">
+                                    <option>Todos</option>
+                                    <option>Pendientes</option>
+                                    <option>Aprobados</option>
+                                    <option>Rechazados</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="content">
+
+                            <ul class="dashboard-box-list">
+                                <li>
+                                    <!-- Job Listing -->
+                                    <div class="job-listing">
+
+                                        <!-- Job Listing Details -->
+                                        <div class="job-listing-details">
+
+                                            <!-- Details -->
+                                            <div class="job-listing-description">
+                                                <h3 class="job-listing-title"><a href="#">Barco III</a> <span class="dashboard-status-button green">Aprobado</span></h3>
+
+                                                <!-- Job Listing Footer -->
+                                                <div class="job-listing-footer">
+                                                    <ul>
+                                                        <li><i class="icon-line-awesome-ship"></i> Matr&iacute;cula 0145MLK</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Buttons -->
+                                    <div class="buttons-to-right always-visible bd-tp-1">
+                                        <a href="#" class="button gray ripple-effect ico" title="Editar" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
+                                        <a href="#" class="button gray ripple-effect ico" title="Eliminar" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
+                                    </div>
+
+                                </li>
+
+                                <li>
+                                    <!-- Job Listing -->
+                                    <div class="job-listing">
+
+                                        <!-- Job Listing Details -->
+                                        <div class="job-listing-details">
+
+                                            <!-- Details -->
+                                            <div class="job-listing-description">
+                                                <h3 class="job-listing-title"><a href="#">Barco II</a> <span class="dashboard-status-button red">Rechazado</span></h3>
+
+                                                <!-- Job Listing Footer -->
+                                                <div class="job-listing-footer">
+                                                    <ul>
+                                                        <li><i class="icon-line-awesome-ship"></i> Matr&iacute;cula 0145MLK</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Buttons -->
+                                    <div class="buttons-to-right always-visible bd-tp-1">
+                                        <a href="#" class="button gray ripple-effect ico" title="Editar" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
+                                        <a href="#" class="button gray ripple-effect ico" title="Eliminar" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
+                                    </div>
+
+                                </li>
+
+                                <li>
+                                    <!-- Job Listing -->
+                                    <div class="job-listing">
+
+                                        <!-- Job Listing Details -->
+                                        <div class="job-listing-details">
+
+                                            <!-- Details -->
+                                            <div class="job-listing-description">
+                                                <h3 class="job-listing-title"><a href="#">Barco I</a> <span class="dashboard-status-button yellow">Pendiente</span></h3>
+
+                                                <!-- Job Listing Footer -->
+                                                <div class="job-listing-footer">
+                                                    <ul>
+                                                        <li><i class="icon-line-awesome-ship"></i> Matr&iacute;cula 0145MLK</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Buttons -->
+                                    <div class="buttons-to-right always-visible bd-tp-1">
+                                        <a href="#" class="button gray ripple-effect ico" title="Editar" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
+                                        <a href="#" class="button gray ripple-effect ico" title="Eliminar" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
+                                    </div>
+
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
 @endsection
