@@ -34,8 +34,8 @@ class CreateAuctionRequest extends Request
     public function rules()
     {
         return [
-            'fechaInicio'  => 'required|date_format:d/m/Y H:i|after:'.date('d/m/Y H:i'),
-            'fechaTentativa'  => 'required|date_format:d/m/Y H:i|after:'.date('d/m/Y H:i'),
+            'fechaInicio'  => 'required|date_format:d-m-Y H:i|after:'.date('d-m-Y H:i'),
+            'fechaTentativa'  => 'required|date_format:d-m-Y H:i|after:'.date('d-m-Y H:i'),
             'fechaFin'    => 'date_format:d/m/Y H:i|after:fechaInicio',
             'ActiveHours'=>'required|numeric|min:1',
             'startPrice' => 'required|regex:/^\d{1,}(\,\d+)?$/|min:2|auction_price_greater_than:endPrice,startPrice',

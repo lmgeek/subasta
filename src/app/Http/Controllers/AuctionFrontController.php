@@ -432,7 +432,25 @@ class AuctionFrontController extends AuctionController
                 ->orderBy('name','ASC')->get();
         $ports=Ports::select()->get();
         $products= Product::select('id',Constants::NAME)->get();
-        return view(Constants::URL_AUCTION_TEMP)
+        return view('landing3/auction-add-edit')
+            ->with('title','| Agregar Subasta')
+            ->with(Constants::BOATS,$boats)
+            ->with(Constants::PORTS,$ports)
+            ->with(Constants::BATCHEDIT,1)
+            ->with(Constants::ARRIVEEDIT,1)
+            ->with(Constants::AUCTIONEDIT,1)
+            ->with(Constants::PRODUCTS,$products);
+    }
+    public function addAuctionNew(Request $request){
+        if(empty(Auth::user()->id)){
+            return redirect(Constants::URL_LOGIN);
+        }
+        $boats=Boat::select('id',Constants::NAME)->where(Constants::USER_ID, Constants::EQUAL,Auth::user()->id)
+                ->where('status', Constants::EQUAL,'approved')
+                ->orderBy('name','ASC')->get();
+        $ports=Ports::select()->get();
+        $products= Product::select('id',Constants::NAME)->get();
+        return view('landing3/auction-add-edit')
             ->with('title','| Agregar Subasta')
             ->with(Constants::BOATS,$boats)
             ->with(Constants::PORTS,$ports)
@@ -454,7 +472,7 @@ class AuctionFrontController extends AuctionController
         $contbatch=count(Auction::select()->where('batch_id',Constants::EQUAL,$auction->batch_id)->get());
         $contarrive=count(Batch::select()->where(Constants::ARRIVE_ID,Constants::EQUAL,$auction->batch->arrive_id)->get());
         $auctiontime=($auction->timeline==Constants::FUTURE)?1:0;
-        return view(Constants::URL_AUCTION_TEMP)
+        return view('landing3/auction-add-edit')
             ->with(Constants::AUCTION_ORIGIN,$auction)
             ->with(Constants::BATCHEDIT,(($contbatch>1 || $auctiontime==0)?0:1))
             ->with(Constants::ARRIVEEDIT,(($contbatch>1 || $contarrive>1 || $auctiontime==0)?0:1))
@@ -473,7 +491,7 @@ class AuctionFrontController extends AuctionController
             ->where(Constants::USER_ID, Constants::EQUAL,Auth::user()->id)->get();
         $ports=Ports::select()->get();
         $products= Product::select('id',Constants::NAME,'unit')->get();
-        return view(Constants::URL_AUCTION_TEMP)
+        return view('landing3/auction-add-edit')
             ->with(Constants::AUCTION_ORIGIN,$auction)
             ->with(Constants::BATCHEDIT,0)
             ->with(Constants::ARRIVEEDIT,0)

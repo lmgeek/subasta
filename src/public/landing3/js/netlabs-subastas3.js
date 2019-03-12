@@ -205,7 +205,36 @@ function modifyQuantity($id,$direction){
             $input.val($cant+1);
         }
     }
+}
+function modifyNumber($id,$direction,$checkboxid=null){
+    let $input=$('#'+$id);
+    if(typeof $input.attr('disabled') !== typeof undefined && $input.attr('disabled') !== false){
+        return null;
+    }
+    let $cant=parseInt($input.val());
+    let $min=parseInt($input.attr('min'));
+    if($input.attr('max')!=null){
+        let $max=parseInt($input.attr('max'));
+        if($cant>=$min && $cant<=$max){
+            if($direction==1 && $cant<$max){
+                $cant+=$direction;
+            }else if($direction==-1 && $cant>$min){
+                $cant+=$direction;
+            }
+        }
+    }else if($input.attr('max')==null && $cant>=$min){
+        if($direction==1){
+            $cant+=$direction;
+        }else if($direction==-1 && $cant>$min){
+            $cant+=$direction;
+        }
+    }
     
+    if($checkboxid!=null && !$('#'+$checkboxid).is(':checked')){
+        $input.val($cant);
+    }else if($checkboxid==null){
+        $input.val($cant);
+    }
 }
 function getInfo($id,$firstrun=0) {
     var d = new Date();
@@ -442,6 +471,12 @@ function inicializeEverything($firstrun=0){
         mainClass: 'my-mfp-zoom-in'
     });
     starRating('.star-rating');
+    if($('.dtBox').length>0){
+        $('.dtBox').each(function(){
+            $(this).DateTimePicker();
+        });
+        					
+    }
 }
 function homeFilterBuilder(){
     var $query='',$cantselected=$("#port option:selected").length,$text=$('#query').val();
@@ -462,8 +497,16 @@ function homeFilterBuilder(){
     }
     $('#ExtraParamsAnalytics').val($query);
 }
+function getPreferredPort(){
+    $.get('/getpreferredport',{idboat:$('#Boat').val()},function(result){
+        $result=JSON.parse(result);
+        $('#puerto').val($result['preferred']);
+        $('#puerto').selectpicker('val',$result['preferred']);
+    });
+}
 $(document).ready(function(){
     inicializeEverything(1);
+    
 });
 /* FIN Rodolfo */
 
