@@ -222,10 +222,3 @@ Route::get('subscribe/{auction}','AuctionBackController@subscribeUser');
 //Get Fecha actual routhes
 //---------------------------------------------------------------------------
 Route::get('current-time', 'AuctionBackController@getCurrentTime');
-
-
-//G.B eliminar rutas despues de que el diseñador integra las nuevas vistas
-Route::get('addbarco','SellerBoatsController@addBoat');
-Route::post('addbarco','SellerBoatsController@saveboat');
-
-
