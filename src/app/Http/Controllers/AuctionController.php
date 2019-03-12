@@ -504,7 +504,7 @@ class AuctionController extends Controller
             $this->bid->price = $prices;
             $this->bid->status = Constants::PENDIENTE;
             $this->bid->bid_date = date(Constants::DATE_FORMAT);
-            $this->bid->bid_origin = Constants::OFFER_DIRECT_ORIGIN;
+            $this->bid->offer_id = $offer->id;
             $this->bid->save();
 
             $offers = $this->getOffers($auction_id);
@@ -613,7 +613,7 @@ class AuctionController extends Controller
                             $this->bid->price = $o->price;
                             $this->bid->status = Constants::PENDIENTE;
                             $this->bid->bid_date = date(Constants::DATE_FORMAT);
-                            $this->bid->bid_origin = Constants::OFFER_DIRECT_ORIGIN;
+                            $this->bid->offer_id = $o->id;
                             $this->bid->save();
 
                             //send email

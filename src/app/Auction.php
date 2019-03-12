@@ -18,7 +18,7 @@ class Auction extends Model{
         $this->bid->price = $prices;
         $this->bid->status = Constants::PENDIENTE;
         $this->bid->bid_date = date(Constants::DATE_FORMAT);
-        $this->bid->bid_origin = Constants::OFFER_DIRECT_ORIGIN;
+//        $this->bid->offer_id = Constants::OFFER_DIRECT_ORIGIN;
         $this->bid->save();
         $this->status = $this->batch->status;
         $this->status->assigned_auction -= $amount;

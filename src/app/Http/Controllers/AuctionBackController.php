@@ -270,7 +270,7 @@ class AuctionBackController extends AuctionController
     }
     public function getCurrentTime()
     {
-        return gmdate('D, M d Y H:i:s T\-0300', time());
+        return json_encode(gmdate('D, M d Y H:i:s T\-0300', time()));
     }
 }
 

@@ -487,14 +487,19 @@ class AuctionFrontController extends AuctionController
     
     public function offerList(Request $request){
         $auctions=AuctionQuery::auctionHome(null,array('type'=>'mine'),Constants::FINISHED);
+        $this->authorize('viewOperations', $auctions);
         $offers=array();
         foreach($auctions as $auction){
             $auction->code=self::getAuctionCode($auction->correlative,$auction->created_at);
             $offers[$auction->id]= self::getOffers($auction->id);
+            $max[$auction->id] = self::getOffers($auction->id)->first();
+            $available[$auction->id] = AuctionBackController::getAvailable($auction->id, $auction->amount);
         }
-
         return view(Constants::LANDING3_OFFERS)
-            ->with('auctions',$auctions)->with('offers',$offers);
+            ->with('auctions',$auctions)
+            ->with('offers',$offers)
+            ->with('max',$max)
+            ->with('available',$available);
     }
 
 }

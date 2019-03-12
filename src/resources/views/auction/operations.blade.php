@@ -19,7 +19,6 @@
                             <thead>
                             <tr>
                                 <th></th>
-
                                 <th>{{ trans('auction.buyer') }}</th>
                                 <th>{{ trans('auction.amount') }}</th>
                                 <th>{{ trans('auction.unity_price') }}</th>
@@ -63,7 +62,13 @@
                                             </a>
                                         @endif
                                     </td>
-                                    <td>{{ trans('auction.'.$b->bid_origin) }}</td>
+                                    <td>
+                                        @if ($b->offer_id != 0)
+                                            {{ trans('auction.'.\App\Constants::OFFER_ORIGIN) }}
+                                        @else
+                                            {{ trans('auction.'.\App\Constants::AUCTION_ORIGIN) }}
+                                        @endif
+                                    </td>
                                 </tr>
                             @endforeach
                             </tbody>
