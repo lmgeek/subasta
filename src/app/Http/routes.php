@@ -15,6 +15,7 @@
 Route::get('/', 'AuctionFrontController@subastasFront');
 Route::get('/subastas', 'AuctionFrontController@listaSubastas');
 Route::get('/auction/add','AuctionFrontController@addAuction');
+Route::get('/auction/add2','AuctionFrontController@addAuctionNew');
 Route::get('/offers','AuctionFrontController@offerList');
 Route::get('/boatslist','BoatController@boatList');
 Route::post('/auctionstore','AuctionFrontController@storeAuction');
