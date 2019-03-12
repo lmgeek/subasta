@@ -40,7 +40,7 @@ if(Auth::user()->type==Constants::VENDEDOR){
 @extends('landing3/partials/layout-admin')
 @section('title',' | '.$title.' Subasta')
 @section('content')
-	<div class="dashboard-content-container" data-simplebar>
+	
         <form method="post" action="/auctionstore">
 		<div class="dashboard-content-inner" >
 			
@@ -251,7 +251,6 @@ if(Auth::user()->type==Constants::VENDEDOR){
             </div>
         </div>
         </form>
-    </div>
 <?php }else{
     echo '<h1>Solo pueden crear subastas los usuarios de tipo vendedor</h1>';
 }?>

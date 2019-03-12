@@ -124,14 +124,16 @@ $(document).ready(function(){
 				});
 		
 				var headerOffset = $("#header-container").height();
-
-				if($(window).scrollTop() >= headerOffset){
-					$("#header-container").addClass('cloned');
-					$(".wrapper-with-transparent-header #header-container").addClass('cloned').removeClass("transparent-header unsticky");
-				} else {
-					$("#header-container").removeClass("cloned");
-					$(".wrapper-with-transparent-header #header-container").addClass('transparent-header unsticky').removeClass("cloned");
-				}
+                if(!$("#header-container").hasClass('dashboard-header')){
+                    if($(window).scrollTop() >= headerOffset){
+                        $("#header-container").addClass('cloned');
+                        $(".wrapper-with-transparent-header #header-container").addClass('cloned').removeClass("transparent-header unsticky");
+                    } else {
+                        $("#header-container").removeClass("cloned");
+                        $(".wrapper-with-transparent-header #header-container").addClass('transparent-header unsticky').removeClass("cloned");
+                    }
+                }
+				
 
 				// Sticky Logo
 				var transparentLogo = $('#header-container #logo img').attr('data-transparent-logo');
