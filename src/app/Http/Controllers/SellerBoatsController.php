@@ -84,29 +84,6 @@ class SellerBoatsController extends Controller
         return redirect()->route('sellerboat.index',['id'=>$checker[0]['id'],'e'=>'created','t'=>'boat']);
     }
 
-//G.B eliminar rutas despues de que el diseñador integra las nuevas vistas
-    public function saveboat(CreateBoatRequest $request)
-    {
-        $this->authorize(Constants::ADDBOAT, new Boat());
-
-        $boat = new Boat();
-        $boat->name = $request->input('name');
-        $boat->matricula = $request->input('matricula');
-        $boat->preference_port = $request->input('port');
-        $boat->status = Constants::PENDIENTE;
-        $boat->user_id = Auth::user()->id;
-        $boat->save();
-
-        $boats = Boat::all();
-        return $boats;
-    }
-
-
-
-    
-
-    
-
     public function priavateSale($batch_id)
     {
         $batch = Batch::findOrFail($batch_id);
@@ -144,18 +121,6 @@ class SellerBoatsController extends Controller
 
     }
 
-    public function addBoat(){
-        return view('landing3/partials/pop-up-barco');
-    }
-	
-    
-    
-    
-    /* Lo que quizas se pueda ir */
-    
-    
-    
-    
     public function updateArrive(UpdateArriveRequest $request)
     {
         $arrive = Arrive::findOrFail($request->input('id'));
