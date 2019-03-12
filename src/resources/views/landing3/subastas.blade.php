@@ -47,7 +47,7 @@ $query=(isset($request->q))?$request->q:null;
                                 </select>
                             </div>
                         </div><div id="Auctions">
-                            @include('/landing3/partials/ListaSubastas')
+                            @include('/landing3/partials/listasubasta')
                         </div>
 					</div>
 				</div>
