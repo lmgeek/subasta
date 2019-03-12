@@ -1,37 +1,62 @@
-<?php
-/*
- * action for the form goes to =
- * The select provided will be replaced from the hardcoded one
- * the content from popup-barco goes exactly as the provided 
- * the only change is the select
- */
 
-$ports= \App\Ports::select()->orderBy('name', 'asc')->get();
-use Illuminate\Routing\Controllers;
-?>
+<!-- Barco Popup
+================================================== -->
+<div id="small-dialog-barco" class="zoom-anim-dialog small-dialog mfp-hide dialog-with-tabs">
 
-@if (count($errors) > 0)
-    <div class="alert alert-danger">
-        <strong>Error</strong><br><br>
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
+    <!--Tabs -->
+    <div class="sign-in-form">
+
+        <ul class="popup-tabs-nav">
+            <li><a href="#tab">Subastas del Mar</a></li>
         </ul>
+
+        <div class="popup-tabs-container">
+
+            <!-- Tab -->
+            <div class="popup-tab-content" id="tab">
+
+                <!-- Welcome Text -->
+                <div class="welcome-text">
+                    <h2 class="fw700 text-left t32 lsp-1">Nuevo Barco</h2>
+                </div>
+
+                <form method="post" id="nuevo-barco-form">
+
+                    <!-- Bidding -->
+                    <div class="bidding-widget">
+                        <!-- Headline -->
+                        <span class="bidding-detail">Nombre <strong>ficticio</strong> del barco</span>
+
+                        <!-- Fields -->
+                        <div class="bidding-fields w100">
+                            <input class="with-border" placeholder="Ej. Barco X">
+                        </div>
+
+                        <!-- Headline -->
+                        <span class="bidding-detail margin-top-30">&iquest;Cu&aacute;l es la <strong>matr&iacute;cula</strong> del barco?</span>
+
+                        <!-- Fields -->
+                        <div class="bidding-fields w100">
+                            <input class="with-border" placeholder="Ingresa la matrícula">
+                        </div>
+                    </div>
+
+                    <div class="bidding-widget margin-top-0">
+                        <div class="bidding-fields bd-tp-1">
+                            <div class="bidding-field margin-bottom-0">
+                                <!-- Quantity Buttons -->
+                                <button class="button ripple-effect big" type="submit">Guardar</button>
+                            </div>
+                            <div class="bidding-field">
+                                <button class="button dark ripple-effect big" type="submit">Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
     </div>
-@endif
-
-
-<form action="/addbarco" method="POST">
-    {{ csrf_field() }}
-<input type="text" name="name" placeholder="nombre" value="{{ old('name') }}">
-<input type="text" name="matricula" placeholder="Matricula" value="{{ old('matricula') }}">
-
-<select name="port" class="selectpicker with-border">
-    <option value="">Seleccione...</option>
-    @foreach($ports as $port)
-    <option value='{{$port->id}}'>{{$port->name}}</option>
-    @endforeach
-</select>
-    <button type="submit" class="btn btn-primary noDblClick" data-loading-text="Guardando...">Guardar</button>
-</form>
+</div>
+<!-- Barco Popup / End -->

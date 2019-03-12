@@ -1,7 +1,6 @@
 
-
-<header id="header-container" class="fullwidth <?=(isset($outsidehome) || isset($layoutadmin))?'dashboard-header not-sticky':'transparent-header'?>" >
-
+<!--<header id="header-container" class="fullwidth transparent-header" <?=(isset($outsidehome) || isset($layoutadmin))?'style="background-color: #0e6c92"':''?>>-->
+<header id="header-container" class="fullwidth transparent-header" style="background-color:#0e6c92">
     <!-- Header -->
     <div id="header">
         <div class="container">
