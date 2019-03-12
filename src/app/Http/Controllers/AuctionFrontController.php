@@ -296,7 +296,7 @@ class AuctionFrontController extends AuctionController
                     unset($auctions[$index]);
                 }
             }
-            return view('/landing3/partials/ListaSubastas')
+            return view('/landing3/partials/listasubasta')
                 ->withAuctions(Constants::manualPaginate($auctions,$request->current))
                 ->with('request',$request)->with('limit',$limit)->with('timeline',$time);
         }else{
