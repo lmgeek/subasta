@@ -82,7 +82,7 @@ class SellerBoatsController extends Controller
         $checker=Boat::select('id')->where('user_id','=',Auth::user()->id)->where('name','=',$request->name)->get();
         $request->session()->flash('confirm_msg', trans('sellerBoats.boat_added_msg'));
 /*        return redirect()->route('sellerboat.index',['id'=>$checker[0]['id'],'e'=>'created','t'=>'boat']);*/
-        return redirect('boatslist?e=create&t=boat&id='.$boat->id);
+        return redirect('barcos?e=create&t=boat&id='.$boat->id);
     }
 
     public function priavateSale($batch_id)
