@@ -99,6 +99,8 @@ $CantidadBarco = count($objt->getInfoBoat(Auth::user()->id));
 
             </div>
 
+        @include('landing3/partials/pop-up-barco')
+
             <!--G.B paginacion-->
             <div class="pagination-container margin-top-30 margin-bottom-60">
                 <ul>
