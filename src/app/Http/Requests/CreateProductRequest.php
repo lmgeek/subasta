@@ -32,28 +32,38 @@ class CreateProductRequest extends Request
      */
     public function rules()
     {
-
-            $unidadess =$this->input('unidad');
             $cero = "0,00";
             return [
-                'unidad'       => 'required',
-                Constants::SALE        =>  'required',
+
                 Constants::CODIGO        => 'required|regex:(^[0-9a-zA-Zá-úÁ-Ú\-\s]+$)|max:10|unique:products,fishing_code',
-                Constants::NOMBRE        => 'required|regex:(^[a-zA-Zá-úÁ-Ú\s]+$)|unique_name_unit:'.$unidadess,
+                Constants::NOMBRE        => 'required|regex:(^[a-zA-Zá-úÁ-Ú\s]+$)',
+                'unidadp'       => Constants::REQUIRED,
+                'unidadm'       => Constants::REQUIRED,
+                'unidadg'       => Constants::REQUIRED,
                 Constants::WEIGHT_SMALL  => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
                 Constants::WEIGHT_MEDIUM => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
                 Constants::WEIGHT_BIG    => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
+                'salep'         => Constants::REQUIRED,
+                'salem'         => Constants::REQUIRED,
+                'saleg'         => Constants::REQUIRED,
+                'statusp'       => Constants::REQUIRED,
+                'statusm'       => Constants::REQUIRED,
+                'statusg'       => Constants::REQUIRED,
                 Constants::IMAGEN        => 'required|image',
             ];
 
     }
-    
     public function attributes()
     {
         if ($this->locale == "es"){
             return [
                 "codigo"  => "código pesquero",
-                "sale"  => "unidad de venta",
+                "salep"  => "unidad de venta chico",
+                "saleg"  => "unidad de venta grande",
+                "salem"  => "unidad de venta mediana",
+                "unidadp"  => "unidad de presentación chica",
+                "unidadm"  => "unidad de presentación mediana",
+                "unidadg"  => "unidad de presentación grande",
                 "weigth_small"  => "peso por calibre chico",
                 "weigth_medium" => "peso por calibre mediano",
                 "weigth_bis"    => "peso por calibre grande",

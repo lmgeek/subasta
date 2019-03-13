@@ -9,7 +9,7 @@ class Batch extends Model
 {
     protected $table = 'batches';
 
-    protected $fillable = ['arrive_id', 'product_id','caliber','quality','amount'];
+    protected $fillable = ['arrive_id', 'product_detail_id','quality','amount'];
 
     public function status(){
         return $this->hasOne('App\BatchStatus');
@@ -20,8 +20,8 @@ class Batch extends Model
         return $this->belongsTo('App\Arrive');
     }
 	
-	public function product(){
-        return $this->belongsTo('App\Product')->withTrashed();
+	public function detail(){
+        return $this->belongsTo('App\ProductDetail')->withTrashed();
     }
 
     public function auction(){

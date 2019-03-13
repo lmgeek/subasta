@@ -47,67 +47,130 @@
                             {{ csrf_field() }}
                             {{ method_field('PUT') }}
                             <input type="hidden" name="id" value="{{ $product->id }}">
+                            <input type="hidden" name="relationship" value="{{ $const }}">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="nombre">codigo Pesquero</label>
-                                        <input type="text" name="codigo" class="form-control" id="codigo" max="10" value="@if (is_null(old('codigo'))){{ $product->fishing_code }}@else{{ old('codigo') }}@endif">
+                                        <input type="text" name="codigo" class="form-control" @if ($const <> 0 ) disabled @endif id="codigo" max="10" value="@if (is_null(old('codigo'))){{ $product->fishing_code }}@else{{ old('codigo') }}@endif">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="nombre">{{ trans('products.name') }}</label>
-                                        <input type="text" name="nombre" class="form-control" id="name" value="@if (is_null(old('nombre'))){{ $product->name }}@else{{ old('nombre') }}@endif">
+                                        <input type="text" name="nombre" class="form-control" @if ($const <> 0 ) disabled @endif id="name" value="@if (is_null(old('nombre'))){{ $product->name }}@else{{ old('nombre') }}@endif">
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="unit">{{ trans('products.unit') }}</label>
-                                        <select class="form-control" name="unidad" id="unidad">
-                                            <option value="">Seleccione...</option>
-                                            <?php
-                                            $unidad = (is_null(old('unidad'))) ? $product->unit : old('unidad');
-                                            ?>
-                                            @foreach(\App\Product::units() as $u)
-                                                <option @if( $unidad == $u) selected @endif value="{{ $u }}">{{ trans('general.product_units.'.$u) }}</option>
-                                            @endforeach
-                                        </select>
-                                        <label for="unit">Unida de venta</label>
-                                        <select class="form-control" name="sale" id="sale">
-                                            <option value="">Seleccione...</option>
-                                            <?php
-                                            $uni = (is_null(old('presen'))) ? $product->presentation_unit : old('presen');
-                                            ?>
-                                            @foreach(\App\Product::SALE() as $a)
-                                                <option @if( $uni == $a) selected @endif value="{{ $a }}">{{ trans($a) }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label >{{ trans('products.weigth') }}</label>
+                                        <label >Calibre del Producto</label>
                                         {{--<input type="number" name="weigth" class="form-control" id="weigth" value="@if (is_null(old('weigth'))){{ $product->weigth }}@else{{ old('weigth') }}@endif">--}}
                                         <br>
+                                        <small><p style="color: gray; font-style: italic;">   Sólo permite 2 decimales</p></small>
                                         <div class="col-md-4">
                                             <label for="weigth_small">Chico</label>
-                                            <input type="text"  name="weight_small" class="form-control number" id="weigth_small" value="@if (is_null(old('weight_small'))){{ number_format($product->weigth_small,2,",","") }}@else{{ old('weight_small') }}@endif">
+                                            <input type="text"  name="weight_small" class="form-control number" id="weigth_small" value="@if (is_null(old('weight_small'))){{ number_format($datail['weight'],2,",","") }}@else{{ old('weight_small') }}@endif">
+                                            <label for="unit">{{ trans('products.unit') }}</label>
+                                            <select class="form-control" name="unidadp" id="unidadp">
+                                                <option value="">Seleccione...</option>
+                                                <?php
+                                                $unidad = (is_null(old('unidadp'))) ? $datail['presentation_unit'] : old('unidadp');
+                                                ?>
+                                                @foreach(\App\Product::units() as $u)
+                                                    <option @if( $unidad == $u) selected @endif value="{{ $u }}">{{ trans('general.product_units.'.$u) }}</option>
+                                                @endforeach
+                                            </select>
+                                            <label for="unit">Unida de venta</label>
+                                            <select class="form-control" name="salep" id="salep">
+                                                <option value="">Seleccione...</option>
+                                                <?php
+                                                $uni = (is_null(old('salep'))) ? $datail['sale_unit'] : old('salep');
+                                                ?>
+                                                @foreach(\App\Product::SALE() as $a)
+                                                    <option @if( $uni == $a) selected @endif value="{{ $a }}">{{ trans($a) }}</option>
+                                                @endforeach
+                                            </select>
+                                            <select class="form-control" name="statusp" id="statusp">
+                                                <?php
+                                                $unidad = (is_null(old('statusp'))) ? $datail['presentation_unit'] : old('statusp');
+                                                ?>
+                                                @foreach(\App\Product::status() as $u)
+                                                    <option @if( $unidad == $u) selected @endif value="{{ $u }}">{{ $u }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                         <div class="col-md-4">
                                             <label for="weigth_medium">Mediano</label>
-                                            <input type="text" name="weight_medium" class="form-control number" id="weigth_medium" value="@if (is_null(old('weight_medium'))){{ number_format($product->weigth_medium,2,",","") }}@else{{ old('weight_medium') }}@endif">
+                                            <input type="text" name="weight_medium" class="form-control number" id="weigth_medium" value="@if (is_null(old('weight_medium'))){{ number_format($datail2['weight'],2,",","") }}@else{{ old('weight_medium') }}@endif">
+                                            <label for="unit">{{ trans('products.unit') }}</label>
+                                            <select class="form-control" name="unidadm" id="unidadm">
+                                                <option value="">Seleccione...</option>
+                                                <?php
+                                                $unidad = (is_null(old('unidadm'))) ? $datail2['presentation_unit'] : old('unidadm');
+                                                ?>
+                                                @foreach(\App\Product::units() as $u)
+                                                    <option @if( $unidad == $u) selected @endif value="{{ $u }}">{{ trans('general.product_units.'.$u) }}</option>
+                                                @endforeach
+                                            </select>
+                                            <label for="unit">Unida de venta</label>
+                                            <select class="form-control" name="salem" id="salem">
+                                                <option value="">Seleccione...</option>
+                                                <?php
+                                                $uni = (is_null(old('salem'))) ? $datail2['sale_unit'] : old('salem');
+                                                ?>
+                                                @foreach(\App\Product::SALE() as $a)
+                                                    <option @if( $uni == $a) selected @endif value="{{ $a }}">{{ trans($a) }}</option>
+                                                @endforeach
+                                            </select>
+                                            <select class="form-control" name="statusm" id="statusm">
+                                                <?php
+                                                $unidad = (is_null(old('statusm'))) ? $datail2['presentation_unit'] : old('statusm');
+                                                ?>
+                                                @foreach(\App\Product::status() as $u)
+                                                    <option @if( $unidad == $u) selected @endif value="{{ $u }}">{{ $u }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                         <div class="col-md-4">
                                             <label for="weigth_big">Grande</label>
-                                            <input type="text" name="weight_big" class="form-control number" id="weigth_big" value="@if (is_null(old('weight_big'))){{ number_format($product->weigth_big,2,",","") }}@else{{ old('weight_big') }}@endif">
+                                            <input type="text" name="weight_big" class="form-control number" id="weigth_big" value="@if (is_null(old('weight_big'))){{ number_format($datail3['weight'],2,",","") }}@else{{ old('weight_big') }}@endif">
+                                            <label for="unit">{{ trans('products.unit') }}</label>
+                                            <select class="form-control" name="unidadg" id="unidadg">
+                                                <option value="">Seleccione...</option>
+                                                <?php
+                                                $unidad = (is_null(old('unidadg'))) ? $datail3['presentation_unit'] : old('unidadg');
+                                                ?>
+                                                @foreach(\App\Product::units() as $u)
+                                                    <option @if( $unidad == $u) selected @endif value="{{ $u }}">{{ trans('general.product_units.'.$u) }}</option>
+                                                @endforeach
+                                            </select>
+                                            <label for="unit">Unida de venta</label>
+                                            <select class="form-control" name="saleg" id="saleg">
+                                                <option value="">Seleccione...</option>
+                                                <?php
+                                                $uni = (is_null(old('saleg'))) ? $datail3['sale_unit'] : old('saleg');
+                                                ?>
+                                                @foreach(\App\Product::SALE() as $a)
+                                                    <option @if( $uni == $a) selected @endif value="{{ $a }}">{{ trans($a) }}</option>
+                                                @endforeach
+                                            </select>
+                                            <select class="form-control" name="statusg" id="statusg">
+                                                <?php
+                                                $unidad = (is_null(old('statusg'))) ? $datail3['presentation_unit'] : old('statusg');
+                                                ?>
+                                                @foreach(\App\Product::status() as $u)
+                                                    <option @if( $unidad == $u) selected @endif value="{{ $u }}">{{ $u }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
-                                        <small><p style="color: gray; font-style: italic;">   Sólo permite 2 decimales</p></small>
                                     </div>
+                                </div>
                                     <div class="col-md-12 alert alert-warning alert-dismissable" id="error" style="display: none">
                                         <button type="button" class="close" data-dismiss="alert">&times;</button>
                                         <strong><em class="fa fa-info-circle"></em></strong> El peso debe ser mayor a 0,00.
                                     </div>
-                                </div>
+
+
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputFile">{{ trans('products.image') }}</label>
@@ -122,13 +185,14 @@
                                         <span><em class="fa fa-trash"></em> Limpiar imagen</span>
                                     </a>
                                 </div>
+                            </div>
                                 {{--<div class="col-md-12" style="margin-bottom: 20px">--}}
 {{--                                    <label for="">{{ trans('products.actual_image') }}</label>--}}
 
                                 {{--</div>--}}
 
 
-                            </div>
+
 
                             <div class="ibox-footer text-right">
                                     <button type="submit" class="btn btn-primary">Guardar</button>

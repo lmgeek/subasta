@@ -15,7 +15,8 @@ class Product extends Model
     protected $table = 'products';
 
     protected $dates    = ['deleted_at'];
-    protected $fillable = ['name', 'unit', 'sale_unit', 'weigth_small', 'weigth_medium', 'weigth_big', 'image_name', 'fishing_code'];
+    protected $fillable = ['name', 'image_name', 'fishing_code'];
+
 
     public static function units()
     {
@@ -32,6 +33,13 @@ class Product extends Model
             Constants::KG,
             Constants::CAJONES,
             Constants::UNIDADES
+        ];
+    }
+    public static function status()
+    {
+        return [
+            'Activado',
+            'Desactivado'
         ];
     }
 
@@ -70,9 +78,14 @@ class Product extends Model
 
         return ($total == $total_amount);
     }
-    /* INI Rodolfo*/
+
+
     public static function getProductFromId($id){
         return self::select()->where('products.id','=',$id)->get()[0]['name'];
     }
-    /* FIN Rodolfo*/
+
+
+    public function detalle(){
+        return $this->HasMany('App\ProductDetail','product_id','id');
+    }
 }
