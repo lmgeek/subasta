@@ -630,8 +630,8 @@ class AuctionController extends Controller
                 }
             }
         }
-        return $this->getOffers($auction_id);
-
+        return redirect()->to('/offers');
+//        return redirect()->to('/offers');
     }
 
 

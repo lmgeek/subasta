@@ -178,6 +178,11 @@ class Constants{
         return strftime('%d %b %Y', strtotime($fecha));
     }
 
+    public static function formatDateOffer($fecha){
+        setlocale(LC_TIME,'es_ES');
+        return strftime('%d %b %Y %H:%m', strtotime($fecha));
+    }
+
     /* Funcion para validar el tamaño del producto*/
     public static function caliber($caliber){
         $mediumbigdifferencer=(($caliber=='medium')?'mediano':'grande');

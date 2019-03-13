@@ -95,7 +95,7 @@ data-user="'.$auction->batch->arrive->boat->user->nickname.'"'?>>
             @if(isset(Auth::user()->id) && $userId==Auth::user()->id)
             <div class="bd-tp-1">
                 <?php if($auction->timeline==Constants::FINISHED){?>
-                <a href="/auction/offers/<?=$auction->id?>" class="button ripple-effect" data-tippy-placement="top" data-tippy="" title="Ver Ofertas Directas"><i class="icon-material-outline-local-offer"></i> <?=($cantofertas>0)?('<span class="button-info">'.$cantofertas.'</span>'):''?></a>
+                <a href="/offers?a=<?=$auction->id?>" class="button ripple-effect" data-tippy-placement="top" data-tippy="" title="Ver Ofertas Directas"><i class="icon-material-outline-local-offer"></i> <?=($cantofertas>0)?('<span class="button-info">'.$cantofertas.'</span>'):''?></a>
                 <?php }
                 if($auction->timeline!=Constants::FUTURE){?>
                 <a href="/auction/operations/<?=$auction->id?>" class="button ripple-effect ico" title="Ver Ventas" data-tippy-placement="top"><i class="icon-feather-dollar-sign"></i> <?=($cantbids>0)?('<span class="button-info">'.$cantbids.'</span>'):''?></a>

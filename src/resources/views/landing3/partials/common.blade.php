@@ -13,7 +13,7 @@
 <link rel="apple-touch-icon" href="/landing3/images/apple-touch-icon-57x57.png">
 <link rel="apple-touch-icon" sizes="72x72" href="/landing3/images/apple-touch-icon-72x72.png">
 <link rel="apple-touch-icon" sizes="114x114" href="/landing3/images/apple-touch-icon-114x114.png">
-<link rel="stylesheet" href="/landing3/css/style.css">
+<link rel="stylesheet" href="/landing3/css/stylev2.css">
 <link rel="stylesheet" href="/landing3/css/color/blue.css">
 <link rel="stylesheet" href="/landing3/css/datetimepicker.css">
 <link rel="stylesheet" href="/landing3/css/filters.css">
