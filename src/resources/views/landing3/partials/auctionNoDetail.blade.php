@@ -101,17 +101,17 @@ data-user="'.$auction->batch->arrive->boat->user->nickname.'"'?>>
                 <a href="/auction/operations/<?=$auction->id?>" class="button ripple-effect ico" title="Ver Ventas" data-tippy-placement="top"><i class="icon-feather-dollar-sign"></i> <?=($cantbids>0)?('<span class="button-info">'.$cantbids.'</span>'):''?></a>
                 <?php }
                 if($auction->timeline==Constants::FUTURE){?>
-                <a href="/auction/edit/<?=$auction->id?>" class="button ripple-effect ico" title="Editar" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
+                <a href="/subastas/editar/<?=$auction->id?>" class="button ripple-effect ico" title="Editar" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
                 <?php }
                 if($auction->timeline==Constants::IN_COURSE){?>
                 <a href="#" class="button  ripple-effect ico" title="Pausar" data-tippy-placement="top"><i class="icon-feather-pause"></i></a>
                 <?php }?>
-                <a href="/auction/replicate/<?=$auction->id?>" class="button ripple-effect ico" data-tippy-placement="top" data-tippy="" title="Replicar"><i class="icon-material-outline-filter-none"></i></a>
+                <a href="/subastas/replicar/<?=$auction->id?>" class="button ripple-effect ico" data-tippy-placement="top" data-tippy="" title="Replicar"><i class="icon-material-outline-filter-none"></i></a>
                 <?php if(($cantbids+$cantofertas)==0){?>
                 <a href="#" class="button dark ripple-effect ico" title="Eliminar" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
                 <?php }
                 if($auction->timeline!=Constants::FUTURE){?>
-                <a href="/auction/export/{{$auction->id}}" class="button dark ripple-effect ico" title="Exportar" data-tippy-placement="top"><i class="icon-material-outline-save-alt"></i></a>
+                <a href="/subastas/exportar/{{$auction->id}}" class="button dark ripple-effect ico" title="Exportar" data-tippy-placement="top"><i class="icon-material-outline-save-alt"></i></a>
                 <?php }?>
             </div>
             @endif
@@ -135,6 +135,7 @@ data-user="'.$auction->batch->arrive->boat->user->nickname.'"'?>>
                     <div id="timer<?=$auction->id?>" class="countdown <?=(isset($finished) && $finished=='&iexcl;Proximamente!')?'green ':''?>margin-bottom-0 margin-top-20 blink_me <?=(empty($finished))?'timerauction':''?>" data-timefin="{{$auction->end}}" data-id="{{$auction->id}}">
                         <?=(isset($finished))?$finished:''?></div>
             </div>
+            <input type="hidden" value="{{$auction->batch->product->unit}}" id="UnitAuction{{$auction->id}}">
             @if($auction->timeline==Constants::IN_COURSE)
                 <div  id="OpenerPopUpCompra{{$auction->id}}">
                     <div class="w100">
@@ -148,8 +149,9 @@ data-user="'.$auction->batch->arrive->boat->user->nickname.'"'?>>
                                 @endif
                             </small>
                         </div>
+                        
                         @if($popups==1)
-                            <input type="hidden" value="{{$auction->batch->product->unit}}" id="UnitAuction{{$auction->id}}">
+                            
                             @include('landing3/partials/pop-up-compra')
                             @include('landing3/partials/pop-up-oferta')
                         @endif

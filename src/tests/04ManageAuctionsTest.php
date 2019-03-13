@@ -23,8 +23,8 @@ class CreateAuctionTest extends TestCase
      */
     function getToAuctionAdd(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
-        $this->visit('/auction/add');
-        $this->see('Arribo');
+        $this->visit('/subastas/agregar');
+        $this->see('Nueva Subasta');
         $this->assertResponseOk();
     }
     /**  @test 
@@ -35,7 +35,7 @@ class CreateAuctionTest extends TestCase
         $boatport= Boat::select('preference_port')->where('id',Constants::EQUAL,$boat)
                 ->get()[0]['preference_port'];
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
-        $this->json('GET', '/getpreferredport', ['idboat' => $boat])
+        $this->json('GET', '/puertos/ver/preferido', ['idboat' => $boat])
              ->seeJsonEquals([
                  'preferred' => $boatport
              ]);
@@ -47,9 +47,9 @@ class CreateAuctionTest extends TestCase
      */
     function tryToAddPublicAuctionWithoutTentativeDate(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
-        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("-2 hours"))->format('d/m/Y H:i');
+        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("-2 hours"))->format('d-m-Y H:i');
         $tentativedate='';
-        $this->visit('auction/add');
+        $this->visit('subastas/agregar');
         $this->type($tentativedate,'fechaTentativa');
         $this->type($startdate,'fechaInicio');
         $this->select($this->getAValidBoat(),'barco');
@@ -63,8 +63,8 @@ class CreateAuctionTest extends TestCase
         $this->type('100','startPrice');
         $this->type('10','endPrice');
         $this->type('NetLabs nace de la unión de jóvenes emprendedores y profesionales con 12 años de experiencia en el mercado informático nacional e internacional. En Netlabs desarrollamos aplicaciones según las necesidades de nuestros clientes y del mercado. Contamos con un equipo de profesionales experimentados en desarrollo de software, servicios de consultoría y asesoría en tecnologías de información.','descri');
-        $this->press('Enviar');
-        $this->seePageIs('/auction/add');
+        $this->press('Subastar');
+        $this->seePageIs('/subastas/agregar');
         $this->see('El campo fecha tentativa es obligatorio');
         $this->assertResponseOk();
     }
@@ -73,9 +73,9 @@ class CreateAuctionTest extends TestCase
      */
     function tryToAddPublicAuctionWithoutBoat(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
-        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d/m/Y H:i');
-        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+27 hours"))->format('d/m/Y H:i');
-        $this->visit('auction/add');
+        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d-m-Y H:i');
+        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+27 hours"))->format('d-m-Y H:i');
+        $this->visit('subastas/agregar');
         //$this->select($this->getAValidBoat(),'barco');
         $this->select($this->getAValidPort(),'puerto');
         $this->select($this->getAValidProduct(),'product');
@@ -89,8 +89,9 @@ class CreateAuctionTest extends TestCase
         $this->type('100','startPrice');
         $this->type('10','endPrice');
         $this->type('Curabitur turpis. Morbi nec metus. Etiam ut purus mattis mauris sodales aliquam. Ut tincidunt tincidunt erat. In hac habitasse platea dictumst.','descri');
-        $this->press('Enviar');
-        $this->seePageIs('/auction/add');
+        
+        $this->press('Subastar');
+        $this->seePageIs('/subastas/agregar');
         $this->see('Debes escoger un barco');
         $this->assertResponseOk();
     }
@@ -99,9 +100,9 @@ class CreateAuctionTest extends TestCase
      */
     function tryToAddPublicAuctionWithoutPort(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
-        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d/m/Y H:i');
-        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+27 hours"))->format('d/m/Y H:i');
-        $this->visit('auction/add');
+        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d-m-Y H:i');
+        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+27 hours"))->format('d-m-Y H:i');
+        $this->visit('subastas/agregar');
         $this->select($this->getAValidBoat(),'barco');
         //$this->select($this->getAValidPort(),'puerto');
         $this->select($this->getAValidProduct(),'product');
@@ -115,8 +116,8 @@ class CreateAuctionTest extends TestCase
         $this->type('100','startPrice');
         $this->type('10','endPrice');
         $this->type('Curabitur turpis. Morbi nec metus. Etiam ut purus mattis mauris sodales aliquam. Ut tincidunt tincidunt erat. In hac habitasse platea dictumst.','descri');
-        $this->press('Enviar');
-        $this->seePageIs('/auction/add');
+        $this->press('Subastar');
+        $this->seePageIs('/subastas/agregar');
         $this->see('Debes escoger un puerto');
         $this->assertResponseOk();
     }
@@ -125,9 +126,9 @@ class CreateAuctionTest extends TestCase
      */
     function tryToAddPublicAuctionWithoutProduct(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
-        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d/m/Y H:i');
-        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+27 hours"))->format('d/m/Y H:i');
-        $this->visit('auction/add');
+        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d-m-Y H:i');
+        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+27 hours"))->format('d-m-Y H:i');
+        $this->visit('subastas/agregar');
         $this->select($this->getAValidBoat(),'barco');
         $this->select($this->getAValidPort(),'puerto');
         //$this->select($this->getAValidProduct(),'product');
@@ -141,8 +142,8 @@ class CreateAuctionTest extends TestCase
         $this->type('100','startPrice');
         $this->type('10','endPrice');
         $this->type('Curabitur turpis. Morbi nec metus. Etiam ut purus mattis mauris sodales aliquam. Ut tincidunt tincidunt erat. In hac habitasse platea dictumst.','descri');
-        $this->press('Enviar');
-        $this->seePageIs('/auction/add');
+        $this->press('Subastar');
+        $this->seePageIs('/subastas/agregar');
         $this->see('Debes escoger un producto');
         $this->assertResponseOk();
     }
@@ -151,9 +152,9 @@ class CreateAuctionTest extends TestCase
      */
     function tryToAddPublicAuctionWithoutCaliber(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
-        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d/m/Y H:i');
-        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+27 hours"))->format('d/m/Y H:i');
-        $this->visit('auction/add');
+        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d-m-Y H:i');
+        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+27 hours"))->format('d-m-Y H:i');
+        $this->visit('subastas/agregar');
         $this->select($this->getAValidBoat(),'barco');
         $this->select($this->getAValidPort(),'puerto');
         $this->select($this->getAValidProduct(),'product');
@@ -167,8 +168,8 @@ class CreateAuctionTest extends TestCase
         $this->type('100','startPrice');
         $this->type('10','endPrice');
         $this->type('Curabitur turpis. Morbi nec metus. Etiam ut purus mattis mauris sodales aliquam. Ut tincidunt tincidunt erat. In hac habitasse platea dictumst.','descri');
-        $this->press('Enviar');
-        $this->seePageIs('/auction/add');
+        $this->press('Subastar');
+        $this->seePageIs('/subastas/agregar');
         $this->see('Debes seleccionar un calibre');
         $this->assertResponseOk();
     }
@@ -177,9 +178,9 @@ class CreateAuctionTest extends TestCase
      */
     function tryToAddPublicAuctionWithoutPresentationUnit(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
-        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d/m/Y H:i');
-        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+27 hours"))->format('d/m/Y H:i');
-        $this->visit('auction/add');
+        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d-m-Y H:i');
+        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+27 hours"))->format('d-m-Y H:i');
+        $this->visit('subastas/agregar');
         $this->select($this->getAValidBoat(),'barco');
         $this->select($this->getAValidPort(),'puerto');
         $this->select($this->getAValidProduct(),'product');
@@ -193,8 +194,8 @@ class CreateAuctionTest extends TestCase
         $this->type('100','startPrice');
         $this->type('10','endPrice');
         $this->type('Curabitur turpis. Morbi nec metus. Etiam ut purus mattis mauris sodales aliquam. Ut tincidunt tincidunt erat. In hac habitasse platea dictumst.','descri');
-        $this->press('Enviar');
-        $this->seePageIs('/auction/add');
+        $this->press('Subastar');
+        $this->seePageIs('/subastas/agregar');
         $this->see('Debes seleccionar una unidad de presentacion');
         $this->assertResponseOk();
     }
@@ -203,9 +204,9 @@ class CreateAuctionTest extends TestCase
      */
     function tryToAddPublicAuctionWithTentativeDatePast(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
-        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d/m/Y H:i');
-        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("-2 hours"))->format('d/m/Y H:i');
-        $this->visit('auction/add');
+        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d-m-Y H:i');
+        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("-2 hours"))->format('d-m-Y H:i');
+        $this->visit('subastas/agregar');
         $this->select($this->getAValidBoat(),'barco');
         $this->select($this->getAValidPort(),'puerto');
         $this->select($this->getAValidProduct(),'product');
@@ -219,8 +220,8 @@ class CreateAuctionTest extends TestCase
         $this->type('100','startPrice');
         $this->type('10','endPrice');
         $this->type('Curabitur turpis. Morbi nec metus. Etiam ut purus mattis mauris sodales aliquam. Ut tincidunt tincidunt erat. In hac habitasse platea dictumst.','descri');
-        $this->press('Enviar');
-        $this->seePageIs('/auction/add');
+        $this->press('Subastar');
+        $this->seePageIs('/subastas/agregar');
         $this->see('La fecha tentativa debe ser una fecha posterior a');
         $this->assertResponseOk();
     }
@@ -230,8 +231,8 @@ class CreateAuctionTest extends TestCase
     function tryToAddPublicAuctionWithoutStartDate(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
         $startdate='';
-        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d/m/Y H:i');
-        $this->visit('auction/add');
+        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d-m-Y H:i');
+        $this->visit('subastas/agregar');
         $this->select($this->getAValidBoat(),'barco');
         $this->select($this->getAValidPort(),'puerto');
         $this->select($this->getAValidProduct(),'product');
@@ -245,8 +246,8 @@ class CreateAuctionTest extends TestCase
         $this->type('100','startPrice');
         $this->type('10','endPrice');
         $this->type('Curabitur turpis. Morbi nec metus. Etiam ut purus mattis mauris sodales aliquam. Ut tincidunt tincidunt erat. In hac habitasse platea dictumst.','descri');
-        $this->press('Enviar');
-        $this->seePageIs('/auction/add');
+        $this->press('Subastar');
+        $this->seePageIs('/subastas/agregar');
         $this->see('El campo fecha inicio es obligatorio');
         $this->assertResponseOk();
     }
@@ -255,9 +256,9 @@ class CreateAuctionTest extends TestCase
      */
     function tryToAddPublicAuctionWithStartDatePast(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
-        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("-2 hours"))->format('d/m/Y H:i');
-        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d/m/Y H:i');
-        $this->visit('auction/add');
+        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("-2 hours"))->format('d-m-Y H:i');
+        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d-m-Y H:i');
+        $this->visit('subastas/agregar');
         $this->select($this->getAValidBoat(),'barco');
         $this->select($this->getAValidPort(),'puerto');
         $this->select($this->getAValidProduct(),'product');
@@ -271,8 +272,8 @@ class CreateAuctionTest extends TestCase
         $this->type('100','startPrice');
         $this->type('10','endPrice');
         $this->type('Curabitur turpis. Morbi nec metus. Etiam ut purus mattis mauris sodales aliquam. Ut tincidunt tincidunt erat. In hac habitasse platea dictumst.','descri');
-        $this->press('Enviar');
-        $this->seePageIs('/auction/add');
+        $this->press('Subastar');
+        $this->seePageIs('/subastas/agregar');
         $this->see('La fecha inicio debe ser una fecha posterior a');
         $this->assertResponseOk();
     }
@@ -281,9 +282,9 @@ class CreateAuctionTest extends TestCase
      */
     function tryToAddPublicAuctionWithoutActiveHours(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
-        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d/m/Y H:i');
-        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+10 hours"))->format('d/m/Y H:i');
-        $this->visit('auction/add');
+        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d-m-Y H:i');
+        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+10 hours"))->format('d-m-Y H:i');
+        $this->visit('subastas/agregar');
         $this->select($this->getAValidBoat(),'barco');
         $this->select($this->getAValidPort(),'puerto');
         $this->select($this->getAValidProduct(),'product');
@@ -297,8 +298,8 @@ class CreateAuctionTest extends TestCase
         $this->type('100','startPrice');
         $this->type('10','endPrice');
         $this->type('Curabitur turpis. Morbi nec metus. Etiam ut purus mattis mauris sodales aliquam. Ut tincidunt tincidunt erat. In hac habitasse platea dictumst.','descri');
-        $this->press('Enviar');
-        $this->seePageIs('/auction/add');
+        $this->press('Subastar');
+        $this->seePageIs('/subastas/agregar');
         $this->see('El campo horas activas es obligatorio');
         $this->assertResponseOk();
     }
@@ -307,9 +308,9 @@ class CreateAuctionTest extends TestCase
      */
     function tryToAddPublicAuctionWithLessThanOneActiveHours(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
-        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d/m/Y H:i');
-        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+10 hours"))->format('d/m/Y H:i');
-        $this->visit('auction/add');
+        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d-m-Y H:i');
+        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+10 hours"))->format('d-m-Y H:i');
+        $this->visit('subastas/agregar');
         $this->select($this->getAValidBoat(),'barco');
         $this->select($this->getAValidPort(),'puerto');
         $this->select($this->getAValidProduct(),'product');
@@ -323,8 +324,8 @@ class CreateAuctionTest extends TestCase
         $this->type('100','startPrice');
         $this->type('10','endPrice');
         $this->type('Curabitur turpis. Morbi nec metus. Etiam ut purus mattis mauris sodales aliquam. Ut tincidunt tincidunt erat. In hac habitasse platea dictumst.','descri');
-        $this->press('Enviar');
-        $this->seePageIs('/auction/add');
+        $this->press('Subastar');
+        $this->seePageIs('/subastas/agregar');
         $this->see('La cantidad de horas activas debe ser al menos');
         $this->assertResponseOk();
     }
@@ -333,9 +334,9 @@ class CreateAuctionTest extends TestCase
      */
     function tryToAddPublicAuctionWithoutAmount(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
-        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d/m/Y H:i');
-        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+10 hours"))->format('d/m/Y H:i');
-        $this->visit('auction/add');
+        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d-m-Y H:i');
+        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+10 hours"))->format('d-m-Y H:i');
+        $this->visit('subastas/agregar');
         $this->select($this->getAValidBoat(),'barco');
         $this->select($this->getAValidPort(),'puerto');
         $this->select($this->getAValidProduct(),'product');
@@ -349,8 +350,8 @@ class CreateAuctionTest extends TestCase
         $this->type('100','startPrice');
         $this->type('10','endPrice');
         $this->type('Curabitur turpis. Morbi nec metus. Etiam ut purus mattis mauris sodales aliquam. Ut tincidunt tincidunt erat. In hac habitasse platea dictumst.','descri');
-        $this->press('Enviar');
-        $this->seePageIs('/auction/add');
+        $this->press('Subastar');
+        $this->seePageIs('/subastas/agregar');
         $this->see('El campo cantidad es obligatorio');
         $this->assertResponseOk();
     }
@@ -359,9 +360,9 @@ class CreateAuctionTest extends TestCase
      */
     function tryToAddPublicAuctionWithLessThanOneAmount(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
-        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d/m/Y H:i');
-        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+10 hours"))->format('d/m/Y H:i');
-        $this->visit('auction/add');
+        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d-m-Y H:i');
+        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+10 hours"))->format('d-m-Y H:i');
+        $this->visit('subastas/agregar');
         $this->select($this->getAValidBoat(),'barco');
         $this->select($this->getAValidPort(),'puerto');
         $this->select($this->getAValidProduct(),'product');
@@ -375,8 +376,8 @@ class CreateAuctionTest extends TestCase
         $this->type('100','startPrice');
         $this->type('10','endPrice');
         $this->type('Curabitur turpis. Morbi nec metus. Etiam ut purus mattis mauris sodales aliquam. Ut tincidunt tincidunt erat. In hac habitasse platea dictumst.','descri');
-        $this->press('Enviar');
-        $this->seePageIs('/auction/add');
+        $this->press('Subastar');
+        $this->seePageIs('/subastas/agregar');
         $this->see('La cantidad debe ser de al menos 1');
         $this->assertResponseOk();
     }
@@ -385,9 +386,9 @@ class CreateAuctionTest extends TestCase
      */
     function tryToAddPublicAuctionWithoutStartPrice(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
-        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d/m/Y H:i');
-        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+10 hours"))->format('d/m/Y H:i');
-        $this->visit('auction/add');
+        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d-m-Y H:i');
+        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+10 hours"))->format('d-m-Y H:i');
+        $this->visit('subastas/agregar');
         $this->select($this->getAValidBoat(),'barco');
         $this->select($this->getAValidPort(),'puerto');
         $this->select($this->getAValidProduct(),'product');
@@ -401,8 +402,8 @@ class CreateAuctionTest extends TestCase
         $this->type('','startPrice');
         $this->type('10','endPrice');
         $this->type('Curabitur turpis. Morbi nec metus. Etiam ut purus mattis mauris sodales aliquam. Ut tincidunt tincidunt erat. In hac habitasse platea dictumst.','descri');
-        $this->press('Enviar');
-        $this->seePageIs('/auction/add');
+        $this->press('Subastar');
+        $this->seePageIs('/subastas/agregar');
         $this->see('El campo precio inicial es obligatorio');
         $this->assertResponseOk();
     }
@@ -411,9 +412,9 @@ class CreateAuctionTest extends TestCase
      */
     function tryToAddPublicAuctionWithoutEndPrice(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
-        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d/m/Y H:i');
-        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+10 hours"))->format('d/m/Y H:i');
-        $this->visit('auction/add');
+        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d-m-Y H:i');
+        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+10 hours"))->format('d-m-Y H:i');
+        $this->visit('subastas/agregar');
         $this->select($this->getAValidBoat(),'barco');
         $this->select($this->getAValidPort(),'puerto');
         $this->select($this->getAValidProduct(),'product');
@@ -427,9 +428,9 @@ class CreateAuctionTest extends TestCase
         $this->type('100','startPrice');
         $this->type('','endPrice');
         $this->type('Curabitur turpis. Morbi nec metus. Etiam ut purus mattis mauris sodales aliquam. Ut tincidunt tincidunt erat. In hac habitasse platea dictumst.','descri');
-        $this->press('Enviar');
-        $this->seePageIs('/auction/add');
-        $this->see('El campo precio final es obligatorio');
+        $this->press('Subastar');
+        $this->seePageIs('/subastas/agregar');
+        $this->see('El campo precio de retiro es obligatorio');
         $this->assertResponseOk();
     }
     /**  @test 
@@ -437,9 +438,9 @@ class CreateAuctionTest extends TestCase
      */
     function tryToAddPublicAuctionWithStartPriceLowerEndPrice(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
-        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d/m/Y H:i');
-        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+10 hours"))->format('d/m/Y H:i');
-        $this->visit('auction/add');
+        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d-m-Y H:i');
+        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+10 hours"))->format('d-m-Y H:i');
+        $this->visit('subastas/agregar');
         $this->select($this->getAValidBoat(),'barco');
         $this->select($this->getAValidPort(),'puerto');
         $this->select($this->getAValidProduct(),'product');
@@ -453,8 +454,8 @@ class CreateAuctionTest extends TestCase
         $this->type('50','startPrice');
         $this->type('500','endPrice');
         $this->type('Curabitur turpis. Morbi nec metus. Etiam ut purus mattis mauris sodales aliquam. Ut tincidunt tincidunt erat. In hac habitasse platea dictumst.','descri');
-        $this->press('Enviar');
-        $this->seePageIs('/auction/add');
+        $this->press('Subastar');
+        $this->seePageIs('/subastas/agregar');
         $this->see('El precio final no puede ser mayor al precio inicial.');
         $this->assertResponseOk();
     }
@@ -463,9 +464,9 @@ class CreateAuctionTest extends TestCase
      */
     function tryToAddPublicAuctionWithoutDescription(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
-        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d/m/Y H:i');
-        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+10 hours"))->format('d/m/Y H:i');
-        $this->visit('auction/add');
+        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d-m-Y H:i');
+        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+10 hours"))->format('d-m-Y H:i');
+        $this->visit('subastas/agregar');
         $this->select($this->getAValidBoat(),'barco');
         $this->select($this->getAValidPort(),'puerto');
         $this->select($this->getAValidProduct(),'product');
@@ -479,8 +480,8 @@ class CreateAuctionTest extends TestCase
         $this->type('100','startPrice');
         $this->type('10','endPrice');
         $this->type('','descri');
-        $this->press('Enviar');
-        $this->seePageIs('/auction/add');
+        $this->press('Subastar');
+        $this->seePageIs('/subastas/agregar');
         $this->see('El campo descripci&oacute;n es obligatorio');
         $this->assertResponseOk();
     }
@@ -493,9 +494,9 @@ class CreateAuctionTest extends TestCase
         for($z=0;$z<50;$z++){
             $description.='a';
         }
-        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d/m/Y H:i');
-        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+10 hours"))->format('d/m/Y H:i');
-        $this->visit('auction/add');
+        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d-m-Y H:i');
+        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+10 hours"))->format('d-m-Y H:i');
+        $this->visit('subastas/agregar');
         $this->select($this->getAValidBoat(),'barco');
         $this->select($this->getAValidPort(),'puerto');
         $this->select($this->getAValidProduct(),'product');
@@ -509,8 +510,8 @@ class CreateAuctionTest extends TestCase
         $this->type('100','startPrice');
         $this->type('10','endPrice');
         $this->type($description,'descri');
-        $this->press('Enviar');
-        $this->seePageIs('/auction/add');
+        $this->press('Subastar');
+        $this->seePageIs('/subastas/agregar');
         $this->see('El campo descripci&oacute;n debe ser de al menos 120 carateres');
         $this->assertResponseOk();
     }
@@ -523,9 +524,9 @@ class CreateAuctionTest extends TestCase
         for($z=0;$z<1100;$z++){
             $description.='a';
         }
-        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d/m/Y H:i');
-        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+10 hours"))->format('d/m/Y H:i');
-        $this->visit('auction/add');
+        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d-m-Y H:i');
+        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+10 hours"))->format('d-m-Y H:i');
+        $this->visit('subastas/agregar');
         $this->select($this->getAValidBoat(),'barco');
         $this->select($this->getAValidPort(),'puerto');
         $this->select($this->getAValidProduct(),'product');
@@ -539,8 +540,8 @@ class CreateAuctionTest extends TestCase
         $this->type('100','startPrice');
         $this->type('10','endPrice');
         $this->type($description,'descri');
-        $this->press('Enviar');
-        $this->seePageIs('/auction/add');
+        $this->press('Subastar');
+        $this->seePageIs('/subastas/agregar');
         $this->see('descripci&oacute;n no debe ser mayor que 1000 caracteres');
         $this->assertResponseOk();
     }
@@ -551,8 +552,8 @@ class CreateAuctionTest extends TestCase
         $this->withoutMiddleware();
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
         $description='NetLabs nace de la unión de jóvenes emprendedores y profesionales con 12 años de experiencia en el mercado informático nacional e internacional. En Netlabs desarrollamos aplicaciones según las necesidades de nuestros clientes y del mercado. Contamos con un equipo de profesionales experimentados en desarrollo de software, servicios de consultoría y asesoría en tecnologías de información.';
-        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+24 hours"))->format('d/m/Y H:i');
-        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+72 hours"))->format('d/m/Y H:i');
+        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+24 hours"))->format('d-m-Y H:i');
+        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+72 hours"))->format('d-m-Y H:i');
         
         $data=array(
             'testing'=>true,
@@ -571,7 +572,7 @@ class CreateAuctionTest extends TestCase
             'tipoSubasta'=>'public',
             'descri'=>$description
         );
-        $this->post('/auctionstore',$data);
+        $this->post('/subastas/guardar',$data);
         $this->seeJson(['tested'=>true]);
         $this->seeJson(['description'=>$description]);
         $this->assertResponseOk();
@@ -585,8 +586,8 @@ class CreateAuctionTest extends TestCase
         $comprador=$this->getAValidUser(Constants::COMPRADOR);
         $auction=$this->getLastAuction();
         $description='Auction'.$auction->id.'. Esta descripcion se edito. NetLabs nace de la unión de jóvenes emprendedores y profesionales con 12 años de experiencia en el mercado informático nacional e internacional. En Netlabs desarrollamos aplicaciones según las necesidades de nuestros clientes y del mercado. Contamos con un equipo de profesionales experimentados en desarrollo de software, servicios de consultoría y asesoría en tecnologías de información.';
-        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+24 hours"))->format('d/m/Y H:i');
-        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+72 hours"))->format('d/m/Y H:i');
+        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+24 hours"))->format('d-m-Y H:i');
+        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+72 hours"))->format('d-m-Y H:i');
         
         $data=array(
             '_token'=>Session::token(),
@@ -610,7 +611,7 @@ class CreateAuctionTest extends TestCase
             'tipoSubasta'=>'public',
             'descri'=>$description
         );
-        $this->post('/auctionstore',$data);
+        $this->post('/subastas/guardar',$data);
         $this->seeJson(['tested'=>true]);
         $this->seeJson(['description'=>$description]);
         $this->assertResponseOk();
@@ -624,8 +625,8 @@ class CreateAuctionTest extends TestCase
         $comprador=$this->getAValidUser(Constants::COMPRADOR);
         $auction=$this->getLastAuction();
         $description='Auction'.$auction->id.'. Esta descripcion se replico. NetLabs nace de la unión de jóvenes emprendedores y profesionales con 12 años de experiencia en el mercado informático nacional e internacional. En Netlabs desarrollamos aplicaciones según las necesidades de nuestros clientes y del mercado. Contamos con un equipo de profesionales experimentados en desarrollo de software, servicios de consultoría y asesoría en tecnologías de información.';
-        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+24 hours"))->format('d/m/Y H:i');
-        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+72 hours"))->format('d/m/Y H:i');
+        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+24 hours"))->format('d-m-Y H:i');
+        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+72 hours"))->format('d-m-Y H:i');
         
         $data=array(
             '_token'=>Session::token(),
@@ -649,7 +650,7 @@ class CreateAuctionTest extends TestCase
             'tipoSubasta'=>'public',
             'descri'=>$description
         );
-        $this->post('/auctionstore',$data);
+        $this->post('/subastas/guardar',$data);
         $this->seeJson(['tested'=>true]);
         $this->seeJson(['description'=>$description]);
         $this->assertResponseOk();
@@ -734,8 +735,8 @@ class CreateAuctionTest extends TestCase
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
         $comprador=$this->getAValidUser(Constants::COMPRADOR);
         $description='NetLabs nace de la unión de jóvenes emprendedores y profesionales con 12 años de experiencia en el mercado informático nacional e internacional. En Netlabs desarrollamos aplicaciones según las necesidades de nuestros clientes y del mercado. Contamos con un equipo de profesionales experimentados en desarrollo de software, servicios de consultoría y asesoría en tecnologías de información.';
-        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d/m/Y H:i');
-        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+10 hours"))->format('d/m/Y H:i');
+        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d-m-Y H:i');
+        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+10 hours"))->format('d-m-Y H:i');
         
         $data=array(
             '_token'=>Session::token(),

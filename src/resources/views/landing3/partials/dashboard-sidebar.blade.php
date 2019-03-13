@@ -17,32 +17,19 @@
 					<div class="dashboard-nav-inner">
 
 						<ul>
-							<li><a href="#"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
-							<li><a href="#"><i class="icon-material-outline-history"></i> Mi Historial</a></li>
+							<li><a href="#"><em class="icon-material-outline-dashboard"></em> Dashboard</a></li>
+							<li><a href="#"><em class="icon-material-outline-history"></em> Mi Historial</a></li>
+                            @if(isset(Auth::user()->id) && Auth::user()->type==\App\Constants::VENDEDOR)
+                            <li><a href="/subastas?type=mine&time=all"><em class="icon-material-outline-gavel"></em> Mis Subastas</a></li>
+                            <li><a href="/barcos"><em class="icon-line-awesome-ship"></em> Mis Barcos</a></li>
+                            @endif
+                            @if(isset(Auth::user()->id) && Auth::user()->type==\App\Constants::COMPRADOR)
+                            <li><a href="/compras"><em class="icon-feather-shopping-bag"></em> Mis Compras</a></li>
+                            @endif
 						</ul>
-
-						<ul data-submenu-title="Perfiles">
-							<li class="active-submenu"><a href="#"><i class="icon-material-outline-gavel"></i> Vendedor</a>
-								<ul>
-									<li><a href="dash-list-barcos.php">Mis Barcos</a></li>
-									<li><a href="dash-list-arribos.php">Mis Arribos</a></li>
-									<li><a href="dash-list-lotes.php">Mis Lotes</a></li>
-									<li><a href="dash-list-subastas.php">Mis Subastas</a></li>
-									<li><a href="dash-list-ofertas.php">Ofertas Recibidas <span class="nav-tag">4</span></a></li>
-								</ul>
-							</li>
-							<li><a href="#"><i class="icon-material-outline-shopping-cart"></i> Comprador</a>
-								<ul>
-									<li><a href="dash-list-compras.php">Mis Compras</a></li>
-									<li><a href="dash-list-ofertas-made.php">Mis Ofertas</a></li>
-									<li><a href="dash-list-favoritas.php">Subastas Favoritas</a></li>
-								</ul>
-							</li>
-						</ul>
-
 						<ul data-submenu-title="Mi Cuenta">
-							<li><a href="dash-ajustes.php"><i class="icon-material-outline-settings"></i> Ajustes</a></li>
-							<li><a href="#"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
+							<li><a href="#"><i class="icon-material-outline-settings"></i> Ajustes</a></li>
+							<li><a href="/auth/logout"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
 						</ul>
 
 					</div>

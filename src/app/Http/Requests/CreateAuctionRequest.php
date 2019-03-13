@@ -42,10 +42,10 @@ class CreateAuctionRequest extends Request
             'endPrice'   => 'required|regex:/^\d{1,}(\,\d+)?$/|min:1',
             'amount'     => 'required|numeric|min:1',
             'descri'   => 'required|min:120|max:1000',
-            'barco'   => 'required|numeric',
-            'puerto'=>'required|numeric',
-            'product'=>'required|numeric',
-            'quality'=>'required|numeric',
+            'barco'   => 'required|numeric|min:1',
+            'puerto'=>'required|numeric|min:1',
+            'product'=>'required|numeric|min:1',
+            'quality'=>'required|numeric|min:1',
             
             //'tipoSubasta' => 'required',
 			//'invitados'   => 'required_if:tipoSubasta,' . Constants::AUCTION_PRIVATE
@@ -61,9 +61,17 @@ class CreateAuctionRequest extends Request
                 'ActiveHours.required'=>'El campo horas activas es obligatorio',
                 'ActiveHours.min'=>'La cantidad de horas activas debe ser al menos :min',
                 'barco.numeric'=>'Debes escoger un barco',
+                'barco.min'=>'Debes escoger un barco',
+                'barco.required'=>'Debes escoger un barco',
                 'puerto.numeric'=>'Debes escoger un puerto',
+                'puerto.min'=>'Debes escoger un puerto',
+                'puerto.required'=>'Debes escoger un puerto',
                 'product.numeric'=>'Debes escoger un producto',
+                'product.required'=>'Debes escoger un producto',
+                'product.min'=>'Debes escoger un producto',
+                'quality.required'=>'Debes escoger una calidad del lote',
                 'quality.numeric'=>'Debes escoger una calidad del lote',
+                'quality.min'=>'Debes escoger una calidad del lote',
             ];
         }
         return [];
@@ -73,12 +81,13 @@ class CreateAuctionRequest extends Request
         if ($this->locale == "es"){
             return [
                 "startPrice" => "precio inicial",
-                "endPrice" => "precio final",
+                "endPrice" => "precio de retiro",
                 "fechaTentativa" => "fecha tentativa",
                 "descri" => "descripción",
                 "amount" => "cantidad",
                 'quality'=>'calidad',
                 'product'=>'producto',
+                'ActiveHours'=>'horas activas',
             ];
         }
         return [];

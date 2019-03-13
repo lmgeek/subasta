@@ -10,15 +10,17 @@
     @include('landing3/partials/header')
     <div class="dashboard-container">
         @include('landing3/partials/dashboard-sidebar')
-        {{--@include('landing3/partials/sidebar-admin')--}}
-        @yield('content')
-        @include('/landing3/partials/dashboard-footer')
-{{--        @include('landing3/partials/copyright')--}}
+        <div class="dashboard-content-container"  <?=(isset($listasubastas))?'style="width:calc(100% - 30px);padding:15px;max-width:calc(100% - 30px);"':''?>>
+            @yield('content')
+            @include('/landing3/partials/dashboard-footer')
+        </div>
+        
     </div>
     </div>
 </div>
 </div>
-@include('/landing3/partials/pop-up-barco')
+<div id="notificationsauction"></div>
+<div id="Loader" ><div id="LoaderContent"><img src="/landing3/images/logo2.png" alt="Subastas del Mar"><br><div class="fa fa-spinner fa-pulse fa-3x fa-fw"></div></div></div>
 @include('landing3/partials/js')
 <input type="hidden" name="csrf-token" id="csrf" content="{{ Session::token() }}">
 </body>
