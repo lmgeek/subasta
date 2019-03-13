@@ -1,6 +1,5 @@
 
-<!--<header id="header-container" class="fullwidth transparent-header" <?=(isset($outsidehome) || isset($layoutadmin))?'style="background-color: #0e6c92"':''?>>-->
-<header id="header-container" class="fullwidth transparent-header" style="background-color:#0e6c92">
+<header id="header-container" class="fullwidth  <?=(isset($outsidehome) || isset($layoutadmin))?'dashboard-header no-sticky':'transparent-header'?>">
     <!-- Header -->
     <div id="header">
         <div class="container">
@@ -69,7 +68,7 @@
 
                         <!-- Trigger -->
                         <div class="header-notifications-link">
-                            <a href="/auction/add" data-tippy-placement="left" title="Nueva Subasta" data-tippy-theme="dark"><em class="icon-material-outline-gavel"></em></a>
+                            <a href="/subastas/agregar" data-tippy-placement="left" title="Nueva Subasta" data-tippy-theme="dark"><em class="icon-material-outline-gavel"></em></a>
                         </div>
                     </div>
 
@@ -189,7 +188,7 @@
                                         <li><a href="{{url('/sellerbatch')}}"><em class="icon-feather-box"></em> Mis Lotes</a></li>
                                         <li><a href="/subastas?time=all&type=mine"><em class="icon-material-outline-gavel"></em> Mis Subastas</a></li>
                                         <li><a href="{{url('/sales')}}"><em class="icon-material-outline-gavel"></em> Ventas de Subastas</a></li>
-                                        <li><a href="{{ url('/privatesales') }}"><em class="icon-feather-eye-off"></em> Ventas privadas</a></li>
+                                        <li><a href="#"><em class="icon-feather-eye-off"></em> Ventas privadas</a></li>
                                         <li><a href="{{url('auth/logout')}}"><em class="icon-material-outline-power-settings-new"></em> Logout</a></li>
                                     </ul>
 

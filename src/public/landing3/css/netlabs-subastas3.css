@@ -142,6 +142,76 @@
 #AuctionsContainer > div.headline{
     height:50px
 }
+.small-dialog.mfp-close,
+#sign-in-dialog, .mfp-close,
+.mfp-close:hover {
+	color: #fff;
+}
+
+
+/* Popup close button*/
+.small-dialog.mfp-close {
+	color: #666;
+	background-color: #e4e4e4;
+	border-radius: 4px;
+	top: 28px;
+	right: 40px;
+    width: 40px;
+    height: 40px;
+}
+
+.small-dialog .mfp-close:hover {
+	color: #fff;
+	background-color: #66676b;
+}
+
+.small-dialog-content input[type=submit] {
+	width: 100%;
+	margin-top: 26px;
+	margin-bottom: 10px;
+}
+
+.small-dialog-content .divider {
+	display: inline-block;
+	width: 100%;
+	margin-top: 15px;
+	padding-bottom: 0;
+}
+
+.small-dialog-header {
+	font-size: 22px;
+	width: calc(100% + 80px);
+	position: relative;
+	left: -40px;
+	top: 0;
+	border-radius: 4px 4px 0 0;
+	display: inline-block;
+	background-color: #f6f6f6;
+	padding: 35px 40px;
+	margin-bottom: 40px;
+}
+
+.small-dialog-header h3 {
+	padding: 0;
+	margin: 0;
+	font-size: 23px;
+}
+.dashboard-container > div.dashboard-content-container > div.simplebar-scroll-content > div > div.small-footer{
+    width:100%;
+    left:0px
+}
+input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+ 
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+#UnidadDeVenta{
+    display:inline-block;
+    text-transform: lowercase
+}
 @media screen and (max-width:768px){
     #notificationsauction{
         width: calc(100% - 20px);

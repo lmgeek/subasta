@@ -94,6 +94,9 @@ function timer($id) {
             string += minutes + 'm ';
         }
         string += seconds + 's';
+        if(seconds==0){
+            getInfo($id);
+        }
         $('#timer'+$id).html(string);
         if (distance < 0) {
             var url = 'auction/offers/' + $id;
@@ -237,10 +240,7 @@ function modifyNumber($id,$direction,$checkboxid=null){
     }
 }
 function getInfo($id,$firstrun=0) {
-    var d = new Date();
-    var n = d.getSeconds();
-    if ((n == 0 || $firstrun==1) && !$('#Auction_'+$id).hasClass('bg-disabled') && $('#Auction_'+$id).length>0) {
-        console.log('Timeout '+$id+': '+window['Timeout'+$id]);
+    if (!$('#Auction_'+$id).hasClass('bg-disabled') && $('#Auction_'+$id).length>0) {
         $.get('/calculateprice?i=c&auction_id=' + $id, function (result) {
             var $result = JSON.parse(result);
             $('#Loader').attr('data-local',window['now']);
@@ -249,18 +249,11 @@ function getInfo($id,$firstrun=0) {
             modifyAvailability($id,$result['availability'],$result['amount']);
             modifyOffersCounter($id,$result['bidscounter'],$result['offerscounter']);
         }).done(function(){
-             $('.timerauction').each(function(){
-                var $id=$(this).data('id');
-                if(!$("#timer" + $id).attr('started')){
-                    $("#timer" + $id).attr('started','1')
-                    timer($id);
-                }
-            });
+            if(!$("#timer" + $id).attr('started')){
+                $("#timer" + $id).attr('started','1')
+                timer($id);
+            }
         });
-    }
-    if($('#Auction_'+$id).length>0){
-        window['Timeout'+$id]='';
-        window['Timeout'+$id]=setTimeout(function(){getInfo($id)},1000);
     }
 }
 function notifications_close($id){
@@ -354,7 +347,7 @@ function makeOffer($id){
         return;
     }
     $.magnificPopup.close();
-    $.get("/offersAuctionFront?auction_id="+$id + "&prices="+$('#OfferPrice'+$id).val(),function(result){
+    $.get("/ofertas/agregar?auction_id="+$id + "&prices="+$('#OfferPrice'+$id).val(),function(result){
         var $result=JSON.parse(result);
         if($result['active']==0){
             notifications(0,null,null,null,'La subasta ha sido cancelada por el vendedor');
@@ -497,8 +490,11 @@ function homeFilterBuilder(){
     }
     $('#ExtraParamsAnalytics').val($query);
 }
+function changeSaleUnit(){
+    $('#UnidadDeVenta').html($('select[name=unidad]').val());
+}
 function getPreferredPort(){
-    $.get('/getpreferredport',{idboat:$('#Boat').val()},function(result){
+    $.get('/puertos/ver/preferido',{idboat:$('#Boat').val()},function(result){
         $result=JSON.parse(result);
         $('#puerto').val($result['preferred']);
         $('#puerto').selectpicker('val',$result['preferred']);

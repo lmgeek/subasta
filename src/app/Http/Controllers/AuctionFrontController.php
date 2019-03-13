@@ -122,7 +122,7 @@ class AuctionFrontController extends AuctionController
         }
         $products = $request->product;
         $caliber = $request->input(Constants::CALIBER);
-        $quality = $request->input(Constants::QUALITY);
+        $quality = $request->quality;
         $amount = $request->input(Constants::AMOUNT);
         //$privacy=$request->input('tipoSubasta');
         $privacy=Constants::AUCTION_PUBLIC;

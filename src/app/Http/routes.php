@@ -14,18 +14,18 @@
 
 Route::get('/', 'AuctionFrontController@subastasFront');
 Route::get('/subastas', 'AuctionFrontController@listaSubastas');
-Route::get('/auction/add','AuctionFrontController@addAuction');
+Route::get('/subastas/agregar','AuctionFrontController@addAuction');
 Route::get('/auction/add2','AuctionFrontController@addAuctionNew');
-Route::get('/offers','AuctionFrontController@offerList');
-Route::get('/boatslist','BoatController@boatList');
-Route::post('/auctionstore','AuctionFrontController@storeAuction');
-Route::get('/getpreferredport','BoatController@getPreferredPort');
+Route::get('/ofertas','AuctionFrontController@offerList');
+Route::get('/barcos','BoatController@boatList');
+Route::post('/subastas/guardar','AuctionFrontController@storeAuction');
+Route::get('/puertos/ver/preferido','BoatController@getPreferredPort');
+Route::get('/ofertas/agregar', 'AuctionFrontController@offersAuctionFront');
 Route::get('/getusersauctionprivate','AuctionFrontController@getUsersAuctionPrivate');
-Route::get('offersAuctionFront', 'AuctionFrontController@offersAuctionFront');
-Route::get('auction/edit/{auction}', [
+Route::get('subastas/editar/{auction}', [
     'as' => 'auction.edit', 'uses' => 'AuctionFrontController@editAuction'
 ]);
-Route::get('auction/replicate/{auction}', [
+Route::get('subastas/replicar/{auction}', [
     'as' => 'auction.replicate', 'uses' => 'AuctionFrontController@replicateAuction'
 ]);
 
@@ -50,7 +50,7 @@ Route::get('/auction/details/{auction}', 'AuctionFrontController@auctionDetails'
 //---------------------------------------------------------------------------
 // Auctions
 //---------------------------------------------------------------------------
-Route::get('auction/export/{auction}', [
+Route::get('subastas/exportar/{auction}', [
     'as' => 'auction.export', 'uses' => 'AuctionBackController@export'
 ]);
 Route::get('auction/operations/process/{auction}', [
@@ -198,7 +198,7 @@ Route::post('registro/vendedor', 'RegisterController@postRegisterSeller');
 Route::get('priavatesale/{batch}', 'SellerBoatsController@priavateSale');
 Route::post('savePrivateSale', 'SellerBoatsController@savePrivateSale');
 Route::group(['middleware' => ['auth']],function(){
-    Route:resource('bids', 'AuctionBackController@buyerBid');
+    Route:resource('compra', 'AuctionBackController@buyerBid');
 });
 
 

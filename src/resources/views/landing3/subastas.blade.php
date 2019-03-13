@@ -5,14 +5,18 @@ use App\User;
 use App\Constants;
 use Illuminate\Pagination\LengthAwarePaginator;
 $query=(isset($request->q))?$request->q:null;
-
+$listasubastas=1;
 
 ?>
-@extends('landing3/partials/layout')
+@extends('landing3/partials/layout'.((isset(Auth::user()->type))?'-admin':''))
 @section('title',' | Lista de subastas')
 @section('content')
+@if(empty(Auth::user()->type))
 	<div class="section gray padding-top-65 padding-bottom-75 margin-top-30">
-		<div class="container">
+        <div class="container">
+@endif
+		
+            
 			<div class="row">
 				<div class="col-xl-12">
 
@@ -38,12 +42,12 @@ $query=(isset($request->q))?$request->q:null;
                     </div><div class="tasks-list-container margin-top-35" id="AuctionsContainer">
                         <div class="headline">
                             <div class="sort-by">
-                                <select class="selectpicker" onchange="filterByStatus()" id="selectStatus">
-                                    <option value="all" <?=($timeline=='all')?Constants::SELECTED:''?>>Todas</option>
-                                    <option value="future" <?=($timeline=='future')?Constants::SELECTED:''?>>Pendientes</option>
-                                    <option value="incourse" <?=($timeline=='incourse')?Constants::SELECTED:''?>>En Curso</option>
+                                <select class="selectpicker" onchange="filterByStatus()" id="selectStatus" name="timeline">
+                                    <option value="all" <?=($timeline=='all' || old('timeline'))?Constants::SELECTED:''?>>Todas</option>
+                                    <option value="future" <?=($timeline=='future' || old('timeline'))?Constants::SELECTED:''?>>Pendientes</option>
+                                    <option value="incourse" <?=($timeline=='incourse' || old('timeline'))?Constants::SELECTED:''?>>En Curso</option>
 
-                                    <option value="finished"<?=($timeline=='finished')?Constants::SELECTED:''?>>Finalizadas</option>
+                                    <option value="finished"<?=($timeline=='finished' || old('timeline'))?Constants::SELECTED:''?>>Finalizadas</option>
                                 </select>
                             </div>
                         </div><div id="Auctions">
@@ -52,6 +56,8 @@ $query=(isset($request->q))?$request->q:null;
 					</div>
 				</div>
 			</div>
+@if(empty(Auth::user()->type))
 		</div>
 	</div>
+@endif
 @endsection
