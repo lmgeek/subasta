@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Http\Controllers\AuctionBackController;
 use App\Http\Requests\CreateAuctionRequest;
 use App\Http\Requests\SellerQualifyRequest;
@@ -9,14 +10,16 @@ use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\ProcessBidRequest;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Routing\Route;
 use Illuminate\Http\Request;
 use App\AuctionInvited;
+use App\AuctionQuery;
 use App\BatchStatus;
 use App\UserRating;
 use App\Constants;
 use Carbon\Carbon;
 use App\Auction;
-use App\AuctionQuery;
 use App\Product;
 use App\Arrive;
 use App\Offers;
@@ -502,23 +505,46 @@ class AuctionFrontController extends AuctionController
             ->with(Constants::PORTS,$ports)
             ->with(Constants::PRODUCTS,$products);
     }
-    
-    
+
+    /**
+     * TODO: la paginacion puede ser una constante y puede ser definida ademas por el usuario en una variable
+     * @param Request $request
+     * @return mixed
+     * $auctions = AuctionQuery::filterAndPaginate(Constants::FINISHED);
+     */
     public function offerList(Request $request){
-        $auctions=AuctionQuery::auctionHome(null,array('type'=>'mine'),Constants::FINISHED);
-        $this->authorize('viewOperations', $auctions);
-        $offers=array();
+        $timeline=(isset($request->time))?$request->time:Constants::IN_COURSE;
+        $now =date(Constants::DATE_FORMAT);
+
+        $auctions = Auction::select( Constants::AUCTIONS_SELECT_ALL)
+            ->join(Constants::BATCHES, Constants::AUCTIONS_BATCH_ID, Constants::EQUAL, Constants::BATCH_ID)
+            ->join(Constants::ARRIVES, Constants::BATCH_ARRIVE_ID, Constants::EQUAL, Constants::ARRIVES_ID)
+            ->join(Constants::BOATS, Constants::ARRIVES_BOAT_ID, Constants::EQUAL, Constants::BOATS_ID)
+            ->join(Constants::USERS, Constants::BOATS_USER_ID, Constants::EQUAL, Constants::USERS_ID)
+            ->where(Constants::USERS_ID,Auth::user()->id)
+            ->where(Constants::AUCTIONS_END,'<=',$now);
+        if ($request->a != null){
+            $auctions = $auctions->where('auctions.id','=',$request->a);
+        }
+        $auctions = $auctions
+            ->orderBy('auctions.created_at','desc')
+            ->paginate(2);
+        $this->authorize('seeSellerAuction', Auction::class);
+        $offers=$max=$available=array();
         foreach($auctions as $auction){
             $auction->code=self::getAuctionCode($auction->correlative,$auction->created_at);
             $offers[$auction->id]= self::getOffers($auction->id);
             $max[$auction->id] = self::getOffers($auction->id)->first();
             $available[$auction->id] = AuctionBackController::getAvailable($auction->id, $auction->amount);
+            $auction->offers = count($offers[$auction->id]);
         }
         return view(Constants::LANDING3_OFFERS)
             ->with('auctions',$auctions)
             ->with('offers',$offers)
             ->with('max',$max)
-            ->with('available',$available);
+            ->with('available',$available)
+            ->with('timeline',$timeline)
+            ;
     }
 
 }
