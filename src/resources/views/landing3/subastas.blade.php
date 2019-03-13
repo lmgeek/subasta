@@ -24,12 +24,17 @@ $listasubastas=1;
 					<div class="section-headline margin-top-0 margin-bottom-35">
                         @if(isset(Auth::user()->id) && Auth::user()->type==Constants::VENDEDOR && isset($request->type) && $request->type=='mine')
 						<h2>Mis Subastas</h2>
-						<p><?=$auctioncounter.(($auctioncounter!=1)?' subastas':' subasta')?></p>
+                        <em class="icon-material-outline-gavel primary"></em> <div style="display:inline-block" id="AuctionsCounter"><?=$auctioncounter.(($auctioncounter!=1)?' subastas':' subasta')?></div>
                         @else
                         <h2>Todas las subastas</h2>
 						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
                         @endif
 					</div>
+                    @if(isset(Auth::user()->type) && Auth::user()->type==Constants::VENDEDOR)
+                    <div class="text-right">
+                        <a href="/subastas/agregar" class="button ripple-effect big margin-bottom-10"><i class="icon-feather-plus"></i> Nueva Subasta</a>
+                    </div>
+                    @endif
 				<?php $contadorsubastasdestacadas=0;$nopic=1;?>
 
 				<!-- Auctions Container -->
@@ -44,7 +49,7 @@ $listasubastas=1;
                             <div class="sort-by">
                                 <select class="selectpicker" onchange="filterByStatus()" id="selectStatus" name="timeline">
                                     <option value="all" <?=($timeline=='all' || old('timeline'))?Constants::SELECTED:''?>>Todas</option>
-                                    <option value="future" <?=($timeline=='future' || old('timeline'))?Constants::SELECTED:''?>>Pendientes</option>
+                                    <option value="future" <?=($timeline=='future' || old('timeline'))?Constants::SELECTED:''?>>Programadas</option>
                                     <option value="incourse" <?=($timeline=='incourse' || old('timeline'))?Constants::SELECTED:''?>>En Curso</option>
 
                                     <option value="finished"<?=($timeline=='finished' || old('timeline'))?Constants::SELECTED:''?>>Finalizadas</option>

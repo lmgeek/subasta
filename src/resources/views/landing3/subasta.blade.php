@@ -39,7 +39,7 @@ $cantcompras=$availability['sold'];
 
                                 <ul>
                                     <li><em class="icon-material-outline-access-time primary"></em><strong class="primary">{{\App\Constants::formatDate($auction->end)}}</strong></li>
-                                    <li><em class="icon-material-outline-location-on"></em> {{\App\Http\Controllers\AuctionController::getPortById($auction->batch->arrive->port_id) }}</li>
+                                    <li><em class="icon-material-outline-location-on"></em> {{\App\Ports::getPortById($auction->batch->arrive->port_id) }}</li>
                                     <li style="display: none" id="HotAuction{{$auction->id}}"><em class="icon-line-awesome-fire red" ></em> <strong class="red">¡Subasta caliente!</strong></li>
                                 </ul>
                                 <ul class="task-icons margin-top-6">
