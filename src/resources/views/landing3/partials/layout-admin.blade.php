@@ -24,4 +24,4 @@
 @include('landing3/partials/js')
 <input type="hidden" name="csrf-token" id="csrf" content="{{ Session::token() }}">
 </body>
-</html>
+</html>º

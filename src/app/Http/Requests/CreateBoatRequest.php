@@ -41,7 +41,7 @@ class CreateBoatRequest extends Request
             'name.unique'            => 'El nombre del barco ya se encuentra registrado.',
             'name.regex'             => 'El nombre sólo permite caracteres alfanumericos y # y -',
 //            'alias.require'             => 'El alias es obligatorio',
-            'matricula.require'      => 'La Matrícula no puede estar vacío.',
+            'matricula.required'      => 'La Matrícula no puede estar vacío.',
             'matricula.unique'       => 'La Matrícula ya se encuentra registrada.',
             'matricula.regex'        => 'La Matrícula sólo permite caracteres alfanumericos y -',
             'port.required'           => 'El campo puerto de preferencia  es obligatorio'

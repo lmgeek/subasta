@@ -45,15 +45,15 @@ $CantidadBarco = count($objt->getInfoBoat(Auth::user()->id));
 
                     <div class="dashboard-box margin-top-0">
 
-                        <!-- Headline -->
+                        <!-- Headline-->
                         <div class="headline">
                             <h3 class="fw500"><i class="icon-line-awesome-ship"></i> {{$CantidadBarco}} Barcos</h3>
                             <div class="sort-by">
                                 <select class="selectpicker hide-tick">
                                     <option>Todos</option>
-                                    <option>Pendientes</option>
+                                  {{--  <option>Pendientes</option>
                                     <option>Aprobados</option>
-                                    <option>Rechazados</option>
+                                    <option>Rechazados</option>--}}
                                 </select>
                             </div>
                         </div>
@@ -98,6 +98,8 @@ $CantidadBarco = count($objt->getInfoBoat(Auth::user()->id));
                 </div>
 
             </div>
+
+        @include('landing3/partials/pop-up-barco')
 
             <!--G.B paginacion-->
             <div class="pagination-container margin-top-30 margin-bottom-60">
