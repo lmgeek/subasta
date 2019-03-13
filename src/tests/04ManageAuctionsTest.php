@@ -178,7 +178,7 @@ class CreateAuctionTest extends TestCase
      */
     function tryToAddPublicAuctionWithoutPresentationUnit(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
-        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d-m-Y H:i');
+        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+1 minutes"))->format('d-m-Y H:i');
         $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+27 hours"))->format('d-m-Y H:i');
         $this->visit('subastas/agregar');
         $this->select($this->getAValidBoat(),'barco');
@@ -456,7 +456,7 @@ class CreateAuctionTest extends TestCase
         $this->type('Curabitur turpis. Morbi nec metus. Etiam ut purus mattis mauris sodales aliquam. Ut tincidunt tincidunt erat. In hac habitasse platea dictumst.','descri');
         $this->press('Subastar');
         $this->seePageIs('/subastas/agregar');
-        $this->see('El precio final no puede ser mayor al precio inicial.');
+        $this->see('El precio de retiro no puede ser mayor al precio inicial.');
         $this->assertResponseOk();
     }
     /**  @test 
@@ -552,7 +552,7 @@ class CreateAuctionTest extends TestCase
         $this->withoutMiddleware();
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
         $description='NetLabs nace de la unión de jóvenes emprendedores y profesionales con 12 años de experiencia en el mercado informático nacional e internacional. En Netlabs desarrollamos aplicaciones según las necesidades de nuestros clientes y del mercado. Contamos con un equipo de profesionales experimentados en desarrollo de software, servicios de consultoría y asesoría en tecnologías de información.';
-        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+24 hours"))->format('d-m-Y H:i');
+        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+1 minutes"))->format('d-m-Y H:i');
         $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+72 hours"))->format('d-m-Y H:i');
         
         $data=array(
@@ -586,7 +586,7 @@ class CreateAuctionTest extends TestCase
         $comprador=$this->getAValidUser(Constants::COMPRADOR);
         $auction=$this->getLastAuction();
         $description='Auction'.$auction->id.'. Esta descripcion se edito. NetLabs nace de la unión de jóvenes emprendedores y profesionales con 12 años de experiencia en el mercado informático nacional e internacional. En Netlabs desarrollamos aplicaciones según las necesidades de nuestros clientes y del mercado. Contamos con un equipo de profesionales experimentados en desarrollo de software, servicios de consultoría y asesoría en tecnologías de información.';
-        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+24 hours"))->format('d-m-Y H:i');
+        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+1 minutes"))->format('d-m-Y H:i');
         $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+72 hours"))->format('d-m-Y H:i');
         
         $data=array(

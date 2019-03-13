@@ -111,7 +111,7 @@ class AuctionFrontController extends AuctionController
             $errors[]='Debes seleccionar una unidad de presentacion';
         }
         if($endprice>=$startprice){
-            $errors[]='El precio final no puede ser mayor al precio inicial.';
+            $errors[]='El precio de retiro no puede ser mayor al precio inicial.';
         }
         
         if($tentativeDate<$endDate){
@@ -296,9 +296,10 @@ class AuctionFrontController extends AuctionController
                     unset($auctions[$index]);
                 }
             }
-            return view('/landing3/partials/listasubasta')
-                ->withAuctions(Constants::manualPaginate($auctions,$request->current))
-                ->with('request',$request)->with('limit',$limit)->with('timeline',$time);
+            return json_encode(array(
+                'view'=>view('/landing3/partials/listasubasta')->withAuctions(Constants::manualPaginate($auctions,$request->current))->with('request',$request)->with('limit',$limit)->with('timeline',$time)->render(),
+                'quantity'=>count($auctions)
+                ));
         }else{
             return view('/landing3/partials/auctionNoDetail')
                 ->withAuction($auctions[0]);

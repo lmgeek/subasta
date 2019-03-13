@@ -213,4 +213,10 @@ class UserController extends Controller
         $request->session()->flash('confirm_msg', trans('users.reject_user_msg'));
         return redirect()->route('users.index');
     }
+    public function userAdd(Request $request){
+        return view('landing3/user-add-edit');
+    }
+    public function userSave(Request $request){
+        
+    }
 }

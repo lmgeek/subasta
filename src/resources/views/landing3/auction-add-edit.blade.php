@@ -30,7 +30,7 @@ if(isset($auction)){
     $endprice=$auction->end_price;
     $privacy=$auction->type;
     $presunit=$presunits[0];
-    $auctioncode= $auction->code;
+    $auctioncode=(isset($replicate))?'SU-XXXXXXX': $auction->code;
     if($privacy=='private'){
         $guests= App\AuctionInvited::select('user_id')->where('auction_id',Constants::EQUAL,$auction->id)->get();
     }

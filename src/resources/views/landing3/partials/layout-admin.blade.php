@@ -10,7 +10,7 @@
     @include('landing3/partials/header')
     <div class="dashboard-container">
         @include('landing3/partials/dashboard-sidebar')
-        <div class="dashboard-content-container"  <?=(isset($listasubastas))?'style="width:calc(100% - 30px);padding:15px;max-width:calc(100% - 30px);"':''?>>
+        <div class="dashboard-content-container"  <?=(isset($listasubastas))?'style="width:calc(100% - 60px);padding:30px;max-width:calc(100% - 60px);"':''?>>
             @yield('content')
             @include('/landing3/partials/dashboard-footer')
         </div>

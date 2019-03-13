@@ -28,6 +28,7 @@ Route::get('subastas/editar/{auction}', [
 Route::get('subastas/replicar/{auction}', [
     'as' => 'auction.replicate', 'uses' => 'AuctionFrontController@replicateAuction'
 ]);
+Route::get('/usuarios/agregar','UserController@userAdd');
 
 
 Route::get('/landing2', 'AuctionController@subastaHome');

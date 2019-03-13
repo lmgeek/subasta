@@ -45,8 +45,15 @@ function getMoreAuctions($limit=1,$idTarget='#FeaturedAuctions',$currentpage=1){
     }
     $filters['type']=$('#type').val();
     $.post('/getauctions', {limit:$limit,current:$currentpage,ids:$ids,time:$('#timeline').val(),filters:$filters,_token:$('#csrf').attr('content')}, function (result) {
-        
-        var $html=result;
+        var $result=JSON.parse(result);
+        var $html=$result['view'];
+        var $cant=$result['quantity'];
+        if($cant!=1){
+            $cant+=' subastas';
+        }else{
+            $cant+=' subasta';
+        }
+        $('#AuctionsCounter').html($cant);
         if(result.includes('#MasterFilter')==true){
             $('#Loader').fadeOut();
             notifications(0,null,null,null,'Tu sesion ha expirado');
