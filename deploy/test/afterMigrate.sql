@@ -18,6 +18,7 @@ truncate subscriptions;
 truncate users;
 truncate users_ratings;
 truncate vendedor;
+truncate product_detail;
 
 # Insertar todo los usuarios de la web en la tabla users
 INSERT INTO users (`name`,`lastname`,`email`,`password`,`type`,`status`,`hash`,`active_mail`,`nickname`)
