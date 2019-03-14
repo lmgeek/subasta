@@ -150,12 +150,26 @@
 
 
 /* Popup close button*/
-.small-dialog.mfp-close {
+
+
+.small-dialog {
+	background: #fff;
+	padding: 40px;
+	padding-top: 0;
+	text-align: left;
+	max-width: 60%;
+	margin: 40px auto;
+	position: relative;
+	box-sizing:border-box;
+	border-radius: 4px;
+	max-width: 550px;
+}
+.small-dialog .mfp-close {
 	color: #666;
 	background-color: #e4e4e4;
 	border-radius: 4px;
-	top: 28px;
-	right: 40px;
+	top: 0px;
+	right: 0px;
     width: 40px;
     height: 40px;
 }
