@@ -309,7 +309,7 @@ class AuctionFrontController extends AuctionController
     public function offersAuctionFront(Request $request){
         $auction_id = $request->input(Constants::INPUT_AUCTION_ID);
         $prices = $request->input('prices');
-        $auction = Auction::findOrFail($auction_id);
+        $auction=AuctionQuery::auctionHome(null,array(Constants::AUCTIONID=>$auction_id),'all')[0];
         $checkuser=$this->checkIfBuyerCanBuy($auction_id,null,'offer',$auction->type);
         if($checkuser==0){
             return json_encode(array(Constants::ERROR=>'Tu usuario no puede ofertar'));
@@ -323,16 +323,16 @@ class AuctionFrontController extends AuctionController
             $available = AuctionBackController::getAvailable($auction_id, $auction->amount);
             if ($available[Constants::AVAILABLE] > 0 ){
                 $auction->offersAuction($available[Constants::AVAILABLE],$price);
-                $unit = $auction->batch->product->unit;
-                $caliber = $auction->batch->caliber;
+                $unit = $auction->product['presentation_unit'];
+                $caliber = $auction->product['caliber'];
                 $quality = $auction->batch->quality;
-                $product = $auction->batch->product->name;
+                $product = $auction->product['name'];
                 $resp[Constants::IS_NOT_AVAILABLE] = 0;
                 $resp[Constants::UNIT] = trans(Constants::TRANS_UNITS.$unit);
                 $resp[Constants::CALIBER] = Constants::caliber($caliber);
                 $resp[Constants::QUALITY] = $quality;
                 $resp[Constants::PRODUCT] = $product;
-                $resp[Constants::PRODUCTID]=$auction->batch->product->id;
+                $resp[Constants::PRODUCTID]=$auction->product['idproduct'];
                 $resp[Constants::AMOUNT] = $available[Constants::AVAILABLE];
                 $resp[Constants::PRICE] = $price;
                 $resp[Constants::OFFERSCOUNTER]=AuctionBackController::getOffersCount($auction_id);

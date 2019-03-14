@@ -85,7 +85,7 @@ class AuctionController extends Controller
 
          $auction_id = $request->input(Constants::INPUT_AUCTION_ID);
          $amount = $request->input(Constants::AMOUNT);
-         $auction = Auction::findOrFail($auction_id);
+         $auction=AuctionQuery::auctionHome(null,array(Constants::AUCTIONID=>$auction_id),'all')[0];
          $this->authorize(Constants::MAKE_BID, $auction);
          $checkuser= \App\Http\Controllers\AuctionFrontController::checkIfBuyerCanBuy($auction_id,$amount,'bid',$auction->type);
          if($checkuser==0){
@@ -112,20 +112,18 @@ class AuctionController extends Controller
 				{
                     $auction->makeBid($amount,$price);
 					$lastbid=Bid::Select('id')->orderBy('id','desc')->limit(1)->get();
-					$unit = $auction->batch->product->unit;
-					$product = $auction->batch->product->name;
+					$product = $auction->product['name'];
                     $amounttotal=$auction->amount;
                     $targetamount=($amounttotal*0.75);
                     $hot=(($availability-$amount)<$targetamount)?1:0;
 					$resp[Constants::IS_NOT_AVAILABLE] = 0;
                     $resp[Constants::AVAILABILITY] = $availability-$amount;
-					$resp['unit'] = trans(Constants::TRANS_UNITS.$unit);
                     $resp['bidid']=$lastbid[0]['id'];
-                    $resp[Constants::PRODUCTID]=$auction->batch->product->id;
+                    $resp[Constants::PRODUCTID]=$auction->product['idproduct'];
 					$resp[Constants::PRODUCT] = ucfirst($product);
 					$resp[Constants::AMOUNT] = $amount;
 					$resp[Constants::PRICE] = $price;
-                    $resp[Constants::CALIBER] = Constants::caliber($auction->batch->caliber);
+                    $resp[Constants::CALIBER] = Constants::caliber($auction->product['caliber']);
 					$resp['totalAmount']=$amounttotal;
                     $resp['bidscounter']=$bidscounter;
                     $resp['offerscounter']= AuctionBackController::getOffersCount($auction_id);
