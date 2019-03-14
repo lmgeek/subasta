@@ -40,7 +40,7 @@ if(isset($auction)){
 @section('title',' | '.$title.' Subasta')
 @section('content')
 <?php
-if(Auth::user()->type==Constants::VENDEDOR && (isset($auction->timeline) && $auction->timeline==Constants::FUTURE)){
+if(Auth::user()->type==Constants::VENDEDOR && ((isset($auction->timeline) && $auction->timeline==Constants::FUTURE)) || empty($auction->timeline)){
 ?>
 
 	
