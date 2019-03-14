@@ -116,6 +116,7 @@ class AuctionFrontController extends AuctionController
         if($tentativeDate<$endDate){
             $errors[]='La fecha tentativa de entrega no puede ser antes del final de la subasta';
         }
+        
         if(count($errors)>0){
             return Redirect::back()->withErrors($errors);
         }

@@ -505,12 +505,20 @@ function auctions_loadCalibers(){
     $('#Loader').fadeIn();
     $.get('/productos/ver/calibres',{id:$val},function(result){
         $('#CalibersSelect').selectpicker('destroy');
-        let $html="<option disabled value='0'>Seleccione...</option>";
         let $result=JSON.parse(result);
-        for($z=0;$z<$result['natural'].length;$z++){
-            $html+='<option value="'+$result['natural'][$z]+'">'+$result['translated'][$z]+'</option>';
-        }
-        $('#CalibersSelect').html($html);
+        $('#CalibersSelect option').each(function(){
+            var $disable=0;
+            for(var $y=0;$y<$result['natural'].length;$y++){
+                
+                if($result['natural'][$y]==$(this).val()){
+                    $disable++;
+                }
+            }
+            console.log($disable)
+            if($disable==0){
+                $(this).attr('disabled','true');
+            }
+        });
         $('#CalibersSelect').selectpicker();
     }).done(function(){$('#Loader').fadeOut()});
 }
