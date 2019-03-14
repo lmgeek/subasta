@@ -10,9 +10,11 @@ BEGIN
                   WHERE
                       TABLE_SCHEMA='subastas'
                     AND table_name='products'
-                    AND column_name='sale_unit'
+                    AND column_name='products'
     ) THEN
-    ALTER TABLE batches DROP COLUMN sale_unit;
+    ALTER TABLE products DROP COLUMN products;
+
+  END IF;
 
 END $$
 
