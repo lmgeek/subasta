@@ -70,6 +70,7 @@ if(Auth::user()->type==Constants::VENDEDOR && ((isset($auction->timeline) && $au
                             <input type="hidden" name="product" value="<?=$productid?>"><input type="hidden" name="caliber" value="<?=$caliber?>"><input type="hidden" name="unidad" value="<?=$presunit?>"><input type="hidden" name="quality" value="<?=$quality?>">
                                 @endif
                             @endif
+                            
 							<div class="row">	
 								<div class="col"><div class="submit-field"><h5>Barco</h5>
 										<select name="barco" id="Boat" onchange="getPreferredPort()" <?=($arriveedit==0)?Constants::DISABLED:''?>  class="selectpicker with-border" data-live-search="true" title="Seleccione...">

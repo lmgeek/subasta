@@ -30,18 +30,18 @@
 						<ul data-submenu-title="Perfiles">
 							<li class="active-submenu"><a href="#"><i class="icon-material-outline-gavel"></i> Vendedor</a>
 								<ul>
-									<li><a href="dash-list-barcos.php">Mis Barcos</a></li>
-									<li><a href="dash-list-arribos.php">Mis Arribos</a></li>
-									<li><a href="dash-list-lotes.php">Mis Lotes</a></li>
+									<li><a href="/barcos">Mis Barcos</a></li>
+									<li><a href="#">Mis Arribos</a></li>
+									<li><a href="#">Mis Lotes</a></li>
 									<li><a href="/subastas">Mis Subastas</a></li>
 									<li><a href="/ofertas">Ofertas Recibidas <span class="nav-tag">4</span></a></li>
 								</ul>
 							</li>
 							<li><a href="#"><i class="icon-material-outline-shopping-cart"></i> Comprador</a>
 								<ul>
-									<li><a href="dash-list-compras.php">Mis Compras</a></li>
-									<li><a href="dash-list-ofertas-made.php">Mis Ofertas</a></li>
-									<li><a href="dash-list-favoritas.php">Subastas Favoritas</a></li>
+									<li><a href="#">Mis Compras</a></li>
+									<li><a href="#">Mis Ofertas</a></li>
+									<li><a href="#">Subastas Favoritas</a></li>
 								</ul>
 							</li>
 						</ul>
