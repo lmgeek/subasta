@@ -498,7 +498,35 @@ function homeFilterBuilder(){
     $('#ExtraParamsAnalytics').val($query);
 }
 function changeSaleUnit(){
-    $('#UnidadDeVenta').html($('select[name=unidad]').val());
+    $('#UnidadDeVenta').html($('#SaleUnit').val());
+}
+function auctions_loadCalibers(){
+    let $val=$('#ProductSelect').val();
+    $('#Loader').fadeIn();
+    $.get('/productos/ver/calibres',{id:$val},function(result){
+        $('#CalibersSelect').selectpicker('destroy');
+        let $html="<option disabled value='0'>Seleccione...</option>";
+        let $result=JSON.parse(result);
+        for($z=0;$z<$result['natural'].length;$z++){
+            $html+='<option value="'+$result['natural'][$z]+'">'+$result['translated'][$z]+'</option>';
+        }
+        $('#CalibersSelect').html($html);
+        $('#CalibersSelect').selectpicker();
+    }).done(function(){$('#Loader').fadeOut()});
+}
+function auctions_loadUnits(){
+    let $product=$('#ProductSelect').val();
+    let $caliber=$('#CalibersSelect').val();
+    $('#Loader').fadeIn();
+    $.get('/productos/ver/unidades',{idproduct:$product,caliber:$caliber},function(result){
+        console.log(result);
+        let $result=JSON.parse(result);
+        $('#PresentationUnit').val($result['presentation']);
+        $('#SaleUnit').val($result['sale']);
+        $('.SaleUnits').html($result['sale']);
+        $('#UnidadDePresentacion').html($result['presentation']);
+        $('#ProductDetailID').val($result['id'])
+    }).done(function(){$('#Loader').fadeOut()});
 }
 function getPreferredPort(){
     $.get('/puertos/ver/preferido',{idboat:$('#Boat').val()},function(result){

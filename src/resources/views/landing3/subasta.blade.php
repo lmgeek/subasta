@@ -4,6 +4,7 @@ use App\Auction;
 use App\UserRating;
 use App\Constants;
 use App\AuctionQuery;
+use App\Product;
 //use Illuminate\Auth;
 
 //Creamos un objeto de ña clase para usar sus funciones
@@ -17,10 +18,10 @@ $userId = $auction->batch->arrive->boat->user->id;
 $outsidehome=1;
 $cantofertas=\App\Http\Controllers\AuctionBackController::getOffersCount($auction->id);
 $cantcompras=$availability['sold'];
-
+$auction->product= Product::getProductInfoFromProductDetailId($auction->batch->product_detail_id);
 ?>
 @extends('landing3/partials/layout')
-@section('title',' | Lista de subastas')
+@section('title',' | Subasta')
 @section('content')
     <div class="single-page-header bd-bt-1 margin-top-35 auction nodelete" id="Auction_{{$auction->id}}" data-id="{{$auction->id}}" data-background-image="/landing3/images/single-auction.jpg">
         <div class="container">
@@ -28,9 +29,9 @@ $cantcompras=$availability['sold'];
                 <div class="col-md-12">
                     <div class="single-page-header-inner">
                         <div class="left-side">
-                            <div class="header-image"><img src="/img/products/{{$auction->batch->product->image_name}}" alt="{{$auction->batch->product->name}}"></div>
+                            <div class="header-image"><img src="/img/products/{{$auction->product['image']}}" alt="{{$auction->product['name']}}"></div>
                             <div class="header-details">
-                                <h3 class="margin-bottom-0">{{$auction->batch->product->name}} {{trans('auction.'.$auction->batch->caliber)}} <div class="star-rating" data-rating="{{$auction->batch->quality}}"></div>
+                                <h3 class="margin-bottom-0">{{$auction->product['name']}} {{trans('auction.'.$auction->product['caliber'])}} <div class="star-rating" data-rating="{{$auction->batch->quality}}"></div>
                                     @if($auction->type!='public') 
                                         <em class="t16 icon-feather-eye-off" data-tippy-placement="right" title="Subasta Privada" data-tippy-theme="dark"></em>
                                     @endif
@@ -60,7 +61,7 @@ $cantcompras=$availability['sold'];
                         <div class="right-side">
                             <div class="salary-box">
                                 <div class="salary-type"><span>&Uacute;ltimo precio:</span></div>
-                                <div class="salary-amount t32"><strong  id="Price{{$auction->id}}">${{$price}}</strong>/ Kg<br>
+                                <div class="salary-amount t324"><strong  id="Price{{$auction->id}}">${{$price}}</strong>/ <?=$auction->product['sale_unit']?><br>
                                     <small class="green fw400" id="BidsCounter{{$auction->id}}">
                                         <?php if($cantcompras>0){?>
                                             <em id="ofertasDirectas" class="icon-material-outline-local-offer green"></em>
@@ -110,7 +111,7 @@ $cantcompras=$availability['sold'];
 
                             <!-- Headline -->
                             <span class="bidding-detail t18 bd-bt-1 padding-bottom-10"  id="auctionAvailabilitypopup{{$auction->id}}" >
-                                <small style="font-weight: 400">Disponibilidad:</small> {{$objtAuction->available($auction->id,$auction->amount)}} <small>de</small> {{$auction->amount}} {{$auction->batch->product->unit}}
+                                <small style="font-weight: 400">Disponibilidad:</small> {{$objtAuction->available($auction->id,$auction->amount)}} <small>de</small> {{$auction->amount}} {{$auction->product['presentation_unit']}}
                             </span>
 
                             <!-- Headline -->
@@ -127,7 +128,7 @@ $cantcompras=$availability['sold'];
                                     </div>
                                 </div>
                                 <div class="bidding-field">
-                                    <input type="text" class="with-border" value="{{$auction->batch->product->unit}}" id="UnitAuction{{$auction->id}}" disabled>
+                                    <input type="text" class="with-border" value="{{$auction->product['presentation_unit']}}" id="UnitAuction{{$auction->id}}" disabled>
                                 </div>
                             </div>
                             <div class="bidding-fields">

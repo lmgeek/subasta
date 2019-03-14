@@ -12,7 +12,7 @@
                 <form method="post" id="compra-form{{$auction->id}}">
                     <div class="row margin-bottom-15">
                         <div class="col-md-5 bidding-widget">
-                            <p> <div id="auctionAvailabilitypopup{{$auction->id}}" style="display: inline-block!important;font-weight: bold"><small style="font-weight: 400">Disponibilidad:</small> {{$disponible}} <small>de</small> {{$total}} {{$auction->batch->product->unit}}</div> <br>
+                            <p> <div id="auctionAvailabilitypopup{{$auction->id}}" style="display: inline-block!important;font-weight: bold"><small style="font-weight: 400">Disponibilidad:</small> {{$disponible}} <small>de</small> {{$total}} {{$auction->product['presentation_unit']}}</div> <br>
                             <div class="margin-top-15">
                                 <h4 class="price red" id="PricePopUp{{$auction->id}}">${{$price['CurrentPrice']}} <small>x Kg</small></h4>
                                 <small class="red">&Uacute;ltimo precio registrado</small>
@@ -29,7 +29,7 @@
                                     </div>
                                 </div>
                                 <div class="bidding-field">
-                                    <input type="text" class="with-border" value="{{$auction->batch->product->unit}}" id="UnitAuction{{$auction->id}}" disabled>
+                                    <input type="text" class="with-border" value="{{$auction->product['sale_unit']}}" id="UnitAuction{{$auction->id}}" disabled>
                                     <input type="hidden" id="PriceBid{{$auction->id}}">
                                 </div>
                             </div>

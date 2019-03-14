@@ -2,8 +2,8 @@
 use App\Constants;
 use App\User;
 $title='Agregar';
-
-if(Auth::user()->type==Constants::INTERNAL){
+$tipo=(isset(Auth::user()->type))?Auth::user()->type:null;
+if($tipo==Constants::INTERNAL){
 ?>
 @extends('landing3/partials/layout-admin')
 @section('title',' | '.$title.' usuario')
@@ -33,16 +33,20 @@ if(Auth::user()->type==Constants::INTERNAL){
                 Alias<br><input type="text" name="nickname" placeholder="Alias" maxlength="10">
             </div>
         </div>
-        <div class="row document" id="DNI" style="display:none">
+        <div class="row UserPanel" id="BuyerPanel" style="display:none">
             <div class='col'>
                 DNI<br>
-                <input type="number" name="dni" placeholder="DNI" minlength="7">
+                <input type="number" name="dni" placeholder="DNI" minlength="7" id="DNI">
+            </div>
+            <div class='col'>
+                Limite de compra<br>
+                <input type="number" name="limit" placeholder="L&iacute;mite de compra" minlength="10" id="Limit">
             </div>
         </div>
-        <div class="row document" id="CUIT" style="display:none">
+        <div class="row UserPanel" id="SellerPanel" style="display:none">
             <div class='col'>
                 CUIT<br>
-                <input type="number" name="cuit" placeholder="CUIT" minlength="13">
+                <input type="number" name="cuit" placeholder="CUIT" minlength="13" id="CUIT">
             </div>
         </div>
         <div class="row">
@@ -72,11 +76,17 @@ if(Auth::user()->type==Constants::INTERNAL){
 <script>
 function users_changeType(){
     let $type=$('#UserType').val();
-    $('.document').fadeOut();
+    $('.UserPanel').fadeOut();
+    $('#DNI').removeAttr('required');
+    $('#Limit').removeAttr('required');
+    $('#CUIT').removeAttr('required');
     if($type=='buyer'){
-        $('#DNI').fadeIn();
+        $('#BuyerPanel').fadeIn();
+        $('#DNI').attr('required','true');
+        $('#Limit').attr('required','true');
     }else if($type=='seller'){
-        $('#CUIT').fadeIn();
+        $('#SellerPanel').fadeIn();
+        $('#CUIT').attr('required','true');
     }
 }
 </script>

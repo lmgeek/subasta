@@ -356,4 +356,24 @@ class ProductController extends Controller
         $prod->restore();
         return redirect(Constants::URL_PRODUCTS);
     }
+    public static function getCalibersFromProductId(Request $request){
+        $details=ProductDetail::select('caliber')->where('product_id',Constants::EQUAL,$request->id)->get();
+        $return=array();
+        foreach($details as $prod){
+            $return['natural'][]=$prod->caliber;
+            $return['translated'][]=trans('general.product_caliber.'.$prod->caliber);
+        }
+        return json_encode($return);
+    }
+    public static function getUnitsFromProductIdCaliber(Request $request){
+        $details=ProductDetail::select('presentation_unit','sale_unit','id')
+                ->where('product_id',Constants::EQUAL,$request->idproduct)
+                ->where('caliber',Constants::EQUAL,$request->caliber)
+                ->get()[0];
+        return json_encode(array(
+            'presentation'=>$details->presentation_unit,
+            'sale'=>$details->sale_unit,
+            'id'=>$details->id
+        ));
+    }
 }

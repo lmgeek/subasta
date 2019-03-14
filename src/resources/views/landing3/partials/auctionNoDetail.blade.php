@@ -44,25 +44,26 @@ if(Auth::user()){
     $link1='/auction';
     $link2=$link1;
 }
+//dd($auction);
 setlocale(LC_TIME,'es_ES');
 $fechafin=strftime('%d %b %Y', strtotime($auction->end));
 ?>
 <div id="Auction_<?=$auction->id?>" class="task-listing <?=(empty($finished))?'auction':''?>" data-id="{{$auction->id}}" data-price="{{$price['CurrentPrice']}}" data-end="{{$auction->end}}" data-endOrder="{{date('YmdHi',strtotime($auction->end))}}" data-close="{{$close}}"data-userrating="{{$userRatings}}"
 <?='data-port="'.$auction->batch->arrive->port_id.'"
-data-product="'.$auction->batch->product->id.'"
-data-caliber="'.$auction->batch->caliber.'"
+data-product="'.$auction->product['idproduct'].'"
+data-caliber="'.$auction->product['caliber'].'"
 data-quality="'.(($auction->batch->quality<1)?1:$auction->batch->quality).'"
 data-user="'.$auction->batch->arrive->boat->user->nickname.'"'?>>
 <div class="task-listing-details" id="AuctionLeft<?=$auction->id?>">
     @if(!isset($nopic))
         <div class="task-listing-photo">
-            <img src="/img/products/{{$auction->batch->product->image_name}}" alt="{{$auction->batch->product->name}}">
+            <img src="/img/products/{{$auction->product['image']}}" alt="{{$auction->product['name']}}">
         </div>
     @endif
         <div class="task-listing-description">
             <h3 class="task-listing-title">
-                <a href="{{($auction->timeline!=Constants::FINISHED)?'/auction/details/'.$auction->id:'#'}}" id="LinkSubasta{{$auction->id}}">
-                    {{$auction->batch->product->name}} {{trans('auction.'.$auction->batch->caliber)}}
+                <a href="{{($auction->timeline!=Constants::FINISHED)?'/subastas/ver/'.$auction->id:'#'}}" id="LinkSubasta{{$auction->id}}">
+                    {{$auction->product['name']}} {{trans('auction.'.$auction->product['caliber'])}}
                 </a>
                 <div class="star-rating" data-rating="{{$auction->batch->quality}}"></div>
                 @if($auction->type!='public')
@@ -120,7 +121,7 @@ data-user="'.$auction->batch->arrive->boat->user->nickname.'"'?>>
     <div class="task-listing-bid">
         <div class="task-listing-bid-inner">
             <div class="task-offers">
-                <p> <div id="auctionAvailability{{$auction->id}}" style="display: inline-block!important;font-weight: bold"><small style="font-weight: 400">Disponibilidad:</small> {{$disponible}} <small>de</small> {{$total}} {{$auction->batch->product->unit}}</div> <br>
+                <p> <div id="auctionAvailability{{$auction->id}}" style="display: inline-block!important;font-weight: bold"><small style="font-weight: 400">Disponibilidad:</small> {{$disponible}} <small>de</small> {{$total}} {{$auction->product['presentation_unit']}}</div> <br>
                 @if(empty($finished))
                         <small class="green fw700" id="BidsCounter{{$auction->id}}">
                             @if($cantbids>0)
@@ -130,12 +131,12 @@ data-user="'.$auction->batch->arrive->boat->user->nickname.'"'?>>
                     @endif
                     </p>
 
-                    <div class="pricing-plan-label billed-monthly-label <?=(empty($finished)?'red':'')?>" id="PriceContainer{{$auction->id}}"><strong class="red" id="Price{{$auction->id}}">${{$price['CurrentPrice']}}</strong>/ Kg<br>
+                    <div class="pricing-plan-label billed-monthly-label <?=(empty($finished)?'red':'')?>" id="PriceContainer{{$auction->id}}"><strong class="red" id="Price{{$auction->id}}">${{$price['CurrentPrice']}}</strong>/ {{$auction->product['sale_unit']}}<br>
                         <small class="red fw500" id="ClosePrice{{$auction->id}}"<?=(empty($finished) || $finished!='&iexcl;Finalizada!')?'style="display:none"':''?>><?=(empty($finished))?'&iexcl;Cerca del precio l&iacute;mite!':'Precio Final'?></small></div>
                     <div id="timer<?=$auction->id?>" class="countdown <?=(isset($finished) && $finished=='&iexcl;Proximamente!')?'green ':''?>margin-bottom-0 margin-top-20 blink_me <?=(empty($finished))?'timerauction':''?>" data-timefin="{{$auction->end}}" data-id="{{$auction->id}}">
                         <?=(isset($finished))?$finished:''?></div>
             </div>
-            <input type="hidden" value="{{$auction->batch->product->unit}}" id="UnitAuction{{$auction->id}}">
+            <input type="hidden" value="{{$auction->product['presentation_unit']}}" id="UnitAuction{{$auction->id}}">
             @if($auction->timeline==Constants::IN_COURSE)
                 <div  id="OpenerPopUpCompra{{$auction->id}}">
                     <div class="w100">
