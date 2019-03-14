@@ -196,16 +196,16 @@ class ProductController extends Controller
      */
     public function update(EditProductRequest $request, $id)
     {
+        $pro_exitente1 = $request->input('id_small');
+        $pro_exitente2 = $request->input('id_medium');
+        $pro_exitente3 = $request->input('id_big');
 
-
-        $pro_exitente = ProductDetail::Select('id')->where('product_id', '=', $id)->where('deleted_at','=',null)->limit(3)->orderby('id','DESC')->get()->toArray();
-
-        $exitente = Batch::Select('id')->where('product_detail_id', '=', $pro_exitente[2])->get()->toArray();
+        $exitente = Batch::Select('id')->where('product_detail_id', '=', $pro_exitente1)->get()->toArray();
         if (count($exitente) == 0){
-            $exitente = Batch::Select('id')->where('product_detail_id', '=', $pro_exitente[1])->get()->toArray();
+            $exitente = Batch::Select('id')->where('product_detail_id', '=', $pro_exitente2)->get()->toArray();
         }
         if (count($exitente) == 0){
-            $exitente = Batch::Select('id')->where('product_detail_id', '=', $pro_exitente[0])->get()->toArray();
+            $exitente = Batch::Select('id')->where('product_detail_id', '=', $pro_exitente3)->get()->toArray();
         }
             $prod = Product::withTrashed()->findOrFail($id);
             if(!is_null($request->file(Constants::IMAGEN))){
@@ -226,11 +226,9 @@ class ProductController extends Controller
         $status2=$request->statusm;
         $status3=$request->statusg;
 //        modificar el calibre chico
-        $product_exitente = ProductDetail::Select()->where('product_id', '=', $id)->where('caliber','=','small')->where('deleted_at','=',null)->limit(1)->orderby('id','DESC')->get()->toArray();
-        $data1= $product_exitente[0];
-        $exitente_lote = Batch::Select('id')->where('product_detail_id', '=', $data1['id'])->get()->toArray();
+        $exitente_lote = Batch::Select('id')->where('product_detail_id', '=', $pro_exitente1)->get()->toArray();
         if (count($exitente_lote) == 0){
-            $detail = ProductDetail::withTrashed()->findOrFail($data1['id']);
+            $detail = ProductDetail::withTrashed()->findOrFail($pro_exitente1);
             $detail->caliber = 'small';
             $detail->presentation_unit = $request->unidadp;
             $detail->sale_unit  = $request->input('salep');
@@ -243,7 +241,7 @@ class ProductController extends Controller
             $detail->save();
         }else{
 //            modifico el status
-            $detail = ProductDetail::withTrashed()->findOrFail($data1['id']);
+            $detail = ProductDetail::withTrashed()->findOrFail($pro_exitente1);
             $detail->deleted_at = date('Y-m-d H:i:s');
             $detail->save();
 
@@ -261,13 +259,10 @@ class ProductController extends Controller
             }
             $detailn->save();
         }
-
 //        modificar el calibre mediano
-        $product_exitente1 = ProductDetail::Select('id')->where('product_id', '=', $id)->where('caliber','=','medium')->where('deleted_at','=',null)->limit(1)->orderby('id','DESC')->get()->toArray();
-        $data2= $product_exitente1[0];
-        $exitente_lote1 = Batch::Select('id')->where('product_detail_id', '=', $data2['id'])->get()->toArray();
+        $exitente_lote1 = Batch::Select('id')->where('product_detail_id', '=', $pro_exitente2)->get()->toArray();
         if (count($exitente_lote1) == 0){
-            $detail2 = ProductDetail::withTrashed()->findOrFail($data2['id']);
+            $detail2 = ProductDetail::withTrashed()->findOrFail($pro_exitente2);
             $detail2->caliber = 'medium';
             $detail->presentation_unit = $request->unidadm;
             $detail2->sale_unit  = $request->input('salem');
@@ -279,7 +274,7 @@ class ProductController extends Controller
             }
             $detail2->save();
         }else{
-            $detail = ProductDetail::withTrashed()->findOrFail($data2['id']);
+            $detail = ProductDetail::withTrashed()->findOrFail($pro_exitente2);
             $detail->deleted_at = date('Y-m-d H:i:s');
             $detail->save();
 //          agrego el nuevo detalle
@@ -297,11 +292,9 @@ class ProductController extends Controller
             $detailn->save();
         }
 //        modificar el calibre grande
-        $product_exitente2 = ProductDetail::Select('id')->where('product_id', '=', $id)->where('caliber','=','big')->where('deleted_at','=',null)->limit(1)->orderby('id','DESC')->get()->toArray();
-        $data3= $product_exitente2[0];
-        $exitente_lote2 = Batch::Select('id')->where('product_detail_id', '=', $data3['id'])->get()->toArray();
+        $exitente_lote2 = Batch::Select('id')->where('product_detail_id', '=', $pro_exitente3)->get()->toArray();
         if (count($exitente_lote2) == 0){
-            $detail3 = ProductDetail::withTrashed()->findOrFail($data3['id']);
+            $detail3 = ProductDetail::withTrashed()->findOrFail($pro_exitente3);
             $detail3->caliber = 'big';
             $detail->presentation_unit = $request->unidadg;
             $detail3->sale_unit  = $request->input('saleg');
@@ -313,7 +306,7 @@ class ProductController extends Controller
             }
             $detail3->save();
         }else{
-            $detail = ProductDetail::withTrashed()->findOrFail($data3['id']);
+            $detail = ProductDetail::withTrashed()->findOrFail($pro_exitente3);
             $detail->deleted_at = date('Y-m-d H:i:s');
             $detail->save();
 //          agrego el nuevo detalle

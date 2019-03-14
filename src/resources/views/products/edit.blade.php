@@ -134,7 +134,7 @@
                                             </select>
                                             <select class="form-control" name="statusm" id="statusm">
                                                 <?
-                                                if ($datail2['presentation_unit'] <> null){
+                                                if ($datail2['deleted_at'] == null){
                                                     $status2= 'Activado';
                                                 }else{
                                                     $status2= 'Desactivado';
@@ -172,7 +172,7 @@
                                             </select>
                                             <select class="form-control" name="statusg" id="statusg">
                                                 <?php
-                                                if ($datail3['presentation_unit'] <> null){
+                                                if ($datail3['deleted_at'] == null){
                                                     $status3= 'Activado';
                                                 }else{
                                                     $status3= 'Desactivado';
