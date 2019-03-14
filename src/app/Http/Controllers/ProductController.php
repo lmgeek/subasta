@@ -162,10 +162,12 @@ class ProductController extends Controller
     {
         $product = Product::withTrashed()->findOrFail($id);
         $produ_id = $product->id;
-        $ProductDetail = ProductDetail::where('product_id','=',$produ_id)->limit(3)->orderby('id','DESC')->get()->toArray();
-        $datail= $ProductDetail[0];
-        $datail2 = $ProductDetail[1];
-        $datail3 = $ProductDetail[2];
+        $ProductDetail1 = ProductDetail::withTrashed()->where('product_id','=',$produ_id)->where('caliber','=','small')->limit(3)->orderby('id','DESC')->get()->toArray();
+        $ProductDetail2 = ProductDetail::withTrashed()->where('product_id','=',$produ_id)->where('caliber','=','medium')->limit(3)->orderby('id','DESC')->get()->toArray();
+        $ProductDetail3 = ProductDetail::withTrashed()->where('product_id','=',$produ_id)->where('caliber','=','big')->limit(3)->orderby('id','DESC')->get()->toArray();
+        $datail= $ProductDetail1[0];
+        $datail2 = $ProductDetail2[0];
+        $datail3 = $ProductDetail3[0];
 
         $exitente_lote = Batch::Select('id')->where('product_detail_id', '=', $datail['id'])->get()->toArray();
         if (count($exitente_lote)){
