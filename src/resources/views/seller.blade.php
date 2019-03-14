@@ -1,28 +1,11 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>{{trans('register.title_seller')}}</title>
-
-    <link href="/landing/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/font-awesome/css/font-awesome.css" rel="stylesheet">
-    <link href="/css/plugins/iCheck/custom.css" rel="stylesheet">
-    <link href="/css/animate.css" rel="stylesheet">
-    <link href="/css/style.css" rel="stylesheet">
-
+@include('landing3/partials/common')
 </head>
-
-<body class="gray-bg">
-
-    <div class="middle-box text-center loginscreen   animated fadeInDown">
+<body class="gray">
+<div class="middle-box text-center loginscreen animated fadeInDown" style="width: 30%; margin: auto;">
         <div>
             <div>
 
-                {{--<h1 class="logo-name">IN+</h1>--}}
+                <img alt="image" src="/landing3/images/logo2.png" width="50%" style="padding: 50px 0px;"/>
 
             </div>
             <h3>{{trans('register.title_seller')}}</h3>
@@ -66,7 +49,7 @@
                        <!-- <div class="checkbox i-checks"><label> <input type="checkbox"><i></i> Agree the terms and policy </label></div>-->
                 </div>
                 <input type="hidden" name="dni" value="12345678901">
-                <button type="submit" class="btn btn-primary block full-width m-b">{{trans('register.register')}} {{ trans('register.seller') }}</button>
+                <button type="submit" class="button block full-width m-b">{{trans('register.register')}} {{ trans('register.seller') }}</button>
 
                 <p class="text-muted text-center"><small>{{trans('register.ifexist')}}</small></p>
                 <a class="btn btn-sm btn-white btn-block" href="/auth/login">{{trans('register.login')}}</a>
