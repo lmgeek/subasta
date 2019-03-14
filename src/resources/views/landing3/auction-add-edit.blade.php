@@ -107,7 +107,10 @@ if(Auth::user()->type==Constants::VENDEDOR && ((isset($auction->timeline) && $au
 									<div class="submit-field">
 										<h5>Calibre <i class="help-icon" data-tippy-placement="right" title="Tamaño del producto"></i></h5>
                                         <select name="caliber" <?=($batchedit==0)?Constants::DISABLED:''?>  class="selectpicker with-border"  title="Seleccione un producto..." onchange="auctions_loadUnits()" id="CalibersSelect">
-                                            <?=(isset($caliber))?'<option selected value="'.$caliber.'">'.trans('general.product_caliber.'.$caliber).'</option>':''?>
+                                            <option disabled value='0'>Seleccione...</option>
+                                            <?php for($z=0;$z<count($calibers);$z++){?>
+                                            <option value='<?=$calibers[$z]?>'<?=(isset($caliber) && $caliber==$calibers[$z])?'selected':''?>><?=trans('general.product_caliber.'.$calibers[$z])?></option>    
+                                            <?php }?>
                                         </select>
 									</div>
 								</div>
