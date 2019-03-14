@@ -124,6 +124,10 @@ Route::post('sellerboat/arrive', [
     'as' => 'sellerboat.arrive', 'uses' => 'SellerBoatsController@storeArrive'
 ]);
 
+Route::post('barcos/store', [
+    'as' => 'sellerboat.store', 'uses' => 'SellerBoatsController@store'
+]);
+
 Route::get('sellerboat/arrive/edit/{arrive}', [
     'as' => 'sellerboat.editarrive', 'uses' => 'SellerBoatsController@editArrive'
 ]);
@@ -145,7 +149,6 @@ Route::get('sellerboat/batch/delete/{batch}', [
 
 
 Route::group(['middleware' => ['auth']],function(){
-    Route::resource('sellerboat','SellerBoatsController');
     Route::post("/get/participantes","AuctionBackController@getParticipantes");
 });
 Route::group(['middleware' => ['auth']],function(){

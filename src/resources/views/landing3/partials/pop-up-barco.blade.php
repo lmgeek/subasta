@@ -17,6 +17,7 @@ use Illuminate\Routing\Controllers;
             <li><a href="#tab">Subastas del Mar</a></li>
         </ul>
 
+
         <div class="popup-tabs-container">
 
             <!-- Tab -->

@@ -58,7 +58,7 @@ class SellerBoatsController extends Controller
     {
         $this->authorize(Constants::ADDBOAT, new Boat());
 
-        return view('sellerBoats.create');
+        /*return view('sellerBoats.create');*/
     }
 
     /**
