@@ -9,7 +9,7 @@ BEGIN
   IF EXISTS ( SELECT * FROM information_schema.`COLUMNS`
                   WHERE
                       TABLE_SCHEMA='subastas'
-                    AND table_name='batches'
+                    AND table_name='products'
                     AND column_name='sale_unit'
     ) THEN
     ALTER TABLE batches DROP COLUMN sale_unit;
