@@ -46,8 +46,12 @@
                         <form action="{{ route('products.update',$product) }}" method="POST" enctype="multipart/form-data">
                             {{ csrf_field() }}
                             {{ method_field('PUT') }}
+
                             <input type="hidden" name="id" value="{{ $product->id }}">
                             <input type="hidden" name="relationship" value="{{ $const }}">
+                            <input type="hidden" name="id_small" value="{{ $datail['id'] }}">
+                            <input type="hidden" name="id_medium" value="{{ $datail2['id'] }}">
+                            <input type="hidden" name="id_big" value="{{ $datail3['id'] }}">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -74,10 +78,10 @@
                                             <select class="form-control" name="unidadp" id="unidadp">
                                                 <option value="">Seleccione...</option>
                                                 <?php
-                                                $unidad = (is_null(old('unidadp'))) ? $datail['presentation_unit'] : old('unidadp');
+                                                $unidad1 = (is_null(old('unidadp'))) ? $datail['presentation_unit'] : old('unidadp');
                                                 ?>
                                                 @foreach(\App\Product::units() as $u)
-                                                    <option @if( $unidad == $u) selected @endif value="{{ $u }}">{{ trans('general.product_units.'.$u) }}</option>
+                                                    <option @if( $unidad1 == $u) selected @endif value="{{ $u }}">{{ trans('general.product_units.'.$u) }}</option>
                                                 @endforeach
                                             </select>
                                             <label for="unit">Unida de venta</label>
@@ -91,12 +95,13 @@
                                                 @endforeach
                                             </select>
                                             <select class="form-control" name="statusp" id="statusp">
+                                                <?
+                                                if ($datail['deleted_at'] == null){
+                                                    $status1= 'Activado';
+                                                }else{
+                                                    $status1= 'Desactivado';
+                                                }?>
                                                 <?php
-                                                    if ($datail['presentation_unit'] == null){
-                                                        $status1= 'Activado';
-                                                    }else{
-                                                        $status1= 'Desactivado';
-                                                    }
                                                 $unidad = (is_null(old('statusp'))) ? $status1 : old('statusp');
                                                 ?>
                                                 @foreach(\App\Product::status() as $u)
@@ -128,12 +133,13 @@
                                                 @endforeach
                                             </select>
                                             <select class="form-control" name="statusm" id="statusm">
-                                                <?php
-                                                if ($datail2['presentation_unit'] == null){
+                                                <?
+                                                if ($datail2['presentation_unit'] <> null){
                                                     $status2= 'Activado';
                                                 }else{
                                                     $status2= 'Desactivado';
-                                                }
+                                                }?>
+                                                <?php
                                                 $unidad = (is_null(old('statusm'))) ? $status2 : old('statusm');
                                                 ?>
                                                 @foreach(\App\Product::status() as $u)
@@ -166,7 +172,7 @@
                                             </select>
                                             <select class="form-control" name="statusg" id="statusg">
                                                 <?php
-                                                if ($datail3['presentation_unit'] == null){
+                                                if ($datail3['presentation_unit'] <> null){
                                                     $status3= 'Activado';
                                                 }else{
                                                     $status3= 'Desactivado';

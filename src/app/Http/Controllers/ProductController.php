@@ -196,6 +196,8 @@ class ProductController extends Controller
      */
     public function update(EditProductRequest $request, $id)
     {
+
+
         $pro_exitente = ProductDetail::Select('id')->where('product_id', '=', $id)->where('deleted_at','=',null)->limit(3)->orderby('id','DESC')->get()->toArray();
 
         $exitente = Batch::Select('id')->where('product_detail_id', '=', $pro_exitente[2])->get()->toArray();
