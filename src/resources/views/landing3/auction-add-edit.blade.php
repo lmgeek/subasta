@@ -143,7 +143,7 @@ if(Auth::user()->type==Constants::VENDEDOR && ((isset($auction->timeline) && $au
 								
 							</div>
 						</div>
-                        <input type="hidden" name="product_detail" id='ProductDetailID'>
+                        <input type="hidden" name="product_detail" id='ProductDetailID' value='<?=(isset($auction->batch->product_detail_id))?$auction->batch->product_detail_id:''?>'>
 						<!-- Headline -->
 						<div class="headline">
 							<h3><i class="icon-material-outline-gavel"></i> Informaci&oacute;n de la Subasta</h3>
