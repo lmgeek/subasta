@@ -220,6 +220,9 @@ class ProductController extends Controller
             $prod->name = $request->nombre;
             }
         $prod->save();
+        $status1=$request->statusp;
+        $status2=$request->statusm;
+        $status3=$request->statusg;
 //        modificar el calibre chico
         $product_exitente = ProductDetail::Select()->where('product_id', '=', $id)->where('caliber','=','small')->where('deleted_at','=',null)->limit(1)->orderby('id','DESC')->get()->toArray();
         $data1= $product_exitente[0];
@@ -230,6 +233,11 @@ class ProductController extends Controller
             $detail->presentation_unit = $request->unidadp;
             $detail->sale_unit  = $request->input('salep');
             $detail->weight = str_replace(",", ".", $request->weight_small);
+            if ($status1 == 'Desactivado'){
+                $detail->deleted_at = date('Y-m-d H:i:s');
+            }else{
+                $detail->deleted_at = null;
+            }
             $detail->save();
         }else{
 //            modifico el status
@@ -244,6 +252,11 @@ class ProductController extends Controller
             $detailn->presentation_unit = $request->unidadp;
             $detailn->sale_unit  = $request->input('salep');
             $detailn->weight = str_replace(",", ".", $request->weight_small);
+            if ($status1 == 'Desactivado'){
+                $detailn->deleted_at = date('Y-m-d H:i:s');
+            }else{
+                $detailn->deleted_at = null;
+            }
             $detailn->save();
         }
 
@@ -257,6 +270,11 @@ class ProductController extends Controller
             $detail->presentation_unit = $request->unidadm;
             $detail2->sale_unit  = $request->input('salem');
             $detail2->weight = str_replace(",", ".", $request->weight_medium);
+            if ($status2 == 'Desactivado'){
+                $detail2->deleted_at = date('Y-m-d H:i:s');
+            }else{
+                $detail2->deleted_at = null;
+            }
             $detail2->save();
         }else{
             $detail = ProductDetail::withTrashed()->findOrFail($data2['id']);
@@ -269,6 +287,11 @@ class ProductController extends Controller
             $detailn->presentation_unit = $request->unidadm;
             $detailn->sale_unit  = $request->input('salem');
             $detailn->weight = str_replace(",", ".", $request->weight_medium);
+            if ($status2 == 'Desactivado'){
+                $detailn->deleted_at = date('Y-m-d H:i:s');
+            }else{
+                $detailn->deleted_at = null;
+            }
             $detailn->save();
         }
 //        modificar el calibre grande
@@ -281,6 +304,11 @@ class ProductController extends Controller
             $detail->presentation_unit = $request->unidadg;
             $detail3->sale_unit  = $request->input('saleg');
             $detail3->weight = str_replace(",", ".", $request->weight_big);
+            if ($status3 == 'Desactivado'){
+                $detail3->deleted_at = date('Y-m-d H:i:s');
+            }else{
+                $detail3->deleted_at = null;
+            }
             $detail3->save();
         }else{
             $detail = ProductDetail::withTrashed()->findOrFail($data3['id']);
@@ -293,6 +321,11 @@ class ProductController extends Controller
             $detailn->presentation_unit = $request->unidadg;
             $detailn->sale_unit  = $request->input('saleg');
             $detailn->weight = str_replace(",", ".", $request->weight_big);
+            if ($status3 == 'Desactivado'){
+                $detailn->deleted_at = date('Y-m-d H:i:s');
+            }else{
+                $detailn->deleted_at = null;
+            }
             $detailn->save();
         }
         return redirect(Constants::URL_PRODUCTS);

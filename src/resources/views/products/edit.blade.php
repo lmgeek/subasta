@@ -92,7 +92,12 @@
                                             </select>
                                             <select class="form-control" name="statusp" id="statusp">
                                                 <?php
-                                                $unidad = (is_null(old('statusp'))) ? $datail['presentation_unit'] : old('statusp');
+                                                    if ($datail['presentation_unit'] == null){
+                                                        $status1= 'Activado';
+                                                    }else{
+                                                        $status1= 'Desactivado';
+                                                    }
+                                                $unidad = (is_null(old('statusp'))) ? $status1 : old('statusp');
                                                 ?>
                                                 @foreach(\App\Product::status() as $u)
                                                     <option @if( $unidad == $u) selected @endif value="{{ $u }}">{{ $u }}</option>
@@ -124,7 +129,12 @@
                                             </select>
                                             <select class="form-control" name="statusm" id="statusm">
                                                 <?php
-                                                $unidad = (is_null(old('statusm'))) ? $datail2['presentation_unit'] : old('statusm');
+                                                if ($datail2['presentation_unit'] == null){
+                                                    $status2= 'Activado';
+                                                }else{
+                                                    $status2= 'Desactivado';
+                                                }
+                                                $unidad = (is_null(old('statusm'))) ? $status2 : old('statusm');
                                                 ?>
                                                 @foreach(\App\Product::status() as $u)
                                                     <option @if( $unidad == $u) selected @endif value="{{ $u }}">{{ $u }}</option>
@@ -156,7 +166,12 @@
                                             </select>
                                             <select class="form-control" name="statusg" id="statusg">
                                                 <?php
-                                                $unidad = (is_null(old('statusg'))) ? $datail3['presentation_unit'] : old('statusg');
+                                                if ($datail3['presentation_unit'] == null){
+                                                    $status3= 'Activado';
+                                                }else{
+                                                    $status3= 'Desactivado';
+                                                }
+                                                $unidad = (is_null(old('statusg'))) ? $status3 : old('statusg');
                                                 ?>
                                                 @foreach(\App\Product::status() as $u)
                                                     <option @if( $unidad == $u) selected @endif value="{{ $u }}">{{ $u }}</option>
