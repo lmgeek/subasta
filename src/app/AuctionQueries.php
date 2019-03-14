@@ -139,6 +139,7 @@ class AuctionQuery extends Auction{
             }
             $auction->code= Http\Controllers\AuctionFrontController::getAuctionCode($auction->correlative, $auction->created_at);
             $auction->timeline=$timeline;
+            $auction->product= Product::getProductInfoFromProductDetailId($auction->batch->product_detail_id);
             if($auction->type==Constants::AUCTION_PUBLIC){
                 $return[$timeline][]=$auction;
                 $return['all'][]=$auction;
