@@ -98,7 +98,7 @@
 									<ul class="user-menu-small-nav">
 										<li><a href="{{url('/home')}}"><em class="icon-material-outline-dashboard"></em> Dashboard</a></li>
 										<li><a href="#"><em class="icon-feather-user"></em> Mi Cuenta</a></li>
-										<li><a href="{{url('/sellerboat')}}"><em class="icon-line-awesome-ship"></em> Mis Barcos</a></li>
+										<li><a href="{{url('/barcos')}}"><em class="icon-line-awesome-ship"></em> Mis Barcos</a></li>
 										<li><a href="{{url('/sellerbatch')}}"><em class="icon-feather-box"></em> Mis Lotes</a></li>
 										<li><a href="{{url('/sellerAuction')}}"><em class="icon-material-outline-gavel"></em>Mis Subastas</a></li>
 										<li><a href="{{url('/sales')}}"><em class="icon-material-outline-gavel"></em> Ventas de Subastas</a></li>

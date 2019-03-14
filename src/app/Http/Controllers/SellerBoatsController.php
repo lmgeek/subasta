@@ -42,11 +42,11 @@ class SellerBoatsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
+    {die();
         $this->authorize('seeSellerBoats', new Boat());
 
         $barcos = Boat::where(Constants::BOATS_USER_ID,Auth::user()->id)->get();
-        return view('sellerBoats.index',compact('barcos','request'));
+        return view('boats',compact('barcos','request'));
     }
 
     /**

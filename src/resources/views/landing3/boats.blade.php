@@ -4,6 +4,7 @@ use App\Boat;
 
 $objt = new Boat();
 $CantidadBarco = count($objt->getInfoBoat(Auth::user()->id));
+use Illuminate\Support\Facades\Auth;
 
 ?>
 
@@ -38,11 +39,12 @@ $CantidadBarco = count($objt->getInfoBoat(Auth::user()->id));
 
                 <!-- Dashboard Box -->
                 <div class="col-xl-12">
-
-                    <div class="content text-right">
-                        <a href="#small-dialog-barco" class="popup-with-zoom-anim button ripple-effect big margin-bottom-10"><i class="icon-feather-plus"></i> Nuevo Barco</a>
-                    </div>
-
+                    {{--G.B si es distinto a admin no lo muestra--}}
+                    @if (Auth::check() && Auth::user()->type != \App\User::INTERNAL)
+                        <div class="content text-right">
+                            <a href="#small-dialog-barco" class="popup-with-zoom-anim button ripple-effect big margin-bottom-10"><i class="icon-feather-plus"></i> Nuevo Barco</a>
+                        </div>
+                    @endif
                     <div class="dashboard-box margin-top-0">
 
                         <!-- Headline-->

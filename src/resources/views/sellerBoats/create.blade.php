@@ -63,7 +63,7 @@ $ports = Ports::get();
                         </div>
                         <div class="ibox-footer text-right">
                             <button type="submit" class="btn btn-primary noDblClick" data-loading-text="Guardando...">Guardar</button>
-                            <a href="{{ route('sellerboat.index') }}" class="btn btn-danger">Cancelar</a>
+                            <a href="{{ route('landing3.boats') }}" class="btn btn-danger">Cancelar</a>
                         </div>
                     </form>
                 </div>
