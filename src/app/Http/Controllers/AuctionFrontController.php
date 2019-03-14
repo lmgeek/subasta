@@ -63,7 +63,7 @@ class AuctionFrontController extends AuctionController
         $batch->arrive_id = $arriveid;
         $batch->product_detail_id = $productid;
         $batch->quality = $quality;
-        $batch->amount = NULL;
+        $batch->amount = NULL; 
         $batch->save();
         $batchid=$batch->id;
 //        $batchStatus->batch_id = $batchid;
