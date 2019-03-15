@@ -45,8 +45,15 @@ function getMoreAuctions($limit=1,$idTarget='#FeaturedAuctions',$currentpage=1){
     }
     $filters['type']=$('#type').val();
     $.post('/getauctions', {limit:$limit,current:$currentpage,ids:$ids,time:$('#timeline').val(),filters:$filters,_token:$('#csrf').attr('content')}, function (result) {
-        
-        var $html=result;
+        var $result=JSON.parse(result);
+        var $html=$result['view'];
+        var $cant=$result['quantity'];
+        if($cant!=1){
+            $cant+=' subastas';
+        }else{
+            $cant+=' subasta';
+        }
+        $('#AuctionsCounter').html($cant);
         if(result.includes('#MasterFilter')==true){
             $('#Loader').fadeOut();
             notifications(0,null,null,null,'Tu sesion ha expirado');
@@ -62,7 +69,7 @@ function getMoreAuctions($limit=1,$idTarget='#FeaturedAuctions',$currentpage=1){
             inicializeEverything();
         }else{
             if($($idTarget).children('.auction').length==0){
-                $($idTarget).html('<h1 class="text-center">No hay Subastas para mostrar</h1>');
+                $($idTarget).html('<h1 class="text-center">No hay Subastas asociadas.</h1>');
             }
         }
     }).always(function(){$('#Loader').fadeOut();});
@@ -184,7 +191,7 @@ function updateAuctionData($id,$price=null,$end=null,$endorder=null,$endfriendly
 }
 function openPopupCompra($id){
     $('#PriceBid'+$id).val($('#Auction_'+$id).attr('data-price'));
-    $('#PricePopUp' + $id).html("$" + $('#PriceBid'+$id).val() + " <small>x kg</small>");
+    $('#PricePopUp' + $id).html("$" + $('#PriceBid'+$id).val() + " <small>/ "+$('#SaleUnit'+$id).val()+"</small>");
     gtag('event', 'OpenPopUpCompra', {
         'event_category':'Auction',
         'event_label':'Auction_'+$id
@@ -491,7 +498,43 @@ function homeFilterBuilder(){
     $('#ExtraParamsAnalytics').val($query);
 }
 function changeSaleUnit(){
-    $('#UnidadDeVenta').html($('select[name=unidad]').val());
+    $('#UnidadDeVenta').html($('#SaleUnit').val());
+}
+function auctions_loadCalibers(){
+    let $val=$('#ProductSelect').val();
+    $('#Loader').fadeIn();
+    $.get('/productos/ver/calibres',{id:$val},function(result){
+        $('#CalibersSelect').selectpicker('destroy');
+        let $result=JSON.parse(result);
+        $('#CalibersSelect option').each(function(){
+            var $disable=0;
+            for(var $y=0;$y<$result['natural'].length;$y++){
+                
+                if($result['natural'][$y]==$(this).val()){
+                    $disable++;
+                }
+            }
+            console.log($disable)
+            if($disable==0){
+                $(this).attr('disabled','true');
+            }
+        });
+        $('#CalibersSelect').selectpicker();
+    }).done(function(){$('#Loader').fadeOut()});
+}
+function auctions_loadUnits(){
+    let $product=$('#ProductSelect').val();
+    let $caliber=$('#CalibersSelect').val();
+    $('#Loader').fadeIn();
+    $.get('/productos/ver/unidades',{idproduct:$product,caliber:$caliber},function(result){
+        console.log(result);
+        let $result=JSON.parse(result);
+        $('#PresentationUnit').val($result['presentation']);
+        $('#SaleUnit').val($result['sale']);
+        $('.SaleUnits').html($result['sale']);
+        $('#UnidadDePresentacion').html($result['presentation']);
+        $('#ProductDetailID').val($result['id'])
+    }).done(function(){$('#Loader').fadeOut()});
 }
 function getPreferredPort(){
     $.get('/puertos/ver/preferido',{idboat:$('#Boat').val()},function(result){

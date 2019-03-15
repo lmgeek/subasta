@@ -217,7 +217,7 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
                 ->limit(1)->get()[0]['id'];
     }
     public function getAValidProduct(){
-        return Product::select('id')
+        return App\ProductDetail::select('id')
                 ->limit(1)->get()[0]['id'];
     }
     public function getAValidCaliber(){

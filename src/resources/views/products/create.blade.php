@@ -47,7 +47,7 @@
             <div class="col-lg-8 col-lg-offset-2">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>{{ trans('products.productInfo') }}</h5>
+                        <h5>Información  General del Producto</h5>
                     </div>
                     <div class="ibox-content">
                         <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
@@ -65,38 +65,62 @@
                                         <input type="text" name="nombre" class="form-control" id="name" value="{{ old('nombre') }}" >
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="unit">Unidad de Presentacion</label>
-                                        {!! Form::select('unidad',$units, old('unidad'), ['class' => 'required form-control']) !!}
 
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="unit">Unidad de Venta </label>
-                                        {!! Form::select('sale',$sale, old('sale'), ['class' => 'required form-control']) !!}
-
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="weigth">{{ trans('products.weigth') }}</label>
-                                        {{--<input type="text" min="0" name="weigth" class="form-control number" id="weigth" value="{{ old('weigth') }}">--}}
+                                        <label for="weigth">Información del Detalle de Producto</label>
                                         <br>
+                                        <small><p style="color: gray; font-style: italic;">   Sólo permite 2 decimales en el peso del producto</p></small>
                                         <div class="col-md-4">
                                             <label for="weigth_small">Chico</label>
                                             <input type="text" name="weight_small" class="form-control number" id="weigth_small" value="{{ old('weight_small') }}">
+                                            <div class="form-group">
+                                                <label for="unit">Unidad de Presentacion</label>
+                                                {!! Form::select('unidadp',$units, old('unidadp'), ['class' => 'required form-control']) !!}
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="unit">Unidad de Venta </label>
+                                                {!! Form::select('salep',$sale, old('salep'), ['class' => 'required form-control']) !!}
+
+                                            </div>
+                                            <div class="form-group">
+                                                {!! Form::select('statusp',$statusr, old('statusp'), ['class' => 'required form-control']) !!}
+                                            </div>
                                         </div>
                                         <div class="col-md-4">
                                             <label for="weigth_medium">Mediano</label>
                                             <input type="text" name="weight_medium" class="form-control number" id="weigth_medium" value="{{ old('weight_medium') }}">
+                                            <div class="form-group">
+                                                <label for="unit">Unidad de Presentacion</label>
+                                                {!! Form::select('unidadm',$units, old('unidadm'), ['class' => 'required form-control']) !!}
+
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="unit">Unidad de Venta </label>
+                                                {!! Form::select('salem',$sale, old('salem'), ['class' => 'required form-control']) !!}
+
+                                            </div>
+                                            <div class="form-group">
+                                                {!! Form::select('statusm',$statusr, old('statusm'), ['class' => 'required form-control']) !!}
+                                            </div>
                                         </div>
                                         <div class="col-md-4">
                                             <label for="weigth_big">Grande</label>
                                             <input type="text" name="weight_big" class="form-control number" id="weigth_big" value="{{ old('weight_big') }}">
+                                            <div class="form-group">
+                                                <label for="unit">Unidad de Presentacion</label>
+                                                {!! Form::select('unidadg',$units, old('unidadg'), ['class' => 'required form-control']) !!}
+
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="unit">Unidad de Venta </label>
+                                                {!! Form::select('saleg',$sale, old('saleg'), ['class' => 'required form-control']) !!}
+
+                                            </div>
+                                            <div class="form-group">
+                                                {!! Form::select('statusg',$statusr, old('statusg'), ['class' => 'required form-control']) !!}
+                                            </div>
                                         </div>
-                                        <small><p style="color: gray; font-style: italic;">   Sólo permite 2 decimales</p></small>
                                     </div>
                                     <div class="col-md-12 alert alert-warning alert-dismissable" id="error" style="display: none">
                                         <button type="button" class="close" data-dismiss="alert">&times;</button>

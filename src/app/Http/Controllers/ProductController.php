@@ -5,6 +5,8 @@ use App\Http\Requests\DeleteProductRequest;
 use App\Http\Requests\CreateProductRequest;
 use App\Http\Requests\EditProductRequest;
 use App\Product;
+use App\ProductDetail;
+use App\Batch;
 use Illuminate\Http\Request;
 use App\Constants;
 use App\Http\Requests;
@@ -36,13 +38,22 @@ class ProductController extends Controller
             $array_unit[$unit] = $unit;
         }
         $units = $array_unit;
+
+
         $SALE = Product::sale();
         $array_sele = [""=>"Seleccione..."];
         foreach ($SALE as $sale){
             $array_sele[$sale] = $sale;
         }
         $sale = $array_sele;
-        return view('products.create',compact('request','units', 'sale'));
+
+        $status = Product::status();
+
+        foreach ($status as $statu){
+            $array_status[$statu] = $statu;
+        }
+        $statusr = $array_status;
+        return view('products.create',compact('request','units', 'sale', 'statusr'));
     }
     /**
      * Store a newly created resource in storage.
@@ -52,15 +63,36 @@ class ProductController extends Controller
      */
     public function store(CreateProductRequest $request)
     {
-        $unidadess =$request->unidad;
+        $unidadess1 =$request->unidadp;
+        $unidadess2 =$request->unidadm;
+        $unidadess3 =$request->unidadg;
         $names =$request->nombre;
-        $productos  = Product::Select('name')->where('name','=',$names)->where('unit','=',$unidadess)->get()->toArray();
-       if ( $productos <> null) {
-           return redirect("/products/create")
-               ->withInput($request->only('name'))
-               ->withErrors(["El productoo ya existe",
-               ]);
-       }
+//        existencia del produto y su alarma
+        $productos  = Product::Select('id')->where('name','=',$names)->where('deleted_at','=',null)->limit(1)->orderby('id','DESC')->get()->toArray();
+        if (count($productos) <> 0) {
+            $productos0 = ProductDetail::Select('id')->where('product_id', '=', $productos[0])->where('presentation_unit', '=', $unidadess1)->where('caliber', '=', 'small')->get()->toArray();
+            if ($productos0 <> null) {
+                return redirect("/products/create")
+                    ->withInput($request->only('name'))
+                    ->withErrors(["El producto: $names calibre chico ya existe",
+                    ]);
+            }
+            $productos1 = ProductDetail::Select('id')->where('product_id', '=', $productos[0])->where('presentation_unit', '=', $unidadess2)->where('caliber', '=', 'small')->get()->toArray();
+            if ($productos1 <> null) {
+                return redirect("/products/create")
+                    ->withInput($request->only('name'))
+                    ->withErrors(["El producto: $names calibre mediano ya existe",
+                    ]);
+            }
+            $productos2 = ProductDetail::Select('id')->where('product_id', '=', $productos[0])->where('presentation_unit', '=', $unidadess3)->where('caliber', '=', 'small')->get()->toArray();
+            if ($productos2 <> null) {
+                return redirect("/products/create")
+                    ->withInput($request->only('name'))
+                    ->withErrors(["El producto: $names calibre ya existe",
+                    ]);
+            }
+        }
+//        insertar el producto
         $fileName = $request->file(Constants::IMAGEN)->getClientOriginalName();
         if ( !empty('img/products/'.$fileName) ){
             $request->file(Constants::IMAGEN)->move( 'img/products',$fileName );
@@ -68,13 +100,46 @@ class ProductController extends Controller
         $prod = new Product();
         $prod->name = $request->nombre;
         $prod->fishing_code = $request->codigo;
-        $prod->unit = $request->unidad;
-        $prod->sale_unit = $request->sale;
-        $prod->weigth_small = str_replace(",", ".", $request->weight_small);
-        $prod->weigth_medium = str_replace(",", ".", $request->weight_medium);
-        $prod->weigth_big = str_replace(",", ".", $request->weight_big);
         $prod->image_name = $fileName;
         $prod->save();
+        $idpro=$prod->id;
+        $status1=$request->statusp;
+        $status2=$request->statusm;
+        $status3=$request->statusg;
+        if (count($prod) <> 0){
+            $detail = new ProductDetail();
+            $detail->product_id = $idpro;
+            $detail->caliber = 'small';
+            $detail->presentation_unit = $request->unidadp;
+            $detail->sale_unit = $request->salep;
+            $detail->weight = str_replace(",", ".", $request->weight_small);
+            if ($status1 == 'Desactivado'){
+                $detail->deleted_at = date('Y-m-d H:i:s');
+            }
+            $detail->save();
+
+            $detail2 = new ProductDetail();
+            $detail2->product_id = $idpro;
+            $detail2->caliber = 'medium';
+            $detail2->presentation_unit = $request->unidadm;
+            $detail2->sale_unit = $request->salem;
+            $detail2->weight = str_replace(",", ".", $request->weight_medium);
+            if ($status2 == 'Desactivado'){
+                $detail2->deleted_at = date('Y-m-d H:i:s');
+            }
+            $detail2->save();
+
+            $detail3 = new ProductDetail();
+            $detail3->product_id = $idpro;
+            $detail3->caliber = 'big';
+            $detail3->presentation_unit = $request->unidadg;
+            $detail3->sale_unit = $request->saleg;
+            $detail3->weight = str_replace(",", ".", $request->weight_big);
+            if ($status3 == 'Desactivado'){
+                $detail3->deleted_at = date('Y-m-d H:i:s');
+            }
+            $detail3->save();
+        }
         return redirect(Constants::URL_PRODUCTS);
     }
     /**
@@ -96,7 +161,30 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::withTrashed()->findOrFail($id);
-        return view('products.edit',compact('product'));
+        $ProductDetail1 = ProductDetail::withTrashed()->where('product_id','=',$id)->where('caliber','=','small')->limit(3)->orderby('id','DESC')->get()->toArray();
+        $ProductDetail2 = ProductDetail::withTrashed()->where('product_id','=',$id)->where('caliber','=','medium')->limit(3)->orderby('id','DESC')->get()->toArray();
+        $ProductDetail3 = ProductDetail::withTrashed()->where('product_id','=',$id)->where('caliber','=','big')->limit(3)->orderby('id','DESC')->get()->toArray();
+        $datail= $ProductDetail1[0];
+        $datail2 = $ProductDetail2[0];
+        $datail3 = $ProductDetail3[0];
+
+        $exitente_lote = Batch::Select('id')->where('product_detail_id', '=', $datail['id'])->get()->toArray();
+        if (count($exitente_lote)){
+            $const = 1;
+        }else{
+            $exitente_lote1 = Batch::Select('id')->where('product_detail_id', '=', $datail2['id'])->get()->toArray();
+                if (count($exitente_lote1)){
+                    $const = 1;
+                }else{
+                    $exitente_lote2 = Batch::Select('id')->where('product_detail_id', '=', $datail3['id'])->get()->toArray();
+                    if (count($exitente_lote2)){
+                        $const = 1;
+                    }else{
+                        $const = 0;
+                    }
+        }}
+
+        return view('products.edit',compact('product','datail', 'datail2', 'datail3','const'));
     }
     /**
      * Update the specified resource in storage.
@@ -107,24 +195,189 @@ class ProductController extends Controller
      */
     public function update(EditProductRequest $request, $id)
     {
-        $prod = Product::withTrashed()->findOrFail($id);
-        if(!is_null($request->file(Constants::IMAGEN))){
-            $fileName = $request->file(Constants::IMAGEN)->getClientOriginalName();
-            if ( file_exists('img/products/'.$fileName) ){
-                $prod->image_name = $fileName;
-            } else {
-                $request->file(Constants::IMAGEN)->move( 'img/products',$fileName );
-                $prod->image_name = $fileName;
-            }
+//        id de los calibre en especifico
+        $pro_exitente1 = $request->input('id_small');
+        $pro_exitente2 = $request->input('id_medium');
+        $pro_exitente3 = $request->input('id_big');
+        $uni_presen = $request->input('unidadp');
+        $uni_sale = $request->input('salep');
+        $uni_presen2 = $request->input('unidadm');
+        $uni_sale2 = $request->input('salem');
+        $uni_presen3 = $request->input('unidadg');
+        $uni_sale3 = $request->input('saleg');
+
+        $weight1 = str_replace(",", ".", $request->weight_small);
+//        buscar relacion de los calibre
+        $exitente = Batch::Select('id')->where('product_detail_id', '=', $pro_exitente1)->get()->toArray();
+        if (count($exitente) == 0){
+            $exitente = Batch::Select('id')->where('product_detail_id', '=', $pro_exitente2)->get()->toArray();
         }
-        $prod->fishing_code = $request->input('codigo');
-        $prod->name = $request->nombre;
-        $prod->unit = $request->unidad;
-        $prod->sale_unit = $request->input('sale');
-        $prod->weigth_small = str_replace(",", ".", $request->weight_small);
-        $prod->weigth_medium = str_replace(",", ".", $request->weight_medium);
-        $prod->weigth_big = str_replace(",", ".", $request->weight_big);
+        if (count($exitente) == 0){
+            $exitente = Batch::Select('id')->where('product_detail_id', '=', $pro_exitente3)->get()->toArray();
+        }
+//        insertar el primer valor de producto
+            $prod = Product::withTrashed()->findOrFail($id);
+            if(!is_null($request->file(Constants::IMAGEN))){
+                $fileName = $request->file(Constants::IMAGEN)->getClientOriginalName();
+                if ( file_exists('img/products/'.$fileName) ){
+                    $prod->image_name = $fileName;
+                } else {
+                    $request->file(Constants::IMAGEN)->move( 'img/products',$fileName );
+                    $prod->image_name = $fileName;
+                }
+            }
+            if (count($exitente) == 0){
+            $prod->fishing_code = $request->input('codigo');
+            $prod->name = $request->nombre;
+            }
         $prod->save();
+//            status de por calibre
+        $status1=$request->statusp;
+        $status2=$request->statusm;
+        $status3=$request->statusg;
+//        modificar el calibre chico
+        $exitente_lote = Batch::Select('id')->where('product_detail_id', '=', $pro_exitente1)->get()->toArray();
+        if (count($exitente_lote) == 0){
+            $same=ProductDetail::withTrashed()->where('product_id', '=', $id)
+                ->where('caliber', '=', 'small')
+                ->where('presentation_unit', '=', $uni_presen)
+                ->where('sale_unit', '=', $uni_sale)->get()->toArray();
+            if (count($same)){
+                $detail = ProductDetail::withTrashed()->findOrFail($pro_exitente1);
+                $detail->weight = str_replace(",", ".", $request->weight_small);
+                if ($status1 == 'Desactivado'){
+                    $detail->deleted_at = date('Y-m-d H:i:s');
+                }else{
+                    $detail->deleted_at = null;
+                }
+                $detail->save();
+            }else{
+                //            modifico el status
+                $detail = ProductDetail::withTrashed()->findOrFail($pro_exitente1);
+                $detail->deleted_at = date('Y-m-d H:i:s');
+                $detail->save();
+
+//            agrego el nuevo detalle si ya tiene una relacion
+                $detailn = new ProductDetail();
+                $detailn->product_id = $id;
+                $detailn->caliber = 'small';
+                $detailn->presentation_unit = $request->unidadp;
+                $detailn->sale_unit  = $request->input('salep');
+                $detailn->weight = str_replace(",", ".", $request->weight_small);
+                if ($status1 == 'Desactivado'){
+                    $detailn->deleted_at = date('Y-m-d H:i:s');
+                }else{
+                    $detailn->deleted_at = null;
+                }
+                $detailn->save();
+            }
+        }else{
+            $detail = ProductDetail::withTrashed()->findOrFail($pro_exitente1);
+            $detail->caliber = 'small';
+            $detail->presentation_unit = $request->unidadp;
+            $detail->sale_unit  = $request->input('salep');
+            $detail->weight = str_replace(",", ".", $request->weight_small);
+            if ($status1 == 'Desactivado'){
+                $detail->deleted_at = date('Y-m-d H:i:s');
+            }else{
+                $detail->deleted_at = null;
+            }
+            $detail->save();
+        }
+//        modificar el calibre mediano
+        $exitente_lote1 = Batch::Select('id')->where('product_detail_id', '=', $pro_exitente2)->get()->toArray();
+        if (count($exitente_lote1) == 0){
+            $same2=ProductDetail::withTrashed()->where('product_id', '=', $id)
+                ->where('caliber', '=', 'medium')
+                ->where('presentation_unit', '=', $uni_presen2)
+                ->where('sale_unit', '=', $uni_sale2)->get()->toArray();
+            if (count($same2)){
+                $detail2 = ProductDetail::withTrashed()->findOrFail($pro_exitente2);
+                $detail2->weight = str_replace(",", ".", $request->weight_medium);
+                if ($status2 == 'Desactivado'){
+                    $detail2->deleted_at = date('Y-m-d H:i:s');
+                }else{
+                    $detail2->deleted_at = null;
+                }
+                $detail2->save();
+            }else{
+                $detail = ProductDetail::withTrashed()->findOrFail($pro_exitente2);
+                $detail->deleted_at = date('Y-m-d H:i:s');
+                $detail->save();
+//          agrego el nuevo detalle si ya tiene una relacion
+                $detailn = new ProductDetail();
+                $detailn->product_id = $id;
+                $detailn->caliber = 'medium';
+                $detailn->presentation_unit = $request->unidadm;
+                $detailn->sale_unit  = $request->input('salem');
+                $detailn->weight = str_replace(",", ".", $request->weight_medium);
+                if ($status2 == 'Desactivado'){
+                    $detailn->deleted_at = date('Y-m-d H:i:s');
+                }else{
+                    $detailn->deleted_at = null;
+                }
+                $detailn->save();
+            }
+        }else{
+            $detail2 = ProductDetail::withTrashed()->findOrFail($pro_exitente2);
+            $detail2->caliber = 'medium';
+            $detail->presentation_unit = $request->unidadm;
+            $detail2->sale_unit  = $request->input('salem');
+            $detail2->weight = str_replace(",", ".", $request->weight_medium);
+            if ($status2 == 'Desactivado'){
+                $detail2->deleted_at = date('Y-m-d H:i:s');
+            }else{
+                $detail2->deleted_at = null;
+            }
+            $detail2->save();
+        }
+//        modificar el calibre grande
+        $exitente_lote2 = Batch::Select('id')->where('product_detail_id', '=', $pro_exitente3)->get()->toArray();
+        if (count($exitente_lote2) == 0){
+            $same3=ProductDetail::withTrashed()->where('product_id', '=', $id)
+                ->where('caliber', '=', 'medium')
+                ->where('presentation_unit', '=', $uni_presen2)
+                ->where('sale_unit', '=', $uni_sale2)->get()->toArray();
+            if (count($same3)){
+                $detail3 = ProductDetail::withTrashed()->findOrFail($pro_exitente3);
+                $detail3->weight = str_replace(",", ".", $request->weight_big);
+                if ($status3 == 'Desactivado'){
+                    $detail3->deleted_at = date('Y-m-d H:i:s');
+                }else{
+                    $detail3->deleted_at = null;
+                }
+                $detail3->save();
+            }else{
+                $detail = ProductDetail::withTrashed()->findOrFail($pro_exitente3);
+                $detail->deleted_at = date('Y-m-d H:i:s');
+                $detail->save();
+//          agrego el nuevo detalle si ya tiene una relacion
+                $detailn = new ProductDetail();
+                $detailn->product_id = $id;
+                $detailn->caliber = 'big';
+                $detailn->presentation_unit = $request->unidadg;
+                $detailn->sale_unit  = $request->input('saleg');
+                $detailn->weight = str_replace(",", ".", $request->weight_big);
+                if ($status3 == 'Desactivado'){
+                    $detailn->deleted_at = date('Y-m-d H:i:s');
+                }else{
+                    $detailn->deleted_at = null;
+                }
+                $detailn->save();
+            }
+        }else{
+            $detail3 = ProductDetail::withTrashed()->findOrFail($pro_exitente3);
+            $detail3->caliber = 'big';
+            $detail->presentation_unit = $request->unidadg;
+            $detail3->sale_unit  = $request->input('saleg');
+            $detail3->weight = str_replace(",", ".", $request->weight_big);
+            if ($status3 == 'Desactivado'){
+                $detail3->deleted_at = date('Y-m-d H:i:s');
+            }else{
+                $detail3->deleted_at = null;
+            }
+            $detail3->save();
+        }
         return redirect(Constants::URL_PRODUCTS);
     }
     /**
@@ -150,5 +403,25 @@ class ProductController extends Controller
         $prod = Product::withTrashed()->findOrFail($id);
         $prod->restore();
         return redirect(Constants::URL_PRODUCTS);
+    }
+    public static function getCalibersFromProductId(Request $request){
+        $details=ProductDetail::select('caliber')->where('product_id',Constants::EQUAL,$request->id)->get();
+        $return=array();
+        foreach($details as $prod){
+            $return['natural'][]=$prod->caliber;
+            $return['translated'][]=trans('general.product_caliber.'.$prod->caliber);
+        }
+        return json_encode($return);
+    }
+    public static function getUnitsFromProductIdCaliber(Request $request){
+        $details=ProductDetail::select('presentation_unit','sale_unit','id')
+                ->where('product_id',Constants::EQUAL,$request->idproduct)
+                ->where('caliber',Constants::EQUAL,$request->caliber)
+                ->get()[0];
+        return json_encode(array(
+            'presentation'=>$details->presentation_unit,
+            'sale'=>$details->sale_unit,
+            'id'=>$details->id
+        ));
     }
 }

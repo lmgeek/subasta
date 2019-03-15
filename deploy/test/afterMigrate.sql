@@ -18,6 +18,7 @@ truncate subscriptions;
 truncate users;
 truncate users_ratings;
 truncate vendedor;
+truncate product_detail;
 
 # Insertar todo los usuarios de la web en la tabla users
 INSERT INTO users (`name`,`lastname`,`email`,`password`,`type`,`status`,`hash`,`active_mail`,`nickname`)
@@ -42,15 +43,21 @@ INSERT INTO boats (`user_id`, `name`, `matricula`, `status`, `nickname`, `prefer
 ( 1, 'la perla','BO-10-4-A','pending','Barco III', 3), ( 1, 'caribe','AR-10-4-A','approved','Barco IV', 4);
 
 # Insertar todo los producto
-INSERT INTO products (`name`,`unit`,`weigth_small`,`weigth_medium`,`weigth_big`,`fishing_code`,`sale_unit`)
-VALUES ('Pulpo','Cajones',10,20,30,'PRO-001','Cajones'),('Camarón','Cajones',15,20,25,'PRO-002','Kg'),('Tiburón','Unidad',5,10,15,'PRO-003','Unidades');
+INSERT INTO products (`name`,`fishing_code`)
+VALUES ('Pulpo','PRO-001'),('Camarón','PRO-002'),('Tiburón','PRO-003');
+
+# Insertar todo los producto detalle
+INSERT INTO product_detail (`product_id`,`caliber`,`presentation_unit`,`weight`,`sale_unit`)
+VALUES ('1','small','Cajones',10,'Cajones'),('1','medium','Cajones',20,'kg'),('1','big','Unidad',30,'kg'),
+('2','small','Cajones',10,'Cajones'),('2','medium','Cajones',20,'Cajones'),('2','big','Unidad',30,'Cajones'),
+('3','small','Cajones',10,'kg'),('3','medium','Unidad',20,'kg'),('3','big','Unidad',30,'kg');
 
 # Insertar todo los arribo
 INSERT INTO arrives (`boat_id`, `date`, `port_id`) VALUES (1, '2019-01-24 10:30:00', '3'), (1, '2019-01-30 10:35:00', '3'),
 ( 4, '2019-01-25 10:30:00', '2');
 
 # Insertar todo los lotes
-INSERT INTO batches (`arrive_id`, `product_id`, `caliber`, `quality`, `amount`) VALUES (1, 1, 'big', 4, 100000 ), (2, 2, 'big', 5, 10000), ( 2, 3, 'big', 5, 100000);
+INSERT INTO batches (`arrive_id`, `product_detail_id`, `quality`, `amount`) VALUES (1, 1, 4, 100000 ), (2, 2, 5, 10000), ( 2, 3, 5, 100000);
 
 # Insertar todo los status de los lotes
 INSERT INTO batch_statuses (`batch_id`, `assigned_auction`, `auction_sold`, `private_sold`, `remainder`, `created_at`, `updated_at`)

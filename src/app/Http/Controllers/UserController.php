@@ -1,11 +1,14 @@
 <?php
 namespace App\Http\Controllers;
 use App\User;
+use App\Vendedor;
+use App\Comprador;
 use App\Bid;
 use App\ViewHelper;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
+use Hash;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Mail;
 
@@ -212,5 +215,40 @@ class UserController extends Controller
 
         $request->session()->flash('confirm_msg', trans('users.reject_user_msg'));
         return redirect()->route('users.index');
+    }
+    public function userAdd(Request $request){
+        return view('landing3/user-add-edit');
+    }
+    public function userSave(Request $request){
+        $user  = new User();
+        $user->name=$request->name;
+        $user->lastname=$request->lastname;
+        $user->nickname=$request->nickname;
+        $user->email=$request->email;
+        $user->status=User::APROBADO;
+        $user->type=$request->type;
+        $user->active_mail=1;
+        $user->hash= md5(date('YmdHis').$request->nickname);
+        $user->password = Hash::make($request->password);
+        if($request->type==User::COMPRADOR){
+            $comprador = new Comprador();
+            $comprador->user_id = $user->id;
+            $comprador->dni = $dni;
+            $comprador->save();
+        }elseif($request->type==User::VENDEDOR){
+            $vendedor = new Vendedor();
+            $vendedor->user_id = $user->id;
+            $vendedor->cuit = $cuit;
+            $vendedor->save();
+        }
+        $template = Constants::MAIL_TEMPLATE_START . User::COMPRADOR . '.' . Constants::VERIFY;
+        Mail::send($template, [Constants::USER => $user], function ($message) use ($user) {
+            $message->from(
+                env(Constants::MAIL_ADDRESS_SYSTEM, Constants::MAIL_ADDRESS),
+                env(Constants::MAIL_ADDRESS_SYSTEM_NAME, Constants::MAIL_NAME)
+            );
+            $message->subject(trans(Constants::MAIL_SUBJECT_WELCOME));
+            $message->to($user->email);
+        });
     }
 }

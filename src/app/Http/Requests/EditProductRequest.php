@@ -28,20 +28,57 @@ class EditProductRequest extends Request
      */
     public function rules()
     {
-        $unidadess =$this->input('unidad');
         $cero = "0,00";
-
+        $relation =$this->input('relationship');
+        if ($relation <> 0 ){
             return [
-                Constants::SALE        =>  'required',
-                Constants::CODIGO        => 'required|regex:(^[0-9a-zA-Z]+$)|max:10|unique:products,fishing_code',
-                Constants::NOMBRE        => 'required|regex:(^[a-zA-Zá-úÁ-Ú\s]+$)|unique_name_unit:'.$unidadess,
-                Constants::UNIDAD        => Constants::REQUIRED,
+                'unidadp'       => Constants::REQUIRED,
+                'unidadm'       => Constants::REQUIRED,
+                'unidadg'       => Constants::REQUIRED,
                 Constants::WEIGHT_SMALL  => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
                 Constants::WEIGHT_MEDIUM => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
                 Constants::WEIGHT_BIG    => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
+                'salep'        => Constants::REQUIRED,
+                'salem'        => Constants::REQUIRED,
+                'saleg'        => Constants::REQUIRED,
+                Constants::IMAGEN        => Constants::IMAGE,
+            ];
+
+        }else{
+            return [
+                Constants::CODIGO        => 'required|regex:(^[0-9a-zA-Zá-úÁ-Ú\-\s]+$)|max:10',
+                Constants::NOMBRE        => 'required|regex:(^[a-zA-Zá-úÁ-Ú\s]+$)',
+                'unidadp'       => Constants::REQUIRED,
+                'unidadm'       => Constants::REQUIRED,
+                'unidadg'       => Constants::REQUIRED,
+                Constants::WEIGHT_SMALL  => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
+                Constants::WEIGHT_MEDIUM => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
+                Constants::WEIGHT_BIG    => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
+                'salep'        => Constants::REQUIRED,
+                'salem'        => Constants::REQUIRED,
+                'saleg'        => Constants::REQUIRED,
                 Constants::IMAGEN        => Constants::IMAGE,
                 ];
+        }
 
+    }
+    public function attributes()
+    {
+        if ($this->locale == "es"){
+            return [
+                "codigo"  => "código pesquero",
+                "salep"  => "unidad de venta chico",
+                "saleg"  => "unidad de venta grande",
+                "salem"  => "unidad de venta mediana",
+                "unidadp"  => "unidad de presentación chica",
+                "unidadm"  => "unidad de presentación mediana",
+                "unidadg"  => "unidad de presentación grande",
+                "weigth_small"  => "peso por calibre chico",
+                "weigth_medium" => "peso por calibre mediano",
+                "weigth_bis"    => "peso por calibre grande",
+            ];
+        }
+        return [];
     }
     public function messages()
     {

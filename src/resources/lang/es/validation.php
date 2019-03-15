@@ -76,7 +76,7 @@ return [
     "unique"           => ":attribute ya ha sido registrado",
     "url"              => "El formato :attribute es inválido",
     "batch_is_mine"        => "El lote no pertenece a un barco del usuario",
-    "auction_price_greater_than" => "El precio inicial debe ser mayor que el precio final",
+    "auction_price_greater_than" => "El precio inicial debe ser mayor que el precio de retiro",
     "private" => "privado",
     "negative" => "negativa",
     "neutral" => "neutra",

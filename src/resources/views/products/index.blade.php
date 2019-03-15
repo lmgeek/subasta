@@ -37,8 +37,9 @@
                                 <th>Imagen</th>
                                 <th>Código</th>
                                 <th>Producto</th>
-                                <th>Unidad Presentación</th>
-                                <th>Unidad Venta</th>
+                                {{--<th>Unidad Chica</th>--}}
+                                {{--<th>Unidad Mediana</th>--}}
+                                {{--<th>Unidad Grande</th>--}}
                                 <th>Estado</th>
                                 <th>Acciones</th>
                             </tr>
@@ -53,8 +54,13 @@
                                         </td>
                                         <td>{{ $p->fishing_code }}</td>
                                         <td>{{ $p->name }}</td>
-                                        <td>{{ trans('general.product_units.'.$p->unit) }}</td>
-                                        <td>{{ trans('general.product_units.'.$p->sale_unit) }}</td>
+                                        {{--<td>Venta: {{ trans('general.product_units.'.$p->sale_unit_small) }}<br>Presentación: {{ trans('general.product_units.'.$p->unit) }}</td>--}}
+                                        {{--@if ($p->sale_unit_medium == '' || $p->unit == '')--}}
+                                            {{--<td> No aplica</td>--}}
+                                        {{--@else--}}
+                                            {{--<td>Venta:  {{ trans('general.product_units.'.$p->sale_unit_medium) }}<br>Presentación: {{ trans('general.product_units.'.$p->unit) }}</td>--}}
+                                        {{--@endif--}}
+                                        {{--<td>Venta: {{ trans('general.product_units.'.$p->sale_unit_big) }}<br>Presentación: {{ trans('general.product_units.'.$p->unit) }}</td>--}}
                                         <td>
                                             @if($p->trashed())
 
@@ -64,24 +70,17 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <a href="{{ route('products.edit',$p) }}" class="btn btn-success" @if(!$p->canBeDeactivate() || $p->trashed()) disabled="true" @endif ><em class="fa fa-edit"></em> Editar</a>
+                                            <a href="{{ route('products.edit',$p) }}" class="btn btn-success"><em class="fa fa-edit"></em> Editar</a>
                                             <form action="{{ route('products.restore',$p) }}" class="restoreForm_{{ $p->id }}"  method="post" style="display: inline-block">
                                                 {{ csrf_field() }}
-                                                <a href="#" class="btn btn-primary restoreItem" data-id="{{ $p->id }}" @if(!$p->trashed() ) disabled="true" @endif ><em class="fa fa-eye"></em> Activar</a>
+                                                <a href="#" class="btn btn-primary restoreItem" data-id="{{ $p->id }}"><em class="fa fa-eye"></em> Activar</a>
                                             </form>
 
                                             <form action="{{ route('products.trash',$p) }}" class="trashForm_{{ $p->id }}"  method="post" style="display: inline-block">
                                                 {{ csrf_field() }}
-                                                <a href="#" class="btn btn-warning trashItem" data-id="{{ $p->id }}" @if(!$p->canBeDeactivate() || $p->trashed()) disabled="true" @endif ><em class="fa fa-eye-slash"></em> Desactivar</a>
+                                                <a href="#" class="btn btn-warning trashItem" data-id="{{ $p->id }}"><em class="fa fa-eye-slash"></em> Desactivar</a>
 
                                             </form>
-                                            @if($p->canBeDeleted())
-                                                <form action="{{ route('products.destroy',$p) }}" class="deleteForm_{{ $p->id }}"  method="post" style="display: inline-block">
-                                                    {{ csrf_field() }}
-                                                    {{ method_field('DELETE') }}
-                                                    <a href="#" class="btn btn-danger deleteItem" data-id="{{ $p->id }}"><em class="fa fa-trash"></em> Borrar</a>
-                                                </form>
-                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

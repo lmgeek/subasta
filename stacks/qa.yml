@@ -45,6 +45,8 @@ services:
       - backend
     volumes:
       - data:/var/lib/mysql
+    ports:
+      - 43311:3306
     deploy:
       labels:
         traefik.enable: "false"

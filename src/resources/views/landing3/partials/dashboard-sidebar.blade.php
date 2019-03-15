@@ -24,8 +24,26 @@
                             <li><a href="/barcos"><em class="icon-line-awesome-ship"></em> Mis Barcos</a></li>
                             @endif
                             @if(isset(Auth::user()->id) && Auth::user()->type==\App\Constants::COMPRADOR)
-                            <li><a href="/compras"><em class="icon-feather-shopping-bag"></em> Mis Compras</a></li>
+                            <li><a href="/compra"><em class="icon-feather-shopping-bag"></em> Mis Compras</a></li>
                             @endif
+						</ul>
+						<ul data-submenu-title="Perfiles">
+							<li class="active-submenu"><a href="#"><i class="icon-material-outline-gavel"></i> Vendedor</a>
+								<ul>
+									<li><a href="/barcos">Mis Barcos</a></li>
+									<li><a href="#">Mis Arribos</a></li>
+									<li><a href="#">Mis Lotes</a></li>
+									<li><a href="/subastas">Mis Subastas</a></li>
+									<li><a href="/ofertas">Ofertas Recibidas <span class="nav-tag">4</span></a></li>
+								</ul>
+							</li>
+							<li><a href="#"><i class="icon-material-outline-shopping-cart"></i> Comprador</a>
+								<ul>
+									<li><a href="#">Mis Compras</a></li>
+									<li><a href="#">Mis Ofertas</a></li>
+									<li><a href="#">Subastas Favoritas</a></li>
+								</ul>
+							</li>
 						</ul>
 						<ul data-submenu-title="Mi Cuenta">
 							<li><a href="#"><i class="icon-material-outline-settings"></i> Ajustes</a></li>

@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Batch;
-use App\Constants;
-use App\User;
-use Illuminate\Http\Request;
-use App\Boat;
-use Illuminate\Routing\Route;
-use Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Routing\Route;
+use Illuminate\Http\Request;
+use App\Constants;
+use App\Batch;
+use App\Boat;
+use App\User;
+use Auth;
 
 class BoatController extends Controller
 {

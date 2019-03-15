@@ -56,7 +56,6 @@ class CreateAuctionTest extends TestCase
         $this->select($this->getAValidPort(),'puerto');
         $this->select($this->getAValidProduct(),'product');
         $this->select($this->getAValidCaliber(),'caliber');
-        $this->select($this->getAValidPresentationUnit(),'unidad');
         $this->select('3','quality');
         $this->type('24','ActiveHours');
         $this->type('10','amount');
@@ -80,7 +79,6 @@ class CreateAuctionTest extends TestCase
         $this->select($this->getAValidPort(),'puerto');
         $this->select($this->getAValidProduct(),'product');
         $this->select($this->getAValidCaliber(),'caliber');
-        $this->select($this->getAValidPresentationUnit(),'unidad');
         $this->select('3','quality');
         $this->type($tentativedate,'fechaTentativa');
         $this->type($startdate,'fechaInicio');
@@ -107,7 +105,6 @@ class CreateAuctionTest extends TestCase
         //$this->select($this->getAValidPort(),'puerto');
         $this->select($this->getAValidProduct(),'product');
         $this->select($this->getAValidCaliber(),'caliber');
-        $this->select($this->getAValidPresentationUnit(),'unidad');
         $this->select('3','quality');
         $this->type($tentativedate,'fechaTentativa');
         $this->type($startdate,'fechaInicio');
@@ -133,7 +130,6 @@ class CreateAuctionTest extends TestCase
         $this->select($this->getAValidPort(),'puerto');
         //$this->select($this->getAValidProduct(),'product');
         $this->select($this->getAValidCaliber(),'caliber');
-        $this->select($this->getAValidPresentationUnit(),'unidad');
         $this->select('3','quality');
         $this->type($tentativedate,'fechaTentativa');
         $this->type($startdate,'fechaInicio');
@@ -159,7 +155,6 @@ class CreateAuctionTest extends TestCase
         $this->select($this->getAValidPort(),'puerto');
         $this->select($this->getAValidProduct(),'product');
         //$this->select($this->getAValidCaliber(),'caliber');
-        $this->select($this->getAValidPresentationUnit(),'unidad');
         $this->select('3','quality');
         $this->type($tentativedate,'fechaTentativa');
         $this->type($startdate,'fechaInicio');
@@ -176,32 +171,6 @@ class CreateAuctionTest extends TestCase
     /**  @test 
      * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
      */
-    function tryToAddPublicAuctionWithoutPresentationUnit(){
-        $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
-        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d-m-Y H:i');
-        $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+27 hours"))->format('d-m-Y H:i');
-        $this->visit('subastas/agregar');
-        $this->select($this->getAValidBoat(),'barco');
-        $this->select($this->getAValidPort(),'puerto');
-        $this->select($this->getAValidProduct(),'product');
-        $this->select($this->getAValidCaliber(),'caliber');
-        //$this->select($this->getAValidPresentationUnit(),'unidad');
-        $this->select('3','quality');
-        $this->type($tentativedate,'fechaTentativa');
-        $this->type($startdate,'fechaInicio');
-        $this->type('24','ActiveHours');
-        $this->type('10','amount');
-        $this->type('100','startPrice');
-        $this->type('10','endPrice');
-        $this->type('Curabitur turpis. Morbi nec metus. Etiam ut purus mattis mauris sodales aliquam. Ut tincidunt tincidunt erat. In hac habitasse platea dictumst.','descri');
-        $this->press('Subastar');
-        $this->seePageIs('/subastas/agregar');
-        $this->see('Debes seleccionar una unidad de presentacion');
-        $this->assertResponseOk();
-    }
-    /**  @test 
-     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
-     */
     function tryToAddPublicAuctionWithTentativeDatePast(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
         $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+2 hours"))->format('d-m-Y H:i');
@@ -211,7 +180,6 @@ class CreateAuctionTest extends TestCase
         $this->select($this->getAValidPort(),'puerto');
         $this->select($this->getAValidProduct(),'product');
         $this->select($this->getAValidCaliber(),'caliber');
-        $this->select($this->getAValidPresentationUnit(),'unidad');
         $this->select('3','quality');
         $this->type($tentativedate,'fechaTentativa');
         $this->type($startdate,'fechaInicio');
@@ -237,7 +205,6 @@ class CreateAuctionTest extends TestCase
         $this->select($this->getAValidPort(),'puerto');
         $this->select($this->getAValidProduct(),'product');
         $this->select($this->getAValidCaliber(),'caliber');
-        $this->select($this->getAValidPresentationUnit(),'unidad');
         $this->select('3','quality');
         $this->type($tentativedate,'fechaTentativa');
         $this->type($startdate,'fechaInicio');
@@ -263,7 +230,6 @@ class CreateAuctionTest extends TestCase
         $this->select($this->getAValidPort(),'puerto');
         $this->select($this->getAValidProduct(),'product');
         $this->select($this->getAValidCaliber(),'caliber');
-        $this->select($this->getAValidPresentationUnit(),'unidad');
         $this->select('3','quality');
         $this->type($tentativedate,'fechaTentativa');
         $this->type($startdate,'fechaInicio');
@@ -289,7 +255,6 @@ class CreateAuctionTest extends TestCase
         $this->select($this->getAValidPort(),'puerto');
         $this->select($this->getAValidProduct(),'product');
         $this->select($this->getAValidCaliber(),'caliber');
-        $this->select($this->getAValidPresentationUnit(),'unidad');
         $this->select('3','quality');
         $this->type($tentativedate,'fechaTentativa');
         $this->type($startdate,'fechaInicio');
@@ -315,7 +280,6 @@ class CreateAuctionTest extends TestCase
         $this->select($this->getAValidPort(),'puerto');
         $this->select($this->getAValidProduct(),'product');
         $this->select($this->getAValidCaliber(),'caliber');
-        $this->select($this->getAValidPresentationUnit(),'unidad');
         $this->select('3','quality');
         $this->type($tentativedate,'fechaTentativa');
         $this->type($startdate,'fechaInicio');
@@ -341,7 +305,6 @@ class CreateAuctionTest extends TestCase
         $this->select($this->getAValidPort(),'puerto');
         $this->select($this->getAValidProduct(),'product');
         $this->select($this->getAValidCaliber(),'caliber');
-        $this->select($this->getAValidPresentationUnit(),'unidad');
         $this->select('3','quality');
         $this->type($tentativedate,'fechaTentativa');
         $this->type($startdate,'fechaInicio');
@@ -367,7 +330,6 @@ class CreateAuctionTest extends TestCase
         $this->select($this->getAValidPort(),'puerto');
         $this->select($this->getAValidProduct(),'product');
         $this->select($this->getAValidCaliber(),'caliber');
-        $this->select($this->getAValidPresentationUnit(),'unidad');
         $this->select('3','quality');
         $this->type($tentativedate,'fechaTentativa');
         $this->type($startdate,'fechaInicio');
@@ -393,7 +355,6 @@ class CreateAuctionTest extends TestCase
         $this->select($this->getAValidPort(),'puerto');
         $this->select($this->getAValidProduct(),'product');
         $this->select($this->getAValidCaliber(),'caliber');
-        $this->select($this->getAValidPresentationUnit(),'unidad');
         $this->select('3','quality');
         $this->type($tentativedate,'fechaTentativa');
         $this->type($startdate,'fechaInicio');
@@ -419,7 +380,6 @@ class CreateAuctionTest extends TestCase
         $this->select($this->getAValidPort(),'puerto');
         $this->select($this->getAValidProduct(),'product');
         $this->select($this->getAValidCaliber(),'caliber');
-        $this->select($this->getAValidPresentationUnit(),'unidad');
         $this->select('3','quality');
         $this->type($tentativedate,'fechaTentativa');
         $this->type($startdate,'fechaInicio');
@@ -445,7 +405,6 @@ class CreateAuctionTest extends TestCase
         $this->select($this->getAValidPort(),'puerto');
         $this->select($this->getAValidProduct(),'product');
         $this->select($this->getAValidCaliber(),'caliber');
-        $this->select($this->getAValidPresentationUnit(),'unidad');
         $this->select('3','quality');
         $this->type($tentativedate,'fechaTentativa');
         $this->type($startdate,'fechaInicio');
@@ -456,7 +415,7 @@ class CreateAuctionTest extends TestCase
         $this->type('Curabitur turpis. Morbi nec metus. Etiam ut purus mattis mauris sodales aliquam. Ut tincidunt tincidunt erat. In hac habitasse platea dictumst.','descri');
         $this->press('Subastar');
         $this->seePageIs('/subastas/agregar');
-        $this->see('El precio final no puede ser mayor al precio inicial.');
+        $this->see('El precio de retiro no puede ser mayor al precio inicial.');
         $this->assertResponseOk();
     }
     /**  @test 
@@ -471,7 +430,6 @@ class CreateAuctionTest extends TestCase
         $this->select($this->getAValidPort(),'puerto');
         $this->select($this->getAValidProduct(),'product');
         $this->select($this->getAValidCaliber(),'caliber');
-        $this->select($this->getAValidPresentationUnit(),'unidad');
         $this->select('3','quality');
         $this->type($tentativedate,'fechaTentativa');
         $this->type($startdate,'fechaInicio');
@@ -501,7 +459,6 @@ class CreateAuctionTest extends TestCase
         $this->select($this->getAValidPort(),'puerto');
         $this->select($this->getAValidProduct(),'product');
         $this->select($this->getAValidCaliber(),'caliber');
-        $this->select($this->getAValidPresentationUnit(),'unidad');
         $this->select('3','quality');
         $this->type($tentativedate,'fechaTentativa');
         $this->type($startdate,'fechaInicio');
@@ -531,7 +488,6 @@ class CreateAuctionTest extends TestCase
         $this->select($this->getAValidPort(),'puerto');
         $this->select($this->getAValidProduct(),'product');
         $this->select($this->getAValidCaliber(),'caliber');
-        $this->select($this->getAValidPresentationUnit(),'unidad');
         $this->select('3','quality');
         $this->type($tentativedate,'fechaTentativa');
         $this->type($startdate,'fechaInicio');
@@ -548,11 +504,11 @@ class CreateAuctionTest extends TestCase
     /**  @test
      * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
      */
-    function AddPublicAuction(){
+    function AddPublicAuctionForReal(){
         $this->withoutMiddleware();
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
         $description='NetLabs nace de la unión de jóvenes emprendedores y profesionales con 12 años de experiencia en el mercado informático nacional e internacional. En Netlabs desarrollamos aplicaciones según las necesidades de nuestros clientes y del mercado. Contamos con un equipo de profesionales experimentados en desarrollo de software, servicios de consultoría y asesoría en tecnologías de información.';
-        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+24 hours"))->format('d-m-Y H:i');
+        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+5 minutes"))->format('d-m-Y H:i');
         $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+72 hours"))->format('d-m-Y H:i');
         
         $data=array(
@@ -560,9 +516,9 @@ class CreateAuctionTest extends TestCase
             'barco'=>$this->getAValidBoat(),
             'puerto'=>$this->getAValidPort(),
             'fechaTentativa'=>$tentativedate,
+            'product_detail'=>$this->getAValidProduct(),
             'product'=>$this->getAValidProduct(),
             'caliber'=>$this->getAValidCaliber(),
-            'unidad'=>$this->getAValidPresentationUnit(),
             'quality'=>'3',
             'fechaInicio'=>$startdate,
             'ActiveHours'=>'24',
@@ -573,6 +529,7 @@ class CreateAuctionTest extends TestCase
             'descri'=>$description
         );
         $this->post('/subastas/guardar',$data);
+        
         $this->seeJson(['tested'=>true]);
         $this->seeJson(['description'=>$description]);
         $this->assertResponseOk();
@@ -586,7 +543,7 @@ class CreateAuctionTest extends TestCase
         $comprador=$this->getAValidUser(Constants::COMPRADOR);
         $auction=$this->getLastAuction();
         $description='Auction'.$auction->id.'. Esta descripcion se edito. NetLabs nace de la unión de jóvenes emprendedores y profesionales con 12 años de experiencia en el mercado informático nacional e internacional. En Netlabs desarrollamos aplicaciones según las necesidades de nuestros clientes y del mercado. Contamos con un equipo de profesionales experimentados en desarrollo de software, servicios de consultoría y asesoría en tecnologías de información.';
-        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+24 hours"))->format('d-m-Y H:i');
+        $startdate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+1 minutes"))->format('d-m-Y H:i');
         $tentativedate=date_add(date_create(date('Y-m-d H:i:s')),date_interval_create_from_date_string("+72 hours"))->format('d-m-Y H:i');
         
         $data=array(
@@ -600,8 +557,8 @@ class CreateAuctionTest extends TestCase
             'puerto'=>$this->getAValidPort(),
             'fechaTentativa'=>$tentativedate,
             'product'=>$this->getAValidProduct(),
+            'product_detail'=>$this->getAValidProduct(),
             'caliber'=>$this->getAValidCaliber(),
-            'unidad'=>$this->getAValidPresentationUnit(),
             'quality'=>'3',
             'fechaInicio'=>$startdate,
             'ActiveHours'=>'24',
@@ -640,7 +597,7 @@ class CreateAuctionTest extends TestCase
             'fechaTentativa'=>$tentativedate,
             'product'=>$this->getAValidProduct(),
             'caliber'=>$this->getAValidCaliber(),
-            'unidad'=>$this->getAValidPresentationUnit(),
+            'product_detail'=>$this->getAValidProduct(),
             'quality'=>'3',
             'fechaInicio'=>$startdate,
             'ActiveHours'=>'24',
@@ -651,6 +608,7 @@ class CreateAuctionTest extends TestCase
             'descri'=>$description
         );
         $this->post('/subastas/guardar',$data);
+        
         $this->seeJson(['tested'=>true]);
         $this->seeJson(['description'=>$description]);
         $this->assertResponseOk();
