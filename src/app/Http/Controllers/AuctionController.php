@@ -33,11 +33,6 @@ use App;
 class AuctionController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -102,7 +97,7 @@ class AuctionController extends Controller
          }else{
              $price= str_replace(',', '.',$request->input(Constants::PRICE));
          }
-        
+
 		$resp  =  array();
 
 		if ($auction->active == 0 )
@@ -153,9 +148,9 @@ class AuctionController extends Controller
 
 
 	 }
-    
-    
-    
+
+
+
     public function calculatePrice(Request $request)
     {
         $data = array();
@@ -191,7 +186,7 @@ class AuctionController extends Controller
             return $data;
         }
 
-    } 
+    }
     public function operations(Request $request, $auction_id)
     {
         setlocale(LC_MONETARY, Constants::EN_US);
@@ -203,8 +198,8 @@ class AuctionController extends Controller
         $request->session()->put('url.intended', '/auction/operations/'.$auction_id);
         return view('auction.operations',compact(Constants::AUCTION));
     }
-	 
-	 
+
+
     public function process($bid_id)
     {
         $bid = Bid::findOrFail($bid_id);
@@ -259,7 +254,7 @@ class AuctionController extends Controller
         return redirect()->intended('/sellerAuction');
 
     }
-    
+
     public function saveQualifyBid(SellerQualifyRequest $request )
     {
         $bid = Bid::findOrFail($request->input('id'));
@@ -319,17 +314,17 @@ class AuctionController extends Controller
 			$userRating->increment(Constants::CALIFICACION_NEUTRAL, 1);
 		}
 	}
-	
-    
-    
+
+
+
     /* 20 hasta aqui */
-    
-    
-    
-	
+
+
+
+
 /** NEEW **/
-    
-    
+
+
 
     /**
      * @param Request $request
@@ -396,9 +391,9 @@ class AuctionController extends Controller
         return Redirect::back()->with('success','Su oferta se registro satisfactoriamente. Se ha enviado un correo con la información detallada');
 
     }
-    
 
-    
+
+
 
     /**
      * @param Request $request
@@ -484,9 +479,9 @@ class AuctionController extends Controller
     }
 
 
-    
 
-    
+
+
     public function offerForSale($auction, $offer)
     {
         $auction_id = $auction->id;
@@ -559,7 +554,7 @@ class AuctionController extends Controller
             ->get();
     }
 
-    
+
 
 
     //Declinar de forma masiva las ofertas
