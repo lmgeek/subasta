@@ -22,7 +22,6 @@ class SellerAuctionController extends Controller
      */
     public function index(Request $request)
     {
-
         $this->authorize('seeSellerAuction', Auction::class);
         $status = $request->get(Constants::STATUS,Constants::MY_IN_CURSE);
         $auctions = AuctionQuery::filterAndPaginate($status);
@@ -114,15 +113,12 @@ class SellerAuctionController extends Controller
 	
 	public function  privatesales(Request $request)
 	{
-   /*     if (Auth::user()->type == \App\User::VENDEDOR) {*/
             $sales = Auth::user()->seller->myPrivateSales($request->get('comprador'));
             $buyers = clone $sales;
             $total = Auth::user()->seller->getTotalPrivateSales();
             $buyers = $buyers->select(Constants::BUYER_NAME)->distinct(Constants::BUYER_NAME)->where(Constants::BUYER_NAME, '<>', 'null  ')->get();
 
             return view('sales.private', compact('sales', 'total', 'buyers', 'request'));
-       /* } else {
-            return redirect('/home');
-        }*/
+
 	}
 }

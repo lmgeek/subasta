@@ -172,7 +172,7 @@ class RegisterController extends Controller
 
         Auth::login($user);
         Session::flash(Constants::REGISTER_MESSAGE, true);
-        return redirect('home');
+        return redirect('/');
     }
 
     function generateRandomString($length = 10) {
