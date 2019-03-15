@@ -205,9 +205,9 @@ class AuctionFrontController extends AuctionController
         $auctions=AuctionQuery::AuctionsQueryBuilder(array('sellerid'=>Auth::user()->id));
         $counter=1;$highest=0;
         foreach($auctions as $auction){
-            $dateformatted=date('md',strtotime($auction->created_at));
+            $dateformatted=date('ym',strtotime($auction->created_at));
             $correlative=$auction->correlative;
-            if($dateformatted==date('md')){
+            if($dateformatted==date('ym')){
                 $counter++;
                 if($correlative>$highest){
                     $highest=$correlative;

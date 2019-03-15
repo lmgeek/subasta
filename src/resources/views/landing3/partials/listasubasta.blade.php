@@ -9,5 +9,5 @@ $nopic=($limit==1)?0:1;
         @include('/landing3/partials/paginator', ['paginator' => $auctions,'request'=>$request])
     @endif
 @else
-<h1>No hay subastas para mostrar</h1>
+<h1>No hay subastas asociadas.</h1>
 @endif

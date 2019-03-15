@@ -12,6 +12,7 @@ use Auth;
 use Hash;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Requests\ManageUsersRequest;
 
 
 class UserController extends Controller
@@ -229,31 +230,53 @@ class UserController extends Controller
         }
         $user= User::select()->where('nickname',Constants::EQUAL,$nickname)->get()[0];
         if($user->type== Constants::VENDEDOR){
-            $vendedor= Vendedor::select()->where('user_id',Constants::EQUAL,$user->id);
+            $vendedor= Vendedor::select()->where('user_id',Constants::EQUAL,$user->id)->get()[0];
             $user->vendedor=$vendedor;
         }else if($user->type== User::COMPRADOR){
-            $comprador= Comprador::select()->where('user_id',Constants::EQUAL,$user->id);
+            $comprador= Comprador::select()->where('user_id',Constants::EQUAL,$user->id)->get()[0];
             $user->comprador=$comprador;
         }
         return view('landing3/user-add-edit')->with('user',$user);
     }
-    public function userSave(Request $request){
+    public function userSave(ManageUsersRequest $request){
+        if(empty(Auth::user()->type) || ((isset($nickname) && Auth::user()->nickname!=$nickname) && Auth::user()->type!=User::INTERNAL)){
+            return redirect('/');
+        }
         if(isset($request->id)){
             $user= User::select()->where('id',Constants::EQUAL,$request->id)->get()[0];
+            $user->status=$request->status;
+            $user->hash= md5(date('YmdHis').$request->nickname);
             if($user->type== Constants::VENDEDOR){
-                $vendedor= Vendedor::select()->where('user_id',Constants::EQUAL,$request->id)->get()[0];
+                $vendedor= Vendedor::select()->where('user_id',Constants::EQUAL,$request->id)->get();
+                if(count($vendedor)>0){
+                    $vendedor=$vendedor[0];
+                }else{
+                    $comprador = new Comprador();
+                }
             }else if($user->type== User::COMPRADOR){
-                $comprador= Comprador::select()->where('user_id',Constants::EQUAL,$request->id)->get()[0];
+                $comprador= Comprador::select()->where('user_id',Constants::EQUAL,$request->id)->get();
+                if(count($comprador)>0){
+                    $comprador=$comprador[0];
+                }else{
+                    $comprador = new Comprador();
+                }
             }
         }else{
+            $checker=User::select()
+                    ->where('nickname',Constants::EQUAL,$request->nickname)
+                    ->orWhere('email',Constants::EQUAL,$request->email)
+                    ->get();
+            if(count($checker>0)){
+                return redirect()->back()->with('errors',array('El correo y/o el usuario ya estan registrados'));
+            }
             $user  = new User();
-            $user->status=User::APROBADO;
+            $user->status=User::PENDIENTE;
             $user->hash= md5(date('YmdHis').$request->nickname);
-            $user->active_mail=1;
+            $user->active_mail=0;
             if($request->type==User::COMPRADOR){
                 $comprador = new Comprador();
             }elseif($request->type==User::VENDEDOR){
-                $vendedor = new Vendedor();
+                $comprador = new Comprador();
             }
         }
         $user->name=$request->name;
@@ -261,7 +284,6 @@ class UserController extends Controller
         $user->nickname=$request->nickname;
         $user->email=$request->email;
         $user->phone=$request->phone;
-        
         $user->type=$request->type;
         if($request->password!='' && $request->password_confirmation!='' && $request->password==$request->password_confirmation){
             $user->password = Hash::make($request->password);

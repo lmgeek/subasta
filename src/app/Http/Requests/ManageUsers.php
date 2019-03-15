@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Requests;
 
-class RegisterNewUserRequest extends Request
+class ManageUsersRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,15 +21,17 @@ class RegisterNewUserRequest extends Request
     public function rules()
     {
         return [
+            'type'=>'required',
             'name'=>"required|regex:(^[a-zA-Zá-úÁ-Ú\s']+$)",
             'lastname'=>"required|regex:(^[a-zA-Zá-úÁ-Ú\s']+$)",
-            'alias'=>"required|unique:users,nickname|max:10|regex:(^[a-zA-Z_0-9])",
+            'nickname'=>"required|max:10|regex:(^[a-zA-Z_0-9])",
             'dni'=>"required_if:type,buyer|min:7|regex:(^[0-9]+$)",
             'limit'=>"required_if:type,buyer|numeric|min:1",
             'cuit'=>"required_if:type,seller|min:13|regex:(^[0-9-]+$)",
-            'password'=>'required|confirmed|regex:(^\S*(?=\S{6,8})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$)',
-			'email' => 'required|min:7|unique:users,email|email',
-            'phone' => 'required|numeric|regex:(^[()0-9-]+$)'
+            'password'=>'required_without:id|confirmed|regex:(^\S*(?=\S{6,8})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$)',
+			'email' => 'required|min:7|email',
+            'phone' => 'required|numeric|regex:(^[()0-9-]+$)',
+            //'reason'=>'required_if:status,rejected|min:1|max:100'
         ];
     }
 
