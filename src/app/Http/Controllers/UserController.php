@@ -244,7 +244,10 @@ class UserController extends Controller
         }
         if(isset($request->id)){
             $user= User::select()->where('id',Constants::EQUAL,$request->id)->get()[0];
-            $user->status=$request->status;
+            if(Auth::user()->type=='internal'){
+                $user->status=$request->status;
+            }
+            
             $user->hash= md5(date('YmdHis').$request->nickname);
             if($user->type== Constants::VENDEDOR){
                 $vendedor= Vendedor::select()->where('user_id',Constants::EQUAL,$request->id)->get();
