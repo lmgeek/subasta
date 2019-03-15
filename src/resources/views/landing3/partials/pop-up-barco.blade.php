@@ -69,7 +69,7 @@ use Illuminate\Routing\Controllers;
                                 <button class="button form-control big" type="submit">Guardar</button>
                             </div>
                             <div class="bidding-field">
-                                <a type="button" class="button dark ripple-effect big" href="{{url('/boatslist')}}">Cancelar</a>
+                                <a type="button" class="button dark ripple-effect big" href="{{url('/barcos')}}">Cancelar</a>
                             </div>
                         </div>
                     </div>
