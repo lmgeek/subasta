@@ -202,6 +202,11 @@ class ProductController extends Controller
         $pro_exitente3 = $request->input('id_big');
         $uni_presen = $request->input('unidadp');
         $uni_sale = $request->input('salep');
+        $uni_presen2 = $request->input('unidadm');
+        $uni_sale2 = $request->input('salem');
+        $uni_presen3 = $request->input('unidadg');
+        $uni_sale3 = $request->input('saleg');
+
         $weight1 = str_replace(",", ".", $request->weight_small);
 //        buscar relacion de los calibre
         $exitente = Batch::Select('id')->where('product_detail_id', '=', $pro_exitente1)->get()->toArray();
@@ -267,8 +272,6 @@ class ProductController extends Controller
                 }
                 $detailn->save();
             }
-
-
         }else{
             $detail = ProductDetail::withTrashed()->findOrFail($pro_exitente1);
             $detail->caliber = 'small';
@@ -285,6 +288,38 @@ class ProductController extends Controller
 //        modificar el calibre mediano
         $exitente_lote1 = Batch::Select('id')->where('product_detail_id', '=', $pro_exitente2)->get()->toArray();
         if (count($exitente_lote1) == 0){
+            $same2=ProductDetail::withTrashed()->where('product_id', '=', $id)
+                ->where('caliber', '=', 'medium')
+                ->where('presentation_unit', '=', $uni_presen2)
+                ->where('sale_unit', '=', $uni_sale2)->get()->toArray();
+            if (count($same2)){
+                $detail2 = ProductDetail::withTrashed()->findOrFail($pro_exitente2);
+                $detail2->weight = str_replace(",", ".", $request->weight_medium);
+                if ($status2 == 'Desactivado'){
+                    $detail2->deleted_at = date('Y-m-d H:i:s');
+                }else{
+                    $detail2->deleted_at = null;
+                }
+                $detail2->save();
+            }else{
+                $detail = ProductDetail::withTrashed()->findOrFail($pro_exitente2);
+                $detail->deleted_at = date('Y-m-d H:i:s');
+                $detail->save();
+//          agrego el nuevo detalle si ya tiene una relacion
+                $detailn = new ProductDetail();
+                $detailn->product_id = $id;
+                $detailn->caliber = 'medium';
+                $detailn->presentation_unit = $request->unidadm;
+                $detailn->sale_unit  = $request->input('salem');
+                $detailn->weight = str_replace(",", ".", $request->weight_medium);
+                if ($status2 == 'Desactivado'){
+                    $detailn->deleted_at = date('Y-m-d H:i:s');
+                }else{
+                    $detailn->deleted_at = null;
+                }
+                $detailn->save();
+            }
+        }else{
             $detail2 = ProductDetail::withTrashed()->findOrFail($pro_exitente2);
             $detail2->caliber = 'medium';
             $detail->presentation_unit = $request->unidadm;
@@ -296,27 +331,42 @@ class ProductController extends Controller
                 $detail2->deleted_at = null;
             }
             $detail2->save();
-        }else{
-            $detail = ProductDetail::withTrashed()->findOrFail($pro_exitente2);
-            $detail->deleted_at = date('Y-m-d H:i:s');
-            $detail->save();
-//          agrego el nuevo detalle si ya tiene una relacion
-            $detailn = new ProductDetail();
-            $detailn->product_id = $id;
-            $detailn->caliber = 'medium';
-            $detailn->presentation_unit = $request->unidadm;
-            $detailn->sale_unit  = $request->input('salem');
-            $detailn->weight = str_replace(",", ".", $request->weight_medium);
-            if ($status2 == 'Desactivado'){
-                $detailn->deleted_at = date('Y-m-d H:i:s');
-            }else{
-                $detailn->deleted_at = null;
-            }
-            $detailn->save();
         }
 //        modificar el calibre grande
         $exitente_lote2 = Batch::Select('id')->where('product_detail_id', '=', $pro_exitente3)->get()->toArray();
         if (count($exitente_lote2) == 0){
+            $same3=ProductDetail::withTrashed()->where('product_id', '=', $id)
+                ->where('caliber', '=', 'medium')
+                ->where('presentation_unit', '=', $uni_presen2)
+                ->where('sale_unit', '=', $uni_sale2)->get()->toArray();
+            if (count($same3)){
+                $detail3 = ProductDetail::withTrashed()->findOrFail($pro_exitente3);
+                $detail3->weight = str_replace(",", ".", $request->weight_big);
+                if ($status3 == 'Desactivado'){
+                    $detail3->deleted_at = date('Y-m-d H:i:s');
+                }else{
+                    $detail3->deleted_at = null;
+                }
+                $detail3->save();
+            }else{
+                $detail = ProductDetail::withTrashed()->findOrFail($pro_exitente3);
+                $detail->deleted_at = date('Y-m-d H:i:s');
+                $detail->save();
+//          agrego el nuevo detalle si ya tiene una relacion
+                $detailn = new ProductDetail();
+                $detailn->product_id = $id;
+                $detailn->caliber = 'big';
+                $detailn->presentation_unit = $request->unidadg;
+                $detailn->sale_unit  = $request->input('saleg');
+                $detailn->weight = str_replace(",", ".", $request->weight_big);
+                if ($status3 == 'Desactivado'){
+                    $detailn->deleted_at = date('Y-m-d H:i:s');
+                }else{
+                    $detailn->deleted_at = null;
+                }
+                $detailn->save();
+            }
+        }else{
             $detail3 = ProductDetail::withTrashed()->findOrFail($pro_exitente3);
             $detail3->caliber = 'big';
             $detail->presentation_unit = $request->unidadg;
@@ -328,23 +378,6 @@ class ProductController extends Controller
                 $detail3->deleted_at = null;
             }
             $detail3->save();
-        }else{
-            $detail = ProductDetail::withTrashed()->findOrFail($pro_exitente3);
-            $detail->deleted_at = date('Y-m-d H:i:s');
-            $detail->save();
-//          agrego el nuevo detalle si ya tiene una relacion
-            $detailn = new ProductDetail();
-            $detailn->product_id = $id;
-            $detailn->caliber = 'big';
-            $detailn->presentation_unit = $request->unidadg;
-            $detailn->sale_unit  = $request->input('saleg');
-            $detailn->weight = str_replace(",", ".", $request->weight_big);
-            if ($status3 == 'Desactivado'){
-                $detailn->deleted_at = date('Y-m-d H:i:s');
-            }else{
-                $detailn->deleted_at = null;
-            }
-            $detailn->save();
         }
         return redirect(Constants::URL_PRODUCTS);
     }
