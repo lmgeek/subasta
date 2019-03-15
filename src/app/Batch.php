@@ -19,8 +19,11 @@ class Batch extends Model
 	public function arrive(){
         return $this->belongsTo('App\Arrive');
     }
-	
-	public function detail(){
+    public function batch()
+    {
+        return $this->belongsTo('App\Batch');
+    }
+	public function productDetail(){
         return $this->belongsTo('App\ProductDetail');
     }
 

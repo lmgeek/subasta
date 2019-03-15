@@ -4,7 +4,14 @@
     <?php use Carbon\Carbon; ?>
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-9">
-            <h2>{{ trans('auction.auction_operations',['productName'=>$auction->batch->product->name]) }}</h2>
+            <?php
+            $products = array($auction->batch->productDetail->product);
+//            dd($products);
+            foreach ($products as $p){
+                $name = $p[0]->name;
+            }
+            ?>
+            <h2>{{ trans('auction.auction_operations',['productName'=>$name]) }}</h2>
         </div>
     </div>
     <div class="wrapper wrapper-content">
@@ -48,9 +55,9 @@
                                             {{ $b->user->nickname }}
                                         </a>
                                     </td>
-                                    <td>{{ $b->amount }} {{ $auction->batch->product->unit }}</td>
+                                    <td>{{ $b->amount }} {{ $auction->batch->productDetail->presentation_unit }}</td>
                                     <td style="text-align: right">$ {{ number_format($b->price,2,',','.') }}</td>
-                                    <td>{{ $auction->batch->product->sale_unit }}</td>
+                                    <td>{{ $auction->batch->productDetail->sale_unit }}</td>
                                     <td style="text-align: right">{{ Carbon::parse($b->bid_date)->format('H:i:s d/m/Y') }}</td>
 
                                     <td>

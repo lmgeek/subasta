@@ -72,12 +72,14 @@
                                         <br>
                                         <small><p style="color: gray; font-style: italic;">   Sólo permite 2 decimales en el peso del producto</p></small>
                                         <div class="col-md-4">
-                                            <label for="weigth_small">Chico</label>
-                                            <input type="text" name="weight_small" class="form-control number" id="weigth_small" value="{{ old('weight_small') }}">
+                                            <label for="weigth_small" style=" font-size: 16px;">Chico</label><br>
+
                                             <div class="form-group">
                                                 <label for="unit">Unidad de Presentacion</label>
                                                 {!! Form::select('unidadp',$units, old('unidadp'), ['class' => 'required form-control']) !!}
                                             </div>
+                                            <label for="weigth_small">Peso aproximado</label>
+                                            <input type="text" name="weight_small" class="form-control number" id="weigth_small" value="{{ old('weight_small') }}">
                                             <div class="form-group">
                                                 <label for="unit">Unidad de Venta </label>
                                                 {!! Form::select('salep',$sale, old('salep'), ['class' => 'required form-control']) !!}
@@ -88,13 +90,15 @@
                                             </div>
                                         </div>
                                         <div class="col-md-4">
-                                            <label for="weigth_medium">Mediano</label>
-                                            <input type="text" name="weight_medium" class="form-control number" id="weigth_medium" value="{{ old('weight_medium') }}">
+                                            <label for="weigth_medium" style=" font-size: 16px;">Mediano</label><br>
+
                                             <div class="form-group">
                                                 <label for="unit">Unidad de Presentacion</label>
                                                 {!! Form::select('unidadm',$units, old('unidadm'), ['class' => 'required form-control']) !!}
 
                                             </div>
+                                            <label for="weigth_small">Peso aproximado</label>
+                                            <input type="text" name="weight_medium" class="form-control number" id="weigth_medium" value="{{ old('weight_medium') }}">
                                             <div class="form-group">
                                                 <label for="unit">Unidad de Venta </label>
                                                 {!! Form::select('salem',$sale, old('salem'), ['class' => 'required form-control']) !!}
@@ -105,13 +109,15 @@
                                             </div>
                                         </div>
                                         <div class="col-md-4">
-                                            <label for="weigth_big">Grande</label>
-                                            <input type="text" name="weight_big" class="form-control number" id="weigth_big" value="{{ old('weight_big') }}">
+                                            <label for="weigth_big" style=" font-size: 16px;">Grande</label><br>
+
                                             <div class="form-group">
                                                 <label for="unit">Unidad de Presentacion</label>
                                                 {!! Form::select('unidadg',$units, old('unidadg'), ['class' => 'required form-control']) !!}
 
                                             </div>
+                                            <label for="weigth_small">Peso aproximado</label>
+                                            <input type="text" name="weight_big" class="form-control number" id="weigth_big" value="{{ old('weight_big') }}">
                                             <div class="form-group">
                                                 <label for="unit">Unidad de Venta </label>
                                                 {!! Form::select('saleg',$sale, old('saleg'), ['class' => 'required form-control']) !!}
