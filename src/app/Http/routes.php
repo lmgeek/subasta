@@ -15,7 +15,6 @@
 Route::get('/', 'AuctionFrontController@subastasFront');
 Route::get('/subastas', 'AuctionFrontController@listaSubastas');
 Route::get('/subastas/agregar','AuctionFrontController@addAuction');
-Route::get('/auction/add2','AuctionFrontController@addAuctionNew');
 Route::get('/ofertas','AuctionFrontController@offerList');
 Route::get('/barcos','BoatController@boatList');
 Route::post('/subastas/guardar','AuctionFrontController@storeAuction');
@@ -28,6 +27,9 @@ Route::get('subastas/editar/{auction}', [
 ]);
 Route::get('subastas/replicar/{auction}', [
     'as' => 'auction.replicate', 'uses' => 'AuctionFrontController@replicateAuction'
+]);
+Route::get('usuarios/editar/{username}', [
+    'as' => 'user.edit', 'uses' => 'UserController@userEdit'
 ]);
 Route::get('/usuarios/agregar','UserController@userAdd');
 Route::get('/productos/ver/unidades','ProductController@getUnitsFromProductIdCaliber');

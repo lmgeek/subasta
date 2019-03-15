@@ -273,9 +273,9 @@ function notifications($type,$product=null,$price=null,$quantity=null,$text=null
         $html='<div class="notificationauction success" id="notificationauction'+$idnotification+'" onclick="notifications_close('+$idnotification+')"><div class="notificationicon"><i class="icon-line-awesome-check"></i></div><div class="notificationcontent">' +
             '<div class="title">Su compra se ha realizado con éxito</div>' +
             '<div class="fieldtitle">Producto</div><div class="fieldvalue">'+$product+'</div>'+
-            '<div class="fieldtitle">Precio</div><div class="fieldvalue">'+$price+'</div>'+
+            '<div class="fieldtitle">Precio</div><div class="fieldvalue">'+$price.toString().replace('.',',')+'</div>'+
             '<div class="fieldtitle">Cantidad</div><div class="fieldvalue">'+$quantity+'</div>'+
-            '<div class="total">Total<div class="totalvalue">'+(parseFloat($price)*$quantity)+'</div></div>'+
+            '<div class="total">Total<div class="totalvalue">'+(parseFloat($price)*$quantity).toString().replace('.',',')+'</div></div>'+
             '</div></div>'
     }else if($type==2){
         $html='<div class="notificationauction success" id="notificationauction'+$idnotification+'" onclick="notifications_close('+$idnotification+')"><div class="notificationicon"><i class="icon-line-awesome-check"></i></div><div class="notificationcontent">' +
