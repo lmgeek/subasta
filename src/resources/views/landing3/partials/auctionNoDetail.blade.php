@@ -91,7 +91,7 @@ data-user="'.$auction->batch->arrive->boat->user->nickname.'"'?>>
                 </li>
                 <li>
                     <small>Barco</small><br>
-                    <strong><em class="icon-line-awesome-ship"></em> {{$auction->batch->arrive->boat->nickname}}</strong><br>
+                    <strong><em class="icon-line-awesome-ship"></em> {{ucfirst($auction->batch->arrive->boat->name)}}</strong><br>
                     <div class="star-rating" data-rating="<?=$userRatings?>"></div>
                 </li>
             </ul>

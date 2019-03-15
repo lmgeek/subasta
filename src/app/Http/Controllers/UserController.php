@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Vendedor;
 use App\Comprador;
+use App\Constants;
 use App\Bid;
 use App\ViewHelper;
 use Illuminate\Http\Request;
@@ -217,38 +218,76 @@ class UserController extends Controller
         return redirect()->route('users.index');
     }
     public function userAdd(Request $request){
+        if(empty(Auth::user()->type) || Auth::user()->type!=User::INTERNAL){
+            return redirect('/');
+        }
         return view('landing3/user-add-edit');
     }
+    public function userEdit($nickname){
+        if(empty(Auth::user()->type) || (Auth::user()->nickname!=$nickname && Auth::user()->type!=User::INTERNAL)){
+            return redirect('/');
+        }
+        $user= User::select()->where('nickname',Constants::EQUAL,$nickname)->get()[0];
+        if($user->type== Constants::VENDEDOR){
+            $vendedor= Vendedor::select()->where('user_id',Constants::EQUAL,$user->id);
+            $user->vendedor=$vendedor;
+        }else if($user->type== User::COMPRADOR){
+            $comprador= Comprador::select()->where('user_id',Constants::EQUAL,$user->id);
+            $user->comprador=$comprador;
+        }
+        return view('landing3/user-add-edit')->with('user',$user);
+    }
     public function userSave(Request $request){
-        $user  = new User();
+        if(isset($request->id)){
+            $user= User::select()->where('id',Constants::EQUAL,$request->id)->get()[0];
+            if($user->type== Constants::VENDEDOR){
+                $vendedor= Vendedor::select()->where('user_id',Constants::EQUAL,$request->id)->get()[0];
+            }else if($user->type== User::COMPRADOR){
+                $comprador= Comprador::select()->where('user_id',Constants::EQUAL,$request->id)->get()[0];
+            }
+        }else{
+            $user  = new User();
+            $user->status=User::APROBADO;
+            $user->hash= md5(date('YmdHis').$request->nickname);
+            $user->active_mail=1;
+            if($request->type==User::COMPRADOR){
+                $comprador = new Comprador();
+            }elseif($request->type==User::VENDEDOR){
+                $vendedor = new Vendedor();
+            }
+        }
         $user->name=$request->name;
         $user->lastname=$request->lastname;
         $user->nickname=$request->nickname;
         $user->email=$request->email;
-        $user->status=User::APROBADO;
+        $user->phone=$request->phone;
+        
         $user->type=$request->type;
-        $user->active_mail=1;
-        $user->hash= md5(date('YmdHis').$request->nickname);
-        $user->password = Hash::make($request->password);
+        if($request->password!='' && $request->password_confirmation!='' && $request->password==$request->password_confirmation){
+            $user->password = Hash::make($request->password);
+        }
+        $user->save();
         if($request->type==User::COMPRADOR){
-            $comprador = new Comprador();
             $comprador->user_id = $user->id;
-            $comprador->dni = $dni;
+            $comprador->dni = $request->dni;
             $comprador->save();
         }elseif($request->type==User::VENDEDOR){
             $vendedor = new Vendedor();
             $vendedor->user_id = $user->id;
-            $vendedor->cuit = $cuit;
+            $vendedor->cuit=  $request->cuit;
             $vendedor->save();
         }
-        $template = Constants::MAIL_TEMPLATE_START . User::COMPRADOR . '.' . Constants::VERIFY;
-        Mail::send($template, [Constants::USER => $user], function ($message) use ($user) {
-            $message->from(
-                env(Constants::MAIL_ADDRESS_SYSTEM, Constants::MAIL_ADDRESS),
-                env(Constants::MAIL_ADDRESS_SYSTEM_NAME, Constants::MAIL_NAME)
-            );
-            $message->subject(trans(Constants::MAIL_SUBJECT_WELCOME));
-            $message->to($user->email);
-        });
+        if(empty($request->id)){
+            $template = Constants::MAIL_TEMPLATE_START . User::COMPRADOR . '.' . Constants::VERIFY;
+            Mail::send($template, [Constants::USER => $user], function ($message) use ($user) {
+                $message->from(
+                    env(Constants::MAIL_ADDRESS_SYSTEM, Constants::MAIL_ADDRESS),
+                    env(Constants::MAIL_ADDRESS_SYSTEM_NAME, Constants::MAIL_NAME)
+                );
+                $message->subject(trans(Constants::MAIL_SUBJECT_WELCOME));
+                $message->to($user->email);
+            });
+        }
+        return redirect('usuarios/editar/'.$user->nickname);
     }
 }
