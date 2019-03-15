@@ -491,7 +491,7 @@ class AuctionController extends Controller
         $available = AuctionBackController::getAvailable($auction_id, $auction->amount);
 
         if ($available[Constants::AVAILABLE] > 0){
-            if ($price <= $auction->end_price){
+            if ($price < $auction->end_price){
                 return;
             }
 
@@ -630,7 +630,7 @@ class AuctionController extends Controller
                 }
             }
         }
-        return redirect()->to('/offers');
+        return redirect()->to('/ofertas');
 //        return redirect()->to('/offers');
     }
 

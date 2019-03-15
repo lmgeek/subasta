@@ -127,11 +127,11 @@
                                                             <!-- Buttons -->
                                                             @if($offer->status == 'pending')
                                                                 <div class="buttons-to-right center-buttons-mobile always-visible">
-                                                                    <a href="#" onclick="javascript:window.location='oferta/deschazar/{{$auction->id}}/{{$offer->id}}'"
+                                                                    <a href="#" onclick="javascript:window.location='oferta/reschazar/{{$auction->id}}/{{$offer->id}}'"
                                                                        class="button verde ripple-effect ico"
                                                                        title="Aceptar" data-tippy-placement="top"><i
                                                                                 class="icon-feather-check"></i></a>
-                                                                    <a href="#" onclick="javascript:window.location='oferta/deschazar/{{$auction->id}}'"
+                                                                    <a href="#" onclick="javascript:window.location='oferta/reschazar/{{$auction->id}}'"
                                                                        class="button rojo ripple-effect ico"
                                                                        title="Rechazar" data-tippy-placement="top"><i
                                                                                 class="icon-feather-x"></i></a>
