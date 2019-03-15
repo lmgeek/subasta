@@ -32,6 +32,12 @@ use App;
 
 class AuctionController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -647,6 +653,7 @@ class AuctionController extends Controller
      */
     public function create($id)
     {
+        $this->authorize('seeSellerAuction',Auth::user()->id);
         $batch = Batch::findOrFail($id);
         $this->authorize('createAuction', $batch);
 		$buyers = User::filter(null, array(User::COMPRADOR), array(User::APROBADO));

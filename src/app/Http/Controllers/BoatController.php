@@ -17,6 +17,7 @@ class BoatController extends Controller
 
 	public function __construct()
     {
+        $this->middleware('auth');
         $this->beforeFilter('@findBoat',['only'=>['show','edit','update','destroy','approve','reject']]);
         $this->beforeFilter('@checkEvaluatePermissions',['only'=>['approve','reject']]);
     }
@@ -30,6 +31,7 @@ class BoatController extends Controller
     {
         if(Gate::denies('evaluateBoat',$this->boat)) {
             abort(401);
+
         }
     }
 
@@ -171,8 +173,14 @@ class BoatController extends Controller
         }
 	}
     public function boatList(){
-        $boats= Boat::select()->where('user_id', Constants::EQUAL,Auth::user()->id)->orderby('name', 'asc')->paginate(2);
-        return view('landing3/boats',compact('boats'));
+
+        if (Auth::check() && Auth::user()->type == \App\User::VENDEDOR || Auth::user()->type == \App\User::INTERNAL)
+        {
+            $boats= Boat::select()->where('user_id', Constants::EQUAL,Auth::user()->id)->orderby('name', 'asc')->paginate(2);
+            return view('landing3/boats',compact('boats'));
+        }else{
+            return redirect('/home');
+        }
     }
     /* INI Rodolfo*/
     public static function getPreferredPort(Request $request){
