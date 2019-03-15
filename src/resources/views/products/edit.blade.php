@@ -216,7 +216,7 @@
 
 
                             <div class="ibox-footer text-right">
-                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                    <button type="submit" disabled class="btn btn-primary">Guardar</button>
                                     <a href="{{ URL::previous() }}" type="button" class="btn btn-danger">Cancelar</a>
                             </div>
                         </form>
