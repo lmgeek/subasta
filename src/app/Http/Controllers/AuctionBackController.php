@@ -242,11 +242,16 @@ class AuctionBackController extends AuctionController
 	 }
      public static function emailOfferBid($auction,$available,$offer)
     {
+        $products = array($auction->batch->productDetail->product);
+        //            dd($products);
+        foreach ($products as $p){
+            $name = $p[0]->name;
+        }
         //Datos de envio de correo
-        $unit = $auction->batch->product->unit;
-        $caliber = $auction->batch->caliber;
+        $unit = $auction->batch->productDetail->sale_unit;
+        $caliber = $auction->batch->productDetail->caliber;
         $quality = $auction->batch->quality;
-        $product = $auction->batch->product->name;
+        $product = $name;
         $resp[Constants::IS_NOT_AVAILABLE] = 0;
         $resp['unit'] = trans(Constants::TRANS_UNITS.$unit);
         $resp[Constants::CALIBER] = $caliber;
