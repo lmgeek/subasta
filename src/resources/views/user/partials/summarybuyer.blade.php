@@ -1,5 +1,4 @@
-<?php $bids = $bids->get(); ?>
-@if ($bids->count() > 0) 
+@if (count($bids) > 0)
  <div class="ibox float-e-margins">
                     <div class="ibox-title">
                         <h5>{{ trans('auction.summary_operations') }}</h5>
