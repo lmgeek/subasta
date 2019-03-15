@@ -1,4 +1,12 @@
-<div id="small-dialog-ver-ventas-{{$auction->id}}" class="zoom-anim-dialog mfp-hide dialog-with-tabs">
+<?php
+$products = array($auction->batch->productDetail->product);
+//            dd($products);
+foreach ($products as $p) {
+    $name = $p[0]->name;
+}
+?>
+
+<div id="small-dialog-ver-ventas-{{$auction->id}}" class="small-dialog zoom-anim-dialog mfp-hide dialog-with-tabs" style="    padding: 0!important;">
 
     <!--Tabs -->
     <div class="sign-in-form">
@@ -21,48 +29,37 @@
                 <!-- Bidding -->
                 <div class="bidding-widget">
                     <ul class="dashboard-box-list">
-                        <li>
-                            <div class="boxed-list-item">
-                                <!-- Content -->
-                                <div class="item-content">
-                                    <h4 class="primary">jlopez</h4>
-                                    <div class="item-details margin-top-10">
-                                        <div class="detail-item"><i class="icon-material-outline-date-range"></i> 12 Ene 2019 13:54</div>
-                                        <div class="detail-item"><i class="icon-line-awesome-money"></i> $290</div>
-                                        <div class="detail-item"><i class="icon-line-awesome-balance-scale"></i> 500kg</div>
-                                        <div class="detail-item"><i class="icon-material-outline-gavel"></i> Subasta</div>
+                        @foreach($auction->bids as $b)
+                            <li>
+                                <div class="boxed-list-item">
+                                    <!-- Content -->
+                                    <div class="item-content">
+                                        <h4 class="primary">{{ $b->user->nickname }}</h4>
+                                        <span class="dashboard-status-button @if($b->status == 'pending') yellow @elseif($b->status == 'concretized') green @elseif($b->status == 'noConcretized') red @endif">
+                                                            {{ trans('general.bid_status.'.$b->status) }}
+                                                        </span>
+                                        <div class="item-details margin-top-10">
+                                            <div class="detail-item"><i
+                                                        class="icon-material-outline-date-range"></i> {{ \App\Constants::formatDateOffer($b->created_at) }}
+                                            </div>
+                                            <div class="detail-item"><i class="icon-line-awesome-money"></i>
+                                                ${{ number_format($b->price,2,',','.') }}</div>
+                                            <div class="detail-item"><i
+                                                        class="icon-line-awesome-balance-scale"></i> {{ $b->amount }}{{ $auction->batch->productDetail->sale_unit }}
+                                            </div>
+                                            <div class="detail-item"><i class="icon-material-outline-gavel"></i>
+                                                @if ($b->offer_id != 0)
+                                                    {{ trans('auction.'.\App\Constants::OFFER_ORIGIN) }}
+                                                @else
+                                                    {{ trans('auction.'.\App\Constants::AUCTION_ORIGIN) }}
+                                                @endif
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="boxed-list-item">
-                                <!-- Content -->
-                                <div class="item-content">
-                                    <h4 class="primary">gdesancho</h4>
-                                    <div class="item-details margin-top-10">
-                                        <div class="detail-item"><i class="icon-material-outline-date-range"></i> 12 Ene 2019 14:00</div>
-                                        <div class="detail-item"><i class="icon-line-awesome-money"></i> $285</div>
-                                        <div class="detail-item"><i class="icon-line-awesome-balance-scale"></i> 200kg</div>
-                                        <div class="detail-item"><i class="icon-material-outline-local-offer"></i> Oferta Directa</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="boxed-list-item">
-                                <!-- Content -->
-                                <div class="item-content">
-                                    <h4 class="primary">netlabs</h4>
-                                    <div class="item-details margin-top-10">
-                                        <div class="detail-item"><i class="icon-material-outline-date-range"></i> 12 Ene 2019 14:07</div>
-                                        <div class="detail-item"><i class="icon-line-awesome-money"></i> $283</div>
-                                        <div class="detail-item"><i class="icon-line-awesome-balance-scale"></i> 320kg</div>
-                                        <div class="detail-item"><i class="icon-feather-dollar-sign"></i> Venta</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
+                            </li>
+                        @endforeach
+
 
                     </ul>
                 </div>
