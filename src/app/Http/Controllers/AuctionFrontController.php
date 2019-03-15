@@ -425,26 +425,8 @@ class AuctionFrontController extends AuctionController
             ;
     }
     public function addAuction(Request $request){
-        if(empty(Auth::user()->id)){
-            return redirect(Constants::URL_LOGIN);
-        }
-        $boats=Boat::select('id',Constants::NAME)->where(Constants::USER_ID, Constants::EQUAL,Auth::user()->id)
-                ->where('status', Constants::EQUAL,'approved')
-                ->orderBy('name','ASC')->get();
-        $ports=Ports::select()->get();
-        $products= Product::select('id',Constants::NAME)->get();
-        return view('landing3/auction-add-edit')
-            ->with('title','| Agregar Subasta')
-            ->with(Constants::BOATS,$boats)
-            ->with(Constants::PORTS,$ports)
-            ->with(Constants::BATCHEDIT,1)
-            ->with(Constants::ARRIVEEDIT,1)
-            ->with(Constants::AUCTIONEDIT,1)
-            ->with(Constants::PRODUCTS,$products);
-    }
-    public function addAuctionNew(Request $request){
-        if(empty(Auth::user()->id)){
-            return redirect(Constants::URL_LOGIN);
+        if(empty(Auth::user()->id) || Auth::user()->type!=Constants::VENDEDOR){
+            return redirect('/');
         }
         $boats=Boat::select('id',Constants::NAME)->where(Constants::USER_ID, Constants::EQUAL,Auth::user()->id)
                 ->where('status', Constants::EQUAL,'approved')
@@ -461,8 +443,8 @@ class AuctionFrontController extends AuctionController
             ->with(Constants::PRODUCTS,$products);
     }
     public function editAuction($auction_id){
-        if(empty(Auth::user()->id)){
-            return redirect(Constants::URL_LOGIN);
+        if(empty(Auth::user()->id) || Auth::user()->type!=Constants::VENDEDOR){
+            return redirect('/');
         }
         $boats=Boat::select('id',Constants::NAME)
             ->where('status', Constants::EQUAL,'approved')
@@ -483,8 +465,8 @@ class AuctionFrontController extends AuctionController
             ->with(Constants::PRODUCTS,$products);
     }
     public function replicateAuction($auction_id){
-        if(empty(Auth::user()->id)){
-            return redirect(Constants::URL_LOGIN);
+        if(empty(Auth::user()->id) || Auth::user()->type!=Constants::VENDEDOR){
+            return redirect('/');
         }
         $auction=AuctionQuery::auctionHome(null,array(Constants::AUCTIONID=>$auction_id),'all')[0];
         $boats=Boat::select('id',Constants::NAME)
@@ -510,6 +492,9 @@ class AuctionFrontController extends AuctionController
      * $auctions = AuctionQuery::filterAndPaginate(Constants::FINISHED);
      */
     public function offerList(Request $request){
+        if(empty(Auth::user()->id) || Auth::user()->type!=Constants::VENDEDOR){
+            return redirect('/');
+        }
         $timeline=(isset($request->time))?$request->time:Constants::IN_COURSE;
         $now =date(Constants::DATE_FORMAT);
 

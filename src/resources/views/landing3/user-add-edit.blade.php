@@ -90,7 +90,5 @@ function users_changeType(){
     }
 }
 </script>
-<?php }else{
-    echo '<h1>Solo pueden crear usuarios los usuarios de tipo administrador</h1>';
-}?>
 @endsection
+<?php }?>

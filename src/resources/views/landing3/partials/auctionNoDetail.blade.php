@@ -54,6 +54,8 @@ data-product="'.$auction->product['idproduct'].'"
 data-caliber="'.$auction->product['caliber'].'"
 data-quality="'.(($auction->batch->quality<1)?1:$auction->batch->quality).'"
 data-user="'.$auction->batch->arrive->boat->user->nickname.'"'?>>
+<input type="hidden" id="PresUnit<?=$auction->id?>" value="<?=$auction->product['presentation_unit']?>">
+<input type="hidden" id="SaleUnit<?=$auction->id?>" value="<?=$auction->product['sale_unit']?>">
 <div class="task-listing-details" id="AuctionLeft<?=$auction->id?>">
     @if(!isset($nopic))
         <div class="task-listing-photo">
