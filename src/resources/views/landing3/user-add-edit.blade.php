@@ -20,6 +20,7 @@ $title=(isset($user->id))?'editar':'Agregar';
         <input type="hidden" name="id" value='<?=$user->id?>'>
         @endif
         {{csrf_field()}}
+        @if(Auth::user()->type=='internal')
         <div class="row">
             <div class="col">
                 Tipo de Usuario<br>
@@ -31,6 +32,7 @@ $title=(isset($user->id))?'editar':'Agregar';
                 </select>
             </div>
         </div>
+        @endif
         <div class="row">
             <div class="col">
                 Nombre<br><input type="text" name="name" placeholder="Nombre" value='<?=(isset($user))?$user->name:old('name')?>'>
