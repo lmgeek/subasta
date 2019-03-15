@@ -335,9 +335,9 @@ class ProductController extends Controller
         $exitente_lote2 = Batch::Select('id')->where('product_detail_id', '=', $pro_exitente3)->get()->toArray();
         if (count($exitente_lote2) == 0){
             $same3=ProductDetail::withTrashed()->where('product_id', '=', $id)
-                ->where('caliber', '=', 'medium')
-                ->where('presentation_unit', '=', $uni_presen2)
-                ->where('sale_unit', '=', $uni_sale2)->get()->toArray();
+                ->where('caliber', '=', 'big')
+                ->where('presentation_unit', '=', $uni_presen3)
+                ->where('sale_unit', '=', $uni_sale3)->get()->toArray();
             if (count($same3)){
                 $detail3 = ProductDetail::withTrashed()->findOrFail($pro_exitente3);
                 $detail3->weight = str_replace(",", ".", $request->weight_big);

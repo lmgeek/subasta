@@ -101,17 +101,17 @@ class UserController extends Controller
 		$score = 0;
 		if ($user->type == User::VENDEDOR)
 		{
-			$total = $user->seller->getTotalSales();
-			$total2 = $user->seller->getTotalPrivateSales();
-			$bids = $user->seller->mySales()->orderBy('bid_date','desc')->limit(10);
-			
+            $b = new Bid();
+            $total = $b->getTotalByUser($user);
+            $bids = Bid::where('user_id' , $user->id )->orderBy('bid_date', 'desc')->limit(10)->get();
+
 		}
-		
+//
 		if ($user->type == User::COMPRADOR)
 		{	
 			$b = new Bid();
 			$total = $b->getTotalByUser($user);
-			$bids = Bid::where('user_id' , $user->id )->orderBy('bid_date', 'desc')->limit(10);
+			$bids = Bid::where('user_id' , $user->id )->orderBy('bid_date', 'desc')->limit(10)->get();
 		}	
 		
 		
