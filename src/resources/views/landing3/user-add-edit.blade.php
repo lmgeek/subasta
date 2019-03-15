@@ -2,11 +2,19 @@
 use App\Constants;
 use App\User;
 $title=(isset($user->id))?'editar':'Agregar';
+
 ?>
 @extends('landing3/partials/layout-admin')
 @section('title',' | '.$title.' usuario')
 @section('content')
 <div style="margin:20px">
+    @if (count($errors) > 0)
+    <div class="alert alert-danger"><strong>Error<?=(count($errors)>1)?'es':''?></strong><br><br><ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+    </ul></div>
+    @endif
     <form method="post" action="/usuarios/guardar">
         @if($title=='editar')
         <input type="hidden" name="id" value='<?=$user->id?>'>
@@ -25,37 +33,37 @@ $title=(isset($user->id))?'editar':'Agregar';
         </div>
         <div class="row">
             <div class="col">
-                Nombre<br><input type="text" name="name" placeholder="Nombre" value='<?=(isset($user))?$user->name:''?>'>
+                Nombre<br><input type="text" name="name" placeholder="Nombre" value='<?=(isset($user))?$user->name:old('name')?>'>
             </div>
             <div class="col">
-                Apellido<br><input type="text" name="lastname" placeholder="Apellido" value='<?=(isset($user))?$user->lastname:''?>'>
+                Apellido<br><input type="text" name="lastname" placeholder="Apellido" value='<?=(isset($user))?$user->lastname:old('lastname')?>'>
             </div>
             <div class="col">
-                Alias<br><input type="text" name="nickname" placeholder="Alias" maxlength="10" value='<?=(isset($user))?$user->nickname:''?>'>
+                Alias<br><input type="text" name="nickname" placeholder="Alias" maxlength="10" value='<?=(isset($user))?$user->nickname:old('nickname')?>'>
             </div>
         </div>
-        <div class="row UserPanel" id="BuyerPanel" style="display:none">
+        <div class="row UserPanel" id="BuyerPanel" <?=(empty($user) || (isset($user) && $user->type!=User::COMPRADOR))?'style="display:none"':''?>>
             <div class='col'>
                 DNI<br>
-                <input type="number" name="dni" placeholder="DNI" minlength="7" id="DNI">
+                <input type="number" name="dni" placeholder="DNI" minlength="7" id="DNI" value="<?=(isset($user) && $user->type==User::COMPRADOR)?$user->comprador->dni:old('dni')?>">
             </div>
             <div class='col'>
                 Limite de compra<br>
-                <input type="number" name="limit" placeholder="L&iacute;mite de compra" maxlength="10" id="Limit">
+                <input type="number" name="limit" placeholder="L&iacute;mite de compra" maxlength="10" id="Limit" value="<?=(isset($user) && $user->type==User::COMPRADOR)?$user->comprador->bid_limit:old('limit')?>">
             </div>
         </div>
-        <div class="row UserPanel" id="SellerPanel" style="display:none">
+        <div class="row UserPanel" id="SellerPanel" <?=(empty($user) || (isset($user) && $user->type!=User::VENDEDOR))?'style="display:none"':''?>>
             <div class='col'>
                 CUIT<br>
-                <input type="number" name="cuit" placeholder="CUIT" minlength="13" id="CUIT">
+                <input type="text" name="cuit" placeholder="CUIT" minlength="13" id="CUIT" value="<?=(isset($user) && $user->type==User::VENDEDOR)?$user->vendedor->cuit:old('cuit')?>">
             </div>
         </div>
         <div class="row">
             <div class="col">
-                Email<br><input type="email" name="email" placeholder="Email" minlength="7" value='<?=(isset($user))?$user->email:''?>'>
+                Email<br><input type="email" name="email" placeholder="Email" minlength="7" value='<?=(isset($user))?$user->email:old('email')?>'>
             </div>
             <div class="col">
-                Telefono<br><input type="tel" name="phone" placeholder="Tel&eacute;fono" value='<?=(isset($user))?$user->phone:''?>'>
+                Telefono<br><input type="tel" name="phone" placeholder="Tel&eacute;fono" value='<?=(isset($user))?$user->phone:old('phone')?>'>
             </div>
         </div>
         <div class="row">
@@ -64,6 +72,16 @@ $title=(isset($user->id))?'editar':'Agregar';
             </div>
             <div class="col">
                 Confirmar contrase&ntilde;a<br><input type="password" name="password_confirmation" placeholder="Confirmar contrase&ntilde;a"<?=($title=='agregar')?'required':''?>>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                Aprobaci&oacute;n<br>
+                <select name="status" class="selectpicker" id="UserApprobation">
+                    <option disabled selected>Seleccione...</option>
+                    <option value="<?=User::APROBADO?>" <?=(isset($user) && $user->status== User::APROBADO)?'selected':''?>>Aprobado</option>
+                    <option value="<?= User::RECHAZADO?>" <?=(isset($user) && $user->status== User::RECHAZADO)?'selected':''?>>Rechazado</option>
+                </select>
             </div>
         </div>
         <div class="row">

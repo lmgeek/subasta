@@ -183,9 +183,9 @@
 
                                     <ul class="user-menu-small-nav">
                                         <li><a href="{{url('/home')}}"><em class="icon-material-outline-dashboard"></em> Dashboard</a></li>
-                                        <li><a href="#"><em class="icon-feather-user"></em> Mi Cuenta</a></li>
+                                        <li><a href="/usuarios/editar/<?=Auth::user()->nickname?>"><em class="icon-feather-user"></em> Mi Cuenta</a></li>
                                         <li><a href="{{url('/barcos')}}"><em class="icon-line-awesome-ship"></em> Mis Barcos</a></li>
-                                        <li><a href="{{url('/sellerbatch')}}"><em class="icon-feather-box"></em> Mis Lotes</a></li>
+                                        <li><a href="#"><em class="icon-feather-box"></em> Mis Lotes</a></li>
                                         <li><a href="/subastas?time=all&type=mine"><em class="icon-material-outline-gavel"></em> Mis Subastas</a></li>
                                         <li><a href="#"><em class="icon-material-outline-gavel"></em> Ventas de Subastas</a></li>
                                         <li><a href="#"><em class="icon-feather-eye-off"></em> Ventas privadas</a></li>
@@ -244,7 +244,7 @@
 
                     <ul class="user-menu-small-nav">
                         <li><a href="{{url('/home')}}"><em class="icon-material-outline-dashboard"></em> Dashboard</a></li>
-                        <li><a href="#"><em class="icon-feather-user"></em> Mi Cuenta</a></li>
+                        <li><a href="/usuarios/editar/<?=Auth::user()->nickname?>"><em class="icon-feather-user"></em> Mi Cuenta</a></li>
                         <li><a href="/subastas"><em class="icon-material-outline-gavel"></em> Subastas</a></li>
                         <li><a href="/subastas?type=private"><em class="icon-feather-eye-off"></em> Subastas Privadas</a></li>
                         <li><a href="{{url('/bids')}}"><em class="icon-material-outline-shopping-cart"></em> Compra</a></li>
@@ -304,7 +304,7 @@
 
                     <ul class="user-menu-small-nav">
                         <li><a href="{{url('/home')}}"><em class="icon-material-outline-dashboard"></em> Dashboard</a></li>
-                        <li><a href="#"><em class="icon-feather-user"></em> Mi Cuenta</a></li>
+                        <li><a href="/usuarios/editar/<?=Auth::user()->nickname?>"><em class="icon-feather-user"></em> Mi Cuenta</a></li>
                         <li><a href="{{url('/users')}}"><em class="icon-line-awesome-list"></em> Listado de Usuarios</a></li>
                         <li><a href="{{url('/barcos')}}"><em class="icon-line-awesome-ship"></em> Listado de Barcos</a></li>
                         <li><a href="{{url('/products')}}"><em class="icon-brand-product-hunt"></em> Productos</a></li>

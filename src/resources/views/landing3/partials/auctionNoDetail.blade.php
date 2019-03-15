@@ -113,8 +113,10 @@ data-user="'.$auction->batch->arrive->boat->user->nickname.'"'?>>
                 <?php if(($cantbids+$cantofertas)==0){?>
                 <a href="#" class="button dark ripple-effect ico" title="Eliminar" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
                 <?php }
-                if($auction->timeline!=Constants::FUTURE){?>
-                <a href="/subastas/exportar/{{$auction->id}}" class="button dark ripple-effect ico" title="Exportar" data-tippy-placement="top"><i class="icon-material-outline-save-alt"></i></a>
+                if($auction->timeline!=Constants::FUTURE){
+                ///subastas/exportar/{{$auction->id}}    
+                ?>
+                <a href="#" class="button dark ripple-effect ico" title="Exportar" data-tippy-placement="top"><i class="icon-material-outline-save-alt"></i></a>
                 <?php }?>
             </div>
             @endif
