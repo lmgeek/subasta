@@ -28,6 +28,7 @@ class SellerBoatsController extends Controller
 
     public function __construct()
     {
+        $this->middleware('auth');
         $this->beforeFilter('@findBoat',['only'=>['show','edit','update','destroy']]);
     }
 
@@ -42,7 +43,7 @@ class SellerBoatsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {die();
+    {
         $this->authorize('seeSellerBoats', new Boat());
 
         $barcos = Boat::where(Constants::BOATS_USER_ID,Auth::user()->id)->get();

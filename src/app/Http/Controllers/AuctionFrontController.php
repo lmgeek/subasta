@@ -424,6 +424,7 @@ class AuctionFrontController extends AuctionController
             ;
     }
     public function addAuction(Request $request){
+        $this->authorize('seeSellerAuction',Auth::user()->id);
         if(empty(Auth::user()->id)){
             return redirect(Constants::URL_LOGIN);
         }
