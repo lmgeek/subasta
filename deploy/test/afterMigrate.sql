@@ -1,25 +1,3 @@
-# Limpio las taablas y los AUTO_INCREMENTs
-truncate arrives;
-truncate auctions;
-truncate auctions_invites;
-truncate auctions_offers;
-truncate batch_statuses;
-truncate batches;
-truncate bids;
-truncate boats;
-truncate comprador;
-truncate flyway_schema_history;
-truncate jobs;
-truncate migrations;
-truncate password_resets;
-truncate private_sales;
-truncate products;
-truncate subscriptions;
-truncate users;
-truncate users_ratings;
-truncate vendedor;
-truncate product_detail;
-
 # Insertar todo los usuarios de la web en la tabla users
 INSERT INTO users (`name`,`lastname`,`email`,`password`,`type`,`status`,`hash`,`active_mail`,`nickname`)
 VALUES ('Maria','Crer','mariac@netlabs.com.ar','$2y$10$chZ5pITb5Q7e/HQIo6qjeudB.QQ8.Zby.vpOgSjdqjNDbVasz4Rze','seller','approved','NO_aplica_prueba',1,'Mcrer'),
