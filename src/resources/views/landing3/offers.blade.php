@@ -22,7 +22,7 @@
                 <div class="col-xl-12">
                     @if(count($auctions) > 0)
                         <div class="notification error closeable">
-                            <p><i class="icon-feather-alert-circle"></i> Tienes <strong>{{ count($auctions) }}
+                            <p><i class="icon-feather-alert-circle"></i> Tienes <strong>{{ $revision }}
                                     Subastas</strong> pendientes de revisión.</p>
                             <a class="close" href="#"></a>
                         </div>
@@ -71,9 +71,11 @@
                                                     <li>
                                                         <strong>${{ $auction->end_price }}</strong><span>Precio Límite</span>
                                                     </li>
-                                                    <li>
+                                                    @if($auction->offers > 0)
+                                                        <li>
                                                         <strong class="red">${{ $max[$auction->id]['price'] }}</strong><span
                                                                 class="red">Mejor Oferta</span></li>
+                                                    @endif
                                                 </ul>
                                             </div>
                                         </div>

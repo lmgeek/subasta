@@ -543,14 +543,15 @@ class AuctionController extends Controller
             'auctions.end_price',
             'auctions.end AS FinSubasta',
             'auctions_offers.created_at',
-            'batches.caliber',
+            'product_detail.caliber',
             'batches.quality',
             'products.name AS Producto',
             'auctions_offers.user_id'
         )
             ->join(Constants::AUCTIONS,Constants::AUCTIONS_ID,'=',Constants::INPUT_AUCTION_ID)
             ->join(Constants::BATCHES,'batches.id','=',Constants::AUCTIONS_BATCH_ID)
-            ->join(Constants::PRODUCTS,'products.id','=','batches.product_id')
+            ->join('product_detail','product_detail.id','=','batches.product_detail_id')
+            ->join(Constants::PRODUCTS,'products.id','=','product_detail.product_id')
             ->join(Constants::USERS,Constants::USERS_ID,'=','auctions_offers.user_id')
             ->where('auctions_offers.auction_id','=',$auction_id)
             ->orderBy('auctions_offers.price','desc')
