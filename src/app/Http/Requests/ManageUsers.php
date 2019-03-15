@@ -21,7 +21,6 @@ class ManageUsersRequest extends Request
     public function rules()
     {
         return [
-            'type'=>'required',
             'name'=>"required|regex:(^[a-zA-Zá-úÁ-Ú\s']+$)",
             'lastname'=>"required|regex:(^[a-zA-Zá-úÁ-Ú\s']+$)",
             'nickname'=>"required|max:10|regex:(^[a-zA-Z_0-9])",

@@ -74,6 +74,7 @@ $title=(isset($user->id))?'editar':'Agregar';
                 Confirmar contrase&ntilde;a<br><input type="password" name="password_confirmation" placeholder="Confirmar contrase&ntilde;a"<?=($title=='agregar')?'required':''?>>
             </div>
         </div>
+        @if(Auth::user()->type=='internal')
         <div class="row">
             <div class="col">
                 Aprobaci&oacute;n<br>
@@ -84,6 +85,7 @@ $title=(isset($user->id))?'editar':'Agregar';
                 </select>
             </div>
         </div>
+        @endif
         <div class="row">
             <div class="col-xl-12 text-right">
                 <button type="submit"class="button dark ripple-effect big margin-top-30">Guardar</button>
