@@ -72,9 +72,8 @@
                                         <br>
                                         <small><p style="color: gray; font-style: italic;">   Sólo permite 2 decimales</p></small>
                                         <div class="col-md-4">
-                                            <label for="weigth_small">Chico</label>
-                                            <input type="text"  name="weight_small" class="form-control number" id="weigth_small" value="@if (is_null(old('weight_small'))){{ number_format($datail['weight'],2,",","") }}@else{{ old('weight_small') }}@endif">
-                                            <label for="unit">{{ trans('products.unit') }}</label>
+                                            <label for="weigth_small" style=" font-size: 16px;">Chico</label> <br>
+                                             <label for="unit">Unidad de Presentacion</label>
                                             <select class="form-control" name="unidadp" id="unidadp">
                                                 <option value="">Seleccione...</option>
                                                 <?php
@@ -84,6 +83,8 @@
                                                     <option @if( $unidad1 == $u) selected @endif value="{{ $u }}">{{ trans('general.product_units.'.$u) }}</option>
                                                 @endforeach
                                             </select>
+                                            <label for="weigth_small">Peso aproximado</label>
+                                            <input type="text"  name="weight_small" class="form-control number" id="weigth_small" value="@if (is_null(old('weight_small'))){{ number_format($datail['weight'],2,",","") }}@else{{ old('weight_small') }}@endif">
                                             <label for="unit">Unida de venta</label>
                                             <select class="form-control" name="salep" id="salep">
                                                 <option value="">Seleccione...</option>
@@ -110,9 +111,9 @@
                                             </select>
                                         </div>
                                         <div class="col-md-4">
-                                            <label for="weigth_medium">Mediano</label>
-                                            <input type="text" name="weight_medium" class="form-control number" id="weigth_medium" value="@if (is_null(old('weight_medium'))){{ number_format($datail2['weight'],2,",","") }}@else{{ old('weight_medium') }}@endif">
-                                            <label for="unit">{{ trans('products.unit') }}</label>
+                                            <label for="weigth_medium" style=" font-size: 16px;">Mediano</label><br>
+
+                                            <label for="unit">Unidad de Presentacion</label>
                                             <select class="form-control" name="unidadm" id="unidadm">
                                                 <option value="">Seleccione...</option>
                                                 <?php
@@ -122,6 +123,8 @@
                                                     <option @if( $unidad == $u) selected @endif value="{{ $u }}">{{ trans('general.product_units.'.$u) }}</option>
                                                 @endforeach
                                             </select>
+                                            <label for="weigth_medium">Peso aproximado</label>
+                                            <input type="text" name="weight_medium" class="form-control number" id="weigth_medium" value="@if (is_null(old('weight_medium'))){{ number_format($datail2['weight'],2,",","") }}@else{{ old('weight_medium') }}@endif">
                                             <label for="unit">Unida de venta</label>
                                             <select class="form-control" name="salem" id="salem">
                                                 <option value="">Seleccione...</option>
@@ -148,9 +151,8 @@
                                             </select>
                                         </div>
                                         <div class="col-md-4">
-                                            <label for="weigth_big">Grande</label>
-                                            <input type="text" name="weight_big" class="form-control number" id="weigth_big" value="@if (is_null(old('weight_big'))){{ number_format($datail3['weight'],2,",","") }}@else{{ old('weight_big') }}@endif">
-                                            <label for="unit">{{ trans('products.unit') }}</label>
+                                            <label for="weigth_big" style=" font-size: 16px;">Grande</label><br>
+                                            <label for="unit">Unidad de Presentacion</label>
                                             <select class="form-control" name="unidadg" id="unidadg">
                                                 <option value="">Seleccione...</option>
                                                 <?php
@@ -160,6 +162,9 @@
                                                     <option @if( $unidad == $u) selected @endif value="{{ $u }}">{{ trans('general.product_units.'.$u) }}</option>
                                                 @endforeach
                                             </select>
+                                            <label for="weigth_big">Peso aproximado</label>
+                                            <input type="text" name="weight_big" class="form-control number" id="weigth_big" value="@if (is_null(old('weight_big'))){{ number_format($datail3['weight'],2,",","") }}@else{{ old('weight_big') }}@endif">
+
                                             <label for="unit">Unida de venta</label>
                                             <select class="form-control" name="saleg" id="saleg">
                                                 <option value="">Seleccione...</option>
