@@ -21,7 +21,7 @@ class Batch extends Model
     }
 	
 	public function detail(){
-        return $this->belongsTo('App\ProductDetail')->withTrashed();
+        return $this->belongsTo('App\ProductDetail');
     }
 
     public function auction(){

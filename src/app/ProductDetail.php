@@ -18,5 +18,8 @@ class ProductDetail extends Model
     public function product(){
         return $this->HasMany('App\Product','id','product_id')->withTrashed();
     }
+    public function batch(){
+        return $this->hasMany('App\Batch');
+    }
 
 }
