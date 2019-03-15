@@ -108,7 +108,7 @@ $portsall= App\Ports::select()->get();
                                 @endif
                             @endforeach
                         @else
-                            <h1 class="text-center">No hay Subastas para mostrar</h1>
+                            <h1 class="text-center">No hay Subastas asociadas.</h1>
                         @endif
 
                     </div>

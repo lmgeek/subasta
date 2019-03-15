@@ -51,7 +51,21 @@ class Handler extends ExceptionHandler
         if ($this->isHttpException($e))
         {
 //            return response()->view('errors/503', [], 404);
-            return redirect('/home');
+            switch ($e->getStatusCode()) 
+                {
+                // not found
+                case 404:
+                return redirect()->guest('error/404');
+                break;
+
+                // internal error
+                case '500':
+                return redirect()->guest('error/500');
+                break;
+                default:
+                    return redirect('/');
+                break;
+            }
         }
 
         if ($e instanceof \Illuminate\Session\TokenMismatchException) {

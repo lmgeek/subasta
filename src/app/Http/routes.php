@@ -49,6 +49,14 @@ Route::get('/home', 'HomeController@index');
 Route::get('/subastas/ver/{auction}', 'AuctionFrontController@auctionDetails');
 
 
+/* Manejo de errores -> Esto esta seteado en App/Exceptions/Handler */
+Route::get('error/404', function(){
+    return View('landing3/errors/404');
+});
+Route::get('error/500', function(){
+    return View('landing3/errors/500');
+});
+
 
 //---------------------------------------------------------------------------
 // Auctions
@@ -174,10 +182,6 @@ Route::post('products/trash/{products}', [
 Route::group(['middleware' => ['auth']],function(){
     Route:resource('products','ProductController');
 });
-
-Route::get('sales', [
-    'as' => 'sales', 'uses' => 'SellerAuctionController@sales'
-]);
 
 Route::get('privatesales', 'SellerAuctionController@privatesales');
 

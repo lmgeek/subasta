@@ -69,7 +69,7 @@ function getMoreAuctions($limit=1,$idTarget='#FeaturedAuctions',$currentpage=1){
             inicializeEverything();
         }else{
             if($($idTarget).children('.auction').length==0){
-                $($idTarget).html('<h1 class="text-center">No hay Subastas para mostrar</h1>');
+                $($idTarget).html('<h1 class="text-center">No hay Subastas asociadas.</h1>');
             }
         }
     }).always(function(){$('#Loader').fadeOut();});
@@ -191,7 +191,7 @@ function updateAuctionData($id,$price=null,$end=null,$endorder=null,$endfriendly
 }
 function openPopupCompra($id){
     $('#PriceBid'+$id).val($('#Auction_'+$id).attr('data-price'));
-    $('#PricePopUp' + $id).html("$" + $('#PriceBid'+$id).val() + " <small>x kg</small>");
+    $('#PricePopUp' + $id).html("$" + $('#PriceBid'+$id).val() + " <small>/ "+$('#SaleUnit'+$id).val()+"</small>");
     gtag('event', 'OpenPopUpCompra', {
         'event_category':'Auction',
         'event_label':'Auction_'+$id
