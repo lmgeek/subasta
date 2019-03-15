@@ -161,10 +161,9 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::withTrashed()->findOrFail($id);
-        $produ_id = $product->id;
-        $ProductDetail1 = ProductDetail::withTrashed()->where('product_id','=',$produ_id)->where('caliber','=','small')->limit(3)->orderby('id','DESC')->get()->toArray();
-        $ProductDetail2 = ProductDetail::withTrashed()->where('product_id','=',$produ_id)->where('caliber','=','medium')->limit(3)->orderby('id','DESC')->get()->toArray();
-        $ProductDetail3 = ProductDetail::withTrashed()->where('product_id','=',$produ_id)->where('caliber','=','big')->limit(3)->orderby('id','DESC')->get()->toArray();
+        $ProductDetail1 = ProductDetail::withTrashed()->where('product_id','=',$id)->where('caliber','=','small')->limit(3)->orderby('id','DESC')->get()->toArray();
+        $ProductDetail2 = ProductDetail::withTrashed()->where('product_id','=',$id)->where('caliber','=','medium')->limit(3)->orderby('id','DESC')->get()->toArray();
+        $ProductDetail3 = ProductDetail::withTrashed()->where('product_id','=',$id)->where('caliber','=','big')->limit(3)->orderby('id','DESC')->get()->toArray();
         $datail= $ProductDetail1[0];
         $datail2 = $ProductDetail2[0];
         $datail3 = $ProductDetail3[0];
