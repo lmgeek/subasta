@@ -5,6 +5,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Constants;
 use App\Product;
+use App\ProductDetail;
 class RegisterProduct extends TestCase
 {
     /*codigo pesquero */
@@ -24,8 +25,12 @@ class RegisterProduct extends TestCase
         $this->assertResponseOk();
     }
     function  testsaveANewProduct(){
-        $boat = new Product();
-        $this->unitAssert('assertTrue',$this->instanceClassProduct($boat,'Langostino','Cajones','10', '20', '30', 'langostinos-de-estero-cocidos.jpg','PRO-0089', 'Kg'));
+        $produc = new Product();
+        $produc_daetail = new ProductDetail();
+        $produc_daetail2 = new ProductDetail();
+        $produc_daetail3 = new ProductDetail();
+        $this->unitAssert('assertTrue',$this->instanceClassProduct
+        ($produc,$produc_daetail,$produc_daetail2,$produc_daetail3,'PRO-0089','Langostino','Cajones', ' 10', 'Cajones', 'Cajon','20', 'Kg', 'Unidades', '30', 'Unidades', 'langostinos-de-estero-cocidos.jpg'));
     }
     function testProductNameWithSpace(){
         $this->actingAs($this->getAValidUser(Constants::INTERNAL));

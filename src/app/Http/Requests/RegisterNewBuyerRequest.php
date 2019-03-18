@@ -37,6 +37,7 @@ class RegisterNewBuyerRequest extends Request
     {
         return [
             'name.required' => 'El nombre es obligatorio',
+            'phone.required' => 'El teléfono es obligatorio',
             'name.regex' => 'El nombre sólo permite caracteres alfabéticos',
             'lastname.required' => 'El apellido es obligatorio',
             'lastname.regex' => 'El apellido sólo permite caracteres alfabéticos',

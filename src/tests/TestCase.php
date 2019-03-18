@@ -121,17 +121,31 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
         $class->save();
         return true;
     }
-    public function instanceClassProduct($class,$nombre,$unidad,$pequeno,$mediano,$grande,$imagen,$codigo,$unit_sale ){
-        $class->name = $nombre;
-        $class->unit = $unidad;
-        $class->weigth_small = $pequeno;
-        $class->weigth_medium = $mediano;
-        $class->weigth_big = $grande;
-        $class->image_name = $imagen;
+    public function instanceClassProduct($class,$detail,$detail2,$detail3,$codigo,$nombre,$unidadp,$pequeno,$salep,$unidadm,$mediano,$salem,$unidadg,$grande,$saleg,$imagen){
         $class->fishing_code = $codigo;
-        $class->sale_unit = $unit_sale;
-        $class->save();
-        return true;
+        $class->name = $nombre;
+        $class->image_name = $imagen;
+        if ($class->save()) {
+            $detail->product_id = $class->id;
+            $detail->caliber = 'small';
+            $detail->presentation_unit = $unidadp;
+            $detail->weight = $pequeno;
+            $detail->sale_unit = $salep;
+            $detail->save();
+            $detail2->product_id = $class->id;
+            $detail2->caliber = 'medium';
+            $detail2->presentation_unit = $unidadm;
+            $detail2->weight = $mediano;
+            $detail2->sale_unit = $salem;
+            $detail2->save();
+            $detail3->product_id = $class->id;
+            $detail3->caliber = 'big';
+            $detail3->presentation_unit = $unidadg;
+            $detail3->weight = $grande;
+            $detail3->sale_unit = $saleg;
+            $detail3->save();
+            return true;
+        }
     }
 
     /*    G.B Resgitro vendedor*/
