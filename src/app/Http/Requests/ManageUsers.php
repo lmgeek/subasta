@@ -59,6 +59,7 @@ class ManageUsersRequest extends Request
             'email.email' => 'El email no es un correo válido',
             'email.unique' => 'El email ya ha sido registrado',
             'phone.numeric' => 'El teléfono sólo permite caracteres numéricos',
+            'password.required_without'=>'Al agregar un usuario, es necesaria la contrase&ntilde;a.'
         ];
     }
 }

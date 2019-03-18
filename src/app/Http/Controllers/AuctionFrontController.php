@@ -301,8 +301,14 @@ class AuctionFrontController extends AuctionController
                 'quantity'=>count($auctions)
                 ));
         }else{
-            return view('/landing3/partials/auctionNoDetail')
+            if(count($auctions)>0){
+                return view('/landing3/partials/auctionNoDetail')
                 ->withAuction($auctions[0]);
+            }else{
+                return view('/landing3/partials/auctionNoDetail')
+                ->withAuction($auctions);
+            }
+            
         }
         
     }   

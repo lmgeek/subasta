@@ -2,6 +2,9 @@
 use App\Auction;
 use App\Constants;
 use App\AuctionQuery;
+if(empty($auction->batch->arrive->boat->user->id)){
+    die(json_encode(array('view'=>'')));
+}
 $userId = $auction->batch->arrive->boat->user->id;
 $total = $auction->amount;
 $availability = Auction::getAvailable($auction->id, $total);
