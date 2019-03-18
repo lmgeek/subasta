@@ -37,14 +37,14 @@ class CreateBoatRequest extends Request
     public function messages()
     {
         return [
-            'name.required'           => 'El Nombre del barco no puede estar vacío.',
+            'name.required'           => 'El Nombre del barco es obligatorio.',
             'name.unique'            => 'El nombre del barco ya se encuentra registrado.',
-            'name.regex'             => 'El nombre sólo permite caracteres alfanumericos y # y -',
+            'name.regex'             => 'El nombre sólo permite caracteres alfanumericos # y -',
 //            'alias.require'             => 'El alias es obligatorio',
-            'matricula.required'      => 'La Matrícula no puede estar vacío.',
+            'matricula.required'      => 'La Matrícula es obligatorio.',
             'matricula.unique'       => 'La Matrícula ya se encuentra registrada.',
-            'matricula.regex'        => 'La Matrícula sólo permite caracteres alfanumericos y -',
-            'port.required'           => 'El campo puerto de preferencia  es obligatorio'
+            'matricula.regex'        => 'La Matrícula sólo permite caracteres alfanumericos # y -',
+            'port.required'           => 'El campo puerto de preferencia es obligatorio'
         ];
     }
 

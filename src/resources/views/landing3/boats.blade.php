@@ -74,7 +74,11 @@ use Illuminate\Support\Facades\Auth;
                                             <div class="job-listing-description">
                                                 <h3 class="job-listing-title">
                                                     <a href="#"> {{$boat['name']}}</a>
-                                                    <span class="dashboard-status-button green">{{$boat['status']}}</span></h3>
+                                                    {{--<span class="dashboard-status-button green">{{$boat['status']}}</span></h3>--}}
+
+                                                <span class="dashboard-status-button @if($boat->status == 'pending') yellow @elseif($boat->status == 'approved') green @elseif($boat->status == 'rejected') red @endif">
+                                                     {{ trans('sellerBoats.status.'.$boat->status) }}
+                                                </span>
 
                                                 <!-- Job Listing Footer -->
                                                 <div class="job-listing-footer">
