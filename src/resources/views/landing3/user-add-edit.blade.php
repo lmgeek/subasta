@@ -1,21 +1,34 @@
 <?php
 use App\Constants;
 use App\User;
-$title=(isset($user->id))?'editar':'Agregar';
-
+if(isset($user->id)){
+    $title='Editar usuario';
+    if($user->id==Auth::user()->id){
+        $title='Mi Cuenta';
+    }
+}else{
+    $title='Agregar usuario';
+}
 ?>
 @extends('landing3/partials/layout-admin')
-@section('title',' | '.$title.' usuario')
+@section('title',' | '.$title)
 @section('content')
 <div class="dashboard-content-inner" >
-    <div class="dashboard-headline"><h3><i class="icon-feather-user-plus"></i> Nuevo Usuario</h3></div>
+    <div class="dashboard-headline"><h3><i class="icon-feather-user<?=($title=='Agregar usuario')?'-plus':''?>"></i> <?=$title?></h3></div>
     <div style="margin:20px">
         @if (count($errors) > 0)
-        <div class="alert alert-danger"><strong>Error<?=(count($errors)>1)?'es':''?></strong><br><br><ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-        </ul></div>
+        <div class="row padding-bottom-20">
+            <div class="col-xl-12">
+                <div class="dashboard-box margin-top-0 ">
+                    <div class="headline"><h4><i class="icon-feather-alert-triangle red"></i> Error<?=(count($errors)>1)?'es':''?></h4></div>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                    </div>
+            </div>
+        </div>
         @endif
         <form method="post" action="/usuarios/guardar">
             @if($title=='editar')
