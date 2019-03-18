@@ -47,16 +47,25 @@ if(Auth::user()->type==Constants::VENDEDOR && ((isset($auction->timeline) && $au
         <form method="post" action="/subastas/guardar">
 		<div class="dashboard-content-inner" >
 			<div class="dashboard-headline"><h3>Nueva Subasta</h3></div>
+            
+            @if (count($errors) > 0)
+            <div class="row padding-bottom-20">
+				<div class="col-xl-12">
+					<div class="dashboard-box margin-top-0 ">
+                        <div class="headline"><h4><i class="icon-feather-alert-triangle red"></i> Error<?=(count($errors)>1)?'es':''?></h4></div>
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                        </div>
+                </div>
+            </div>
+            @endif
+                    
 			<div class="row">
 				<div class="col-xl-12">
 					<div class="dashboard-box margin-top-0">
-						@if (count($errors) > 0)
-                        <div class="alert alert-danger"><strong>Error<?=(count($errors)>1)?'es':''?></strong><br><br><ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                        </ul></div>
-                        @endif
 						<div class="headline"><h3><i class="icon-feather-package"></i> Informaci&oacute;n del Lote</h3></div>
 						<div class="content with-padding padding-bottom-10">
                             {{csrf_field()}}

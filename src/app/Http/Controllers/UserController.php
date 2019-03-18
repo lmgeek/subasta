@@ -228,7 +228,12 @@ class UserController extends Controller
         if(empty(Auth::user()->type) || (Auth::user()->nickname!=$nickname && Auth::user()->type!=User::INTERNAL)){
             return redirect('/');
         }
-        $user= User::select()->where('nickname',Constants::EQUAL,$nickname)->get()[0];
+        $user= User::select()->where('nickname',Constants::EQUAL,$nickname)->get();
+        if(count($user)>0){
+            $user=$user[0];
+        }else{
+            return view('landing3/errors/404');
+        }
         if($user->type== Constants::VENDEDOR){
             $vendedor= Vendedor::select()->where('user_id',Constants::EQUAL,$user->id)->get()[0];
             $user->vendedor=$vendedor;

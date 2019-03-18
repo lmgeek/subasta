@@ -98,7 +98,7 @@ Route::get('auction/create/{batch}', [
     'as' => 'auction.create_from_batch', 'uses' => 'AuctionController@create'
 ]);
 Route::group(['middleware' => ['auth']],function(){
-    Route:resource('auction','AuctionController');
+    Route:resource('subasta','AuctionController');
 });
 
 //---------------------------------------------------------------------------
@@ -191,7 +191,7 @@ Route::get('calculateprice', 'AuctionController@calculatePrice');
 Route::get('makeBid', 'AuctionController@makeBid');
 Route::post('offersAuction', 'AuctionController@offersAuction');
 
-Route::post('getauctions', 'AuctionFrontController@getauctions');
+Route::post('subastas/ver/mas', 'AuctionFrontController@getauctions');
 
 Route::group(['middleware' => ['auth']],function(){
     Route:resource('sellerbatch', 'BoatController@sellerbatch');
