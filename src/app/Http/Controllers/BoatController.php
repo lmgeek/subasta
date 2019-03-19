@@ -174,10 +174,16 @@ class BoatController extends Controller
 	}
     public function boatList(){
 
-        if (Auth::check() && Auth::user()->type == \App\User::VENDEDOR || Auth::user()->type == \App\User::INTERNAL)
+        if (Auth::check() && Auth::user()->type == \App\User::VENDEDOR)
         {
             $boats= Boat::select()->where('user_id', Constants::EQUAL,Auth::user()->id)->orderby('name', 'asc')->paginate(2);
             return view('landing3/boats',compact('boats'));
+        }elseif(Auth::user()->type == \App\User::INTERNAL){
+
+            $boats= Boat::select()->orderby('name', 'asc')->paginate(2);
+            $countBoat = count(Boat::all());
+            return view('landing3/boats',compact('boats','countBoat'));
+
         }else{
             return redirect('/home');
         }
