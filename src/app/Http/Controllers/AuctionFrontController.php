@@ -301,8 +301,14 @@ class AuctionFrontController extends AuctionController
                 'quantity'=>count($auctions)
                 ));
         }else{
-            return view('/landing3/partials/auctionNoDetail')
+            if(count($auctions)>0){
+                return view('/landing3/partials/auctionNoDetail')
                 ->withAuction($auctions[0]);
+            }else{
+                return view('/landing3/partials/auctionNoDetail')
+                ->withAuction($auctions);
+            }
+            
         }
         
     }   
@@ -318,7 +324,7 @@ class AuctionFrontController extends AuctionController
         if ($auction->active == 0 ){
             $resp[Constants::ACTIVE_LIT]=$auction->active;
         }else{
-            $price=str_replace(",","",$prices);
+            $price=str_replace(",",".",$prices);
             DB::beginTransaction();
             $available = AuctionBackController::getAvailable($auction_id, $auction->amount);
             if ($available[Constants::AVAILABLE] > 0 ){
@@ -536,6 +542,27 @@ class AuctionFrontController extends AuctionController
             ->with('revision',$revision)
             ;
     }
-
+    public function getInfo($id){
+        $auction= AuctionQuery::select()
+                ->where('auctions.id',Constants::EQUAL,$id)
+                ->get();
+        $data=array();
+        if(count($auction)>0){
+            $auction=$auction[0];
+            $availability= AuctionBackController::getAvailable($id, $auction->amount);
+            $data['price']= AuctionQuery::calcularPrecio($auction->start,$auction->end,$auction->start_price,$auction->end_price);
+            $data['id']=$id;
+            $data['offers']=AuctionBackController::getOffersCount($id);
+            $data['hot']=($availability['available']<(round($auction->amount*0.75,0)))?1:0;
+            $data['availability']=$availability['available'];
+            $data['bids']=$availability['sold'];
+            $data['end']=$auction->end;
+            $data['currenttime']=round(microtime(true)*1000);
+            $data['amount']=$auction->amount;
+        }else{
+            $data['error']='No hay subastas';
+        }
+        return json_encode($data);
+    }
 }
 

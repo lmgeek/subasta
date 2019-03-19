@@ -52,18 +52,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>listas</find>
-      <find>auction/offer</find>
-      <find>lista</find>
-      <find>mine</find>
-      <find>subastas</find>
-      <find>compra</find>
-      <find>404</find>
-      <find>decli</find>
-      <find>registro/vendedor</find>
-      <find>getRegisterSeller</find>
-      <find>Adquirir todo el lote</find>
-      <find>La oferta aplica sobre todo el lote o el remanente.</find>
       <find>price1</find>
       <find>PriceContainer</find>
       <find>auction/autoff</find>
@@ -82,6 +70,18 @@
       <find>fina</find>
       <find>status</find>
       <find>user</find>
+      <find>replace</find>
+      <find>offerAuction</find>
+      <find>offersAuction</find>
+      <find>dd($price</find>
+      <find>&quot;&quot;</find>
+      <find>function offer</find>
+      <find>realizar una oferta</find>
+      <find>offer</find>
+      <find>La oferta aplica sobre todo el lote o el remanente.</find>
+      <find>OfferPrice</find>
+      <find>CurrentPrice</find>
+      <find>{{$price['CurrentPrice']}}</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -105,8 +105,6 @@
         <option value="$PROJECT_DIR$/src/app/Http/Controllers/ProductController.php" />
         <option value="$PROJECT_DIR$/src/app/Providers/AppServiceProvider.php" />
         <option value="$PROJECT_DIR$/src/resources/views/auction/partials/auctionDetail.blade.php" />
-        <option value="$PROJECT_DIR$/src/app/Http/Controllers/AuctionBackController.php" />
-        <option value="$PROJECT_DIR$/src/public/landing3/js/netlabs-subastas3.js" />
         <option value="$PROJECT_DIR$/src/app/Auction.php" />
         <option value="$PROJECT_DIR$/src/resources/lang/es/auction.php" />
         <option value="$PROJECT_DIR$/src/resources/views/home/partials/arrive_batch_status.blade.php" />
@@ -132,11 +130,8 @@
         <option value="$PROJECT_DIR$/src/resources/views/auth/login.blade.php" />
         <option value="$PROJECT_DIR$/src/resources/views/buyer.blade.php" />
         <option value="$PROJECT_DIR$/src/resources/views/auction/index.blade.php" />
-        <option value="$PROJECT_DIR$/src/resources/views/landing3/partials/pop-up-oferta.blade.php" />
         <option value="$PROJECT_DIR$/src/resources/views/landing3/offers.blade.php" />
-        <option value="$PROJECT_DIR$/src/app/Http/Controllers/AuctionFrontController.php" />
         <option value="$PROJECT_DIR$/src/resources/views/seller.blade.php" />
-        <option value="$PROJECT_DIR$/src/app/Http/Controllers/AuctionController.php" />
         <option value="$PROJECT_DIR$/src/resources/views/auction/operations.blade.php" />
         <option value="$PROJECT_DIR$/src/resources/views/landing3/partials/auctionNoDetail.blade.php" />
         <option value="$PROJECT_DIR$/src/resources/views/landing3/partials/pop-up-ventas.blade.php" />
@@ -453,29 +448,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/Http/Controllers/AuctionBackController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="488">
-          <caret line="52" column="9" selection-start-line="52" selection-start-column="9" selection-end-line="52" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/resources/views/errors/401.blade.php">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/resources/views/errors/404.blade.php" />
-    <entry file="file://$PROJECT_DIR$/src/public/landing3/js/netlabs-subastas3.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1699">
-          <caret line="415" column="4" selection-start-line="415" selection-start-column="4" selection-end-line="415" selection-end-column="4" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#small#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/Http/Controllers/SellerBoatsController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="406">
@@ -640,23 +616,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/resources/views/landing3/subasta.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="590">
-          <caret line="62" column="85" selection-start-line="62" selection-start-column="85" selection-end-line="62" selection-end-column="85" />
-          <folding>
-            <element signature="e#3830#3838#0#HTML" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/resources/views/landing3/partials/pop-up-oferta.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="576">
-          <caret line="32" column="213" selection-start-line="32" selection-start-column="213" selection-end-line="32" selection-end-column="213" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/Product.php">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -703,23 +662,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/Http/Controllers/AuctionFrontController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="406">
-          <caret line="519" column="33" selection-start-line="519" selection-start-column="33" selection-end-line="519" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/Http/Controllers/AuctionController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="322">
-          <caret line="200" selection-start-line="200" selection-end-line="200" />
-          <folding>
-            <element signature="e#39#82#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/resources/views/landing3/partials/pop-up-compra.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="484">
@@ -727,39 +669,82 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/resources/views/landing3/offers.blade.php">
+    <entry file="file://$PROJECT_DIR$/src/resources/views/landing3/partials/auctionNoDetail.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="309">
-          <caret line="104" column="63" selection-start-line="102" selection-start-column="76" selection-end-line="104" selection-end-column="63" />
+        <state relative-caret-position="4623">
+          <caret line="206" selection-start-line="206" selection-end-line="206" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/resources/views/auction/operations.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="309">
+        <state relative-caret-position="1541">
           <caret line="67" column="90" selection-start-line="67" selection-start-column="90" selection-end-line="67" selection-end-column="90" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/resources/views/landing3/partials/auctionNoDetail.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="774">
-          <caret line="203" selection-start-line="203" selection-end-line="203" />
-          <folding>
-            <element signature="e#6#22#0#PHP" expanded="true" />
-            <element signature="n#style#0;n#li#3;n#ul#0;n#div#1;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#small#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/resources/views/landing3/partials/pop-up-ventas.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="8" column="105" lean-forward="true" selection-start-line="8" selection-start-column="105" selection-end-line="8" selection-end-column="105" />
+        <state relative-caret-position="253">
+          <caret line="23" column="42" lean-forward="true" selection-start-line="23" selection-start-column="42" selection-end-line="23" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/Http/Controllers/AuctionBackController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="452">
+          <caret line="271" column="48" selection-start-line="271" selection-start-column="48" selection-end-line="271" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/Http/Controllers/AuctionController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2954">
+          <caret line="332" column="25" selection-start-line="332" selection-start-column="11" selection-end-line="332" selection-end-column="25" />
           <folding>
+            <element signature="e#39#82#0#PHP" expanded="true" />
+            <element signature="n#style#0;n#h1#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#h1#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/resources/views/landing3/offers.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="368">
+          <caret line="112" column="81" lean-forward="true" selection-start-line="112" selection-start-column="81" selection-end-line="112" selection-end-column="81" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/Http/Controllers/AuctionFrontController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="311" column="9" lean-forward="true" selection-start-line="311" selection-start-column="9" selection-end-line="311" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/resources/views/landing3/subasta.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="319">
+          <caret line="155" column="107" lean-forward="true" selection-start-line="155" selection-start-column="107" selection-end-line="155" selection-end-column="107" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/resources/views/landing3/partials/pop-up-oferta.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="429">
+          <caret line="32" column="183" selection-start-line="32" selection-start-column="183" selection-end-line="32" selection-end-column="209" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/public/landing3/js/netlabs-subastas3.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="358" column="26" selection-start-line="358" selection-start-column="26" selection-end-line="358" selection-end-column="26" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
             <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#small#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>

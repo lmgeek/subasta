@@ -57,7 +57,7 @@ return [
     ],
     "not_in"           => ":attribute es inválido",
     "numeric"          => ":attribute debe ser numérico",
-    "regex"            => "La contraseña debe tener de 6 a 10: 1 mayúscula, 1 letra minúscula, 1 número y  1 carácter especial",
+    "regex"            => "El formato de :attribute es inv&aacute;lido",
     "required"         => "El campo :attribute es obligatorio",
     "required_if"      => "El campo :attribute es obligatorio cuando :other es :value",
     "required_with"    => "El campo :attribute es obligatorio cuando :values está presente",

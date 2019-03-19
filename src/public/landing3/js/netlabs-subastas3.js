@@ -44,7 +44,7 @@ function getMoreAuctions($limit=1,$idTarget='#FeaturedAuctions',$currentpage=1){
         $($idTarget).html('');
     }
     $filters['type']=$('#type').val();
-    $.post('/getauctions', {limit:$limit,current:$currentpage,ids:$ids,time:$('#timeline').val(),filters:$filters,_token:$('#csrf').attr('content')}, function (result) {
+    $.post('/subastas/ver/mas', {limit:$limit,current:$currentpage,ids:$ids,time:$('#timeline').val(),filters:$filters,_token:$('#csrf').attr('content')}, function (result) {
         var $result=JSON.parse(result);
         var $html=$result['view'];
         var $cant=$result['quantity'];
@@ -59,7 +59,7 @@ function getMoreAuctions($limit=1,$idTarget='#FeaturedAuctions',$currentpage=1){
             notifications(0,null,null,null,'Tu sesion ha expirado');
             return;
         }
-        if(result!=''){
+        if($html!=''){
             if($idTarget=='#Auctions'){
                 $($idTarget).html($html);
             }else{
@@ -281,7 +281,7 @@ function notifications($type,$product=null,$price=null,$quantity=null,$text=null
         $html='<div class="notificationauction success" id="notificationauction'+$idnotification+'" onclick="notifications_close('+$idnotification+')"><div class="notificationicon"><i class="icon-line-awesome-check"></i></div><div class="notificationcontent">' +
             '<div class="title">Su oferta se ha realizado con éxito</div>' +
             '<div class="fieldtitle">Producto</div><div class="fieldvalue">'+$product+'</div>'+
-            '<div class="fieldtitle">Precio</div><div class="fieldvalue">'+$price+'</div>'+
+            '<div class="fieldtitle">Precio</div><div class="fieldvalue">'+$price.toString().replace('.',',')+'</div>'+
             '<div class="total">Gracias por su oferta!</div></div>'+
             '</div></div>'
     }else{
@@ -326,7 +326,7 @@ function makeBid($id){
             modifyAvailability($id,$result['availability'],$result['totalAmount']);
             notifications(1,$result['product'],$result['price'],$result['amount']);
             modifyOffersCounter($id,$result['bidscounter'],$result['offerscounter']);
-            updateAuctionData($id,$result['price'],null,null,null,null, $result['hot']);
+            updateAuctionData($id,$result['price'].toString().replace('.',','),null,null,null,null, $result['hot']);
             gtag('event', 'purchase', {
                 'event_category':'Auction',
                 'event_label':'Auction_'+$id,
@@ -351,6 +351,13 @@ function makeBid($id){
 function makeOffer($id){
     if($('#OfferPrice'+$id).val()==''){
         notifications(0,null,null,null,'Tienes que poner un precio');
+        return;
+    }
+    var $priceof=parseFloat($('#OfferPrice'+$id).val().toString().replace(',','.')),
+    $price=parseFloat($('#Price'+$id).html().toString().substr(1).replace(',','.'));
+    console.log($priceof > $price)
+    if($priceof > $price){
+        notifications(0,null,null,null,'La oferta no puede ser mayor al precio actual'+$('#PriceBid'+$id).val());
         return;
     }
     $.magnificPopup.close();
@@ -535,6 +542,41 @@ function auctions_loadUnits(){
         $('#UnidadDePresentacion').html($result['presentation']);
         $('#ProductDetailID').val($result['id'])
     }).done(function(){$('#Loader').fadeOut()});
+}
+function users_changeType(){
+    let $type=$('#UserType').val();
+    $('.UserPanel').fadeOut();
+    $('#DNI').removeAttr('required');
+    $('#Limit').removeAttr('required');
+    $('#CUIT').removeAttr('required');
+    if($type=='buyer'){
+        $('#BuyerPanel').fadeIn();
+        $('#DNI').attr('required','true');
+        $('#Limit').attr('required','true');
+    }else if($type=='seller'){
+        $('#SellerPanel').fadeIn();
+        $('#CUIT').attr('required','true');
+    }
+}
+function users_userApprobation(){
+    if($('#UserApprobation').val()=='approved'){
+        $('#UserApprobationIcon').removeClass('icon-feather-user-check');
+        $('#UserApprobationIcon').addClass('icon-feather-user-x');
+    }else{
+        $('#UserApprobationIcon').removeClass('icon-feather-user-x');
+        $('#UserApprobationIcon').addClass('icon-feather-user-check');
+    }
+}
+function users_switchOffersBids($id){
+    if($('.SwitchButton').length==1){
+        return null;
+    }
+    $('.panel').fadeOut();
+    $('.SwitchButton > div').addClass('dark');
+    $('.SwitchButton > div').removeClass('primary');
+    $('#'+$id).fadeIn();
+    $('#'+$id+'Button > div').removeClass('dark');
+    $('#'+$id+'Button > div').addClass('primary');
 }
 function getPreferredPort(){
     $.get('/puertos/ver/preferido',{idboat:$('#Boat').val()},function(result){

@@ -158,7 +158,7 @@ class AuctionController extends Controller
         $bidDate = date(Constants::DATE_FORMAT);
         $auction = Auction::findOrFail($auction_id);
         $prices = $auction->calculatePrice($bidDate);
-        $price = str_replace(",","",$prices);
+        $price = str_replace(",",".",$prices);
         $available=AuctionBackController::getAvailable($auction_id,$auction->amount);
         $amount=$auction->amount;
         $targetamount=($amount*0.75);
@@ -173,7 +173,7 @@ class AuctionController extends Controller
             $data['end'] = $auction->end;
             $data[Constants::AVAILABILITY] = $available[Constants::AVAILABLE];
             $data['currenttime'] = $time;
-            $data[Constants::PRICE] = number_format(str_replace(",","",$price),2,',','');
+            $data[Constants::PRICE] =$price;
             $data[Constants::AVAILABLE] = $available[Constants::AVAILABLE];
             $data[Constants::AMOUNT]=$amount;
             $data['hot']=$hot;
@@ -348,7 +348,7 @@ class AuctionController extends Controller
             $resp[Constants::ACTIVE_LIT] = $auction->active ;
 
         }else{
-            $price = str_replace(",","",$prices);
+            $price = str_replace(",",".",$prices);
             DB::beginTransaction();
             $available = AuctionBackController::getAvailable($auction_id, $auction->amount);
 
@@ -487,7 +487,7 @@ class AuctionController extends Controller
         $auction_id = $auction->id;
         $prices = $offer->price;
         $request = null;
-        $price = str_replace(",","",$prices);
+        $price = str_replace(",",".",$prices);
         $available = AuctionBackController::getAvailable($auction_id, $auction->amount);
 
         if ($available[Constants::AVAILABLE] > 0){

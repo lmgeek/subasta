@@ -234,4 +234,13 @@ class Constants{
         }
         return $timeline;
     }
+    public static function colorByStatus($status){
+        if($status==self::PENDIENTE){
+            return 'yellow';
+        }elseif($status==self::APROBADO || $status==self::CONCRETADA){
+            return 'green';
+        }else{
+            return 'red';
+        }
+    }
 }
