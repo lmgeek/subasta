@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Http\Traits\priceTrait;
 use Carbon\Carbon;
 use Auth;
+use App\Constants;
+use App\AuctionQuery;
 
 class Offers extends Model
 {
@@ -27,5 +29,26 @@ class Offers extends Model
 	{
 		return $this->belongsTo('App\User');
 	}
+    
+    public static function getOffersByBuyer($userid){
+        return AuctionQuery::select(
+                'auctions.correlative',
+                'auctions.created_at as StartDateAuction',
+                'products.name',
+                'product_detail.caliber',
+                'product_detail.presentation_unit',
+                'product_detail.sale_unit',
+                'auctions_offers.price',
+                'auctions_offers.status',
+                'auctions_offers.created_at'
+                )
+                ->join(Constants::BATCHES, Constants::AUCTIONS_BATCH_ID, Constants::EQUAL, Constants::BATCH_ID)
+                ->join('product_detail', 'product_detail.id', Constants::EQUAL,'batches.product_detail_id')
+                ->join('products','products.id', Constants::EQUAL,'product_detail.product_id')
+                ->join('auctions_offers', 'auctions_offers.auction_id', Constants::EQUAL,'auctions.id')
+                ->where('auctions_offers.user_id', Constants::EQUAL,$userid)
+                ->orderBy('auctions_offers.created_at','DESC')
+                ->get();
+    }
 
 }

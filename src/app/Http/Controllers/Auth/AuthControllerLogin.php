@@ -35,7 +35,7 @@ class AuthControllerLogin extends AuthController
                 ]);
         }
         elseif ($active_mail == 1) {
-            return redirect('/?log=1');
+            return redirect('/'.((isset($request->url))?$url:'').'?log=1');
         }else{
             // cerra seccion
             Auth::logout();

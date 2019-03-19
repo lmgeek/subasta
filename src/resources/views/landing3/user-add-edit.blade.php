@@ -9,6 +9,7 @@ if(isset($user->id)){
 }else{
     $title='Agregar usuario';
 }
+//dd($user->offers);
 ?>
 @extends('landing3/partials/layout-admin')
 @section('title',' | '.$title)
@@ -39,7 +40,7 @@ if(isset($user->id)){
             <div class="row dashboard-box" style="padding-bottom: 20px">
                 <div class="col">
                     <div class="headline"><h3><i class="icon-feather-user"></i> Tipo de Usuario</h3></div>
-                    <select name="type" onchange="users_changeType()" class="selectpicker" id="UserType">
+                    <select name="type" onchange="users_changeType()" class="selectpicker" id="UserType"<?=(count($user->offers)+count($user->bids)>0)?'disabled':''?>>
                         <option disabled selected>Seleccione...</option>
                         <option value="<?=Constants::INTERNAL?>" <?=(isset($user) && $user->type== Constants::INTERNAL)?'selected':''?>>Administrador</option>
                         <option value="<?=Constants::SELLER?>" <?=(isset($user) && $user->type== Constants::VENDEDOR)?'selected':''?>>Vendedor</option>
@@ -126,6 +127,121 @@ if(isset($user->id)){
                     <a href="/usuarios"><button class="button dark ripple-effect big margin-top-30" type="button">Cancelar</button></a>
                 </div>
             </div>
+            @if(count($user->offers)>0 || count($user->bids)>0)
+            <div class="row dashboard-box" style="padding-bottom: 20px">
+                <div class="col">
+                    <div class="headline">
+                        <div class="row">
+                            @if(count($user->offers)>0)
+                            <div class="col text-center SwitchButton" onclick="users_switchOffersBids('Offers')" id="OffersButton">
+                                <div class="button primary ripple-effect big" style="cursor:pointer;color:#fff"><i class="icon-feather-tag"></i> Ofertas Realizadas</div>
+                            </div>
+                            @endif
+                            <div class="col text-center SwitchButton" onclick="users_switchOffersBids('Bids')" id="BidsButton">
+                                <div class="button dark ripple-effect big" style="cursor:pointer;color:#fff"><i class="icon-feather-dollar-sign"></i> Compras Realizadas</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel"id="Offers">
+                    @foreach($user->offers as $auction)
+                    <div class="row"<?=(count($user->offers)>0)?' style="margin:10px"':' style="display:none"'?>>
+                        <div class="col">
+                            <div class="headline">
+                                <div class="col">
+                                    <h3>
+                                        <i class="icon-material-outline-gavel"></i> Subasta: <?= App\Http\Controllers\AuctionFrontController::getAuctionCode($auction->correlative, $auction->StartDateAuction)?>
+                                        <span class="dashboard-status-button <?=Constants::colorByStatus($auction->status)?>"><?=trans('general.bid_status.'.$auction->status)?></span>
+                                    </h3>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    Producto<br>
+                                    <?=$auction->name.' '.trans('general.product_caliber.'.$auction->caliber)?>
+                                </div>
+                                <div class="col">
+                                    Precio/ <?=$auction->sale_unit?><br>
+                                    <?= number_format($auction->price, 2, ',', '.')?> ARS
+                                </div>
+                                <div class="col">
+                                    Fecha de oferta<br>
+                                    <?= date_create_from_format('Y-m-d H:i:s', $auction->created_at)->format('d/m/Y - H:i:s')?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                    </div>
+                    <div  class="panel"id="Bids" <?=(count($user->offers)>0)?'style="display:none"':''?>>
+                    @foreach($user->bids as $auction)
+                    <div class="row" style="margin:10px">
+                        <div class="col">
+                            <div class="headline">
+                                <div class="col">
+                                    <h3>
+                                        <i class="icon-material-outline-gavel"></i> Subasta: <?= App\Http\Controllers\AuctionFrontController::getAuctionCode($auction->correlative, $auction->StartDateAuction)?>
+                                        <span class="dashboard-status-button <?=Constants::colorByStatus($auction->status)?>"><?=trans('general.bid_status.'.$auction->status)?></span>
+                                        
+                                    </h3>
+                                </div>
+                                
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    Producto<br>
+                                    <?=$auction->name.' '.trans('general.product_caliber.'.$auction->caliber)?>
+                                </div>
+                                <div class="col">
+                                    Precio/ <?=$auction->sale_unit?><br>
+                                    <?= number_format($auction->price, 2, ',', '.')?> ARS
+                                </div>
+                                <div class="col">
+                                    Cantidad<br>
+                                    <?=$auction->amount?>
+                                </div>
+                                <div class="col">
+                                    Total<br>
+                                    <?= number_format($auction->price*$auction->amount, 2, ',', '.')?> ARS
+                                </div>
+                                <div class="col">
+                                    Fecha de compra<br>
+                                    <?= date_create_from_format('Y-m-d H:i:s', $auction->bid_date)->format('d/m/Y - H:i:s')?>
+                                </div>
+                            </div>
+                            @if($auction->status==Constants::CONCRETADA || $auction->status==Constants::NO_CONCRETADA)
+                            <div class="row" style="margin-top:10px;border-top: 1px solid #e0e0e0;">
+                                @if($auction->status==Constants::NO_CONCRETADA)
+                                <div class="col">
+                                    Razon<br>
+                                    <?=$auction->reason?>
+                                </div>
+                                @endif
+                                <div class="col">
+                                    Calificacion Comprador<br>
+                                    <?=trans('general.buyer_qualification.'.$auction->user_calification)?>
+                                </div>
+                                <div class="col">
+                                    Comentarios Comprador<br>
+                                    <?=$auction->user_calification_comments?>
+                                </div>
+                                <div class="col">
+                                    Calificacion Vendedor<br>
+                                    <?=trans('general.buyer_qualification.'.$auction->seller_calification)?>
+                                </div>
+                                <div class="col">
+                                    Comentarios Vendedor<br>
+                                    <?=$auction->seller_calification_comments?>
+                                </div>
+                            </div>
+                            @endif
+                        </div>
+                    </div>
+                    @endforeach
+                    </div>
+                </div>
+            </div>
+            @endif
+            
         </form>
     </div>
 </div>

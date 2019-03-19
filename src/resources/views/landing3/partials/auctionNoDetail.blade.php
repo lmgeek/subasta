@@ -44,7 +44,7 @@ if (Auth::user()) {
         $popups = 1;
     }
 } else {
-    $link1 = '/auction';
+    $link1 = '/auth/login'.((isset($nopic))?'?url=subastas':'');
     $link2 = $link1;
 }
 //dd($auction);
@@ -63,7 +63,7 @@ data-user="' . $auction->batch->arrive->boat->user->nickname . '"'?>>
     <input type="hidden" id="PresUnit<?=$auction->id?>" value="<?=$auction->product['presentation_unit']?>">
     <input type="hidden" id="SaleUnit<?=$auction->id?>" value="<?=$auction->product['sale_unit']?>">
     <div class="task-listing-details" id="AuctionLeft<?=$auction->id?>">
-        @if(!isset($nopic))
+        @if(empty($nopic))
             <div class="task-listing-photo">
                 <img src="/img/products/{{$auction->product['image']}}" alt="{{$auction->product['name']}}">
             </div>
