@@ -241,6 +241,8 @@ class UserController extends Controller
             $comprador= Comprador::select()->where('user_id',Constants::EQUAL,$user->id)->get()[0];
             $user->comprador=$comprador;
         }
+        $user->offers=\App\Offers::getOffersByBuyer($user->id);
+        $user->bids=\App\Bid::getBidsByBuyer($user->id);
         return view('landing3/user-add-edit')->with('user',$user);
     }
     public function userSave(ManageUsersRequest $request){

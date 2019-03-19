@@ -542,6 +542,27 @@ class AuctionFrontController extends AuctionController
             ->with('revision',$revision)
             ;
     }
-
+    public function getInfo($id){
+        $auction= AuctionQuery::select()
+                ->where('auctions.id',Constants::EQUAL,$id)
+                ->get();
+        $data=array();
+        if(count($auction)>0){
+            $auction=$auction[0];
+            $availability= AuctionBackController::getAvailable($id, $auction->amount);
+            $data['price']= AuctionQuery::calcularPrecio($auction->start,$auction->end,$auction->start_price,$auction->end_price);
+            $data['id']=$id;
+            $data['offers']=AuctionBackController::getOffersCount($id);
+            $data['hot']=($availability['available']<(round($auction->amount*0.75,0)))?1:0;
+            $data['availability']=$availability['available'];
+            $data['bids']=$availability['sold'];
+            $data['end']=$auction->end;
+            $data['currenttime']=round(microtime(true)*1000);
+            $data['amount']=$auction->amount;
+        }else{
+            $data['error']='No hay subastas';
+        }
+        return json_encode($data);
+    }
 }
 

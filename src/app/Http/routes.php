@@ -11,7 +11,7 @@
 |
 */
 
-
+Route::get('subastas/ver/{auction}/info', 'AuctionFrontController@getInfo');
 Route::get('/', 'AuctionFrontController@subastasFront');
 Route::get('/subastas', 'AuctionFrontController@listaSubastas');
 Route::get('/subastas/agregar','AuctionFrontController@addAuction');
@@ -25,6 +25,7 @@ Route::get('/getusersauctionprivate','AuctionFrontController@getUsersAuctionPriv
 Route::get('subastas/editar/{auction}', [
     'as' => 'auction.edit', 'uses' => 'AuctionFrontController@editAuction'
 ]);
+
 Route::get('subastas/replicar/{auction}', [
     'as' => 'auction.replicate', 'uses' => 'AuctionFrontController@replicateAuction'
 ]);
@@ -92,11 +93,7 @@ Route::get('auction/autoffers',  'AuctionController@autoOffersToBid');
 Route::get('auction/deactivate/{auction}', [
     'as' => 'auction.deactivate', 'uses' => 'AuctionBackController@deactivate'
 ]);
-
-
-Route::get('auction/create/{batch}', [
-    'as' => 'auction.create_from_batch', 'uses' => 'AuctionController@create'
-]);
+ 
 Route::group(['middleware' => ['auth']],function(){
     Route:resource('subasta','AuctionController');
 });

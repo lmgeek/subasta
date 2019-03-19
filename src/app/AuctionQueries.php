@@ -242,4 +242,14 @@ class AuctionQuery extends Auction{
         }
         return $rtrn;
     }
+    public static function calcularPrecio($dstart,$dend,$pstart,$pend){
+        $now=round(microtime(true)/60);
+        $mstart= strtotime($dstart)/60;
+        $mend= strtotime($dend)/60;
+        $ddif=$mend-$mstart;
+        $difendnow=$mend-$now;
+        $dperc=$difendnow/$ddif;
+        $pdif=$pstart-$pend;
+        return round($pdif-$pdif*$dperc,2,PHP_ROUND_HALF_UP);
+    }
 }

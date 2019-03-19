@@ -567,6 +567,17 @@ function users_userApprobation(){
         $('#UserApprobationIcon').addClass('icon-feather-user-check');
     }
 }
+function users_switchOffersBids($id){
+    if($('.SwitchButton').length==1){
+        return null;
+    }
+    $('.panel').fadeOut();
+    $('.SwitchButton > div').addClass('dark');
+    $('.SwitchButton > div').removeClass('primary');
+    $('#'+$id).fadeIn();
+    $('#'+$id+'Button > div').removeClass('dark');
+    $('#'+$id+'Button > div').addClass('primary');
+}
 function getPreferredPort(){
     $.get('/puertos/ver/preferido',{idboat:$('#Boat').val()},function(result){
         $result=JSON.parse(result);

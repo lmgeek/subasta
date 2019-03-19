@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Traits\priceTrait;
 use App\Constants;
+use App\AuctionQuery;
 
 class Bid extends Model
 {
@@ -34,4 +35,30 @@ class Bid extends Model
 		return Bid::where(Constants::BIDS_USER_ID, $user->id )->orderBy(Constants::BIDS_DATE, Constants::DESC)->where(Constants::STATUS,Constants::PENDIENTE)->count('id');
 	}
 	
+    public static function getBidsByBuyer($userid){
+        return AuctionQuery::select(
+                'auctions.correlative',
+                'auctions.created_at as StartDateAuction',
+                'products.name',
+                'product_detail.caliber',
+                'product_detail.presentation_unit',
+                'product_detail.sale_unit',
+                'bids.price',
+                'bids.status',
+                'bids.bid_date',
+                'bids.amount',
+                'bids.reason',
+                'bids.user_calification',
+                'bids.user_calification_comments',
+                'bids.seller_calification',
+                'bids.seller_calification_comments'
+                )
+                ->join(Constants::BATCHES, Constants::AUCTIONS_BATCH_ID, Constants::EQUAL, Constants::BATCH_ID)
+                ->join('product_detail', 'product_detail.id', Constants::EQUAL,'batches.product_detail_id')
+                ->join('products','products.id', Constants::EQUAL,'product_detail.product_id')
+                ->join('bids', 'bids.auction_id', Constants::EQUAL,'auctions.id')
+                ->where('bids.user_id', Constants::EQUAL,$userid)
+                ->orderBy('bids.bid_date','DESC')
+                ->get();
+    }
 }
