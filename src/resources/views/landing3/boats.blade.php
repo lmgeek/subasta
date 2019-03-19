@@ -49,7 +49,12 @@ use Illuminate\Support\Facades\Auth;
 
                         <!-- Headline-->
                         <div class="headline">
-                            <h3 class="fw500"><i class="icon-line-awesome-ship"></i> {{$CantidadBarco}} Barcos</h3>
+                            @if(Auth::check() && Auth::user()->type == \App\User::INTERNAL)
+                                <h3 class="fw500"><i class="icon-line-awesome-ship"></i> {{$countBoat}} Barcos</h3>
+                            @else
+                                <h3 class="fw500"><i class="icon-line-awesome-ship"></i> {{$CantidadBarco}} Barcos</h3>
+                            @endif
+
                             <div class="sort-by">
                                 <select class="selectpicker hide-tick">
                                     <option>Todos</option>
@@ -64,40 +69,83 @@ use Illuminate\Support\Facades\Auth;
 
                             <ul class="dashboard-box-list">
 
-                                @foreach($boats as $boat)
-                                <li>
-                                    <!-- Job Listing -->
-                                    <div class="job-listing">
-                                        <!-- Job Listing Details -->
-                                        <div class="job-listing-details">
-                                            <!-- Details -->
-                                            <div class="job-listing-description">
-                                                <h3 class="job-listing-title">
-                                                    <a href="#"> {{$boat['name']}}</a>
-                                                    {{--<span class="dashboard-status-button green">{{$boat['status']}}</span></h3>--}}
+                                @if (Auth::check() && Auth::user()->type == \App\User::INTERNAL)
 
-                                                <span class="dashboard-status-button @if($boat->status == 'pending') yellow @elseif($boat->status == 'approved') green @elseif($boat->status == 'rejected') red @endif">
-                                                     {{ trans('sellerBoats.status.'.$boat->status) }}
-                                                </span>
+                                    @foreach($boats as $boat)
+                                        <li>
+                                            <!-- Job Listing -->
+                                            <div class="job-listing">
+                                                <!-- Job Listing Details -->
+                                                <div class="job-listing-details">
+                                                    <!-- Details -->
+                                                    <div class="job-listing-description">
+                                                        <h3 class="job-listing-title">
+                                                            <a href="#"> {{$boat['name']}}</a>
+                                                            {{--<span class="dashboard-status-button green">{{$boat['status']}}</span></h3>--}}
 
-                                                <!-- Job Listing Footer -->
-                                                <div class="job-listing-footer">
-                                                    <ul>
-                                                        <li><i class="icon-line-awesome-ship"></i>{{$boat['matricula']}}</li>
-                                                        <li><i class="icon-material-outline-location-on"></i>{{$objt->preferencePort($boat['preference_port'])}}</li>
-                                                    </ul>
+                                                            <span class="dashboard-status-button @if($boat->status == 'pending') yellow @elseif($boat->status == 'approved') green @elseif($boat->status == 'rejected') red @endif">
+                                                             {{ trans('sellerBoats.status.'.$boat->status) }}
+                                                        </span>
+
+                                                            <!-- Job Listing Footer -->
+                                                            <div class="job-listing-footer">
+                                                                <ul>
+                                                                    <li><i class="icon-line-awesome-ship"></i>{{$boat['matricula']}}</li>
+                                                                    <li><i class="icon-material-outline-location-on"></i>{{$objt->preferencePort($boat['preference_port'])}}</li>
+                                                                </ul>
+                                                            </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
 
-                                    <!-- Buttons -->
-                                    <div class="buttons-to-right always-visible bd-tp-1">
-                                        <a href="#" class="button gray ripple-effect ico" title="Editar" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
-                                        <a href="#" class="button gray ripple-effect ico" title="Eliminar" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
-                                    </div>
-                                </li>
-                                @endforeach
+                                            <!-- Buttons -->
+                                            <div class="buttons-to-right always-visible bd-tp-1">
+                                                <a href="#" class="button gray ripple-effect ico" title="Editar" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
+                                                <a href="#" class="button gray ripple-effect ico" title="Eliminar" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
+                                            </div>
+                                        </li>
+                                    @endforeach
+
+                                @else
+
+
+                                    @foreach($boats as $boat)
+                                        <li>
+                                            <!-- Job Listing -->
+                                            <div class="job-listing">
+                                                <!-- Job Listing Details -->
+                                                <div class="job-listing-details">
+                                                    <!-- Details -->
+                                                    <div class="job-listing-description">
+                                                        <h3 class="job-listing-title">
+                                                            <a href="#"> {{$boat['name']}}</a>
+                                                            {{--<span class="dashboard-status-button green">{{$boat['status']}}</span></h3>--}}
+
+                                                        <span class="dashboard-status-button @if($boat->status == 'pending') yellow @elseif($boat->status == 'approved') green @elseif($boat->status == 'rejected') red @endif">
+                                                             {{ trans('sellerBoats.status.'.$boat->status) }}
+                                                        </span>
+
+                                                        <!-- Job Listing Footer -->
+                                                        <div class="job-listing-footer">
+                                                            <ul>
+                                                                <li><i class="icon-line-awesome-ship"></i>{{$boat['matricula']}}</li>
+                                                                <li><i class="icon-material-outline-location-on"></i>{{$objt->preferencePort($boat['preference_port'])}}</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Buttons -->
+                                            <div class="buttons-to-right always-visible bd-tp-1">
+                                                <a href="#" class="button gray ripple-effect ico" title="Editar" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
+                                                <a href="#" class="button gray ripple-effect ico" title="Eliminar" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
+                                            </div>
+                                        </li>
+                                        @endforeach
+
+                                @endif
+
                             </ul>
                         </div>
                     </div>
