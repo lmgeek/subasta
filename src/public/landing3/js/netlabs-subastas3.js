@@ -353,6 +353,13 @@ function makeOffer($id){
         notifications(0,null,null,null,'Tienes que poner un precio');
         return;
     }
+    var $priceof=parseFloat($('#OfferPrice'+$id).val().toString().replace(',','.')),
+    $price=parseFloat($('#Price'+$id).html().toString().substr(1).replace(',','.'));
+    console.log($priceof > $price)
+    if($priceof > $price){
+        notifications(0,null,null,null,'La oferta no puede ser mayor al precio actual'+$('#PriceBid'+$id).val());
+        return;
+    }
     $.magnificPopup.close();
     $.get("/ofertas/agregar?auction_id="+$id + "&prices="+$('#OfferPrice'+$id).val(),function(result){
         var $result=JSON.parse(result);

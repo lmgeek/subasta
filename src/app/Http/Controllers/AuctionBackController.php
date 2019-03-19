@@ -258,7 +258,7 @@ class AuctionBackController extends AuctionController
         $resp[Constants::QUALITY] = $quality;
         $resp[Constants::PRODUCT] = $product;
         $resp[Constants::AMOUNT] = $available[Constants::AVAILABLE];
-        $resp[Constants::PRICE] = $offer->price;
+        $resp[Constants::PRICE] = str_replace(',', '.',$offer->price);
         $resp[Constants::ACTIVE_LIT] = $auction->active;
 
         $user = User::findOrFail($offer->user_id);
