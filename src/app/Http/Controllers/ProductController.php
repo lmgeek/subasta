@@ -77,18 +77,18 @@ class ProductController extends Controller
                     ->withErrors(["El producto: $names calibre chico ya existe",
                     ]);
             }
-            $productos1 = ProductDetail::Select('id')->where('product_id', '=', $productos[0])->where('presentation_unit', '=', $unidadess2)->where('caliber', '=', 'small')->get()->toArray();
+            $productos1 = ProductDetail::Select('id')->where('product_id', '=', $productos[0])->where('presentation_unit', '=', $unidadess2)->where('caliber', '=', 'medium')->get()->toArray();
             if ($productos1 <> null) {
                 return redirect("/products/create")
                     ->withInput($request->only('name'))
                     ->withErrors(["El producto: $names calibre mediano ya existe",
                     ]);
             }
-            $productos2 = ProductDetail::Select('id')->where('product_id', '=', $productos[0])->where('presentation_unit', '=', $unidadess3)->where('caliber', '=', 'small')->get()->toArray();
+            $productos2 = ProductDetail::Select('id')->where('product_id', '=', $productos[0])->where('presentation_unit', '=', $unidadess3)->where('caliber', '=', 'big')->get()->toArray();
             if ($productos2 <> null) {
                 return redirect("/products/create")
                     ->withInput($request->only('name'))
-                    ->withErrors(["El producto: $names calibre ya existe",
+                    ->withErrors(["El producto: $names calibre grande ya existe",
                     ]);
             }
         }
