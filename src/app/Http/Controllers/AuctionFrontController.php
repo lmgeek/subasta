@@ -324,7 +324,7 @@ class AuctionFrontController extends AuctionController
         if ($auction->active == 0 ){
             $resp[Constants::ACTIVE_LIT]=$auction->active;
         }else{
-            $price=str_replace(",","",$prices);
+            $price=str_replace(",",".",$prices);
             DB::beginTransaction();
             $available = AuctionBackController::getAvailable($auction_id, $auction->amount);
             if ($available[Constants::AVAILABLE] > 0 ){
