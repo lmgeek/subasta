@@ -5,12 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e1d2b753-3ac4-4a51-b1b0-a0f71163d320" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/Http/Controllers/AuctionBackController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/Http/Controllers/AuctionBackController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/Http/Controllers/AuctionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/Http/Controllers/AuctionController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/Http/Controllers/AuctionFrontController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/Http/Controllers/AuctionFrontController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/public/landing3/js/netlabs-subastas3.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/public/landing3/js/netlabs-subastas3.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resources/views/landing3/partials/pop-up-oferta.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/views/landing3/partials/pop-up-oferta.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resources/views/landing3/boats.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/views/landing3/boats.blade.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -36,94 +31,12 @@
     <select />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/Http/Controllers/AuctionFrontController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="311" column="9" lean-forward="true" selection-start-line="311" selection-start-column="9" selection-end-line="311" selection-end-column="9" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/resources/views/landing3/subasta.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="319">
-              <caret line="155" column="107" lean-forward="true" selection-start-line="155" selection-start-column="107" selection-end-line="155" selection-end-column="107" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/resources/views/landing3/partials/pop-up-oferta.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="429">
-              <caret line="32" column="183" selection-start-line="32" selection-start-column="183" selection-end-line="32" selection-end-column="209" />
-            </state>
-          </provider>
-        </entry>
-      </file>
+    <leaf>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/public/landing3/js/netlabs-subastas3.js">
+        <entry file="file://$PROJECT_DIR$/src/resources/views/landing3/boats.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="358" column="26" selection-start-line="358" selection-start-column="26" selection-end-line="358" selection-end-column="26" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#small#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/resources/views/landing3/offers.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="368">
-              <caret line="112" column="81" lean-forward="true" selection-start-line="112" selection-start-column="81" selection-end-line="112" selection-end-column="81" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/resources/views/landing3/partials/auctionNoDetail.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4623">
-              <caret line="206" selection-start-line="206" selection-end-line="206" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/resources/views/landing3/partials/pop-up-ventas.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="253">
-              <caret line="23" column="42" lean-forward="true" selection-start-line="23" selection-start-column="42" selection-end-line="23" selection-end-column="42" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/resources/views/auction/operations.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1541">
-              <caret line="67" column="90" selection-start-line="67" selection-start-column="90" selection-end-line="67" selection-end-column="90" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/Http/Controllers/AuctionController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2954">
-              <caret line="332" column="25" selection-start-line="332" selection-start-column="11" selection-end-line="332" selection-end-column="25" />
-              <folding>
-                <element signature="e#39#82#0#PHP" expanded="true" />
-                <element signature="n#style#0;n#h1#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#h1#0;n#!!top" expanded="true" />
-              </folding>
+            <state relative-caret-position="189">
+              <caret line="73" column="38" selection-start-line="73" selection-start-column="34" selection-end-line="108" selection-end-column="41" />
             </state>
           </provider>
         </entry>
@@ -177,7 +90,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/resources/views/products/edit.blade.php" />
         <option value="$PROJECT_DIR$/src/app/Http/Requests/EditProductRequest.php" />
         <option value="$PROJECT_DIR$/src/app/Http/Controllers/SellerAuctionController.php" />
         <option value="$PROJECT_DIR$/src/resources/views/boat/sellerbatch.blade.php" />
@@ -223,11 +135,7 @@
         <option value="$PROJECT_DIR$/src/resources/views/auction/operations.blade.php" />
         <option value="$PROJECT_DIR$/src/resources/views/landing3/partials/auctionNoDetail.blade.php" />
         <option value="$PROJECT_DIR$/src/resources/views/landing3/partials/pop-up-ventas.blade.php" />
-        <option value="$PROJECT_DIR$/src/app/Http/Controllers/AuctionController.php" />
-        <option value="$PROJECT_DIR$/src/app/Http/Controllers/AuctionBackController.php" />
-        <option value="$PROJECT_DIR$/src/app/Http/Controllers/AuctionFrontController.php" />
-        <option value="$PROJECT_DIR$/src/resources/views/landing3/partials/pop-up-oferta.blade.php" />
-        <option value="$PROJECT_DIR$/src/public/landing3/js/netlabs-subastas3.js" />
+        <option value="$PROJECT_DIR$/src/resources/views/landing3/boats.blade.php" />
       </list>
     </option>
   </component>
@@ -310,9 +218,7 @@
     <option name="width" value="1936" />
     <option name="height" value="1066" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -333,12 +239,6 @@
             <path>
               <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
               <item name="subastas" type="462c0819:PsiDirectoryNode" />
-              <item name="deploy" type="462c0819:PsiDirectoryNode" />
-              <item name="sql" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="subastas" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -351,42 +251,6 @@
               <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
               <item name="subastas" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="Http" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="subastas" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="Http" type="462c0819:PsiDirectoryNode" />
-              <item name="Controllers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="subastas" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="subastas" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
-              <item name="landing3" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="subastas" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
-              <item name="landing3" type="462c0819:PsiDirectoryNode" />
-              <item name="css" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="subastas" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -395,54 +259,6 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
               <item name="views" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="subastas" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="auction" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="subastas" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="auth" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="subastas" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="bid" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="subastas" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="boat" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="subastas" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="emails" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="subastas" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="errors" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
@@ -477,6 +293,12 @@
               <item name="views" type="462c0819:PsiDirectoryNode" />
               <item name="landing3" type="462c0819:PsiDirectoryNode" />
               <item name="partials" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
+              <item name="subastas" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="storage" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="subastas" type="b2602c69:ProjectViewProjectNode" />
@@ -548,18 +370,18 @@
       <workItem from="1552308838099" duration="11646000" />
       <workItem from="1552396740149" duration="40764000" />
       <workItem from="1552653102563" duration="15329000" />
-      <workItem from="1552923128438" duration="6651000" />
+      <workItem from="1553021110440" duration="164000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="266138000" />
+    <option name="totallyTimeSpent" value="259554000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1066" extended-state="7" />
+    <frame x="-1928" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49949136" visible="true" weight="0.16471216" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49949136" visible="true" weight="0.17803837" />
       <window_info id="Structure" order="1" sideWeight="0.50050867" side_tool="true" weight="0.2553305" />
       <window_info id="Favorites" order="2" side_tool="true" weight="0.32995737" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -572,7 +394,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info anchor="bottom" id="Terminal" order="10" weight="0.39954597" />
+      <window_info anchor="bottom" id="Terminal" order="10" visible="true" weight="0.23051947" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" weight="0.3291714" />
       <window_info anchor="bottom" id="SonarQube" order="12" />
       <window_info anchor="bottom" id="SonarLint" order="13" weight="0.3291714" />
@@ -597,9 +419,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/resources/views/menu/partials/menu.blade.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/resources/views/menu/sidebar.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="552">
@@ -807,13 +626,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/storage/framework/views/92799675b44743b1ce979343c185aa5f">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="7" column="14" lean-forward="true" selection-start-line="7" selection-start-column="14" selection-end-line="7" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/storage/framework/views/92799675b44743b1ce979343c185aa5f" />
     <entry file="file://$PROJECT_DIR$/src/app/Http/routes.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="424">
@@ -933,6 +746,13 @@
             <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#small#0;n#!!top" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/resources/views/landing3/boats.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="73" column="38" selection-start-line="73" selection-start-column="34" selection-end-line="108" selection-end-column="41" />
         </state>
       </provider>
     </entry>

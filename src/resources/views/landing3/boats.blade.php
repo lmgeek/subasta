@@ -71,7 +71,7 @@ use Illuminate\Support\Facades\Auth;
 
                                 @if (Auth::check() && Auth::user()->type == \App\User::INTERNAL)
 
-                                    @foreach($boats as $boat)
+                                  {{--  @foreach($boats as $boat)
                                         <li>
                                             <!-- Job Listing -->
                                             <div class="job-listing">
@@ -81,7 +81,7 @@ use Illuminate\Support\Facades\Auth;
                                                     <div class="job-listing-description">
                                                         <h3 class="job-listing-title">
                                                             <a href="#"> {{$boat['name']}}</a>
-                                                            {{--<span class="dashboard-status-button green">{{$boat['status']}}</span></h3>--}}
+                                                            --}}{{--<span class="dashboard-status-button green">{{$boat['status']}}</span></h3>--}}{{--
 
                                                             <span class="dashboard-status-button @if($boat->status == 'pending') yellow @elseif($boat->status == 'approved') green @elseif($boat->status == 'rejected') red @endif">
                                                              {{ trans('sellerBoats.status.'.$boat->status) }}
@@ -106,7 +106,7 @@ use Illuminate\Support\Facades\Auth;
                                         </li>
                                     @endforeach
 
-                                @else
+                                @else--}}
 
 
                                     @foreach($boats as $boat)
