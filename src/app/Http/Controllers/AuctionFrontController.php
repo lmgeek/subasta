@@ -302,13 +302,12 @@ class AuctionFrontController extends AuctionController
                 ));
         }else{
             if(count($auctions)>0){
-                return view('/landing3/partials/auctionNoDetail')
-                ->withAuction($auctions[0]);
-            }else{
-                return view('/landing3/partials/auctionNoDetail')
-                ->withAuction($auctions);
+                $auctions=$auctions[0];
             }
-            
+            return json_encode(array(
+                'view'=>view('/landing3/partials/auctionNoDetail')->withAuction($auctions)->render(),
+                'quantity'=>count($auctions)
+                ));
         }
         
     }   
@@ -559,8 +558,9 @@ class AuctionFrontController extends AuctionController
             $data['end']=$auction->end;
             $data['currenttime']=round(microtime(true)*1000);
             $data['amount']=$auction->amount;
+            $data['close']=($data['price']<$auction->target_price)?1:0;
         }else{
-            $data['error']='No hay subastas';
+            $data['error']='No hay subastas con ese id';
         }
         return json_encode($data);
     }

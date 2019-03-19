@@ -1,6 +1,9 @@
 /* INI Rodolfo */
 window['notificationCounter']=0;
 window['now'] = new Date().getTime();
+window['loadingcalibers']=0;
+window['loadingunits']=0;
+window['loadingauctions']=0;
 function endAuction($id) {
     $('#timer' + $id).html("¡Finalizada!");
     if (!$('#Auction_' + $id).hasClass('nodelete')){
@@ -33,12 +36,17 @@ function avoidSending(){
     }
 }
 function getMoreAuctions($limit=1,$idTarget='#FeaturedAuctions',$currentpage=1){
+    if(window['loadingauctions']>0){
+        setTimeout(getMoreAuctions,1000)
+        return null;
+    }
+    window['loadingauctions']++;
     var $ids=[], $filters=[],$cont = 0;
     $('.auction').each(function () {
         $ids[$cont]=$(this).data('id');
         $cont++;
     });
-    $('#Loader').fadeIn();
+    //$('#Loader').fadeIn();
     if($('#MasterFilter').length>0){
         $filters=getFilters()[0];
         $($idTarget).html('');
@@ -55,7 +63,7 @@ function getMoreAuctions($limit=1,$idTarget='#FeaturedAuctions',$currentpage=1){
         }
         $('#AuctionsCounter').html($cant);
         if(result.includes('#MasterFilter')==true){
-            $('#Loader').fadeOut();
+            //$('#Loader').fadeOut();
             notifications(0,null,null,null,'Tu sesion ha expirado');
             return;
         }
@@ -72,7 +80,10 @@ function getMoreAuctions($limit=1,$idTarget='#FeaturedAuctions',$currentpage=1){
                 $($idTarget).html('<h1 class="text-center">No hay Subastas asociadas.</h1>');
             }
         }
-    }).always(function(){$('#Loader').fadeOut();});
+    }).always(function(){
+        window['loadingauctions']=0;
+        //$('#Loader').fadeOut();
+    });
 }
 function deleteExcessAuctionsFinished(){
     if($('#FinishedAuctions > .task-listing').length>3){
@@ -159,7 +170,7 @@ function modifyAvailability($id,$availability,$total,$unit){
 }
 function updateAuctionData($id,$price=null,$end=null,$endorder=null,$endfriendly=null,$close=null,$hot=null){
     if($price!=null){
-        $('#Price' + $id).html("$" + $price);
+        $('#Price' + $id).html("$" + $price.toString().replace('.',','));
         $('#Auction_'+$id).attr('data-price',$price);
     }
     if($end!=null){
@@ -252,7 +263,7 @@ function getInfo($id,$firstrun=0) {
             var $result = JSON.parse(result);
             $('#Loader').attr('data-local',window['now']);
             $('#Loader').attr('data-server',$result['currenttime']);
-            updateAuctionData($id,$result['price'],$result['end'],$result['endorder'],$result['endfriendly'],$result['close'],$result['hot']);
+            updateAuctionData($id,$result['price'].toString().replace('.',','),$result['end'],$result['endorder'],$result['endfriendly'],$result['close'],$result['hot']);
             modifyAvailability($id,$result['availability'],$result['amount']);
             modifyOffersCounter($id,$result['bidscounter'],$result['offerscounter']);
         }).done(function(){
@@ -312,7 +323,7 @@ function makeBid($id){
     }
     $.magnificPopup.close();
     $.get("/makeBid?auction_id="+$id + "&price="+$('#PriceBid'+$id).val()+"&amount="+$('#cantidad-'+$id).val(),function(result){
-        //console.log(result);
+        console.log(result);
         var $result=JSON.parse(result);
         if($result['limited']==1){
             notifications(0,null,null,null,'Has superado el limite de compras impuesto a tu usuario');
@@ -326,7 +337,7 @@ function makeBid($id){
             modifyAvailability($id,$result['availability'],$result['totalAmount']);
             notifications(1,$result['product'],$result['price'],$result['amount']);
             modifyOffersCounter($id,$result['bidscounter'],$result['offerscounter']);
-            updateAuctionData($id,$result['price'].toString().replace('.',','),null,null,null,null, $result['hot']);
+            updateAuctionData($id,$result['price'],null,null,null,null, $result['hot']);
             gtag('event', 'purchase', {
                 'event_category':'Auction',
                 'event_label':'Auction_'+$id,
@@ -508,8 +519,12 @@ function changeSaleUnit(){
     $('#UnidadDeVenta').html($('#SaleUnit').val());
 }
 function auctions_loadCalibers(){
+    if(window['loadingcalibers']>0){
+        setTimeout(auctions_loadCalibers,1000);
+        return null;
+    }
+    window['loadingcalibers']++;
     let $val=$('#ProductSelect').val();
-    $('#Loader').fadeIn();
     $.get('/productos/ver/calibres',{id:$val},function(result){
         $('#CalibersSelect').selectpicker('destroy');
         let $result=JSON.parse(result);
@@ -527,12 +542,20 @@ function auctions_loadCalibers(){
             }
         });
         $('#CalibersSelect').selectpicker();
-    }).done(function(){$('#Loader').fadeOut()});
+    }).done(function(){
+        window['loadingcalibers']=0;
+        //$('#Loader').fadeOut()
+    });
 }
 function auctions_loadUnits(){
+    if(window['loadingunits']>0){
+        setTimeout(auctions_loadUnits,1000);
+        return null;
+    }
+    window['loadingunits']++;
     let $product=$('#ProductSelect').val();
     let $caliber=$('#CalibersSelect').val();
-    $('#Loader').fadeIn();
+    //$('#Loader').fadeIn();
     $.get('/productos/ver/unidades',{idproduct:$product,caliber:$caliber},function(result){
         console.log(result);
         let $result=JSON.parse(result);
@@ -541,7 +564,10 @@ function auctions_loadUnits(){
         $('.SaleUnits').html($result['sale']);
         $('#UnidadDePresentacion').html($result['presentation']);
         $('#ProductDetailID').val($result['id'])
-    }).done(function(){$('#Loader').fadeOut()});
+    }).done(function(){
+        window['loadingunits']=0;
+        //$('#Loader').fadeOut()
+    });
 }
 function users_changeType(){
     let $type=$('#UserType').val();

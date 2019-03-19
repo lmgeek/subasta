@@ -167,6 +167,16 @@ class AuctionQuery extends Auction{
         
         
     }
+    public static function calcularPrecio($dstart,$dend,$pstart,$pend,$now=null){
+        $now=($now!=null)?$now:round(microtime(true)/60);
+        $mstart= strtotime($dstart)/60;
+        $mend= strtotime($dend)/60;
+        $ddif=$mend-$mstart;
+        $difendnow=$mend-$now;
+        $dperc=$difendnow/$ddif;
+        $pdif=$pstart-$pend;
+        return round($pend+$pdif*$dperc,2,PHP_ROUND_HALF_UP);
+    }
     /* FIN Rodolfo*/
     public static function filterAndPaginate($status , $product = null , $seller = null , $boat = null , $type = Constants::AUCTION_PUBLIC , $withStock = false){
         $now =date(Constants::DATE_FORMAT);
@@ -242,14 +252,5 @@ class AuctionQuery extends Auction{
         }
         return $rtrn;
     }
-    public static function calcularPrecio($dstart,$dend,$pstart,$pend){
-        $now=round(microtime(true)/60);
-        $mstart= strtotime($dstart)/60;
-        $mend= strtotime($dend)/60;
-        $ddif=$mend-$mstart;
-        $difendnow=$mend-$now;
-        $dperc=$difendnow/$ddif;
-        $pdif=$pstart-$pend;
-        return round($pdif-$pdif*$dperc,2,PHP_ROUND_HALF_UP);
-    }
+    
 }
