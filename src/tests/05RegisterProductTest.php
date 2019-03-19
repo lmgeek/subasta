@@ -14,19 +14,15 @@ class RegisterProduct extends TestCase
         $this->visit('/products/create');
         $this->type('PRO-0089','codigo');
         $this->type('Langostino','nombre');
-
         $this->select('Cajones','unidadp');
         $this->type('10','weight_small');
         $this->select('Cajones','salep');
-
         $this->select('Cajas','unidadm');
         $this->type('20','weight_medium');
         $this->select('Cajones','salem');
-
         $this->select('Unidades','unidadg');
         $this->type('30','weight_big');
         $this->select('Kg','saleg');
-
         $this->attach('langostinos-de-estero-cocidos.jpg','imagen');
         $this->press('Guardar');
         $this->see('PRO-0089');
@@ -124,27 +120,44 @@ class RegisterProduct extends TestCase
         $this->assertResponseOk();
     }
 //    /*producto ya exite */
-    function testExisteNewProduct(){
+    function testExisteNewProductchico(){
         $this->actingAs($this->getAValidUser(Constants::INTERNAL));
         $this->visit('/products/create');
+        $this->type('PRO-00023','codigo');
         $this->type('Langostino','nombre');
-
         $this->select('Cajones','unidadp');
         $this->type('10','weight_small');
         $this->select('Cajones','salep');
-
         $this->select('Cajas','unidadm');
         $this->type('20','weight_medium');
         $this->select('Cajones','salem');
-
         $this->select('Unidades','unidadg');
         $this->type('30','weight_big');
         $this->select('Kg','saleg');
-
         $this->attach('langostinos-de-estero-cocidos.jpg','imagen');
         $this->press('Guardar');
         $this->seePageIs('/products/create');
-        $this->see('El producto: Langostino calibre chico ya existe');
+        $this->see('El producto');
+        $this->assertResponseOk();
+    }
+    function testExisteNewProductmediano(){
+        $this->actingAs($this->getAValidUser(Constants::INTERNAL));
+        $this->visit('/products/create');
+        $this->type('PRO-00023','codigo');
+        $this->type('Langostino','nombre');
+        $this->select('Unidades','unidadp');
+        $this->type('10','weight_small');
+        $this->select('Unidades','salep');
+        $this->select('Cajas','unidadm');
+        $this->type('20','weight_medium');
+        $this->select('Cajones','salem');
+        $this->select('Cajones','unidadg');
+        $this->type('30','weight_big');
+        $this->select('Cajones','saleg');
+        $this->attach('langostinos-de-estero-cocidos.jpg','imagen');
+        $this->press('Guardar');
+        $this->seePageIs('/products/create');
+        $this->see('El producto');
         $this->assertResponseOk();
     }
 //    /*nombre*/
