@@ -306,7 +306,7 @@
                         <li><a href="#"><em class="icon-material-outline-dashboard"></em> Dashboard</a></li>
                         <li><a href="#"><em class="icon-feather-user"></em> Mi Cuenta</a></li>
                         <li><a href="{{url('/users')}}"><em class="icon-line-awesome-list"></em> Listado de Usuarios</a></li>
-                        <li><a href="{{url('/barcos')}}"><em class="icon-line-awesome-ship"></em> Listado de Barcos</a></li>
+                        <li><a href="{{url('/boats')}}"><em class="icon-line-awesome-ship"></em> Listado de Barcos</a></li>
                         <li><a href="{{url('/products')}}"><em class="icon-brand-product-hunt"></em> Productos</a></li>
                         <li><a href="{{url('auth/logout')}}"><em class="icon-material-outline-power-settings-new"></em> Logout</a></li>
                     </ul>
