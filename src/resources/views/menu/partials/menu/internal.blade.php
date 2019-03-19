@@ -11,7 +11,10 @@
     @endcan
     @can('seeAllBoatsList')
         <li @if (Request::is('boats*')) class="active" @endif>
+{{--
             <a href="{{url('/barcos')}}"><em class="fa fa-ship"></em> <span class="nav-label">{{ trans('boats.title') }}</span></a>
+--}}
+            <a href="/boats"><em class="fa fa-ship"></em> <span class="nav-label">{{ trans('boats.title') }}</span></a>
         </li>
     @endcan
     <li @if (Request::is('product*')) class="active" @endif>
