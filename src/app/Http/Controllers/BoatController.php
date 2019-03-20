@@ -172,15 +172,26 @@ class BoatController extends Controller
             return redirect('/home');
         }
 	}
-    public function boatList(){
+    public function boatList(Request $request){
 
         if (Auth::check() && Auth::user()->type == \App\User::VENDEDOR)
         {
-            $boats= Boat::select()->where('user_id', Constants::EQUAL,Auth::user()->id)->orderby('name', 'asc')->paginate(2);
+            if ($request->status != "all") {
+                $boats = Boat::select()->where('status','=',$request->status)->paginate(2);
+            }elseif($request->status =="all"){
+                $boats = Boat::select()->where('user_id', Constants::EQUAL, Auth::user()->id)->orderby('name', 'asc')->paginate(2);
+            }
+
             return view('landing3/boats',compact('boats'));
+
         }elseif(Auth::user()->type == \App\User::INTERNAL){
 
-            $boats= Boat::select()->orderby('name', 'asc')->paginate(2);
+            if ($request->status!= 'all'){
+                $boats = Boat::select()->where('status','=',$request->status)->paginate(2);
+            } elseif($request->status == 'all'){
+                $boats= Boat::select()->orderby('name', 'asc')->paginate(2);
+            }
+
             $countBoat = count(Boat::all());
             return view('landing3/boats',compact('boats','countBoat'));
 
@@ -194,4 +205,12 @@ class BoatController extends Controller
         return json_encode(array('preferred'=>$boat[0]->preference_port));
     }
     /* FIN Rodolfo*/
+
+
+    //G.B funcion para filtrar por estatus
+    public function getStatusTheBoat(Request $status){
+
+        $boats = Boat::select()->where('status','=',$status)->get();
+        return view('landing3/boats',compact('boats'));
+    }
 }

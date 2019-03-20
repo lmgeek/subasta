@@ -161,10 +161,10 @@ Route::group(['middleware' => ['auth']],function(){
 Route::group(['middleware' => ['auth']],function(){
     Route:resource('sellerAuction','SellerAuctionController');
 });
-Route::post('boats/approve/{boats}', [
+Route::get('boats/approve/{boats}', [
     'as' => 'boats.approve', 'uses' => 'BoatController@approve'
 ]);
-Route::post('boats/reject/{boats}', [
+Route::get('boats/reject/{boats}', [
     'as' => 'boats.reject', 'uses' => 'BoatController@reject'
 ]);
 Route::group(['middleware' => ['auth']],function(){
@@ -231,3 +231,8 @@ Route::get('subscribe/{auction}','AuctionBackController@subscribeUser');
 //Get Fecha actual routhes
 //---------------------------------------------------------------------------
 Route::get('current-time', 'AuctionBackController@getCurrentTime');
+
+
+//G.B filtrar barco por estatus
+Route::get('filtrar/barcos/{status}', 'BoatController@getStatusTheBoat');
+

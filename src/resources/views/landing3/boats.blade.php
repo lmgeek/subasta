@@ -18,7 +18,11 @@ use Illuminate\Support\Facades\Auth;
 
             <!-- Dashboard Headline -->
             <div class="dashboard-headline">
-                <h3>Mis Barcos</h3>
+                @if (Auth::check() && Auth::user()->type == \App\User::INTERNAL)
+                    <h3>Lista de Barcos</h3>
+                @else
+                    <h3>Mis Barcos</h3>
+                @endif
             </div>
 
                 @if (count($errors) > 0)
@@ -56,22 +60,26 @@ use Illuminate\Support\Facades\Auth;
                             @endif
 
                             <div class="sort-by">
-                                <select class="selectpicker hide-tick">
-                                    <option>Todos</option>
-                                  {{--  <option>Pendientes</option>
-                                    <option>Aprobados</option>
-                                    <option>Rechazados</option>--}}
+                                <select name="filterBoat" id="filterBoat" class="selectpicker hide-tick">
+                                    <option value="">Seleccionar..</option>
+                                    <option value="all">Todos</option>
+                                    <option value="pending">Pendientes</option>
+                                    <option value="approved">Aprobados</option>
+                                    <option value="rejected">Rechazados</option>
                                 </select>
                             </div>
                         </div>
 
                         <div class="content">
 
-                            <ul class="dashboard-box-list">
+                            <ul class="dashboard-box-list" id="boat-list">
 
                                 @if (Auth::check() && Auth::user()->type == \App\User::INTERNAL)
 
-                                  {{--  @foreach($boats as $boat)
+                                    @foreach($boats as $boat)
+
+
+
                                         <li>
                                             <!-- Job Listing -->
                                             <div class="job-listing">
@@ -81,20 +89,30 @@ use Illuminate\Support\Facades\Auth;
                                                     <div class="job-listing-description">
                                                         <h3 class="job-listing-title">
                                                             <a href="#"> {{$boat['name']}}</a>
-                                                            --}}{{--<span class="dashboard-status-button green">{{$boat['status']}}</span></h3>--}}{{--
-
+                                                            {{--<span class="dashboard-status-button green">{{$boat['status']}}</span></h3>--}}
                                                             <span class="dashboard-status-button @if($boat->status == 'pending') yellow @elseif($boat->status == 'approved') green @elseif($boat->status == 'rejected') red @endif">
-                                                             {{ trans('sellerBoats.status.'.$boat->status) }}
+                                                            {{ trans('sellerBoats.status.'.$boat->status) }}
                                                         </span>
 
                                                             <!-- Job Listing Footer -->
                                                             <div class="job-listing-footer">
                                                                 <ul>
+                                                                    <li><i class="icon-feather-user"></i> <?=$objt->getNameUserById($boat->user_id);?></li>
                                                                     <li><i class="icon-line-awesome-ship"></i>{{$boat['matricula']}}</li>
                                                                     <li><i class="icon-material-outline-location-on"></i>{{$objt->preferencePort($boat['preference_port'])}}</li>
                                                                 </ul>
                                                             </div>
+
                                                     </div>
+
+                                                    {{--G.B botones de aceptar y rechazar--}}
+                                                    @if ($boat->status == \App\Constants::PENDIENTE)
+                                                        <div class="buttons-to-right  always-visible single-right-button">
+                                                            <a href="{{ route('boats.approve', $boat->id) }}" class=" button verde ripple-effect ico" data-tippy-placement="top" title="{{ trans('boats.accept_boat') }}"><i class="icon-feather-check"></i></a>
+                                                            <a href="{{ route('boats.reject', $boat->id) }}" class="button rojo ripple-effect ico" data-tippy-placement="top" title="{{ trans('boats.reject_boat') }}"><i class="icon-feather-x"></i></a>
+                                                        </div>
+                                                    @endif
+
                                                 </div>
                                             </div>
 
@@ -102,12 +120,14 @@ use Illuminate\Support\Facades\Auth;
                                             <div class="buttons-to-right always-visible bd-tp-1">
                                                 <a href="#" class="button gray ripple-effect ico" title="Editar" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
                                                 <a href="#" class="button gray ripple-effect ico" title="Eliminar" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
+
+
                                             </div>
                                         </li>
+
                                     @endforeach
 
-                                @else--}}
-
+                                @else
 
                                     @foreach($boats as $boat)
                                         <li>
