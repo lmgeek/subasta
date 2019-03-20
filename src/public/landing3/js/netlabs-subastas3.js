@@ -585,7 +585,7 @@ function users_changeType(){
     }
 }
 function users_userApprobation(){
-    if($('#UserApprobation').val()=='approved'){
+    if($('#UserApprobation').val()=='rejected'){
         $('#UserApprobationIcon').removeClass('icon-feather-user-check');
         $('#UserApprobationIcon').addClass('icon-feather-user-x');
     }else{
