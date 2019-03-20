@@ -507,18 +507,26 @@ class AuctionFrontController extends AuctionController
             ->join(Constants::ARRIVES, Constants::BATCH_ARRIVE_ID, Constants::EQUAL, Constants::ARRIVES_ID)
             ->join(Constants::BOATS, Constants::ARRIVES_BOAT_ID, Constants::EQUAL, Constants::BOATS_ID)
             ->join(Constants::USERS, Constants::BOATS_USER_ID, Constants::EQUAL, Constants::USERS_ID)
-//            ->join('auctions_offers', 'auctions_offers.auction_id', Constants::EQUAL, 'auctions.id')
+            ->join('auctions_offers', 'auctions_offers.auction_id', Constants::EQUAL, 'auctions.id')
             ->where(Constants::USERS_ID,Auth::user()->id)
             ->where(Constants::AUCTIONS_END,'<=',$now);
         if ($request->a != null){
             $auctions = $auctions->where('auctions.id','=',$request->a);
         }
         $auctions = $auctions
+            ->groupBy('auctions.id')
             ->orderBy('auctions.created_at','desc')
             ->paginate(2);
+
+        $rev = Auction::select(Constants::AUCTIONS_SELECT_ALL)
+            ->join('auctions_offers', 'auctions_offers.auction_id', Constants::EQUAL, 'auctions.id')
+            ->where('auctions_offers.status','=','pending')
+            ->groupBy('auctions.id')
+            ->get();
+        $revision = count($rev);
         $this->authorize('seeSellerAuction', Auction::class);
         $offers = $max = $available = array();
-        $revision = 0;
+//        $revision = 0;
         foreach($auctions as $auction){
             $auction->code=self::getAuctionCode($auction->correlative,$auction->created_at);
             $offers[$auction->id]= self::getOffers($auction->id);
@@ -526,11 +534,13 @@ class AuctionFrontController extends AuctionController
             $available[$auction->id] = AuctionBackController::getAvailable($auction->id, $auction->amount);
             $auction->offers = count($offers[$auction->id]);
         }
-        foreach($auctions as $auction){
-            if($auction->offers > 0){
-                $revision++;
-            }
-        }
+//        foreach($auctions as $auction){
+//            if($auction->offers > 0){
+//                if($max[$auction->id]->status == 'pending'){
+//                    $revision++;
+//                }
+//            }
+//        }
         return view(Constants::LANDING3_OFFERS)
             ->with('auctions',$auctions)
             ->with('offers',$offers)
