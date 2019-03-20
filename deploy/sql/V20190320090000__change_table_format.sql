@@ -19,22 +19,22 @@ BEGIN
       ALTER TABLE `auctions_offers` MODIFY COLUMN `user_id`  int(10) UNSIGNED NOT NULL AFTER `auction_id`;
     END IF;
     IF EXISTS (
-        SELECT * FROM `TABLES` where TABLE_NAME = 'users_ratings' AND `ENGINE` <> 'InnoDB'
+        SELECT * FROM information_schema.`TABLES` where TABLE_NAME = 'users_ratings' AND `ENGINE` <> 'InnoDB'
     ) THEN
             ALTER TABLE `users_ratings` ENGINE=InnoDB;
     END IF;
     IF EXISTS (
-        SELECT * FROM `TABLES` where TABLE_NAME = 'subscriptions' and `ENGINE` <> 'InnoDB'
+        SELECT * FROM information_schema.`TABLES` where TABLE_NAME = 'subscriptions' and `ENGINE` <> 'InnoDB'
     ) THEN
             ALTER TABLE `subscriptions` ENGINE=InnoDB;
     END IF;
     IF EXISTS (
-        SELECT * FROM `TABLES` where TABLE_NAME = 'auctions_invites' and `ENGINE` <> 'InnoDB'
+        SELECT * FROM information_schema.`TABLES` where TABLE_NAME = 'auctions_invites' and `ENGINE` <> 'InnoDB'
     ) THEN
             ALTER TABLE `auctions_invites` ENGINE=InnoDB;
     END IF;
     IF EXISTS (
-        SELECT * FROM `TABLES` where TABLE_NAME = 'private_sales' and `ENGINE` <> 'InnoDB'
+        SELECT * FROM information_schema.`TABLES` where TABLE_NAME = 'private_sales' and `ENGINE` <> 'InnoDB'
     ) THEN
             ALTER TABLE `private_sales` ENGINE=InnoDB;
     END IF;
