@@ -245,6 +245,49 @@ class UserController extends Controller
         $user->bids=\App\Bid::getBidsByBuyer($user->id);
         return view('landing3/user-add-edit')->with('user',$user);
     }
+    public function userMyBids($userid=null){
+        if(empty(Auth::user()->type) || (Auth::user()->type==User::VENDEDOR && Auth::user()->id!=$userid)){
+            return redirect('/');
+        }
+        
+        $id=($userid==null)?Auth::user()->id:$userid;
+        $user= User::select()->where('id',Constants::EQUAL,$id)->get();
+        if(count($user)>0){
+            $user=$user[0];
+        }else{
+            return view('landing3/errors/404');
+        }
+        $comprador= Comprador::select()->where('user_id',Constants::EQUAL,$user->id)->get();
+        if(count($comprador)>0){
+            $comprador=$comprador[0];
+        }else{
+            return view('landing3/errors/404');
+        }
+        $user->comprador=$comprador;
+        $user->bids=\App\Bid::getBidsByBuyer($user->id,1);
+        return view('landing3/compras')->with('user',$user);
+    }
+    public function userMyOffers($userid=null){
+        if(empty(Auth::user()->type) || Auth::user()->type==User::VENDEDOR){
+            return redirect('/');
+        }
+        $id=($userid==null)?Auth::user()->id:$userid;
+        $user= User::select()->where('id',Constants::EQUAL,$id)->get();
+        if(count($user)>0){
+            $user=$user[0];
+        }else{
+            return view('landing3/errors/404');
+        }
+        $comprador= Comprador::select()->where('user_id',Constants::EQUAL,$user->id)->get();
+        if(count($comprador)>0){
+            $comprador=$comprador[0];
+        }else{
+            return view('landing3/errors/404');
+        }
+        $user->comprador=$comprador;
+        $user->offers=\App\Offers::getOffersByBuyer($user->id,1);
+        return view('landing3/ofertas')->with('user',$user);
+    }
     public function userSave(ManageUsersRequest $request){
         $errors=array();
         if(empty(Auth::user()->type) || ((isset($nickname) && Auth::user()->nickname!=$nickname) && Auth::user()->type!=User::INTERNAL)){
@@ -268,6 +311,9 @@ class UserController extends Controller
                 if(count($checker1)>0){
                     $errors[]='El nombre de usuario ya est&aacute; registrado.';
                 }
+            }
+            if(isset($request->limit) && $request->limit>9999999){
+                $errors[]='El limite m&aacute;ximo de compra es 9999999';
             }
             if(count($errors)>0){
                 return redirect()->back()->with('errors',$errors);
@@ -330,7 +376,9 @@ class UserController extends Controller
         if($user->type==User::COMPRADOR){
             $comprador->user_id = $user->id;
             $comprador->dni = $request->dni;
-            $comprador->bid_limit=$request->limit;
+            if(isset($request->limit)){
+                $comprador->bid_limit=$request->limit;
+            }
             $comprador->save();
         }elseif($user->type==User::VENDEDOR){
             

@@ -30,8 +30,8 @@ class Offers extends Model
 		return $this->belongsTo('App\User');
 	}
     
-    public static function getOffersByBuyer($userid){
-        return AuctionQuery::select(
+    public static function getOffersByBuyer($userid,$paginate=null){
+        $return=AuctionQuery::select(
                 'auctions.correlative',
                 'auctions.created_at as StartDateAuction',
                 'products.name',
@@ -48,7 +48,12 @@ class Offers extends Model
                 ->join('auctions_offers', 'auctions_offers.auction_id', Constants::EQUAL,'auctions.id')
                 ->where('auctions_offers.user_id', Constants::EQUAL,$userid)
                 ->orderBy('auctions_offers.created_at','DESC')
-                ->get();
+                ;
+        if($paginate==null){
+            return $return->limit(Constants::PAGINATE_NUMBER)->get();
+        }else{
+            return $return->paginate(Constants::PAGINATE_NUMBER);
+        }
     }
 
 }

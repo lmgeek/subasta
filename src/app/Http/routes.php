@@ -25,14 +25,26 @@ Route::get('/getusersauctionprivate','AuctionFrontController@getUsersAuctionPriv
 Route::get('subastas/editar/{auction}', [
     'as' => 'auction.edit', 'uses' => 'AuctionFrontController@editAuction'
 ]);
-
+Route::get('puertos/editar/{port}', [
+    'as' => 'port.edit', 'uses' => 'PortsController@portsEdit'
+]);
 Route::get('subastas/replicar/{auction}', [
     'as' => 'auction.replicate', 'uses' => 'AuctionFrontController@replicateAuction'
 ]);
 Route::get('usuarios/editar/{username}', [
     'as' => 'user.edit', 'uses' => 'UserController@userEdit'
 ]);
+Route::get('usuarios/compras/{id}', [
+    'as' => 'user.compras', 'uses' => 'UserController@userMyBids'
+]);
+Route::get('usuarios/ofertas/{id}', [
+    'as' => 'user.compras', 'uses' => 'UserController@userMyOffers'
+]);
 Route::get('/usuarios/agregar','UserController@userAdd');
+Route::get('/puertos/agregar','PortsController@portsAdd');
+Route::post('/puertos/guardar','PortsController@portsSave');
+Route::get('/usuarios/compras','UserController@userMyBids');
+Route::get('/usuarios/ofertas','UserController@userMyOffers');
 Route::get('/productos/ver/unidades','ProductController@getUnitsFromProductIdCaliber');
 Route::get('/productos/ver/calibres','ProductController@getCalibersFromProductId');
 
