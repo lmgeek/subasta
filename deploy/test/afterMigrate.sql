@@ -1,3 +1,5 @@
+DELETE FROM users;
+ALTER TABLE users AUTO_INCREMENT = 1;
 # Insertar todo los usuarios de la web en la tabla users
 INSERT INTO users (`name`,`lastname`,`email`,`password`,`type`,`status`,`hash`,`active_mail`,`nickname`)
 VALUES ('Maria','Crer','mariac@netlabs.com.ar','$2y$10$chZ5pITb5Q7e/HQIo6qjeudB.QQ8.Zby.vpOgSjdqjNDbVasz4Rze','seller','approved','NO_aplica_prueba',1,'Mcrer'),
