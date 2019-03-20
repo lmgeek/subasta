@@ -35,8 +35,8 @@ class Bid extends Model
 		return Bid::where(Constants::BIDS_USER_ID, $user->id )->orderBy(Constants::BIDS_DATE, Constants::DESC)->where(Constants::STATUS,Constants::PENDIENTE)->count('id');
 	}
 	
-    public static function getBidsByBuyer($userid){
-        return AuctionQuery::select(
+    public static function getBidsByBuyer($userid,$paginate=null){
+        $return=AuctionQuery::select(
                 'auctions.correlative',
                 'auctions.created_at as StartDateAuction',
                 'products.name',
@@ -59,6 +59,11 @@ class Bid extends Model
                 ->join('bids', 'bids.auction_id', Constants::EQUAL,'auctions.id')
                 ->where('bids.user_id', Constants::EQUAL,$userid)
                 ->orderBy('bids.bid_date','DESC')
-                ->get();
+                ;
+        if($paginate==null){
+            return $return->limit(Constants::PAGINATE_NUMBER)->get();
+        }else{
+            return $return->paginate(Constants::PAGINATE_NUMBER);
+        }
     }
 }

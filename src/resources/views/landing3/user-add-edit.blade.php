@@ -9,7 +9,7 @@ if(isset($user->id)){
 }else{
     $title='Agregar usuario';
 }
-//dd($user->offers);
+
 ?>
 @extends('landing3/partials/layout-admin')
 @section('title',' | '.$title)
@@ -23,8 +23,8 @@ if(isset($user->id)){
                 <div class="dashboard-box margin-top-0 ">
                     <div class="headline"><h4><i class="icon-feather-alert-triangle red"></i> Error<?=(count($errors)>1)?'es':''?></h4></div>
                     <ul>
-                        @foreach ($errors as $error)
-                            <li>{{ $error }}</li>
+                        @foreach ($errors->all() as $error)
+                        <li>{{$error}}</li>
                         @endforeach
                     </ul>
                     </div>
@@ -54,13 +54,13 @@ if(isset($user->id)){
                     <div class="headline"><h3><i class="icon-feather-users"></i> Datos B&aacute;sicos</h3></div>
                     <div class="row">
                         <div class="col">
-                            Nombre<br><input type="text" name="name" placeholder="Nombre" value='<?=(isset($user))?$user->name:old('name')?>'>
+                            Nombre<br><input type="text" name="name" placeholder="Nombre" value='<?=(isset($user))?$user->name:old('name')?>' required>
                         </div>
                         <div class="col">
-                            Apellido<br><input type="text" name="lastname" placeholder="Apellido" value='<?=(isset($user))?$user->lastname:old('lastname')?>'>
+                            Apellido<br><input type="text" name="lastname" placeholder="Apellido" value='<?=(isset($user))?$user->lastname:old('lastname')?>' required>
                         </div>
                         <div class="col">
-                            Alias<br><input type="text" name="nickname" placeholder="Alias" maxlength="10" value='<?=(isset($user))?$user->nickname:old('nickname')?>'>
+                            Alias<br><input type="text" name="nickname" placeholder="Alias" maxlength="10" value='<?=(isset($user))?$user->nickname:old('nickname')?>' required>
                         </div>
                     </div>
                     <div class="row UserPanel" id="BuyerPanel" <?=(empty($user) || (isset($user) && $user->type!=User::COMPRADOR))?'style="display:none"':''?>>
@@ -68,10 +68,12 @@ if(isset($user->id)){
                             DNI<br>
                             <input type="number" name="dni" placeholder="DNI" minlength="7" id="DNI" value="<?=(isset($user) && $user->type==User::COMPRADOR)?$user->comprador->dni:old('dni')?>">
                         </div>
+                        @if(Auth::user()->type=='internal')
                         <div class='col'>
                             Limite de compra<br>
                             <input type="number" name="limit" placeholder="L&iacute;mite de compra" maxlength="10" id="Limit" value="<?=(isset($user) && $user->type==User::COMPRADOR)?$user->comprador->bid_limit:old('limit')?>">
                         </div>
+                        @endif
                     </div>
                     <div class="row UserPanel" id="SellerPanel" <?=(empty($user) || (isset($user) && $user->type!=User::VENDEDOR))?'style="display:none"':''?>>
                         <div class='col'>
@@ -127,18 +129,18 @@ if(isset($user->id)){
                     <a href="/usuarios"><button class="button dark ripple-effect big margin-top-30" type="button">Cancelar</button></a>
                 </div>
             </div>
-            @if(isset($user) && (count($user->offers)>0 || count($user->bids))>0)
+            @if(isset($user) && (count($user->offers)>0 || count($user->bids))>0 && Auth::user()->type=='internal')
             <div class="row dashboard-box" style="padding-bottom: 20px">
                 <div class="col">
                     <div class="headline">
                         <div class="row">
                             @if(count($user->offers)>0)
                             <div class="col text-center SwitchButton" onclick="users_switchOffersBids('Offers')" id="OffersButton">
-                                <div class="button primary ripple-effect big" style="cursor:pointer;color:#fff"><i class="icon-feather-tag"></i> Ofertas Realizadas</div>
+                                <div class="button primary ripple-effect big" style="cursor:pointer;color:#fff"><i class="icon-feather-tag"></i> &Uacute;ltimas Ofertas Realizadas</div>
                             </div>
                             @endif
                             <div class="col text-center SwitchButton" onclick="users_switchOffersBids('Bids')" id="BidsButton">
-                                <div class="button dark ripple-effect big" style="cursor:pointer;color:#fff"><i class="icon-feather-dollar-sign"></i> Compras Realizadas</div>
+                                <div class="button dark ripple-effect big" style="cursor:pointer;color:#fff"><i class="icon-feather-dollar-sign"></i> &Uacute;ltimas Compras Realizadas</div>
                             </div>
                         </div>
                     </div>
@@ -150,7 +152,7 @@ if(isset($user->id)){
                                 <div class="col">
                                     <h3>
                                         <i class="icon-material-outline-gavel"></i> Subasta: <?= App\Http\Controllers\AuctionFrontController::getAuctionCode($auction->correlative, $auction->StartDateAuction)?>
-                                        <span class="dashboard-status-button <?=Constants::colorByStatus($auction->status)?>"><?=trans('general.bid_status.'.$auction->status)?></span>
+                                        <span class="dashboard-status-button <?=Constants::colorByStatus($auction->status)?>"><?=trans('general.status.'.$auction->status)?></span>
                                     </h3>
                                 </div>
                             </div>
@@ -171,6 +173,9 @@ if(isset($user->id)){
                         </div>
                     </div>
                     @endforeach
+                    @if(count($user->offers)>0)
+                    <a href="/usuarios/ofertas/<?=$user->id?>"><div class="button dark ripple-effect big text-center" style="cursor:pointer;color:#fff">Ver todas</div></a>
+                    @endif
                     </div>
                     <div  class="panel"id="Bids" <?=(count($user->offers)>0)?'style="display:none"':''?>>
                     @foreach($user->bids as $auction)
@@ -237,6 +242,9 @@ if(isset($user->id)){
                         </div>
                     </div>
                     @endforeach
+                    @if(count($user->bids)>0)
+                    <a href="/usuarios/compras/<?=$user->id?>"><div class="button dark ripple-effect big text-center" style="cursor:pointer;color:#fff">Ver todas</div></a>
+                    @endif
                     </div>
                 </div>
             </div>

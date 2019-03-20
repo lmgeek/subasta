@@ -1,6 +1,8 @@
 <?php
 namespace App\Http\Requests;
-
+use App\Http\Requests\Request;
+use App\User;
+use Auth;
 class ManageUsersRequest extends Request
 {
     /**
@@ -25,7 +27,6 @@ class ManageUsersRequest extends Request
             'lastname'=>"required|regex:(^[a-zA-Zá-úÁ-Ú\s']+$)",
             'nickname'=>"required|max:10|regex:(^[a-zA-Z_0-9])",
             'dni'=>"required_if:type,buyer|min:7|regex:(^[0-9]+$)",
-            'limit'=>"required_if:type,buyer|numeric|min:1",
             'cuit'=>"required_if:type,seller|min:13|regex:(^[0-9-]+$)",
             'password'=>'required_without:id|confirmed|regex:(^\S*(?=\S{6,8})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$)',
 			'email' => 'required|min:7|email',
@@ -59,7 +60,8 @@ class ManageUsersRequest extends Request
             'email.email' => 'El email no es un correo válido',
             'email.unique' => 'El email ya ha sido registrado',
             'phone.numeric' => 'El teléfono sólo permite caracteres numéricos',
-            'password.required_without'=>'Al agregar un usuario, es necesaria la contrase&ntilde;a.'
+            'password.required_without'=>'Al agregar un usuario, es necesaria la contrase&ntilde;a.',
+            'nickname.required'=>'El campo alias es obligatorio'
         ];
     }
 }

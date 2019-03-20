@@ -171,7 +171,7 @@ for($z=0;$z<count($portsall);$z++){
     ?>
                 <div class="col-xl-3 col-md-6">
                     <!-- Photo Box -->
-                    <a href="<?=($cantsubastas>0)?'/subastas?port_id='.$portsall[$z]['id']:'#'?>" class="photo-box" data-background-image="landing3/images/puertos/<?=$portsimg[$z]?>">
+                    <a href="<?=($cantsubastas>0)?'/subastas?port_id='.$portsall[$z]['id']:'#'?>" class="photo-box" data-background-image="landing3/images/puertos/<?=$portsall[$z]['image']?>">
                         <div class="photo-box-content">
                             <h3><?=$portsall[$z]['name']?></h3>
                             <span>{{$cantsubastas}} Subasta<?=($cantsubastas!=1)?'s':''?></span>

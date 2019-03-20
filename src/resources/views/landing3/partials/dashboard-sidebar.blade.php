@@ -24,7 +24,8 @@
                             <li><a href="/barcos"><em class="icon-line-awesome-ship"></em> Mis Barcos</a></li>
                             @endif
                             @if(isset(Auth::user()->id) && Auth::user()->type==\App\Constants::COMPRADOR)
-                            <li><a href="/compra"><em class="icon-feather-shopping-bag"></em> Mis Compras</a></li>
+                            <li><a href="/usuarios/compras"><em class="icon-feather-dollar-sign"></em> Mis Compras</a></li>
+                            <li><a href="/usuarios/ofertas"><em class="icon-feather-tag"></em> Mis Ofertas</a></li>
                             @endif
 						</ul>
 						<ul data-submenu-title="Perfiles">
