@@ -40,7 +40,7 @@ if(isset($user->id)){
             <div class="row dashboard-box" style="padding-bottom: 20px">
                 <div class="col">
                     <div class="headline"><h3><i class="icon-feather-user"></i> Tipo de Usuario</h3></div>
-                    <select name="type" onchange="users_changeType()" class="selectpicker" id="UserType">
+                    <select name="type" onchange="users_changeType()" class="selectpicker" id="UserType" <?=(isset($user) && count($user->offers)+count($user->bids)>0)?'disabled':''?>>
                         <option disabled selected>Seleccione...</option>
                         <option value="<?=Constants::INTERNAL?>" <?=(isset($user) && $user->type== Constants::INTERNAL)?'selected':''?>>Administrador</option>
                         <option value="<?=Constants::SELLER?>" <?=(isset($user) && $user->type== Constants::VENDEDOR)?'selected':''?>>Vendedor</option>
@@ -88,10 +88,10 @@ if(isset($user->id)){
                     <div class="headline"><h3><i class="icon-feather-message-square"></i> Contacto</h3></div>
                     <div class="row">
                         <div class="col">
-                            Email<br><input type="email" name="email" placeholder="Email" minlength="7" value='<?=(isset($user))?$user->email:old('email')?>'>
+                            Email<br><input type="email" name="email" placeholder="Email" minlength="7" value='<?=(isset($user))?$user->email:old('email')?>'required>
                         </div>
                         <div class="col">
-                            Telefono<br><input type="tel" name="phone" placeholder="Tel&eacute;fono" value='<?=(isset($user))?$user->phone:old('phone')?>'>
+                            Telefono<br><input type="tel" name="phone" placeholder="Tel&eacute;fono" value='<?=(isset($user))?$user->phone:old('phone')?>' required>
                         </div>
                     </div>
                 </div>
@@ -112,11 +112,11 @@ if(isset($user->id)){
             @if(Auth::user()->type=='internal')
             <div class="row dashboard-box" style="padding-bottom: 20px">
                 <div class="col">
-                    <div class="headline"><h3><i class="icon-feather-user-check" id="UserApprobationIcon"></i> Aprobaci&oacute;n</h3></div>
+                    <div class="headline"><h3><i class="icon-feather-user-<?=(empty($user) || (isset($user->status) && $user->status==User::APROBADO))?'check':'x'?>" id="UserApprobationIcon"></i> Aprobaci&oacute;n</h3></div>
                     <select name="status" class="selectpicker" id="UserApprobation" onchange="users_userApprobation()">
                         <option disabled selected>Seleccione...</option>
                         <option value="<?=User::APROBADO?>" <?=(old('status')== User::APROBADO || (isset($user) && $user->status== User::APROBADO))?'selected':''?>>Aprobado</option>
-                        <option value="<?= User::RECHAZADO?>" <?=(old('status')== User::APROBADO || (isset($user) && $user->status== User::RECHAZADO))?'selected':''?>>Rechazado</option>
+                        <option value="<?= User::RECHAZADO?>" <?=(old('status')== User::RECHAZADO || (isset($user) && $user->status== User::RECHAZADO))?'selected':''?>>Rechazado</option>
                     </select>
                 </div>
             </div>

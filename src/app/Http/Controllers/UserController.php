@@ -252,9 +252,6 @@ class UserController extends Controller
         }
         if(isset($request->id)){
             $user= User::select()->where('id',Constants::EQUAL,$request->id)->get()[0];
-            if(Auth::user()->type=='internal' && isset($request->status)){
-                $user->status=$request->status;
-            }
             if($user->email!=$request->email){
                 $checker2=User::select()
                         ->where('email',Constants::EQUAL,$request->email)
@@ -273,15 +270,21 @@ class UserController extends Controller
                 }
             }
             if(count($errors)>0){
-                    return redirect()->back()->with('errors',$errors);
-                }
+                return redirect()->back()->with('errors',$errors);
+            }
+            if(Auth::user()->type=='internal' && isset($request->status)){
+                $user->status=$request->status;
+            }
+            if(Auth::user()->type=='internal' && isset($request->type)){
+                $user->type=$request->type;
+            }
             $user->hash= md5(date('YmdHis').$request->nickname);
             if($user->type== Constants::VENDEDOR){
                 $vendedor= Vendedor::select()->where('user_id',Constants::EQUAL,$request->id)->get();
                 if(count($vendedor)>0){
                     $vendedor=$vendedor[0];
                 }else{
-                    $comprador = new Comprador();
+                    $vendedor = new Vendedor();
                 }
             }else if($user->type== User::COMPRADOR){
                 $comprador= Comprador::select()->where('user_id',Constants::EQUAL,$request->id)->get();
@@ -290,6 +293,7 @@ class UserController extends Controller
                 }else{
                     $comprador = new Comprador();
                 }
+                
             }
         }else{
             $checker=User::select()
@@ -311,7 +315,7 @@ class UserController extends Controller
             if($request->type==User::COMPRADOR){
                 $comprador = new Comprador();
             }elseif($request->type==User::VENDEDOR){
-                $comprador = new Comprador();
+                $vendedor = new Vendedor();
             }
         }
         $user->name=$request->name;
@@ -319,17 +323,17 @@ class UserController extends Controller
         $user->nickname=$request->nickname;
         $user->email=$request->email;
         $user->phone=$request->phone;
-        $user->type=$request->type;
         if($request->password!='' && $request->password_confirmation!='' && $request->password==$request->password_confirmation){
             $user->password = Hash::make($request->password);
         }
         $user->save();
-        if($request->type==User::COMPRADOR){
+        if($user->type==User::COMPRADOR){
             $comprador->user_id = $user->id;
             $comprador->dni = $request->dni;
+            $comprador->bid_limit=$request->limit;
             $comprador->save();
-        }elseif($request->type==User::VENDEDOR){
-            $vendedor = new Vendedor();
+        }elseif($user->type==User::VENDEDOR){
+            
             $vendedor->user_id = $user->id;
             $vendedor->cuit=  $request->cuit;
             $vendedor->save();
