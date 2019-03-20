@@ -40,7 +40,7 @@ if(isset($user->id)){
             <div class="row dashboard-box" style="padding-bottom: 20px">
                 <div class="col">
                     <div class="headline"><h3><i class="icon-feather-user"></i> Tipo de Usuario</h3></div>
-                    <select name="type" onchange="users_changeType()" class="selectpicker" id="UserType"<?=(isset($user) && count($user->offers)+count($user->bids)>0)?'disabled':''?>>
+                    <select name="type" onchange="users_changeType()" class="selectpicker" id="UserType">
                         <option disabled selected>Seleccione...</option>
                         <option value="<?=Constants::INTERNAL?>" <?=(isset($user) && $user->type== Constants::INTERNAL)?'selected':''?>>Administrador</option>
                         <option value="<?=Constants::SELLER?>" <?=(isset($user) && $user->type== Constants::VENDEDOR)?'selected':''?>>Vendedor</option>
