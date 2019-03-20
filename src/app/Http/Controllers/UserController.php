@@ -246,6 +246,7 @@ class UserController extends Controller
         return view('landing3/user-add-edit')->with('user',$user);
     }
     public function userSave(ManageUsersRequest $request){
+        $errors=array();
         if(empty(Auth::user()->type) || ((isset($nickname) && Auth::user()->nickname!=$nickname) && Auth::user()->type!=User::INTERNAL)){
             return redirect('/');
         }
@@ -254,7 +255,26 @@ class UserController extends Controller
             if(Auth::user()->type=='internal'){
                 $user->status=$request->status;
             }
-            
+            if($user->email!=$request->email){
+                $checker2=User::select()
+                        ->where('email',Constants::EQUAL,$request->email)
+                        ->get();
+                if(count($checker2)>0){
+                    $errors[]='El correo ya est&aacute; registrado.';
+                }
+                
+            }
+            if($user->nickname!=$request->nickname){
+                $checker1=User::select()
+                        ->where('nickname',Constants::EQUAL,$request->nickname)
+                        ->get();
+                if(count($checker1)>0){
+                    $errors[]='El nombre de usuario ya est&aacute; registrado.';
+                }
+            }
+            if(count($errors)>0){
+                    return redirect()->back()->with('errors',$errors);
+                }
             $user->hash= md5(date('YmdHis').$request->nickname);
             if($user->type== Constants::VENDEDOR){
                 $vendedor= Vendedor::select()->where('user_id',Constants::EQUAL,$request->id)->get();
@@ -276,11 +296,16 @@ class UserController extends Controller
                     ->where('nickname',Constants::EQUAL,$request->nickname)
                     ->orWhere('email',Constants::EQUAL,$request->email)
                     ->get();
-            if(count($checker>0)){
+            if(count($checker)>0){
                 return redirect()->back()->with('errors',array('El correo y/o el usuario ya estan registrados'));
             }
             $user  = new User();
-            $user->status=User::PENDIENTE;
+            
+            if(Auth::user()->type=='internal'){
+                $user->status=$request->status;
+            }else{
+                $user->status=User::PENDIENTE;
+            }
             $user->hash= md5(date('YmdHis').$request->nickname);
             $user->active_mail=0;
             if($request->type==User::COMPRADOR){

@@ -23,7 +23,7 @@ if(isset($user->id)){
                 <div class="dashboard-box margin-top-0 ">
                     <div class="headline"><h4><i class="icon-feather-alert-triangle red"></i> Error<?=(count($errors)>1)?'es':''?></h4></div>
                     <ul>
-                        @foreach ($errors->all() as $error)
+                        @foreach ($errors as $error)
                             <li>{{ $error }}</li>
                         @endforeach
                     </ul>
@@ -32,7 +32,7 @@ if(isset($user->id)){
         </div>
         @endif
         <form method="post" action="/usuarios/guardar">
-            @if($title=='editar')
+            @if(isset($user->id))
             <input type="hidden" name="id" value='<?=$user->id?>'>
             @endif
             {{csrf_field()}}
@@ -40,7 +40,7 @@ if(isset($user->id)){
             <div class="row dashboard-box" style="padding-bottom: 20px">
                 <div class="col">
                     <div class="headline"><h3><i class="icon-feather-user"></i> Tipo de Usuario</h3></div>
-                    <select name="type" onchange="users_changeType()" class="selectpicker" id="UserType"<?=(count($user->offers)+count($user->bids)>0)?'disabled':''?>>
+                    <select name="type" onchange="users_changeType()" class="selectpicker" id="UserType"<?=(isset($user) && count($user->offers)+count($user->bids)>0)?'disabled':''?>>
                         <option disabled selected>Seleccione...</option>
                         <option value="<?=Constants::INTERNAL?>" <?=(isset($user) && $user->type== Constants::INTERNAL)?'selected':''?>>Administrador</option>
                         <option value="<?=Constants::SELLER?>" <?=(isset($user) && $user->type== Constants::VENDEDOR)?'selected':''?>>Vendedor</option>
@@ -127,7 +127,7 @@ if(isset($user->id)){
                     <a href="/usuarios"><button class="button dark ripple-effect big margin-top-30" type="button">Cancelar</button></a>
                 </div>
             </div>
-            @if(count($user->offers)>0 || count($user->bids)>0)
+            @if(isset($user) && (count($user->offers)>0 || count($user->bids))>0)
             <div class="row dashboard-box" style="padding-bottom: 20px">
                 <div class="col">
                     <div class="headline">
