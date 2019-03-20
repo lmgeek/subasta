@@ -252,7 +252,7 @@ class UserController extends Controller
         }
         if(isset($request->id)){
             $user= User::select()->where('id',Constants::EQUAL,$request->id)->get()[0];
-            if(Auth::user()->type=='internal'){
+            if(Auth::user()->type=='internal' && isset($request->status)){
                 $user->status=$request->status;
             }
             if($user->email!=$request->email){
