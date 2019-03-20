@@ -352,7 +352,7 @@ function makeBid($id){
                 }]
             });
         }else{
-            notifications(0,null,null,null,'No hay disponibilidad en esta subasta');
+            notifications(0,null,null,null,$result['error']);
         }
 
     }).fail(function(){

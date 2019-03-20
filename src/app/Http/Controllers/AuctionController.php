@@ -88,9 +88,9 @@ class AuctionController extends Controller
          $amount = $request->input(Constants::AMOUNT);
          $auction=AuctionQuery::auctionHome(null,array(Constants::AUCTIONID=>$auction_id),'all')[0];
          $this->authorize(Constants::MAKE_BID, $auction);
-         $checkuser= \App\Http\Controllers\AuctionFrontController::checkIfBuyerCanBuy($auction_id,$amount,'bid',$auction->type);
-         if($checkuser==0){
-             return json_encode(array(Constants::ERROR=>'Tu usuario no puede comprar'));
+         $checkuser= \App\Http\Controllers\AuctionFrontController::checkIfBuyerCanBuy($auction_id,$amount,'bid');
+         if($checkuser['success']!=1){
+             return json_encode(array(Constants::ERROR=>$checkuser['error']));
          }
          if(empty($request->input(Constants::PRICE))){
              $price = number_format($auction->calculatePrice(date(Constants::DATE_FORMAT)), 2,'.','');
