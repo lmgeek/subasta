@@ -181,7 +181,7 @@ class AuctionFrontController extends AuctionController
     public static function checkIfBuyerCanBuy($id,$amount,$type="bid",$privacy='public'){
         
         if(empty(Auth::user()->id) || Auth::user()->type!='buyer' || Auth::user()->status!='approved' || ($privacy==Constants::AUCTION_PRIVATE && AuctionQuery::checkifUserInvited(Auth::user()->id)== Constants::INACTIVE)){
-            return array('error'=>'Tu usuario no tiene autorizacion para comprar en esta subasta','success'=>0);
+            return array('error'=>'Tu usuario no tiene autorizacion para comprar en esta subasta.','success'=>0);
         }
         if($type!='bid'){
             return array('success'=>1);
@@ -192,7 +192,7 @@ class AuctionFrontController extends AuctionController
         }
 
         $comprador = App\Comprador::select()->where('user_id',Constants::EQUAL,Auth::user()->id)->get();
-        return ($amount>$comprador[0]->bid_limit)?array('error'=>'L&iacute;mite de compra sobrepasado','success'=>0):array('success'=>1);
+        return ($amount>$comprador[0]->bid_limit)?array('error'=>'L&iacute;mite de compra sobrepasado.','success'=>0):array('success'=>1);
 
     }
     public static function getUserRating($userinfo){
