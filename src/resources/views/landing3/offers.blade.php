@@ -151,14 +151,13 @@
 
                             </div></div></div>
 
-                            <div class="clearfix"></div>
-                            <div class="row">
-                                <div class="col-md-12">
+                        <div class="pagination-container margin-top-30 margin-bottom-60">
+                            <ul>
                                     <!-- Pagination -->
                                     {!! $auctions->render() !!}
-                                    </div>
-                                </div>
-                            </div>
+                            </ul>
+                        </div>
+                </div>
 
 
 
