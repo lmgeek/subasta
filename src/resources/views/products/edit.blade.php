@@ -48,7 +48,9 @@
                             {{ method_field('PUT') }}
 
                             <input type="hidden" name="id" value="{{ $product->id }}">
-                            <input type="hidden" name="relationship" value="{{ $const }}">
+                            <input type="hidden" name="relationship1" value="{{ $const_small }}">
+                            <input type="hidden" name="relationship2" value="{{ $const_medium }}">
+                            <input type="hidden" name="relationship3" value="{{ $const_big }}">
                             <input type="hidden" name="id_small" value="{{ $datail['id'] }}">
                             <input type="hidden" name="id_medium" value="{{ $datail2['id'] }}">
                             <input type="hidden" name="id_big" value="{{ $datail3['id'] }}">
@@ -56,13 +58,13 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="nombre">codigo Pesquero</label>
-                                        <input type="text" name="codigo" class="form-control" @if ($const <> 0 ) disabled @endif id="codigo" max="10" value="@if (is_null(old('codigo'))){{ $product->fishing_code }}@else{{ old('codigo') }}@endif">
+                                        <input type="text" name="codigo" class="form-control" @if ($const_small <> 0 || $const_medium <> 0 || $const_big <> 0 ) disabled @endif id="codigo" max="10" value="@if (is_null(old('codigo'))){{ $product->fishing_code }}@else{{ old('codigo') }}@endif">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="nombre">{{ trans('products.name') }}</label>
-                                        <input type="text" name="nombre" class="form-control" @if ($const <> 0 ) disabled @endif id="name" value="@if (is_null(old('nombre'))){{ $product->name }}@else{{ old('nombre') }}@endif">
+                                        <input type="text" name="nombre" class="form-control" @if ($const_small <> 0 || $const_medium <> 0 || $const_big <> 0 ) disabled @endif id="name" value="@if (is_null(old('nombre'))){{ $product->name }}@else{{ old('nombre') }}@endif">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -74,7 +76,7 @@
                                         <div class="col-md-4">
                                             <label for="weigth_small" style=" font-size: 16px;">Chico</label> <br>
                                              <label for="unit">Unidad de Presentacion</label>
-                                            <select class="form-control" name="unidadp" id="unidadp">
+                                            <select class="form-control" name="unidadp" @if ($const_small <> 0) disabled @endif id="unidadp">
                                                 <option value="">Seleccione...</option>
                                                 <?php
                                                 $unidad1 = (is_null(old('unidadp'))) ? $datail['presentation_unit'] : old('unidadp');
@@ -84,9 +86,9 @@
                                                 @endforeach
                                             </select>
                                             <label for="weigth_small">Peso aproximado</label>
-                                            <input type="text"  name="weight_small" class="form-control number" id="weigth_small" value="@if (is_null(old('weight_small'))){{ number_format($datail['weight'],2,",","") }}@else{{ old('weight_small') }}@endif">
+                                            <input type="text"  name="weight_small" class="form-control number" @if ($const_small <> 0) disabled @endif id="weigth_small" value="@if (is_null(old('weight_small'))){{ number_format($datail['weight'],2,",","") }}@else{{ old('weight_small') }}@endif">
                                             <label for="unit">Unida de venta</label>
-                                            <select class="form-control" name="salep" id="salep">
+                                            <select class="form-control" name="salep" id="salep" @if ($const_small <> 0) disabled @endif>
                                                 <option value="">Seleccione...</option>
                                                 <?php
                                                 $uni = (is_null(old('salep'))) ? $datail['sale_unit'] : old('salep');
@@ -95,7 +97,7 @@
                                                     <option @if( $uni == $a) selected @endif value="{{ $a }}">{{ trans($a) }}</option>
                                                 @endforeach
                                             </select>
-                                            <select class="form-control" name="statusp" id="statusp">
+                                            <select class="form-control" name="statusp" @if ($const_small <> 0) disabled @endif id="statusp" >
                                                 <?
                                                 if ($datail['deleted_at'] == null){
                                                     $status1= 'Activado';
@@ -104,6 +106,7 @@
                                                 }?>
                                                 <?php
                                                 $unidad = (is_null(old('statusp'))) ? $status1 : old('statusp');
+
                                                 ?>
                                                 @foreach(\App\Product::status() as $u)
                                                     <option @if( $unidad == $u) selected @endif value="{{ $u }}">{{ $u }}</option>
@@ -114,7 +117,7 @@
                                             <label for="weigth_medium" style=" font-size: 16px;">Mediano</label><br>
 
                                             <label for="unit">Unidad de Presentacion</label>
-                                            <select class="form-control" name="unidadm" id="unidadm">
+                                            <select class="form-control" name="unidadm" @if ($const_medium <> 0) disabled @endif id="unidadm">
                                                 <option value="">Seleccione...</option>
                                                 <?php
                                                 $unidad = (is_null(old('unidadm'))) ? $datail2['presentation_unit'] : old('unidadm');
@@ -124,9 +127,9 @@
                                                 @endforeach
                                             </select>
                                             <label for="weigth_medium">Peso aproximado</label>
-                                            <input type="text" name="weight_medium" class="form-control number" id="weigth_medium" value="@if (is_null(old('weight_medium'))){{ number_format($datail2['weight'],2,",","") }}@else{{ old('weight_medium') }}@endif">
+                                            <input type="text" name="weight_medium" class="form-control number"  @if ($const_medium <> 0) disabled @endif id="weigth_medium" value="@if (is_null(old('weight_medium'))){{ number_format($datail2['weight'],2,",","") }}@else{{ old('weight_medium') }}@endif">
                                             <label for="unit">Unida de venta</label>
-                                            <select class="form-control" name="salem" id="salem">
+                                            <select class="form-control" name="salem" @if ($const_medium <> 0) disabled @endif id="salem">
                                                 <option value="">Seleccione...</option>
                                                 <?php
                                                 $uni = (is_null(old('salem'))) ? $datail2['sale_unit'] : old('salem');
@@ -135,7 +138,7 @@
                                                     <option @if( $uni == $a) selected @endif value="{{ $a }}">{{ trans($a) }}</option>
                                                 @endforeach
                                             </select>
-                                            <select class="form-control" name="statusm" id="statusm">
+                                            <select class="form-control" name="statusm" @if ($const_medium <> 0) disabled @endif id="statusm">
                                                 <?
                                                 if ($datail2['deleted_at'] == null){
                                                     $status2= 'Activado';
@@ -153,7 +156,7 @@
                                         <div class="col-md-4">
                                             <label for="weigth_big" style=" font-size: 16px;">Grande</label><br>
                                             <label for="unit">Unidad de Presentacion</label>
-                                            <select class="form-control" name="unidadg" id="unidadg">
+                                            <select class="form-control" name="unidadg" @if ($const_big <> 0) disabled @endif id="unidadg">
                                                 <option value="">Seleccione...</option>
                                                 <?php
                                                 $unidad = (is_null(old('unidadg'))) ? $datail3['presentation_unit'] : old('unidadg');
@@ -163,10 +166,10 @@
                                                 @endforeach
                                             </select>
                                             <label for="weigth_big">Peso aproximado</label>
-                                            <input type="text" name="weight_big" class="form-control number" id="weigth_big" value="@if (is_null(old('weight_big'))){{ number_format($datail3['weight'],2,",","") }}@else{{ old('weight_big') }}@endif">
+                                            <input type="text" name="weight_big" @if ($const_big <> 0) disabled @endif class="form-control number" id="weigth_big" value="@if (is_null(old('weight_big'))){{ number_format($datail3['weight'],2,",","") }}@else{{ old('weight_big') }}@endif">
 
                                             <label for="unit">Unida de venta</label>
-                                            <select class="form-control" name="saleg" id="saleg">
+                                            <select class="form-control" name="saleg" @if ($const_big <> 0) disabled @endif id="saleg">
                                                 <option value="">Seleccione...</option>
                                                 <?php
                                                 $uni = (is_null(old('saleg'))) ? $datail3['sale_unit'] : old('saleg');
@@ -175,7 +178,7 @@
                                                     <option @if( $uni == $a) selected @endif value="{{ $a }}">{{ trans($a) }}</option>
                                                 @endforeach
                                             </select>
-                                            <select class="form-control" name="statusg" id="statusg">
+                                            <select class="form-control" name="statusg" @if ($const_big <> 0) disabled @endif id="statusg">
                                                 <?php
                                                 if ($datail3['deleted_at'] == null){
                                                     $status3= 'Activado';
@@ -200,7 +203,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputFile">{{ trans('products.image') }}</label>
-                                        <input type="file" id="imagen" name="imagen" onchange="readImage()">
+                                        <input type="file" id="imagen" @if ($const_small <> 0 && $const_medium <> 0 && $const_big <> 0 ) disabled @endif name="imagen" onchange="readImage()">
                                         <p class="help-block">{{ trans('products.image_upload_help') }}</p>
                                     </div>
                                     @if (!is_null($product->image_name) and file_exists('img/products/'.$product->image_name) )
@@ -221,7 +224,7 @@
 
 
                             <div class="ibox-footer text-right">
-                                    <button type="submit" disabled class="btn btn-primary">Guardar</button>
+                                    <button type="submit" @if ($const_small <> 0 && $const_medium <> 0 && $const_big <> 0 ) disabled @endif  disabled class="btn btn-primary">Guardar</button>
                                     <a href="{{ URL::previous() }}" type="button" class="btn btn-danger">Cancelar</a>
                             </div>
                         </form>

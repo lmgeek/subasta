@@ -29,18 +29,32 @@ class EditProductRequest extends Request
     public function rules()
     {
         $cero = "0,00";
-        $relation =$this->input('relationship');
-        if ($relation <> 0 ){
+        $relation1 =$this->input('relationship1');
+        $relation2 =$this->input('relationship2');
+        $relation3 =$this->input('relationship3');
+        if ($relation1 <> 0 || $relation2 <> 0 || $relation3 <> 0){
+            if ($relation1 == 0){
+                return [
+                    'unidadp'       => Constants::REQUIRED,
+                    Constants::WEIGHT_SMALL  => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
+                    'salep'        => Constants::REQUIRED,
+                ];
+            }
+            if ($relation2 == 0){
+                return [
+                    'unidadm'       => Constants::REQUIRED,
+                    Constants::WEIGHT_MEDIUM => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
+                    'salem'        => Constants::REQUIRED,
+                ];
+            }
+            if ($relation3 == 0){
+                return [
+                    Constants::WEIGHT_BIG    => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
+                    'saleg'        => Constants::REQUIRED,
+                    'unidadg'       => Constants::REQUIRED,
+                ];
+            }
             return [
-                'unidadp'       => Constants::REQUIRED,
-                'unidadm'       => Constants::REQUIRED,
-                'unidadg'       => Constants::REQUIRED,
-                Constants::WEIGHT_SMALL  => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
-                Constants::WEIGHT_MEDIUM => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
-                Constants::WEIGHT_BIG    => Constants::VALIDATION_RULES_PRODUCT_WEIGHT.$cero,
-                'salep'        => Constants::REQUIRED,
-                'salem'        => Constants::REQUIRED,
-                'saleg'        => Constants::REQUIRED,
                 Constants::IMAGEN        => Constants::IMAGE,
             ];
 
