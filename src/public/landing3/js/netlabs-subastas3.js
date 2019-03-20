@@ -1,3 +1,14 @@
+$('document').ready(function () {
+
+    FilterBoatStatus();
+
+});
+
+
+
+
+
+
 /* INI Rodolfo */
 window['notificationCounter']=0;
 window['now'] = new Date().getTime();
@@ -624,5 +635,15 @@ function doesNotAllowAccents(idTag){
         str = str.replace(/[^\d|\s|^\w]/g,"");
         $(this).val(str);
     });
+
 }
 
+//G.B funcion para filtrar barcos
+function FilterBoatStatus(){
+
+   $('#filterBoat').change(function(){
+    let status = $('#filterBoat').val();
+    let dire = "barcos/?status="+ status;
+       window.location.href = dire;
+    });
+}

@@ -39,11 +39,12 @@ class Boat extends Model
 		return $query->orderBy('created_at','desc')->get();
 	}
 
-// funcion para traer la informacion del barco
+// G.B funcion para traer la informacion del barco
     public static function getInfoBoat($id){
         return Boat::select()->where(Constants::USER_ID,'=',$id)->get();
     }
-    //Funcion para convertir numeros a numeros romanos
+
+    //G.B Funcion para convertir numeros a numeros romanos
     public static function  RomanNumber($integer){
         $table = array('M'=>1000, 'CM'=>900, 'D'=>500, 'CD'=>400, 'C'=>100,
             'XC'=>90, 'L'=>50, 'XL'=>40, 'X'=>10, 'IX'=>9,
@@ -70,4 +71,11 @@ class Boat extends Model
            echo  $value['name'];
         }
     }
+
+    // G.B funcion para traer la el nombre de usuario
+    public static function getNameUserById($id){
+       $name = User::select('name')->where('id','=',$id)->get();
+       return $name[0]->name;
+    }
+
 }
