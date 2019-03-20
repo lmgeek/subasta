@@ -16,6 +16,12 @@ INSERT INTO vendedor (`user_id`,`cuit`) VALUES ( 1, '20-95756293-1'), ( 2, '20-9
 # Insertar todo los usuarios en la tabla compador
 INSERT INTO comprador (`user_id`,`dni`,`bid_limit`) VALUES ( 5, '12345678', '10000'), ( 6, '14567823', '1000'), ( 7, '12783456', '20000'), ( 8, '45678123', '100');
 
+# Insertar todo los puerto
+INSERT INTO port (`name`) VALUES ('Mar del Plata');
+INSERT INTO port (`name`) VALUES ('Buenos Aires');
+INSERT INTO port (`name`) VALUES ('Puerto Madryn');
+INSERT INTO port (`name`) VALUES ('General Lavalle');
+
 # Insertar todo los barco
 INSERT INTO boats (`user_id`, `name`, `matricula`, `status`, `nickname`, `preference_port`) VALUES ( 1, 'titanic','WS-10-4-A','approved','Barco I', 4), ( 1, 'magallanes','VE-10-4-A','rejected','Barco II', 2),
 ( 1, 'la perla','BO-10-4-A','pending','Barco III', 3), ( 1, 'caribe','AR-10-4-A','approved','Barco IV', 4);
