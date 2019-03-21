@@ -625,10 +625,22 @@ function users_switchOffersBids($id){
     $('#'+$id+'Button > div').addClass('primary');
 }
 function users_changeApproval($id){
-    $.get('/usuarios/editar/status',{id:$id},function(result){
+    $.get('/usuarios/editar/status/'+$id,function(result){
+        console.log(result)
         var $result=JSON.parse(result);
         if($result['success']==1){
-            notifications(3,null,null,null,$result['message']);
+            notifications(3,null,null,null,$result['message'],$result['title']);
+            $('#StatusMedal'+$id).removeAttr('class');
+            if($result['status']=='approved'){
+                $('#UserApprove'+$id).hide();
+                $('#UserReject'+$id).show();
+                $('#StatusMedal'+$id).attr('class','dashboard-status-button green')
+            }else{
+                $('#UserReject'+$id).hide();
+                $('#UserApprove'+$id).show();
+                $('#StatusMedal'+$id).attr('class','dashboard-status-button red')
+            }
+            $('#StatusMedal'+$id).html($result['statusTrans']);
         }else{
             notifications(0,null,null,null,$result['error']);
         }

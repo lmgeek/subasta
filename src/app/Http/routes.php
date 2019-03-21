@@ -41,7 +41,7 @@ Route::get('usuarios/ofertas/{id}', [
     'as' => 'user.compras', 'uses' => 'UserController@userMyOffers'
 ]);
 Route::get('/usuarios','UserController@userList');
-Route::get('/usuarios/editar/status','UserController@usersChangeApproval');
+Route::get('/usuarios/editar/status/{id}','UserController@usersChangeApproval');
 Route::get('/usuarios/agregar','UserController@userAdd');
 Route::get('/puertos/agregar','PortsController@portsAdd');
 Route::get('/puertos','PortsController@portsList');
