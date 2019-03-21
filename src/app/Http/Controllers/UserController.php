@@ -295,6 +295,11 @@ class UserController extends Controller
         $user->offers=\App\Offers::getOffersByBuyer($user->id,1);
         return view('landing3/ofertas')->with('user',$user);
     }
+    public static function checkIfUserCanChangeTypeAppoval($user){
+        $auctions= \App\AuctionQuery::auctionHome(null, ['sellerid'=>$user->id]);
+        $bids= count(Bid::getBidsByBuyer($user->id,null,null,Constants::PENDIENTE));
+        $offers=count(\App\Offers::getOffersByBuyer($user->id,null,null));
+    }
     public static function usersChangeApproval($id){
         $return=array();
         if(empty(Auth::user()->type) || ((isset($nickname) && Auth::user()->nickname!=$nickname) && Auth::user()->type!=User::INTERNAL)){
@@ -334,7 +339,7 @@ class UserController extends Controller
                 $user->save();
                 $return['message']='El usuario '.$user->name.' '.$user->lastname.' ('.$user->nickname.') fue rechazado.';
             }
-        }elseif($user->status!='approved'){
+        }else{
             $return['success']=1;
             $user->status='approved';
             $user->save();
@@ -459,7 +464,7 @@ class UserController extends Controller
 
 //Funcion para traer toda la info de usuario
     public function getInfoUser(){
-            $user= User::select()->where('id','=',Auth::User()->id)->get();
+            $user= User::select()->where('id','=',Auth::user()->id)->get();
             return view('landing3/acount', compact('user'));
     }
 
