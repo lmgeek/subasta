@@ -399,4 +399,13 @@ class UserController extends Controller
         }
         return redirect('usuarios/editar/'.$user->nickname);
     }
+
+//Funcion para traer toda la info de usuario
+    public function getInfoUser(){
+            $user= User::select()->where('id','=',Auth::User()->id)->get();
+            return view('landing3/acount', compact('user'));
+    }
+
+
+
 }

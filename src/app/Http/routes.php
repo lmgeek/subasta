@@ -248,3 +248,5 @@ Route::get('current-time', 'AuctionBackController@getCurrentTime');
 //G.B filtrar barco por estatus
 Route::get('filtrar/barcos/{status}', 'BoatController@getStatusTheBoat');
 
+Route::get('cuenta', 'userController@getInfoUser');
+
