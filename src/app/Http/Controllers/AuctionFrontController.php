@@ -299,7 +299,7 @@ class AuctionFrontController extends AuctionController
             $preciomax=(float)$filters[Constants::PRICEMAX];
             foreach($auctions as $index=>$auction){
                 $priceall=  self::calculatePriceID($auction->id,$auction->target_price);
-                $price=str_replace(',','.',$priceall['CurrentPrice']);
+                $price=str_replace(',','.',$priceall[Constants::CURRENTPRICE]);
                 $target=$priceall[Constants::CLOSE];
                 $userrating=self::getUserRating($auction->batch->arrive->boat->user);
                 if($price<$preciomin || $price>$preciomax || ($close==1 && $target!=1) || ($rating==1 && $userrating!=$filters[Constants::USER_RATING]) ){
