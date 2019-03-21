@@ -63,7 +63,7 @@ function getMoreAuctions($limit=1,$idTarget='#FeaturedAuctions',$currentpage=1){
         $($idTarget).html('');
     }
     $filters['type']=$('#type').val();
-    $.post('/subastas/ver/mas', {limit:$limit,current:$currentpage,ids:$ids,time:$('#timeline').val(),filters:$filters,_token:$('#csrf').attr('content')}, function (result) {
+    $.post('/subastas/cargar/mas', {limit:$limit,current:$currentpage,ids:$ids,time:$('#timeline').val(),filters:$filters,_token:$('#csrf').attr('content')}, function (result) {
         var $result=JSON.parse(result);
         var $html=$result['view'];
         var $cant=$result['quantity'];
