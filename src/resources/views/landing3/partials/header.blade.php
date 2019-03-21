@@ -36,9 +36,9 @@
                                 <li><a href="/subastas?time=future">Pr&oacute;ximas</a></li>
                                 <li><a href="/subastas?time=finished">Finalizadas</a></li>
                                 @if(isset(Auth::user()->type))
-                                <li><a href="/subastas?type=private">Privadas</a></li>
+                                <li><a href="#">Privadas</a></li>
                                 @else
-                                <li><a href="/auth/login">Privadas</a></li>
+                                <li><a href="#">Privadas</a></li>
                                 @endif
                             </ul>
                         </li>
@@ -246,7 +246,7 @@
                         <li><a href="#"><em class="icon-material-outline-dashboard"></em> Dashboard</a></li>
                         <li><a href="#"><em class="icon-feather-user"></em> Mi Cuenta</a></li>
                         <li><a href="/subastas"><em class="icon-material-outline-gavel"></em> Subastas</a></li>
-                        <li><a href="/subastas?type=private"><em class="icon-feather-eye-off"></em> Subastas Privadas</a></li>
+                        <li><a href="#"><em class="icon-feather-eye-off"></em> Subastas Privadas</a></li>
                         <li><a href="{{url('/bids')}}"><em class="icon-material-outline-shopping-cart"></em> Compra</a></li>
                         <li><a href="{{url('auth/logout')}}"><em class="icon-material-outline-power-settings-new"></em> Logout</a></li>
                     </ul>

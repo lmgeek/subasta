@@ -30,7 +30,7 @@ class Offers extends Model
 		return $this->belongsTo('App\User');
 	}
     
-    public static function getOffersByBuyer($userid,$paginate=null,$limit=Constants::PAGINATE_NUMBER){
+    public static function getOffersByBuyer($userid,$paginate=null,$limit=Constants::PAGINATE_NUMBER,$status=null){
         $return=AuctionQuery::select(
                 'auctions.correlative',
                 'auctions.created_at as StartDateAuction',
