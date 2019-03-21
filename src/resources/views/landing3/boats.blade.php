@@ -61,11 +61,12 @@ use Illuminate\Support\Facades\Auth;
 
                             <div class="sort-by">
                                 <select name="filterBoat" id="filterBoat" class="selectpicker hide-tick">
-                                    <option value="">Seleccionar..</option>
+                                    <option value="">Todos</option>
+                                  {{--  <option value="">Seleccionar..</option>
                                     <option value="all">Todos</option>
                                     <option value="pending">Pendientes</option>
                                     <option value="approved">Aprobados</option>
-                                    <option value="rejected">Rechazados</option>
+                                    <option value="rejected">Rechazados</option>--}}
                                 </select>
                             </div>
                         </div>

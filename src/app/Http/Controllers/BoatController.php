@@ -176,22 +176,23 @@ class BoatController extends Controller
 
         if (Auth::check() && Auth::user()->type == \App\User::VENDEDOR)
         {
-            if ($request->status != "all") {
+       /*     if ($request->status != "all") {
                 $boats = Boat::select()->where('status','=',$request->status)->paginate(2);
             }elseif($request->status =="all"){
                 $boats = Boat::select()->where('user_id', Constants::EQUAL, Auth::user()->id)->orderby('name', 'asc')->paginate(2);
-            }
+            }*/
 
+            $boats = Boat::select()->where('user_id', Constants::EQUAL, Auth::user()->id)->orderby('name', 'asc')->paginate(2);
             return view('landing3/boats',compact('boats'));
 
         }elseif(Auth::user()->type == \App\User::INTERNAL){
 
-            if ($request->status!= 'all'){
+           /* if ($request->status!= 'all'){
                 $boats = Boat::select()->where('status','=',$request->status)->paginate(2);
             } elseif($request->status == 'all'){
                 $boats= Boat::select()->orderby('name', 'asc')->paginate(2);
-            }
-
+            }*/
+            $boats = Boat::select()->where('status','=',$request->status)->paginate(2);
             $countBoat = count(Boat::all());
             return view('landing3/boats',compact('boats','countBoat'));
 
