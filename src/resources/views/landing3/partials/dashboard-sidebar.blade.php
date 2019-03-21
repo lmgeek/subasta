@@ -31,11 +31,11 @@
 						<ul data-submenu-title="Perfiles">
 							<li class="active-submenu"><a href="#"><i class="icon-material-outline-gavel"></i> Vendedor</a>
 								<ul>
-									<li><a href="/barcos">Mis Barcos</a></li>
+									<li><a href="<?=(Auth::user()->type== App\User::VENDEDOR)?'/barcos':'#'?>">Mis Barcos</a></li>
 									<li><a href="#">Mis Arribos</a></li>
 									<li><a href="#">Mis Lotes</a></li>
-									<li><a href="/subastas">Mis Subastas</a></li>
-									<li><a href="/ofertas">Ofertas Recibidas <span class="nav-tag">4</span></a></li>
+									<li><a href="<?=(Auth::user()->type== App\User::VENDEDOR)?'/subastas?type=mine&time=all':'#'?>">Mis Subastas</a></li>
+                                    <li><a href="<?=(Auth::user()->type== App\User::VENDEDOR)?'/ofertas':'#'?>">Ofertas Recibidas <span class="nav-tag">4</span></a></li>
 								</ul>
 							</li>
 							<li><a href="#"><i class="icon-material-outline-shopping-cart"></i> Comprador</a>

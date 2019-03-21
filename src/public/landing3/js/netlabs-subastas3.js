@@ -541,6 +541,8 @@ function auctions_loadCalibers(){
     }
     window['loadingcalibers']++;
     let $val=$('#ProductSelect').val();
+    $('#CalibersSelect option').removeAttr('disabled');
+        $('#CalibersSelect option').removeAttr('data-disabled');
     $.get('/productos/ver/calibres',{id:$val},function(result){
         $('#CalibersSelect').selectpicker('destroy');
         let $result=JSON.parse(result);
@@ -560,6 +562,8 @@ function auctions_loadCalibers(){
         $('#CalibersSelect').selectpicker();
     }).done(function(){
         window['loadingcalibers']=0;
+        $('#CalibersSelect').val(0); 
+        $('#CalibersSelect').selectpicker('val',0);
         //$('#Loader').fadeOut()
     });
 }

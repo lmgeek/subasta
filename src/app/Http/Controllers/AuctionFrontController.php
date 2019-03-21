@@ -296,7 +296,7 @@ class AuctionFrontController extends AuctionController
                 }
             }
             return json_encode(array(
-                'view'=>view('/landing3/partials/listasubasta')->withAuctions(Constants::manualPaginate($auctions,$request->current))->with('request',$request)->with('limit',$limit)->with('timeline',$time)->render(),
+                'view'=>view('/landing3/partials/listasubasta')->withAuctions(Constants::manualPaginate($auctions,$request->current))->with('request',$request)->with('limit',$limit)->with('timeline',$time)->render(), 
                 'quantity'=>count($auctions)
                 ));
         }else{
