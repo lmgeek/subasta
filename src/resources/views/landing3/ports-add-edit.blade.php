@@ -2,7 +2,7 @@
 
 ?>
 @extends('landing3/partials/layout-admin')
-@section('title',' | Agregar Puerto')
+@section('title',' | Puertos')
 @section('content')
 <div class="dashboard-content-inner" >
     <div class="dashboard-headline"><h3><i class="icon-feather-anchor"></i> <?=(isset($port))?'Editar':'Agregar'?> Puerto</h3></div>

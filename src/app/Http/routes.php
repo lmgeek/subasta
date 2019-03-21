@@ -40,8 +40,11 @@ Route::get('usuarios/compras/{id}', [
 Route::get('usuarios/ofertas/{id}', [
     'as' => 'user.compras', 'uses' => 'UserController@userMyOffers'
 ]);
+Route::get('/usuarios','UserController@userList');
+Route::get('/usuarios/editar/status','UserController@usersChangeApproval');
 Route::get('/usuarios/agregar','UserController@userAdd');
 Route::get('/puertos/agregar','PortsController@portsAdd');
+Route::get('/puertos','PortsController@portsList');
 Route::post('/puertos/guardar','PortsController@portsSave');
 Route::get('/usuarios/compras','UserController@userMyBids');
 Route::get('/usuarios/ofertas','UserController@userMyOffers');

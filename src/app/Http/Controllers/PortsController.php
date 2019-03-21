@@ -123,8 +123,8 @@ class PortsController extends Controller
         if(empty(Auth::user()->type) || Auth::user()->type!=User::INTERNAL ){
             return redirect('/');
         }
-        $port= Ports::select()->paginate(Constants::PAGINATE_NUMBER);
-        return view('landing3/ports');
+        $ports= Ports::select()->paginate(Constants::PAGINATE_NUMBER);
+        return view('landing3/puertos')->with('ports',$ports);
     }
     public function portsAdd(){
         if(empty(Auth::user()->type) || Auth::user()->type!=User::INTERNAL ){

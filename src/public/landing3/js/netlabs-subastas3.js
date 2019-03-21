@@ -288,7 +288,7 @@ function getInfo($id,$firstrun=0) {
 function notifications_close($id){
     $('#notificationauction'+$id).remove();
 }
-function notifications($type,$product=null,$price=null,$quantity=null,$text=null){
+function notifications($type,$product=null,$price=null,$quantity=null,$text=null,$title=null){
     window['notificationCounter']++;
     var $idnotification=window['notificationCounter'],$html;
     if($type==1){
@@ -305,6 +305,11 @@ function notifications($type,$product=null,$price=null,$quantity=null,$text=null
             '<div class="fieldtitle">Producto</div><div class="fieldvalue">'+$product+'</div>'+
             '<div class="fieldtitle">Precio</div><div class="fieldvalue">'+$price.toString().replace('.',',')+'</div>'+
             '<div class="total">Gracias por su oferta!</div></div>'+
+            '</div></div>'
+    }else if($type==3){
+        $html='<div class="notificationauction success" id="notificationauction'+$idnotification+'" onclick="notifications_close('+$idnotification+')"><div class="notificationicon"><i class="icon-line-awesome-check"></i></div><div class="notificationcontent">' +
+            '<div class="title">'+$title+'</div>' +
+            $text+
             '</div></div>'
     }else{
         $html='<div class="notificationauction error" id="notificationauction'+$idnotification+'" onclick="notifications_close('+$idnotification+')"><div class="notificationicon"><i class="icon-line-awesome-close"></i></div><div class="notificationcontent">' +
@@ -614,6 +619,16 @@ function users_switchOffersBids($id){
     $('#'+$id).fadeIn();
     $('#'+$id+'Button > div').removeClass('dark');
     $('#'+$id+'Button > div').addClass('primary');
+}
+function users_changeApproval($id){
+    $.get('/usuarios/editar/status',{id:$id},function(result){
+        var $result=JSON.parse(result);
+        if($result['success']==1){
+            notifications(3,null,null,null,$result['message']);
+        }else{
+            notifications(0,null,null,null,$result['error']);
+        }
+    });
 }
 function getPreferredPort(){
     $.get('/puertos/ver/preferido',{idboat:$('#Boat').val()},function(result){
