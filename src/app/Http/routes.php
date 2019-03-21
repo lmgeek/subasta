@@ -203,7 +203,7 @@ Route::get('calculateprice', 'AuctionController@calculatePrice');
 Route::get('makeBid', 'AuctionController@makeBid');
 Route::post('offersAuction', 'AuctionController@offersAuction');
 
-Route::post('subastas/ver/mas', 'AuctionFrontController@getauctions');
+Route::post('subastas/cargar/mas/', 'AuctionFrontController@getauctions');
 
 Route::group(['middleware' => ['auth']],function(){
     Route:resource('sellerbatch', 'BoatController@sellerbatch');
