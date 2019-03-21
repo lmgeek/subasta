@@ -226,6 +226,9 @@ input[type="number"] {
     display:inline-block;
     text-transform: lowercase
 }
+.user-menu{
+    height:81px;
+}
 @media screen and (max-width:768px){
     #notificationsauction{
         width: calc(100% - 20px);
