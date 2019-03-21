@@ -57,7 +57,7 @@ class Constants{
     const INPUT_COMENTARIOS_CALIFICACION='comentariosCalificacion';
     const MAKE_BID='makeBid';
     const AUCTION='auction';
-    const BATCHES_PRODUCT_ID='batches.product_id';
+    const BATCHES_PRODUCT_ID='batches.product_detail_id';
     const AUCTIONS='auctions';
     const AUCTIONS_SELECT_ALL= 'auctions.*';
     const AUCTIONS_ID='auctions.id';
@@ -73,6 +73,10 @@ class Constants{
     const AUCTION_PRICE_DECIMALS='AUCTION_PRICE_DECIMALS';
     const BATCH='batch';
     const BATCHES='batches';
+    const PRODUCT_DETAIL='product_detail';
+    const PRODUCT_DETAIL_ID='product_detail.id';
+
+
     const BATCH_ID='batches.id';
     const BATCH_ARRIVE_ID='batches.arrive_id';
     const ARRIVES='arrives';

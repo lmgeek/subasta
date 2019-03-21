@@ -14,6 +14,18 @@
     </div>
     <div class="wrapper wrapper-content">
         <div class="row">
+            @if (count($errors) > 0)
+                <div class="col-lg-8 col-lg-offset-2">
+                    <div class="alert alert-danger">
+                        <strong>Error</strong><br><br>
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            @endif
             @if ($request->session()->has('confirm_msg'))
                 <div class="alert alert-success">
                     {{ $request->session()->get('confirm_msg') }}
@@ -54,6 +66,7 @@
                                         </td>
                                         <td>{{ $p->fishing_code }}</td>
                                         <td>{{ $p->name }}</td>
+
                                         {{--<td>Venta: {{ trans('general.product_units.'.$p->sale_unit_small) }}<br>Presentación: {{ trans('general.product_units.'.$p->unit) }}</td>--}}
                                         {{--@if ($p->sale_unit_medium == '' || $p->unit == '')--}}
                                             {{--<td> No aplica</td>--}}
@@ -70,17 +83,20 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <a href="{{ route('products.edit',$p) }}" class="btn btn-success"><em class="fa fa-edit"></em> Editar</a>
+
+                                            <a href="{{ route('products.edit',$p) }}"  @if($p->trashed()) disabled @endif class="btn btn-success"><em class="fa fa-edit"></em> Editar</a>
+
                                             <form action="{{ route('products.restore',$p) }}" class="restoreForm_{{ $p->id }}"  method="post" style="display: inline-block">
                                                 {{ csrf_field() }}
-                                                <a href="#" class="btn btn-primary restoreItem" data-id="{{ $p->id }}"><em class="fa fa-eye"></em> Activar</a>
+                                                <a href="#" class="btn btn-primary restoreItem" @if($p->trashed()) @else disabled @endif data-id="{{ $p->id }}"><em class="fa fa-eye"></em> Activar</a>
                                             </form>
+
 
                                             <form action="{{ route('products.trash',$p) }}" class="trashForm_{{ $p->id }}"  method="post" style="display: inline-block">
                                                 {{ csrf_field() }}
-                                                <a href="#" class="btn btn-warning trashItem" data-id="{{ $p->id }}"><em class="fa fa-eye-slash"></em> Desactivar</a>
-
+                                                <a href="#" class="btn btn-warning trashItem" @if($p->trashed()) disabled @endif  data-id="{{ $p->id }}"><em class="fa fa-eye-slash"></em> Desactivar</a>
                                             </form>
+
                                         </td>
                                     </tr>
                                 @endforeach

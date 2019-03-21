@@ -59,28 +59,6 @@ class Product extends Model
         $b = Batch::where('product_id',$this->id)->count();
         return ($b == 0);
     }
-
-    public function canBeDeactivate()
-    {
-
-        $consult = DB::table('batch_statuses')
-            ->join('batches','batch_statuses.batch_id','=','batches.id')
-            ->join('products', 'batches.product_id','=','products.id')
-            ->where('batches.product_id','=',$this->id)
-            ->select('products.id AS producto','batches.id AS batches','batches.amount','batch_statuses.assigned_auction','batch_statuses.auction_sold','batch_statuses.private_sold')
-            ->get();
-        $total = null;
-        $total_amount = null;
-
-        foreach ($consult as $c){
-            $total = $c->auction_sold + $c->private_sold + $total;
-            $total_amount = $total_amount + $c->amount;
-        }
-
-        return ($total == $total_amount);
-    }
-
-
     public static function getProductFromId($id){
         return self::select()->where('products.id','=',$id)->get()[0]['name'];
     }
