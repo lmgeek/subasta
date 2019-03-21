@@ -12,7 +12,7 @@ return [
         'rejected' => 'Rechazado'
     ],
     'users_type' => [
-        'internal' => 'Interno',
+        'internal' => 'Administrador',
         'seller' => 'Vendedor',
         'buyer' => 'Comprador',
         'broker' => 'Broker'

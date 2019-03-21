@@ -172,7 +172,7 @@ class Constants{
     const BROKER = "broker";
     const AUCTION_ORIGIN = "auction";
     const OFFER_ORIGIN = "offer";
-
+    
     public static function formatDate($fecha){
         setlocale(LC_TIME,'es_ES');
         return strftime('%d %b %Y', strtotime($fecha));

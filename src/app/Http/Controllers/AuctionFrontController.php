@@ -256,7 +256,18 @@ class AuctionFrontController extends AuctionController
             return;
         }
         $params=array();
-        $paramskeys=array('port'=>'portid','product'=>'productid','caliber'=>'caliber','quality'=>'quality','user'=>'sellerid','pricemin'=>'pricemin','pricemax'=>'pricemax','close'=>'close','userrating'=>'userrating','type'=>'type');
+        $paramskeys=array(
+            'port'=>'portid',
+            'product'=>'productid',
+            'caliber'=>'caliber',
+            'quality'=>'quality',
+            'user'=>'sellerid',
+            'pricemin'=>'pricemin',
+            'pricemax'=>'pricemax',
+            'close'=>'close',
+            'userrating'=>'userrating',
+            'type'=>'type'
+            );
         foreach($filters as $key=>$val){
             $valtrimmed=(substr_count($val,'**')>0)?substr($val,0,-2):$val;
             $params[$paramskeys[$key]]=(substr_count($valtrimmed,'**')>0)?explode('**',$valtrimmed):$valtrimmed;
@@ -288,7 +299,7 @@ class AuctionFrontController extends AuctionController
             $preciomax=(float)$filters[Constants::PRICEMAX];
             foreach($auctions as $index=>$auction){
                 $priceall=  self::calculatePriceID($auction->id,$auction->target_price);
-                $price=(int)str_replace(',','.',$priceall['CurrentPrice']);
+                $price=str_replace(',','.',$priceall['CurrentPrice']);
                 $target=$priceall[Constants::CLOSE];
                 $userrating=self::getUserRating($auction->batch->arrive->boat->user);
                 if($price<$preciomin || $price>$preciomax || ($close==1 && $target!=1) || ($rating==1 && $userrating!=$filters[Constants::USER_RATING]) ){
