@@ -245,6 +245,13 @@ class UserController extends Controller
         $user->bids=\App\Bid::getBidsByBuyer($user->id);
         return view('landing3/user-add-edit')->with('user',$user);
     }
+    public function userList(){
+        if(empty(Auth::user()->type) || Auth::user()->type!=User::INTERNAL){
+            return redirect('/');
+        }
+        $users= User::select()->paginate(Constants::PAGINATE_NUMBER);
+        return view('landing3/users')->with('users',$users);
+    }
     public function userMyBids($userid=null){
         if(empty(Auth::user()->type) || (Auth::user()->type==User::VENDEDOR && Auth::user()->id!=$userid)){
             return redirect('/');
@@ -287,6 +294,49 @@ class UserController extends Controller
         $user->comprador=$comprador;
         $user->offers=\App\Offers::getOffersByBuyer($user->id,1);
         return view('landing3/ofertas')->with('user',$user);
+    }
+    public function usersChangeApproval(Request $request){
+        $return=array();
+        if(empty(Auth::user()->type) || ((isset($nickname) && Auth::user()->nickname!=$nickname) && Auth::user()->type!=User::INTERNAL)){
+            $return['success']=0;
+            $return['error']='No tienes permisos para hacer esto';
+        }
+        if(empty($request->id)){
+            $return['success']=0;
+            $return['error']='El ID del usuario es obligatorio';
+        }
+        $user= User::select()->where('id',Constants::EQUAL,$request->id)->get();
+        if(count($user)>0){
+            $user=$user[0];
+        }else{
+            $return['success']=0;
+            $return['error']='El ID del usuario es invalido';
+        }
+        $auctions= \App\AuctionQuery::auctionHome(null, ['sellerid']);
+        $bids= count(Bid::getBidsByBuyer($user->id,null,null,Constants::PENDIENTE));
+        $offers=count(\App\Offers::getOffersByBuyer($user->id,null,null));
+        if($user->status=='approved'){
+            $return['success']=0;
+            if(count($auctions)>0 && (count($auctions[Constants::IN_COURSE])+count($auctions[Constants::FUTURE]))>0){
+                $return['error']='El usuario a rechazar tiene subastas en curso o programadas';
+            }elseif($bids>0){
+                $return['error']='El usuario a rechazar tiene compras pendientes';
+            }elseif($offers>0){
+                $return['error']='El usuario a rechazar tiene ofertas pendientes';
+            }
+        }
+        if($user->status=='approved'){
+            $return['success']=1;
+            $user->status='rejected';
+            $user->save();
+            $return['message']='El usuario '.$user->name.' '.$user->lastname.' ('.$user->nickname.') fue rechazado.';
+        }else{
+            $return['success']=1;
+            $user->status='approved';
+            $user->save();
+            $return['message']='El usuario '.$user->name.' '.$user->lastname.' ('.$user->nickname.') fue aprobado';
+        }
+        return json_encode($return);
     }
     public function userSave(ManageUsersRequest $request){
         $errors=array();
