@@ -173,10 +173,10 @@ Route::group(['middleware' => ['auth']],function(){
 Route::group(['middleware' => ['auth']],function(){
     Route:resource('sellerAuction','SellerAuctionController');
 });
-Route::get('boats/approve/{boats}', [
+Route::post('boats/approve/{boats}', [
     'as' => 'boats.approve', 'uses' => 'BoatController@approve'
 ]);
-Route::get('boats/reject/{boats}', [
+Route::post('boats/reject/{boats}', [
     'as' => 'boats.reject', 'uses' => 'BoatController@reject'
 ]);
 Route::group(['middleware' => ['auth']],function(){
