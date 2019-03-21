@@ -22,7 +22,6 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $products = Product::withTrashed()->orderBy('name')->get();
-
         return view('products.index',compact('request','products'));
     }
     /**
@@ -63,35 +62,6 @@ class ProductController extends Controller
      */
     public function store(CreateProductRequest $request)
     {
-        $unidadess1 =$request->unidadp;
-        $unidadess2 =$request->unidadm;
-        $unidadess3 =$request->unidadg;
-        $names =$request->nombre;
-//        existencia del produto y su alarma
-        $productos  = Product::Select('id')->where('name','=',$names)->where('deleted_at','=',null)->limit(1)->orderby('id','DESC')->get()->toArray();
-        if (count($productos) <> 0) {
-            $productos0 = ProductDetail::Select('id')->where('product_id', '=', $productos[0])->where('presentation_unit', '=', $unidadess1)->where('caliber', '=', 'small')->get()->toArray();
-            if ($productos0 <> null) {
-                return redirect("/products/create")
-                    ->withInput($request->only('name'))
-                    ->withErrors(["El producto: $names calibre chico ya existe",
-                    ]);
-            }
-            $productos1 = ProductDetail::Select('id')->where('product_id', '=', $productos[0])->where('presentation_unit', '=', $unidadess2)->where('caliber', '=', 'medium')->get()->toArray();
-            if ($productos1 <> null) {
-                return redirect("/products/create")
-                    ->withInput($request->only('name'))
-                    ->withErrors(["El producto: $names calibre mediano ya existe",
-                    ]);
-            }
-            $productos2 = ProductDetail::Select('id')->where('product_id', '=', $productos[0])->where('presentation_unit', '=', $unidadess3)->where('caliber', '=', 'big')->get()->toArray();
-            if ($productos2 <> null) {
-                return redirect("/products/create")
-                    ->withInput($request->only('name'))
-                    ->withErrors(["El producto: $names calibre grande ya existe",
-                    ]);
-            }
-        }
 //        insertar el producto
         $fileName = $request->file(Constants::IMAGEN)->getClientOriginalName();
         if ( !empty('img/products/'.$fileName) ){
@@ -193,10 +163,15 @@ class ProductController extends Controller
      */
     public function update(EditProductRequest $request, $id)
     {
+        $product = Product::Select('deleted_at')->where('id', '=', $id)->get()->toArray();
+        $registro= count($product);
+        if ($registro <> 0)
+            {
 //        id de los calibre en especifico
         $pro_exitente1 = $request->input('id_small');
         $pro_exitente2 = $request->input('id_medium');
         $pro_exitente3 = $request->input('id_big');
+
 //        buscar relacion de los calibre
         $exitente1 = Batch::Select('id')->where('product_detail_id', '=', $pro_exitente1)->get()->toArray();
         $relations1 =count($exitente1);
@@ -204,8 +179,9 @@ class ProductController extends Controller
         $relations2 =count($exitente2);
         $exitente3 = Batch::Select('id')->where('product_detail_id', '=', $pro_exitente3)->get()->toArray();
         $relations3 =count($exitente3);
+
 //        insertar el primer valor de producto
-        if ( ($relations1 <> 0) && ($relations2 <> 0) && ($exitente3 <> 0)){
+
             $prod = Product::withTrashed()->findOrFail($id);
             if(!is_null($request->file(Constants::IMAGEN))){
                 $fileName = $request->file(Constants::IMAGEN)->getClientOriginalName();
@@ -227,7 +203,8 @@ class ProductController extends Controller
         $status3=$request->statusg;
 //        modificar el calibre chico
         $exitente_lote = Batch::Select('id')->where('product_detail_id', '=', $pro_exitente1)->get()->toArray();
-        if (count($exitente_lote) == 0){
+        $resul1= count($exitente_lote);
+        if ($resul1 < 1){
             $detail = ProductDetail::withTrashed()->findOrFail($pro_exitente1);
             $detail->caliber = 'small';
             $detail->presentation_unit = $request->input('unidadp');
@@ -242,7 +219,8 @@ class ProductController extends Controller
         }
 //        modificar el calibre mediano
         $exitente_lote1 = Batch::Select('id')->where('product_detail_id', '=', $pro_exitente2)->get()->toArray();
-        if (count($exitente_lote1) == 0){
+        $resul2= count($exitente_lote1);
+        if ($resul2 < 1){
             $detail2 = ProductDetail::withTrashed()->findOrFail($pro_exitente2);
             $detail2->caliber = 'medium';
             $detail2->presentation_unit = $request->input('unidadm');
@@ -257,7 +235,8 @@ class ProductController extends Controller
         }
 //        modificar el calibre grande
         $exitente_lote2 = Batch::Select('id')->where('product_detail_id', '=', $pro_exitente3)->get()->toArray();
-        if (count($exitente_lote2) == 0){
+        $resul3= count($exitente_lote2);
+        if ($resul3 < 1){
             $detail3 = ProductDetail::withTrashed()->findOrFail($pro_exitente3);
             $detail3->caliber = 'big';
             $detail3->presentation_unit = $request->input('unidadg');
@@ -270,8 +249,12 @@ class ProductController extends Controller
             }
             $detail3->save();
         }
-        }
         return redirect(Constants::URL_PRODUCTS);
+    }else{
+            // mostrar mensaje en la plantalla
+            return redirect(Constants::URL_PRODUCTS)
+                ->withErrors(['El producto no se puede modificar esta desactivado ']);
+        }
     }
     /**
      * Remove the specified resource from storage.
@@ -288,8 +271,27 @@ class ProductController extends Controller
     public function trash(DeleteProductRequest $request, $id)
     {
         $prod = Product::findOrFail($id);
-        $prod->delete();
-        return redirect(Constants::URL_PRODUCTS);
+        $ProductDetail1 = ProductDetail::withTrashed()->where('product_id', '=', $id)->get()->toArray();
+
+        $registro1 = $ProductDetail1[0]['id'];
+        $registro2 = $ProductDetail1[1]['id'];
+        $registro3 = $ProductDetail1[2]['id'];
+        $exitente1 = Batch::Select('id')->where('product_detail_id', '=', $registro1)->get()->toArray();
+        $relations1 = count($exitente1);
+        $exitente2 = Batch::Select('id')->where('product_detail_id', '=', $registro2)->get()->toArray();
+        $relations2 = count($exitente2);
+        $exitente3 = Batch::Select('id')->where('product_detail_id', '=', $registro3)->get()->toArray();
+        $relations3 = count($exitente3);
+        if (($relations1 < 1) && ($relations2 < 1) && ($relations3 < 1))
+        {
+            $prod->delete();
+            return redirect(Constants::URL_PRODUCTS);
+        }else{
+                // mostrar mensaje en la plantalla
+                return redirect(Constants::URL_PRODUCTS)
+                    ->withErrors(['El producto ya tiene venta o subastas asociada ']);
+
+        }
     }
     public function restore($id)
     {
