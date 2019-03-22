@@ -700,7 +700,7 @@ function FilterBoatStatus(){
 
    $('#filterBoat').change(function(){
     let status = $('#filterBoat').val();
-    let dire = "barcos/?status="+ status;
+    let dire = "filtrar/?status="+ status;
        window.location.href = dire;
     });
 }
