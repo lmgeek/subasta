@@ -9,7 +9,14 @@ return [
     'status' => [
         'pending' => 'Pendiente',
         'approved' => 'Aprobado',
-        'rejected' => 'Rechazado'
+        'rejected' => 'Rechazado',
+        'accepted' => 'Aceptado'
+    ],
+    'offer_status' => [
+        'pending' => 'Pendiente',
+        'approved' => 'Aprobada',
+        'rejected' => 'Rechazada',
+        'accepted' => 'Aceptada'
     ],
     'users_type' => [
         'internal' => 'Administrador',

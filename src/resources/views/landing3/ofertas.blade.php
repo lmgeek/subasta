@@ -14,7 +14,7 @@ use App\User;
             <div class="col">
                 <h3>
                     <i class="icon-material-outline-gavel"></i> Subasta: <?= App\Http\Controllers\AuctionFrontController::getAuctionCode($auction->correlative, $auction->StartDateAuction)?>
-                    <span class="dashboard-status-button <?=Constants::colorByStatus($auction->status)?>"><?=trans('general.status.'.$auction->status)?></span>
+                    <span class="dashboard-status-button <?=Constants::colorByStatus($auction->status)?>"><?=trans('general.offer_status.'.$auction->status)?></span>
                 </h3>
             </div>
         </div>

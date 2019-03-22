@@ -1,11 +1,14 @@
 <?php
-
+use Illuminate\Routing\UrlGenerator;
 ?>
 @extends('landing3/partials/layout-admin')
 @section('title',' | Agregar Puerto')
 @section('content')
 <div class="dashboard-content-inner" >
     <div class="dashboard-headline"><h3><i class="icon-feather-anchor"></i> Puertos</h3></div>
+    <div class="text-right">
+        <a href="/puertos/agregar" class="button ripple-effect big margin-bottom-10"><i class="icon-feather-plus"></i> Nuevo puerto</a>
+    </div>
     <div style="margin:20px">
         @foreach($ports as $port)
         <div class="row dashboard-box" style="padding-bottom: 20px">
