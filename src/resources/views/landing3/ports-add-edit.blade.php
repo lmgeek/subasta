@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Routing\UrlGenerator;
 ?>
 @extends('landing3/partials/layout-admin')
 @section('title',' | Puertos')
@@ -41,7 +41,7 @@
             <div class="row">
                 <div class="col-xl-12 text-right">
                     <button type="submit"class="button dark ripple-effect big margin-top-30">Guardar</button>
-                    <a href="/puertos"><button class="button dark ripple-effect big margin-top-30" type="button">Cancelar</button></a>
+                    <a href="<?= Illuminate\Support\Facades\URL::previous()?>"><button class="button dark ripple-effect big margin-top-30" type="button">Cancelar</button></a>
                 </div>
             </div>
         </form>

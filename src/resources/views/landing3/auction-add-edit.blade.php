@@ -230,7 +230,7 @@ if(Auth::user()->type==Constants::VENDEDOR && ((isset($auction->timeline) && $au
 
 				<div class="col-xl-12 text-right">
                     <button type="submit"value="Subastar" class="button dark ripple-effect big margin-top-30"<?=($auctionedit==0)?Constants::DISABLED:''?>>Subastar</button>
-                    <a href="/subastas"><button class="button dark ripple-effect big margin-top-30" type="button">Cancelar</button></a>
+                    <a href="<?= Illuminate\Support\Facades\URL::previous()?>"><button class="button dark ripple-effect big margin-top-30" type="button">Cancelar</button></a>
 				</div>
             </div>
         </div>

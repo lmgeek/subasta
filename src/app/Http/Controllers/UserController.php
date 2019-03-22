@@ -9,9 +9,10 @@ use App\ViewHelper;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
-use Hash;
+//use Hash;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Mail;
+ use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\ManageUsersRequest;
 
 
@@ -295,10 +296,24 @@ class UserController extends Controller
         $user->offers=\App\Offers::getOffersByBuyer($user->id,1);
         return view('landing3/ofertas')->with('user',$user);
     }
-    public static function checkIfUserCanChangeTypeAppoval($user){
+    public static function checkIfUserCanChangeTypeApproval($user){
         $auctions= \App\AuctionQuery::auctionHome(null, ['sellerid'=>$user->id]);
         $bids= count(Bid::getBidsByBuyer($user->id,null,null,Constants::PENDIENTE));
         $offers=count(\App\Offers::getOffersByBuyer($user->id,null,null));
+        if(count($auctions['all'])>0 && (count($auctions[Constants::IN_COURSE])+count($auctions[Constants::FUTURE]))>0){
+            $return['success']=0;
+            $return['error']='El usuario a rechazar tiene subastas en curso o programadas';
+        }elseif($bids>0){
+            $return['success']=0;
+            $return['error']='El usuario a rechazar tiene compras pendientes';
+        }elseif($offers>0){
+            $return['success']=0;
+            $return['error']='El usuario a rechazar tiene ofertas pendientes';
+        }else{
+            $return['success']=1;
+            $return['message']='El usuario '.$user->name.' '.$user->lastname.' ('.$user->nickname.') fue rechazado.';
+        }
+        return $return;
     }
     public static function usersChangeApproval($id){
         $return=array();
@@ -320,24 +335,15 @@ class UserController extends Controller
         if(isset($return['error'])){
             return json_encode($return);
         }
-        $auctions= \App\AuctionQuery::auctionHome(null, ['sellerid'=>$id]);
-        $bids= count(Bid::getBidsByBuyer($user->id,null,null,Constants::PENDIENTE));
-        $offers=count(\App\Offers::getOffersByBuyer($user->id,null,null));
         if($user->status=='approved'){
-            if(count($auctions['all'])>0 && (count($auctions[Constants::IN_COURSE])+count($auctions[Constants::FUTURE]))>0){
-                $return['success']=0;
-                $return['error']='El usuario a rechazar tiene subastas en curso o programadas';
-            }elseif($bids>0){
-                $return['success']=0;
-                $return['error']='El usuario a rechazar tiene compras pendientes';
-            }elseif($offers>0){
-                $return['success']=0;
-                $return['error']='El usuario a rechazar tiene ofertas pendientes';
+            $check=self::checkIfUserCanChangeTypeApproval($user);
+            $return['success']=$check['success'];
+            if($check['success']==0){
+                $return['error']=$check['error'];
             }else{
-                $return['success']=1;
+                $return['message']=$check['message'];
                 $user->status='rejected';
                 $user->save();
-                $return['message']='El usuario '.$user->name.' '.$user->lastname.' ('.$user->nickname.') fue rechazado.';
             }
         }else{
             $return['success']=1;
@@ -355,8 +361,14 @@ class UserController extends Controller
         if(empty(Auth::user()->type) || ((isset($nickname) && Auth::user()->nickname!=$nickname) && Auth::user()->type!=User::INTERNAL)){
             return redirect('/');
         }
+        
         if(isset($request->id)){
-            $user= User::select()->where('id',Constants::EQUAL,$request->id)->get()[0];
+            $user= User::select()->where('id',Constants::EQUAL,$request->id)->get();
+            if(count($user)>0){
+                $user=$user[0];
+            }else{
+                $errors[]='Usuario Inv&aacute;lido.';
+            }
             if($user->email!=$request->email){
                 $checker2=User::select()
                         ->where('email',Constants::EQUAL,$request->email)
@@ -380,10 +392,11 @@ class UserController extends Controller
             if(count($errors)>0){
                 return redirect()->back()->with('errors',$errors);
             }
-            if(Auth::user()->type=='internal' && isset($request->status)){
+            $check=self::checkIfUserCanChangeTypeApproval($user);
+            if(Auth::user()->type=='internal' && isset($request->status) && $check['success']==1){
                 $user->status=$request->status;
             }
-            if(Auth::user()->type=='internal' && isset($request->type)){
+            if(Auth::user()->type=='internal' && isset($request->type) && $check['success']==1){
                 $user->type=$request->type;
             }
             $user->hash= md5(date('YmdHis').$request->nickname);
@@ -431,7 +444,11 @@ class UserController extends Controller
         $user->nickname=$request->nickname;
         $user->email=$request->email;
         $user->phone=$request->phone;
-        if($request->password!='' && $request->password_confirmation!='' && $request->password==$request->password_confirmation){
+        if($request->password!=''){
+            
+            if(isset($request->passwordcurrent) && Hash::check($request->passwordcurrent, $user->password)==false){
+                return redirect()->back()->with('errors',array('La clave actual no coincide con la de tu usuario'));
+            }
             $user->password = Hash::make($request->password);
         }
         $user->save();

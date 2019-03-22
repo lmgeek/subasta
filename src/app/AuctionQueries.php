@@ -175,7 +175,14 @@ class AuctionQuery extends Auction{
         $difendnow=$mend-$now;
         $dperc=$difendnow/$ddif;
         $pdif=$pstart-$pend;
-        return round($pend+$pdif*$dperc,2,PHP_ROUND_HALF_UP);
+        if($now<$mstart){
+            $price=$pstart;
+        }elseif($now>$mend){
+            $price=$pend;
+        }else{
+            $price=round($pend+$pdif*$dperc,2,PHP_ROUND_HALF_UP);
+        }
+        return $price;
     }
     /* FIN Rodolfo*/
     public static function filterAndPaginate($status , $product = null , $seller = null , $boat = null , $type = Constants::AUCTION_PUBLIC , $withStock = false){
