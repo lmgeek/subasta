@@ -172,27 +172,17 @@ class BoatController extends Controller
             return redirect('/home');
         }
 	}
-    public function boatList(Request $request){
+    public function boatList(){
 
         if (Auth::check() && Auth::user()->type == \App\User::VENDEDOR)
         {
-       /*     if ($request->status != "all") {
-                $boats = Boat::select()->where('status','=',$request->status)->paginate(2);
-            }elseif($request->status =="all"){
-                $boats = Boat::select()->where('user_id', Constants::EQUAL, Auth::user()->id)->orderby('name', 'asc')->paginate(2);
-            }*/
-
             $boats = Boat::select()->where('user_id', Constants::EQUAL, Auth::user()->id)->orderby('name', 'asc')->paginate(2);
-            return view('landing3/boats',compact('boats'));
+            $countBoat = count(Boat::select()->where('user_id', Constants::EQUAL, Auth::user()->id)->get());
+            return view('landing3/boats',compact('boats','countBoat'));
 
         }elseif(Auth::user()->type == \App\User::INTERNAL){
 
-           /* if ($request->status!= 'all'){
-                $boats = Boat::select()->where('status','=',$request->status)->paginate(2);
-            } elseif($request->status == 'all'){
-                $boats= Boat::select()->orderby('name', 'asc')->paginate(2);
-            }*/
-            $boats = Boat::select()->where('status','=',$request->status)->paginate(2);
+            $boats = Boat::select()->orderby('name', 'asc')->paginate(2);
             $countBoat = count(Boat::all());
             return view('landing3/boats',compact('boats','countBoat'));
 
@@ -209,9 +199,29 @@ class BoatController extends Controller
 
 
     //G.B funcion para filtrar por estatus
-    public function getStatusTheBoat(Request $status){
+    public function getStatusTheBoat(Request $request){
 
-        $boats = Boat::select()->where('status','=',$status)->get();
-        return view('landing3/boats',compact('boats'));
+        if (Auth::check() && Auth::user()->type == \App\User::VENDEDOR)
+        {
+            if ($request->status != "all") {
+                $boats = Boat::select()->where('status','=',$request->status)->orderby('name', 'asc')->paginate(2);
+                $countBoat =count(Boat::select()->where('status','=',$request->status)->get());
+                return view('landing3/boats',compact('boats', 'countBoat'));
+            }else{
+                return redirect()->to('/barcos');
+            }
+
+        }elseif(Auth::user()->type == \App\User::INTERNAL) {
+            if ($request->status != 'all') {
+                $boats = Boat::select()->where('status', '=', $request->status)->orderby('name', 'asc')->paginate(2);
+                $countBoat = count($boats);
+                return view('landing3/boats', compact('boats', 'countBoat'));
+            }else{
+                return redirect()->to('/barcos');
+            }
+        }else{
+            return redirect('/home');
+        }
+
     }
 }

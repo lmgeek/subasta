@@ -41,7 +41,7 @@ Route::get('usuarios/ofertas/{id}', [
     'as' => 'user.compras', 'uses' => 'UserController@userMyOffers'
 ]);
 Route::get('/usuarios','UserController@userList');
-Route::get('/usuarios/editar/status/{id}','UserController@usersChangeApproval');
+Route::get('/usuarios/editar/status','UserController@usersChangeApproval');
 Route::get('/usuarios/agregar','UserController@userAdd');
 Route::get('/puertos/agregar','PortsController@portsAdd');
 Route::get('/puertos','PortsController@portsList');
@@ -108,7 +108,7 @@ Route::get('auction/autoffers',  'AuctionController@autoOffersToBid');
 Route::get('auction/deactivate/{auction}', [
     'as' => 'auction.deactivate', 'uses' => 'AuctionBackController@deactivate'
 ]);
- 
+
 Route::group(['middleware' => ['auth']],function(){
     Route:resource('subasta','AuctionController');
 });
@@ -179,7 +179,16 @@ Route::group(['middleware' => ['auth']],function(){
 Route::post('boats/approve/{boats}', [
     'as' => 'boats.approve', 'uses' => 'BoatController@approve'
 ]);
+
+Route::get('boats/approve/{boats}', [
+    'as' => 'boats.approve', 'uses' => 'BoatController@approve'
+]);
+
 Route::post('boats/reject/{boats}', [
+    'as' => 'boats.reject', 'uses' => 'BoatController@reject'
+]);
+
+Route::get('boats/reject/{boats}', [
     'as' => 'boats.reject', 'uses' => 'BoatController@reject'
 ]);
 Route::group(['middleware' => ['auth']],function(){
@@ -203,7 +212,7 @@ Route::get('calculateprice', 'AuctionController@calculatePrice');
 Route::get('makeBid', 'AuctionController@makeBid');
 Route::post('offersAuction', 'AuctionController@offersAuction');
 
-Route::post('subastas/cargar/mas/', 'AuctionFrontController@getauctions');
+Route::post('subastas/ver/mas', 'AuctionFrontController@getauctions');
 
 Route::group(['middleware' => ['auth']],function(){
     Route:resource('sellerbatch', 'BoatController@sellerbatch');
@@ -249,7 +258,7 @@ Route::get('current-time', 'AuctionBackController@getCurrentTime');
 
 
 //G.B filtrar barco por estatus
-Route::get('filtrar/barcos/{status}', 'BoatController@getStatusTheBoat');
+Route::get('/filtrar', 'BoatController@getStatusTheBoat');
 
 Route::get('cuenta', 'userController@getInfoUser');
 

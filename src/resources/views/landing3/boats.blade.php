@@ -6,6 +6,8 @@ $objt = new Boat();
 $CantidadBarco = count($objt->getInfoBoat(Auth::user()->id));
 use Illuminate\Support\Facades\Auth;
 
+
+
 ?>
 
 @extends('landing3/partials/layout-admin')
@@ -21,7 +23,7 @@ use Illuminate\Support\Facades\Auth;
                 @if (Auth::check() && Auth::user()->type == \App\User::INTERNAL)
                     <h3>Lista de Barcos</h3>
                 @else
-                    <h3>Mis Barcos</h3>
+                    <h3>Mis Barcos </h3>
                 @endif
             </div>
 
@@ -56,17 +58,16 @@ use Illuminate\Support\Facades\Auth;
                             @if(Auth::check() && Auth::user()->type == \App\User::INTERNAL)
                                 <h3 class="fw500"><i class="icon-line-awesome-ship"></i> {{$countBoat}} Barcos</h3>
                             @else
-                                <h3 class="fw500"><i class="icon-line-awesome-ship"></i> {{$CantidadBarco}} Barcos</h3>
+                                <h3 class="fw500"><i class="icon-line-awesome-ship"></i> {{$countBoat}} Barcos</h3>
                             @endif
 
                             <div class="sort-by">
                                 <select name="filterBoat" id="filterBoat" class="selectpicker hide-tick">
-                                    <option value="">Todos</option>
-                                  {{--  <option value="">Seleccionar..</option>
+                                    <option value="">Seleccionar..</option>
                                     <option value="all">Todos</option>
                                     <option value="pending">Pendientes</option>
                                     <option value="approved">Aprobados</option>
-                                    <option value="rejected">Rechazados</option>--}}
+                                    <option value="rejected">Rechazados</option>
                                 </select>
                             </div>
                         </div>
@@ -78,8 +79,6 @@ use Illuminate\Support\Facades\Auth;
                                 @if (Auth::check() && Auth::user()->type == \App\User::INTERNAL)
 
                                     @foreach($boats as $boat)
-
-
 
                                         <li>
                                             <!-- Job Listing -->
@@ -179,7 +178,10 @@ use Illuminate\Support\Facades\Auth;
             <!--G.B paginacion-->
             <div class="pagination-container margin-top-30 margin-bottom-60">
                 <ul>
-                    <?php echo $boats->render(); ?>
+                    <?php
+                        //G.B  para preservar los parámetros de búsqueda al cambiar de página
+                        echo $boats->appends(request()->input())->render();
+                    ?>
                     {{--<li class="pagination-arrow"><a href="#" class="ripple-effect fw300">Mostrar más...</a></li>--}}
                 </ul>
             </div>
