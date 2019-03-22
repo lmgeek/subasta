@@ -80,7 +80,7 @@
                     <div class=" user-menu">
                         <div class="header-notifications-trigger">
                             <a href="/auth/login" class="option-login" rel="nofollow">
-                                <em class="icon-feather-user"></em> Ingresá
+                                <em class="icon-feather-user"></em> Ingresar
                             </a>
                         </div>
                     </div>
