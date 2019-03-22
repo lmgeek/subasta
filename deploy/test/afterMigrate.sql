@@ -34,9 +34,9 @@ VALUES ('Pulpo','PRO-001'),('Camarón','PRO-002'),('Tiburón','PRO-003');
 
 # Insertar todo los producto detalle
 INSERT INTO product_detail (`product_id`,`caliber`,`presentation_unit`,`weight`,`sale_unit`)
-VALUES ('1','small','Cajones',10,'Cajones'),('1','medium','Cajones',20,'kg'),('1','big','Unidad',30,'kg'),
-('2','small','Cajones',10,'Cajones'),('2','medium','Cajones',20,'Cajones'),('2','big','Unidad',30,'Cajones'),
-('3','small','Cajones',10,'kg'),('3','medium','Unidad',20,'kg'),('3','big','Unidad',30,'kg');
+VALUES ('1','small','Cajones',10,'Cajones'),('1','medium','Cajones',20,'kg'),('1','big','Unidades',30,'Kg'),
+('2','small','Cajones',10,'Cajones'),('2','medium','Cajones',20,'Cajones'),('2','big','Unidades',30,'Cajones'),
+('3','small','Cajones',10,'Kg'),('3','medium','Unidades',20,'Kg'),('3','big','Unidades',30,'Kg');
 
 # Insertar todo los arribo
 INSERT INTO arrives (`boat_id`, `date`, `port_id`) VALUES (1, '2019-01-24 10:30:00', '3'), (1, '2019-01-30 10:35:00', '3'),
