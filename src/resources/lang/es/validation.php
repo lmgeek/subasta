@@ -59,6 +59,7 @@ return [
     "numeric"          => ":attribute debe ser numérico",
     "regex"            => "El formato de :attribute es inv&aacute;lido",
     "required"         => "El campo :attribute es obligatorio",
+    "require"          => "El campo :attribute es obligatorio",
     "required_if"      => "El campo :attribute es obligatorio cuando :other es :value",
     "required_with"    => "El campo :attribute es obligatorio cuando :values está presente",
     "required_with_all" => "El campo :attribute es obligatorio cuando :values está presente",
@@ -73,7 +74,7 @@ return [
     ],
     "string"           => "The :attribute must be a string",
     "timezone"         => "El :attribute debe ser una zona válida",
-    "unique"           => ":attribute ya ha sido registrado",
+    "unique"           => "El dato del campo :attribute ya ha sido registrado",
     "url"              => "El formato :attribute es inválido",
     "batch_is_mine"        => "El lote no pertenece a un barco del usuario",
     "auction_price_greater_than" => "El precio inicial debe ser mayor que el precio de retiro",
@@ -92,25 +93,6 @@ return [
     |
     */
 
-    "custom" => [
-        "attribute-name" => [
-            "rule-name" => "custom-message",
-        ],
-        "matricula"     => [
-            'require'      => 'La Matrícula no puede estar vacío.',
-            'unique'       => 'La Matrícula ya se encuentra registrada.',
-        ],
-        "unidad"     => [
-            'require'      => 'La Unidad no puede estar vacío.',
-            'unique'       => 'La Unidad ya se encuentra registrada.',
-        ],
-        "nombre"          => [
-            'require'           => 'El Nombre no puede estar vacío.',
-            'unique'            => 'El Nombre ya se encuentra registrado.',
-        ],
-        "weigth.require"          =>  'El Peso no puede estar vacío.',
-
-    ],
 
     /*
     |--------------------------------------------------------------------------

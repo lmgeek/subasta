@@ -35,17 +35,10 @@ class CreateArriveRequest extends Request
     public function attributes()
     {
         return [
-            'barco' => 'El barco',
-            'puerto'=> 'del puerto',
-            'date' => 'fecha de arribo'
+            'barco' => 'El Barco',
+            'puerto'=> 'Puerto',
+            'date' => 'Fecha de Arribo'
         ];
     }
 
-    public function messages()
-    {
-        return [
-            'barco.required' => 'El barco es obligatorio',
-            'barco.exists' => 'El barco es obligatorio',
-        ];
-    }
 }

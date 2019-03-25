@@ -3,8 +3,13 @@ namespace App\Http\Requests;
 use App\Http\Requests\Request;
 use App\User;
 use Auth;
+use Illuminate\Support\Facades\App;
 class ManagePortsRequest extends Request
 {
+    public function __construct()
+    {
+        $this->locale = App::getLocale();
+    }
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -26,11 +31,19 @@ class ManagePortsRequest extends Request
             'name'      => 'required|regex:(^[0-9a-zA-Zá-úÁ-Ú\s\#\-]+$)',
         ];
     }
+    public function attributes()
+    {
+        if ($this->locale == "es"){
+            return [
+                'name' => 'Nombre',
+            ];
+        }
+        return [];
+    }
 
     public function messages()
     {
         return [
-            'name.required' => 'El nombre del puerto es obligatorio',
             'name.max'=>'El nombre del puerto no puede tener mas de 30 caracteres'
         ];
     }

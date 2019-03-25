@@ -62,7 +62,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="nombre">{{ trans('products.name') }}</label>
-                                        <input type="text" name="nombre" class="form-control" id="name" value="{{ old('nombre') }}" >
+                                        <input type="text" name="name" class="form-control" id="name" value="{{ old('name') }}" >
                                     </div>
                                 </div>
 

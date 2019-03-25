@@ -42,9 +42,9 @@ class ProcessBidRequest extends Request
     public function attributes()
     {
         return [
-            Constants::INPUT_CALIFICACION => "calificaci&oacute;n",
-            Constants::INPUT_COMENTARIOS_CALIFICACION => "comentario",
-            "motivo_no_concretada" => "motivo"
+            Constants::INPUT_CALIFICACION => "Calificaci&oacute;n",
+            Constants::INPUT_COMENTARIOS_CALIFICACION => "Comentario",
+            "motivo_no_concretada" => "Motivo"
         ];
     }
 }

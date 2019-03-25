@@ -5,9 +5,15 @@ namespace App\Http\Requests;
 use App\Http\Requests\Request;
 use App\User;
 use Auth;
+use Illuminate\Support\Facades\App;
 
 class CreateBoatRequest extends Request
 {
+
+    public function __construct()
+    {
+        $this->locale = App::getLocale();
+    }
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -33,19 +39,28 @@ class CreateBoatRequest extends Request
         ];
 
     }
-
+    public function attributes()
+    {
+        if ($this->locale == "es"){
+            return [
+                'name' => 'Nombre',
+                "matricula" => "Matrícula",
+                'port'=> 'Puerto',
+//                'alias'=> 'Alias',
+            ];
+        }
+        return [];
+    }
     public function messages()
     {
-        return [
-            'name.required'           => 'El Nombre del barco es obligatorio.',
-            'name.unique'            => 'El nombre del barco ya se encuentra registrado.',
-            'name.regex'             => 'El nombre sólo permite caracteres alfanumericos # y -',
-//            'alias.require'             => 'El alias es obligatorio',
-            'matricula.required'      => 'La Matrícula es obligatorio.',
-            'matricula.unique'       => 'La Matrícula ya se encuentra registrada.',
-            'matricula.regex'        => 'La Matrícula sólo permite caracteres alfanumericos # y -',
-            'port.required'           => 'El campo puerto de preferencia es obligatorio'
-        ];
+        if ($this->locale == "es"){
+            return [
+                'name.regex'             => 'El :attribute sólo permite caracteres alfanumericos # y -',
+                'matricula.regex'        => 'La :attribute sólo permite caracteres alfanumericos # y -',
+
+            ];
+        }
+        return [];
     }
 
 }

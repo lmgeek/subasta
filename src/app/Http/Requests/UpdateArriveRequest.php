@@ -3,9 +3,13 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-
+use Illuminate\Support\Facades\App;
 class UpdateArriveRequest extends Request
 {
+    public function __construct()
+    {
+        $this->locale = App::getLocale();
+    }
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -30,8 +34,10 @@ class UpdateArriveRequest extends Request
 
     public function attributes()
     {
-        return [
-            'date' => 'fecha de arribo'
-        ];
+        if ($this->locale == "es") {
+            return [
+                'date' => 'Fecha de Arribo'
+            ];
+        }
     }
 }
