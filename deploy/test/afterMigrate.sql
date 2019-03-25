@@ -30,7 +30,7 @@ INSERT INTO boats (`user_id`, `name`, `matricula`, `status`, `nickname`, `prefer
 
 # Insertar todo los producto
 INSERT INTO products (`name`,`fishing_code`)
-VALUES ('Pulpo','PRO-001'),('Camarón','PRO-002'),('Tiburón','PRO-003');
+VALUES ('Pulpo','001'),('Camarón','002'),('Tiburón','003');
 
 # Insertar todo los producto detalle
 INSERT INTO product_detail (`product_id`,`caliber`,`presentation_unit`,`weight`,`sale_unit`)
