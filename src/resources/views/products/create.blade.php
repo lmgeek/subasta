@@ -166,8 +166,8 @@
             key = e.keyCode || e.which;
             tecla = String.fromCharCode(key).toString();
             //Se define todo lo que se quiere que se muestre
-            caracter = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ0123456789 ";
-            especiales = [6, 8, 39, 45, 127, 176];
+            caracter = "0123456789 ";
+            especiales = [];
 
             tecla_especial = false;
             for (var i in especiales) {
