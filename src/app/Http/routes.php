@@ -10,7 +10,7 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-
+Route::get('/', 'AuctionFrontController@subastasFront');
 /* INI Rodolfo*/
     /* INI Subastas*/
         Route::get('/subastas', 'AuctionFrontController@listaSubastas');
@@ -25,6 +25,7 @@
         Route::get('subastas/ver/{auction}/info', 'AuctionFrontController@getInfo');
         Route::get('/ofertas/agregar', 'AuctionFrontController@offersAuctionFront');
         Route::get('/getusersauctionprivate','AuctionFrontController@getUsersAuctionPrivate');
+        Route::post('subastas/cargar/mas', 'AuctionFrontController@getauctions');
     /* FIN Subastas*/
     /* INI Usuarios*/
         Route::get('/usuarios','UserController@userList');
@@ -222,7 +223,7 @@ Route::get('calculateprice', 'AuctionController@calculatePrice');
 Route::get('makeBid', 'AuctionController@makeBid');
 Route::post('offersAuction', 'AuctionController@offersAuction');
 
-Route::post('subastas/ver/mas', 'AuctionFrontController@getauctions');
+
 
 Route::group(['middleware' => ['auth']],function(){
     Route:resource('sellerbatch', 'BoatController@sellerbatch');
