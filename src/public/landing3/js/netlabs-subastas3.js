@@ -1,14 +1,3 @@
-$('document').ready(function () {
-
-    FilterBoatStatus();
-
-});
-
-
-
-
-
-
 /* INI Rodolfo */
 window['notificationCounter']=0;
 window['now'] = new Date().getTime();
@@ -653,10 +642,6 @@ function getPreferredPort(){
         $('#puerto').selectpicker('val',$result['preferred']);
     });
 }
-$(document).ready(function(){
-    inicializeEverything(1);
-    
-});
 /* FIN Rodolfo */
 
 //G.B Evitar escribir espacio
@@ -704,3 +689,15 @@ function FilterBoatStatus(){
        window.location.href = dire;
     });
 }
+
+
+/* Inicializaciones */
+$(document).ready(function(){
+    /* INI Rodolfo*/
+    inicializeEverything(1);
+    /* FIN Rodolfo*/
+    /* INI German */
+    FilterBoatStatus();
+    /* FIN German*/
+    
+});

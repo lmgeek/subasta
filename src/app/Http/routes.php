@@ -11,43 +11,59 @@
 |
 */
 
-Route::get('subastas/ver/{auction}/info', 'AuctionFrontController@getInfo');
-Route::get('/', 'AuctionFrontController@subastasFront');
-Route::get('/subastas', 'AuctionFrontController@listaSubastas');
-Route::get('/subastas/agregar','AuctionFrontController@addAuction');
+/* INI Rodolfo*/
+    /* INI Subastas*/
+        Route::get('/subastas', 'AuctionFrontController@listaSubastas');
+        Route::get('/subastas/agregar','AuctionFrontController@addAuction');
+        Route::get('subastas/editar/{auction}', [
+            'as' => 'auction.edit', 'uses' => 'AuctionFrontController@editAuction'
+        ]);
+        Route::get('subastas/replicar/{auction}', [
+            'as' => 'auction.replicate', 'uses' => 'AuctionFrontController@replicateAuction'
+        ]);
+        Route::post('/subastas/guardar','AuctionFrontController@storeAuction');
+        Route::get('subastas/ver/{auction}/info', 'AuctionFrontController@getInfo');
+        Route::get('/ofertas/agregar', 'AuctionFrontController@offersAuctionFront');
+        Route::get('/getusersauctionprivate','AuctionFrontController@getUsersAuctionPrivate');
+    /* FIN Subastas*/
+    /* INI Usuarios*/
+        Route::get('/usuarios','UserController@userList');
+        Route::post('/usuarios/guardar','UserController@userSave');
+        Route::get('usuarios/editar/{username}', [
+            'as' => 'user.edit', 'uses' => 'UserController@userEdit'
+        ]);
+        Route::get('usuarios/compras/{id}', [
+            'as' => 'user.compras', 'uses' => 'UserController@userMyBids'
+        ]);
+        Route::get('usuarios/ofertas/{id}', [
+            'as' => 'user.compras', 'uses' => 'UserController@userMyOffers'
+        ]);
+        Route::get('/usuarios/compras','UserController@userMyBids');
+        Route::get('/usuarios/ofertas','UserController@userMyOffers');
+        Route::get('/usuarios/editar/status/{id}','UserController@usersChangeApproval');
+        Route::post('/usuarios/guardar','UserController@userSave');
+    /* FIN Usuarios*/
+    /* INI Puertos*/
+        Route::get('/puertos','PortsController@portsList');
+        Route::get('/puertos/agregar','PortsController@portsAdd');
+        Route::get('puertos/editar/{port}', [
+            'as' => 'port.edit', 'uses' => 'PortsController@portsEdit'
+        ]);
+        Route::post('/puertos/guardar','PortsController@portsSave');
+        Route::get('/puertos/ver/preferido','BoatController@getPreferredPort');
+    /*FIN Puertos*/
+    /* INI Errores -> Esto esta seteado en App/Exceptions/Handler */
+        Route::get('error/404', function(){
+            return View('landing3/errors/404');
+        });
+        Route::get('error/500', function(){
+            return View('landing3/errors/500');
+        });
+    /* FIN Errores*/
+/* FIN Rodolfo*/
+
 Route::get('/ofertas','AuctionFrontController@offerList');
 Route::get('/barcos','BoatController@boatList');
-Route::post('/subastas/guardar','AuctionFrontController@storeAuction');
-Route::post('/usuarios/guardar','UserController@userSave');
-Route::get('/puertos/ver/preferido','BoatController@getPreferredPort');
-Route::get('/ofertas/agregar', 'AuctionFrontController@offersAuctionFront');
-Route::get('/getusersauctionprivate','AuctionFrontController@getUsersAuctionPrivate');
-Route::get('subastas/editar/{auction}', [
-    'as' => 'auction.edit', 'uses' => 'AuctionFrontController@editAuction'
-]);
-Route::get('puertos/editar/{port}', [
-    'as' => 'port.edit', 'uses' => 'PortsController@portsEdit'
-]);
-Route::get('subastas/replicar/{auction}', [
-    'as' => 'auction.replicate', 'uses' => 'AuctionFrontController@replicateAuction'
-]);
-Route::get('usuarios/editar/{username}', [
-    'as' => 'user.edit', 'uses' => 'UserController@userEdit'
-]);
-Route::get('usuarios/compras/{id}', [
-    'as' => 'user.compras', 'uses' => 'UserController@userMyBids'
-]);
-Route::get('usuarios/ofertas/{id}', [
-    'as' => 'user.compras', 'uses' => 'UserController@userMyOffers'
-]);
-Route::get('/usuarios','UserController@userList');
-Route::get('/usuarios/editar/status','UserController@usersChangeApproval');
-Route::get('/usuarios/agregar','UserController@userAdd');
-Route::get('/puertos/agregar','PortsController@portsAdd');
-Route::get('/puertos','PortsController@portsList');
-Route::post('/puertos/guardar','PortsController@portsSave');
-Route::get('/usuarios/compras','UserController@userMyBids');
-Route::get('/usuarios/ofertas','UserController@userMyOffers');
 Route::get('/productos/ver/unidades','ProductController@getUnitsFromProductIdCaliber');
 Route::get('/productos/ver/calibres','ProductController@getCalibersFromProductId');
 
@@ -67,13 +83,7 @@ Route::get('/home', 'HomeController@index');
 Route::get('/subastas/ver/{auction}', 'AuctionFrontController@auctionDetails');
 
 
-/* Manejo de errores -> Esto esta seteado en App/Exceptions/Handler */
-Route::get('error/404', function(){
-    return View('landing3/errors/404');
-});
-Route::get('error/500', function(){
-    return View('landing3/errors/500');
-});
+
 
 
 //---------------------------------------------------------------------------
