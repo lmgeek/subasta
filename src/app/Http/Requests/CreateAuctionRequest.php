@@ -57,20 +57,15 @@ class CreateAuctionRequest extends Request
                 "invitados.required_if" => "El campo :attribute es obligatorio cuando :other es privada",
                 "descri.min" => "El campo :attribute debe ser de al menos :min carateres",
                 "amount.min" => "La :attribute debe ser de al menos :min",
-                'ActiveHours.required'=>'El campo horas activas es obligatorio',
                 'ActiveHours.min'=>'La cantidad de horas activas debe ser al menos :min',
-                'barco.numeric'=>'Debes escoger un barco',
+                'barco.numeric'=>'El campo barco es obligatorio',
                 'barco.min'=>'Debes escoger un barco',
-                'barco.required'=>'Debes escoger un barco',
                 'puerto.numeric'=>'Debes escoger un puerto',
                 'puerto.min'=>'Debes escoger un puerto',
-                'puerto.required'=>'Debes escoger un puerto',
                 'product.numeric'=>'Debes escoger un producto',
-                'product.required'=>'Debes escoger un producto',
                 'product.min'=>'Debes escoger un producto',
-                'quality.required'=>'Debes escoger una calidad del lote',
                 'quality.numeric'=>'Debes escoger una calidad del lote',
-                'quality.min'=>'Debes escoger una calidad del lote',
+                'quality.min'=>'Debes escoger una Calidad del Lote',
             ];
         }
         return [];
@@ -79,14 +74,18 @@ class CreateAuctionRequest extends Request
     {
         if ($this->locale == "es"){
             return [
-                "startPrice" => "precio inicial",
-                "endPrice" => "precio de retiro",
-                "fechaTentativa" => "fecha tentativa",
-                "descri" => "descripción",
-                "amount" => "cantidad",
-                'quality'=>'calidad',
-                'product'=>'producto',
-                'ActiveHours'=>'horas activas',
+                'fechaInicio' => "Fecha de Inicio",
+                "startPrice" => "Precio Inicial",
+                "endPrice" => "Precio de Retiro",
+                "fechaTentativa" => "Fecha Tentativa",
+                "descri" => "Descripción",
+                "amount" => "Cantidad",
+                'ActiveHours'=> "Hora Activa",
+                'barco'=> "Barco",
+                'quality'=>'Calidad',
+                'product'=>'Producto',
+                'puerto'=>'Puerto',
+                'ActiveHours'=>'Horas Activas',
             ];
         }
         return [];

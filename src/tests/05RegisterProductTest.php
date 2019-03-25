@@ -13,7 +13,7 @@ class RegisterProduct extends TestCase
         $this->actingAs($this->getAValidUser(Constants::INTERNAL));
         $this->visit('/products/create');
         $this->type('PRO-0089','codigo');
-        $this->type('Langostino','nombre');
+        $this->type('Langostino','name');
         $this->select('Cajones','unidadp');
         $this->type('10','weight_small');
         $this->select('Cajones','salep');
@@ -40,7 +40,7 @@ class RegisterProduct extends TestCase
         $this->actingAs($this->getAValidUser(Constants::INTERNAL));
         $this->visit('/products/create');
         $this->type('PRO- 008 9','codigo');
-        $this->type('Langostino','nombre');
+        $this->type('Langostino','name');
         $this->select('Cajones','unidadp');
         $this->type('10','weight_small');
         $this->select('Cajones','salep');
@@ -61,7 +61,7 @@ class RegisterProduct extends TestCase
         $this->actingAs($this->getAValidUser(Constants::INTERNAL));
         $this->visit('/products/create');
         $this->type('PRO-/008*9','codigo');
-        $this->type('Langostino','nombre');
+        $this->type('Langostino','name');
         $this->select('Cajones','unidadp');
         $this->type('10','weight_small');
         $this->select('Cajones','salep');
@@ -124,7 +124,7 @@ class RegisterProduct extends TestCase
         $this->actingAs($this->getAValidUser(Constants::INTERNAL));
         $this->visit('/products/create');
         $this->type('PRO-00023','codigo');
-        $this->type('Langostino','nombre');
+        $this->type('Langostino','name');
         $this->select('Cajones','unidadp');
         $this->type('10','weight_small');
         $this->select('Cajones','salep');
@@ -144,7 +144,7 @@ class RegisterProduct extends TestCase
         $this->actingAs($this->getAValidUser(Constants::INTERNAL));
         $this->visit('/products/create');
         $this->type('PRO-00023','codigo');
-        $this->type('Langostino','nombre');
+        $this->type('Langostino','name');
         $this->select('Unidades','unidadp');
         $this->type('10','weight_small');
         $this->select('Unidades','salep');
@@ -160,12 +160,12 @@ class RegisterProduct extends TestCase
         $this->see('El producto');
         $this->assertResponseOk();
     }
-//    /*nombre*/
+//    /*name*/
     function testInvalidProductName(){
         $this->actingAs($this->getAValidUser(Constants::INTERNAL));
         $this->visit('/products/create');
         $this->type('PRO-0089','codigo');
-        $this->type('   ','nombre');
+        $this->type('   ','name');
         $this->select('Cajones','unidadp');
         $this->type('10','weight_small');
         $this->select('Cajones','salep');
@@ -180,14 +180,14 @@ class RegisterProduct extends TestCase
         $this->attach('langostinos-de-estero-cocidos.jpg','imagen');
         $this->press('Guardar');
         $this->seePageIs('/products/create');
-        $this->see('El nombre es obligatorio');
+        $this->see('El campo Nombre es obligatorio');
         $this->assertResponseOk();
     }
     function testNameNull(){
         $this->actingAs($this->getAValidUser(Constants::INTERNAL));
         $this->visit('/products/create');
         $this->type('PRO-0089','codigo');
-        $this->type('','nombre');
+        $this->type('','name');
         $this->select('Cajones','unidadp');
         $this->type('10','weight_small');
         $this->select('Cajones','salep');
@@ -202,14 +202,14 @@ class RegisterProduct extends TestCase
         $this->attach('langostinos-de-estero-cocidos.jpg','imagen');
         $this->press('Guardar');
         $this->seePageIs('/products/create');
-        $this->see('El nombre es obligatorio');
+        $this->see('El campo Nombre es obligatorio');
         $this->assertResponseOk();
     }
     function testNameWithNumeric(){
         $this->actingAs($this->getAValidUser(Constants::INTERNAL));
         $this->visit('/products/create');
         $this->type('PRO-0089','codigo');
-        $this->type('1456aa','nombre');
+        $this->type('1456aa','name');
         $this->select('Cajones','unidadp');
         $this->type('10','weight_small');
         $this->select('Cajones','salep');
@@ -224,14 +224,14 @@ class RegisterProduct extends TestCase
         $this->attach('langostinos-de-estero-cocidos.jpg','imagen');
         $this->press('Guardar');
         $this->seePageIs('/products/create');
-        $this->see('El nombre sólo permite caracteres alfabéticos');
+        $this->see('El Nombre sólo permite caracteres alfabéticos');
         $this->assertResponseOk();
     }
     function testNameWithSpecialCharacters(){
         $this->actingAs($this->getAValidUser(Constants::INTERNAL));
         $this->visit('/products/create');
         $this->type('PRO-0089','codigo');
-        $this->type('dd/*daa','nombre');
+        $this->type('dd/*daa','name');
         $this->select('Cajones','unidadp');
         $this->type('10','weight_small');
         $this->select('Cajones','salep');
@@ -246,7 +246,7 @@ class RegisterProduct extends TestCase
         $this->attach('langostinos-de-estero-cocidos.jpg','imagen');
         $this->press('Guardar');
         $this->seePageIs('/products/create');
-        $this->see('El nombre sólo permite caracteres alfabéticos');
+        $this->see('El Nombre sólo permite caracteres alfabéticos');
         $this->assertResponseOk();
     }
 //    /*unidad de presentacion*/
@@ -254,7 +254,7 @@ class RegisterProduct extends TestCase
         $this->actingAs($this->getAValidUser(Constants::INTERNAL));
         $this->visit('/products/create');
         $this->type('PRO-0089','codigo');
-        $this->type('Langostino','nombre');
+        $this->type('Langostino','name');
         $this->select('','unidadp');
         $this->type('10','weight_small');
         $this->select('Cajones','salep');
@@ -267,14 +267,14 @@ class RegisterProduct extends TestCase
         $this->attach('langostinos-de-estero-cocidos.jpg','imagen');
         $this->press('Guardar');
         $this->seePageIs('/products/create');
-        $this->see('El campo unidad de presentación chica es obligatorio');
+        $this->see('El campo Unidad de Presentación del Calibre Chico es obligatorio');
         $this->assertResponseOk();
     }
     function testInvalidProductUnitediano(){
         $this->actingAs($this->getAValidUser(Constants::INTERNAL));
         $this->visit('/products/create');
         $this->type('PRO-0089','codigo');
-        $this->type('Langostino','nombre');
+        $this->type('Langostino','name');
         $this->select('Cajones','unidadp');
         $this->type('10','weight_small');
         $this->select('Cajones','salep');
@@ -287,14 +287,14 @@ class RegisterProduct extends TestCase
         $this->attach('langostinos-de-estero-cocidos.jpg','imagen');
         $this->press('Guardar');
         $this->seePageIs('/products/create');
-        $this->see('El campo unidad de presentación mediana es obligatorio');
+        $this->see('El campo Unidad de Presentación del Calibre Mediana es obligatorio');
         $this->assertResponseOk();
     }
     function testInvalidProductUnit(){
         $this->actingAs($this->getAValidUser(Constants::INTERNAL));
         $this->visit('/products/create');
         $this->type('PRO-0089','codigo');
-        $this->type('Langostino','nombre');
+        $this->type('Langostino','name');
         $this->select('Cajones','unidadp');
         $this->type('10','weight_small');
         $this->select('Cajones','salep');
@@ -307,7 +307,7 @@ class RegisterProduct extends TestCase
         $this->attach('langostinos-de-estero-cocidos.jpg','imagen');
         $this->press('Guardar');
         $this->seePageIs('/products/create');
-        $this->see('El campo unidad de presentación grande es obligatorio');
+        $this->see('El campo Unidad de Presentación del Calibre Grande es obligatorio');
         $this->assertResponseOk();
     }
 //    /*unidad de venta*/
@@ -315,7 +315,7 @@ class RegisterProduct extends TestCase
         $this->actingAs($this->getAValidUser(Constants::INTERNAL));
         $this->visit('/products/create');
         $this->type('PRO-0089','codigo');
-        $this->type('Langostino','nombre');
+        $this->type('Langostino','name');
         $this->select('Cajones','unidadp');
         $this->type('10','weight_small');
         $this->select('','salep');
@@ -328,14 +328,14 @@ class RegisterProduct extends TestCase
         $this->attach('langostinos-de-estero-cocidos.jpg','imagen');
         $this->press('Guardar');
         $this->seePageIs('/products/create');
-        $this->see('El campo unidad de venta chico es obligatorio');
+        $this->see('El campo Unidad de Venta del Calibre Chico es obligatorio');
         $this->assertResponseOk();
     }
     function testInvalidProductPresentationUnitmediano(){
         $this->actingAs($this->getAValidUser(Constants::INTERNAL));
         $this->visit('/products/create');
         $this->type('PRO-0089','codigo');
-        $this->type('Langostino','nombre');
+        $this->type('Langostino','name');
         $this->select('Cajones','unidadp');
         $this->type('10','weight_small');
         $this->select('Cajones','salep');
@@ -348,14 +348,14 @@ class RegisterProduct extends TestCase
         $this->attach('langostinos-de-estero-cocidos.jpg','imagen');
         $this->press('Guardar');
         $this->seePageIs('/products/create');
-        $this->see('El campo unidad de venta mediana es obligatorio');
+        $this->see('El campo Unidad de Venta del Calibre Mediana es obligatorio');
         $this->assertResponseOk();
     }
     function testInvalidProductPresentationUnitbig(){
         $this->actingAs($this->getAValidUser(Constants::INTERNAL));
         $this->visit('/products/create');
         $this->type('PRO-0089','codigo');
-        $this->type('Langostino','nombre');
+        $this->type('Langostino','name');
         $this->select('Cajones','unidadp');
         $this->type('10','weight_small');
         $this->select('Cajones','salep');
@@ -368,7 +368,7 @@ class RegisterProduct extends TestCase
         $this->attach('langostinos-de-estero-cocidos.jpg','imagen');
         $this->press('Guardar');
         $this->seePageIs('/products/create');
-        $this->see('El campo unidad de venta grande es obligatorio');
+        $this->see('El campo Unidad de Venta del Calibre Grande es obligatorio');
         $this->assertResponseOk();
     }
 //    /*calibre pequeño*/
@@ -376,7 +376,7 @@ class RegisterProduct extends TestCase
         $this->actingAs($this->getAValidUser(Constants::INTERNAL));
         $this->visit('/products/create');
         $this->type('PRO-0089','codigo');
-        $this->type('Langostino','nombre');
+        $this->type('Langostino','name');
         $this->select('Cajones','unidadp');
         $this->type(' ','weight_small');
         $this->select('Cajones','salep');
@@ -391,14 +391,14 @@ class RegisterProduct extends TestCase
         $this->attach('langostinos-de-estero-cocidos.jpg','imagen');
         $this->press('Guardar');
         $this->seePageIs('/products/create');
-        $this->see('El peso de calibre chico es obligatorio');
+        $this->see('El campo Peso por Calibre Chico es obligatorio');
         $this->assertResponseOk();
     }
     function testSmallCaliberMayTo0(){
         $this->actingAs($this->getAValidUser(Constants::INTERNAL));
         $this->visit('/products/create');
         $this->type('PRO-0089','codigo');
-        $this->type('Langostino','nombre');
+        $this->type('Langostino','name');
         $this->select('Cajones','unidadp');
         $this->type('0,00','weight_small');
         $this->select('Cajones','salep');
@@ -413,14 +413,14 @@ class RegisterProduct extends TestCase
         $this->attach('langostinos-de-estero-cocidos.jpg','imagen');
         $this->press('Guardar');
         $this->seePageIs('/products/create');
-        $this->see('El peso de calibre chico debe ser mayor a 0,00');
+        $this->see('El Peso por Calibre Chico debe ser mayor a 0,00');
         $this->assertResponseOk();
     }
     function testSmallCaliberWithLetter(){
         $this->actingAs($this->getAValidUser(Constants::INTERNAL));
         $this->visit('/products/create');
         $this->type('PRO-0089','codigo');
-        $this->type('Langostino','nombre');
+        $this->type('Langostino','name');
         $this->select('Cajones','unidadp');
         $this->type('hola','weight_small');
         $this->select('Cajones','salep');
@@ -435,7 +435,7 @@ class RegisterProduct extends TestCase
         $this->attach('langostinos-de-estero-cocidos.jpg','imagen');
         $this->press('Guardar');
         $this->seePageIs('/products/create');
-        $this->see('El peso de calibre chico sólo permite caracteres numéricos');
+        $this->see('El Peso por Calibre Chico sólo permite caracteres numéricos');
         $this->assertResponseOk();
     }
 //    /*calibre mediano*/
@@ -443,7 +443,7 @@ class RegisterProduct extends TestCase
         $this->actingAs($this->getAValidUser(Constants::INTERNAL));
         $this->visit('/products/create');
         $this->type('PRO-0089','codigo');
-        $this->type('Langostino','nombre');
+        $this->type('Langostino','name');
         $this->select('Cajones','unidadp');
         $this->type('10','weight_small');
         $this->select('Cajones','salep');
@@ -458,14 +458,14 @@ class RegisterProduct extends TestCase
         $this->attach('langostinos-de-estero-cocidos.jpg','imagen');
         $this->press('Guardar');
         $this->seePageIs('/products/create');
-        $this->see('El peso de calibre mediano es obligatorio');
+        $this->see('El campo Peso por Calibre Mediano es obligatorio');
         $this->assertResponseOk();
     }
     function testMediumCaliberMayTo0(){
         $this->actingAs($this->getAValidUser(Constants::INTERNAL));
         $this->visit('/products/create');
         $this->type('PRO-0089','codigo');
-        $this->type('Langostino','nombre');
+        $this->type('Langostino','name');
         $this->select('Cajones','unidadp');
         $this->type('10','weight_small');
         $this->select('Cajones','salep');
@@ -480,14 +480,14 @@ class RegisterProduct extends TestCase
         $this->attach('langostinos-de-estero-cocidos.jpg','imagen');
         $this->press('Guardar');
         $this->seePageIs('/products/create');
-        $this->see('El peso de calibre mediano debe ser mayor a 0,00');
+        $this->see('El Peso por Calibre Mediano debe ser mayor a 0,00');
         $this->assertResponseOk();
     }
     function testMediumCaliberWithLyrics(){
         $this->actingAs($this->getAValidUser(Constants::INTERNAL));
         $this->visit('/products/create');
         $this->type('PRO-0089','codigo');
-        $this->type('Langostino','nombre');
+        $this->type('Langostino','name');
         $this->select('Cajones','unidadp');
         $this->type('10','weight_small');
         $this->select('Cajones','salep');
@@ -502,7 +502,7 @@ class RegisterProduct extends TestCase
         $this->attach('langostinos-de-estero-cocidos.jpg','imagen');
         $this->press('Guardar');
         $this->seePageIs('/products/create');
-        $this->see('El peso de calibre mediano sólo permite caracteres numéricos');
+        $this->see('El Peso por Calibre Mediano sólo permite caracteres numéricos');
         $this->assertResponseOk();
     }
 //    /*calibre grande*/
@@ -510,7 +510,7 @@ class RegisterProduct extends TestCase
         $this->actingAs($this->getAValidUser(Constants::INTERNAL));
         $this->visit('/products/create');
         $this->type('PRO-0089','codigo');
-        $this->type('Langostino','nombre');
+        $this->type('Langostino','name');
         $this->select('Cajones','unidadp');
         $this->type('10','weight_small');
         $this->select('Cajones','salep');
@@ -525,14 +525,14 @@ class RegisterProduct extends TestCase
         $this->attach('langostinos-de-estero-cocidos.jpg','imagen');
         $this->press('Guardar');
         $this->seePageIs('/products/create');
-        $this->see('El peso de calibre grande es obligatorio');
+        $this->see('El campo Peso por Calibre Grande es obligatorio');
         $this->assertResponseOk();
     }
     function testLargeCaliberMayTo0(){
         $this->actingAs($this->getAValidUser(Constants::INTERNAL));
         $this->visit('/products/create');
         $this->type('PRO-0089','codigo');
-        $this->type('Langostino','nombre');
+        $this->type('Langostino','name');
         $this->select('Cajones','unidadp');
         $this->type('10','weight_small');
         $this->select('Cajones','salep');
@@ -547,7 +547,7 @@ class RegisterProduct extends TestCase
         $this->attach('langostinos-de-estero-cocidos.jpg','imagen');
         $this->press('Guardar');
         $this->seePageIs('/products/create');
-        $this->see('El peso de calibre grande debe ser mayor a 0,00');
+        $this->see('El Peso por Calibre Grande debe ser mayor a 0,00');
         $this->assertResponseOk();
     }
     function testLargeCaliberWithLetter(){
@@ -568,7 +568,7 @@ class RegisterProduct extends TestCase
         $this->attach('langostinos-de-estero-cocidos.jpg','imagen');
         $this->press('Guardar');
         $this->seePageIs('/products/create');
-        $this->see('El peso de calibre grande sólo permite caracteres numéricos');
+        $this->see('El Peso por Calibre Grande sólo permite caracteres numéricos');
         $this->assertResponseOk();
     }
 //    /*imagen*/
@@ -576,7 +576,7 @@ class RegisterProduct extends TestCase
         $this->actingAs($this->getAValidUser(Constants::INTERNAL));
         $this->visit('/products/create');
         $this->type('PRO-0089','codigo');
-        $this->type('Langostino','nombre');
+        $this->type('Langostino','name');
         $this->select('Cajones','unidadp');
         $this->type('10','weight_small');
         $this->select('Cajones','salep');
@@ -591,7 +591,7 @@ class RegisterProduct extends TestCase
         $this->attach('','imagen');
         $this->press('Guardar');
         $this->seePageIs('/products/create');
-        $this->see('La imagen es obligatoria');
+        $this->see('El campo Imagen es obligatorio');
         $this->assertResponseOk();
     }
 //    /*editar*/
@@ -599,7 +599,7 @@ class RegisterProduct extends TestCase
 //        $this->actingAs($this->getAValidUser(Constants::INTERNAL));
 //        $this->visit('/products/1/edit');
 //        $this->type('PRO-1002','codigo');
-//        $this->type('Langostino','nombre');
+//        $this->type('Langostino','name');
 //        $this->type('Cajones','unidad');
 //        $this->type('Kg','sale');
 //        $this->type('10','weight_small');

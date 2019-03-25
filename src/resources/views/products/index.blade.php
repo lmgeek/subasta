@@ -49,9 +49,6 @@
                                 <th>Imagen</th>
                                 <th>Código</th>
                                 <th>Producto</th>
-                                {{--<th>Unidad Chica</th>--}}
-                                {{--<th>Unidad Mediana</th>--}}
-                                {{--<th>Unidad Grande</th>--}}
                                 <th>Estado</th>
                                 <th>Acciones</th>
                             </tr>
@@ -66,14 +63,6 @@
                                         </td>
                                         <td>{{ $p->fishing_code }}</td>
                                         <td>{{ $p->name }}</td>
-
-                                        {{--<td>Venta: {{ trans('general.product_units.'.$p->sale_unit_small) }}<br>Presentación: {{ trans('general.product_units.'.$p->unit) }}</td>--}}
-                                        {{--@if ($p->sale_unit_medium == '' || $p->unit == '')--}}
-                                            {{--<td> No aplica</td>--}}
-                                        {{--@else--}}
-                                            {{--<td>Venta:  {{ trans('general.product_units.'.$p->sale_unit_medium) }}<br>Presentación: {{ trans('general.product_units.'.$p->unit) }}</td>--}}
-                                        {{--@endif--}}
-                                        {{--<td>Venta: {{ trans('general.product_units.'.$p->sale_unit_big) }}<br>Presentación: {{ trans('general.product_units.'.$p->unit) }}</td>--}}
                                         <td>
                                             @if($p->trashed())
 

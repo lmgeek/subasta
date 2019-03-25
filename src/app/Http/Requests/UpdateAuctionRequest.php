@@ -1,11 +1,15 @@
 <?php
 
 namespace App\Http\Requests;
-
+use Illuminate\Support\Facades\App;
 use App\Http\Requests\Request;
 
 class UpdateAuctionRequest extends Request
 {
+    public function __construct()
+    {
+        $this->locale = App::getLocale();
+    }
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -47,10 +51,10 @@ class UpdateAuctionRequest extends Request
     public function attributes()
     {
         return [
-            "startPrice" => "precio inicial",
-            "endPrice" => "precio final",
-            "descri" => "descripción",
-            "amount" => "cantidad"
+            "startPrice" => "Precio Inicial",
+            "endPrice" => "Precio Final",
+            "descri" => "Descripción",
+            "amount" => "Cantidad"
         ];
     }
 }

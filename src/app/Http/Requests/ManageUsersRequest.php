@@ -3,8 +3,13 @@ namespace App\Http\Requests;
 use App\Http\Requests\Request;
 use App\User;
 use Auth;
+use Illuminate\Support\Facades\App;
 class ManageUsersRequest extends Request
 {
+    public function __construct()
+    {
+        $this->locale = App::getLocale();
+    }
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -31,37 +36,40 @@ class ManageUsersRequest extends Request
             'password'=>'required_without:id|confirmed|regex:(^\S*(?=\S{6,8})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$)',
 			'email' => 'required|min:7|email',
             'phone' => 'required|numeric|regex:(^[()0-9-]+$)',
-            //'reason'=>'required_if:status,rejected|min:1|max:100'
         ];
     }
-
+    public function attributes()
+    {
+        if ($this->locale == "es"){
+            return [
+                'name' => 'Nombre',
+                'phone' => 'Teléfono',
+                'lastname'=> 'Apellido',
+                'dni' => 'DNI',
+                'cuit' => 'CUIT',
+                'password'=> 'Contraseña',
+                'email' => 'Email',
+                'nickname' => 'Alias',
+            ];
+        }
+        return [];
+    }
     public function messages()
     {
         return [
-            'name.required' => 'El nombre es obligatorio',
-            'phone.required' => 'El teléfono es obligatorio',
             'name.regex' => 'El nombre sólo permite caracteres alfabéticos',
-            'lastname.required' => 'El apellido es obligatorio',
             'lastname.regex' => 'El apellido sólo permite caracteres alfabéticos',
-            'alias.regex' => ' El alias sólo permite letras y números',
-            'alias.unique' => ' Este alias ya existe',
-            'alias.max' => ' El alias solo acepta 10 caracteres alfanumericos',
-            'dni.required' => 'El DNI es obligatorio',
             'dni.min' => 'El DNI debe tener mínimo 7 caracteres',
             'dni.regex' => 'El DNI sólo permite caracteres numéricos',
-            'cuit.required' => 'El CUIT es obligatorio',
             'cuit.min' => 'El CUIT debe tener mínimo 11 caracteres',
             'cuit.regex' => 'El CUIT sólo permite caracteres numéricos',
-            'password.required' => 'La contraseña es obligatorio',
             'password.confirmed' => 'Las contraseñas no coinciden',
             'password.regex' => 'La contraseña debe tener de 6 a 10: 1 mayúscula, 1 letra minúscula, 1 número y  1 carácter especial',
-            'email.required' => 'El email es obligatorio',
             'email.min' => 'El email debe tener mínimo 7 caracteres',
             'email.email' => 'El email no es un correo válido',
-            'email.unique' => 'El email ya ha sido registrado',
             'phone.numeric' => 'El teléfono sólo permite caracteres numéricos',
             'password.required_without'=>'Al agregar un usuario, es necesaria la contrase&ntilde;a.',
-            'nickname.required'=>'El campo alias es obligatorio'
+
         ];
     }
 }

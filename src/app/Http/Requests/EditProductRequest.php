@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Requests;
+use Illuminate\Support\Facades\App;
 
 use App\Http\Requests\Request;
 use App\Product;
@@ -11,6 +12,11 @@ use Illuminate\Support\Facades\Input;
 
 class EditProductRequest extends Request
 {
+    public function __construct()
+    {
+        $this->locale = App::getLocale();
+    }
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -31,7 +37,7 @@ class EditProductRequest extends Request
         $cero = "0,00";
         return [
                 Constants::CODIGO        => 'required|regex:(^[0-9a-zA-Zá-úÁ-Ú\-\s]+$)|max:10',
-                Constants::NOMBRE        => 'required|regex:(^[a-zA-Zá-úÁ-Ú\s]+$)',
+                Constants::NAME        => 'required|regex:(^[a-zA-Zá-úÁ-Ú\s]+$)',
                 'unidadp'       => Constants::REQUIRED,
                 'unidadm'       => Constants::REQUIRED,
                 'unidadg'       => Constants::REQUIRED,
@@ -48,9 +54,18 @@ class EditProductRequest extends Request
     {
         if ($this->locale == "es"){
             return [
-                "weigth_small"  => "peso por calibre chico",
-                "weigth_medium" => "peso por calibre mediano",
-                "weigth_bis"    => "peso por calibre grande",
+                "codigo"  => "Código Pesquero",
+                "name"  => "Nombre",
+                "imagen" => "Imagen",
+                "salep"  => "Unidad de Venta del Calibre Chico",
+                "saleg"  => "Unidad de Venta del Calibre Grande",
+                "salem"  => "Unidad de Venta del Calibre Mediana",
+                "unidadp"  => "Unidad de Presentación del Calibre Chico",
+                "unidadm"  => "Unidad de Presentación del Calibre Mediano",
+                "unidadg"  => "Unidad de Presentación del Calibre Grande",
+                "weight_small"  => "Peso por Calibre Chico",
+                "weight_medium" => "Peso por Calibre Mediano",
+                "weight_big"    => "Peso por Calibre Grande",
             ];
         }
         return [];
@@ -58,27 +73,15 @@ class EditProductRequest extends Request
     public function messages()
     {
         return [
-            'codigo.regex'                         => 'El código pesquero es alfanumerico y "-" maximo 10 caracteres',
-            'codigo.unique'                         => 'El código pesquero ya existe',
-            'nombre.unique_name_unit'                 => 'La relación nombre unidad ya se encuentra registrada',
-            'nombre.required'                         => 'El nombre es obligatorio',
-            'nombre.regex'                            => 'El nombre sólo permite caracteres alfabéticos',
-            'salep.required'                         => 'La unidad de venta chica es obligatoria',
-            'salem.required'                         => 'La unidad de venta mediana es obligatoria',
-            'saleg.required'                         => 'La unidad de venta grande es obligatoria',
-            'unidadp.required'                         => 'La unidad de presentación chica es obligatoria',
-            'unidadm.required'                         => 'La unidad de presentación mediana es obligatoria',
-            'unidadg.required'                         => 'La unidad de presentación grande es obligatoria',
-            'weigth_small.required'                   => 'El peso de calibre chico es obligatorio y mayor a 0,00',
-            'weigth_big.required'                     => 'El peso de calibre grande es obligatorio y mayor a 0,00',
-            'weigth_medium.required'                  => 'El peso de calibre mediano es obligatorio y mayor a 0,00',
-            'weigth_small.regex'                      => 'El peso de calibre chico sólo permite caracteres numéricos',
-            'weigth_big.regex'                        => 'El peso de calibre grande sólo permite caracteres numéricos',
-            'weigth_medium.regex'                     => 'El peso de calibre mediano sólo permite caracteres numéricos',
-            'imagen.image'                            => 'La imagen no es un formato válido',
-            'weigth_small.greater_weight_than'        => 'El peso de calibre chico debe ser mayor a 0,00',
-            'weigth_medium.greater_weight_than'       => 'El peso de calibre mediano debe ser mayor a 0,00',
-            'weigth_big.greater_weight_than'          => 'El peso de calibre grande debe ser mayor a 0,00',
+            'codigo.regex'                            => 'El :attribute es alfanumerico y "-" maximo 10 caracteres',
+            'name.regex'                            => 'El :attribute sólo permite caracteres alfabéticos',
+            'weight_small.greater_weight_than'        => 'El :attribute debe ser mayor a 0,00',
+            'weight_medium.greater_weight_than'       => 'El :attribute debe ser mayor a 0,00',
+            'weight_big.greater_weight_than'          => 'El :attribute debe ser mayor a 0,00',
+            'weight_small.regex'                      => 'El :attribute sólo permite caracteres numéricos',
+            'weight_big.regex'                        => 'El :attribute sólo permite caracteres numéricos',
+            'weight_medium.regex'                     => 'El :attribute sólo permite caracteres numéricos',
+            'imagen.image'                            => 'La :attribute no es un formato válido',
         ];
     }
 }
