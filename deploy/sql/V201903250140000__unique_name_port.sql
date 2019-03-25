@@ -1,0 +1,19 @@
+DELIMITER $$
+DROP PROCEDURE IF EXISTS upgrade_database_201903250140000 $$
+CREATE PROCEDURE upgrade_database_201903250140000()
+BEGIN
+    IF NOT EXISTS ( SELECT * FROM information_schema.`TABLE_CONSTRAINTS`
+  WHERE
+      TABLE_SCHEMA='subastas'
+      AND table_name='port'
+      AND CONSTRAINT_NAME='port_name'
+      AND CONSTRAINT_TYPE='UNIQUE') THEN
+      ALTER TABLE port ADD CONSTRAINT port_name UNIQUE (name);
+  END IF;
+END $$
+
+CALL upgrade_database_201903250140000() $$
+
+DROP PROCEDURE upgrade_database_201903250140000 $$
+
+DELIMITER ;
