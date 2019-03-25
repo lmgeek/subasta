@@ -36,7 +36,7 @@ class CreateProductRequest extends Request
             return [
 
                 Constants::CODIGO        => 'required|regex:(^[0-9a-zA-Zá-úÁ-Ú\-\s]+$)|max:10|unique:products,fishing_code',
-                Constants::NAME        => 'required|regex:(^[a-zA-Zá-úÁ-Ú\s]+$)|unique:products,name',
+                Constants::NAME        => 'required|regex:(^[()0-9-]+$)|unique:products,name',
                 'unidadp'       => Constants::REQUIRED,
                 'unidadm'       => Constants::REQUIRED,
                 'unidadg'       => Constants::REQUIRED,

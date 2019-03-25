@@ -55,7 +55,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="nombre">codigo Pesquero</label>
-                                        <input type="text" name="codigo" class="form-control" @if ($const_small <> 0 || $const_medium <> 0 || $const_big <> 0 ) readonly style="pointer-events:none" @endif id="codigo" max="10" value="@if (is_null(old('codigo'))){{ $product->fishing_code }}@else{{ old('codigo') }}@endif">
+                                        <input type="text" name="codigo" class="form-control number" @if ($const_small <> 0 || $const_medium <> 0 || $const_big <> 0 ) readonly style="pointer-events:none" @endif id="codigo" max="10" value="@if (is_null(old('codigo'))){{ $product->fishing_code }}@else{{ old('codigo') }}@endif">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
