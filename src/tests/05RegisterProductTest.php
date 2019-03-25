@@ -34,7 +34,7 @@ class RegisterProduct extends TestCase
         $produc_daetail2 = new ProductDetail();
         $produc_daetail3 = new ProductDetail();
         $this->unitAssert('assertTrue',$this->instanceClassProduct
-        ($produc,$produc_daetail,$produc_daetail2,$produc_daetail3,'PRO-0089','Langostino','Cajones', ' 10', 'Cajones', 'Cajon','20', 'Kg', 'Unidades', '30', 'Unidades', 'langostinos-de-estero-cocidos.jpg'));
+        ($produc,$produc_daetail,$produc_daetail2,$produc_daetail3,'PRO-0089','Langostino','Cajones', ' 10', 'Cajones', 'Cajones','20', 'Kg', 'Unidades', '30', 'Unidades', 'langostinos-de-estero-cocidos.jpg'));
     }
     function testProductNameWithSpace(){
         $this->actingAs($this->getAValidUser(Constants::INTERNAL));
@@ -44,11 +44,9 @@ class RegisterProduct extends TestCase
         $this->select('Cajones','unidadp');
         $this->type('10','weight_small');
         $this->select('Cajones','salep');
-
         $this->select('Cajas','unidadm');
         $this->type('20','weight_medium');
         $this->select('Cajones','salem');
-
         $this->select('Unidades','unidadg');
         $this->type('30','weight_big');
         $this->select('Kg','saleg');
@@ -65,11 +63,9 @@ class RegisterProduct extends TestCase
         $this->select('Cajones','unidadp');
         $this->type('10','weight_small');
         $this->select('Cajones','salep');
-
         $this->select('Cajas','unidadm');
         $this->type('20','weight_medium');
         $this->select('Cajones','salem');
-
         $this->select('Unidades','unidadg');
         $this->type('30','weight_big');
         $this->select('Kg','saleg');
@@ -85,11 +81,9 @@ class RegisterProduct extends TestCase
         $this->select('Cajones','unidadp');
         $this->type('10','weight_small');
         $this->select('Cajones','salep');
-
         $this->select('Cajas','unidadm');
         $this->type('20','weight_medium');
         $this->select('Cajones','salem');
-
         $this->select('Unidades','unidadg');
         $this->type('30','weight_big');
         $this->select('Kg','saleg');
@@ -105,11 +99,9 @@ class RegisterProduct extends TestCase
         $this->select('Cajones','unidadp');
         $this->type('10','weight_small');
         $this->select('Cajones','salep');
-
         $this->select('Cajas','unidadm');
         $this->type('20','weight_medium');
         $this->select('Cajones','salem');
-
         $this->select('Unidades','unidadg');
         $this->type('30','weight_big');
         $this->select('Kg','saleg');
@@ -169,11 +161,9 @@ class RegisterProduct extends TestCase
         $this->select('Cajones','unidadp');
         $this->type('10','weight_small');
         $this->select('Cajones','salep');
-
         $this->select('Cajas','unidadm');
         $this->type('20','weight_medium');
         $this->select('Cajones','salem');
-
         $this->select('Unidades','unidadg');
         $this->type('30','weight_big');
         $this->select('Kg','saleg');
@@ -191,11 +181,9 @@ class RegisterProduct extends TestCase
         $this->select('Cajones','unidadp');
         $this->type('10','weight_small');
         $this->select('Cajones','salep');
-
         $this->select('Cajas','unidadm');
         $this->type('20','weight_medium');
         $this->select('Cajones','salem');
-
         $this->select('Unidades','unidadg');
         $this->type('30','weight_big');
         $this->select('Kg','saleg');
@@ -213,11 +201,9 @@ class RegisterProduct extends TestCase
         $this->select('Cajones','unidadp');
         $this->type('10','weight_small');
         $this->select('Cajones','salep');
-
         $this->select('Cajas','unidadm');
         $this->type('20','weight_medium');
         $this->select('Cajones','salem');
-
         $this->select('Unidades','unidadg');
         $this->type('30','weight_big');
         $this->select('Kg','saleg');
@@ -235,11 +221,9 @@ class RegisterProduct extends TestCase
         $this->select('Cajones','unidadp');
         $this->type('10','weight_small');
         $this->select('Cajones','salep');
-
         $this->select('Cajas','unidadm');
         $this->type('20','weight_medium');
         $this->select('Cajones','salem');
-
         $this->select('Unidades','unidadg');
         $this->type('30','weight_big');
         $this->select('Kg','saleg');
@@ -287,7 +271,7 @@ class RegisterProduct extends TestCase
         $this->attach('langostinos-de-estero-cocidos.jpg','imagen');
         $this->press('Guardar');
         $this->seePageIs('/products/create');
-        $this->see('El campo Unidad de Presentación del Calibre Mediana es obligatorio');
+        $this->see('El campo Unidad de Presentación del Calibre Mediano es obligatorio');
         $this->assertResponseOk();
     }
     function testInvalidProductUnit(){
@@ -380,11 +364,9 @@ class RegisterProduct extends TestCase
         $this->select('Cajones','unidadp');
         $this->type(' ','weight_small');
         $this->select('Cajones','salep');
-
         $this->select('Cajas','unidadm');
         $this->type('20','weight_medium');
         $this->select('Cajones','salem');
-
         $this->select('Unidades','unidadg');
         $this->type('30','weight_big');
         $this->select('Kg','saleg');
@@ -402,11 +384,9 @@ class RegisterProduct extends TestCase
         $this->select('Cajones','unidadp');
         $this->type('0,00','weight_small');
         $this->select('Cajones','salep');
-
         $this->select('Cajas','unidadm');
         $this->type('20','weight_medium');
         $this->select('Cajones','salem');
-
         $this->select('Unidades','unidadg');
         $this->type('30','weight_big');
         $this->select('Kg','saleg');
@@ -424,11 +404,9 @@ class RegisterProduct extends TestCase
         $this->select('Cajones','unidadp');
         $this->type('hola','weight_small');
         $this->select('Cajones','salep');
-
         $this->select('Cajas','unidadm');
         $this->type('20','weight_medium');
         $this->select('Cajones','salem');
-
         $this->select('Unidades','unidadg');
         $this->type('30','weight_big');
         $this->select('Kg','saleg');
@@ -447,11 +425,9 @@ class RegisterProduct extends TestCase
         $this->select('Cajones','unidadp');
         $this->type('10','weight_small');
         $this->select('Cajones','salep');
-
         $this->select('Cajas','unidadm');
         $this->type(' ','weight_medium');
         $this->select('Cajones','salem');
-
         $this->select('Unidades','unidadg');
         $this->type('30','weight_big');
         $this->select('Kg','saleg');
@@ -469,11 +445,9 @@ class RegisterProduct extends TestCase
         $this->select('Cajones','unidadp');
         $this->type('10','weight_small');
         $this->select('Cajones','salep');
-
         $this->select('Cajas','unidadm');
         $this->type('0,00','weight_medium');
         $this->select('Cajones','salem');
-
         $this->select('Unidades','unidadg');
         $this->type('30','weight_big');
         $this->select('Kg','saleg');
@@ -491,11 +465,9 @@ class RegisterProduct extends TestCase
         $this->select('Cajones','unidadp');
         $this->type('10','weight_small');
         $this->select('Cajones','salep');
-
         $this->select('Cajas','unidadm');
         $this->type('hola','weight_medium');
         $this->select('Cajones','salem');
-
         $this->select('Unidades','unidadg');
         $this->type('30','weight_big');
         $this->select('Kg','saleg');
@@ -514,11 +486,9 @@ class RegisterProduct extends TestCase
         $this->select('Cajones','unidadp');
         $this->type('10','weight_small');
         $this->select('Cajones','salep');
-
         $this->select('Cajas','unidadm');
         $this->type('20','weight_medium');
         $this->select('Cajones','salem');
-
         $this->select('Unidades','unidadg');
         $this->type(' ','weight_big');
         $this->select('Kg','saleg');
@@ -536,11 +506,9 @@ class RegisterProduct extends TestCase
         $this->select('Cajones','unidadp');
         $this->type('10','weight_small');
         $this->select('Cajones','salep');
-
         $this->select('Cajas','unidadm');
         $this->type('20','weight_medium');
         $this->select('Cajones','salem');
-
         $this->select('Unidades','unidadg');
         $this->type('0,00','weight_big');
         $this->select('Kg','saleg');
@@ -557,11 +525,9 @@ class RegisterProduct extends TestCase
         $this->select('Cajones','unidadp');
         $this->type('10','weight_small');
         $this->select('Cajones','salep');
-
         $this->select('Cajas','unidadm');
         $this->type('20','weight_medium');
         $this->select('Cajones','salem');
-
         $this->select('Unidades','unidadg');
         $this->type('hola','weight_big');
         $this->select('Kg','saleg');
@@ -580,11 +546,9 @@ class RegisterProduct extends TestCase
         $this->select('Cajones','unidadp');
         $this->type('10','weight_small');
         $this->select('Cajones','salep');
-
         $this->select('Cajas','unidadm');
         $this->type('20','weight_medium');
         $this->select('Cajones','salem');
-
         $this->select('Unidades','unidadg');
         $this->type('30','weight_big');
         $this->select('Kg','saleg');

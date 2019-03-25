@@ -178,6 +178,21 @@ class ProductController extends Controller
         $uni_sale2 = $request->input('salem');
         $uni_presen3 = $request->input('unidadg');
         $uni_sale3 = $request->input('saleg');
+        $name_product = $request->input('name');
+        $fishing_code = $request->input('codigo');
+
+            $product_exit = Product::Select('id')->where('id', '<>', $id)->where('name', '=', $name_product)->get()->toArray();
+            if (count($product_exit) > 0){
+                // mostrar mensaje en la plantalla
+                return redirect(Constants::URL_PRODUCTS)
+                    ->withErrors(['El dato del campo  Nombre ya ha sido registrado']);
+            }
+            $product_exit = Product::Select('id')->where('id', '<>', $id)->where('fishing_code', '=', $fishing_code)->get()->toArray();
+            if (count($product_exit) > 0){
+                // mostrar mensaje en la plantalla
+                return redirect(Constants::URL_PRODUCTS)
+                    ->withErrors(['El dato del campo  Código Pequero ya ha sido registrado']);
+            }
 //        buscar relacion de los calibre
         $exitente1 = Batch::Select('id')->where('product_detail_id', '=', $pro_exitente1)->get()->toArray();
         $relations1 =count($exitente1);
