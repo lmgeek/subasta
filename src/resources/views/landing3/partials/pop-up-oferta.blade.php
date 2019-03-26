@@ -30,7 +30,7 @@
 
                             <div class="input-with-icon-left col-md-6 offset-md-3">
                                 <em class="currency">AR$</em>
-                                <input class="with-border margin-bottom-5" type="text" placeholder="Precio por kilo" id="OfferPrice{{$auction->id}}" onkeydown="avoidSending()" value="{{$price['CurrentPrice']}}">
+                                <input class="with-border margin-bottom-5" type="text" placeholder="Precio por kilo" id="OfferPrice{{$auction->id}}" onkeydown="avoidSending()">
                             </div>
                             <span class="bidding-detail text-center red"><em class="icon-material-outline-info red"></em> La oferta aplica sobre todo el lote o el remanente.</span>
                         </div>

@@ -60,7 +60,7 @@ class Bid extends Model
                 ->where('bids.user_id', Constants::EQUAL,$userid)
                 ;
         if($status!=null){
-            $return=$return->where(Constants::STATUS,Constants::EQUAL,$status);
+            $return=$return->where('bids.status',Constants::EQUAL,$status);
         }
         $return=$return->orderBy('bids.bid_date','DESC');
         if($paginate==null){

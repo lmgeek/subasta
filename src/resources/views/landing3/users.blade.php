@@ -29,7 +29,7 @@ use App\Constants;
                 </div>
                 <div class="row">
                     <div class="col-sm text-center margin-top-20">
-                        <a href="/usuarios/editar/<?=$user->nickname?>" class="button ripple-effect ico" title="Editar" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
+                        <a href="/usuarios/editar/<?=$user->id?>" class="button ripple-effect ico" title="Editar" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
                         @if($user->type==Constants::COMPRADOR)
                         <a href="/usuarios/compras/<?=$user->id?>" class="button ripple-effect ico" title="Compras" data-tippy-placement="top"><i class="icon-feather-dollar-sign"></i></a>
                         <a href="/usuarios/ofertas/<?=$user->id?>" class="button ripple-effect ico" title="Ofertas" data-tippy-placement="top"><i class="icon-feather-tag"></i></a>

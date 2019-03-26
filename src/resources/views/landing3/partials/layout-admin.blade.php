@@ -1,5 +1,5 @@
 <?php $layoutadmin = 1; ?>
-        <!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <title>Subastas del Mar @yield('title','')</title>

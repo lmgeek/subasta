@@ -1,5 +1,6 @@
 <?php
 namespace App;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Paginator;
@@ -177,14 +178,21 @@ class Constants{
     const AUCTION_ORIGIN = "auction";
     const OFFER_ORIGIN = "offer";
     
-    public static function formatDate($fecha){
-        setlocale(LC_TIME,'es_ES');
-        return strftime('%d %b %Y', strtotime($fecha));
+    public static function formatDate($fecha,$format='d M Y'){
+        $fecha= strtolower(date($format, strtotime($fecha)));
+        $months=['jan','apr','aug','dec'];
+        $meses =['ene','abr','ago','dic'];
+        $mes=substr($fecha,3,3);
+        for($z=0;$z<count($months);$z++){
+            if($mes==$months[$z]){
+                $fecha= str_replace($months[$z], $meses[$z], $fecha);
+            }
+        }
+        return ucwords($fecha);
     }
 
     public static function formatDateOffer($fecha){
-        setlocale(LC_TIME,'es_ES');
-        return strftime('%d %b %Y %H:%m', strtotime($fecha));
+        return self::formatDate($fecha,'d M Y H:m');
     }
 
     /* Funcion para validar el tamaño del producto*/
@@ -246,5 +254,32 @@ class Constants{
         }else{
             return 'red';
         }
+    }
+    public static function individualize($word){
+        $last=substr($word,-1);
+        $end=substr($word,-2);
+        $return='';
+        if($end=='es'){
+            $return=substr($word,0,-2);
+        }elseif($last=='s'){
+            $return=substr($word,0,-1);
+        }else{
+            $return=$word;
+        }
+        $newend=substr($return,-2);
+        if($newend=='on'){
+            $return=substr($return,0,-2).'&oacute;n';
+        }
+        return $return;
+    }
+    public static function individualizeSentence($sentence,$cant=null){
+        if($cant!=1 && $cant!=null){
+            return $cant.' '.$sentence;
+        }
+        $array= explode(' ', $sentence);$return=$cant.' ';
+        for($z=0;$z<count($array);$z++){
+            $return.=self::individualize($array[$z]).' ';
+        }
+        return $return;
     }
 }

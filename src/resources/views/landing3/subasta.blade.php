@@ -23,7 +23,7 @@ $auction->product= Product::getProductInfoFromProductDetailId($auction->batch->p
 @extends('landing3/partials/layout')
 @section('title',' | Subasta')
 @section('content')
-    <div class="single-page-header bd-bt-1 margin-top-35 auction nodelete" id="Auction_{{$auction->id}}" data-id="{{$auction->id}}" data-background-image="/landing3/images/single-auction.jpg">
+    <div class="single-page-header bd-bt-1 margin-top-35 auction nodelete" id="Auction_{{$auction->id}}" data-price="<?=$price?>" data-id="{{$auction->id}}" data-background-image="/landing3/images/single-auction.jpg">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">

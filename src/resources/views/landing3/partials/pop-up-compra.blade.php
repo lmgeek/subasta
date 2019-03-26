@@ -14,7 +14,7 @@
                         <div class="col-md-5 bidding-widget">
                             <p> <div id="auctionAvailabilitypopup{{$auction->id}}" style="display: inline-block!important;font-weight: bold"><small style="font-weight: 400">Disponibilidad:</small> {{$disponible}} <small>de</small> {{$total}} {{$auction->product['presentation_unit']}}</div> <br>
                             <div class="margin-top-15">
-                                <h4 class="price red" id="PricePopUp{{$auction->id}}">${{$price['CurrentPrice']}} <small>/ {{$auction->product['sale_unit']}}</small></h4>
+                                <h4 class="price red" id="PricePopUp{{$auction->id}}">${{$price['CurrentPrice']}} <small>/ <?= \App\Constants::individualize($auction->product['sale_unit'])?></small></h4>
                                 <small class="red">&Uacute;ltimo precio registrado</small>
                             </div>
                         </div>

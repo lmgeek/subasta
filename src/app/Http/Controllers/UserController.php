@@ -219,17 +219,17 @@ class UserController extends Controller
         $request->session()->flash('confirm_msg', trans('users.reject_user_msg'));
         return redirect()->route('users.index');
     }
-    public function userAdd(Request $request){
+    public function userAdd(){
         if(empty(Auth::user()->type) || Auth::user()->type!=User::INTERNAL){
             return redirect('/');
         }
         return view('landing3/user-add-edit');
     }
-    public function userEdit($nickname){
-        if(empty(Auth::user()->type) || (Auth::user()->nickname!=$nickname && Auth::user()->type!=User::INTERNAL)){
+    public function userEdit($id){
+        if(empty(Auth::user()->type) || (Auth::user()->id!=$id && Auth::user()->type!=User::INTERNAL)){
             return redirect('/');
         }
-        $user= User::select()->where('nickname',Constants::EQUAL,$nickname)->get();
+        $user= User::select()->where('id',Constants::EQUAL,$id)->get();
         if(count($user)>0){
             $user=$user[0];
         }else{
@@ -356,6 +356,30 @@ class UserController extends Controller
         $return['statusTrans']=trans('general.status.'.$user->status);
         return json_encode($return);
     }
+    public static function checkIfUserEmailIsBeingUsed($oldemail,$newemail){
+        $return=true;
+        if($oldemail!=$newemail){
+            $checker=User::select()
+                    ->where('email',Constants::EQUAL,$newemail)
+                    ->get();
+            if(count($checker)>0){
+                $return=false;
+            }
+        }
+        return $return;
+    }
+    public static function checkIfNicknameIsBeingUsed($oldnickname,$newnickname){
+        $return=true;
+        if($user->nickname!=$request->nickname){
+            $checker=User::select()
+                    ->where('nickname',Constants::EQUAL,$request->nickname)
+                    ->get();
+            if(count($checker)>0){
+                $return=false;
+            }
+        }
+        return $return;
+    }
     public function userSave(ManageUsersRequest $request){
         $errors=array();
         if(empty(Auth::user()->type) || ((isset($nickname) && Auth::user()->nickname!=$nickname) && Auth::user()->type!=User::INTERNAL)){
@@ -369,22 +393,11 @@ class UserController extends Controller
             }else{
                 $errors[]='Usuario Inv&aacute;lido.';
             }
-            if($user->email!=$request->email){
-                $checker2=User::select()
-                        ->where('email',Constants::EQUAL,$request->email)
-                        ->get();
-                if(count($checker2)>0){
-                    $errors[]='El correo ya est&aacute; registrado.';
-                }
-                
+            if(self::checkIfEmailIsBeingUsed($user->email, $request->email)==false){
+                $errors[]='El correo debe ser &uacute;nico';
             }
-            if($user->nickname!=$request->nickname){
-                $checker1=User::select()
-                        ->where('nickname',Constants::EQUAL,$request->nickname)
-                        ->get();
-                if(count($checker1)>0){
-                    $errors[]='El nombre de usuario ya est&aacute; registrado.';
-                }
+            if(self::checkIfNicknameIsBeingUsed($user->nickname, $request->nickname)==false){
+                $errors[]='El alias debe ser &uacute;nico';
             }
             if(isset($request->limit) && $request->limit>9999999){
                 $errors[]='El limite m&aacute;ximo de compra es 9999999';

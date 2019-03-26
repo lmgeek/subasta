@@ -29,6 +29,7 @@ Route::get('/', 'AuctionFrontController@subastasFront');
     /* FIN Subastas*/
     /* INI Usuarios*/
         Route::get('/usuarios','UserController@userList');
+        Route::get('usuarios/agregar','UserController@userAdd');
         Route::post('/usuarios/guardar','UserController@userSave');
         Route::get('usuarios/editar/{username}', [
             'as' => 'user.edit', 'uses' => 'UserController@userEdit'
@@ -42,7 +43,6 @@ Route::get('/', 'AuctionFrontController@subastasFront');
         Route::get('/usuarios/compras','UserController@userMyBids');
         Route::get('/usuarios/ofertas','UserController@userMyOffers');
         Route::get('/usuarios/editar/status/{id}','UserController@usersChangeApproval');
-        Route::post('/usuarios/guardar','UserController@userSave');
     /* FIN Usuarios*/
     /* INI Puertos*/
         Route::get('/puertos','PortsController@portsList');

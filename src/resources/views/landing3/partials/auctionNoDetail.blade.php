@@ -47,9 +47,7 @@ if (Auth::user()) {
     $link1 = '/auth/login'.((isset($nopic))?'?url=subastas':'');
     $link2 = $link1;
 }
-//dd($auction);
-setlocale(LC_TIME, 'es_ES');
-$fechafin = strftime('%d %b %Y', strtotime($auction->end));
+$fechafin=Constants::formatDate($auction->end);
 ?>
 <div id="Auction_<?=$auction->id?>" class="task-listing <?=(empty($finished)) ? 'auction' : ''?>"
      data-id="{{$auction->id}}" data-price="{{$price['CurrentPrice']}}" data-end="{{$auction->end}}"
@@ -151,12 +149,12 @@ data-user="' . $auction->batch->arrive->boat->user->nickname . '"'?>>
                 <p>
                 <div id="auctionAvailability{{$auction->id}}" style="display: inline-block!important;font-weight: bold">
                     <small style="font-weight: 400">Disponibilidad:</small> {{$disponible}}
-                    <small>de</small> {{$total}} {{$auction->product['presentation_unit']}}</div>
+                    <small>de</small> <?=Constants::individualizeSentence($auction->product['presentation_unit'],$total)?></div>
                 <br>
                 @if(empty($finished))
                     <small class="green fw700" id="BidsCounter{{$auction->id}}">
                         @if($cantbids>0)
-                            <?=Constants::ICON_OFFERS_BIDS_GREEN . $cantbids . (($cantbids > 1) ? ' Compras Directas' : ' Compra Directa')?>
+                            <?=Constants::ICON_OFFERS_BIDS_GREEN . Constants::individualizeSentence('Compras Directas', $cantbids)?>
                         @endif
                     </small>
                     @endif
@@ -164,7 +162,7 @@ data-user="' . $auction->batch->arrive->boat->user->nickname . '"'?>>
 
                     <div class="pricing-plan-label billed-monthly-label <?=(empty($finished) ? 'red' : '')?>"
                          id="PriceContainer{{$auction->id}}"><strong class="red"
-                                                                     id="Price{{$auction->id}}">${{$price['CurrentPrice']}}</strong>/ {{$auction->product['sale_unit']}}
+                                                                id="Price{{$auction->id}}">${{$price['CurrentPrice']}}</strong>/ <?=Constants::individualizeSentence($auction->product['sale_unit'])?>
                         <br>
                         <small class="red fw500"
                                id="ClosePrice{{$auction->id}}"<?=(empty($finished) || $finished != '&iexcl;Finalizada!') ? 'style="display:none"' : ''?>><?=(empty($finished)) ? '&iexcl;Cerca del precio l&iacute;mite!' : 'Precio Final'?></small>
@@ -186,7 +184,7 @@ data-user="' . $auction->batch->arrive->boat->user->nickname . '"'?>>
                             <small class="green fw700 text-center" id="OffersCounter{{$auction->id}}">
                                 @if($cantofertas>0)
                                     <em class="icon-material-outline-local-offer green"></em>
-                                    <?=$cantofertas . (($cantofertas > 1) ? ' Ofertas Directas' : ' Oferta Directa')?>
+                                    <?=Constants::individualizeSentence('Ofertas Directas', $cantofertas)?>
                                 @endif
                             </small>
                         </div>

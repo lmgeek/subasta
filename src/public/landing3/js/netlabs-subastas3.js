@@ -4,6 +4,7 @@ window['now'] = new Date().getTime();
 window['loadingcalibers']=0;
 window['loadingunits']=0;
 window['loadingauctions']=0;
+window['PreventFormSubmission']=0;
 function endAuction($id) {
     $('#timer' + $id).html("¡Finalizada!");
     if (!$('#Auction_' + $id).hasClass('nodelete')){
@@ -157,7 +158,7 @@ function orderAuctions($type='Finished'){
     deleteExcessAuctionsFinished();
 }
 function modifyAvailability($id,$availability,$total,$unit){
-    var $availabilitytext='<small style="font-weight: 400">Disponibilidad:</small> '+$availability+' <small>de</small> '+$total+' '+$('#UnitAuction'+$id).val();
+    var $availabilitytext='<small style="font-weight: 400">Disponibilidad:</small> '+$availability+' <small>de</small> '+individualizeSentence($('#PresUnit'+$id).val(),$total);
     $('#auctionAvailabilitypopup'+$id).html($availabilitytext);
     $('#auctionAvailability'+$id).html($availabilitytext);
     $('#cantidad-'+$id).attr('max',$availability);
@@ -202,13 +203,17 @@ function updateAuctionData($id,$price=null,$end=null,$endorder=null,$endfriendly
 }
 function openPopupCompra($id){
     $('#PriceBid'+$id).val($('#Auction_'+$id).attr('data-price'));
-    $('#PricePopUp' + $id).html("$" + $('#PriceBid'+$id).val() + " <small>/ "+$('#SaleUnit'+$id).val()+"</small>");
+    $('#OfferPrice'+$id).val($('#Auction_'+$id).attr('data-price').toString().replace(',','.'));
+    $('#PricePopUp' + $id).html("$" + $('#PriceBid'+$id).val() + " <small>/ "+individualize($('#SaleUnit'+$id).val())+"</small>");
     gtag('event', 'OpenPopUpCompra', {
         'event_category':'Auction',
         'event_label':'Auction_'+$id
     });
 }
 function openPopupOferta($id){
+    $price=$('#Auction_'+$id).attr('data-price').toString().replace(',','.');
+    console.log($price+'asd')
+    $('#OfferPrice'+$id).val($price);
     gtag('event', 'OpenPopUpOferta', {
         'event_category':'Auction',
         'event_label':'Auction_'+$id
@@ -497,9 +502,47 @@ function inicializeEverything($firstrun=0){
     if($('.dtBox').length>0){
         $('.dtBox').each(function(){
             $(this).DateTimePicker();
-        });
-        					
+        });			
     }
+    var $contform=0;
+//    $('form').each(function(){
+//        $contform++;
+//        if($(this).attr('id')==null){
+//            $(this).attr('id','Form'+$contform);
+//        }
+//    });
+//    $('form input').each(function(){
+//        if($(this).attr('required')!=null){
+//            if($(this).attr('data-required')==null){
+//                $(this).attr('data-required','true');
+//            }
+//            $(this).removeAttr('required');
+//        }
+//        if($(this).attr('maxlength')!=null){
+//            if($(this).attr('data-maxlength')==null){
+//                $(this).attr('data-maxlength',$(this).attr('maxlength'));
+//            }
+//            $(this).removeAttr('maxlength');
+//        }
+//        if($(this).attr('minlength')!=null){
+//            if($(this).attr('data-minlength')==null){
+//                $(this).attr('data-minlength',$(this).attr('minlength'));
+//            }
+//            $(this).removeAttr('minlength');
+//        }
+//        if($(this).attr('max')!=null){
+//            if($(this).attr('data-max')==null){
+//                $(this).attr('data-max',$(this).attr('max'));
+//            }
+//            $(this).removeAttr('max');
+//        }
+//        if($(this).attr('min')!=null){
+//            if($(this).attr('data-min')==null){
+//                $(this).attr('data-min',$(this).attr('min'));
+//            }
+//            $(this).removeAttr('min');
+//        }
+//    });
 }
 function homeFilterBuilder(){
     var $query='',$cantselected=$("#port option:selected").length,$text=$('#query').val();
@@ -642,6 +685,66 @@ function getPreferredPort(){
         $('#puerto').selectpicker('val',$result['preferred']);
     });
 }
+
+function individualize($wordv){
+    var $word=$wordv.toString(),$last=$word.substr(-1),$end=$word.substr(-2),$return='';
+    if($end=='es'){
+        $return=$word.substr(0,$word.length-2);
+    }else if($last=='s'){
+        $return=$word.substr(0,$word.length-1);
+    }else{
+        $return=$word;
+    }
+    $return=$return.toString();
+    $newend=$return.substr(-2);
+    if($newend=='on'){
+        $return=$return.substr(0,$return.length-2)+'&oacute;n';
+    }
+    return $return;
+}
+function individualizeSentence($sentence,$cant=null){
+    if($cant!=1 && $cant!=null){
+        return $cant+' '+$sentence;
+    }
+    $sentence=$sentence.toString();
+    var $array= $sentence.split(' ');$return=$cant+' ';
+    for($z=0;$z<$array.length;$z++){
+        $return+=individualize($array[$z])+' ';
+    }
+    return $return;
+}
+function checkRequirements($idform){
+    var $errors=0;
+    console.log($idform)
+    $('#'+$idform+' input').each(function(){
+        if($(this).data('translation')!=null){
+            var $name=$(this).data('translation');
+        }else{
+            var $name=$(this).attr('name');
+        }
+        if($(this).data('required')!=null && $(this).val()==''){
+            $errors++;
+            $(this).css('border','1px solid #f00');
+            notifications(0,null,null,null,'El campo '+$name+' es obligatorio');
+        }
+        if($(this).data('maxlength')!=null && $(this).val().length>$(this).data('maxlength')){
+            $errors++;
+            $(this).css('border','1px solid #f00');
+            notifications(0,null,null,null,'El campo '+$name+' tiene una longitud m&aacute;xima de '+$(this).data('maxlength')+' caracteres');
+        }
+        if($(this).data('maxlength')!=null && $(this).val().length<$(this).data('minlength')){
+            $errors++;
+            $(this).css('border','1px solid #f00');
+            notifications(0,null,null,null,'El campo '+$name+' tiene una longitud m&iacute;nima de '+$(this).data('minlength')+' caracteres');
+        }
+    });
+    if($errors==0){
+        window['PreventFormSubmission']=0;
+        $('#'+$idform).submit();
+    }else{
+        window['PreventFormSubmission']=1;
+    }
+}
 /* FIN Rodolfo */
 
 //G.B Evitar escribir espacio
@@ -701,3 +804,10 @@ $(document).ready(function(){
     /* FIN German*/
     
 });
+//$('form').submit(function(e){
+//    if(window['PreventFormSubmission']==0){
+//        e.preventDefault();
+//        checkRequirements($(this).attr('id'));
+//    }
+//    
+//});
