@@ -16,12 +16,30 @@ use App\Constants;
  * Everything related with private auctions, in case of need to put back in action
  * need a second * at the opening of the head comment.
  */
-class CreateAuctionTest extends TestCase
+class ManageAuctionsTest extends TestCase
 {
     /**  @test 
      * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
      */
-    function getToAuctionAdd(){
+    function TryToGetToAuctionAddAsAdmin(){
+        $this->actingAs($this->getAValidUser(Constants::INTERNAL));
+        $this->visit('/subastas/agregar');
+        $this->see('Subastas destacadas');
+        $this->assertResponseOk();
+    }
+    /**  @test 
+     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
+     */
+    function TryToGetToAuctionAddAsBuyer(){
+        $this->actingAs($this->getAValidUser(Constants::COMPRADOR));
+        $this->visit('/subastas/agregar');
+        $this->see('Subastas destacadas');
+        $this->assertResponseOk();
+    }
+    /**  @test 
+     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
+     */
+    function getToAuctionAddForReal(){
         $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
         $this->visit('/subastas/agregar');
         $this->see('Nueva Subasta');
@@ -90,7 +108,7 @@ class CreateAuctionTest extends TestCase
         
         $this->press('Subastar');
         $this->seePageIs('/subastas/agregar');
-        $this->see('Debes escoger un barco');
+        $this->see('El campo barco es obligatorio');
         $this->assertResponseOk();
     }
     /**  @test 
@@ -115,7 +133,7 @@ class CreateAuctionTest extends TestCase
         $this->type('Curabitur turpis. Morbi nec metus. Etiam ut purus mattis mauris sodales aliquam. Ut tincidunt tincidunt erat. In hac habitasse platea dictumst.','descri');
         $this->press('Subastar');
         $this->seePageIs('/subastas/agregar');
-        $this->see('Debes escoger un puerto');
+        $this->see('El campo puerto es obligatorio');
         $this->assertResponseOk();
     }
     /**  @test 
@@ -140,7 +158,7 @@ class CreateAuctionTest extends TestCase
         $this->type('Curabitur turpis. Morbi nec metus. Etiam ut purus mattis mauris sodales aliquam. Ut tincidunt tincidunt erat. In hac habitasse platea dictumst.','descri');
         $this->press('Subastar');
         $this->seePageIs('/subastas/agregar');
-        $this->see('Debes escoger un producto');
+        $this->see('El campo producto es obligatorio');
         $this->assertResponseOk();
     }
     /**  @test 
@@ -215,7 +233,7 @@ class CreateAuctionTest extends TestCase
         $this->type('Curabitur turpis. Morbi nec metus. Etiam ut purus mattis mauris sodales aliquam. Ut tincidunt tincidunt erat. In hac habitasse platea dictumst.','descri');
         $this->press('Subastar');
         $this->seePageIs('/subastas/agregar');
-        $this->see('El campo fecha inicio es obligatorio');
+        $this->see('El campo Fecha de Inicio es obligatorio');
         $this->assertResponseOk();
     }
     /**  @test 
@@ -240,7 +258,7 @@ class CreateAuctionTest extends TestCase
         $this->type('Curabitur turpis. Morbi nec metus. Etiam ut purus mattis mauris sodales aliquam. Ut tincidunt tincidunt erat. In hac habitasse platea dictumst.','descri');
         $this->press('Subastar');
         $this->seePageIs('/subastas/agregar');
-        $this->see('La fecha inicio debe ser una fecha posterior a');
+        $this->see('La Fecha de Inicio debe ser una fecha posterior a');
         $this->assertResponseOk();
     }
     /**  @test 
@@ -534,6 +552,84 @@ class CreateAuctionTest extends TestCase
         $this->seeJson(['description'=>$description]);
         $this->assertResponseOk();
     }
+    /**  @test 
+     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
+     */
+    function TryToGetToAuctionEditWithNonValidId(){
+        $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
+        $this->visit('/subastas/editar/asdasdasd');
+        $this->see('Lo sentimos, pero la p&aacute;gina que buscabas no existe.');
+        $this->assertResponseOk();
+    }
+    /**  @test 
+     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
+     */
+    function TryToGetToAuctionEditAsAdmin(){
+        $auction=$this->getLastAuction();
+        $this->actingAs($this->getAValidUser(Constants::INTERNAL));
+        $this->visit('/subastas/editar/'.$auction->id);
+        $this->see('Subastas destacadas');
+        $this->assertResponseOk();
+    }
+    /**  @test 
+     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
+     */
+    function TryToGetToAuctionEditAsBuyer(){
+        $auction=$this->getLastAuction();
+        $this->actingAs($this->getAValidUser(Constants::COMPRADOR));
+        $this->visit('/subastas/editar/'.$auction->id);
+        $this->see('Subastas destacadas');
+        $this->assertResponseOk();
+    }
+    /**  @test 
+     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
+     */
+    function getToAuctionEditForReal(){
+        $auction=$this->getLastAuction();
+        $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
+        $this->visit('/subastas/editar/'.$auction->id);
+        $this->see('Editar Subasta');
+        $this->assertResponseOk();
+    }
+    /**  @test 
+     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
+     */
+    function TryToGetToAuctionReplicateWithNonValidId(){
+        $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
+        $this->visit('/subastas/replicar/asdasdasd');
+        $this->see('Lo sentimos, pero la p&aacute;gina que buscabas no existe.');
+        $this->assertResponseOk();
+    }
+    /**  @test 
+     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
+     */
+    function TryToGetToAuctionReplicateAsAdmin(){
+        $auction=$this->getLastAuction();
+        $this->actingAs($this->getAValidUser(Constants::INTERNAL));
+        $this->visit('/subastas/replicar/'.$auction->id);
+        $this->see('Subastas destacadas');
+        $this->assertResponseOk();
+    }
+    /**  @test 
+     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
+     */
+    function TryToGetToAuctionReplicateAsBuyer(){
+        $auction=$this->getLastAuction();
+        $this->actingAs($this->getAValidUser(Constants::COMPRADOR));
+        $this->visit('/subastas/replicar/'.$auction->id);
+        $this->see('Subastas destacadas');
+        $this->assertResponseOk();
+    }
+    /**  @test 
+     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
+     */
+    function getToAuctionReplicateForReal(){
+        $auction=$this->getLastAuction();
+        $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
+        $this->visit('/subastas/replicar/'.$auction->id);
+        $this->see('Replicar Subasta');
+        $this->assertResponseOk();
+    }
     /**  @test
      * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
      */
@@ -613,6 +709,373 @@ class CreateAuctionTest extends TestCase
         $this->seeJson(['description'=>$description]);
         $this->assertResponseOk();
     }
+    /**  @test
+     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
+     */
+    function checkCorrelativeForLastAuction(){
+        $auction=$this->getLastAuction();
+        static::assertEquals('157', $auction->correlative);
+    }
+    /**  @test
+     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
+     */
+    function checkIfCodeIsInCorrectFormat(){
+        $auction=$this->getLastAuction();
+        static::assertEquals('SU-'.date('ym').'157',$auction->code);
+    }
+    /**  @test
+     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
+     */
+    function checkAuctionsMasterFilterForAllAuctions(){
+        $this->withoutMiddleware();
+        $data=[
+            'testing'=>true,
+            'limit'=>100,
+            'current'=>1,
+            'time'=>'all',
+            'filters'=>[
+                'pricemin'=>'50**',
+                'pricemax'=>'10000**',
+                'type'=>'all'
+                ],
+            ];
+        $this->post('/subastas/cargar/mas',$data);
+        $this->seeJson(['tested'=>true]);
+        $this->seeJson(['quantity'=>5]);
+        $this->assertResponseOk();
+    }
+    /**  @test
+     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
+     */
+    function checkAuctionsMasterFilterForCurrentAuctions(){
+        $this->withoutMiddleware();
+        $data=[
+            'testing'=>true,
+            'limit'=>100,
+            'current'=>1,
+            'time'=>'incourse',
+            'filters'=>[
+                'pricemin'=>'50**',
+                'pricemax'=>'10000**',
+                'type'=>'all'
+                ],
+            ];
+        $this->post('/subastas/cargar/mas',$data);
+        $this->seeJson(['tested'=>true]);
+        $this->seeJson(['quantity'=>0]);
+        $this->assertResponseOk();
+    }
+    /**  @test
+     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
+     */
+    function checkAuctionsMasterFilterForFutureAuctions(){
+        $this->withoutMiddleware();
+        $data=[
+            'testing'=>true,
+            'limit'=>100,
+            'current'=>1,
+            'time'=>'future',
+            'filters'=>[
+                'pricemin'=>'50**',
+                'pricemax'=>'10000**',
+                'type'=>'all'
+                ],
+            ];
+        $this->post('/subastas/cargar/mas',$data);
+        $this->seeJson(['tested'=>true]);
+        $this->seeJson(['quantity'=>2]);
+        $this->assertResponseOk();
+    }
+    /**  @test
+     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
+     */
+    function checkAuctionsMasterFilterForFinishedAuctions(){
+        $this->withoutMiddleware();
+        $data=[
+            'testing'=>true,
+            'limit'=>100,
+            'current'=>1,
+            'time'=>'finished',
+            'filters'=>[
+                'pricemin'=>'50**',
+                'pricemax'=>'10000**',
+                'type'=>'all'
+                ],
+            ];
+        $this->post('/subastas/cargar/mas',$data);
+        $this->seeJson(['tested'=>true]);
+        $this->seeJson(['quantity'=>3]);
+        $this->assertResponseOk();
+    }
+    /**  @test
+     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
+     */
+    function checkAuctionsMasterFilterForSpecificProductAllAuctions(){
+        $this->withoutMiddleware();
+        $data=[
+            'testing'=>true,
+            'limit'=>100,
+            'current'=>1,
+            'time'=>'all',
+            'filters'=>[
+                'pricemin'=>'50**',
+                'pricemax'=>'10000**',
+                'type'=>'all',
+                'product'=>'1**'
+                ],
+            ];
+        $this->post('/subastas/cargar/mas',$data);
+        $this->seeJson(['tested'=>true]);
+        $this->seeJson(['quantity'=>5]);
+        $this->assertResponseOk();
+    }
+    /**  @test
+     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
+     */
+    function checkAuctionsMasterFilterForSpecificProductFinishedAuctions(){
+        $this->withoutMiddleware();
+        $data=[
+            'testing'=>true,
+            'limit'=>100,
+            'current'=>1,
+            'time'=>'finished',
+            'filters'=>[
+                'pricemin'=>'50**',
+                'pricemax'=>'10000**',
+                'type'=>'all',
+                'product'=>'1**'
+                ],
+            ];
+        $this->post('/subastas/cargar/mas',$data);
+        $this->seeJson(['tested'=>true]);
+        $this->seeJson(['quantity'=>3]);
+        $this->assertResponseOk();
+    }
+    /**  @test
+     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
+     */
+    function checkAuctionsMasterFilterForSpecificProductFutureAuctions(){
+        $this->withoutMiddleware();
+        $data=[
+            'testing'=>true,
+            'limit'=>100,
+            'current'=>1,
+            'time'=>'future',
+            'filters'=>[
+                'pricemin'=>'50**',
+                'pricemax'=>'10000**',
+                'type'=>'all',
+                'product'=>'1**'
+                ],
+            ];
+        $this->post('/subastas/cargar/mas',$data);
+        $this->seeJson(['tested'=>true]);
+        $this->seeJson(['quantity'=>2]);
+        $this->assertResponseOk();
+    }
+    
+    /**  @test
+     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
+     */
+    function checkAuctionsMasterFilterForSpecificProductPlusCaliberAllAuctions(){
+        $this->withoutMiddleware();
+        $data=[
+            'testing'=>true,
+            'limit'=>100,
+            'current'=>1,
+            'time'=>'all',
+            'filters'=>[
+                'pricemin'=>'50**',
+                'pricemax'=>'10000**',
+                'type'=>'all',
+                'product'=>'1**',
+                'caliber'=>'small**'
+                ],
+            ];
+        $this->post('/subastas/cargar/mas',$data);
+        $this->seeJson(['tested'=>true]);
+        $this->seeJson(['quantity'=>3]);
+        $this->assertResponseOk();
+    }
+    /**  @test
+     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
+     */
+    function checkAuctionsMasterFilterForSpecificQualityEmptyResultsAllAuctions(){
+        $this->withoutMiddleware();
+        $data=[
+            'testing'=>true,
+            'limit'=>100,
+            'current'=>1,
+            'time'=>'all',
+            'filters'=>[
+                'pricemin'=>'50**',
+                'pricemax'=>'10000**',
+                'type'=>'all',
+                'quality'=>'1**',
+                ],
+            ];
+        $this->post('/subastas/cargar/mas',$data);
+        $this->seeJson(['tested'=>true]);
+        $this->seeJson(['quantity'=>0]);
+        $this->assertResponseOk();
+    }
+    /**  @test
+     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
+     */
+    function checkAuctionsMasterFilterForSpecificQualityWithResultsAllAuctions(){
+        $this->withoutMiddleware();
+        $data=[
+            'testing'=>true,
+            'limit'=>100,
+            'current'=>1,
+            'time'=>'all',
+            'filters'=>[
+                'pricemin'=>'50**',
+                'pricemax'=>'10000**',
+                'type'=>'all',
+                'quality'=>'3**',
+                ],
+            ];
+        $this->post('/subastas/cargar/mas',$data);
+        $this->seeJson(['tested'=>true]);
+        $this->seeJson(['quantity'=>2]);
+        $this->assertResponseOk();
+    }
+    /**  @test
+     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
+     */
+    function checkAuctionsMasterFilterForSpecificPortAllAuctions(){
+        $this->withoutMiddleware();
+        $data=[
+            'testing'=>true,
+            'limit'=>100,
+            'current'=>1,
+            'time'=>'all',
+            'filters'=>[
+                'pricemin'=>'50**',
+                'pricemax'=>'10000**',
+                'type'=>'all',
+                'port'=>'2**',
+                ],
+            ];
+        $this->post('/subastas/cargar/mas',$data);
+        $this->seeJson(['tested'=>true]);
+        $this->seeJson(['quantity'=>2]);
+        $this->assertResponseOk();
+    }
+    /**  @test
+     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
+     */
+    function checkAuctionsMasterFilterForSpecificPriceRangeAllAuctions(){
+        $this->withoutMiddleware();
+        $data=[
+            'testing'=>true,
+            'limit'=>100,
+            'current'=>1,
+            'time'=>'all',
+            'filters'=>[
+                'pricemin'=>'50**',
+                'pricemax'=>'5050**',
+                'type'=>'all',
+                ],
+            ];
+        $this->post('/subastas/cargar/mas',$data);
+        $this->seeJson(['tested'=>true]);
+        $this->seeJson(['quantity'=>5]);
+        $this->assertResponseOk();
+    }
+    /**  @test
+     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
+     */
+    function checkAuctionsMasterFilterForSpecificUserRatingWithNoResultsAllAuctions(){
+        $this->withoutMiddleware();
+        $data=[
+            'testing'=>true,
+            'limit'=>100,
+            'current'=>1,
+            'time'=>'all',
+            'filters'=>[
+                'pricemin'=>'50**',
+                'pricemax'=>'10000**',
+                'type'=>'all',
+                'userrating'=>'1**'
+                ],
+            ];
+        $this->post('/subastas/cargar/mas',$data);
+        $this->seeJson(['tested'=>true]);
+        $this->seeJson(['quantity'=>0]);
+        $this->assertResponseOk();
+    }
+    /**  @test
+     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
+     */
+    function checkAuctionsMasterFilterForSpecificUserRatingWithResultsAllAuctions(){
+        $this->withoutMiddleware();
+        $data=[
+            'testing'=>true,
+            'limit'=>100,
+            'current'=>1,
+            'time'=>'all',
+            'filters'=>[
+                'pricemin'=>'50**',
+                'pricemax'=>'10000**',
+                'type'=>'all',
+                'userrating'=>'3**'
+                ],
+            ];
+        $this->post('/subastas/cargar/mas',$data);
+        $this->seeJson(['tested'=>true]);
+        $this->seeJson(['quantity'=>5]);
+        $this->assertResponseOk();
+    }
+    /**  @test
+     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
+     */
+    function checkAuctionsMasterFilterForSpecificUserWithResultsAllAuctions(){
+        $this->withoutMiddleware();
+        $data=[
+            'testing'=>true,
+            'limit'=>100,
+            'current'=>1,
+            'time'=>'all',
+            'filters'=>[
+                'pricemin'=>'50**',
+                'pricemax'=>'10000**',
+                'type'=>'all',
+                'user'=>$this->getAValidUser(Constants::VENDEDOR)->id.'**'
+                ],
+            ];
+        $this->post('/subastas/cargar/mas',$data);
+        $this->seeJson(['tested'=>true]);
+        $this->seeJson(['quantity'=>5]);
+        $this->assertResponseOk();
+    }
+    /**  @test
+     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
+     */
+    function checkAuctionsMasterFilterForSpecificUserWithNoResultsAllAuctions(){
+        $this->withoutMiddleware();
+        $data=[
+            'testing'=>true,
+            'limit'=>100,
+            'current'=>1,
+            'time'=>'all',
+            'filters'=>[
+                'pricemin'=>'50**',
+                'pricemax'=>'10000**',
+                'type'=>'all',
+                'user'=>$this->getAValidUser(Constants::COMPRADOR).'**'
+                ],
+            ];
+        $this->post('/subastas/cargar/mas',$data);
+        $this->seeJson(['tested'=>true]);
+        $this->seeJson(['quantity'=>0]);
+        $this->assertResponseOk();
+    }
+    
+    
+    
+    
     
     /*
      * PrivateAuctionsTests
@@ -679,7 +1142,7 @@ class CreateAuctionTest extends TestCase
      * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
      */
     function tryToGetAdminForPrivateAuction(){
-        $id = $this->getTheLastIdInsertedInTheSeller();
+        $this->actingAs($this->getAValidUser(Constants::VENDEDOR));
         $this->json('GET', '/getusersauctionprivate', ['val' => 'diego weinstein'])
              ->seeJsonEquals([
              ]);
@@ -719,4 +1182,5 @@ class CreateAuctionTest extends TestCase
         $this->seeJson(['tested'=>true]);
         $this->assertResponseOk();
     }
+    
 }

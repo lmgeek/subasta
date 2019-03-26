@@ -28,23 +28,7 @@ class ManagePortsRequest extends Request
     public function rules()
     {
         return [
-            'name'      => 'required|regex:(^[0-9a-zA-Zá-úÁ-Ú\s\#\-]+$)',
-        ];
-    }
-    public function attributes()
-    {
-        if ($this->locale == "es"){
-            return [
-                'name' => 'Nombre',
-            ];
-        }
-        return [];
-    }
-
-    public function messages()
-    {
-        return [
-            'name.max'=>'El nombre del puerto no puede tener mas de 30 caracteres'
+            'name'      => 'required|max:30|regex:(^[0-9a-zA-Zá-úÁ-Ú\s\#\-]+$)',
         ];
     }
 }

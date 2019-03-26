@@ -29,7 +29,7 @@ use Illuminate\Routing\UrlGenerator;
             <div class="row dashboard-box" style="padding-bottom: 20px">
                 <div class="col">
                     <div class="headline"><h3><i class="icon-feather-anchor"></i> Nombre del puerto</h3></div>
-                    <input type="text" name="name" placeholder="Nombre" maxlength="39" value="<?=(isset($port))?$port->name:old('name')?>"required>
+                    <input type="text" name="name" data-translation="nombre" placeholder="Nombre" maxlength="30" value="<?=(isset($port))?$port->name:old('name')?>"required >
                 </div>
             </div>
             <div class="row dashboard-box" style="padding-bottom: 20px">

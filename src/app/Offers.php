@@ -49,7 +49,7 @@ class Offers extends Model
                 ->where('auctions_offers.user_id', Constants::EQUAL,$userid)
                 ;
         if($status!=null){
-            $return=$return->where(Constants::STATUS,Constants::EQUAL,$status);
+            $return=$return->where('offers.status',Constants::EQUAL,$status);
         }
         $return=$return->orderBy('auctions_offers.created_at','DESC');
         if($paginate==null){

@@ -49,8 +49,10 @@ class AuctionQuery extends Auction{
         $auctions = Auction::select('auctions.*')
             ->join(Constants::BATCHES, Constants::AUCTIONS_BATCH_ID, Constants::EQUAL, Constants::BATCH_ID)
             ->join(Constants::ARRIVES, Constants::BATCH_ARRIVE_ID, Constants::EQUAL, Constants::ARRIVES_ID)
+            ->join('product_detail','batches.product_detail_id',Constants::EQUAL,'product_detail.id')
             ->join(Constants::BOATS, Constants::ARRIVES_BOAT_ID, Constants::EQUAL, Constants::BOATS_ID)
             ->join(Constants::USERS, Constants::BOATS_USER_ID, Constants::EQUAL, Constants::USERS_ID)
+            
             ;
         if(isset($params[Constants::AUCTIONID])){
             $auctions=$auctions->where(Constants::AUCTIONS_ID, Constants::EQUAL,$params['auctionid']);
@@ -72,9 +74,9 @@ class AuctionQuery extends Auction{
         if(isset($params[Constants::PRODUCTID])){
             $ports=$params[Constants::PRODUCTID];
             if(is_array($ports)){
-                $auctions=$auctions->whereIn(Constants::BATCHES_PRODUCT_ID,$params['productid']);
+                $auctions=$auctions->whereIn('product_detail.product_id',$params['productid']);
             }else{
-                $auctions=$auctions->where(Constants::BATCHES_PRODUCT_ID, Constants::EQUAL,$params['productid']);
+                $auctions=$auctions->where('product_detail.product_id', Constants::EQUAL,$params['productid']);
             }
         }
         if(isset($params[Constants::QUALITY])){
@@ -96,9 +98,9 @@ class AuctionQuery extends Auction{
         if(isset($params[Constants::CALIBER])){
             $ports=$params[Constants::CALIBER];
             if(is_array($ports)){
-                $auctions=$auctions->whereIn('batches.caliber',$params['caliber']);
+                $auctions=$auctions->whereIn('product_detail.caliber',$params['caliber']);
             }else{
-                $auctions=$auctions->where('batches.caliber', Constants::EQUAL,$params['caliber']);
+                $auctions=$auctions->where('product_detail.caliber', Constants::EQUAL,$params['caliber']);
             }
         }
         $orderby=(isset($params['orderby']))?$params['orderby']:'end';

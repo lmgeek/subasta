@@ -419,7 +419,10 @@ class ProductController extends Controller
         return redirect(Constants::URL_PRODUCTS);
     }
     public static function getCalibersFromProductId(Request $request){
-        $details=ProductDetail::select('caliber')->where('product_id',Constants::EQUAL,$request->id)->get();
+        $details=ProductDetail::select('caliber')
+                ->where('product_id',Constants::EQUAL,$request->id)
+                ->where('status',Constants::EQUAL,1)
+                ->get();
         $return=array();
         foreach($details as $prod){
             $return['natural'][]=$prod->caliber;
@@ -431,6 +434,7 @@ class ProductController extends Controller
         $details=ProductDetail::select('presentation_unit','sale_unit','id')
                 ->where('product_id',Constants::EQUAL,$request->idproduct)
                 ->where('caliber',Constants::EQUAL,$request->caliber)
+                ->where('status',Constants::EQUAL,1)
                 ->get()[0];
         return json_encode(array(
             'presentation'=>$details->presentation_unit,

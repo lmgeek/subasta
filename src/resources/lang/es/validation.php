@@ -43,7 +43,7 @@ return [
     "integer"          => ":attribute debe ser un número entero",
     "ip"               => ":attribute debe ser una dirección IP válida",
     "max"              => [
-        "numeric" => ":attribute no debe ser mayor a :max",
+        "numeric" => "El campo :attribute no debe ser mayor a :max caracteres",
         "file"    => ":attribute no debe ser mayor que :max kilobytes",
         "string"  => ":attribute no debe ser mayor que :max caracteres",
         "array"   => ":attribute no debe tener más de :max elementos",
@@ -105,6 +105,12 @@ return [
     |
     */
 
-    "attributes" => [],
+    "attributes" => [
+        'name'=>'nombre',
+        'image'=>'imagen',
+        'amount'=>'cantidad',
+        'quality'=>'calidad',
+        'product'=>'producto'
+    ],
 
 ];

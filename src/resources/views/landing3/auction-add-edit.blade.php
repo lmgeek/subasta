@@ -46,7 +46,7 @@ if(Auth::user()->type==Constants::VENDEDOR && ((isset($auction->timeline) && $au
 	
         <form method="post" action="/subastas/guardar">
 		<div class="dashboard-content-inner" >
-			<div class="dashboard-headline"><h3>Nueva Subasta</h3></div>
+			<div class="dashboard-headline"><h3><?=$title?> Subasta</h3></div>
             
             @if (count($errors) > 0)
             <div class="row padding-bottom-20">
