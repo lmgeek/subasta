@@ -46,7 +46,7 @@ if(Auth::user()->type==Constants::VENDEDOR && ((isset($auction->timeline) && $au
 	
         <form method="post" action="/subastas/guardar">
 		<div class="dashboard-content-inner" >
-			<div class="dashboard-headline"><h3><?=$title?> Subasta</h3></div>
+			<div class="dashboard-headline"><h3>Nueva Subasta</h3></div>
             
             @if (count($errors) > 0)
             <div class="row padding-bottom-20">
@@ -217,7 +217,7 @@ if(Auth::user()->type==Constants::VENDEDOR && ((isset($auction->timeline) && $au
 								<div class="col-xl-12">
 									<div class="submit-field">
 										<h5>Descripci&oacute;n de la Subasta</h5>
-                                        <textarea cols="30" rows="5" class="with-border" minlength="120" maxlength="1000" name="descri"<?=($auctionedit==0)?Constants::DISABLED:''?>><?=$description?></textarea>
+                                        <textarea cols="30" rows="5" class="with-border" oninput="this.setCustomValidity('')" required oninvalid="this.setCustomValidity('El campo Descripción es obligatorio, mínimo 120 y máximo 1000 caracteres')" name="descri"<?=($auctionedit==0)?Constants::DISABLED:''?>><?=$description?></textarea>
 									</div>
 								</div>
 
