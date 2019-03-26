@@ -39,6 +39,7 @@ services:
         traefik.frontend.rule: "Host:subastas.netlabs.com.ar,subastasdelmar.com,www.subastasdelmar.com"
         traefik.port: 80
         traefik.docker.network: frontend
+        traefik.frontend.auth.basic: "admin:$$apr1$$Q2F8Za9A$$WyMQJF8lQO8HjuSx3GrGl0"
 #        traefik.frontend.whiteList.sourceRange: "190.111.246.210/32,201.216.224.192/29,190.210.73.128/28"
 
   db:
