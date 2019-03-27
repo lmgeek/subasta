@@ -1,3 +1,7 @@
+<?php
+use App\Http\Controllers\AuctionFrontController;
+$a = new AuctionFrontController();
+?>
 <div class="dashboard-sidebar">
 		<div class="dashboard-sidebar-inner" data-simplebar>
 			<div class="dashboard-nav-container">
@@ -35,7 +39,7 @@
 									<li><a href="#">Mis Arribos</a></li>
 									<li><a href="#">Mis Lotes</a></li>
 									<li><a href="<?=(Auth::user()->type== App\User::VENDEDOR)?'/subastas?type=mine&time=all':'#'?>">Mis Subastas</a></li>
-                                    <li><a href="<?=(Auth::user()->type== App\User::VENDEDOR)?'/ofertas':'#'?>">Ofertas Recibidas <span class="nav-tag">4</span></a></li>
+                                    <li><a href="<?=(Auth::user()->type== App\User::VENDEDOR)?'/ofertas':'#'?>">Ofertas Recibidas <span class="nav-tag">{{ $a->totalOffers() }}</span></a></li>
 								</ul>
 							</li>
 							<li><a href="#"><i class="icon-material-outline-shopping-cart"></i> Comprador</a>
