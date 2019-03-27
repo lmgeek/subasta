@@ -535,6 +535,19 @@ class AuctionFrontController extends AuctionController
     }
 
     /**
+     * TODO: retorna la camtidad de subastas pendiente por revision
+     * @return int
+     */
+    public function totalOffers(){
+        $rev = Auction::select(Constants::AUCTIONS_SELECT_ALL)
+            ->join('auctions_offers', 'auctions_offers.auction_id', Constants::EQUAL, 'auctions.id')
+            ->where('auctions_offers.status','=','pending')
+            ->groupBy('auctions.id')
+            ->get();
+        return count($rev);
+    }
+
+    /**
      * TODO: la paginacion puede ser una constante y puede ser definida ademas por el usuario en una variable
      * @param Request $request
      * @return mixed
