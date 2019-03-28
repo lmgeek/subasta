@@ -21,7 +21,12 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $products = Product::withTrashed()->orderBy('name')->get();
+        $products= \DB::table('products')
+            ->select('products.name','products.image_name','products.fishing_code','products.deleted_at','products.id','batches.product_detail_id','products.id')
+            ->Join ('product_detail', 'products.id', '=', 'product_detail.product_id')
+            ->LeftJoin('batches','product_detail.id','=','batches.product_detail_id')
+            ->groupBy('products.name')->orderBy('products.fishing_code')
+            ->get();
         return view('products.index',compact('request','products'));
     }
     /**
@@ -131,6 +136,8 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::withTrashed()->findOrFail($id);
+        $ProductDetail12 = ProductDetail::Select('id')->where('product_id', '=', $id)->get()->toArray();
+        $records=count($ProductDetail12);
         $ProductDetail1 = ProductDetail::withTrashed()->where('product_id','=',$id)->where('caliber','=','small')->limit(1)->orderby('id','DESC')->get()->toArray();
         $ProductDetail2 = ProductDetail::withTrashed()->where('product_id','=',$id)->where('caliber','=','medium')->limit(1)->orderby('id','DESC')->get()->toArray();
         $ProductDetail3 = ProductDetail::withTrashed()->where('product_id','=',$id)->where('caliber','=','big')->limit(1)->orderby('id','DESC')->get()->toArray();
@@ -152,7 +159,7 @@ class ProductController extends Controller
         if (count($exitente_lote2)){
             $const_big = 1;
         }
-        return view('products.edit',compact('product','datail', 'datail2', 'datail3','const_small','const_medium','const_big'));
+        return view('products.edit',compact('product','datail', 'datail2', 'datail3','const_small','const_medium','const_big','records'));
 
     }
     /**
@@ -184,13 +191,13 @@ class ProductController extends Controller
             $product_exit = Product::Select('id')->where('id', '<>', $id)->where('name', '=', $name_product)->get()->toArray();
             if (count($product_exit) > 0){
                 // mostrar mensaje en la plantalla
-                return redirect(Constants::URL_PRODUCTS)
+                return redirect()->action('ProductController@edit', [$id])
                     ->withErrors(['El dato del campo  Nombre ya ha sido registrado']);
             }
             $product_exit = Product::Select('id')->where('id', '<>', $id)->where('fishing_code', '=', $fishing_code)->get()->toArray();
             if (count($product_exit) > 0){
                 // mostrar mensaje en la plantalla
-                return redirect(Constants::URL_PRODUCTS)
+                return redirect()->action('ProductController@edit', [$id])
                     ->withErrors(['El dato del campo  Código Pequero ya ha sido registrado']);
             }
 //        buscar relacion de los calibre
@@ -390,18 +397,18 @@ class ProductController extends Controller
     public function trash(DeleteProductRequest $request, $id)
     {
         $prod = Product::findOrFail($id);
-        $ProductDetail1 = ProductDetail::withTrashed()->where('product_id', '=', $id)->get()->toArray();
-
-        $registro1 = $ProductDetail1[0]['id'];
-        $registro2 = $ProductDetail1[1]['id'];
-        $registro3 = $ProductDetail1[2]['id'];
+        $ProductDetail1 = ProductDetail::Select('id')->where('product_id', '=', $id)->get()->toArray();
+        $records=count($ProductDetail1);
+        $registro1 = $ProductDetail1[0];
+        $registro2 = $ProductDetail1[1];
+        $registro3 = $ProductDetail1[2];
         $exitente1 = Batch::Select('id')->where('product_detail_id', '=', $registro1)->get()->toArray();
         $relations1 = count($exitente1);
         $exitente2 = Batch::Select('id')->where('product_detail_id', '=', $registro2)->get()->toArray();
         $relations2 = count($exitente2);
         $exitente3 = Batch::Select('id')->where('product_detail_id', '=', $registro3)->get()->toArray();
         $relations3 = count($exitente3);
-        if (($relations1 < 1) && ($relations2 < 1) && ($relations3 < 1))
+        if (($relations1 < 1) && ($relations2 < 1) && ($relations3 < 1) && ($records < 4))
         {
             $prod->delete();
             return redirect(Constants::URL_PRODUCTS);

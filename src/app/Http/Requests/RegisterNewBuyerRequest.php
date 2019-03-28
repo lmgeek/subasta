@@ -33,7 +33,7 @@ class RegisterNewBuyerRequest extends Request
             'cuit'=>"required|min:13|regex:(^[0-9-]+$)",
             'password'=>'required|confirmed|regex:(^\S*(?=\S{6,8})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$)',
 			'email' => 'required|min:7|unique:users,email|email',
-            'phone' => 'required|numeric|regex:(^[()0-9-]+$)',
+            'phone' => 'required|regex:(^[0-9\-\+\#\(\)\*]+$)',
         ];
     }
     public function attributes()

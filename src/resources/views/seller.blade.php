@@ -22,28 +22,28 @@
 			<form class="m-t" role="form" method="POST" action="/registro/vendedor">
                  {{ csrf_field() }}
 				<div class="form-group">
-                    <input name="name" id="name" type="text" class="form-control" placeholder="{{trans('register.name')}}" value="{{ old('name') }}" >
+                    <input name="name" id="name" type="text" oninput="this.setCustomValidity('')" required oninvalid="this.setCustomValidity('El campo Nombre es obligatorio')" class="form-control" placeholder="{{trans('register.name')}}" value="{{ old('name') }}" >
                 </div>
                 <div class="form-group">
-                    <input name="lastname" id="lastname" type="text" class="form-control" placeholder="{{trans('register.lastname')}}"  value="{{ old('lastname') }}">
+                    <input name="lastname" id="lastname" type="text" oninput="this.setCustomValidity('')" required oninvalid="this.setCustomValidity('El campo Apellido es obligatorio')"class="form-control" placeholder="{{trans('register.lastname')}}"  value="{{ old('lastname') }}">
                 </div>
                 <div class="form-group">
-                    <input name="alias" id="alias" type="text" class="form-control" placeholder="{{trans('register.nickname')}}" maxlength="10" value="{{ old('alias') }}" onkeypress="return blankSpace(event)">
+                    <input name="alias" id="alias" type="text" oninput="this.setCustomValidity('')" required oninvalid="this.setCustomValidity('El campo Alias es obligatorio')"class="form-control" placeholder="{{trans('register.nickname')}}" maxlength="10" value="{{ old('alias') }}" onkeypress="return blankSpace(event)">
                 </div>
 				<div class="form-group">
-                    <input name="cuit" id="cuit" type="text" class="form-control" placeholder="{{trans('register.cuit')}}" value="{{ old('cuit') }}" >
+                    <input name="cuit" id="cuit" type="text" oninput="this.setCustomValidity('')" required oninvalid="this.setCustomValidity('El campo CUIT es obligatorio, mínimo 13 caracteres con guiones (-)')"class="form-control" placeholder="{{trans('register.cuit')}}" value="{{ old('cuit') }}" >
                 </div>
                 <div class="form-group">
-                    <input name="email" id="email" type="email" class="form-control" placeholder="{{trans('register.email')}}" value="{{ old('email') }}" >
+                    <input name="email" id="email" type="email" oninput="this.setCustomValidity('')" required oninvalid="this.setCustomValidity('El campo Email es obligatorio')" class="form-control" placeholder="{{trans('register.email')}}" value="{{ old('email') }}" >
                 </div>
                 <div class="form-group">
-                    <input name="password" id="password" type="password" class="form-control" placeholder="{{trans('register.password')}}" >
+                    <input name="password" id="password" type="password" oninput="this.setCustomValidity('')" required oninvalid="this.setCustomValidity('El campo Contraseña es obligatorio')" class="form-control" placeholder="{{trans('register.password')}}" >
                 </div>
 				<div class="form-group">
-                    <input name="password_confirmation" id="password_confirmation" type="password" class="form-control"  placeholder="{{trans('register.confirm_password')}}" >
+                    <input name="password_confirmation" id="password_confirmation" type="password" oninput="this.setCustomValidity('')" required oninvalid="this.setCustomValidity('El campo Confirmar Contraseña es obligatorio')"class="form-control"  placeholder="{{trans('register.confirm_password')}}" >
                 </div>
 				<div class="form-group">
-                    <input name="phone" id="phone" type="text" class="form-control number" placeholder="{{trans('register.phone')}}" value="{{ old('phone') }}" >
+                    <input  type="tel" name="phone" id="phone" oninput="this.setCustomValidity('')" required oninvalid="this.setCustomValidity('El campo Teléfono es obligatorio')" class="form-control" placeholder="{{trans('register.phone')}}" value="{{ old('phone') }}" onkeypress="return telefono(event);">
                 </div>
                 <div class="form-group">
                        <!-- <div class="checkbox i-checks"><label> <input type="checkbox"><i></i> Agree the terms and policy </label></div>-->
@@ -95,6 +95,25 @@
                 $('#error').text('Please enter only 2 decimal places, we have truncated extra points');
             }
         });
+        function telefono(e) {
+            key = e.keyCode || e.which;
+            tecla = String.fromCharCode(key).toString();
+            //Se define todo lo que se quiere que se muestre
+            caracter = "0123456789-()*#+";
+            especiales = [];
+
+            tecla_especial = false;
+            for (var i in especiales) {
+                if (key == especiales[i]) {
+                    tecla_especial = true;
+                    break;
+                }
+            }
+            if (caracter.indexOf(tecla) == -1 && !tecla_especial) {
+                // alert('Tecla no aceptada');
+                return false;
+            }
+        }
         function onlyNumberWithComma(e){
             var evt = e || window.event;
             var x = evt.key;

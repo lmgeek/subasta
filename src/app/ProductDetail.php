@@ -12,7 +12,7 @@ class ProductDetail extends Model
     protected $table = 'product_detail';
 
     protected $dates    = ['deleted_at'];
-    protected $fillable = ['product_id', 'caliber', 'presentation_unit','weight', 'sale_unit'];
+    protected $fillable = ['product_id', 'caliber', 'presentation_unit','weight', 'sale_unit','status'];
 
 
     public function product(){

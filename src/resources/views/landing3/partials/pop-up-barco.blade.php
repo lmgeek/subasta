@@ -37,7 +37,7 @@ use Illuminate\Routing\Controllers;
 
                         <!-- Fields -->
                         <div class="bidding-fields w100">
-                            <input name="name" class="with-border" placeholder="Nombre Barco" value="{{ old('name') }}">
+                            <input name="name" class="with-border" oninput="this.setCustomValidity('')" required oninvalid="this.setCustomValidity('El campo Nombre del Barco es obligatorio')" placeholder="Nombre Barco" value="{{ old('name') }}">
                         </div>
 
                         <!-- Headline -->
@@ -45,7 +45,7 @@ use Illuminate\Routing\Controllers;
 
                         <!-- Fields -->
                         <div class="bidding-fields w100">
-                            <input class="with-border" name="matricula" placeholder="Ingresa la matrícula" value="{{ old('matricula') }}" >
+                            <input class="with-border" name="matricula" oninput="this.setCustomValidity('')" required oninvalid="this.setCustomValidity('El campo Matrícula del Barco es obligatorio')" placeholder="Ingresa la matrícula" value="{{ old('matricula') }}" >
                         </div>
 
                         <!-- Headline -->
@@ -53,7 +53,7 @@ use Illuminate\Routing\Controllers;
 
                         <!-- Fields -->
                         <div class="bidding-fields w100">
-                            <select name="port" class="selectpicker with-border form-control over">
+                            <select name="port" class="selectpicker with-border form-control over" oninput="this.setCustomValidity('')" required oninvalid="this.setCustomValidity('El campo Puerto de Preferencia es obligatorio')">
                                 <option value="">Seleccione...</option>
                                 @foreach($ports as $port)
                                     <option value='{{$port->id}}'>{{$port->name}}</option>

@@ -2,6 +2,9 @@
 return [
     'edit'              => 'Editar Producto',
     'title'             => 'Productos',
+    'small'             => 'Chico',
+    'medium'             => 'Mediano',
+    'big'             => 'Grande',
     'new'               => 'Nuevo Producto',
     'productInfo'       => 'Información del Producto',
     'name'              => 'Nombre',
