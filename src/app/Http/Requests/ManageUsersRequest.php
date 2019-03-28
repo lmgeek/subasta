@@ -35,7 +35,7 @@ class ManageUsersRequest extends Request
             'cuit'=>"required_if:type,seller|min:13|regex:(^[0-9-]+$)",
             'password'=>'required_without:id|confirmed|regex:(^\S*(?=\S{6,8})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$)',
 			'email' => 'required|min:7|email',
-            'phone' => 'required|numeric|regex:(^[()0-9-]+$)',
+            'phone' => 'required|regex:(^[0-9\-\+\#\(\)\*]+$)',
         ];
     }
     public function attributes()

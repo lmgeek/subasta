@@ -64,7 +64,7 @@
                                         <td>{{ $p->fishing_code }}</td>
                                         <td>{{ $p->name }}</td>
                                         <td>
-                                            @if($p->trashed())
+                                            @if($p->deleted_at <> null)
 
                                                 <span class="label label-default">Inactivo</span>
                                             @else
@@ -73,17 +73,17 @@
                                         </td>
                                         <td>
 
-                                            <a href="{{ route('products.edit',$p) }}"  @if($p->trashed()) disabled @endif class="btn btn-success"><em class="fa fa-edit"></em> Editar</a>
+                                            <a href="{{ route('products.edit',$p->id) }}"   @if($p->deleted_at <> null) disabled @endif class="btn btn-success"><em class="fa fa-edit"></em> Editar</a>
 
-                                            <form action="{{ route('products.restore',$p) }}" class="restoreForm_{{ $p->id }}"  method="post" style="display: inline-block">
+                                            <form action="{{ route('products.restore',$p->id) }}" class="restoreForm_{{ $p->id }}"  method="post" style="display: inline-block">
                                                 {{ csrf_field() }}
-                                                <a href="#" class="btn btn-primary restoreItem" @if($p->trashed()) @else disabled @endif data-id="{{ $p->id }}"><em class="fa fa-eye"></em> Activar</a>
+                                                <a href="#" class="btn btn-primary restoreItem" @if($p->deleted_at == null) disabled @endif data-id="{{ $p->id }}"><em class="fa fa-eye"></em> Activar</a>
                                             </form>
 
 
-                                            <form action="{{ route('products.trash',$p) }}" class="trashForm_{{ $p->id }}"  method="post" style="display: inline-block">
+                                            <form action="{{ route('products.trash',$p->id) }}" class="trashForm_{{ $p->id }}"  method="post" style="display: inline-block">
                                                 {{ csrf_field() }}
-                                                <a href="#" class="btn btn-warning trashItem" @if($p->trashed()) disabled @endif  data-id="{{ $p->id }}"><em class="fa fa-eye-slash"></em> Desactivar</a>
+                                                <a href="#" class="btn btn-warning trashItem" @if($p->product_detail_id <> null) disabled @endif  @if($p->deleted_at <> null) disabled @endif  data-id="{{ $p->id }}"><em class="fa fa-eye-slash"></em> Desactivar</a>
                                             </form>
 
                                         </td>

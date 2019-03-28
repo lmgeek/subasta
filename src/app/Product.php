@@ -53,7 +53,15 @@ class Product extends Model
             
         ];
     }
-
+    public function relation($id)
+    {
+        $relation= Product::select('batches.product_detail_id')
+            ->Join ('product_detail', 'products.id', '=', 'product_detail.product_id')
+            ->LeftJoin('batches','product_detail.id','=','batches.product_detail_id')
+            ->where ('products.id', '=', $id)
+            ->get()->toArray();
+        return ($relation);
+    }
     public function canBeDeleted()
     {
         $b = Batch::where('product_id',$this->id)->count();

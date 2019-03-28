@@ -56,13 +56,13 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="nombre">Código Pesquero</label>
-                                        <input type="text" name="codigo" maxlength="10"   class="form-control" value="{{ old('codigo') }}" onkeypress="return codigopesquero(event);" >
+                                        <input type="text" name="codigo" maxlength="10"   class="form-control" value="{{ old('codigo') }}" oninput="this.setCustomValidity('')" required oninvalid="this.setCustomValidity('El campo Código Pesquero es obligatorio')" onkeypress="return codigopesquero(event);" >
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="nombre">{{ trans('products.name') }}</label>
-                                        <input type="text" name="name" class="form-control" id="name" value="{{ old('name') }}" >
+                                        <input type="text" name="name" class="form-control" id="name" oninput="this.setCustomValidity('')" required oninvalid="this.setCustomValidity('El campo Nombre es obligatorio')" value="{{ old('name') }}" onkeypress="return nombre(event);">
                                     </div>
                                 </div>
 
@@ -76,14 +76,29 @@
 
                                             <div class="form-group">
                                                 <label for="unit">Unidad de Presentacion</label>
-                                                {!! Form::select('unidadp',$units, old('unidadp'), ['class' => 'required form-control']) !!}
+                                                <select class="form-control" oninput="this.setCustomValidity('')" required oninvalid="this.setCustomValidity('El campo Unidad de Presentación del Calibre Chico es obligatorio')"name="unidadp">
+                                                    <option value="">Seleccione...</option>
+                                                    <?php
+                                                    $unidadp = ( old('unidadp'));
+                                                    ?>
+                                                    @foreach(\App\Product::units() as $u)
+                                                        <option @if( $unidadp == $u) selected @endif value="{{ $u }}">{{ trans('general.product_units.'.$u) }}</option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                             <label for="weigth_small">Peso aproximado</label>
-                                            <input type="text" name="weight_small" class="form-control number" id="weigth_small" value="{{ old('weight_small') }}">
+                                            <input type="text" name="weight_small" class="form-control number" id="weigth_small" oninput="this.setCustomValidity('')" required oninvalid="this.setCustomValidity('El campo Peso del Calibre Chico es obligatorio')" value="{{ old('weight_small') }}">
                                             <div class="form-group">
                                                 <label for="unit">Unidad de Venta </label>
-                                                {!! Form::select('salep',$sale, old('salep'), ['class' => 'required form-control']) !!}
-
+                                                <select class="form-control" oninput="this.setCustomValidity('')" required oninvalid="this.setCustomValidity('El campo Unidad de Venta del Calibre Chico es obligatorio')"name="salep">
+                                                    <option value="">Seleccione...</option>
+                                                    <?php
+                                                    $salep = ( old('salep'));
+                                                    ?>
+                                                    @foreach(\App\Product::SALE() as $u)
+                                                        <option @if( $salep == $u) selected @endif value="{{ $u }}">{{ trans('general.product_units.'.$u) }}</option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                             <div class="form-group">
                                                 {!! Form::select('statusp',$statusr, old('statusp'), ['class' => 'required form-control']) !!}
@@ -94,15 +109,29 @@
 
                                             <div class="form-group">
                                                 <label for="unit">Unidad de Presentacion</label>
-                                                {!! Form::select('unidadm',$units, old('unidadm'), ['class' => 'required form-control']) !!}
-
+                                                <select class="form-control" oninput="this.setCustomValidity('')" required oninvalid="this.setCustomValidity('El campo Unidad de Presentación del Calibre Mediano es obligatorio')"name="unidadm">
+                                                    <option value="">Seleccione...</option>
+                                                    <?php
+                                                    $unidadm = ( old('unidadm'));
+                                                    ?>
+                                                    @foreach(\App\Product::units() as $u)
+                                                        <option @if( $unidadm == $u) selected @endif value="{{ $u }}">{{ trans('general.product_units.'.$u) }}</option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                             <label for="weigth_small">Peso aproximado</label>
-                                            <input type="text" name="weight_medium" class="form-control number" id="weigth_medium" value="{{ old('weight_medium') }}">
+                                            <input type="text" name="weight_medium" class="form-control number" id="weigth_medium" oninput="this.setCustomValidity('')" required oninvalid="this.setCustomValidity('El campo Peso del Calibre Mediano es obligatorio')" value="{{ old('weight_medium') }}">
                                             <div class="form-group">
                                                 <label for="unit">Unidad de Venta </label>
-                                                {!! Form::select('salem',$sale, old('salem'), ['class' => 'required form-control']) !!}
-
+                                                <select class="form-control" oninput="this.setCustomValidity('')" required oninvalid="this.setCustomValidity('El campo Unidad de Venta del Calibre Mediano es obligatorio')"name="salem">
+                                                    <option value="">Seleccione...</option>
+                                                    <?php
+                                                    $salem = ( old('salem'));
+                                                    ?>
+                                                    @foreach(\App\Product::SALE() as $u)
+                                                        <option @if( $salem == $u) selected @endif value="{{ $u }}">{{ trans('general.product_units.'.$u) }}</option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                             <div class="form-group">
                                                 {!! Form::select('statusm',$statusr, old('statusm'), ['class' => 'required form-control']) !!}
@@ -113,15 +142,29 @@
 
                                             <div class="form-group">
                                                 <label for="unit">Unidad de Presentacion</label>
-                                                {!! Form::select('unidadg',$units, old('unidadg'), ['class' => 'required form-control']) !!}
-
+                                                <select class="form-control" oninput="this.setCustomValidity('')" required oninvalid="this.setCustomValidity('El campo Unidad de Presentación del Calibre Grande es obligatorio')"name="unidadg">
+                                                    <option value="">Seleccione...</option>
+                                                    <?php
+                                                    $unidadg = ( old('unidadg'));
+                                                    ?>
+                                                    @foreach(\App\Product::units() as $u)
+                                                        <option @if( $unidadg == $u) selected @endif value="{{ $u }}">{{ trans('general.product_units.'.$u) }}</option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                             <label for="weigth_small">Peso aproximado</label>
-                                            <input type="text" name="weight_big" class="form-control number" id="weigth_big" value="{{ old('weight_big') }}">
+                                            <input type="text" name="weight_big" class="form-control number" id="weigth_big" oninput="this.setCustomValidity('')" required oninvalid="this.setCustomValidity('El campo Peso del Calibre Grande es obligatorio')" value="{{ old('weight_big') }}">
                                             <div class="form-group">
                                                 <label for="unit">Unidad de Venta </label>
-                                                {!! Form::select('saleg',$sale, old('saleg'), ['class' => 'required form-control']) !!}
-
+                                                <select class="form-control" oninput="this.setCustomValidity('')" required oninvalid="this.setCustomValidity('El campo Unidad de Venta del Calibre Grande es obligatorio')"name="saleg">
+                                                    <option value="">Seleccione...</option>
+                                                    <?php
+                                                    $saleg = ( old('saleg'));
+                                                    ?>
+                                                    @foreach(\App\Product::SALE() as $u)
+                                                        <option @if( $saleg == $u) selected @endif value="{{ $u }}">{{ trans('general.product_units.'.$u) }}</option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                             <div class="form-group">
                                                 {!! Form::select('statusg',$statusr, old('statusg'), ['class' => 'required form-control']) !!}
@@ -167,6 +210,25 @@
             tecla = String.fromCharCode(key).toString();
             //Se define todo lo que se quiere que se muestre
             caracter = "0123456789 ";
+            especiales = [];
+
+            tecla_especial = false;
+            for (var i in especiales) {
+                if (key == especiales[i]) {
+                    tecla_especial = true;
+                    break;
+                }
+            }
+            if (caracter.indexOf(tecla) == -1 && !tecla_especial) {
+                // alert('Tecla no aceptada');
+                return false;
+            }
+        }
+        function nombre(e) {
+            key = e.keyCode || e.which;
+            tecla = String.fromCharCode(key).toString();
+            //Se define todo lo que se quiere que se muestre
+            caracter = "qwertyuiopñlkjhgfdsazxcvbnmQWERTYUIOPÑLKJHGFDSAZXCVBNM´  ";
             especiales = [];
 
             tecla_especial = false;

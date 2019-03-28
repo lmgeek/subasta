@@ -62,6 +62,7 @@ class RegisterController extends Controller
             $comprador = new Comprador();
             $comprador->user_id = $user->id;
             $comprador->dni = $dni;
+            $comprador->bid_limit = '17999999999,00';
             $comprador->save();
         }
 

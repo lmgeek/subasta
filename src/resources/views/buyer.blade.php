@@ -23,28 +23,28 @@
             <form class="m-t" role="form" method="POST" action="/registro/comprador">
                  {{ csrf_field() }}
 				<div class="form-group">
-                    <input name="name" id="name" type="text" class="form-control" placeholder="{{trans('register.name')}}"  value="{{ old('name')}}">
+                    <input name="name" id="name" type="text" oninput="this.setCustomValidity('')" required oninvalid="this.setCustomValidity('El campo Nombre es obligatorio')" class="form-control" placeholder="{{trans('register.name')}}"  value="{{ old('name')}}">
                 </div> 
                 <div class="form-group">
-                    <input name="lastname" id="lastname" type="text" class="form-control" placeholder="{{trans('register.lastname')}}"  value="{{ old('lastname')}}">
+                    <input name="lastname" id="lastname" type="text" oninput="this.setCustomValidity('')" required oninvalid="this.setCustomValidity('El campo Apellido es obligatorio')" class="form-control" placeholder="{{trans('register.lastname')}}"  value="{{ old('lastname')}}">
                 </div>
                 <div class="form-group">
-                    <input name="alias" id="alias" type="text" class="form-control" placeholder="{{trans('register.nickname')}}"  maxlength="10" value="{{ old('alias') }}" onkeypress="return  blankSpace(event)">
+                    <input name="alias" id="alias" type="text" oninput="this.setCustomValidity('')" required oninvalid="this.setCustomValidity('El campo Alias es obligatorio')" class="form-control" placeholder="{{trans('register.nickname')}}"  maxlength="10" value="{{ old('alias') }}" onkeypress="return  blankSpace(event)">
                 </div>
 				<div class="form-group">
-                    <input name="dni" id="dni" type="text" class="form-control" placeholder="{{trans('register.dni')}}" value="{{ old('dni')}}" >
+                    <input name="dni" id="dni" type="text" oninput="this.setCustomValidity('')" required oninvalid="this.setCustomValidity('El campo DNI es obligatorio, mínimo 7 caracteres')" class="form-control" placeholder="{{trans('register.dni')}}" value="{{ old('dni')}}" >
                 </div>
                 <div class="form-group">
-                    <input name="email" id="email" type="text" class="form-control" placeholder="{{trans('register.email')}}" value="{{ old('email')}}" >
+                    <input name="email" id="email" type="email" oninput="this.setCustomValidity('')" required oninvalid="this.setCustomValidity('El campo Email es obligatorio')" class="form-control" placeholder="{{trans('register.email')}}" value="{{ old('email')}}" >
                 </div>
                 <div class="form-group">
-                    <input name="password" id="password" type="password" class="form-control" placeholder="{{trans('register.password')}}" >
+                    <input name="password" id="password" type="password" oninput="this.setCustomValidity('')" required oninvalid="this.setCustomValidity('El campo Contraseña es obligatorio')" class="form-control" placeholder="{{trans('register.password')}}" >
                 </div>
 				<div class="form-group">
-                    <input name="password_confirmation" id="password_confirmation" type="password" class="form-control"  placeholder="{{trans('register.confirm_password')}}" >
+                    <input name="password_confirmation" id="password_confirmation" type="password" oninput="this.setCustomValidity('')" required oninvalid="this.setCustomValidity('El campo Confirmar Contraseña es obligatorio')"class="form-control"  placeholder="{{trans('register.confirm_password')}}" >
                 </div>
 				<div class="form-group">
-                    <input name="phone" id="phone" type="text" min="8" class="form-control number" placeholder="{{trans('register.phone')}}" value="{{ old('phone')}}"  >
+                    <input name="phone" id="phone" type="tel" oninput="this.setCustomValidity('')" required oninvalid="this.setCustomValidity('El campo Teléfono es obligatorio')" class="form-control" placeholder="{{trans('register.phone')}}" value="{{ old('phone')}}" onkeypress="return telefono(event);" >
                 </div>
                 <div class="form-group">
                        <!-- <div class="checkbox i-checks"><label> <input type="checkbox"><i></i> Agree the terms and policy </label></div>-->
@@ -116,6 +116,25 @@
         $(this).val(str);
 
         if (check === -1 && x != "Backspace" && x != ','){
+            return false;
+        }
+    }
+    function telefono(e) {
+        key = e.keyCode || e.which;
+        tecla = String.fromCharCode(key).toString();
+        //Se define todo lo que se quiere que se muestre
+        caracter = "0123456789-()*#+";
+        especiales = [];
+
+        tecla_especial = false;
+        for (var i in especiales) {
+            if (key == especiales[i]) {
+                tecla_especial = true;
+                break;
+            }
+        }
+        if (caracter.indexOf(tecla) == -1 && !tecla_especial) {
+            // alert('Tecla no aceptada');
             return false;
         }
     }
