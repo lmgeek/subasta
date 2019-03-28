@@ -341,11 +341,11 @@
                         return false;
                     }
                     // else if (this.width.toFixed(0) != 172 && this.height.toFixed(0) != 102) {
-                    else if (this.width.toFixed(0) != 630 && this.height.toFixed(0) != 404) {
+                  /*  if (this.width.toFixed(0) != 630 && this.height.toFixed(0) != 404) {
                         alert('La imagen no puede ser adjuntada. Las medidas deben ser: 630 x 404 pixeles');
                         resetFile();
                         return false;
-                    }
+                    }*/
                     else {
                         Preview.innerHTML = '';
                         trash.style.display = 'inline';

@@ -203,7 +203,7 @@
                                         <p class="help-block">{{ trans('products.image_upload_help') }}</p>
                                     </div>
                                     @if (!is_null($product->image_name) and file_exists('img/products/'.$product->image_name) )
-                                        <img src="/img/products/{{$product->image_name}}" class="img-responsive" alt="" id="actual_img">
+                                        <img src="/img/products/{{$product->image_name}}" class="img-responsive" alt="" id="actual_img" width="220" >
                                     @endif
                                     <div id="preview"></div>
                                     <a href="#" onclick="resetFile()" id="trash">
@@ -352,12 +352,12 @@
                         $('#actual_img').show();
                         return false;
                     // } else if (this.width.toFixed(0) != 172 && this.height.toFixed(0) != 102) {
-                    } else if (this.width.toFixed(0) != 630 && this.height.toFixed(0) != 404) {
+                    /*} else if (this.width.toFixed(0) != 630 && this.height.toFixed(0) != 404) {
                         alert('La imagen no puede ser adjuntada. Las medidas deben ser: 172 x 102 pixeles');
                         resetFile();
                         $('#actual_img').show();
                         Preview.innerHTML = '';
-                        return false;
+                        return false;*/
                     } else {
                         $('#actual_img').hide();
                         Preview.innerHTML = '';
