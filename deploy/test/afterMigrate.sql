@@ -53,6 +53,7 @@ VALUES (1, 40,50,2000,97910,'2019-01-24 10:30:00','2019-02-20 10:45:0'), (2, 40,
 # Insertar todo las subastas
 INSERT INTO auctions (`batch_id`, `correlative`, `start`, `start_price`, `end`, `end_price`, `interval`, `amount`, `active`, `notification_status`, `type`, `description`, `target_price`,`tentative_date`)
 VALUES (1, 152, '2019-01-24 10:30:00', 10000, '2019-01-30 10:30:00', 5000, 1, 90,  1, 0, 'public','producto a la mejor calidad', 5050, '2019-01-30 10:30:00'),
+(1, 120, '2019-02-24 10:30:00', 20000, '2019-06-01 10:30:00', 3000, 1, 90,  1, 0, 'public','producto a la mejor calidad', 5050, '2019-03-15 10:30:00'),
 (2, 155, '2019-01-30 10:30:00', 1000, '2019-02-06 10:30:00', 500, 1, 90, 1, 0,'public','producto de alta calidad' ,510, '2019-02-06 10:30:00'),
 (3, 150, '2019-01-31 10:30:00', 100, '2019-02-03 10:30:00', 50, 1, 90, 1, 0,'public','producto de calidad' ,52, '2019-02-03 10:30:00'),
 (2, 154, '2019-01-30 10:34:00', 1000, '2019-02-06 10:35:00', 500, 2, 90, 1, 0,'private','el mejor producto de alta calidad' ,510, '2019-02-06 10:38:00');
