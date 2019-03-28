@@ -40,8 +40,8 @@
 							</li>
 							<li><a href="#"><i class="icon-material-outline-shopping-cart"></i> Comprador</a>
 								<ul>
-									<li><a href="#">Mis Compras</a></li>
-									<li><a href="#">Mis Ofertas</a></li>
+									<li><a href="/usuarios/compras">Mis Compras</a></li>
+									<li><a href="/usuarios/ofertas">Mis Ofertas</a></li>
 									<li><a href="#">Subastas Favoritas</a></li>
 								</ul>
 							</li>

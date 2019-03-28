@@ -111,7 +111,6 @@
                                             <span class="input-group-addon">$</span>
 
                                             <input type="text" name="endPrice" class="form-control number" min="0"
-                                                   {{--{{ dd(\preg_replace("/[^\d\,]/","",old('endPrice',$auction->end_price))) }}--}}
 
                                                    value="{{ old('endPrice',$auction->end_price) }}"
                                             >

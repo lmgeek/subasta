@@ -2,17 +2,19 @@
 use App\Auction;
 use App\Constants;
 use App\AuctionQuery;
-if(empty($auction->batch->arrive->boat->user->id)){
-    die(json_encode(array('view'=>'')));
-}
 $userId = $auction->batch->arrive->boat->user->id;
 $total = $auction->amount;
 $availability = Auction::getAvailable($auction->id, $total);
 $disponible = $availability['available'];
 $cantbids = $availability['sold'];
 $cantofertas = \App\Http\Controllers\AuctionBackController::getOffersCount($auction->id);
-$price = \App\Http\Controllers\AuctionFrontController::calculatePriceID($auction->id);
-$close = $price[Constants::CLOSE];
+
+//$price = \App\Http\Controllers\AuctionFrontController::calculatePriceID($auction->id);
+//$close = $price[Constants::CLOSE];
+
+$price = AuctionQuery::calcularPrecio($auction->start, $auction->end, $auction->start_price, $auction->end_price);
+$close =($price<$auction->target_price)?1:0;
+
 $userRatings = \App\Http\Controllers\AuctionFrontController::getUserRating($auction->batch->arrive->boat->user);
 $usercat = AuctionQuery::catUserByAuctions($userId);
 $port = \App\Ports::getPortById($auction->batch->arrive->port_id);
@@ -50,7 +52,7 @@ if (Auth::user()) {
 $fechafin=Constants::formatDate($auction->end);
 ?>
 <div id="Auction_<?=$auction->id?>" class="task-listing <?=(empty($finished)) ? 'auction' : ''?>"
-     data-id="{{$auction->id}}" data-price="{{$price['CurrentPrice']}}" data-end="{{$auction->end}}"
+     data-id="{{$auction->id}}" data-price="{{$price}}" data-end="{{$auction->end}}"
      data-endOrder="{{date('YmdHi',strtotime($auction->end))}}" data-close="{{$close}}"
      data-userrating="{{$userRatings}}"
 <?='data-port="' . $auction->batch->arrive->port_id . '"
@@ -162,7 +164,9 @@ data-user="' . $auction->batch->arrive->boat->user->nickname . '"'?>>
 
                     <div class="pricing-plan-label billed-monthly-label <?=(empty($finished) ? 'red' : '')?>"
                          id="PriceContainer{{$auction->id}}"><strong class="red"
-                                                                id="Price{{$auction->id}}">${{$price['CurrentPrice']}}</strong>/ <?=Constants::individualizeSentence($auction->product['sale_unit'])?>
+
+                                id="Price{{$auction->id}}">$<?= str_replace('.', ',', $price)?></strong>/ <?=Constants::individualizeSentence($auction->product['sale_unit'])?>
+
                         <br>
                         <small class="red fw500"
                                id="ClosePrice{{$auction->id}}"<?=(empty($finished) || $finished != '&iexcl;Finalizada!') ? 'style="display:none"' : ''?>><?=(empty($finished)) ? '&iexcl;Cerca del precio l&iacute;mite!' : 'Precio Final'?></small>

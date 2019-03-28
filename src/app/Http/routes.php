@@ -21,6 +21,7 @@ Route::get('/', 'AuctionFrontController@subastasFront');
         Route::get('subastas/replicar/{auction}', [
             'as' => 'auction.replicate', 'uses' => 'AuctionFrontController@replicateAuction'
         ]);
+        Route::post('subastas/info/todas', 'AuctionFrontController@getInfoAll');
         Route::post('/subastas/guardar','AuctionFrontController@storeAuction');
         Route::get('subastas/ver/{auction}/info', 'AuctionFrontController@getInfo');
         Route::get('/ofertas/agregar', 'AuctionFrontController@offersAuctionFront');

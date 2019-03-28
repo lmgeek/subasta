@@ -17,6 +17,6 @@
     </div>
 </div>
 @include('landing3/partials/js')
-<input type="hidden" name="csrf-token" id="csrf" content="{{ Session::token() }}"> 
+<input type="hidden" name="csrf-token" id="csrf" content="{{ Session::token() }}" value="{{ Session::token() }}"> 
 </body>
 </html>

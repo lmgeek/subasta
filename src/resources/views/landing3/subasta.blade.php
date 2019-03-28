@@ -23,6 +23,8 @@ $auction->product= Product::getProductInfoFromProductDetailId($auction->batch->p
 @extends('landing3/partials/layout')
 @section('title',' | Subasta')
 @section('content')
+<input type="hidden" id="PresUnit<?=$auction->id?>" value="<?=$auction->product['presentation_unit']?>">
+<input type="hidden" id="SaleUnit<?=$auction->id?>" value="<?=$auction->product['sale_unit']?>">
     <div class="single-page-header bd-bt-1 margin-top-35 auction nodelete" id="Auction_{{$auction->id}}" data-price="<?=$price?>" data-id="{{$auction->id}}" data-background-image="/landing3/images/single-auction.jpg">
         <div class="container">
             <div class="row">
@@ -61,7 +63,7 @@ $auction->product= Product::getProductInfoFromProductDetailId($auction->batch->p
                         <div class="right-side">
                             <div class="salary-box">
                                 <div class="salary-type"><span>&Uacute;ltimo precio:</span></div>
-                                <div class="salary-amount t324"><strong  id="Price{{$auction->id}}">${{$price}}</strong>/ <?=$auction->product['sale_unit']?><br>
+                                <div class="salary-amount t324"><strong  id="Price{{$auction->id}}">$<?= str_replace('.', ',',$price)?></strong>/ <?= Constants::individualize($auction->product['sale_unit'])?><br>
                                     <small class="green fw400" id="BidsCounter{{$auction->id}}">
                                         <?php if($cantcompras>0){?>
                                             <em id="ofertasDirectas" class="icon-material-outline-local-offer green"></em>

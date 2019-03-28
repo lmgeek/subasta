@@ -64,7 +64,7 @@
                                 @elseif(Auth::user()->type==\App\User::COMPRADOR)
                                 <li><a href="/subastas"><em class="icon-material-outline-gavel"></em> Subastas</a></li>
                                 <li><a href="#"><em class="icon-feather-eye-off"></em> Subastas Privadas</a></li>
-                                <li><a href="{{url('/bids')}}"><em class="icon-material-outline-shopping-cart"></em> Compra</a></li>
+                                <li><a href="/usuarios/compras"><em class="icon-material-outline-shopping-cart"></em> Compras</a></li>
                                 @elseif(Auth::user()->type==\App\User::INTERNAL)
                                 <li><a href="{{url('/users')}}"><em class="icon-line-awesome-list"></em> Listado de Usuarios</a></li>
                                 <li><a href="{{url('/boats')}}"><em class="icon-line-awesome-ship"></em> Listado de Barcos</a></li>

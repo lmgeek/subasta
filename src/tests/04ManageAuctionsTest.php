@@ -832,51 +832,6 @@ class ManageAuctionsTest extends TestCase
     /**  @test
      * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
      */
-    function checkAuctionsMasterFilterForSpecificProductFinishedAuctions(){
-        $this->withoutMiddleware();
-        $data=[
-            'testing'=>true,
-            'limit'=>100,
-            'current'=>1,
-            'time'=>'finished',
-            'filters'=>[
-                'pricemin'=>'50**',
-                'pricemax'=>'10000**',
-                'type'=>'all',
-                'product'=>'1**'
-                ],
-            ];
-        $this->post('/subastas/cargar/mas',$data);
-        $this->seeJson(['tested'=>true]);
-        $this->seeJson(['quantity'=>3]);
-        $this->assertResponseOk();
-    }
-    /**  @test
-     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
-     */
-    function checkAuctionsMasterFilterForSpecificProductFutureAuctions(){
-        $this->withoutMiddleware();
-        $data=[
-            'testing'=>true,
-            'limit'=>100,
-            'current'=>1,
-            'time'=>'future',
-            'filters'=>[
-                'pricemin'=>'50**',
-                'pricemax'=>'10000**',
-                'type'=>'all',
-                'product'=>'1**'
-                ],
-            ];
-        $this->post('/subastas/cargar/mas',$data);
-        $this->seeJson(['tested'=>true]);
-        $this->seeJson(['quantity'=>2]);
-        $this->assertResponseOk();
-    }
-    
-    /**  @test
-     * @author Rodolfo Oquendo <rodolfoquendo@gmail.com>
-     */
     function checkAuctionsMasterFilterForSpecificProductPlusCaliberAllAuctions(){
         $this->withoutMiddleware();
         $data=[
