@@ -539,9 +539,11 @@ class AuctionFrontController extends AuctionController
      * @return int
      */
     public function totalOffers(){
+        $now = date(Constants::DATE_FORMAT);
         $rev = Auction::select(Constants::AUCTIONS_SELECT_ALL)
             ->join('auctions_offers', 'auctions_offers.auction_id', Constants::EQUAL, 'auctions.id')
             ->where('auctions_offers.status','=','pending')
+            ->where(Constants::AUCTIONS_END,'<=',$now)
             ->groupBy('auctions.id')
             ->get();
         return count($rev);
@@ -579,6 +581,7 @@ class AuctionFrontController extends AuctionController
         $rev = Auction::select(Constants::AUCTIONS_SELECT_ALL)
             ->join('auctions_offers', 'auctions_offers.auction_id', Constants::EQUAL, 'auctions.id')
             ->where('auctions_offers.status','=','pending')
+            ->where(Constants::AUCTIONS_END,'<=',$now)
             ->groupBy('auctions.id')
             ->get();
         $revision = count($rev);
