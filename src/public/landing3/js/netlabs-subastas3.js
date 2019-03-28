@@ -211,7 +211,7 @@ function openPopupCompra($id){
     });
 }
 function openPopupOferta($id){
-    $price=$('#Auction_'+$id).attr('data-price').toString().replace(',','.');
+    $price=$('#Auction_'+$id).attr('data-price').toString().replace('.',',');
     console.log($price+'asd')
     $('#OfferPrice'+$id).val($price);
     gtag('event', 'OpenPopUpOferta', {
