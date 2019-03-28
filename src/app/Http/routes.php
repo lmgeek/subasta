@@ -109,8 +109,8 @@ Route::get('auction/offers/{auction}', [
 Route::get('auction/autofersbid/{auction}', [
     'as' => 'auction.offersToBid', 'uses' => 'AuctionController@autoOffersBid'
 ]);
-Route::get('oferta/reschazar/{auction}', [
-    'as' => 'auction.offersDecline', 'uses' => 'AuctionController@declineOffers'
+Route::get('oferta/reschazar/{offer}', [
+    'as' => 'auction.offersDecline', 'uses' => 'AuctionController@declineOffer'
 ]);
 Route::get('oferta/reschazar/{auction}/{offer}', 'AuctionController@declineOffers');
 //url para el cron job php + docker

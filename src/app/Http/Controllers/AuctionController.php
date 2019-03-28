@@ -566,7 +566,6 @@ class AuctionController extends Controller
     public function declineOffers($auction_id,$offer_id = null,Request $request = null)
     {
         $auction = Auction::findOrFail($auction_id);
-//        $this->authorize('isMyAuction',$auction);
         $offers = $this->getOffers($auction_id);
         $available = AuctionBackController::getAvailable($auction_id, $auction->amount);
         if ($offer_id == null){
@@ -631,7 +630,20 @@ class AuctionController extends Controller
             }
         }
         return redirect()->to('/ofertas');
-//        return redirect()->to('/offers');
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     * TODO: rechaza una oferta especifica
+     */
+    public function declineOffer($id){
+        $this->offers = Offers::findOrFail($id);
+        if ($this->offers->status == Offers::PENDIENTE){
+            $this->offers->status = Offers::NO_ACEPTADA;
+            $this->offers->save();
+        }
+        return redirect()->to('/ofertas');
     }
 
 

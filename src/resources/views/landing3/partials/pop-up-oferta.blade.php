@@ -30,7 +30,7 @@
 
                             <div class="input-with-icon-left col-md-6 offset-md-3">
                                 <em class="currency">AR$</em>
-                                <input class="with-border margin-bottom-5" type="text" placeholder="Precio por kilo" id="OfferPrice{{$auction->id}}" onkeydown="avoidSending()">
+                                <input class="with-border margin-bottom-5" type="text" placeholder="Precio por kilo" id="OfferPrice{{$auction->id}}" name="OfferPrice{{$auction->id}}" >
                             </div>
                             <span class="bidding-detail text-center red"><em class="icon-material-outline-info red"></em> La oferta aplica sobre todo el lote o el remanente.</span>
                         </div>
@@ -39,7 +39,7 @@
                 </form>
 
                 <!-- Button -->
-                <button class="button margin-top-25 full-width button-sliding-icon ripple-effect" type="submit" form="apply-now-form" onclick="makeOffer({{$auction->id}})">Hacer Oferta <em class="icon-material-outline-arrow-right-alt"></em></button>
+                <button class="button margin-top-25 full-width button-sliding-icon ripple-effect" id="makeOffers" onclick="makeOffer({{$auction->id}})">Hacer Oferta <em class="icon-material-outline-arrow-right-alt"></em></button>
 
             </div>
 

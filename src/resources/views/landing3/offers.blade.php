@@ -69,11 +69,11 @@
                                                     <li><strong>{{ $available[$auction->id]['available'] }}
                                                             kg</strong><span>Disponibles</span></li>
                                                     <li>
-                                                        <strong>${{ $auction->end_price }}</strong><span>Precio Límite</span>
+                                                        <strong>${{ number_format(str_replace(",","",$auction->end_price),2,',','') }}</strong><span>Precio Límite</span>
                                                     </li>
                                                     @if($auction->offers > 0)
                                                         <li>
-                                                        <strong class="red">${{ $max[$auction->id]['price'] }}</strong><span
+                                                        <strong class="red">${{ number_format(str_replace(",","",$max[$auction->id]['price']),2,',','') }}</strong><span
                                                                 class="red">Mejor Oferta</span></li>
                                                     @endif
                                                 </ul>
@@ -117,7 +117,7 @@
                                                                 <div class="task-listing-info-dash">
                                                                     <!-- Offer Details -->
                                                                     <ul class="dashboard-task-info precio">
-                                                                        <li><strong>${{ $offer->price }}</strong><span>Precio Ofrecido</span>
+                                                                        <li><strong>${{ number_format(str_replace(",","",$offer->price),2,',','') }}</strong><span>Precio Ofrecido</span>
                                                                         </li>
                                                                     </ul>
                                                                 </div>
@@ -127,11 +127,11 @@
                                                             <!-- Buttons -->
                                                             @if($offer->status == 'pending')
                                                                 <div class="buttons-to-right center-buttons-mobile always-visible">
-                                                                    <a href="#" onclick="javascript:window.location='oferta/reschazar/{{$auction->id}}/{{$offer->id}}'"
+                                                                    <a href="#" onclick="javascript:window.location='oferta/reschazar/{{ $auction->id }}/{{ $offer->id }}'"
                                                                        class="button verde ripple-effect ico"
                                                                        title="Aceptar" data-tippy-placement="top"><i
                                                                                 class="icon-feather-check"></i></a>
-                                                                    <a href="#" onclick="javascript:window.location='oferta/reschazar/{{$auction->id}}'"
+                                                                    <a href="#" onclick="javascript:window.location='oferta/reschazar/{{ $offer->id }}'"
                                                                        class="button rojo ripple-effect ico"
                                                                        title="Rechazar" data-tippy-placement="top"><i
                                                                                 class="icon-feather-x"></i></a>
@@ -149,7 +149,10 @@
                                 @endforeach
 
 
-                            </div></div></div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
 
                         <div class="pagination-container margin-top-30 margin-bottom-60">
                             <ul>

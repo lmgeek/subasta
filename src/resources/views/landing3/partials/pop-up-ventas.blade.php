@@ -28,36 +28,41 @@ foreach ($products as $p) {
                 <!-- Bidding -->
                 <div class="bidding-widget">
                     <ul class="dashboard-box-list">
-                        @foreach($auction->bids as $b)
-                            <li>
-                                <div class="boxed-list-item">
-                                    <!-- Content -->
-                                    <div class="item-content">
-                                        <h4 class="primary">{{ $b->user->nickname }}</h4>
-                                        <span class="dashboard-status-button @if($b->status == 'pending') yellow @elseif($b->status == 'concretized') green @elseif($b->status == 'noConcretized') red @endif">
-                                                            {{ trans('general.bid_status.'.$b->status) }}
-                                                        </span>
-                                        <div class="item-details margin-top-10">
-                                            <div class="detail-item"><i
-                                                        class="icon-material-outline-date-range"></i> {{ \App\Constants::formatDateOffer($b->created_at) }}
-                                            </div>
-                                            <div class="detail-item"><i class="icon-line-awesome-money"></i>
-                                                ${{ number_format($b->price,2,',','.') }}</div>
-                                            <div class="detail-item"><i
-                                                        class="icon-line-awesome-balance-scale"></i> {{ $b->amount }}{{ $auction->batch->productDetail->sale_unit }}
-                                            </div>
-                                            <div class="detail-item"><i class="icon-material-outline-gavel"></i>
-                                                @if ($b->offer_id != 0)
-                                                    {{ trans('auction.'.\App\Constants::OFFER_ORIGIN) }}
-                                                @else
-                                                    {{ trans('auction.'.\App\Constants::AUCTION_ORIGIN) }}
-                                                @endif
+                        @if( count($auction->bids) > 0 )
+
+                            @foreach($auction->bids as $b)
+                                <li>
+                                    <div class="boxed-list-item">
+                                        <!-- Content -->
+                                        <div class="item-content">
+                                            <h4 class="primary">{{ $b->user->nickname }}</h4>
+                                            <span class="dashboard-status-button @if($b->status == 'pending') yellow @elseif($b->status == 'concretized') green @elseif($b->status == 'noConcretized') red @endif">
+                                                                {{ trans('general.bid_status.'.$b->status) }}
+                                                            </span>
+                                            <div class="item-details margin-top-10">
+                                                <div class="detail-item"><i
+                                                            class="icon-material-outline-date-range"></i> {{ \App\Constants::formatDateOffer($b->created_at) }}
+                                                </div>
+                                                <div class="detail-item"><i class="icon-line-awesome-money"></i>
+                                                    ${{ number_format($b->price,2,',','.') }}</div>
+                                                <div class="detail-item"><i
+                                                            class="icon-line-awesome-balance-scale"></i> {{ $b->amount }}{{ $auction->batch->productDetail->sale_unit }}
+                                                </div>
+                                                <div class="detail-item"><i class="icon-material-outline-gavel"></i>
+                                                    @if ($b->offer_id != 0)
+                                                        {{ trans('auction.'.\App\Constants::OFFER_ORIGIN) }}
+                                                    @else
+                                                        {{ trans('auction.'.\App\Constants::AUCTION_ORIGIN) }}
+                                                    @endif
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </li>
-                        @endforeach
+                                </li>
+                            @endforeach
+                        @else
+                            <div class="text-center">No hay ventas asociadas.</div>
+                        @endif
 
 
                     </ul>

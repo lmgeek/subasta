@@ -86,6 +86,7 @@ class CreateAuctionRequest extends Request
                 'product'=>'Producto',
                 'puerto'=>'Puerto',
                 'ActiveHours'=>'Horas Activas',
+                'descri' => "Descripción",
             ];
         }
         return [];
