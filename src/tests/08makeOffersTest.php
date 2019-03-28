@@ -42,9 +42,8 @@ class makeOffersTest extends TestCase
         $userAuth->click('Realiza tu compra ahora');
         $userAuth->see('Sólo un paso más y es tuyo');
         $userAuth->type('2','qtyInput');
-        $userAuth->get('/makeBid?auction_id=5&price=503&amount=20');
+        $userAuth->get('/makeBid?auction_id=2&price=34&amount=70');
         $userAuth->assertFalse(false);
-
     }
 
 
