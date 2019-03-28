@@ -5,12 +5,12 @@ $code='SU-'.date('ym').'XXX';
 $description='';
 $portid='';$boatid='';$productid='';$caliber='';$quality='';$activehours=1;
 $privacy=Constants::AUCTION_PUBLIC;
-$startdate='';
-$tentativedate='';
+$startdate=old('fechaInicio');
+$tentativedate=old('fechaTentativa');
 $calibers= Product::caliber();
 $saleunits=Product::sale();
 $presunits=Product::units();
-$startprice='';$endprice='';$quantity='';
+$startprice=old('startPrice');$endprice=old('endPrice');$quantity=old('amount');
 $presunit='unidades';$saleunit='unidad';$type='add';$title='Agregar';$auctioncode='SU-'.date('ym').'XXX';
 if(isset($auction)){
     $type=(isset($replicate))?'replication':'edit';
@@ -44,7 +44,7 @@ if(Auth::user()->type==Constants::VENDEDOR && ((isset($auction->timeline) && $au
 ?>
 
 	
-        <form method="post" action="/subastas/guardar">
+    <form method="post" action="/subastas/guardar">
 		<div class="dashboard-content-inner" >
 			<div class="dashboard-headline"><h3>Nueva Subasta</h3></div>
             
@@ -82,7 +82,7 @@ if(Auth::user()->type==Constants::VENDEDOR && ((isset($auction->timeline) && $au
                             
 							<div class="row">	
 								<div class="col"><div class="submit-field"><h5>Barco</h5>
-										<select name="barco" id="Boat" onchange="getPreferredPort()" <?=($arriveedit==0)?Constants::DISABLED:''?>  class="selectpicker with-border" data-live-search="true" title="Seleccione...">
+										<select name="barco" id="Boat" onchange="boats_getPreferredPort()" <?=($arriveedit==0)?Constants::DISABLED:'required'?>  class="selectpicker with-border" data-live-search="true" title="Seleccione...">
                                             <option disabled value='0'>Seleccione...</option>
                                         @foreach($boats as $boat)
                                             <option value="{{$boat->id}}" <?=($boatid==$boat->id || old('barco')==$boat->id)?Constants::SELECTED:''?>>{{$boat->name}}</option>
@@ -91,7 +91,7 @@ if(Auth::user()->type==Constants::VENDEDOR && ((isset($auction->timeline) && $au
                                 </div></div>
 								<div class="col">
 									<div class="submit-field"><h5>Puerto</h5><div class="input-with-icon">
-											<select id="puerto" name="puerto" <?=($arriveedit==0)?Constants::DISABLED:''?> class="selectpicker with-border" title="Seleccione...">
+											<select id="puerto" name="puerto" <?=($arriveedit==0)?Constants::DISABLED:'required'?> class="selectpicker with-border" title="Seleccione...">
                                                 <option disabled value='0'>Seleccione...</option>
                                            @foreach($ports as $port)
                                                <option value ="{{$port->id}}" <?=($portid==$port->id || old('puerto')==$port->id)?Constants::SELECTED:''?>>{{$port->name}}</option>
@@ -105,10 +105,10 @@ if(Auth::user()->type==Constants::VENDEDOR && ((isset($auction->timeline) && $au
 								<div class="col">
 									<div class="submit-field">
 										<h5>Producto <i class="help-icon" data-tippy-placement="right" title="Especie a subastar"></i></h5>
-                                        <select name="product" <?=($batchedit==0)?Constants::DISABLED:''?>  class="selectpicker with-border" data-live-search="true" title="Seleccione..." onchange="auctions_loadCalibers()" id="ProductSelect">
+                                        <select name="product" data-translation="producto" <?=($batchedit==0)?Constants::DISABLED:'required'?>  class="selectpicker with-border" data-live-search="true" title="Seleccione..." onchange="auctions_loadCalibers()" id="ProductSelect">
                                             <option disabled value='0'>Seleccione...</option>
                                         @foreach($products as $product)
-                                            <option value="{{$product->id}}" <?=($productid==$product->id)?Constants::SELECTED:''?>>{{$product->name}}</option>
+                                            <option value="{{$product->id}}" <?=($productid==$product->id || old('product')==$product->id)?Constants::SELECTED:''?>>{{$product->name}}</option>
                                         @endforeach
                                         </select>
 									</div></div>
@@ -116,10 +116,10 @@ if(Auth::user()->type==Constants::VENDEDOR && ((isset($auction->timeline) && $au
 								<div class="col">
 									<div class="submit-field">
 										<h5>Calibre <i class="help-icon" data-tippy-placement="right" title="Tamaño del producto"></i></h5>
-                                        <select name="caliber" <?=($batchedit==0)?Constants::DISABLED:''?>  class="selectpicker with-border"  title="Seleccione un producto..." onchange="auctions_loadUnits()" id="CalibersSelect">
+                                        <select name="caliber"  data-translation="calibre" <?=($batchedit==0)?Constants::DISABLED:'required'?>  class="selectpicker with-border"  title="Seleccione un producto..." onchange="auctions_loadUnits()" id="CalibersSelect">
                                             <option disabled value='0'>Seleccione...</option>
                                             <?php for($z=0;$z<count($calibers);$z++){?>
-                                            <option value='<?=$calibers[$z]?>'<?=(isset($caliber) && $caliber==$calibers[$z])?'selected':''?>><?=trans('general.product_caliber.'.$calibers[$z])?></option>    
+                                            <option value='<?=$calibers[$z]?>'<?=((isset($caliber) && $caliber==$calibers[$z]) || old('caliber')==$calibers[$z])?'selected':''?>><?=trans('general.product_caliber.'.$calibers[$z])?></option>    
                                             <?php }?>
                                         </select>
 									</div>
@@ -143,7 +143,7 @@ if(Auth::user()->type==Constants::VENDEDOR && ((isset($auction->timeline) && $au
 										<h5>Calidad</h5>
 										<div class="leave-rating margin-top-10">
                                             @for($z=5;$z>=1;$z--)
-											<input type="radio" name="quality" id="rating-<?=$z?>" value="<?=$z?>" <?=($quality==$z || old('quality')==$z)?'checked':''?>  <?=($batchedit==0)?Constants::DISABLED:''?>/>
+											<input type="radio" data-translation="calidad"  name="quality" id="rating-<?=$z?>" value="<?=$z?>" <?=($quality==$z || old('quality')==$z)?'checked':''?>  <?=($batchedit==0)?Constants::DISABLED:'required'?>/>
 											<label for="rating-<?=$z?>" class="icon-material-outline-star"></label>
                                             @endfor
 										</div>
@@ -152,7 +152,7 @@ if(Auth::user()->type==Constants::VENDEDOR && ((isset($auction->timeline) && $au
 								
 							</div>
 						</div>
-                        <input type="hidden" name="product_detail" id='ProductDetailID' value='<?=(isset($auction->batch->product_detail_id))?$auction->batch->product_detail_id:''?>'>
+                        <input type="hidden" name="product_detail" id='ProductDetailID' value='<?=(isset($auction->batch->product_detail_id))?$auction->batch->product_detail_id:old('product_detail')?>'>
 						<!-- Headline -->
 						<div class="headline">
 							<h3><i class="icon-material-outline-gavel"></i> Informaci&oacute;n de la Subasta</h3>
@@ -171,7 +171,7 @@ if(Auth::user()->type==Constants::VENDEDOR && ((isset($auction->timeline) && $au
 								<div class="col-xl-4">								
 									<div class="submit-field">
 										<h5>Fecha de Inicio</h5>
-                                        <input type="text" data-field="datetime" class="with-border" placeholder="Ingresa la fecha..." readonly name="fechaInicio" value="<?=$startdate?>"<?=($auctionedit==0)?Constants::DISABLED:''?>>
+                                        <input type="text" data-translation="fecha de inicio" data-field="datetime" class="with-border" placeholder="Ingresa la fecha..." readonly name="fechaInicio" value="<?=$startdate?>"<?=($auctionedit==0)?Constants::DISABLED:'required'?>>
 										<div class="dtBox"id='fechaInicioDTP'></div>
 									</div>
 								</div>
@@ -181,16 +181,19 @@ if(Auth::user()->type==Constants::VENDEDOR && ((isset($auction->timeline) && $au
 										<h5>Horas Activa <i class="help-icon" data-tippy-placement="right" title="Duración de la subasta"></i></h5>
 										<div class="qtyButtons">
                                             <div class="qtyDec" onclick="modifyNumber('cantidad',-1)"></div>
-                                            <input type="number" name="ActiveHours" value="<?=$activehours?>" id="cantidad" min="1"<?=($auctionedit==0)?Constants::DISABLED:''?>>
+                                            <input type="number" data-translation="horas activa" name="ActiveHours" value="<?=$activehours?>" id="cantidad" min="1"<?=($auctionedit==0)?Constants::DISABLED:'required'?>>
 											<div class="qtyInc" onclick="modifyNumber('cantidad',1)"></div>
 										</div>
 									</div>
 								</div>
-								<div class="col-xl-4"><div class="submit-field"><h5>Fecha Tentativa de Entrega</h5><input type="text" data-field="datetime" class="with-border" placeholder="Ingresa la fecha..." readonly  value="<?=$tentativedate?>" name="fechaTentativa"<?=($auctionedit==0)?Constants::DISABLED:''?>><div class="dtBox" id='fechaTentativaDTP'></div></div></div>			
+								<div class="col-xl-4">
+                                    <div class="submit-field">
+                                        <h5>Fecha Tentativa de Entrega</h5>
+                                        <input type="text" data-translation="fecha tentativa de entrega" data-field="datetime" class="with-border" placeholder="Ingresa la fecha..." readonly  value="<?=$tentativedate?>" name="fechaTentativa"<?=($auctionedit==0)?Constants::DISABLED:'required'?>><div class="dtBox" id='fechaTentativaDTP'></div></div></div>			
 								<div class="col-xl-4">
 									<div class="submit-field">
                                         <h5>Cantidad de <div id="UnidadDePresentacion" style='display:inline-block'><?=$presunit?></div> <i class="help-icon" data-tippy-placement="right" title="Cantidad disponible para esta subasta"></i></h5>
-                                        <input class="with-border" id="cant_disp" type="number" placeholder="Ingresa la cantidad" name="amount"value="<?=$quantity?>"<?=($auctionedit==0)?Constants::DISABLED:''?>>
+                                        <input class="with-border" id="cant_disp" data-translation="cantidad" min="1" type="number" placeholder="Ingresa la cantidad" name="amount"value="<?=$quantity?>"<?=($auctionedit==0)?Constants::DISABLED:'required'?>>
 									</div>
 								</div>
 								
@@ -198,7 +201,7 @@ if(Auth::user()->type==Constants::VENDEDOR && ((isset($auction->timeline) && $au
 									<div class="submit-field">
                                         <h5>Precio Inicial (por <div class='SaleUnits' style='display:inline-block'><?=$saleunit?></div>) <i class="help-icon" data-tippy-placement="right" title="El costo inicial de la unidad de venta"></i></h5>
 										<div class="input-with-icon">
-                                            <input class="with-border" type="number" step="0.01" placeholder="Ingresa el monto" min="10" name="startPrice" value="<?=$startprice?>"<?=($auctionedit==0)?Constants::DISABLED:''?>>
+                                            <input class="with-border" type="number" data-translation="precio inicial" step="0.01" placeholder="Ingresa el monto" min="10" name="startPrice" value="<?=$startprice?>"<?=($auctionedit==0)?Constants::DISABLED:'required'?>>
 											<i class="currency">AR$</i>
 										</div>
 									</div>
@@ -208,7 +211,7 @@ if(Auth::user()->type==Constants::VENDEDOR && ((isset($auction->timeline) && $au
 									<div class="submit-field">
 										<h5>Precio de Retiro  (por <div class='SaleUnits' style='display:inline-block'><?=$saleunit?></div>) <i class="help-icon" data-tippy-placement="right" title="Costo mínimo de la unidad de venta"></i></h5>
 										<div class="input-with-icon">
-                                            <input class="with-border" type="number" step="0.01" placeholder="Ingresa el monto" min="1" name="endPrice"value="<?=$endprice?>"<?=($auctionedit==0)?Constants::DISABLED:''?>>
+                                            <input class="with-border" type="number" step="0.01" data-translation="precio de retiro" placeholder="Ingresa el monto" min="1" name="endPrice"value="<?=$endprice?>"<?=($auctionedit==0)?Constants::DISABLED:'required'?>>
 											<i class="currency">AR$</i>
 										</div>
 									</div>

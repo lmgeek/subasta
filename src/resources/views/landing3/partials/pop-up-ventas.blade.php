@@ -1,6 +1,5 @@
 <?php
 $products = array($auction->batch->productDetail->product);
-//            dd($products);
 foreach ($products as $p) {
     $name = $p[0]->name;
 }

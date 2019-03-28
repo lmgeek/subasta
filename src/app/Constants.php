@@ -5,6 +5,9 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Paginator;
 class Constants{
+    /*
+     * Constants Declaration
+     */
     const CANT_MAX_BRONZE=500;
     const CANT_MAX_SILVER=1000;
     const PAGINATE_NUMBER=3;
@@ -76,8 +79,6 @@ class Constants{
     const BATCHES='batches';
     const PRODUCT_DETAIL='product_detail';
     const PRODUCT_DETAIL_ID='product_detail.id';
-
-
     const BATCH_ID='batches.id';
     const BATCH_ARRIVE_ID='batches.arrive_id';
     const ARRIVES='arrives';
@@ -178,6 +179,9 @@ class Constants{
     const AUCTION_ORIGIN = "auction";
     const OFFER_ORIGIN = "offer";
     
+    /*
+     * Commonly used functions
+     */
     public static function formatDate($fecha,$format='d M Y'){
         $fecha= strtolower(date($format, strtotime($fecha)));
         $months=['jan','apr','aug','dec'];
@@ -282,4 +286,15 @@ class Constants{
         }
         return $return;
     }
+    
+    /*
+     * Commonly Used Arrays
+     */
+    public $paises=[
+        ['name'=>'Andorra','code2'=>'AD','code3'=>'AND'],
+        ['name'=>'Afghanistan','code2'=>'AF','code3'=>'AFG'],
+        ['name'=>'Islas','code2'=>'','code3'=>''],
+        ['name'=>'Argentina','code2'=>'AR','code3'=>'ARG'],
+        ['name'=>'','code2'=>'','code3'=>''],
+    ];
 }

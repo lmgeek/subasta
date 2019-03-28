@@ -1,7 +1,6 @@
 <?php
 use Illuminate\Support\Facades\Auth;
 
-/*var_dump($user);die();*/
 
 ?>
 

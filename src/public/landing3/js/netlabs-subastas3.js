@@ -5,6 +5,8 @@ window['loadingcalibers']=0;
 window['loadingunits']=0;
 window['loadingauctions']=0;
 window['PreventFormSubmission']=0;
+window['loadinginfo']=0;
+const notificationTime=30;
 function endAuction($id) {
     $('#timer' + $id).html("¡Finalizada!");
     if (!$('#Auction_' + $id).hasClass('nodelete')){
@@ -47,7 +49,6 @@ function getMoreAuctions($limit=1,$idTarget='#FeaturedAuctions',$currentpage=1){
         $ids[$cont]=$(this).data('id');
         $cont++;
     });
-    //$('#Loader').fadeIn();
     if($('#MasterFilter').length>0){
         $filters=getFilters()[0];
         $($idTarget).html('');
@@ -64,7 +65,6 @@ function getMoreAuctions($limit=1,$idTarget='#FeaturedAuctions',$currentpage=1){
         }
         $('#AuctionsCounter').html($cant);
         if(result.includes('#MasterFilter')==true){
-            //$('#Loader').fadeOut();
             notifications(0,null,null,null,'Tu sesion ha expirado');
             return;
         }
@@ -98,7 +98,7 @@ function timer($id) {
         var $end = new Date($("#timer" + $id).attr('data-timefin'));
         window['now'] = new Date().getTime();
         var $difservloc=$('#Loader').data('local') - $('#Loader').data('server');
-        var distance = $end - window['now'] - $difservloc, string = '';
+        var distance = $end - window['now'] + $difservloc, string = '';
         var days = Math.floor(distance / (1000 * 60 * 60 * 24));
         var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
@@ -113,8 +113,8 @@ function timer($id) {
             string += minutes + 'm ';
         }
         string += seconds + 's';
-        if(seconds==0){
-            getInfo($id);
+        if(seconds==59){
+            auctions_getInfo();
         }
         $('#timer'+$id).html(string);
         if (distance < 0) {
@@ -204,7 +204,7 @@ function updateAuctionData($id,$price=null,$end=null,$endorder=null,$endfriendly
 function openPopupCompra($id){
     $('#PriceBid'+$id).val($('#Auction_'+$id).attr('data-price'));
     $('#OfferPrice'+$id).val($('#Auction_'+$id).attr('data-price').toString().replace(',','.'));
-    $('#PricePopUp' + $id).html("$" + $('#PriceBid'+$id).val() + " <small>/ "+individualize($('#SaleUnit'+$id).val())+"</small>");
+    $('#PricePopUp' + $id).html("$" + $('#PriceBid'+$id).val().toString().replace('.',',') + " <small>/ "+individualize($('#SaleUnit'+$id).val())+"</small>");
     gtag('event', 'OpenPopUpCompra', {
         'event_category':'Auction',
         'event_label':'Auction_'+$id
@@ -219,28 +219,28 @@ function openPopupOferta($id){
         'event_label':'Auction_'+$id
     });
 }
-function modifyQuantity($id,$direction){
-    let $input=$('#cantidad-'+$id);
-    let $cant=parseInt($input.val());
-    let $max=parseInt($input.attr('max'));
-    let $min=parseInt($input.attr('min'));
-    if(!$('#checkbox'+$id).is(':checked')){
-        if($direction==0 && $cant>$min){
-            $input.val($cant-1);
-        }else if($direction==1 && $cant<$max){
-            $input.val($cant+1);
-        }
-    }
-}
 function modifyNumber($id,$direction,$checkboxid=null){
     let $input=$('#'+$id);
     if(typeof $input.attr('disabled') !== typeof undefined && $input.attr('disabled') !== false){
         return null;
     }
     let $cant=parseInt($input.val());
-    let $min=parseInt($input.attr('min'));
+    if($input.attr('min')!=null){
+        var $min=parseInt($input.attr('min'));
+    }else if($input.data('min')!=null){
+        var $min=parseInt($input.data('min'));
+    }else{
+        var $min=null;
+    }
     if($input.attr('max')!=null){
-        let $max=parseInt($input.attr('max'));
+        var $max=parseInt($input.attr('max'));
+    }else if($input.data('max')!=null){
+        var $max=parseInt($input.data('max'));
+    }else{
+        var $max=null;
+    }
+    
+    if($max!=null){
         if($cant>=$min && $cant<=$max){
             if($direction==1 && $cant<$max){
                 $cant+=$direction;
@@ -248,7 +248,7 @@ function modifyNumber($id,$direction,$checkboxid=null){
                 $cant+=$direction;
             }
         }
-    }else if($input.attr('max')==null && $cant>=$min){
+    }else if($max==null && $cant>=$min){
         if($direction==1){
             $cant+=$direction;
         }else if($direction==-1 && $cant>$min){
@@ -262,22 +262,40 @@ function modifyNumber($id,$direction,$checkboxid=null){
         $input.val($cant);
     }
 }
-function getInfo($id,$firstrun=0) {
-    if (!$('#Auction_'+$id).hasClass('bg-disabled') && $('#Auction_'+$id).length>0) {
-        $.get('/calculateprice?i=c&auction_id=' + $id, function (result) {
-            var $result = JSON.parse(result);
-            $('#Loader').attr('data-local',window['now']);
-            $('#Loader').attr('data-server',$result['currenttime']);
-            updateAuctionData($id,$result['price'].toString().replace('.',','),$result['end'],$result['endorder'],$result['endfriendly'],$result['close'],$result['hot']);
-            modifyAvailability($id,$result['availability'],$result['amount']);
-            modifyOffersCounter($id,$result['bidscounter'],$result['offerscounter']);
-        }).done(function(){
+function auctions_getInfo(){
+    if(window['loadinginfo']>0 || $('.auction').length==0){
+        return null;
+    }
+    window['loadinginfo']++;
+    var $ids=[],$cont = 0;
+    $('.auction').each(function () {
+        if (!$(this).hasClass('bg-disabled')) {
+            $ids[$cont]=$(this).data('id');
+            $cont++;
+        }
+    });
+    $.post('/subastas/info/todas',{ids:$ids},function(result){
+        let $result=JSON.parse(result);
+        console.log($result)
+        $('#Loader').attr('data-local',new Date().getTime());
+        $('#Loader').attr('data-server',$result['now']);
+        var $auctions=$result['auctions'];
+        for($z=0;$z<$auctions.length;$z++){
+            var $auction=$auctions[$z];
+            updateAuctionData($auction['id'],$auction['price'].toString().replace('.',','),$auction['end'],$auction['endorder'],$auction['endfriendly'],$auction['close'],$auction['hot']);
+            modifyAvailability($auction['id'],$auction['availability'],$auction['amount']);
+            modifyOffersCounter($auction['id'],$auction['bidscounter'],$auction['offerscounter']);
+        }
+    }).done(function(){
+        window['loadinginfo']=0;
+        $('.auction').each(function () {
+            let $id=$(this).attr('id').toString().substr(8);
             if(!$("#timer" + $id).attr('started')){
                 $("#timer" + $id).attr('started','1')
                 timer($id);
             }
         });
-    }
+    });
 }
 function notifications_close($id){
     $('#notificationauction'+$id).remove();
@@ -312,7 +330,7 @@ function notifications($type,$product=null,$price=null,$quantity=null,$text=null
     }
     $('#notificationsauction').html($html+$('#notificationsauction').html());
 
-    window['timeoutNotification'+$idnotification]=setTimeout(function(){notifications_close($idnotification)},15000);
+    window['timeoutNotification'+$idnotification]=setTimeout(function(){notifications_close($idnotification)},notificationTime*1000);
 }
 function modifyOffersCounter($id,$bids=null,$offers=null){
     if($bids!=null && $bids==1){
@@ -459,91 +477,6 @@ function auctionListFilter(){
         'event_value':$filterstring
     });
 }
-function inicializeEverything($firstrun=0){
-    $('.auction').each(function(){
-        var $id=$(this).data('id');
-        window['Timeout'+$id]=setTimeout(function(){getInfo($id,1)},1000);
-    });
-    if($('#MasterFilter').length>0){
-        var currencyAttr = $(".range-slider").attr('data-slider-currency');
-        $(".range-slider").slider({
-            formatter: function(value) {
-                return currencyAttr + ThousandSeparator(parseInt(value[0])) + " - " + currencyAttr + ThousandSeparator(parseInt(value[1]));
-            },
-        }).on('slideStop', auctionListFilter);
-        var $cant=0;
-        $('.AuctionListFilter').each(function(){
-            if($(this).is(':checked')){
-                $cant++;
-            }
-        })
-        if($cant>0 && $firstrun==1){
-            
-            getMoreAuctions(100,'#Auctions');
-        }
-        $('#selectStatus').selectpicker();
-    }
-    $('.popup-with-zoom-anim').magnificPopup({
-        type: 'inline',
-
-        fixedContentPos: false,
-        fixedBgPos: true,
-
-        overflowY: 'auto',
-
-        closeBtnInside: true,
-        preloader: false,
-
-        midClick: true,
-        removalDelay: 300,
-        mainClass: 'my-mfp-zoom-in'
-    });
-    starRating('.star-rating');
-    if($('.dtBox').length>0){
-        $('.dtBox').each(function(){
-            $(this).DateTimePicker();
-        });			
-    }
-    var $contform=0;
-//    $('form').each(function(){
-//        $contform++;
-//        if($(this).attr('id')==null){
-//            $(this).attr('id','Form'+$contform);
-//        }
-//    });
-//    $('form input').each(function(){
-//        if($(this).attr('required')!=null){
-//            if($(this).attr('data-required')==null){
-//                $(this).attr('data-required','true');
-//            }
-//            $(this).removeAttr('required');
-//        }
-//        if($(this).attr('maxlength')!=null){
-//            if($(this).attr('data-maxlength')==null){
-//                $(this).attr('data-maxlength',$(this).attr('maxlength'));
-//            }
-//            $(this).removeAttr('maxlength');
-//        }
-//        if($(this).attr('minlength')!=null){
-//            if($(this).attr('data-minlength')==null){
-//                $(this).attr('data-minlength',$(this).attr('minlength'));
-//            }
-//            $(this).removeAttr('minlength');
-//        }
-//        if($(this).attr('max')!=null){
-//            if($(this).attr('data-max')==null){
-//                $(this).attr('data-max',$(this).attr('max'));
-//            }
-//            $(this).removeAttr('max');
-//        }
-//        if($(this).attr('min')!=null){
-//            if($(this).attr('data-min')==null){
-//                $(this).attr('data-min',$(this).attr('min'));
-//            }
-//            $(this).removeAttr('min');
-//        }
-//    });
-}
 function homeFilterBuilder(){
     var $query='',$cantselected=$("#port option:selected").length,$text=$('#query').val();
     if($cantselected>0){
@@ -562,9 +495,6 @@ function homeFilterBuilder(){
         $query+='Query: '+$text+'.'
     }
     $('#ExtraParamsAnalytics').val($query);
-}
-function changeSaleUnit(){
-    $('#UnidadDeVenta').html($('#SaleUnit').val());
 }
 function auctions_loadCalibers(){
     if(window['loadingcalibers']>0){
@@ -625,15 +555,44 @@ function users_changeType(){
     let $type=$('#UserType').val();
     $('.UserPanel').fadeOut();
     $('#DNI').removeAttr('required');
+    $('#DNI').removeAttr('data-required');
+    $('#DNI').removeAttr('minlength');
+    $('#DNI').removeAttr('data-minlength');
     $('#Limit').removeAttr('required');
+    $('#Limit').removeAttr('data-required');
+    $('#Limit').removeAttr('maxlength');
+    $('#Limit').removeAttr('data-maxlength');
     $('#CUIT').removeAttr('required');
+    $('#CUIT').removeAttr('data-required');
+    $('#CUIT').removeAttr('minlength');
+    $('#CUIT').removeAttr('data-minlength');
     if($type=='buyer'){
         $('#BuyerPanel').fadeIn();
         $('#DNI').attr('required','true');
+        $('#DNI').attr('data-required','true');
+        $('#DNI').attr('minlength','7');
+        $('#DNI').attr('data-minlength','7');
         $('#Limit').attr('required','true');
+        $('#Limit').attr('data-required','true');
+        $('#Limit').attr('maxlength','10');
+        $('#Limit').attr('data-maxlength','10');
     }else if($type=='seller'){
         $('#SellerPanel').fadeIn();
-        $('#CUIT').attr('required','true');
+        $('#CUIT').attr('data-required','true');
+        $('#CUIT').attr('data-minlength','13');
+        $('#CUIT').attr('data-pattern','/(20|23|24|27|30|33|34)(-)[0-9]{8}(-)[0-9]/g');
+    }
+}
+function users_formatCuit(){
+    var $val=$('#CUIT').val(),$length=$val.length;
+    if($length==2){
+        $('#CUIT').val($val+'-');
+    }
+    if($length==11){
+        $('#CUIT').val($val+'-');
+    }
+    if($length>13){
+        $('#CUIT').val($val.toString().substr(0,13));   
     }
 }
 function users_userApprobation(){
@@ -678,14 +637,35 @@ function users_changeApproval($id){
         }
     });
 }
-function getPreferredPort(){
+function users_passSwitch(){
+    var $html='';
+    if($('input[name=passwordcurrent]').length>0){
+        if($('input[name=passwordcurrent]').attr('type')=='password'){
+            $html+='<div class="col-sm"><h5>Contrase&ntilde;a actual</h5><input type="text" data-translation="contrase&ntilde;a actual" data-pattern="(^\S*(?=\S{6,8})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$)" name="passwordcurrent" placeholder="Contrase&ntilde;a actual" value="'+$('input[name=passwordcurrent]').val()+'"></div>';
+        }else{
+            $html+='<div class="col-sm"><h5>Contrase&ntilde;a actual</h5><input type="password" data-translation="contrase&ntilde;a actual" data-pattern="(^\S*(?=\S{6,8})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$)"  name="passwordcurrent" placeholder="Contrase&ntilde;a actual" value="'+$('input[name=passwordcurrent]').val()+'"></div>';
+        }
+    }
+    if($('input[name=password]').attr('type')=='password'){
+        $html+='<div class="col-sm"><h5>Contrase&ntilde;a nueva</h5><input type="text" data-translation="contrase&ntilde;a nueva" data-pattern="(^\S*(?=\S{6,8})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$)"  name="password" placeholder="Contrase&ntilde;a" value="'+$('input[name=password]').val()+'"></div>';
+    }else{
+        $html+='<div class="col-sm"><h5>Contrase&ntilde;a nueva</h5><input type="password" data-translation="contrase&ntilde;a nueva" data-pattern="(^\S*(?=\S{6,8})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$)"  name="password" placeholder="Contrase&ntilde;a" value="'+$('input[name=password]').val()+'"></div>';
+    }
+    if($('input[name=password_confirmation]').attr('type')=='password'){
+        $html+='<div class="col-sm"><h5>Repite la contrase&ntilde;a</h5><input type="text" data-translation="confirmaci&oacute;n de contrase&ntilde;a" data-pattern="(^\S*(?=\S{6,8})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$)"  name="password_confirmation" placeholder="Confirmar contrase&ntilde;a" value="'+$('input[name=password_confirmation]').val()+'"></div>';
+    }else{
+        $html+='<div class="col-sm"><h5>Repite la contrase&ntilde;a</h5><input type="password" data-translation="confirmaci&oacute;n de contrase&ntilde;a" data-pattern="(^\S*(?=\S{6,8})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$)"  name="password_confirmation" placeholder="Confirmar contrase&ntilde;a" value="'+$('input[name=password_confirmation]').val()+'"></div>';
+    }
+    $html+='<div class="w-100"><h5>&nbsp;</h5><div class="button  ripple-effect big dark text-center" style="cursor:pointer;color:#fff" id="PassSwitcher" onclick="users_passSwitch()"><div class="fa fa-eye"></div> Mostrar</div></div>';
+    $('#PasswordContainer').html($html);
+}
+function boats_getPreferredPort(){
     $.get('/puertos/ver/preferido',{idboat:$('#Boat').val()},function(result){
         $result=JSON.parse(result);
         $('#puerto').val($result['preferred']);
         $('#puerto').selectpicker('val',$result['preferred']);
     });
 }
-
 function individualize($wordv){
     var $word=$wordv.toString(),$last=$word.substr(-1),$end=$word.substr(-2),$return='';
     if($end=='es'){
@@ -713,37 +693,233 @@ function individualizeSentence($sentence,$cant=null){
     }
     return $return;
 }
-function checkRequirements($idform){
-    var $errors=0;
-    console.log($idform)
-    $('#'+$idform+' input').each(function(){
-        if($(this).data('translation')!=null){
-            var $name=$(this).data('translation');
-        }else{
-            var $name=$(this).attr('name');
+function inicializeForms(){
+    var $contform=0;
+    $('form').each(function(){
+        $contform++;
+        if($(this).attr('id')==null){
+            $(this).attr('id','Form'+$contform);
         }
-        if($(this).data('required')!=null && $(this).val()==''){
-            $errors++;
-            $(this).css('border','1px solid #f00');
-            notifications(0,null,null,null,'El campo '+$name+' es obligatorio');
+    });
+    $('form input').each(function(){
+        if($(this).attr('required')!=null){
+            if($(this).attr('data-required')==null){
+                $(this).attr('data-required','true');
+            }
+            $(this).removeAttr('required');
+        }
+        if($(this).attr('maxlength')!=null){
+            if($(this).attr('data-maxlength')==null){
+                $(this).attr('data-maxlength',$(this).attr('maxlength'));
+            }
+            $(this).removeAttr('maxlength');
+        }
+        if($(this).attr('minlength')!=null){
+            if($(this).attr('data-minlength')==null){
+                $(this).attr('data-minlength',$(this).attr('minlength'));
+            }
+            $(this).removeAttr('minlength');
+        }
+        if($(this).attr('max')!=null){
+            if($(this).attr('data-max')==null){
+                $(this).attr('data-max',$(this).attr('max'));
+            }
+            $(this).removeAttr('max');
+        }
+        if($(this).attr('min')!=null){
+            if($(this).attr('data-min')==null){
+                $(this).attr('data-min',$(this).attr('min'));
+            }
+            $(this).removeAttr('min');
+        }
+        if($(this).attr('pattern')!=null){
+            if($(this).attr('data-pattern')==null){
+                $(this).attr('data-pattern',$(this).attr('pattern'));
+            }
+            $(this).removeAttr('pattern');
+        }
+        if($(this).attr('type')=='email'){
+            $(this).attr('data-pattern','/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/')
+            $(this).attr('type','text')
+        }
+    });
+    $('form textarea').each(function(){
+        if($(this).attr('required')!=null){
+            if($(this).attr('data-required')==null){
+                $(this).attr('data-required','true');
+            }
+            $(this).removeAttr('required');
+        }
+        if($(this).attr('maxlength')!=null){
+            if($(this).attr('data-maxlength')==null){
+                $(this).attr('data-maxlength',$(this).attr('maxlength'));
+            }
+            $(this).removeAttr('maxlength');
+        }
+        if($(this).attr('minlength')!=null){
+            if($(this).attr('data-minlength')==null){
+                $(this).attr('data-minlength',$(this).attr('minlength'));
+            }
+            $(this).removeAttr('minlength');
+        }
+    });
+    $('form select').each(function(){
+        if($(this).attr('required')!=null){
+            if($(this).attr('data-required')==null){
+                $(this).attr('data-required','true');
+            }
+            $(this).removeAttr('required');
+        }
+    });
+}
+function inicializeMasterFilter(){
+    if($('#MasterFilter').length>0){
+        var currencyAttr = $(".range-slider").attr('data-slider-currency');
+        $(".range-slider").slider({
+            formatter: function(value) {
+                return currencyAttr + ThousandSeparator(parseInt(value[0])) + " - " + currencyAttr + ThousandSeparator(parseInt(value[1]));
+            },
+        }).on('slideStop', auctionListFilter);
+        var $cant=0;
+        $('.AuctionListFilter').each(function(){
+            if($(this).is(':checked')){
+                $cant++;
+            }
+        })
+        if($cant>0 && $firstrun==1){
+            
+            getMoreAuctions(100,'#Auctions');
+        }
+        $('#selectStatus').selectpicker();
+    }
+}
+function inicializeDateTimePicker(){
+    if($('.dtBox').length>0){
+        $('.dtBox').each(function(){
+            $(this).DateTimePicker();
+        });			
+    }
+}
+function inicializePopUps(){
+    $('.popup-with-zoom-anim').magnificPopup({
+        type: 'inline',
+
+        fixedContentPos: false,
+        fixedBgPos: true,
+
+        overflowY: 'auto',
+
+        closeBtnInside: true,
+        preloader: false,
+
+        midClick: true,
+        removalDelay: 300,
+        mainClass: 'my-mfp-zoom-in'
+    });
+}
+function checkRequirementsInputs($idform,$inputType){
+    var $errors=0,$notifications=[],$name='';
+    $('#'+$idform+' '+$inputType).each(function(){
+        var $id=$(this).attr('id');
+        if($(this).data('translation')!=null){
+            $name=$(this).data('translation');
+        }else{
+            $name=$(this).attr('name');
+        }
+        if($(this).data('required')!=null){
+            if($inputType=='select'){
+                if($(this).val()=='' || $(this).val()==0 || $(this).val()==null){
+                    $errors++;
+                    $('*[data-id="'+$id+'"]').css('border','1px solid #f00');
+                    $notifications.push('El campo '+$name+' es obligatorio');
+                }else{
+                    $('*[data-id="'+$id+'"]').css('border','1px solid #e0e0e0');
+                }
+            }else{
+                if($(this).val()==''){
+                    $errors++;
+                    $notifications.push('El campo '+$name+' es obligatorio');
+                }
+            }
         }
         if($(this).data('maxlength')!=null && $(this).val().length>$(this).data('maxlength')){
             $errors++;
-            $(this).css('border','1px solid #f00');
-            notifications(0,null,null,null,'El campo '+$name+' tiene una longitud m&aacute;xima de '+$(this).data('maxlength')+' caracteres');
+            $notifications.push('El campo '+$name+' tiene una longitud m&aacute;xima de '+$(this).data('maxlength')+' caracteres');
         }
-        if($(this).data('maxlength')!=null && $(this).val().length<$(this).data('minlength')){
+        if($(this).data('minlength')!=null && $(this).val().length<$(this).data('minlength')){
             $errors++;
-            $(this).css('border','1px solid #f00');
-            notifications(0,null,null,null,'El campo '+$name+' tiene una longitud m&iacute;nima de '+$(this).data('minlength')+' caracteres');
+            $notifications.push('El campo '+$name+' tiene una longitud m&iacute;nima de '+$(this).data('minlength')+' caracteres');
+        }
+        if($(this).data('max')!=null && $(this).val()>$(this).data('max')){
+            $errors++;
+            $notifications.push('El campo '+$name+' tiene un valor m&aacute;ximo de '+$(this).data('max'));
+        }
+        if($(this).data('min')!=null && $(this).val()<$(this).data('min')){
+            $errors++;
+            $notifications.push('El campo '+$name+' tiene un valor m&iacute;nimo de '+$(this).data('min'));
+        }
+        if($(this).data('pattern')!=null){
+            var $regex=new RegExp($(this).data('pattern'));
+            
+            if($(this).val().toString().match($regex)==false){
+                console.log($id+' '+$regex)
+                $errors++;
+                $notifications.push('El campo '+$name+' no cumple con el formato solicitado.');
+            }
+            
+        }
+        if($(this).attr('name')=='password'){
+            var $namep1=$(this).attr('name').toString();
+            if(!$namep1.includes('_confirmation')){
+                var $namep2=$namep1+'_confirmation';
+                if($('input[name='+$namep2+']').length>0 && $('input[name='+$namep1+']').val()!=$('input[name='+$namep2+']').val()){
+                    
+                    $errors++;
+                    $notifications.push('El campo '+$name+' no coincide con su confirmaci&oacuteln.');
+                }
+            }
+        }
+        if($errors>0){
+            $color='f00';
+        }else{
+            $color='e0e0e0';
+        }
+        console.log($name+' '+$color);
+        if($(this).next('div').hasClass('qtyInc')){
+            $('.qtyButtons').css('border','1px solid #'+$color);
+        }else{
+            $(this).css('border','1px solid #f00'+$color);
         }
     });
+    for($z=0;$z<$notifications.length;$z++){
+        notifications(0,null,null,null,$notifications[$z]);
+    }
+    return $errors;
+}
+function checkRequirements($idform){
+    var $errors=0;
+    $errors+=checkRequirementsInputs($idform,'input[type=text]');
+    $errors+=checkRequirementsInputs($idform,'input[type=email]');
+    $errors+=checkRequirementsInputs($idform,'input[type=password]');
+    $errors+=checkRequirementsInputs($idform,'input[type=tel]');
+    $errors+=checkRequirementsInputs($idform,'input[type=number]');
+    $errors+=checkRequirementsInputs($idform,'input[type=radio]');
+    $errors+=checkRequirementsInputs($idform,'textarea');
+    $errors+=checkRequirementsInputs($idform,'select');
     if($errors==0){
-        window['PreventFormSubmission']=0;
+        window['PreventFormSubmission']=1;
         $('#'+$idform).submit();
     }else{
-        window['PreventFormSubmission']=1;
+        window['PreventFormSubmission']=0;
     }
+}
+function inicializeEverything($firstrun=0){
+    auctions_getInfo();
+    inicializeMasterFilter()
+    inicializeDateTimePicker()
+    inicializePopUps()
+    //inicializeForms();
+    starRating('.star-rating');
 }
 /* FIN Rodolfo */
 

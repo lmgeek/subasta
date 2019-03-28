@@ -44,7 +44,7 @@ class AuctionFrontController extends AuctionController
         $auction = Auction::findOrFail($auction_id);
         //Creamos la instacia de AuctionController para usar el metodo de calculatePriceID
         $objAuct = new AuctionController();
-        $price= self::calculatePriceID($auction_id)['CurrentPrice'];
+        $price= AuctionQuery::calcularPrecio($auction->start,$auction->end,$auction->start_price,$auction->end_price);
         $availability=AuctionBackController::getAvailable($auction_id,$auction->amount);
         return view('landing3.subasta', compact(Constants::AUCTION,Constants::PRICE,Constants::AVAILABILITY));
     }
@@ -231,7 +231,6 @@ class AuctionFrontController extends AuctionController
         $close=0;
         $quality=array(1=>0,2=>0,3=>0,4=>0,5=>0);$ratings=array(0=>0,1=>0,2=>0,3=>0,4=>0,5=>0);
         $cont=0;
-        //dd($auctions);
         foreach($auctions as $a) {
             $cont++;
             
@@ -611,7 +610,7 @@ class AuctionFrontController extends AuctionController
             ->with('revision',$revision)
             ;
     }
-    public function getInfo($id){
+    public static function getInfo($id){
         $auction= AuctionQuery::select()
                 ->where('auctions.id',Constants::EQUAL,$id)
                 ->get();
@@ -626,12 +625,18 @@ class AuctionFrontController extends AuctionController
             $data['availability']=$availability['available'];
             $data['bids']=$availability['sold'];
             $data['end']=$auction->end;
-            $data['currenttime']=round(microtime(true)*1000);
+            $data['endorder']= date('YmdHis', strtotime($auction->end));
             $data['amount']=$auction->amount;
             $data['close']=($data['price']<$auction->target_price)?1:0;
-        }else{
-            $data['error']='No hay subastas con ese id';
         }
+        return $data;
+    }
+    public function getInfoAll(Request $request){
+        $ids=$request->ids;$data=array();
+        for($z=0;$z<count($ids);$z++){
+            $data['auctions'][]=self::getInfo($ids[$z]);
+        }
+        $data['now']=round(microtime(true)*1000);
         return json_encode($data);
     }
 }

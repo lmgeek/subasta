@@ -24,7 +24,7 @@
                                 <div class="bidding-field">
                                     <div class="qtyButtons">
                                         <div class="qtyDec" data-id="{{$auction->id}}" onmousedown="modifyNumber('cantidad-<?=$auction->id?>',-1,'checkbox<?=$auction->id?>')"></div>
-                                        <input type="text" name="qtyInput" value="1" id="cantidad-{{$auction->id}}"min="0" max="{{$disponible}}" onkeydown="avoidSending()">
+                                        <input type="text" name="qtyInput" value="1" id="cantidad-{{$auction->id}}"min="1" max="{{$disponible}}" onkeydown="avoidSending()">
                                         <div class="qtyInc" data-id="{{$auction->id}}" onclick="modifyNumber('cantidad-<?=$auction->id?>',1,'checkbox<?=$auction->id?>')"></div>
                                     </div>
                                 </div>

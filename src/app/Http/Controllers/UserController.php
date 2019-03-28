@@ -356,7 +356,7 @@ class UserController extends Controller
         $return['statusTrans']=trans('general.status.'.$user->status);
         return json_encode($return);
     }
-    public static function checkIfUserEmailIsBeingUsed($oldemail,$newemail){
+    public static function checkIfEmailIsBeingUsed($oldemail,$newemail){
         $return=true;
         if($oldemail!=$newemail){
             $checker=User::select()
@@ -370,9 +370,9 @@ class UserController extends Controller
     }
     public static function checkIfNicknameIsBeingUsed($oldnickname,$newnickname){
         $return=true;
-        if($user->nickname!=$request->nickname){
+        if($oldnickname!=$newnickname){
             $checker=User::select()
-                    ->where('nickname',Constants::EQUAL,$request->nickname)
+                    ->where('nickname',Constants::EQUAL,$newnickname)
                     ->get();
             if(count($checker)>0){
                 $return=false;
@@ -406,8 +406,10 @@ class UserController extends Controller
                 return redirect()->back()->with('errors',$errors);
             }
             $check=self::checkIfUserCanChangeTypeApproval($user);
-            if(Auth::user()->type=='internal' && isset($request->status) && $check['success']==1){
+            if(Auth::user()->type=='internal' && isset($request->status) && $request->status!='' && $check['success']==1){
                 $user->status=$request->status;
+            }elseif(Auth::user()->type=='internal' && (empty($request->status) || $request->status=='')){
+                $user->status=Constants::PENDIENTE;
             }
             if(Auth::user()->type=='internal' && isset($request->type) && $check['success']==1){
                 $user->type=$request->type;
@@ -439,9 +441,9 @@ class UserController extends Controller
             }
             $user  = new User();
             
-            if(Auth::user()->type=='internal'){
+            if(Auth::user()->type=='internal' && isset($request->status)){
                 $user->status=$request->status;
-            }else{
+            }elseif(Auth::user()->type=='internal' && empty($request->status)){
                 $user->status=User::PENDIENTE;
             }
             $user->hash= md5(date('YmdHis').$request->nickname);
@@ -489,7 +491,7 @@ class UserController extends Controller
                 $message->to($user->email);
             });
         }
-        return redirect('usuarios/editar/'.$user->nickname);
+        return redirect('usuarios/editar/'.$user->id);
     }
 
 //Funcion para traer toda la info de usuario

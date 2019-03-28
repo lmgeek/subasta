@@ -243,7 +243,6 @@ class AuctionBackController extends AuctionController
      public static function emailOfferBid($auction,$available,$offer)
     {
         $products = array($auction->batch->productDetail->product);
-        //            dd($products);
         foreach ($products as $p){
             $name = $p[0]->name;
         }
