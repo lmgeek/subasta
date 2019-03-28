@@ -149,7 +149,10 @@
                                 @endforeach
 
 
-                            </div></div></div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
 
                         <div class="pagination-container margin-top-30 margin-bottom-60">
                             <ul>
