@@ -334,6 +334,9 @@ class AuctionController extends Controller
     {
         $auction_id = $request->input(Constants::INPUT_AUCTION_ID);
         $prices = $request->input('prices');
+        if ($prices === 0){
+            return;
+        }
         $auction = Auction::findOrFail($auction_id);
         $this->authorize(Constants::MAKE_BID, $auction);
 

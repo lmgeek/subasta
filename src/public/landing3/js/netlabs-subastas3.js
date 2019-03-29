@@ -377,8 +377,16 @@ function makeOffer($id){
     var $priceof=parseFloat($('#OfferPrice'+$id).val().toString().replace(',','.')),
     $price=parseFloat($('#Price'+$id).html().toString().substr(1).replace(',','.'));
     console.log($priceof > $price)
+    if($priceof === NaN){
+        notifications(0,null,null,null,'No se permiten letras en el campo ');
+        return;
+    }
     if($priceof > $price){
-        notifications(0,null,null,null,'La oferta no puede ser mayor al precio actual'+$('#PriceBid'+$id).val());
+        notifications(0,null,null,null,'La oferta no puede ser mayor al precio actual ' + $('#PriceBid'+$id).val());
+        return;
+    }
+    if($priceof === 0 ){
+        notifications(0,null,null,null,'La oferta no puede ser igual a ' + $priceof);
         return;
     }
     $.magnificPopup.close();
