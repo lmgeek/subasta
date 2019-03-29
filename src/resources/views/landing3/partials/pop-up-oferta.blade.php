@@ -30,7 +30,7 @@
 
                             <div class="input-with-icon-left col-md-6 offset-md-3">
                                 <em class="currency">AR$</em>
-                                <input class="with-border margin-bottom-5" type="text" placeholder="Precio por kilo" id="OfferPrice{{$auction->id}}" name="OfferPrice{{$auction->id}}" >
+                                <input class="with-border margin-bottom-5" type="number" placeholder="Precio por kilo" id="OfferPrice{{$auction->id}}" name="OfferPrice{{$auction->id}}" onkeypress="return offer(event);">
                             </div>
                             <span class="bidding-detail text-center red"><em class="icon-material-outline-info red"></em> La oferta aplica sobre todo el lote o el remanente.</span>
                         </div>
@@ -47,3 +47,24 @@
     </div>
 </div>
 <!-- Hacer oferta popup / End -->
+<script>
+    function offer(e) {
+        var evt = e || window.event
+        var x = evt.key
+        var str = e.key
+        var index = str.indexOf(',')
+        var check = x == 0 ? 0: (parseInt(x) || -1)
+        if (index == 0){ str = "" }
+        if ( index > -1) {
+            str = str.substr( 0, index + 1 ) +
+            str.slice( index ).replace( /,/g, '' )
+        }
+        str = str.replace(/^(\d+)+(,\d{2})?$/g,"")
+        $(this).val(str)
+        if (check === -1 && x != "Backspace" && x != ','){
+            console.log(check)
+            return false
+        }
+
+    }
+</script>
